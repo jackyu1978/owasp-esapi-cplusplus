@@ -6,4 +6,8 @@ Welcome to ESAPI C++. [https://www.owasp.org/ OWASP] is the Open Web Application
 
 = Details =
 
-ESAPI is a free, open source, security control library for a number of languages, from Pythong to Java to .Net. Using the libraries makes it easier for programmers to write lower-risk applications. The libraries are designed to make it easier for programmers to retrofit security into existing applications, and serve as a solid foundation for new development. 
+ESAPI is a free, open source, security control library for a number of languages, including ASP, PHP, Python, Ruby, Objective C, Java, and .Net. ESAPI is used by a growing number of security conscious organizations, including American Express, Apache Foundation, Booz Allen Hamilton, Aspect Security, Foundstone(McAfee), The Hartford, Infinite Campus, Lockheed Martin, MITRE, The World Bank, and the SANS Institute. 
+
+Using the library makes it easier for programmers to write lower-risk applications. The library is designed to make it easier for programmers to retrofit security into existing applications, and serves as a solid foundation for new development. 
+
+ESAPI C++ is a scaled down version of the library offered in other languages. The C++ version uses Wei Dai's [http://www.cryptopp.com/ Crypto++] for cryptographic operations. To install Crypto++ on Windows or Linux, see the [[ESAPI Crypto++ page]].
