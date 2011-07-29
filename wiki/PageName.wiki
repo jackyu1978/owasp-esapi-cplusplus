@@ -10,4 +10,4 @@ ESAPI is a free, open source, security control library for a number of languages
 
 Using the library makes it easier for programmers to write lower-risk applications. The library is designed to make it easier for programmers to retrofit security into existing applications, and serves as a solid foundation for new development. 
 
-ESAPI C++ is a scaled down version of the library offered in other languages. The C++ version uses Wei Dai's [http://www.cryptopp.com/ Crypto++] for cryptographic operations. To install Crypto++ on Windows or Linux, see the [[CryptoPP ESAPI Crypto++ page]].
+ESAPI C++ is a scaled down version of the library offered in other languages. The C++ version uses Wei Dai's [http://www.cryptopp.com/ Crypto++] for cryptographic operations. To install Crypto++ on Windows or Linux, see the [[CryptoPP|ESAPI Crypto++ page]].
