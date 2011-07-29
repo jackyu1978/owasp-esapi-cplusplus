@@ -1,0 +1,7 @@
+#summary ESAPI Crypto++ page
+
+= Introduction =
+
+[http://www.cryptopp.com/ Crypto++] is a free, open source C++ class library of cryptographic schemes written by Wei Dai. The Crtypto++ library is used by ESAPI for cryptographic operations. To run or build ESAPI C++, you will need the Crypto++ library.
+
+= Details =
