@@ -1,0 +1,9 @@
+#summary Welcome to OWASP ESAPI C++
+
+= Introduction =
+
+Welcome to ESAPI C++. [https://www.owasp.org/ OWASP] is the Open Web Application Security Project (don't let the *W* fool you), and [https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API ESAPI] is its Enterprise Security API.
+
+= Details =
+
+ESAPI is a free, open source, security control library for a number of languages, from Pythong to Java to .Net. Using the libraries makes it easier for programmers to write lower-risk applications. The libraries are designed to make it easier for programmers to retrofit security into existing applications, and serve as a solid foundation for new development. 
