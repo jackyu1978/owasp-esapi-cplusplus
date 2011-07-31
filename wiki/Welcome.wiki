@@ -5,6 +5,8 @@
 
 Welcome to ESAPI C++. [https://www.owasp.org/ OWASP] is the Open Web Application Security Project, and [https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API ESAPI] is its Enterprise Security API.
 
+ESAPI for C++ is sponsored by the United States Government
+
 = Details =
 
 ESAPI is a free, open source, security control library for a number of languages, including ASP, PHP, Python, Ruby, Objective C, Java, and .Net. ESAPI is used by a growing number of security conscious organizations, including American Express, Apache Foundation, Booz Allen Hamilton, Aspect Security, Foundstone (McAfee), The Hartford, Infinite Campus, Lockheed Martin, MITRE, The World Bank, and the SANS Institute. 
