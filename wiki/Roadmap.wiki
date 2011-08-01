@@ -40,7 +40,7 @@ This is a roadmap for the ESAPI C++ API
 == Encoding ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || Encoder || X || X ||  ||  || Dan Amodio ||
-|| EncoderConstants || X ||  ||  ||  || Dan Amodio ||
+|| EncoderConstants || X || X ||  ||  || Dan Amodio ||
 || DefaultEncoder ||  ||  ||  ||  || Dan Amodio ||
 || Codec || X || X ||  ||  || Dan Amodio ||
 
