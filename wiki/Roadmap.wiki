@@ -4,28 +4,52 @@
 
 This is a roadmap for the ESAPI C++ API
 
+= Summary =
+|| *Category* || *State* || *Lead* ||
+|| *Core* || Unfinished ||  ||
+|| *Authenticator* || Unfinished ||  ||
+|| *User* || Unfinished ||  ||
+|| *AccessController* || Unfinished ||  ||
+|| *AccessReferenceMap* || Unfinished ||  ||
+|| *Validation* || Unfinished || Dan Amodio ||
+|| *Encoding* || Unfinished ||  Dan Amodio ||
+|| *Encryptor* || Unfinished || ||
+|| *EncryptedProperties* || Unfinished ||  ||
+|| *Randomizer* || Unfinished ||  ||
+|| *ExceptionHandling* || Unfinished ||  ||
+|| *Logger* || Unfinished ||  ||
+|| *SecurityConfiguration* || Unfinished ||  ||
 
 = Roadmap =
+Dates?
+
+= Classes =
+== Core ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || ESAPI ||  ||  ||  ||  ||  ||
 || Executor ||  ||  ||  ||  ||  ||
 
+----
 == Authenticator ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == User ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
-== Access Controller ==
+----
+== AccessController ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == AccessReferenceMap ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == Validation ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || Validator || X || X ||  ||  || Dan Amodio ||
@@ -35,8 +59,10 @@ This is a roadmap for the ESAPI C++ API
 || DefaultValidator ||  ||  ||  ||  ||  ||
 
 === Validation Rules ===
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || StringValidationRule ||  ||  ||  ||  ||  ||
 
+----
 == Encoding ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || Encoder || X || X ||  ||  || Dan Amodio ||
@@ -45,20 +71,25 @@ This is a roadmap for the ESAPI C++ API
 || Codec || X || X ||  ||  || Dan Amodio ||
 
 === Codecs ===
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == Encryptor ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == EncryptedProperties ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == Randomizer ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == ExceptionHandling ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || EnterpriseSecurityException || X || X ||  ||  || Dan Amodio ||
@@ -66,10 +97,13 @@ This is a roadmap for the ESAPI C++ API
 || ValidationException || X || X ||  ||  || Dan Amodio ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == Logger ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
 
+----
 == SecurityConfiguration ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 ||  ||  ||  ||  ||  ||  ||
+----
