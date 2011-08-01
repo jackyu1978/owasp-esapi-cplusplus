@@ -1,0 +1,75 @@
+#summary Roadmap for the ESAPI C++ API.
+
+= Introduction =
+
+This is a roadmap for the ESAPI C++ API
+
+
+= Roadmap =
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+|| ESAPI ||  ||  ||  ||  ||  ||
+|| Executor ||  ||  ||  ||  ||  ||
+
+== Authenticator ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== User ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== Access Controller ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== AccessReferenceMap ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== Validation ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+|| Validator || X || X ||  ||  || Dan Amodio ||
+|| ValidationErrorList || X || X ||  ||  || Dan Amodio ||
+|| ValidationRule || X || X ||  ||  || Dan Amodio ||
+|| BaseValidationRule || X || X ||  ||  || Dan Amodio ||
+|| DefaultValidator ||  ||  ||  ||  ||  ||
+
+=== Validation Rules ===
+|| StringValidationRule ||  ||  ||  ||  ||  ||
+
+== Encoding ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+|| Encoder || X || X ||  ||  || Dan Amodio ||
+|| EncoderConstants || X ||  ||  ||  || Dan Amodio ||
+|| DefaultEncoder ||  ||  ||  ||  || Dan Amodio ||
+|| Codec || X || X ||  ||  || Dan Amodio ||
+
+=== Codecs ===
+||  ||  ||  ||  ||  ||  ||
+
+== Encryptor ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== EncryptedProperties ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== Randomizer ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== ExceptionHandling ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+|| EnterpriseSecurityException || X || X ||  ||  || Dan Amodio ||
+|| EncodingException || X ||  ||  ||  || Dan Amodio ||
+|| ValidationException || X || X ||  ||  || Dan Amodio ||
+||  ||  ||  ||  ||  ||  ||
+
+== Logger ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
+
+== SecurityConfiguration ==
+|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
+||  ||  ||  ||  ||  ||  ||
