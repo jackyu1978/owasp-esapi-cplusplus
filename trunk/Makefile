@@ -10,7 +10,6 @@ SRCS =		src/reference/DefaultEncoder.cpp \
 			src/ValidationErrorList.cpp \
 			src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp \
-			src/ValidationErrorList.cpp
 
 TESTSRCS = test/codecs/CodecTest.cpp
 
