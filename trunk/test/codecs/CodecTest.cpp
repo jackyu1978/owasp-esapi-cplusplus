@@ -1,4 +1,5 @@
-/*#define BOOST_TEST_MODULE MyTest
+#define BOOST_TEST_MODULE MyTest
+#define BOOST_TEST_NO_LIB
 #include "boost/test/unit_test.hpp"
 
 int add( int i, int j ) { return i+j; }
@@ -22,12 +23,13 @@ BOOST_AUTO_TEST_CASE( my_test )
                          "add(..) result: " << add( 2,2 ) );
 
     BOOST_CHECK_EQUAL( add( 2,2 ), 4 );	  // #7 continues on error
-}*/
+}
 
+/*
 #include <stdio.h>
 
 int main()
 {
 	printf ("This test has not been created yet.\n");
     return 0;
-}
+}*/

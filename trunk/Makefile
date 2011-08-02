@@ -20,7 +20,7 @@ TESTOBJS =	$(TESTSRCS:.cpp=.o)
 
 INCLUDES =	-I. -I./esapi -I/usr/local/include -I/usr/include/c++/4.4 -I/boost_1_47_0 -I/Dev-Cpp/include
 
-LIBS =		-lcryptopp -L/usr/local/lib -L/usr/lib -Llib
+LIBS =		-lcryptopp -L/usr/local/lib -L/usr/lib -Llib -L/boost_1_47_0/stage/lib
 
 TARGET =	esapi-c++.so
 
@@ -36,7 +36,7 @@ $(OUT): $(OBJS)
 	ar rcs $(OUT) $(OBJS)
 	
 test:	$(TESTOBJS)
-	gcc -o $(TESTTARGET) $(TESTOBJS) $(LIBS)
+	$(CXX) -o $(TESTTARGET) $(TESTOBJS) $(LIBS) -lboost_system-mgw34-mt-1_47 -lboost_unit_test_framework-mgw34-mt-1_47
 
 runtests:	$(TESTOBJS) $(OBJS) 
 	./$(TESTTARGET)
