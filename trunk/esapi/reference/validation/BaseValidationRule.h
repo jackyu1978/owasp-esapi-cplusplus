@@ -1,10 +1,10 @@
-#ifndef _base_validation_rule_h_
-#define _base_validation_rule_h_
+#ifndef _BaseValidationRule_h_
+#define _BaseValidationRule_h_
 
 #include "ValidationRule.h"
 #include <string>
 #include <set>
-#include "encoder.h"
+#include "Encoder.h"
 
 /**
  * A ValidationRule performs syntax and possibly semantic validation of a single
@@ -19,10 +19,10 @@
 
 namespace esapi
 {
-	class Base_Validation_Rule : ValidationRule {
+	class BaseValidationRule : ValidationRule {
 	protected:
 		bool allowNull;
-		Encoder * encoder;
+		const Encoder *encoder;
 
 		/**
 		 * The method is similar to ValidationRuile.getSafe except that it returns a
@@ -35,18 +35,18 @@ namespace esapi
 		 * @param input
 		 * @return a parsed version of the input or a default value.
 		 */
-		virtual void* sanitize(std::string, std::string) =0;
+		virtual void* sanitize(const std::string &, const std::string &) =0;
 
 	private:
 		std::string typeName;
 
-		Base_Validation_Rule () {};
+		BaseValidationRule () {};
 
 	public:
-		Base_Validation_Rule (std::string);
-		Base_Validation_Rule (std::string, Encoder*);
+		BaseValidationRule (const std::string &);
+		BaseValidationRule (const std::string &, Encoder&);
 
-		virtual void* getValid(std::string, std::string) throw (ValidationException) =0;
+		virtual void* getValid(const std::string &, const std::string &) throw (ValidationException) =0;
 
 	    /**
 	     * {@inheritDoc}
@@ -61,51 +61,46 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setTypeName(std::string);
+		virtual void setTypeName(const std::string &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setEncoder(Encoder*) =0;
+		virtual void setEncoder(const Encoder &) =0;
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void assertValid(std::string, std::string) throw (ValidationException);
+		virtual void assertValid(const std::string &, const std::string &) throw (ValidationException);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void* getValid(std::string, std::string,class ValidationErrorList*) throw (ValidationException);
+		virtual void* getValid(const std::string &, const std::string &, ValidationErrorList&) throw (ValidationException);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void* getSafe(std::string, std::string);
+		virtual void* getSafe(const std::string &, const std::string &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual bool isValid(std::string, std::string);
+		virtual bool isValid(const std::string &, const std::string &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual std::string whitelist(std::string, char[]);
-
-	    /**
-	     * {@inheritDoc}
-		 */
-		virtual std::string whitelist(std::string, std::set<char>);
+		virtual std::string whitelist(const std::string &, const std::set<char> &);
 
 		virtual bool isAllowNull();
 
 		//virtual void setAllowNull( bool );
 
-		virtual Encoder* getEncoder();
+		virtual const Encoder* getEncoder();
 
-		virtual ~Base_Validation_Rule() {};
+		virtual ~BaseValidationRule() {};
 	};
 };
 
-#endif /* _base_validation_rule_h_ */
+#endif /* _BaseValidationRule_h_ */

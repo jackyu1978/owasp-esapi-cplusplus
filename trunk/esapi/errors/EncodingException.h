@@ -8,7 +8,7 @@
 class EncodingException : public std::runtime_error
 {
 public:
-	EncodingException::EncodingException(): std::runtime_error( "EncodingException" ) {}
+	EncodingException(): std::runtime_error( "EncodingException" ) {}
 };
 
 #endif /* _EncodingException_H_ */

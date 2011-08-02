@@ -1,7 +1,16 @@
 CXX =		g++
 CXXFLAGS = 	-O2 -g -Wall -fmessage-length=0
 
-SRCS =		src/reference/DefaultValidator.cpp src/reference/validation/BaseValidationRule.cpp src/errors/EnterpriseSecurityException.cpp src/errors/ValidationException.cpp src/ValidationErrorList.cpp src/codecs/Codec.cpp src/codecs/PushbackString.cpp src/EncoderConstants.cpp src/reference/DefaultEncoder.cpp
+SRCS =		src/reference/DefaultEncoder.cpp \
+			src/errors/ValidationException.cpp \
+			src/reference/DefaultValidator.cpp \
+			src/EncoderConstants.cpp \
+			src/reference/validation/BaseValidationRule.cpp \
+			src/errors/EnterpriseSecurityException.cpp \
+			src/ValidationErrorList.cpp \
+			src/codecs/Codec.cpp \
+			src/codecs/PushbackString.cpp \
+			src/ValidationErrorList.cpp
 
 TESTSRCS = test/codecs/CodecTest.cpp
 

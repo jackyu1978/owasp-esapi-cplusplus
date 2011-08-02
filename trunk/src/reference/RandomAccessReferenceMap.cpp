@@ -11,12 +11,22 @@
  * LICENSE before you use, modify, and/or redistribute this software.
  *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @author Jim Manico (jim@manico.net) <a href="http://www.manico.net">Manico.net</a>
  * @author Dan Amodio (dan.amodio@aspectsecurity.com)
  *
  * @created 2007
  */
 
-#include "Validator.h"
-#include "ValidationRule.h"
-#include "reference/validation/BaseValidationRule.h"
+#include <string>
+
+#include "RandomAccessReferenceMap.h"
+
+std::string esapi::RandomAccessReferenceMap::getUniqueReference() {
+	std::string candidate;
+    do
+    {
+       candidate = ESAPI.randomizer().getRandomString(6, EncoderConstants.CHAR_ALPHANUMERICS);
+    }
+    while (itod.keySet().contains(candidate));
+    return candidate;
+}
+

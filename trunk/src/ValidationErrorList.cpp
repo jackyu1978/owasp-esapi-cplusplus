@@ -17,28 +17,25 @@
  */
 
 #include "esapi/ValidationErrorList.h"
-#include "esapi/errors/ValidationException.h"
-#include <string>
-#include <map>
 
-void esapi::ValidationErrorList::addError(std::string context, esapi::ValidationException* vex) {
+void esapi::ValidationErrorList::addError(const std::string &context, esapi::ValidationException *vex) {
 	if ( context.compare("") ) throw( "Context for cannot be null: " + vex->getLogMessage() );
-	if ( vex == NULL ) throw( "Context (" + context + ") cannot be null" );
+	//if ( vex == NULL ) throw( "Context (" + context + ") cannot be null" );
 	if (getError(context) != NULL) throw ("Context (" + context + ") already exists, must be unique");
-	this->errorList.insert( std::pair<std::string,ValidationException*>(context, vex) );
+	this->errorList.insert( std::pair<std::string, ValidationException *>(context, vex) );
 }
 
-std::list<esapi::ValidationException*> esapi::ValidationErrorList::errors(){
-	std::list<esapi::ValidationException*> errors;
-	std::map<std::string, esapi::ValidationException*>::iterator it;
+std::list<esapi::ValidationException *> esapi::ValidationErrorList::errors(){
+	std::list<esapi::ValidationException *> errors;
+	std::map<std::string, esapi::ValidationException *>::iterator it;
 
-	for ( it=errorList.begin() ; it != errorList.end(); it++ )
+	for ( it = errorList.begin() ; it != errorList.end(); it++ )
 		errors.push_back( (*it).second );
 
 	return errors;
 }
 
-esapi::ValidationException* esapi::ValidationErrorList::getError(std::string context){
+esapi::ValidationException *esapi::ValidationErrorList::getError(const std::string &context){
 	if (context.compare("")) return NULL;
 	//esapi::ValidationException *foo = new esapi::ValidationException("foo","bar");
 	return errorList.find(context)->second;
