@@ -5,7 +5,7 @@
 #include <set>
 #include "errors/ValidationException.h"
 #include "ValidationErrorList.h"
-#include "encoder.h"
+#include "Encoder.h"
 
 namespace esapi
 {
@@ -25,7 +25,7 @@ namespace esapi
 		 * @throws ValidationException
 		 *             if any validation rules fail
 		 */
-		virtual void* getValid(std::string, std::string) throw (ValidationException) =0;
+		virtual void* getValid(const std::string &, const std::string &) throw (ValidationException) =0;
 
 		/**
 		 * Whether or not a valid valid can be null. getValid will throw an
@@ -46,42 +46,37 @@ namespace esapi
 		/**
 		 * @param typeName a name, describing the validator
 		 */
-		virtual void setTypeName(std::string) =0;
+		virtual void setTypeName(const std::string &) =0;
 
 		/**
 		 * @param encoder the encoder to use
 		 */
-		virtual void setEncoder(Encoder*) =0;
+		virtual void setEncoder(Encoder &) =0;
 
 		/**
 		 * Check if the input is valid, throw an Exception otherwise
 		 */
-		virtual void assertValid(std::string, std::string) throw (ValidationException) =0;
+		virtual void assertValid(const std::string &, const std::string &) throw (ValidationException) =0;
 
 		/**
 		 * Get a validated value, add the errors to an existing error list
 		 */
-		virtual void* getValid(std::string, std::string,class ValidationErrorList*) throw (ValidationException) =0;
+		virtual void* getValid(const std::string &, const std::string &, ValidationErrorList &) throw (ValidationException) =0;
 
 		/**
 		 * Try to call get valid, then call sanitize, finally return a default value
 		 */
-		virtual void* getSafe(std::string, std::string) =0;
+		virtual void* getSafe(const std::string &, const std::string &) =0;
 
 		/**
 		 * @return true if the input passes validation
 		 */
-		virtual bool isValid(std::string, std::string) =0;
+		virtual bool isValid(const std::string &, const std::string &) =0;
 
 		/**
 		 * String the input of all chars contained in the list
 		 */
-		virtual std::string whitelist(std::string, char[]) =0;
-
-		/**
-		 * String the input of all chars contained in the list
-		 */
-		virtual std::string whitelist(std::string, std::set<char>) =0;
+		virtual std::string whitelist(const std::string &, const std::set<char>) =0;
 
 		virtual ~ValidationRule() {};
 	};

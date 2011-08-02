@@ -31,10 +31,9 @@ namespace esapi {
  * @author Jeff Williams (jeff.williams@aspectsecurity.com)
  * @author Dan Amodio (dan.amodio@aspectsecurity.com)
  */
-class ValidationException : public esapi::EnterpriseSecurityException
+class ValidationException : public EnterpriseSecurityException
 {
 protected:
-	static const long serialVersionUID = 1;
 
 private:
 	/** The UI reference that caused this ValidationException */
@@ -49,7 +48,7 @@ public:
      * @param logMessage
 	 * 			  the message logged
      */
-	ValidationException::ValidationException(std::string userMessage, std::string logMessage): esapi::EnterpriseSecurityException(userMessage, logMessage) {}
+	ValidationException(const std::string &userMessage, const std::string &logMessage): EnterpriseSecurityException(userMessage, logMessage) {}
 
     /**
      * Creates a new instance of ValidationException.
@@ -61,7 +60,7 @@ public:
      * @param context
      *            the source that caused this exception
      */
-	ValidationException::ValidationException(std::string, std::string, std::string);
+	ValidationException(const std::string &, const std::string &, const std::string &);
 
 	/**
 	 * Returns the UI reference that caused this ValidationException
@@ -76,9 +75,9 @@ public:
 	 * @param context
 	 * 			the context to set, passed as a String
 	 */
-	void setContext(std::string);
+	void setContext(const std::string &);
 
-	ValidationException::~ValidationException() throw() {};
+	~ValidationException() throw() {};
 };
 
 };

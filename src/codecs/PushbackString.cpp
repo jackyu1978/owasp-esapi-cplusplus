@@ -14,7 +14,7 @@
  * @created 2007
  */
 
-#include "esapi/codecs/PushbackString.h"
+#include "codecs/PushbackString.h"
 
 esapi::PushbackString::PushbackString( std::string input) {
 	this->input = input;

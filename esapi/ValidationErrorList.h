@@ -86,9 +86,12 @@ namespace esapi {
 		 */
 		//private HashMap<String, ValidationException> errorList = new HashMap<String, ValidationException>();
 		//std::hash_map<const std::string, ValidationException*, hash<const string>, eqstr> errorList;
-		std::map<std::string, ValidationException*> errorList;
+		std::map<std::string, ValidationException *> errorList;
 
 	public:
+		ValidationErrorList() {};
+
+
 		/**
 		 * Adds a new error to list with a unique named context.
 		 * No action taken if either element is null.
@@ -97,15 +100,15 @@ namespace esapi {
 		 * @param context Unique named context for this {@code ValidationErrorList}.
 		 * @param vex	A {@code ValidationException}.
 		 */
-		virtual void addError(std::string, esapi::ValidationException*);
+		virtual void addError(const std::string &, ValidationException *);
 
 
 		/**
-		 * Returns list of ValidationException, or empty list of no errors exist.
+		 * Returns list of ValidationException, or empty list if no errors exist.
 		 *
 		 * @return List
 		 */
-		virtual std::list<esapi::ValidationException*> errors();
+		virtual std::list<ValidationException *> errors();
 
 		/**
 		 * Retrieves ValidationException for given context if one exists.
@@ -113,12 +116,12 @@ namespace esapi {
 		 * @param context unique name for each error
 		 * @return ValidationException or null for given context
 		 */
-		virtual esapi::ValidationException* getError(std::string);
+		virtual ValidationException *getError(const std::string &);
 
 		/**
 		 * Returns true if no error are present.
 		 *
-		 * @return boolean
+		 * @return bool
 		 */
 		virtual bool isEmpty(void);
 

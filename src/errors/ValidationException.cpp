@@ -14,11 +14,11 @@
  * @created 2007
  */
 
-#include "esapi/errors/ValidationException.h"
-#include "esapi/errors/EnterpriseSecurityException.h"
+#include "errors/ValidationException.h"
+#include "errors/EnterpriseSecurityException.h"
 #include <string>
 
-esapi::ValidationException::ValidationException(std::string userMessage, std::string logMessage, std::string context) :
+esapi::ValidationException::ValidationException(const std::string &userMessage, const std::string &logMessage, const std::string &context) :
 				esapi::EnterpriseSecurityException(userMessage, logMessage)
 {
 	setContext(context);
@@ -28,6 +28,6 @@ std::string esapi::ValidationException::getContext() {
 	return this->context;
 }
 
-void esapi::ValidationException::setContext(std::string newContext) {
+void esapi::ValidationException::setContext(const std::string &newContext) {
 	this->context = newContext;
 }

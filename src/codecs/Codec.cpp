@@ -14,7 +14,7 @@
  * @created 2007
  */
 
-#include "esapi/codecs/Codec.h"
+#include "codecs/Codec.h"
 #include <sstream>
 
 std::string* esapi::Codec::hexArray (){

@@ -9,11 +9,11 @@
  * @see org.owasp.esapi.Validator
  */
 
-#include "esapi/reference/validation/BaseValidationRule.h"
+#include "reference/validation/BaseValidationRule.h"
 #include <exception>
 
 
-esapi::Base_Validation_Rule::Base_Validation_Rule (std::string newTypeName) {
+esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName) {
 	//this();
 	this->allowNull = false;
 	//typeName = "";
@@ -25,7 +25,7 @@ esapi::Base_Validation_Rule::Base_Validation_Rule (std::string newTypeName) {
 }
 
 
-esapi::Base_Validation_Rule::Base_Validation_Rule (std::string newTypeName, Encoder* encoder)
+esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, Encoder &encoder)
 {
 	//this();
 	allowNull = false;
@@ -37,38 +37,38 @@ esapi::Base_Validation_Rule::Base_Validation_Rule (std::string newTypeName, Enco
 }
 
 
-void esapi::Base_Validation_Rule::setAllowNull( bool flag ) {
+void esapi::BaseValidationRule::setAllowNull( bool flag ) {
 	allowNull = flag;
 }
 
-std::string esapi::Base_Validation_Rule::getTypeName() {
+std::string esapi::BaseValidationRule::getTypeName() {
 	return this->typeName;
 }
 
-void esapi::Base_Validation_Rule::setTypeName( std::string newTypeName ) {
+void esapi::BaseValidationRule::setTypeName( const std::string &newTypeName ) {
 	this->typeName = newTypeName;
 }
 
 
-void esapi::Base_Validation_Rule::setEncoder( Encoder *newEncoder ) {
-		this->encoder = newEncoder;
+void esapi::BaseValidationRule::setEncoder( const Encoder &newEncoder ) {
+		this->encoder = &newEncoder;
 }
 
-void esapi::Base_Validation_Rule::assertValid( std::string context, std::string input ) throw (ValidationException) {
-		getValid( context, input, 0 );
+void esapi::BaseValidationRule::assertValid( const std::string &context, const std::string &input ) throw (ValidationException) {
+		getValid( context, input, *(new ValidationErrorList));
 }
 
-void* esapi::Base_Validation_Rule::getValid( std::string context, std::string input,ValidationErrorList* errorList ) throw (ValidationException) {
+void* esapi::BaseValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (ValidationException) {
 		void* valid = 0;
 		try {
 			valid = this->getValid( context, input );
-		} catch (ValidationException& e) {
-			errorList->addError(context, &e);
+		} catch (ValidationException &e) {
+			errorList.addError(context, &e);
 		}
 		return valid;
 }
 
-void* esapi::Base_Validation_Rule::getSafe( std::string context, std::string input ) {
+void* esapi::BaseValidationRule::getSafe( const std::string &context, const std::string &input ) {
 		void* valid = 0;
 		try {
 			valid = this->getValid( context, input );
@@ -78,7 +78,7 @@ void* esapi::Base_Validation_Rule::getSafe( std::string context, std::string inp
 		return valid;
 }
 
-bool esapi::Base_Validation_Rule::isValid( std::string context, std::string input ) {
+bool esapi::BaseValidationRule::isValid( const std::string &context, const std::string &input ) {
 		bool valid = false;
 		try {
 			this->getValid( context, input );
@@ -90,21 +90,21 @@ bool esapi::Base_Validation_Rule::isValid( std::string context, std::string inpu
 		return valid;
 }
 
-std::string esapi::Base_Validation_Rule::whitelist( std::string input, char whitelist[]) {
-	std::string stripped = "";
-	int whitelistSize = sizeof(whitelist) / sizeof(char);
-
-	for (unsigned int i = 0; i < input.length(); i++) {
-		char c = input[i];
-
-		for (int n = 0; n < whitelistSize; n++) {
-			if (whitelist[n] == c){
-				stripped += c;
-			}
-		}
-	}
-	return stripped;
-}
+//std::string esapi::BaseValidationRule::whitelist( const std::string &input, char whitelist[]) {
+//	std::string stripped = "";
+//	int whitelistSize = sizeof(whitelist) / sizeof(char);
+//
+//	for (unsigned int i = 0; i < input.length(); i++) {
+//		char c = input[i];
+//
+//		for (int n = 0; n < whitelistSize; n++) {
+//			if (whitelist[n] == c){
+//				stripped += c;
+//			}
+//		}
+//	}
+//	return stripped;
+//}
 
 /**
  * Removes characters that aren't in the whitelist from the input String.
@@ -113,7 +113,7 @@ std::string esapi::Base_Validation_Rule::whitelist( std::string input, char whit
  * @param whitelist allowed characters
  * @return input stripped of all chars that aren't in the whitelist
  */
-std::string esapi::Base_Validation_Rule::whitelist( std::string input, std::set<char> whitelist) {
+std::string esapi::BaseValidationRule::whitelist( const std::string &input, const std::set<char> &whitelist) {
 	std::string stripped = "";
 
 	for (unsigned int i = 0; i < input.length(); i++) {
@@ -126,13 +126,13 @@ std::string esapi::Base_Validation_Rule::whitelist( std::string input, std::set<
 	return stripped;
 }
 
-bool esapi::Base_Validation_Rule::isAllowNull() {
+bool esapi::BaseValidationRule::isAllowNull() {
 	return allowNull;
 }
 
 
 
-esapi::Encoder* esapi::Base_Validation_Rule::getEncoder() {
+const esapi::Encoder* esapi::BaseValidationRule::getEncoder() {
 	return this->encoder;
 }
 

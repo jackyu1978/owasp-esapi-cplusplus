@@ -1,34 +1,36 @@
-#ifndef _string_validation_rule_h_
-#define _string_validation_rule_h_
+#ifndef _StringValidationRule_h_
+#define _StringValidationRule_h_
+
+#include <string>
 
 #include "BaseValidationRule.h"
 
 namespace esapi
 {
-	class String_Validation_Rule : Base_Validation_Rule
+	class StringValidationRule : BaseValidationRule
 	{
 	public:
 
-		virtual void addWhitelistPattern(String) throw (IllegalArgumentException) =0;
+		virtual void addWhitelistPattern(const std::string &) throw (IllegalArgumentException) =0;
 		virtual void addWhitelistPattern(Pattern) throw (IllegalArgumentException) =0;
-		virtual void addBlacklistPattern(String) throw (IllegalArgumentException)=0;
+		virtual void addBlacklistPattern(const std::string &) throw (IllegalArgumentException)=0;
 		virtual void addBlacklistPattern(Pattern) throw (IllegalArgumentException) =0;
 		virtual void setMinimumLength(int) =0;
 		virtual void setMaximumLength(int) =0;
 		virtual void setValidateInputAndCanonical(bool) =0;
 
 	private:
-		virtual String checkWhitelist(String, String, String) throw (ValidationException) =0;
-		virtual String checkWhitelist(String, String) throw (ValidationException) =0;
-		virtual String checkBlacklist(String, String, String) throw (ValidationException) =0;
-		virtual String checkBlacklist(String, String) throw (ValidationException) =0;
-		virtual String checkLength(String, String, String) throw (ValidationException) =0;
-		virtual String checkLength(String, String) throw (ValidationException) =0;
-		virtual String checkEmpty(String, String, String) throw (ValidationException) =0;
-		virtual String checkEmpty(String, String) throw (ValidationException) =0;
+		virtual std::string checkWhitelist(const std::string &, const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkWhitelist(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkBlacklist(const std::string &, const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkBlacklist(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkLength(const std::string &, const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkLength(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkEmpty(const std::string &, const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual std::string checkEmpty(const std::string &, const std::string &) throw (ValidationException) =0;
 
-		virtual ~String_Validation_Rule() {};
+		virtual ~StringValidationRule() {};
 	};
 };
 
-#endif /* _string_validation_rule_h_ */
+#endif /* _StringValidationRule_h_ */
