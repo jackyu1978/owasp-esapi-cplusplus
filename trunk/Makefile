@@ -7,9 +7,9 @@
 # Comeau
 # CXX =		como
 # Intel ICC
-CXX =		icpc
+# CXX =		icpc
 # GNU Compiler Collection
-# CXX =		g++
+CXX =		g++
 
 # Debug
 # CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
@@ -17,7 +17,7 @@ CXX =		icpc
 CXXFLAGS = -DNDEBUG=1 -g -O2
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
-# the bit pattern is negated, but the type remains the same. So an positive
+# the bit pattern is negated, but the type remains the same. So a positive
 # integer is never transformed into a negative integer as expected. It morphs
 # into a bigger or smaller unsigned integer.
 CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
@@ -35,6 +35,7 @@ ifneq ($(INTEL_COMPILER),0)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
+# GCC is usually a signed char, but not always (cf, ARM)
 ifneq ($(GCC_COMPILER),0)
   CXXFLAGS += -pipe -fsigned-char -fmessage-length=0
 endif
