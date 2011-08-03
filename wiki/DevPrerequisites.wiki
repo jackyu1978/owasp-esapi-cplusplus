@@ -13,28 +13,28 @@ SafeInt3.hpp is included in the ESAPI project directory. No action is needed.
 
 == Crypto++ ==
 
-  # Debian and friends
-  $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev
+<pre># Debian and friends
+$ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 
-  # Fedora and friends
-  > su -
-  # yum install cryptopp cryptopp-devel
+<pre># Fedora and friends
+> su -
+# yum install cryptopp cryptopp-devel</pre>
 
 == Boost ==
 
-  # Debian and friends
-  $ sudo apt-get install libboost-dbg libboost-dev
+<pre># Debian and friends
+$ sudo apt-get install libboost-dbg libboost-dev</pre>
 
-  # Fedora and friends
-  > su -
-  # yum install boost-devel
+<pre># Fedora and friends
+> su -
+# yum install boost-devel</pre>
 
 == Grepping Package ==
 
 Searching packages can be performed as follows (using boost as an example).
 
-  # Debian and friends
-  $ apt-cache pkgnames | grep -i boost
+<pre># Debian and friends
+$ apt-cache pkgnames | grep -i boost</pre>
 
-  # Fedora and friends
-  > yum search boost | grep -i devel
+<pre># Fedora and friends
+> yum search boost | grep -i devel</pre>
