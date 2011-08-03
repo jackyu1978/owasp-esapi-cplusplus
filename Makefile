@@ -2,6 +2,10 @@
 # This file is part of the Open Web Application Security Project (OWASP)
 # Enterprise Security API (ESAPI) project. For details, please see
 # http://www.owasp.org/.
+#
+# The ESAPI is published by OWASP under the BSD license. You should read and
+# accept the LICENSE before you use, modify, and/or redistribute this software.
+#
 # Copyright (c) 2011 - The OWASP Foundation
 
 # Comeau C++ Compiler
@@ -95,7 +99,7 @@ endif
 # endif
 
 $(DYNAMIC_LIB):	$(LIBOBJS)
-	$(CXX) $(CXXFLAGS) -shared -o $@ $(LIBOBJS) $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
 	
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) $@ $(LIBOBJS)
