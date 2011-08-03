@@ -50,8 +50,8 @@
 
 # Pick a compiler
 # CXX = como
-CXX = icpc
-# CXX = g++
+# CXX = icpc
+CXX = g++
 
 # Pick Debug or Release
 # CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
