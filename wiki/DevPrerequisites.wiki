@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Package prerequisites for SafeInt, Crypto++, and Boost
 #labels Developer,Prerequisites,Crypto,SafeInt,Boost,Yum,Apt-get
 
 = Introduction =
