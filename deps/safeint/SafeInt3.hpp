@@ -4922,12 +4922,12 @@ public:
     static bool Subtract( const T& lhs, const U& rhs, T& result ) throw()
     {
         // lhs is a 64-bit int, rhs unsigned int32 or smaller
+        // perform test as unsigned to prevent unwanted optimizations
+        unsigned __int64 tmp = (unsigned __int64)lhs - (unsigned __int64)rhs;
 
-        __int64 tmp = lhs - (__int64)rhs;
-
-        if( tmp <= lhs )
+        if( (__int64)tmp <= lhs )
         {
-            result = (T)tmp;
+            result = (T)(__int64)tmp;
             return true;
         }
      
@@ -4938,10 +4938,10 @@ public:
     static void SubtractThrow( const T& lhs, const U& rhs, T& result )
     {
         // lhs is a 64-bit int, rhs unsigned int32 or smaller
+        // perform test as unsigned to prevent unwanted optimizations
+        unsigned __int64 tmp = (unsigned __int64)lhs - (unsigned __int64)rhs;
 
-        __int64 tmp = lhs - (__int64)rhs;
-
-        if( tmp <= lhs )
+        if( (__int64)tmp <= lhs )
         {
             result = (T)tmp;
             return;
@@ -4957,11 +4957,12 @@ public:
     // lhs is __int64, rhs is unsigned 32-bit or smaller
     static bool Subtract( const U& lhs, const T& rhs, T& result ) throw()
     {
-        __int64 tmp = lhs - (__int64)rhs;
+        // Do this as unsigned to prevent unwanted optimizations
+        unsigned __int64 tmp = (unsigned __int64)lhs - (unsigned __int64)rhs;
 
-        if( tmp <= IntTraits< T >::maxInt && tmp >= IntTraits< T >::minInt )
+        if( (__int64)tmp <= IntTraits< T >::maxInt && (__int64)tmp >= IntTraits< T >::minInt )
         {
-            result = (T)tmp;
+            result = (T)(__int64)tmp;
             return true;
         }
 
@@ -4971,11 +4972,12 @@ public:
     template < typename E >
     static void SubtractThrow( const U& lhs, const T& rhs, T& result )
     {
-        __int64 tmp = lhs - (__int64)rhs;
+        // Do this as unsigned to prevent unwanted optimizations
+        unsigned __int64 tmp = (unsigned __int64)lhs - (unsigned __int64)rhs;
 
-        if( tmp <= IntTraits< T >::maxInt && tmp >= IntTraits< T >::minInt )
+        if( (__int64)tmp <= IntTraits< T >::maxInt && (__int64)tmp >= IntTraits< T >::minInt )
         {
-            result = (T)tmp;
+            result = (T)(__int64)tmp;
             return;
         }
 
@@ -5083,11 +5085,12 @@ public:
     {
         C_ASSERT( IntTraits< T >::isInt64 && IntTraits< U >::isUint64 );
        // if we subtract, and it gets larger, there's a problem
-       __int64 tmp = lhs - (__int64)rhs;
+       // Perform test as unsigned to prevent unwanted optimizations
+       unsigned __int64 tmp = (unsigned __int64)lhs - rhs;
 
-       if( tmp <= lhs )
+       if( (__int64)tmp <= lhs )
        {
-          result = tmp;
+          result = (__int64)tmp;
           return true;
        }
         return false;
@@ -5098,11 +5101,12 @@ public:
     {
         C_ASSERT( IntTraits< T >::isInt64 && IntTraits< U >::isUint64 );
        // if we subtract, and it gets larger, there's a problem
-       __int64 tmp = lhs - (__int64)rhs;
+       // Perform test as unsigned to prevent unwanted optimizations
+       unsigned __int64 tmp = (unsigned __int64)lhs - rhs;
 
-       if( tmp <= lhs )
+       if( (__int64)tmp <= lhs )
        {
-          result = tmp;
+          result = (__int64)tmp;
           return;
        }
 

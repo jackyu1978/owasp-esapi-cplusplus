@@ -49,8 +49,9 @@
 # -fwrapv: wrap (carry) and overflow is expected, see http://www.airs.com/blog/archives/120
 
 # Pick a compiler
-# CXX = icpc
-CXX = g++
+# CXX = como
+CXX = icpc
+# CXX = g++
 
 # Pick Debug or Release
 # CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
