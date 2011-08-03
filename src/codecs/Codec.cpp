@@ -21,7 +21,7 @@ std::string* esapi::Codec::hexArray (){
 	std::string *arrHex[256];
 
 	for ( int c = 0; c < 0xFF; c++ ) {
-		if ( c >= 0x30 && c <= 0x39 || c >= 0x41 && c <= 0x5A || c >= 0x61 && c <= 0x7A ) {
+		if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
 			*arrHex[c] = "";
 		} else {
 			std::stringstream str;
