@@ -62,6 +62,7 @@ CXXFLAGS = -DNDEBUG=1 -g -O2
 CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 EGREP = egrep
+INCLUDES = -I../.
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
@@ -88,23 +89,20 @@ ifneq ($(GCC46_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
 
-RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp PtrVerify.cpp
+RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp UnaryVerify.cpp PtrVerify.cpp
 RUNTIME_OBJS = $(RUNTIME_SRCS:.cpp=.o)
 
 test check: TestMain.exe
 	-./TestMain.exe
 
-all: SafeIntTest.exe TestMain.exe
-	-./SafeIntTest.exe
+all: TestMain.exe
 	-./TestMain.exe
-
-# SafeIntTest.cpp is a compile time test
-SafeIntTest.exe: SafeInt3.hpp SafeIntTest.cpp
-	$(CXX) $(CXXFLAGS) SafeIntTest.cpp -o $@
 
 # TestMain.cpp is a run time test
 TestMain.exe: SafeInt3.hpp TestMain.cpp $(RUNTIME_SRCS)
-	$(CXX) $(CXXFLAGS) TestMain.cpp $(RUNTIME_SRCS) -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDES) TestMain.cpp $(RUNTIME_SRCS) -o $@
+
+SafeInt3.hpp: ;
 
 .PHONY: clean	
 clean:

@@ -64,16 +64,16 @@ using std::endl;
 
 int main(int, char**)
 {
-	//AddVerify();
-	//SubVerify();
+	AddVerify();
+	SubVerify();
 
-	//MultVerify();
-	//DivVerify();
-	//ModVerify();
+	MultVerify();
+	DivVerify();
+	ModVerify();
 
-	//IncDecVerify();
+	IncDecVerify();
 
-	//PtrVerify();
+	PtrVerify();
 
 	UnaryVerify();
 
