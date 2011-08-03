@@ -9,10 +9,10 @@
 Crypto++ is available on all major Linux distributions. For a list of known distributions and repositories, see http://www.cryptopp.com/wiki/Linux.
 
 To install Crypto++ on a Debian/Ubuntu based system using Apt-get, perform the following:
- # Debian and friends
- # sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev
+<pre># Debian and friends
+# sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 
 For Fedora, use Yum as follows:
- # Fedora and friends
- > su -
- # yum install cryptopp cryptopp-devel
+<pre># Fedora and friends
+> su -
+# yum install cryptopp cryptopp-devel</pre>
