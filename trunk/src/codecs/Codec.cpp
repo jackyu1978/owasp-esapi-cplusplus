@@ -14,10 +14,15 @@
  * @created 2007
  */
 
+#include "EsapiCommon.h"
 #include "codecs/Codec.h"
 #include <sstream>
 
 std::string* esapi::Codec::hexArray (){
+	//// Check me!!! Memory is not alloc'd, and returning a stack pointer. ASSERT and bail.
+	ASSERT(0);
+	return NULL;
+
 	std::string *arrHex[256];
 
 	for ( int c = 0; c < 0xFF; c++ ) {
@@ -36,7 +41,11 @@ std::string* esapi::Codec::hexArray (){
 const std::string * esapi::Codec::hex = hexArray();
 
 std::string esapi::Codec::encode(char immune[], std::string input){
-	std::string sb = "";
+	ASSERT(immune);
+	ASSERT(!input.empty());
+
+	std::string sb;
+	sb.reserve(input.size());
 
 	for (unsigned int i = 0; i < input.length(); i++) {
 				char c = input[i];
@@ -47,11 +56,15 @@ std::string esapi::Codec::encode(char immune[], std::string input){
 }
 
 std::string esapi::Codec::encodeCharacter( char immune[], char c){
+	ASSERT(immune);
 	return ""+c;
 }
 
 std::string esapi::Codec::decode(std::string input){
-	std::string sb = "";
+	ASSERT(!input.empty());
+
+	std::string sb;
+	sb.reserve(input.size());
 
 	esapi::PushbackString pbs(input);
 			while (pbs.hasNext()) {
@@ -66,6 +79,7 @@ std::string esapi::Codec::decode(std::string input){
 }
 
 char esapi::Codec::decodeCharacter( PushbackString input ) {
+	// ASSERT(!input.empty());
 	return input.next();
 }
 
@@ -89,9 +103,12 @@ std::string esapi::Codec::toHex(char c){
 }
 
 bool esapi::Codec::containsCharacter( char c, char array[]){
-	int arrSize = sizeof(array)/sizeof(char);
+	// Check me!!! sizeof(array) is using a pointer, so its size is 4 or 8; and sizeof(char) is 1.
+	// Its probably best to use a <string> or vector<char>, or specify an explicit length.
+	ASSERT(0);
 
-	for (int ch=0; ch < arrSize; ch++) {
+	const size_t arrSize = sizeof(array)/sizeof(char);
+	for (size_t ch=0; ch < arrSize; ch++) {
 		if (c == array[ch]) return true;
 	}
 	return false;

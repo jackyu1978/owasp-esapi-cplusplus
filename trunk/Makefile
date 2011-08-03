@@ -4,17 +4,17 @@
 # <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
 # Copyright 2011 - The OWASP Foundation
 
-# Comeau
+# Comeau C++ Compiler
 # CXX =		como
 # Intel ICC
 # CXX =		icpc
-# GNU Compiler Collection
+# GNU C++ Compiler
 CXX =		g++
 
 # Debug
 # CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
 # Release
-CXXFLAGS = -DNDEBUG=1 -g -O2
+CXXFLAGS = 	-DNDEBUG=1 -g -O2
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
 # the bit pattern is negated, but the type remains the same. So a positive
@@ -50,7 +50,7 @@ ifneq ($(GCC46_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
 
-SRCS =		src/reference/DefaultEncoder.cpp \
+LIBSRCS =	src/reference/DefaultEncoder.cpp \
 			src/errors/ValidationException.cpp \
 			src/reference/DefaultValidator.cpp \
 			src/EncoderConstants.cpp \
@@ -60,37 +60,57 @@ SRCS =		src/reference/DefaultEncoder.cpp \
 			src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp \
 
-TESTSRCS = test/codecs/CodecTest.cpp
+TESTSRCS = 	test/codecs/CodecTest.cpp \
+			test/codecs/PushbackStringTest.cpp
 
-OUT =		esapi-c++.a
-OBJS =		$(SRCS:.cpp=.o)
-
+LIBOBJS =	$(LIBSRCS:.cpp=.o)
 TESTOBJS =	$(TESTSRCS:.cpp=.o)
 
-INCLUDES =	-I. -I./esapi -I/usr/local/include -I/usr/include/c++/4.4 -I/boost_1_47_0 -I/Dev-Cpp/include
+# OpenBSD needs the dash in ARFLAGS
+AR =		ar
+ARFLAGS = 	-rcs
+RANLIB =	ranlib
 
-LIBS =		-lcryptopp -L/usr/local/lib -L/usr/lib -Llib -L/boost_1_47_0/stage/lib
+DYNAMIC_LIB =	lib/libesapi-c++.so
+STATIC_LIB =	lib/libesapi-c++.a
 
-TARGET =	esapi-c++.so
+INCLUDES =	-I. -I./esapi -I/usr/local/include
+
+LDFLAGS =	-L/usr/local/lib -L/usr/lib -Llib -L/boost_1_47_0/stage/lib
+LDLIBS =	-lcryptopp
 
 TESTTARGET = test/run_esapi_tests
 
-$(TARGET):	$(OBJS)
-	$(CXX) $(CXXFLAGS) -shared -o $(TARGET) $(OBJS) $(LIBS)
-	
-.cpp.o:
-	$(CXX) $(CXXFLAGS) -fpic -c $(INCLUDES) $< -o $@
-	
-$(OUT): $(OBJS)
-	ar rcs $(OUT) $(OBJS)
-	
-test:	$(TESTOBJS)
-	$(CXX) -o $(TESTTARGET) $(TESTOBJS) $(LIBS) -lboost_system-mgw34-mt-1_47 -lboost_unit_test_framework-mgw34-mt-1_47
+# http://lists.debian.org/debian-devel/2003/10/msg01538.html
+ifeq ($(UNAME),Linux)
+  LDFLAGS += -D_REENTRANT
+  LDLIBS += -lpthreads
+endif
 
-runtests:	$(TESTOBJS) $(OBJS) 
+# Might need this. TOOD: test and uncomment or remove
+# ifeq ($(UNAME),Darwin)
+#   AR = libtool
+#   ARFLAGS = -static -o
+#   CXX = c++
+# endif
+
+$(DYNAMIC_LIB):	$(LIBOBJS)
+	$(CXX) $(CXXFLAGS) -shared -o $@ $(LIBOBJS) $(LDFLAGS) $(LDLIBS)
+	
+$(STATIC_LIB): $(LIBOBJS)
+	$(AR) $(ARFLAGS) $@ $(LIBOBJS)
+	$(RANLIB) $@
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
+
+check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
 
-all:	$(TARGET) test runtests
+$(TESTTARGET): ;
+
+all: $(STATIC_LIB) $(DYNAMIC_LIB) test
 
 clean:
-	rm -f $(OBJS) $(TARGET) $(TESTOBJS) $(TESTTARGET).*
+	-rm -f $(LIBOBJS) $(STATIC_LIB) $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET).* *.dSYM *.core

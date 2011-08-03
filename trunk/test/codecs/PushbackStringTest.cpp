@@ -3,11 +3,12 @@
 #include <boost/test/included/unit_test.hpp>
 using namespace boost::unit_test;
 
+/*
 //____________________________________________________________________________//
 
 void free_test_function()
 {
-    BOOST_CHECK( true /* test assertion */ );
+    BOOST_CHECK( true );
 }
 
 //____________________________________________________________________________//
@@ -23,4 +24,4 @@ init_unit_test_suite( int argc, char* argv[] )
 
 //____________________________________________________________________________//
 
-
+*/
