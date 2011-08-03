@@ -1,8 +1,8 @@
 # OWASP Enterprise Security API (ESAPI)
 # This file is part of the Open Web Application Security Project (OWASP)
 # Enterprise Security API (ESAPI) project. For details, please see
-# <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-# Copyright 2011 - The OWASP Foundation
+# http://www.owasp.org/.
+# Copyright (c) 2011 - The OWASP Foundation
 
 # Comeau C++ Compiler
 # CXX =		como
@@ -76,7 +76,7 @@ STATIC_LIB =	lib/libesapi-c++.a
 
 INCLUDES =	-I. -I./esapi -I/usr/local/include
 
-LDFLAGS =	-L/usr/local/lib -L/usr/lib -Llib -L/boost_1_47_0/stage/lib
+LDFLAGS =	-L/usr/local/lib -L/usr/lib -Llib
 LDLIBS =	-lcryptopp
 
 TESTTARGET = test/run_esapi_tests
