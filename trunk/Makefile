@@ -8,6 +8,10 @@
 #
 # Copyright (c) 2011 - The OWASP Foundation
 
+# Clear unneeded implicit rules
+.SUFFIXES:
+.SUFFIXES: .c .cpp .o
+
 # Comeau C++ Compiler
 # CXX =		como
 # Intel ICC
@@ -16,9 +20,9 @@
 CXX =		g++
 
 # Debug
-# CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
+# CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0
 # Release
-CXXFLAGS = 	-DNDEBUG=1 -g -O2
+CXXFLAGS += -DNDEBUG=1 -g -O2
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
 # the bit pattern is negated, but the type remains the same. So a positive
@@ -80,9 +84,10 @@ STATIC_LIB =	lib/libesapi-c++.a
 
 INCLUDES =	-I. -I./esapi -I/usr/local/include
 
-LDFLAGS =	-L/usr/local/lib -L/usr/lib -Llib
-LDLIBS =	-lcryptopp
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Llib
+LDLIBS +=	-lcryptopp
 
+# No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
