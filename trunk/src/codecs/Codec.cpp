@@ -16,8 +16,10 @@
 
 #include "EsapiCommon.h"
 #include "codecs/Codec.h"
-#include <iomanip>
+
+#include <new>
 #include <sstream>
+#include <iomanip>
 
 #define HEX(x) std::hex << std::setw(x) << std::setfill('0')
 #define OCT(x) std::octal << std::setw(x) << std::setfill('0')
@@ -26,7 +28,8 @@ esapi::HexArray* esapi::Codec::hexArray (){
 
 	HexArray *hexArr = new HexArray;
 	ASSERT(hexArr);
-	if(!hexArr) return NULL;
+	if(!hexArr) // M$ is non-throwing by default
+		throw std::bad_alloc();
 
 	// Save on reallocations
 	hexArr->resize(ARR_SIZE);
@@ -59,9 +62,9 @@ std::string esapi::Codec::encode(const char immune[], size_t length, const std::
 	sb.reserve(input.size());
 
 	for (size_t i = 0; i < input.length(); i++) {
-				char c = input[i];
-				sb.append(encodeCharacter(immune, length, c));
-			}
+		char c = input[i];
+		sb.append(encodeCharacter(immune, length, c));
+	}
 
 	return sb;
 }
@@ -81,14 +84,14 @@ std::string esapi::Codec::decode(const std::string& input) const{
 	sb.reserve(input.size());
 
 	esapi::PushbackString pbs(input);
-			while (pbs.hasNext()) {
-				char c = decodeCharacter(pbs);
-				if (c != 0) {
-					sb+=c;
-				} else {
-					sb+=pbs.next();
-				}
-			}
+	while (pbs.hasNext()) {
+		char c = decodeCharacter(pbs);
+		if (c != 0) {
+			sb+=c;
+		} else {
+			sb+=pbs.next();
+		}
+	}
 	return sb;
 }
 
@@ -133,12 +136,14 @@ std::string esapi::Codec::toHex(char c) const{
 }
 
 bool esapi::Codec::containsCharacter(char c, const std::string& s) const{
+	ASSERT(c != 0);
 	ASSERT(!s.empty());
 
 	return s.find(c, 0) != std::string::npos;
 }
 
 bool esapi::Codec::containsCharacter(char c, const char array[], size_t length) const{
+	ASSERT(c != 0);
 	ASSERT(array);
 	ASSERT(length);
 
