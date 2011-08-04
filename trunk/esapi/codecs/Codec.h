@@ -84,7 +84,7 @@ public:
 	 * 		the String to encode
 	 * @return the encoded String
 	 */
-	virtual std::string encode(char[], const std::string&) const;
+	virtual std::string encode(const char immune[], size_t length, const std::string&) const;
 
 	/**
 	 * Default implementation that should be overridden in specific codecs.
@@ -95,7 +95,7 @@ public:
 	 * @return
 	 * 		the encoded Character
 	 */
-	virtual std::string encodeCharacter(char[], char) const;
+	virtual std::string encodeCharacter(const char immune[], size_t length, char c) const;
 
 	/**
 	 * Decode a String that was encoded using the encode method in this Class

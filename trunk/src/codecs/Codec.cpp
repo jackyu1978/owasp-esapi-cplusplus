@@ -47,24 +47,30 @@ esapi::HexArray* esapi::Codec::hexArray (){
 
 const esapi::HexArray* esapi::Codec::hex = hexArray();
 
-std::string esapi::Codec::encode(char immune[], const std::string& input) const{
+std::string esapi::Codec::encode(const char immune[], size_t length, const std::string& input) const{
 	ASSERT(immune);
+	ASSERT(length);
 	ASSERT(!input.empty());
+
+	if(!immune)
+		return "";
 
 	std::string sb;
 	sb.reserve(input.size());
 
 	for (size_t i = 0; i < input.length(); i++) {
 				char c = input[i];
-				sb.append(encodeCharacter(immune, c));
+				sb.append(encodeCharacter(immune, length, c));
 			}
 
 	return sb;
 }
 
-std::string esapi::Codec::encodeCharacter(char immune[], char c) const{
+std::string esapi::Codec::encodeCharacter(const char immune[], size_t length, char c) const{
 	ASSERT(immune);
+	ASSERT(length);
 	ASSERT(c != 0);
+
 	return std::string(1, c);
 }
 
@@ -136,8 +142,12 @@ bool esapi::Codec::containsCharacter(char c, const char array[], size_t length) 
 	ASSERT(array);
 	ASSERT(length);
 
+	if(!array)
+		return false;
+
 	for (size_t ch=0; ch < length; ch++) {
 		if (c == array[ch]) return true;
 	}
+
 	return false;
 }
