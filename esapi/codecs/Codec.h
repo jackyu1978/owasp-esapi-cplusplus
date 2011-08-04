@@ -5,18 +5,21 @@
  * Enterprise Security API (ESAPI) project. For details, please see
  * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
  *
- * Copyright (c) 2007 - The OWASP Foundation
+ * Copyright (c) 2011 - The OWASP Foundation
  *
  * The ESAPI is published by OWASP under the BSD license. You should read and accept the
  * LICENSE before you use, modify, and/or redistribute this software.
  *
  * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
- * @created 2007
+ * @created 2011
  */
 
 #ifndef _Codec_H_
 #define _Codec_H_
 
+#pragma once
+
+#include <vector>
 #include <string>
 #include "codecs/PushbackString.h"
 
@@ -34,6 +37,9 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
+
+typedef std::vector<std::string> HexArray;
+
 class Codec {
 
 private:
@@ -45,18 +51,23 @@ private:
 	}*/
 
 	/**
+	 * Precomputed size of the internal hex array
+	 */
+	static const size_t ARR_SIZE = 256;
+
+	/**
 	 * Initialize an array to mark which characters are to be encoded. Store the hex
 	 * string for that character to save time later. If the character shouldn't be
 	 * encoded, then store null.
 	 */
-	const static std::string * hex;
+	static const esapi::HexArray* hex;
 
 	/**
 	 * Used to initialize the values of private member hex
 	 *
 	 * @return pointer to the initialized array
 	 */
-	static std::string* hexArray ();
+	static esapi::HexArray* hexArray ();
 
 
 public:
@@ -73,7 +84,7 @@ public:
 	 * 		the String to encode
 	 * @return the encoded String
 	 */
-	virtual std::string encode(char[], std::string);
+	virtual std::string encode(char[], const std::string&) const;
 
 	/**
 	 * Default implementation that should be overridden in specific codecs.
@@ -84,7 +95,7 @@ public:
 	 * @return
 	 * 		the encoded Character
 	 */
-	virtual std::string encodeCharacter( char[], char);
+	virtual std::string encodeCharacter(char[], char) const;
 
 	/**
 	 * Decode a String that was encoded using the encode method in this Class
@@ -94,7 +105,7 @@ public:
 	 * @return
 	 *		the decoded String
 	 */
-	virtual std::string decode(std::string);
+	virtual std::string decode(const std::string&) const;
 
 	/**
 	 * Returns the decoded version of the next character from the input string and advances the
@@ -105,7 +116,7 @@ public:
 	 *
 	 * @return the decoded Character
 	 */
-	virtual char decodeCharacter( PushbackString);
+	virtual char decodeCharacter(PushbackString&) const;
 
 	/**
 	 * Lookup the hex value of any character that is not alphanumeric.
@@ -113,11 +124,11 @@ public:
 	 * @return, return null if alphanumeric or the character code
 	 * 	in hex.
 	 */
-	std::string getHexForNonAlphanumeric(char);
+	std::string getHexForNonAlphanumeric(char) const;
 
-	std::string toOctal(char);
+	std::string toOctal(char) const;
 
-	std::string toHex(char);
+	std::string toHex(char) const;
 
 	/**
 	 * Utility to search a char[] for a specific char.
@@ -126,7 +137,7 @@ public:
 	 * @param array
 	 * @return
 	 */
-	bool containsCharacter( char, char[]);
+	bool containsCharacter(char, char[]) const;
 
 };
 
