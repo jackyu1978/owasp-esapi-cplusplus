@@ -1,26 +1,36 @@
-#define BOOST_TEST_MODULE 1
+#define BOOST_TEST_MODULE MyTest
+#define BOOST_TEST_NO_LIB
+#include "boost/test/unit_test.hpp"
 
-#include <boost/test/included/unit_test.hpp>
-using namespace boost::unit_test;
+int add( int i, int j ) { return i+j; }
 
-//____________________________________________________________________________//
-
-void free_test_function()
+BOOST_AUTO_TEST_CASE( my_test )
 {
-    BOOST_CHECK( true /* test assertion */ );
+    // seven ways to detect and report the same error:
+    BOOST_CHECK( add( 2,2 ) == 4 );        // #1 continues on error
+
+    BOOST_REQUIRE( add( 2,2 ) == 4 );      // #2 throws on error
+
+    if( add( 2,2 ) != 4 )
+      BOOST_ERROR( "Ouch..." );            // #3 continues on error
+
+    if( add( 2,2 ) != 4 )
+      BOOST_FAIL( "Ouch..." );             // #4 throws on error
+
+    if( add( 2,2 ) != 4 ) throw "Ouch..."; // #5 throws on error
+
+    BOOST_CHECK_MESSAGE( add( 2,2 ) == 4,  // #6 continues on error
+                         "add(..) result: " << add( 2,2 ) );
+
+    BOOST_CHECK_EQUAL( add( 2,2 ), 4 );   // #7 continues on error
 }
 
-//____________________________________________________________________________//
+/*
+#include <stdio.h>
 
-test_suite*
-init_unit_test_suite( int argc, char* argv[] ) 
+int main()
 {
-    framework::master_test_suite().
-        add( BOOST_TEST_CASE( &free_test_function ) );
-
+        printf ("This test has not been created yet.\n");
     return 0;
-}
-
-//____________________________________________________________________________//
-
+}*/
 
