@@ -17,6 +17,8 @@
 #ifndef _PushbackString_H_
 #define _PushbackString_H_
 
+#pragma once
+
 #include <string>
 
 namespace esapi {
@@ -34,17 +36,20 @@ class PushbackString {
 
 private:
 	std::string input;
+
+	// Conceptually, `marking` a PushbackString does not change the string.
+	// Hence the use of mutable, so mark() can change `varTemp` and `varMark`.
 	char varPushback;
-	char temp;
-	unsigned int varIndex;
-	unsigned int varMark;
+	mutable char varTemp;
+	size_t varIndex;
+	mutable size_t varMark;
 
 public:
     /**
      *
      * @param input
      */
-    PushbackString( std::string);
+    PushbackString(const std::string&);
 
     /**
      *
@@ -55,15 +60,15 @@ public:
 	/*
 	 * Get the current index of the PushbackString. Typically used in error messages.
 	 *
-     * @return int
+     * @return size_t
      */
-    int index();
+    size_t index() const;
 
     /**
      *
      * @return bool
      */
-    bool hasNext();
+    bool hasNext() const;
 
     /**
      *
@@ -72,48 +77,48 @@ public:
     char next();
 
     /**
-    *
-    * @return char
-    */
-   char nextHex();
+     *
+     * @return char
+     */
+    char nextHex();
 
-   /**
-   *
-   * @return char
-   */
-  char nextOctal();
+    /**
+     *
+     * @return char
+     */
+    char nextOctal();
 
-  /**
-   * Returns true if the parameter character is a hexidecimal digit 0 through 9, a through f, or A through F.
-   * @param c
-   * @return
-   */
-  static bool isHexDigit( char );
+    /**
+     * Returns true if the parameter character is a hexidecimal digit 0 through 9, a through f, or A through F.
+     * @param c
+     * @return
+     */
+    static bool isHexDigit( char );
 
- /**
- * Returns true if the parameter character is an octal digit 0 through 7.
- * @param c
- * @return
- */
- static bool isOctalDigit( char );
+     /**
+     * Returns true if the parameter character is an octal digit 0 through 7.
+     * @param c
+     * @return
+     */
+    static bool isOctalDigit( char );
 
     /**
      * Return the next character without affecting the current index.
      * @return
      */
-    char peek();
+    char peek() const;
 
     /**
      * Test to see if the next character is a particular value without affecting the current index.
      * @param c
      * @return
      */
-    bool peek( char );
+    bool peek( char ) const;
 
     /**
      *
      */
-    void mark();
+    void mark() const;
 
     /**
      *
