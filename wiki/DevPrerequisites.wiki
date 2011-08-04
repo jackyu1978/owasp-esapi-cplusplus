@@ -9,7 +9,7 @@ Some commands to get the prerequisites on the system. It assumes GCC/G++, binuti
 
 == SafeInt ==
 
-SafeInt3.hpp is included in the ESAPI project directory. No action is needed.
+SafeInt3.hpp is included in the ESAPI project directory and located in <ESAPI directory>/deps. No action is needed.
 
 == Crypto++ ==
 
