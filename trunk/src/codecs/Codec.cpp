@@ -87,7 +87,10 @@ std::string esapi::Codec::decode(const std::string& input) const{
 }
 
 char esapi::Codec::decodeCharacter(PushbackString& input) const{
+	// This method needs to reset input uder certain conditions, which it is not doing
+	ASSERT(0);
 	ASSERT(input.hasNext());
+
 	return input.next();
 }
 
@@ -123,13 +126,17 @@ std::string esapi::Codec::toHex(char c) const{
 	return str.str();
 }
 
-bool esapi::Codec::containsCharacter(char c, char array[]) const{
-	// Check me!!! sizeof(array) is using a pointer, so its size is 4 or 8; and sizeof(char) is 1.
-	// Its probably best to use a <string> or vector<char>, or specify an explicit length.
-	ASSERT(0);
+bool esapi::Codec::containsCharacter(char c, const std::string& s) const{
+	ASSERT(!s.empty());
 
-	const size_t arrSize = sizeof(array)/sizeof(char);
-	for (size_t ch=0; ch < arrSize; ch++) {
+	return s.find(c, 0) != std::string::npos;
+}
+
+bool esapi::Codec::containsCharacter(char c, const char array[], size_t length) const{
+	ASSERT(array);
+	ASSERT(length);
+
+	for (size_t ch=0; ch < length; ch++) {
 		if (c == array[ch]) return true;
 	}
 	return false;

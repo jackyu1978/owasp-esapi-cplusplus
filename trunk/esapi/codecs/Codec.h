@@ -131,13 +131,23 @@ public:
 	std::string toHex(char) const;
 
 	/**
-	 * Utility to search a char[] for a specific char.
+	 * Utility to search a string for a specific char.
 	 *
 	 * @param c
-	 * @param array
-	 * @return
+	 * @param s
+	 * @return true if character c is found, false otherwise
 	 */
-	bool containsCharacter(char, char[]) const;
+	bool containsCharacter(char a, const std::string& s) const;
+
+	/**
+	 * Utility to search a character array for a specific char.
+	 *
+	 * @param c character to search for in array
+	 * @param array array of characters
+	 * @param length length of array
+	 * @return true if character c is found, false otherwise
+	 */
+	bool containsCharacter(char c, const char array[], size_t length) const;
 
 };
 
