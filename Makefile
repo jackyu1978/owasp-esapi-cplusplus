@@ -63,22 +63,32 @@ CODECSRCS =	src/codecs/Codec.cpp \
 
 CRYPTOSRCS = src/crypto/KeyDerivationFunction.cpp
 
-LIBSRCS =	src/reference/DefaultEncoder.cpp \
-			src/errors/ValidationException.cpp \
-			src/reference/DefaultValidator.cpp \
-			src/EncoderConstants.cpp \
-			src/reference/validation/BaseValidationRule.cpp \
-			src/errors/EnterpriseSecurityException.cpp \
+ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
+            src/errors/ValidationException.cpp
+
+REFSRCS =   src/reference/DefaultEncoder.cpp \
+            src/reference/DefaultValidator.cpp \
+            src/reference/validation/BaseValidationRule.cpp
+
+LIBSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp \
 			$(CODECSRCS) \
-			$(CRYPTOSRCS)
+			$(CRYPTOSRCS) \
+            $(ERRSRCS) \
+            $(REFSRCS)
 
-TESTSRCS = 	test/codecs/CodecTest.cpp \
-			test/codecs/PushbackStringTest.cpp
+TESTSRCS = 	test/TestMain.cpp \
+            test/codecs/CodecTest.cpp \
+			test/codecs/PushbackStringTest.cpp \
+            test/crypto/KeyDerivationFunctionTest.cpp
 
-LIBOBJS =		$(LIBSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
 CRYPTOOBJS =	$(CRYPTOSRCS:.cpp=.o)
+ERROBJS =		$(ERRCSRCS:.cpp=.o)
+REFOBJS =		$(REFCSRCS:.cpp=.o)
+
+LIBOBJS =		$(LIBSRCS:.cpp=.o)
+
 TESTOBJS =		$(TESTSRCS:.cpp=.o)
 
 # OpenBSD needs the dash in ARFLAGS
@@ -86,12 +96,12 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-DYNAMIC_LIB =	lib/libesapi-c++.so
-STATIC_LIB =	lib/libesapi-c++.a
+DYNAMIC_LIB =	libesapi-c++.so
+STATIC_LIB =	libesapi-c++.a
 
-INCLUDES =	-I. -I./esapi -I/usr/local/include
+INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Llib
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
 LDLIBS +=	-lcryptopp
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
@@ -111,30 +121,38 @@ endif
 # endif
 
 $(DYNAMIC_LIB):	$(LIBOBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
 	
 $(STATIC_LIB): $(LIBOBJS)
-	$(AR) $(ARFLAGS) $@ $(LIBOBJS)
-	$(RANLIB) $@
+	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
+	$(RANLIB) lib/$@
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
 
 check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) # -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
-codec: $(CODECOBJS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CODECOBJS) $(LDFLAGS) $(LDLIBS)
+codec codecs: $(CODECSRCS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CODECSRCS)
 
 # Test compile crypto sources, no final link
-crypto: $(CRYPTOOBJS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CRYPTOSRCS) $(LDFLAGS) $(LDLIBS)
+crypto: $(CRYPTOSRCS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CRYPTOSRCS)
+
+# Test compile error sources, no final link
+err error: $(ERRSRCS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(ERRSRCS)
+
+# Test compile reference sources, no final link
+ref reference: $(REFSRCS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(REFSRCS)
 
 $(TESTTARGET): ;
 
 all: $(STATIC_LIB) $(DYNAMIC_LIB) test
 
 clean:
-	-rm -f $(LIBOBJS) $(STATIC_LIB) $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET).* *.dSYM *.core
+	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET).* *.dSYM *.core

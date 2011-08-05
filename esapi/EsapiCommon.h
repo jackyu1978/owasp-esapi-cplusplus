@@ -57,9 +57,9 @@
 # define ESAPI_OS_WINDOWS 1
 #elif defined(__APPLE__) || defined(__APPLE)
 # define ESAPI_OS_APPLE 1
-#elif defined(__linux) || defined(__linux)
+#elif defined(__linux__) || defined(__linux)
 # define ESAPI_OS_LINUX 1
-#elif defined(__unux) || defined(__unux)
+#elif defined(__unux__) || defined(__unux)
 # define ESAPI_OS_UNIX 1
 #endif
 
