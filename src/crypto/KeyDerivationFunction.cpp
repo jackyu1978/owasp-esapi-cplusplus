@@ -8,8 +8,8 @@
  * Copyright (c) 2011 - The OWASP Foundation
  */
 
-#include "esapi/crypto/KeyDerivationFunction.h"
-#include "deps/safeint/SafeInt3.hpp"
+#include "crypto/KeyDerivationFunction.h"
+#include "safeint/SafeInt3.hpp"
 
 #include <sstream>
 #include <algorithm>
@@ -201,7 +201,7 @@ esapi::SecretKey KeyDerivationFunction::computeDerivedKey(const esapi::SecretKey
 
       // Though we continually call TruncatedFinal, we are retrieving a
       // full block except for possibly the last block
-      hmac.TruncatedFinal(derived.BytePtr()+idx, derived.SizeInBytes()-idx);
+      hmac.TruncatedFinal(derived.BytePtr()+idx, req);
 
       idx += req;
       keySize -= req;        
