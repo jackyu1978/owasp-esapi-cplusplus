@@ -155,4 +155,4 @@ $(TESTTARGET): ;
 all: $(STATIC_LIB) $(DYNAMIC_LIB) test
 
 clean:
-	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET).* *.dSYM *.core
+	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM *.core
