@@ -58,6 +58,11 @@ ifneq ($(GCC46_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
 
+CODECSRCS =	src/codecs/Codec.cpp \
+			src/codecs/PushbackString.cpp
+
+CRYPTOSRCS = src/crypto/KeyDerivationFunction.cpp
+
 LIBSRCS =	src/reference/DefaultEncoder.cpp \
 			src/errors/ValidationException.cpp \
 			src/reference/DefaultValidator.cpp \
@@ -66,13 +71,16 @@ LIBSRCS =	src/reference/DefaultEncoder.cpp \
 			src/errors/EnterpriseSecurityException.cpp \
 			src/ValidationErrorList.cpp \
 			src/codecs/Codec.cpp \
-			src/codecs/PushbackString.cpp \
+			$(CODECSRCS) \
+			$(CRYPTOSRCS)
 
 TESTSRCS = 	test/codecs/CodecTest.cpp \
 			test/codecs/PushbackStringTest.cpp
 
-LIBOBJS =	$(LIBSRCS:.cpp=.o)
-TESTOBJS =	$(TESTSRCS:.cpp=.o)
+LIBOBJS =		$(LIBSRCS:.cpp=.o)
+CODECOBJS =		$(CODECSRCS:.cpp=.o)
+CRYPTOOBJS =	$(CRYPTOSRCS:.cpp=.o)
+TESTOBJS =		$(TESTSRCS:.cpp=.o)
 
 # OpenBSD needs the dash in ARFLAGS
 AR =		ar
@@ -116,6 +124,12 @@ $(STATIC_LIB): $(LIBOBJS)
 check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
 	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
+
+codec: $(CODECOBJS)
+	$(CXX) $(CXXFLAGS) $(CODECOBJS) -o $@ $(LDFLAGS) $(LDLIBS)
+
+crypto: $(CRYPTOOBJS) $(srcdir)/src/crypto/CryptoMain.cpp
+	$(CXX) $(CXXFLAGS) $(CRYPTOOBJS) -o $@ $(LDFLAGS) $(LDLIBS)
 
 $(TESTTARGET): ;
 

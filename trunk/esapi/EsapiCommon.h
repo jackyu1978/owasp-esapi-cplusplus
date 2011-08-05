@@ -96,4 +96,17 @@
 # endif
 #endif
 
+#ifdef ESAPI_DOXYGEN_PROCESSING
+// Avoid putting "esapi::" in front of everything in Doxygen output
+#	define esapi
+#	define NAMESPACE_BEGIN(x)
+#	define NAMESPACE_END
+// Get Doxygen to generate better documentation for these typedefs
+#	define DOCUMENTED_TYPEDEF(x, y) class y : public x {};
+#else
+#	define NAMESPACE_BEGIN(x) namespace x {
+#	define NAMESPACE_END }
+#	define DOCUMENTED_TYPEDEF(x, y) typedef x y;
+#endif
+
 #endif // __INCLUDED_ESAPI_COMMON__
