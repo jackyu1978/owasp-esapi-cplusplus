@@ -70,7 +70,6 @@ LIBSRCS =	src/reference/DefaultEncoder.cpp \
 			src/reference/validation/BaseValidationRule.cpp \
 			src/errors/EnterpriseSecurityException.cpp \
 			src/ValidationErrorList.cpp \
-			src/codecs/Codec.cpp \
 			$(CODECSRCS) \
 			$(CRYPTOSRCS)
 
@@ -122,14 +121,16 @@ $(STATIC_LIB): $(LIBOBJS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
 
 check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) -lboost_filesystem -lboost_unit_test_framework
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
 
+# Test compile codec sources, no final link
 codec: $(CODECOBJS)
-	$(CXX) $(CXXFLAGS) $(CODECOBJS) -o $@ $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CODECOBJS) $(LDFLAGS) $(LDLIBS)
 
-crypto: $(CRYPTOOBJS) $(srcdir)/src/crypto/CryptoMain.cpp
-	$(CXX) $(CXXFLAGS) $(CRYPTOOBJS) -o $@ $(LDFLAGS) $(LDLIBS)
+# Test compile crypto sources, no final link
+crypto: $(CRYPTOOBJS)
+	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CRYPTOSRCS) $(LDFLAGS) $(LDLIBS)
 
 $(TESTTARGET): ;
 
