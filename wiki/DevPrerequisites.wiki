@@ -23,7 +23,7 @@ $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 == Boost ==
 
 <pre># Debian and friends
-$ sudo apt-get install libboost-dbg libboost-dev libboost-test-dev</pre>
+$ sudo apt-get install libboost-dbg libboost-dev libboost-filesystem-dev libboost-test-dev</pre>
 
 <pre># Fedora and friends
 > su -
