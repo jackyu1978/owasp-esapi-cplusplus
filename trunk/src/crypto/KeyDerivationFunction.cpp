@@ -8,7 +8,7 @@
  * Copyright (c) 2011 - The OWASP Foundation
  */
 
-#include "esapi/crypto/KeyDerivationFunction.hpp"
+#include "esapi/crypto/KeyDerivationFunction.h"
 #include "deps/safeint/SafeInt3.hpp"
 
 #include <sstream>
