@@ -4,13 +4,12 @@
 
 The following is the output of `uname -a` and `cpp -dM < /dev/null | sort`.
 
-== Cygwin ==
+== Cygwin (XP, x86) ==
 
 <pre>jeffrey@descartes ~
 $ uname -a
-CYGWIN_NT-5.1 descartes 1.7.7(0.230/5/3) 2010-08-31 09:58 i686 Cygwin
-
-jeffrey@descartes ~
+CYGWIN_NT-5.1 descartes 1.7.7(0.230/5/3) 2010-08-31 09:58 i686 Cygwin</pre>
+<pre>jeffrey@descartes ~
 $ cpp -dM < /dev/null | sort
 #define _X86_ 1
 #define __CHAR_BIT__ 8
