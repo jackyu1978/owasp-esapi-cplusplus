@@ -20,6 +20,11 @@
 
 #pragma once
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <signal.h>
+
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
 # error Both DEBUG and NDEBUG are defined.
