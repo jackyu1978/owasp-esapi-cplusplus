@@ -22,29 +22,29 @@
 #include <string>
 
 namespace esapi {
-/**
- * The pushback string is used by Codecs to allow them to push decoded characters back onto a string
- * for further decoding. This is necessary to detect double-encoding.
- *
- * @author Jeff Williams (jeff.williams .at. aspectsecurity.com) <a
- *         href="http://www.aspectsecurity.com">Aspect Security</a>
- * @author Dan Amodio (dan.amodio@aspectsecurity.com)
- * @since June 1, 2007
- * @see org.owasp.esapi.Encoder
- */
-class PushbackString {
+  /**
+   * The pushback string is used by Codecs to allow them to push decoded characters back onto a string
+   * for further decoding. This is necessary to detect double-encoding.
+   *
+   * @author Jeff Williams (jeff.williams .at. aspectsecurity.com) <a
+   *         href="http://www.aspectsecurity.com">Aspect Security</a>
+   * @author Dan Amodio (dan.amodio@aspectsecurity.com)
+   * @since June 1, 2007
+   * @see org.owasp.esapi.Encoder
+   */
+  class PushbackString {
 
-private:
-	std::string input;
+  private:
+    std::string input;
 
-	// Conceptually, `marking` a PushbackString does not change the string.
-	// Hence the use of mutable, so mark() can change `varTemp` and `varMark`.
-	char varPushback;
-	mutable char varTemp;
-	size_t varIndex;
-	mutable size_t varMark;
+    // Conceptually, `marking` a PushbackString does not change the string.
+    // Hence the use of mutable, so mark() can change `varTemp` and `varMark`.
+    char varPushback;
+    mutable char varTemp;
+    size_t varIndex;
+    mutable size_t varMark;
 
-public:
+  public:
     /**
      *
      * @param input
@@ -57,9 +57,9 @@ public:
      */
     void pushback( char );
 
-	/*
-	 * Get the current index of the PushbackString. Typically used in error messages.
-	 *
+    /*
+     * Get the current index of the PushbackString. Typically used in error messages.
+     *
      * @return size_t
      */
     size_t index() const;
@@ -95,7 +95,7 @@ public:
      */
     static bool isHexDigit( char );
 
-     /**
+    /**
      * Returns true if the parameter character is an octal digit 0 through 7.
      * @param c
      * @return
@@ -125,14 +125,14 @@ public:
      */
     void reset();
 
-protected:
+  protected:
     /**
      *
      * @return
      */
     std::string remainder();
 
-};
+  };
 
 }; /* esapi namespace */
 
