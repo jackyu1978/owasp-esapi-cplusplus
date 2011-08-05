@@ -85,6 +85,10 @@ esapi::SecretKey KeyDerivationFunction::computeDerivedKey(const esapi::SecretKey
     }
   */
 
+  // Consistency with Java implementation. This class needs to wire-up a context.
+  const std::string& label = purpose;
+  const std::string context;
+
   // Note that keyDerivationKey is going to be some SecretKey like an AES or
   // DESede key, but not an HmacSHA1 key. That means it is not likely
   // going to be 20 bytes but something different. Experiments show
@@ -174,9 +178,6 @@ esapi::SecretKey KeyDerivationFunction::computeDerivedKey(const esapi::SecretKey
   }
   tmpKey = null;  // Make it immediately eligible for GC.
   */
-        
-  // Convert it back into a SecretKey of the appropriate type.
-  // return new SecretKeySpec(derivedKey, keyDerivationKey.getAlgorithm());
 
   // Returned to caller
   SecretKey derived(keySize);
@@ -194,17 +195,20 @@ esapi::SecretKey KeyDerivationFunction::computeDerivedKey(const esapi::SecretKey
       CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.SizeInBytes());
 
       hmac.Update(i, sizeof(i));
-      hmac.Update((const byte*)purpose.data(), purpose.size());
+      hmac.Update((const byte*)label.data(), label.size());
       hmac.Update(&nil, sizeof(nil));
-      // hmac.Update(context, sizeof(context));
+      hmac.Update((const byte*)context.data(), context.size());
 
-      // While we continually call TruncatedFinal, we are retrieving a
+      // Though we continually call TruncatedFinal, we are retrieving a
       // full block except for possibly the last block
       hmac.TruncatedFinal(derived.BytePtr()+idx, derived.SizeInBytes()-idx);
 
       idx += req;
       keySize -= req;        
     }
+
+  // Convert it back into a SecretKey of the appropriate type.
+  // return new SecretKeySpec(derivedKey, keyDerivationKey.getAlgorithm());
 
   return derived;
 }
