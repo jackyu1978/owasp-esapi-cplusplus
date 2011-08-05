@@ -120,6 +120,8 @@ endif
 #   CXX = c++
 # endif
 
+# If you are missing libcrypto++ or libcryptopp, see
+# https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
 	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
 	
@@ -130,8 +132,10 @@ $(STATIC_LIB): $(LIBOBJS)
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
 
+# If you are missing libboost-filesystem or libboost_unit_test_framework, see
+# https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) # -lboost_filesystem -lboost_unit_test_framework
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
