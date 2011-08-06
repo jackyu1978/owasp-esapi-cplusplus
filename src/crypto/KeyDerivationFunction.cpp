@@ -53,23 +53,23 @@ namespace esapi
 
     if(!(keySize >= 56))
       {
-	std::ostringstream oss;
-	oss << "KeyDerivationFunction: key has size of " << keySize << ", which is less than minimum of 56-bits.";
-	throw std::invalid_argument(oss.str());
+        std::ostringstream oss;
+        oss << "KeyDerivationFunction: key has size of " << keySize << ", which is less than minimum of 56-bits.";
+        throw std::invalid_argument(oss.str());
       }
 
     if(!((keySize % 8) == 0))
       {
-	std::ostringstream oss;
-	oss << "KeyDerivationFunction: key size (" << keySize << ") must be a even multiple of 8-bits.";
-	throw std::invalid_argument(oss.str());
+        std::ostringstream oss;
+        oss << "KeyDerivationFunction: key size (" << keySize << ") must be a even multiple of 8-bits.";
+        throw std::invalid_argument(oss.str());
       }
 
     if(purpose.empty())
       {
-	std::ostringstream oss;
-	oss << "Purpose may not be null or empty.";
-	throw std::invalid_argument(oss.str());
+        std::ostringstream oss;
+        oss << "Purpose \'" << purpose << "\' is null, empty, or not valid. Purpose should be either \'authenticity\' or \'encryption\'.";
+        throw std::invalid_argument(oss.str());
       }
 
     keySize = calcKeySize( keySize );
@@ -191,23 +191,23 @@ namespace esapi
 
     while(keySize)
       {
-	const unsigned int req = std::min((unsigned int)CryptoPP::SHA1::DIGESTSIZE, keySize);
-	const byte i[4] = { (ctr >> 24 && 0xff), (ctr >> 16 && 0xff), (ctr >> 8 && 0xff), (ctr && 0xff) };
-	const byte nil = '\0';
+        const unsigned int req = std::min((unsigned int)CryptoPP::SHA1::DIGESTSIZE, keySize);
+        const byte i[4] = { (ctr >> 24 && 0xff), (ctr >> 16 && 0xff), (ctr >> 8 && 0xff), (ctr && 0xff) };
+        const byte nil = '\0';
 
-	CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.SizeInBytes());
+        CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.SizeInBytes());
 
-	hmac.Update(i, sizeof(i));
-	hmac.Update((const byte*)label.data(), label.size());
-	hmac.Update(&nil, sizeof(nil));
-	hmac.Update((const byte*)context.data(), context.size());
+        hmac.Update(i, sizeof(i));
+        hmac.Update((const byte*)label.data(), label.size());
+        hmac.Update(&nil, sizeof(nil));
+        hmac.Update((const byte*)context.data(), context.size());
 
-	// Though we continually call TruncatedFinal, we are retrieving a
-	// full block except for possibly the last block
-	hmac.TruncatedFinal(derived.BytePtr()+idx, req);
+        // Though we continually call TruncatedFinal, we are retrieving a
+        // full block except for possibly the last block
+        hmac.TruncatedFinal(derived.BytePtr()+idx, req);
 
-	idx += req;
-	keySize -= req;        
+        idx += req;
+        keySize -= req;        
       }
 
     // Convert it back into a SecretKey of the appropriate type.
