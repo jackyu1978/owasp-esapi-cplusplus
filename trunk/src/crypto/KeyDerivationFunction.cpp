@@ -8,7 +8,9 @@
  * Copyright (c) 2011 - The OWASP Foundation
  */
 
+#include "EsapiCommon.h"
 #include "crypto/KeyDerivationFunction.h"
+#include "crypto/SecretKey.h"
 #include "safeint/SafeInt3.hpp"
 
 #include <sstream>
@@ -43,7 +45,7 @@ namespace esapi
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
-    ASSERT( keyDerivationKey.size()  > 0 );
+    ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
     ASSERT( keySize >= 56 ); // "Key has size of " + keySize + ", which is less than minimum of 56-bits.";
     ASSERT( (keySize % 8) == 0 ); // "Key size (" + keySize + ") must be a even multiple of 8-bits.";
     ASSERT( /*purpose != null &&*/ !purpose.empty()); // : "Purpose may not be null or empty.";
@@ -181,7 +183,7 @@ namespace esapi
     */
 
     // Returned to caller
-    SecretKey derived(keySize);
+    esapi::SecretKey derived(keySize);
 
     // Counter
     unsigned int ctr = 1;
