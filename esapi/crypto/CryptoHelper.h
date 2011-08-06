@@ -12,6 +12,8 @@
  */
 
 #include "EsapiCommon.h"
+#include "crypto/PlainText.h"
+#include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 
 #include <string>
@@ -26,9 +28,6 @@
  */
 namespace esapi
 {
-  typedef std::string PlainText;
-  typedef std::string CipherText;
-
   class CryptoHelper
   {
     public:
