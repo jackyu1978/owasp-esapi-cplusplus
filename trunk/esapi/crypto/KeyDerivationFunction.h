@@ -80,7 +80,7 @@ namespace esapi
      * for it is usually in rt.jar.) * @throws InvalidKeyException Likely indicates a coding error. Should not happen.
      * @throws EncryptionException Throw for some precondition violations.
      */
-    static SecretKey computeDerivedKey(const esapi::SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
+    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
 
     /**
      * Check if specified algorithm name is a valid PRF that can be used.
@@ -101,6 +101,9 @@ namespace esapi
      * {@code ks} bits.
      */
     static unsigned int calcKeySize(unsigned int keyBits);
+
+    private:
+      KeyDerivationFunction() { /* No instantiation */ };
   };
 
 }; // NAMESPACE esapi
