@@ -64,6 +64,7 @@ CODECSRCS =	src/codecs/Codec.cpp \
 CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/PlainText.cpp \
 			src/crypto/SecretKey.cpp \
+			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/KeyDerivationFunction.cpp
 
@@ -87,6 +88,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
+			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp
 
