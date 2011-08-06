@@ -101,4 +101,9 @@
 # endif
 #endif
 
+// So common, don't put it in a namespace
+#if !defined(byte)
+typedef unsigned char byte;
+#endif
+
 #endif // __INCLUDED_ESAPI_COMMON__

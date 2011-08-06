@@ -61,7 +61,8 @@ endif
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp
 
-CRYPTOSRCS = src/crypto/KeyDerivationFunction.cpp
+CRYPTOSRCS = src/crypto/SecretKey.cpp \
+            src/crypto/KeyDerivationFunction.cpp
 
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
             src/errors/ValidationException.cpp

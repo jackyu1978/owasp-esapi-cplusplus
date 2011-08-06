@@ -8,6 +8,7 @@
  */
 
 #include "EsapiCommon.h"
+#include <crypto/SecretKey.h>
 #include <cryptopp/secblock.h>
 
 /**
@@ -30,8 +31,6 @@
 
 namespace esapi
 {
-  typedef CryptoPP::SecByteBlock SecretKey;
-
   class KeyDerivationFunction
   {
   public:
@@ -81,7 +80,7 @@ namespace esapi
      * for it is usually in rt.jar.) * @throws InvalidKeyException Likely indicates a coding error. Should not happen.
      * @throws EncryptionException Throw for some precondition violations.
      */
-    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
+    static SecretKey computeDerivedKey(const esapi::SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
 
     /**
      * Check if specified algorithm name is a valid PRF that can be used.
