@@ -22,6 +22,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstddef>
 #include <cstring>
 #include <signal.h>
 
@@ -111,6 +112,11 @@
 // So common, don't put it in a namespace
 #if !defined(byte)
 typedef unsigned char byte;
+#endif
+
+// C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
+#if !defined(nullptr)
+# define nullptr NULL
 #endif
 
 #endif // __INCLUDED_ESAPI_COMMON__
