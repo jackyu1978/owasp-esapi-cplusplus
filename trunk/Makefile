@@ -61,7 +61,9 @@ endif
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp
 
-CRYPTOSRCS = src/crypto/SecretKey.cpp \
+CRYPTOSRCS = src/crypto/PlainText.cpp \
+			src/crypto/PlainText.cpp \
+			src/crypto/SecretKey.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/KeyDerivationFunction.cpp
 
@@ -82,6 +84,8 @@ LIBSRCS =	src/EncoderConstants.cpp \
 TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/CodecTest.cpp \
 			test/codecs/PushbackStringTest.cpp \
+			test/crypto/PlainTextTest.cpp \
+			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp
