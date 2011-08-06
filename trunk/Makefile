@@ -62,26 +62,26 @@ CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp
 
 CRYPTOSRCS = src/crypto/SecretKey.cpp \
-            src/crypto/KeyDerivationFunction.cpp
+			src/crypto/KeyDerivationFunction.cpp
 
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
-            src/errors/ValidationException.cpp
+			src/errors/ValidationException.cpp
 
 REFSRCS =   src/reference/DefaultEncoder.cpp \
-            src/reference/DefaultValidator.cpp \
-            src/reference/validation/BaseValidationRule.cpp
+			src/reference/DefaultValidator.cpp \
+			src/reference/validation/BaseValidationRule.cpp
 
 LIBSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp \
 			$(CODECSRCS) \
 			$(CRYPTOSRCS) \
-            $(ERRSRCS) \
-            $(REFSRCS)
+			$(ERRSRCS) \
+			$(REFSRCS)
 
 TESTSRCS = 	test/TestMain.cpp \
-            test/codecs/CodecTest.cpp \
+			test/codecs/CodecTest.cpp \
 			test/codecs/PushbackStringTest.cpp \
-            test/crypto/KeyDerivationFunctionTest.cpp
+			test/crypto/KeyDerivationFunctionTest.cpp
 
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
 CRYPTOOBJS =	$(CRYPTOSRCS:.cpp=.o)
