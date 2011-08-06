@@ -143,20 +143,16 @@ check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
-codec codecs: $(CODECSRCS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CODECSRCS)
+codec codecs: $(CODECOBJS)
 
 # Test compile crypto sources, no final link
-crypto: $(CRYPTOSRCS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(CRYPTOSRCS)
+crypto: $(CRYPTOOBJS)
 
 # Test compile error sources, no final link
-err error: $(ERRSRCS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(ERRSRCS)
+err error: $(ERROBJS)
 
 # Test compile reference sources, no final link
-ref reference: $(REFSRCS)
-	$(CXX) $(CXXFLAGS) -c $(INCLUDES) $(REFSRCS)
+ref reference: $(REFOBJS)
 
 $(TESTTARGET): ;
 
