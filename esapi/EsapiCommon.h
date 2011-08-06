@@ -30,7 +30,7 @@
 # error Both DEBUG and NDEBUG are defined.
 #endif
 
-// The only time we switch to debug is when asked. NDEBUG or {nothing} result in release build (fewer surprises at runtime).
+// The only time we switch to debug is when asked. NDEBUG or {nothing} results in release build (fewer surprises at runtime).
 #if defined(DEBUG) || defined(_DEBUG)
 # define ESAPI_BUILD_DEBUG 1
 #else
@@ -79,11 +79,18 @@
 # define ESAPI_CXX_GCC 1
 #endif
 
+// And perhaps an environment
+#if defined(CYGWIN) || defined(CYGWIN32)
+# define ESAPI_ENV_CYGWIN 1
+#elif defined(MINGW) || defined(MINGW32)
+# define ESAPI_ENV_MINGW 1
+#endif
+
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather than calling abort().
 // strrchr() gives the filename rather than the entire path. Useful when examining negative test cases under a debugger!
-#if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)
+#if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX) && !defined(ESAPI_BUILD_TEST)
 #  define ESAPI_ASSERT(exp) { if(!(exp)) { fprintf(stderr, "Assertion failed: %s (%d): %s\n", (strrchr(__FILE__, '/')+1), __LINE__, __func__); raise(SIGTRAP); } }
-#elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)
+#elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_BUILD_TEST)
 #  define ESAPI_ASSERT(exp) assert(exp)
 #else
 #  define ESAPI_ASSERT(exp) ((void)(exp))
