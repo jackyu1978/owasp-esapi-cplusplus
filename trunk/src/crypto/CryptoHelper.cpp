@@ -27,7 +27,7 @@ namespace esapi
 	//		 in this file as well??? Maybe save for ESAPI 2.1 or 3.0.
 
 	// Tames the optimizer
-	static volatile void* g_zeroizer = NULL;
+	static volatile void* g_dummy = NULL;
 
 	/**
 	 * Generate a random secret key appropriate to the specified cipher algorithm
@@ -216,13 +216,13 @@ namespace esapi
 
 		// Will throw if ptr wraps. T* and size_t causing trouble on Linux
 		SafeInt<size_t> si((size_t)bytes); si += size;
-		g_zeroizer = (void*)(size_t)si;
+		g_dummy = (void*)(size_t)si;
 
 		for(size_t i = 0; i < size; i++)
 			bytes[i] = x;
 
 		// Tame the otpimizer
-		g_zeroizer = bytes;
+		g_dummy = bytes;
 	}
 
 	/**
@@ -270,9 +270,9 @@ namespace esapi
 
 		// Will throw if ptr wraps. T* and size_t causing trouble on Linux
 		SafeInt<size_t> ssi((size_t)src); ssi += srcSize;
-		g_zeroizer = (void*)(size_t)ssi;
+		g_dummy = (void*)(size_t)ssi;
 		SafeInt<size_t> dsi((size_t)dest); dsi += destSize;
-		g_zeroizer = (void*)(size_t)dsi;
+		g_dummy = (void*)(size_t)dsi;
 
 		const size_t req = std::min(copySize, std::min(srcSize, destSize));
 		ASSERT(req > 0);
@@ -324,9 +324,9 @@ namespace esapi
 
 		// Will throw if ptr wraps. T* and size_t causing trouble on Linux
 		SafeInt<size_t> si1((size_t)b1); si1 += s1;
-		g_zeroizer = (void*)(size_t)si1;
+		g_dummy = (void*)(size_t)si1;
 		SafeInt<size_t> si2((size_t)b2); si2 += s2;
-		g_zeroizer = (void*)(size_t)si2;
+		g_dummy = (void*)(size_t)si2;
 
 		// These early out break the contract regarding timing.
 		// https://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=5
