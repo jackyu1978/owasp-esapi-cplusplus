@@ -13,6 +13,9 @@
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 
+#include <cryptopp/hex.h>
+#include <cryptopp/filters.h>
+
 namespace esapi
 {
   SecretKey::SecretKey(size_t size)
@@ -53,6 +56,21 @@ namespace esapi
   const byte* SecretKey::BytePtr() const
   {
     return secBlock.BytePtr();
+  }
+
+  bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.secBlock == rhs.secBlock; }
+  bool operator!=(const SecretKey& lhs, const SecretKey& rhs)  { return lhs.secBlock != rhs.secBlock; }
+    
+  std::ostream& operator<<(std::ostream& os, const SecretKey& rhs)
+  {
+    // Using an insecure 'hex' string (it does not zeroize). We could switch to a
+    // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
+    std::string hex;
+    CryptoPP::ArraySource(rhs.BytePtr(), rhs.SizeInBytes(), true, /* don't buffer */
+      new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+    );
+
+    return (os << hex);
   }
 
 }; // NAMESPACE espai
