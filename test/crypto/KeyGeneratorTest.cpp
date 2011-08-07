@@ -33,6 +33,8 @@ void VerifyWhirlpoolKeyGenerator();
 void VerifyHmacShaKeyGenerator();
 void VerifyHmacWhirlpoolKeyGenerator();
 
+void VerifyArc4KeyGenerator();
+
 void VerifyKey(auto_ptr<KeyGenerator>& kgen, size_t bytes);
 
 void VerifyKeyGenerator()
@@ -47,6 +49,8 @@ void VerifyKeyGenerator()
 
     VerifyHmacShaKeyGenerator();
     VerifyHmacWhirlpoolKeyGenerator();
+
+    VerifyArc4KeyGenerator();
 }
 
 void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
@@ -453,7 +457,7 @@ void VerifyWhirlpoolKeyGenerator()
 
 void VerifyHmacShaKeyGenerator()
 {
-string alg;
+	string alg;
 
     ///////////////////////////////////////////////////////////////////////
 
@@ -539,6 +543,23 @@ string alg;
 void VerifyHmacWhirlpoolKeyGenerator()
 {
     string alg = "HmacWhirlpool";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+}
+
+void VerifyArc4KeyGenerator()
+{
+    string alg = "ArcFour";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
