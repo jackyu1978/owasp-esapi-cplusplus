@@ -38,12 +38,14 @@ void VerifyKeyGenerator()
     VerifyBlowfishKeyGenerator();
     VerifyCamelliaKeyGenerator();
 
-	VerifyShaKeyGenerator();
-	VerifyWhirlpoolKeyGenerator();
+    VerifyShaKeyGenerator();
+    VerifyWhirlpoolKeyGenerator();
 }
 
 void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
 {
+    // #define DUMP_KEYS 1
+
     SecretKey k1 = kgen->generateKey();
     if(k1.SizeInBytes() < bytes)
       cerr << "  Key 1 is too small: " << k1 << endl;
@@ -52,8 +54,16 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
     if(k2.SizeInBytes() < bytes)
       cerr << "  Key 2 is too small: " << k2 << endl;
 
+    #if defined(DUMP_KEYS)
+      cout << " " << k1 << endl;
+    #endif
+
     if(k1 == k2)
        cerr << "  Key 1 equals key 2: " << k1 << endl;
+
+    #if defined(DUMP_KEYS)
+      cout << " " << k2 << endl;
+    #endif
 }
 
 void VerifyAesKeyGenerator()
@@ -65,64 +75,64 @@ void VerifyAesKeyGenerator()
     alg = "aes";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
-
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+    
     ///////////////////////////////////////////////////////////////////////
 
     alg = "aes/CBC";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "aes\\cfb";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "aes/OFB";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyCamelliaKeyGenerator()
@@ -134,64 +144,64 @@ void VerifyCamelliaKeyGenerator()
     alg = "CameLLia";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "CameLLia/CBC";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "CameLLia\\cfb";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "CameLLia/OFB";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyDesEdeKeyGenerator()
@@ -203,64 +213,64 @@ void VerifyDesEdeKeyGenerator()
     alg = "DeSEdE";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "DeSEdE/CBC";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "DeSEdE\\cfb";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "DeSEdE/OFB";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyBlowfishKeyGenerator()
@@ -272,64 +282,64 @@ void VerifyBlowfishKeyGenerator()
     alg = "BlowFISH";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "BlowFISH/CBC";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "BlowFISH\\cfb";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
     alg = "BlowFISH/OFB";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyShaKeyGenerator()
@@ -338,83 +348,83 @@ void VerifyShaKeyGenerator()
 
     ///////////////////////////////////////////////////////////////////////
 
-	alg = "SHA1";
+    alg = "SHA1";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
-	alg = "SHA224";
+    alg = "SHA224";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
-	alg = "SHA256";
+    alg = "SHA256";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
-	alg = "SHA384";
+    alg = "SHA384";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 
     ///////////////////////////////////////////////////////////////////////
 
-	alg = "SHA512";
+    alg = "SHA512";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyWhirlpoolKeyGenerator()
@@ -422,15 +432,15 @@ void VerifyWhirlpoolKeyGenerator()
     string alg = "Whirlpool";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-	{
-		auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
-		const unsigned int bits = KEY_SIZES[i];
-		const unsigned int bytes = (bits+7)/8;
-		kg->init(bits);
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
 
-		cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
-		VerifyKeyGeneration(kg, bytes);
-	}
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
