@@ -184,7 +184,7 @@ namespace esapi
       hasher.TruncatedFinal(hash.BytePtr(), req);
 
       // Copy out to key
-      std::memcpy(key.BytePtr()+idx, hash.BytePtr(), req);
+      std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
 
       // Book keeping
       idx += req;
