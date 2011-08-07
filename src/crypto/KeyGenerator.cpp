@@ -88,7 +88,7 @@ namespace esapi
   }
 
   template <class CIPHER, template <class CIPHER> class MODE>
-  esapi::SecretKey BlockCipherGenerator<CIPHER, MODE>::generateKey()
+  SecretKey BlockCipherGenerator<CIPHER, MODE>::generateKey()
   {
     if(m_encryptor.IsResynchronizable())
     {
@@ -154,7 +154,7 @@ namespace esapi
   }
 
   template <class HASH>
-  esapi::SecretKey HashGenerator<HASH>::generateKey()
+  SecretKey HashGenerator<HASH>::generateKey()
   {
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
 

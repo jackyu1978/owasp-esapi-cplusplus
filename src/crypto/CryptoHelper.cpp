@@ -40,7 +40,7 @@ namespace esapi
      * @param keyBits    The key size, in bits.
      * @return           A random {@code SecretKey} is returned.
      */
-    esapi::SecretKey CryptoHelper::generateSecretKey(const std::string& alg, unsigned int keyBits)
+    SecretKey CryptoHelper::generateSecretKey(const std::string& alg, unsigned int keyBits)
     {
         ASSERT( !alg.empty() );
         ASSERT( keyBits >= 56 );
@@ -88,7 +88,7 @@ namespace esapi
      * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
      *                ESAPI release 2.1 so if you are using this, please change your code.
      */
-    esapi::SecretKey CryptoHelper::computeDerivedKey(const esapi::SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
+    SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
     {
         // Shamelessly ripped from KeyDerivationFunction.cpp
         ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
@@ -96,7 +96,7 @@ namespace esapi
         ASSERT( (keyBits % 8) == 0 );
         ASSERT( purpose == "authenticity" || purpose == "encryption" );
 
-        return esapi::KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keyBits, purpose);
+        return KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keyBits, purpose);
     }
 
     /**
@@ -157,7 +157,7 @@ namespace esapi
      *                      it requires a MAC.
      * @returns             True if a MAC is required, false if it is not required.
      */
-    bool CryptoHelper::isMACRequired(const esapi::CipherText& cipherText)
+    bool CryptoHelper::isMACRequired(const CipherText& cipherText)
     {
         ASSERT(!cipherText.empty());
 
@@ -181,7 +181,7 @@ namespace esapi
      *          {@code SecretKey} or a MAC is not required. False is returned
      *          otherwise.
      */
-    bool CryptoHelper::isCipherTextMACvalid(const esapi::SecretKey& secretKey, const esapi::CipherText& cipherText)
+    bool CryptoHelper::isCipherTextMACvalid(const SecretKey& secretKey, const CipherText& cipherText)
     {
         ASSERT(secretKey.SizeInBytes() > 0);
         ASSERT(!cipherText.empty());
@@ -320,7 +320,7 @@ namespace esapi
         SafeInt<size_t> si2((size_t)b2); si2 += s2;
         g_dummy = (void*)(size_t)si2;
 
-        // These early out break the contract regarding timing.
+        // These early outs break the contract regarding timing.
         // https://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=5
 
         if ( b1 == b2 ) {
