@@ -138,6 +138,33 @@ namespace esapi
 
   }; // HmacGenerator
 
+  ////////////////////////// Stream Ciphers ////////////////////////
+
+  template <class SS>
+  class StreamCipherGenerator : public KeyGenerator
+  {
+    // Base class needs access to protected CreateInstance in derived class
+    friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+
+    public:
+      static KeyGenerator* getInstance(const std::string& algorithm);
+
+      virtual void init(unsigned int keyBits);
+
+      virtual SecretKey generateKey();
+
+      // Return the algorithm name (eg, SHA-1)
+      virtual std::string algorithm() const;
+
+    protected:
+      // Called by base class KeyGenerator::getInstance
+      static KeyGenerator* CreateInstance(const std::string& algorithm);
+
+      // Sad, but true. The hash does not cough up its name
+      StreamCipherGenerator(const std::string& algorithm);
+
+  }; // StreamCipherGenerator
+
 }; // NAMESPACE esapi
 
 #endif // __INCLUDED_KEY_ENCRYPTOR__

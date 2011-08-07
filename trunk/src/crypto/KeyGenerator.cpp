@@ -28,11 +28,15 @@
 #include <cryptopp/hmac.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/modes.h>
+#include <cryptopp/salsa.h>
 #include <cryptopp/blowfish.h>
 #include <cryptopp/camellia.h>
 #include <cryptopp/whrlpool.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/secblock.h>
+
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
+#include <cryptopp/arc4.h>
 
 /**
  * This class implements functionality similar to Java's KeyGenerator for consistency
@@ -271,6 +275,55 @@ namespace esapi
     return key;
   }
 
+  ////////////////////////// Hashes //////////////////////////
+
+  template <class SS>
+  void StreamCipherGenerator<SS>::init(unsigned int keyBits)
+  {
+    m_keyBits = keyBits; 
+  }
+
+  template <class SS>
+  std::string StreamCipherGenerator<SS>::algorithm() const
+  {
+    return m_algorithm;
+  }
+
+  // Sad, but true. CIPER does not cough up its name
+  template <class SS>
+  StreamCipherGenerator<SS>::StreamCipherGenerator(const std::string& algorithm)
+  {
+    // Not sure why initialization is not working here...
+    m_algorithm = algorithm;
+  }
+
+  // Called by base class KeyGenerator::getInstance
+  template <class SS>
+  KeyGenerator* StreamCipherGenerator<SS>::CreateInstance(const std::string& algorithm)
+  {
+    return new StreamCipherGenerator<SS>(algorithm);
+  }
+
+  template <class SS>
+  SecretKey StreamCipherGenerator<SS>::generateKey()
+  {
+    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+
+    // Returned to caller
+    SecretKey key(keyBytes);
+    
+    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
+    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
+    prng.GenerateBlock(key.BytePtr(), key.SizeInBytes());
+
+    // Crypto++ discards bytes from the key stream in the case of RC4. See
+    // http://www.cryptopp.com/docs/ref/arc4_8cpp_source.html, line 50.
+    SS stream(key.BytePtr(), key.SizeInBytes());
+    stream.ProcessString(key.BytePtr(), key.SizeInBytes());
+
+    return key;
+  }
+
   ///////////////////////////////////////////////////////////////////////////////////
 
   const std::string KeyGenerator::DefaultAlgorithm = "AES/OFB";
@@ -403,6 +456,15 @@ namespace esapi
 
     if(alg == "hmacwhirlpool")
       return HmacGenerator<CryptoPP::Whirlpool>::CreateInstance("HmacWhirlpool");
+
+    ////////////////////////////// Stream Ciphers //////////////////////////////
+
+#if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
+    if(alg == "arcfour")
+      return StreamCipherGenerator<CryptoPP::Weak::ARC4>::CreateInstance(name);
+#endif
+
+    ///////////////////////////////// Catch All /////////////////////////////////
 
     std::ostringstream oss;
     oss << "Algorithm specification \'" << algorithm << "\' is not supported.";
