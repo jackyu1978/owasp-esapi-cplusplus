@@ -387,22 +387,22 @@ namespace esapi
     ////////////////////////////////// HMACs //////////////////////////////////
 
     if(alg == "hmacsha-1" || alg == "hmacsha1" || alg == "hmacsha")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA1");
+      return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA1");
 
     if(alg == "hmacsha-224" || alg == "hmacsha224")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA224");
+      return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA224");
 
     if(alg == "hmacsha-256" || alg == "hmacsha256")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA256");
+      return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA256");
 
     if(alg == "hmacsha-384" || alg == "hmacsha384")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA384");
+      return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA384");
 
     if(alg == "hmacsha-512" || alg == "hmacsha512")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA512");
+      return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA512");
 
     if(alg == "hmacwhirlpool")
-      return HashGenerator<CryptoPP::Whirlpool>::CreateInstance("HmacWhirlpool");
+      return HmacGenerator<CryptoPP::Whirlpool>::CreateInstance("HmacWhirlpool");
 
     std::ostringstream oss;
     oss << "Algorithm specification \'" << algorithm << "\' is not supported.";
