@@ -29,6 +29,10 @@ void VerifyCamelliaKeyGenerator();
 void VerifyShaKeyGenerator();
 void VerifyWhirlpoolKeyGenerator();
 
+// HMACs
+void VerifyHmacShaKeyGenerator();
+void VerifyHmacWhirlpoolKeyGenerator();
+
 void VerifyKey(auto_ptr<KeyGenerator>& kgen, size_t bytes);
 
 void VerifyKeyGenerator()
@@ -40,6 +44,9 @@ void VerifyKeyGenerator()
 
     VerifyShaKeyGenerator();
     VerifyWhirlpoolKeyGenerator();
+
+    VerifyHmacShaKeyGenerator();
+    VerifyHmacWhirlpoolKeyGenerator();
 }
 
 void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
@@ -430,6 +437,108 @@ void VerifyShaKeyGenerator()
 void VerifyWhirlpoolKeyGenerator()
 {
     string alg = "Whirlpool";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+}
+
+void VerifyHmacShaKeyGenerator()
+{
+string alg;
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "HmacSHA1";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "HmacSHA224";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "HmacSHA256";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "HmacSHA384";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "HmacSHA512";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        VerifyKeyGeneration(kg, bytes);
+    }
+}
+
+void VerifyHmacWhirlpoolKeyGenerator()
+{
+    string alg = "HmacWhirlpool";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {

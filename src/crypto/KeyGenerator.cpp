@@ -24,12 +24,13 @@
 
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
+#include <cryptopp/sha.h>
+#include <cryptopp/hmac.h>
+#include <cryptopp/osrng.h>
+#include <cryptopp/modes.h>
 #include <cryptopp/blowfish.h>
 #include <cryptopp/camellia.h>
-#include <cryptopp/modes.h>
-#include <cryptopp/sha.h>
 #include <cryptopp/whrlpool.h>
-#include <cryptopp/osrng.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/secblock.h>
 
@@ -126,6 +127,7 @@ namespace esapi
   }
 
   ////////////////////////// Hashes //////////////////////////
+
   template <class HASH>
   void HashGenerator<HASH>::init(unsigned int keyBits)
   {
@@ -175,6 +177,81 @@ namespace esapi
     {
       HASH hasher;
       const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+
+      // Initial or previous hash result
+      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+
+      // Though we continually call TruncatedFinal, we are retrieving a
+      // full block except for possibly the last block
+      hasher.TruncatedFinal(hash.BytePtr(), req);
+
+      // Copy out to key
+      std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+
+      // Book keeping
+      idx += req;
+      remaining -= req;
+    }
+
+    return key;
+  }
+
+  ////////////////////////// Hashes //////////////////////////
+
+  template <class HM>
+  void HmacGenerator<HM>::init(unsigned int keyBits)
+  {
+    m_keyBits = keyBits; 
+  }
+
+  template <class HM>
+  std::string HmacGenerator<HM>::algorithm() const
+  {
+    return m_algorithm;
+  }
+
+  // Sad, but true. CIPER does not cough up its name
+  template <class HM>
+  HmacGenerator<HM>::HmacGenerator(const std::string& algorithm)
+  {
+    // Not sure why initialization is not working here...
+    m_algorithm = algorithm;
+  }
+
+  // Called by base class KeyGenerator::getInstance
+  template <class HM>
+  KeyGenerator* HmacGenerator<HM>::CreateInstance(const std::string& algorithm)
+  {
+    return new HmacGenerator<HM>(algorithm);
+  }
+
+  template <class HM>
+  SecretKey HmacGenerator<HM>::generateKey()
+  {
+    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+
+    // Returned to caller
+    SecretKey key(keyBytes);
+
+    // Scratch
+    CryptoPP::SecByteBlock hash(HM::DIGESTSIZE);
+    
+    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
+    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
+    prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
+
+    // Key the HMAC
+    CryptoPP::HMAC<HM> hasher(hash.BytePtr(), hash.SizeInBytes());
+
+    // Initial seed of the hash stream
+    prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
+    
+    size_t idx = 0;
+    unsigned int remaining = keyBytes;
+    while(remaining)
+    {
+      hasher.Restart();
+      const size_t req = std::min(remaining, (unsigned int)HM::DIGESTSIZE);
 
       // Initial or previous hash result
       hasher.Update(hash.BytePtr(), hash.SizeInBytes());
@@ -306,6 +383,26 @@ namespace esapi
 
     if(alg == "whirlpool")
       return HashGenerator<CryptoPP::Whirlpool>::CreateInstance(name);
+
+    ////////////////////////////////// HMACs //////////////////////////////////
+
+    if(alg == "hmacsha-1" || alg == "hmacsha1" || alg == "hmacsha")
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA1");
+
+    if(alg == "hmacsha-224" || alg == "hmacsha224")
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA224");
+
+    if(alg == "hmacsha-256" || alg == "hmacsha256")
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA256");
+
+    if(alg == "hmacsha-384" || alg == "hmacsha384")
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA384");
+
+    if(alg == "hmacsha-512" || alg == "hmacsha512")
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA512");
+
+    if(alg == "hmacwhirlpool")
+      return HashGenerator<CryptoPP::Whirlpool>::CreateInstance("HmacWhirlpool");
 
     std::ostringstream oss;
     oss << "Algorithm specification \'" << algorithm << "\' is not supported.";
