@@ -16,8 +16,8 @@
 
 #include <string>
 
-#ifndef __INCLUDED_KEY_GENERATOR__
-#define __INCLUDED_KEY_GENERATOR__
+#ifndef __INCLUDED_KEY_ENCRYPTOR__
+#define __INCLUDED_KEY_ENCRYPTOR__
 
 #pragma once
 
@@ -32,7 +32,7 @@ namespace esapi
     public:
       static KeyGenerator* getInstance(const std::string& algorithm = DefaultAlgorithm);
 
-      virtual void init(unsigned int keySize = DefaultKeySize) = 0;
+      virtual void init(unsigned int keyBits = DefaultKeySize) = 0;
 
       virtual SecretKey generateKey() = 0;
 
@@ -44,23 +44,27 @@ namespace esapi
 
     protected:
       // Not for general consumption
-      KeyGenerator() { /* No public instantiations */ }
+      KeyGenerator(const std::string& algorithm = "")
+        : m_algorithm(algorithm) { /* No public instantiations */ }
 
     protected:
-      unsigned int m_keySize;
+      unsigned int m_keyBits;
 	  std::string m_algorithm;
   };
 
+  ////////////////////////// Block Ciphers //////////////////////////
   template <class CIPHER, template <class CIPHER> class MODE>
   class BlockCipherGenerator : public KeyGenerator
   {
+    typedef typename MODE < CIPHER >::Encryption ENCRYPTOR;
+
     // Base class needs access to protected CreateInstance
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
       static KeyGenerator* getInstance(const std::string& algorithm);
 
-      virtual void init(unsigned int keySize);
+      virtual void init(unsigned int keyBits);
 
       virtual SecretKey generateKey();
 
@@ -75,8 +79,36 @@ namespace esapi
       BlockCipherGenerator(const std::string& algorithm);
 
     private:
-        MODE < CIPHER > m_cipher;
-  };
+      ENCRYPTOR m_encryptor;
+
+  }; // BlockCipherGenerator
+
+  ////////////////////////// Hashes //////////////////////////
+  template <class HASH>
+  class HashGenerator : public KeyGenerator
+  {
+    // Base class needs access to protected CreateInstance
+    friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+
+    public:
+      static KeyGenerator* getInstance(const std::string& algorithm);
+
+      virtual void init(unsigned int keyBits);
+
+      virtual SecretKey generateKey();
+
+      // Return the algorithm name (eg, AES/CFB)
+      virtual std::string algorithm() const;
+
+    protected:
+      // Called by base class KeyGenerator::getInstance
+      static KeyGenerator* CreateInstance(const std::string& algorithm);
+
+      // Sad, but true. m_cipher does not cough up its name
+      HashGenerator(const std::string& algorithm);
+
+  }; // HashGenerator
+
 }; // NAMESPACE esapi
 
-#endif // __INCLUDED_KEY_GENERATOR__
+#endif // __INCLUDED_KEY_ENCRYPTOR__
