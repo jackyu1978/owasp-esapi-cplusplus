@@ -14,10 +14,6 @@
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 
-#include <cryptopp/aes.h>
-#include <cryptopp/des.h>
-#include <cryptopp/modes.h>
-
 #include <string>
 
 #ifndef __INCLUDED_KEY_GENERATOR__
@@ -34,16 +30,43 @@ namespace esapi
       static const unsigned int DefaultKeySize;
 
     public:
-      KeyGenerator* getInstance(const std::string& agorithm = DefaultAlgorithm);
+      static KeyGenerator* getInstance(const std::string& algorithm = DefaultAlgorithm);
 
       virtual void init(unsigned int keySize = DefaultKeySize) = 0;
 
       virtual SecretKey generateKey() = 0;
 
-	private:
-      KeyGenerator() { /* No instantiations */ }
+    protected:
+      // This class calls CreateInstance on a derived class
+      static KeyGenerator* CreateInstance();
+
+	protected:
+      // Not for general consumption
+      KeyGenerator() { /* No public instantiations */ }
+
+    protected:
+      unsigned int m_keySize;
   };
 
+  template <class CIPHER, template <class CIPHER> class MODE>
+  class BlockCipherGenerator : public KeyGenerator
+  {
+    // Base class needs access to protected CreateInstance
+	friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+
+    public:
+      static KeyGenerator* getInstance(const std::string& algorithm);
+
+      virtual void init(unsigned int keySize);
+
+      virtual SecretKey generateKey();
+
+    protected:
+      static KeyGenerator* CreateInstance();
+
+    private:
+        MODE < CIPHER > m_cipher;
+  };
 }; // NAMESPACE esapi
 
 #endif // __INCLUDED_KEY_GENERATOR__
