@@ -77,8 +77,7 @@ namespace esapi
      * this is thrown with the original {@code UnsupportedEncodingException}
      * as the cause. (NOTE: This should never happen as "UTF-8" is supposed to
      * be a common encoding supported by all Java implementations. Support
-     * for it is usually in rt.jar.) * @throws InvalidKeyException Likely indicates a coding error. Should not happen.
-     * @throws EncryptionException Throw for some precondition violations.
+     * for it is usually in rt.jar.)
      */
     static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
 
@@ -94,11 +93,12 @@ namespace esapi
     /**
      * Calculate the size of a key. The key size is given in bits, but we
      * can only allocate them by octets (i.e., bytes), so make sure we
-     * round up to the next whole number of octets to have room for all
-     * the bits. For example, a key size of 9 bits would require 2 octets
-     * to store it. * * @param ks The key size, in bits.
+     * round up to the next whole number of octets. For example, a key
+     * size of 9 bits would require 2 octets to store it.
+     * @param keyBits The key size, in bits.
      * @return The key size, in octets, large enough to accommodate
-     * {@code ks} bits.
+     * {@code keyBits} bits.
+     * @throws <i>YEP!</i>, if you wrap the value.
      */
     static unsigned int calcKeySize(unsigned int keyBits);
 

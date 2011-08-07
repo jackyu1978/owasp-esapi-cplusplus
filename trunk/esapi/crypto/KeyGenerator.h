@@ -59,7 +59,7 @@ namespace esapi
   {
     typedef typename MODE < CIPHER >::Encryption ENCRYPTOR;
 
-    // Base class needs access to protected CreateInstance
+    // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
@@ -89,7 +89,7 @@ namespace esapi
   template <class HASH>
   class HashGenerator : public KeyGenerator
   {
-    // Base class needs access to protected CreateInstance
+    // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
@@ -110,6 +110,33 @@ namespace esapi
       HashGenerator(const std::string& algorithm);
 
   }; // HashGenerator
+
+  ////////////////////////// HMACs //////////////////////////
+
+  template <class HM>
+  class HmacGenerator : public KeyGenerator
+  {
+    // Base class needs access to protected CreateInstance in derived class
+    friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+
+    public:
+      static KeyGenerator* getInstance(const std::string& algorithm);
+
+      virtual void init(unsigned int keyBits);
+
+      virtual SecretKey generateKey();
+
+      // Return the algorithm name (eg, SHA-1)
+      virtual std::string algorithm() const;
+
+    protected:
+      // Called by base class KeyGenerator::getInstance
+      static KeyGenerator* CreateInstance(const std::string& algorithm);
+
+      // Sad, but true. The hash does not cough up its name
+      HmacGenerator(const std::string& algorithm);
+
+  }; // HmacGenerator
 
 }; // NAMESPACE esapi
 
