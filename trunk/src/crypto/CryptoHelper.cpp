@@ -37,7 +37,7 @@ namespace esapi
      * and key size.
      * @param alg        The cipher algorithm or cipher transformation. (If the latter is
      *                   passed, the cipher algorithm is determined from it.) Cannot be empty.
-     * @param keySize    The key size, in bits.
+     * @param keyBits    The key size, in bits.
      * @return           A random {@code SecretKey} is returned.
      */
     esapi::SecretKey CryptoHelper::generateSecretKey(const std::string& alg, unsigned int keyBits)
@@ -74,7 +74,7 @@ namespace esapi
      *                          "input" key from which the other keys are derived.
      *                          The derived key will have the same algorithm type
      *                          as this key.
-     * @param keySize       The cipher's key size (in bits) for the {@code keyDerivationKey}.
+     * @param keyBits       The cipher's key size (in bits) for the {@code keyDerivationKey}.
      *                      Must have a minimum size of 56 bits and be an integral multiple of 8-bits.
      *                      <b>Note:</b> The derived key will have the same size as this.
      * @param purpose       The purpose or use for the derived key. Must be either the
@@ -88,15 +88,15 @@ namespace esapi
      * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
      *                ESAPI release 2.1 so if you are using this, please change your code.
      */
-    esapi::SecretKey CryptoHelper::computeDerivedKey(const esapi::SecretKey keyDerivationKey, unsigned int keySize, const std::string& purpose)
+    esapi::SecretKey CryptoHelper::computeDerivedKey(const esapi::SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
     {
         // Shamelessly ripped from KeyDerivationFunction.cpp
         ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
-        ASSERT( keySize >= 56 );
-        ASSERT( (keySize % 8) == 0 );
+        ASSERT( keyBits >= 56 );
+        ASSERT( (keyBits % 8) == 0 );
         ASSERT( purpose == "authenticity" || purpose == "encryption" );
 
-        return esapi::KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keySize, purpose);
+        return esapi::KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keyBits, purpose);
     }
 
     /**
