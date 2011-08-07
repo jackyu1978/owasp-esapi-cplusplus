@@ -41,15 +41,15 @@
 
 namespace esapi
 {
-
-  esapi::SecretKey KeyDerivationFunction::computeDerivedKey(const esapi::SecretKey& keyDerivationKey, unsigned int keySize, const std::string& purpose)
+  
+  SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const std::string& purpose)
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
     ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
-    ASSERT( keySize >= 56 ); // "Key has size of " + keySize + ", which is less than minimum of 56-bits.";
-    ASSERT( (keySize % 8) == 0 ); // "Key size (" + keySize + ") must be a even multiple of 8-bits.";
-    ASSERT( /*purpose != null &&*/ !purpose.empty()); // : "Purpose may not be null or empty.";
+    ASSERT( keySize >= 56 );
+    ASSERT( (keySize % 8) == 0 );
+    ASSERT( !purpose.empty());
     ASSERT( purpose == "authenticity" || purpose == "encryption" );
 
     if(!(keySize >= 56))
@@ -184,7 +184,7 @@ namespace esapi
     */
 
     // Returned to caller
-    esapi::SecretKey derived(keySize);
+    SecretKey derived(keySize);
 
     // Counter
     unsigned int ctr = 1;
