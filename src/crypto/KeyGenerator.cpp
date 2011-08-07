@@ -39,6 +39,7 @@
 namespace esapi
 {
   ////////////////////////// Block Ciphers //////////////////////////
+
   template <class CIPHER, template <class CIPHER> class MODE>
   void BlockCipherGenerator<CIPHER, MODE>::init(unsigned int keyBits)
   {
@@ -56,7 +57,7 @@ namespace esapi
     // cipher's maximum key length". If the requested key size is less than
     // the default key length, we use the cipher's default key length.
     if(m_keyBits > ksize)
-        ksize = m_encryptor.MaxKeyLength();
+      ksize = m_encryptor.MaxKeyLength();
 
     CryptoPP::SecByteBlock seed(ksize+bsize);
 
@@ -99,14 +100,15 @@ namespace esapi
 
       m_encryptor.Resynchronize(iv.BytePtr(), iv.SizeInBytes());
     }
-
+    
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
 
     // The SecByteBlock is initialized to a null vector. Encrypt the null
     // vector, and return the result to the caller as the SecretKey.
     SecretKey key(keyBytes);
 
-    // We use a StreamTransformationFilter since it will handle details such as PKCS5 padding (as required)
+    // We use a StreamTransformationFilter since it will handle details such as
+    // PKCS5 padding (as required)
     CryptoPP::StreamTransformationFilter filter(m_encryptor);
     filter.PutMessageEnd(key.BytePtr(), key.SizeInBytes());
 
@@ -123,7 +125,7 @@ namespace esapi
     return key;
   }
 
-////////////////////////// Block Ciphers //////////////////////////
+  ////////////////////////// Hashes //////////////////////////
   template <class HASH>
   void HashGenerator<HASH>::init(unsigned int keyBits)
   {
@@ -171,22 +173,22 @@ namespace esapi
     unsigned int remaining = keyBytes;
     while(remaining)
     {
-        HASH hasher;
-        const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+      HASH hasher;
+      const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
-        // Initial or previous hash result
-        hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+      // Initial or previous hash result
+      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
 
-        // Though we continually call TruncatedFinal, we are retrieving a
-        // full block except for possibly the last block
-        hasher.TruncatedFinal(hash.BytePtr(), req);
+      // Though we continually call TruncatedFinal, we are retrieving a
+      // full block except for possibly the last block
+      hasher.TruncatedFinal(hash.BytePtr(), req);
 
-        // Copy out to key
-		std::memcpy(key.BytePtr()+idx, hash.BytePtr(), req);
+      // Copy out to key
+      std::memcpy(key.BytePtr()+idx, hash.BytePtr(), req);
 
-        // Book keeping
-        idx += req;
-        remaining -= req;
+      // Book keeping
+      idx += req;
+      remaining -= req;
     }
 
     return key;
@@ -210,20 +212,20 @@ namespace esapi
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
-    // Normalize the slashes
+    // Normalize the slashes (we expect forward slashes, not back slashes)
     while(std::string::npos != (pos = alg.find('\\')))
-        alg.replace(pos, 1, "/");
+      alg.replace(pos, 1, "/");
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
     if(std::string::npos != (pos = alg.find('/')))
     {
-        mode = alg.substr(pos+1, -1);
-        alg.erase(pos, -1);
+      mode = alg.substr(pos+1, -1);
+      alg.erase(pos, -1);
     }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
     if(std::string::npos != (pos = mode.find('/')))
-        mode.erase(pos, -1);
+      mode.erase(pos, -1);
 
     // Form the name returned by algorithm()
     std::string name = alg;
@@ -288,25 +290,25 @@ namespace esapi
     ////////////////////////////////// Hashes //////////////////////////////////
 
     if(alg == "sha-1" || alg == "sha1" || alg == "sha")
-      return HashGenerator<CryptoPP::SHA1>::CreateInstance(name);
+      return HashGenerator<CryptoPP::SHA1>::CreateInstance("SHA-1");
 
     if(alg == "sha-224" || alg == "sha224")
-      return HashGenerator<CryptoPP::SHA224>::CreateInstance(name);
+      return HashGenerator<CryptoPP::SHA224>::CreateInstance("SHA-224");
 
     if(alg == "sha-256" || alg == "sha256")
-      return HashGenerator<CryptoPP::SHA256>::CreateInstance(name);
+      return HashGenerator<CryptoPP::SHA256>::CreateInstance("SHA-256");
 
     if(alg == "sha-384" || alg == "sha384")
-      return HashGenerator<CryptoPP::SHA384>::CreateInstance(name);
+      return HashGenerator<CryptoPP::SHA384>::CreateInstance("SHA-384");
 
     if(alg == "sha-512" || alg == "sha512")
-      return HashGenerator<CryptoPP::SHA512>::CreateInstance(name);
+      return HashGenerator<CryptoPP::SHA512>::CreateInstance("SHA-512");
 
     if(alg == "whirlpool")
       return HashGenerator<CryptoPP::Whirlpool>::CreateInstance(name);
 
     std::ostringstream oss;
-    oss << "Algorithm specification \'" << algorithm << "\' is not known or is not supported.";
+    oss << "Algorithm specification \'" << algorithm << "\' is not supported.";
     throw std::invalid_argument(oss.str());
 
     // This should really be declared __no_return__

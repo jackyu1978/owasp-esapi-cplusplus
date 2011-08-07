@@ -45,14 +45,15 @@ namespace esapi
     protected:
       // Not for general consumption
       KeyGenerator(const std::string& algorithm = "")
-        : m_algorithm(algorithm) { /* No public instantiations */ }
+        : m_algorithm(algorithm) { /* No external instantiations */ }
 
     protected:
       unsigned int m_keyBits;
-	  std::string m_algorithm;
+      std::string m_algorithm;
   };
 
   ////////////////////////// Block Ciphers //////////////////////////
+
   template <class CIPHER, template <class CIPHER> class MODE>
   class BlockCipherGenerator : public KeyGenerator
   {
@@ -84,6 +85,7 @@ namespace esapi
   }; // BlockCipherGenerator
 
   ////////////////////////// Hashes //////////////////////////
+
   template <class HASH>
   class HashGenerator : public KeyGenerator
   {
@@ -97,14 +99,14 @@ namespace esapi
 
       virtual SecretKey generateKey();
 
-      // Return the algorithm name (eg, AES/CFB)
+      // Return the algorithm name (eg, SHA-1)
       virtual std::string algorithm() const;
 
     protected:
       // Called by base class KeyGenerator::getInstance
       static KeyGenerator* CreateInstance(const std::string& algorithm);
 
-      // Sad, but true. m_cipher does not cough up its name
+      // Sad, but true. The hash does not cough up its name
       HashGenerator(const std::string& algorithm);
 
   }; // HashGenerator
