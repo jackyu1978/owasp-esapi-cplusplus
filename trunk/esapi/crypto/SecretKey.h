@@ -26,6 +26,9 @@ namespace esapi
 {
   class SecretKey
   {
+    friend bool operator==(const SecretKey& lhs, const SecretKey& rhs);
+    friend bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
+    friend std::ostream& operator<<(const SecretKey& lhs, std::ostream& os);
 
   public:
     SecretKey(size_t size);
@@ -45,6 +48,12 @@ namespace esapi
     CryptoPP::SecByteBlock secBlock;
 
   };
+
+bool operator==(const SecretKey& lhs, const SecretKey& rhs);
+bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
+
+std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
+
 }; // NAMESPACE esapi
 
 #endif // __INCLUDED_SECRET_KEY__
