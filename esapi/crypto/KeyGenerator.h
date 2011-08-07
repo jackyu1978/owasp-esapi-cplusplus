@@ -36,23 +36,26 @@ namespace esapi
 
       virtual SecretKey generateKey() = 0;
 
+      virtual std::string algorithm() const = 0;
+
     protected:
       // This class calls CreateInstance on a derived class
       static KeyGenerator* CreateInstance();
 
-	protected:
+    protected:
       // Not for general consumption
       KeyGenerator() { /* No public instantiations */ }
 
     protected:
       unsigned int m_keySize;
+	  std::string m_algorithm;
   };
 
   template <class CIPHER, template <class CIPHER> class MODE>
   class BlockCipherGenerator : public KeyGenerator
   {
     // Base class needs access to protected CreateInstance
-	friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+    friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
       static KeyGenerator* getInstance(const std::string& algorithm);
@@ -61,8 +64,15 @@ namespace esapi
 
       virtual SecretKey generateKey();
 
+      // Return the algorithm name (eg, AES/CFB)
+      virtual std::string algorithm() const;
+
     protected:
-      static KeyGenerator* CreateInstance();
+      // Called by base class KeyGenerator::getInstance
+      static KeyGenerator* CreateInstance(const std::string& algorithm);
+
+      // Sad, but true. m_cipher does not cough up its name
+      BlockCipherGenerator(const std::string& algorithm);
 
     private:
         MODE < CIPHER > m_cipher;

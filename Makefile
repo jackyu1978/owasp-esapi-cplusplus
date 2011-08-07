@@ -22,7 +22,9 @@ CXX =		g++
 # Debug
 # CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0
 # Release
-CXXFLAGS += -DNDEBUG=1 -g -O2
+# CXXFLAGS += -DNDEBUG=1 -g -O2
+# Test
+CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O0
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
 # the bit pattern is negated, but the type remains the same. So a positive
