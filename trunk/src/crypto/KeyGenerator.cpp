@@ -48,7 +48,11 @@ namespace esapi
   template <class CIPHER, template <class CIPHER> class MODE>
   void BlockCipherGenerator<CIPHER, MODE>::init(unsigned int keyBits)
   {
-    m_keyBits = keyBits;
+    ASSERT(keyBits != NoKeySize);
+    ASSERT(keyBits < MaxKeySize); 
+
+    // SetKeyBits will throw if any funny business goes on
+    SetKeySize(keyBits);
 
     // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
     CryptoPP::AutoSeededX917RNG<CIPHER> prng;
@@ -71,18 +75,12 @@ namespace esapi
     m_encryptor.SetKeyWithIV(seed.BytePtr(), ksize, seed.BytePtr()+ksize);    
   }
 
-  template <class CIPHER, template <class CIPHER> class MODE>
-  std::string BlockCipherGenerator<CIPHER, MODE>::algorithm() const
-  {
-    return m_algorithm;
-  }
-
-  // Sad, but true. CIPER does not cough up its name
+  // Sad, but true. CIPER does not always cough up its name
   template <class CIPHER, template <class CIPHER> class MODE>
   BlockCipherGenerator<CIPHER, MODE>::BlockCipherGenerator(const std::string& algorithm)
   {
-    // Not sure why initialization is not working here...
-    m_algorithm = algorithm;
+    ASSERT( !algorithm.empty() );
+    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -95,6 +93,10 @@ namespace esapi
   template <class CIPHER, template <class CIPHER> class MODE>
   SecretKey BlockCipherGenerator<CIPHER, MODE>::generateKey()
   {
+    // Single testing point to ensure init() has been called. All
+    // generateKey() methods must call the function.
+    KeyGenerator::VerifyKeyBitsSize();
+
     if(m_encryptor.IsResynchronizable())
     {
       // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
@@ -132,24 +134,12 @@ namespace esapi
 
   ////////////////////////// Hashes //////////////////////////
 
-  template <class HASH>
-  void HashGenerator<HASH>::init(unsigned int keyBits)
-  {
-    m_keyBits = keyBits; 
-  }
-
-  template <class HASH>
-  std::string HashGenerator<HASH>::algorithm() const
-  {
-    return m_algorithm;
-  }
-
-  // Sad, but true. CIPER does not cough up its name
+  // Sad, but true. CIPER does not always cough up its name
   template <class HASH>
   HashGenerator<HASH>::HashGenerator(const std::string& algorithm)
   {
-    // Not sure why initialization is not working here...
-    m_algorithm = algorithm;
+    ASSERT( !algorithm.empty() );
+    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -162,6 +152,10 @@ namespace esapi
   template <class HASH>
   SecretKey HashGenerator<HASH>::generateKey()
   {
+    // Single testing point to ensure init() has been called. All
+    // generateKey() methods must call the function.
+    KeyGenerator::VerifyKeyBitsSize();
+       
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
 
     // Returned to caller
@@ -202,50 +196,42 @@ namespace esapi
 
   ////////////////////////// Hashes //////////////////////////
 
-  template <class HM>
-  void HmacGenerator<HM>::init(unsigned int keyBits)
+  // Sad, but true. CIPER does not always cough up its name
+  template <class HASH>
+  HmacGenerator<HASH>::HmacGenerator(const std::string& algorithm)
   {
-    m_keyBits = keyBits; 
-  }
-
-  template <class HM>
-  std::string HmacGenerator<HM>::algorithm() const
-  {
-    return m_algorithm;
-  }
-
-  // Sad, but true. CIPER does not cough up its name
-  template <class HM>
-  HmacGenerator<HM>::HmacGenerator(const std::string& algorithm)
-  {
-    // Not sure why initialization is not working here...
-    m_algorithm = algorithm;
+    ASSERT( !algorithm.empty() );
+    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
-  template <class HM>
-  KeyGenerator* HmacGenerator<HM>::CreateInstance(const std::string& algorithm)
+  template <class HASH>
+  KeyGenerator* HmacGenerator<HASH>::CreateInstance(const std::string& algorithm)
   {
-    return new HmacGenerator<HM>(algorithm);
+    return new HmacGenerator<HASH>(algorithm);
   }
 
-  template <class HM>
-  SecretKey HmacGenerator<HM>::generateKey()
+  template <class HASH>
+  SecretKey HmacGenerator<HASH>::generateKey()
   {
+    // Single testing point to ensure init() has been called. All
+    // generateKey() methods must call the function.
+    KeyGenerator::VerifyKeyBitsSize();
+
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
 
     // Returned to caller
     SecretKey key(keyBytes);
 
     // Scratch
-    CryptoPP::SecByteBlock hash(HM::DIGESTSIZE);
+    CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
     
     // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
     CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
     prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
 
-    // Key the HMAC
-    CryptoPP::HMAC<HM> hasher(hash.BytePtr(), hash.SizeInBytes());
+    // Key the HASH
+    CryptoPP::HMAC<HASH> hasher(hash.BytePtr(), hash.SizeInBytes());
 
     // Initial seed of the hash stream
     prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
@@ -255,7 +241,7 @@ namespace esapi
     while(remaining)
     {
       hasher.Restart();
-      const size_t req = std::min(remaining, (unsigned int)HM::DIGESTSIZE);
+      const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
       // Initial or previous hash result
       hasher.Update(hash.BytePtr(), hash.SizeInBytes());
@@ -277,36 +263,28 @@ namespace esapi
 
   ////////////////////////// Hashes //////////////////////////
 
-  template <class SS>
-  void StreamCipherGenerator<SS>::init(unsigned int keyBits)
+  // Sad, but true. CIPER does not always cough up its name
+  template <class CIPHER>
+  StreamCipherGenerator<CIPHER>::StreamCipherGenerator(const std::string& algorithm)
   {
-    m_keyBits = keyBits; 
-  }
-
-  template <class SS>
-  std::string StreamCipherGenerator<SS>::algorithm() const
-  {
-    return m_algorithm;
-  }
-
-  // Sad, but true. CIPER does not cough up its name
-  template <class SS>
-  StreamCipherGenerator<SS>::StreamCipherGenerator(const std::string& algorithm)
-  {
-    // Not sure why initialization is not working here...
-    m_algorithm = algorithm;
+    ASSERT( !algorithm.empty() );
+    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
-  template <class SS>
-  KeyGenerator* StreamCipherGenerator<SS>::CreateInstance(const std::string& algorithm)
+  template <class CIPHER>
+  KeyGenerator* StreamCipherGenerator<CIPHER>::CreateInstance(const std::string& algorithm)
   {
-    return new StreamCipherGenerator<SS>(algorithm);
+    return new StreamCipherGenerator<CIPHER>(algorithm);
   }
 
-  template <class SS>
-  SecretKey StreamCipherGenerator<SS>::generateKey()
+  template <class CIPHER>
+  SecretKey StreamCipherGenerator<CIPHER>::generateKey()
   {
+    // Single testing point to ensure init() has been called. All
+    // generateKey() methods must call the function.
+    KeyGenerator::VerifyKeyBitsSize();
+
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
 
     // Returned to caller
@@ -318,19 +296,104 @@ namespace esapi
 
     // Crypto++ discards bytes from the key stream in the case of RC4. See
     // http://www.cryptopp.com/docs/ref/arc4_8cpp_source.html, line 50.
-    SS stream(key.BytePtr(), key.SizeInBytes());
+    CIPHER stream(key.BytePtr(), key.SizeInBytes());
     stream.ProcessString(key.BytePtr(), key.SizeInBytes());
 
     return key;
   }
 
-  ///////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////// Base Class (KeyGenerator) //////////////////////////
 
   const std::string KeyGenerator::DefaultAlgorithm = "AES/OFB";
   const unsigned int KeyGenerator::DefaultKeySize = 128;
 
+  const unsigned int KeyGenerator::NoKeySize = static_cast<unsigned int>(-1);
+  const unsigned int KeyGenerator::MaxKeySize = static_cast<unsigned int>(-1) - 8;
+
+  // Default implementation for derived classes which do nothing
+  void KeyGenerator::init(unsigned int keyBits)
+  {
+    ASSERT(keyBits != NoKeySize);
+    ASSERT(keyBits < MaxKeySize); 
+
+    // SetKeyBits will throw if any funny business goes on
+    SetKeySize(keyBits);
+  }
+
+  // Single testing point to ensure init() has been called. All derived
+  // classes *must* call VerifyKeyBitsSize() in their generateKey().
+  void KeyGenerator::VerifyKeyBitsSize() const
+  {
+    // generateKey() must be implemented by all derived classes. The two checks below
+    // are common to all derived classes. However, the base class' defualt behavior
+    // is to throw to ensure no one is using its generator. Hence, all test must be
+    // duplicated in all derived classes.
+    ASSERT( m_keyBits != NoKeySize );
+    ASSERT( m_keyBits < MaxKeySize );
+
+    if( m_keyBits == NoKeySize )
+      throw std::invalid_argument("Key size (in bits) is not valid.");
+
+    if( !(m_keyBits < MaxKeySize) )
+    {
+      std::ostringstream oss;
+      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+      throw std::invalid_argument(oss.str());
+    }
+  }
+
+  // Default implementation throws to ensure a default key is not used
+  SecretKey KeyGenerator::generateKey()
+  {
+    throw std::runtime_error("Using the default KeyGenerator::generateKey");
+    return SecretKey(0);
+  }
+
+  void KeyGenerator::SetKeySize(unsigned int keyBits)
+  {
+    ASSERT( keyBits != NoKeySize );
+    ASSERT( keyBits < MaxKeySize );
+
+    // Sanity check (10K is arbitrary)
+    ASSERT( keyBits < 8192 + 2048 );
+
+    if( keyBits == NoKeySize )
+      throw std::invalid_argument("Key size (in bits) is not valid.");
+
+    if( !(keyBits < MaxKeySize) )
+    {
+      std::ostringstream oss;
+      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+      throw std::invalid_argument(oss.str());
+    }
+
+    m_keyBits = keyBits;
+  }
+
+  void KeyGenerator::SetAlgorithmName(const std::string& algorithmName)
+  {
+    ASSERT( !algorithmName.empty() );
+
+    if( algorithmName.empty() )
+    {
+      std::ostringstream oss;
+      oss << "Algorithm name \'" << algorithmName << "\' is not valid.";
+      throw std::invalid_argument(oss.str());
+    }
+
+    m_algorithm = algorithmName;
+  }
+
+  // Default implementation for derived classes which do nothing
+  std::string KeyGenerator::algorithm() const
+  {
+    return m_algorithm;
+  }
+
   KeyGenerator* KeyGenerator::getInstance(const std::string& algorithm)
   {
+    ASSERT(!algorithm.empty());
+
     std::string alg = algorithm, mode;
     std::string::size_type pos;
 
@@ -357,65 +420,57 @@ namespace esapi
     if(std::string::npos != (pos = mode.find('/')))
       mode.erase(pos, -1);
 
-    // Form the name returned by algorithm()
-    std::string name = alg;
-    if(!alg.empty() && !mode.empty())
-        name += "/" + mode;
-
-    if(!name.empty())
-      std::transform(name.begin(), name.end(), name.begin(), ::toupper);
-
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
     ////////////////////////////////// Block Ciphers //////////////////////////////////
 
     if(alg == "aes" && mode == "cbc")
-      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::CBC_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::CBC_Mode>::CreateInstance("AES/CBC");
 
     if(alg == "aes" && mode == "cfb")
-      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::CFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::CFB_Mode>::CreateInstance("AES/CFB");
 
     if(alg == "aes" && mode == "ofb")
-      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::OFB_Mode>::CreateInstance("AES/OFB");
 
     if(alg == "aes" && mode == "")
-      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::AES, CryptoPP::OFB_Mode>::CreateInstance("AES");
 
     if(alg == "camellia" && mode == "cbc")
-      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::CBC_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::CBC_Mode>::CreateInstance("Camellia/CBC");
 
     if(alg == "camellia" && mode == "cfb")
-      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::CFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::CFB_Mode>::CreateInstance("Camellia/CFB");
 
     if(alg == "camellia" && mode == "ofb")
-      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::OFB_Mode>::CreateInstance("Camellia/OFB");
 
     if(alg == "camellia" && mode == "")
-      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::OFB_Mode>::CreateInstance("Camellia");
 
     if(alg == "blowfish" && mode == "cbc")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CBC_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CBC_Mode>::CreateInstance("Blowfish/CBC");
 
     if(alg == "blowfish" && mode == "cfb")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CFB_Mode>::CreateInstance("Blowfish/CFB");
 
     if(alg == "blowfish" && mode == "ofb")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance("Blowfish/OFB");
 
     if(alg == "blowfish" && mode == "")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance("Blowfish");
 
     if(alg == "desede" && mode == "cbc")
-      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::CBC_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::CBC_Mode>::CreateInstance("DESede/CBC");
 
     if(alg == "desede" && mode == "cfb")
-      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::CFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::CFB_Mode>::CreateInstance("DESede/CFB");
 
     if(alg == "desede" && mode == "ofb")
-      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode>::CreateInstance("DESede/OFB");
 
     if(alg == "desede" && mode == "")
-      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode>::CreateInstance(name);
+      return BlockCipherGenerator<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode>::CreateInstance("DESede");
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
@@ -435,9 +490,9 @@ namespace esapi
       return HashGenerator<CryptoPP::SHA512>::CreateInstance("SHA-512");
 
     if(alg == "whirlpool")
-      return HashGenerator<CryptoPP::Whirlpool>::CreateInstance(name);
+      return HashGenerator<CryptoPP::Whirlpool>::CreateInstance("Whirlpool");
 
-    ////////////////////////////////// HMACs //////////////////////////////////
+    ////////////////////////////////// HASHs //////////////////////////////////
 
     if(alg == "hmacsha-1" || alg == "hmacsha1" || alg == "hmacsha")
       return HmacGenerator<CryptoPP::SHA1>::CreateInstance("HmacSHA1");
@@ -461,7 +516,7 @@ namespace esapi
 
 #if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
     if(alg == "arcfour")
-      return StreamCipherGenerator<CryptoPP::Weak::ARC4>::CreateInstance(name);
+      return StreamCipherGenerator<CryptoPP::Weak::ARC4>::CreateInstance("ARCFOUR");
 #endif
 
     ///////////////////////////////// Catch All /////////////////////////////////
