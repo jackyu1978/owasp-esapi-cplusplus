@@ -32,24 +32,41 @@ namespace esapi
     public:
       static KeyGenerator* getInstance(const std::string& algorithm = DefaultAlgorithm);
 
-      virtual void init(unsigned int keyBits = DefaultKeySize) = 0;
+      // Initialize the generator for use.
+      virtual void init(unsigned int keyBits = DefaultKeySize);
 
+      // Return the standard algorithm name.
+      virtual std::string algorithm() const;
+
+      // Generate a SecretKey. Must be overriden in derived classes.
       virtual SecretKey generateKey() = 0;
-
-      virtual std::string algorithm() const = 0;
 
     protected:
       // This class calls CreateInstance on a derived class
       static KeyGenerator* CreateInstance();
 
-    protected:
-      // Not for general consumption
-      KeyGenerator(const std::string& algorithm = "")
-        : m_algorithm(algorithm) { /* No external instantiations */ }
+      // Called by derived classes in init()
+      void SetKeySize(unsigned int keySize);
+
+      // Called by derived classes in CreateInstance()
+      void SetAlgorithmName(const std::string& algorithmName);
+
+      // Single testing point to ensure init() has been called. All derived
+      // classes *must* call VerifyKeyBitsSize() in their generateKey().
+      void VerifyKeyBitsSize() const;
 
     protected:
-      unsigned int m_keyBits;
+      // Not for general consumption
+      KeyGenerator(const std::string& algorithmName = "") : m_algorithm(algorithmName),
+        m_keyBits(NoKeySize) { /* No external instantiations */ }    
+
+    protected:
+      static const unsigned int NoKeySize;
+      static const unsigned int MaxKeySize;
+
+    protected:
       std::string m_algorithm;
+      unsigned int m_keyBits;  
   };
 
   ////////////////////////// Block Ciphers //////////////////////////
@@ -63,20 +80,18 @@ namespace esapi
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
-      static KeyGenerator* getInstance(const std::string& algorithm);
-
+      // Initialize the generator for use. Block ciphers set the key
+      // in init(), and change the initialization vector in generateKey()
       virtual void init(unsigned int keyBits);
 
+      // Generate a SecretKey.
       virtual SecretKey generateKey();
-
-      // Return the algorithm name (eg, AES/CFB)
-      virtual std::string algorithm() const;
 
     protected:
       // Called by base class KeyGenerator::getInstance
       static KeyGenerator* CreateInstance(const std::string& algorithm);
 
-      // Sad, but true. m_cipher does not cough up its name
+      // Sad, but true. ENCRYPTOR does not always cough up its name
       BlockCipherGenerator(const std::string& algorithm);
 
     private:
@@ -93,74 +108,68 @@ namespace esapi
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
-      static KeyGenerator* getInstance(const std::string& algorithm);
+      // Initialize the generator for use. Base class processing is
+      // fine for HashGenerator
+      // virtual void init(unsigned int keyBits);
 
-      virtual void init(unsigned int keyBits);
-
+      // Generate a SecretKey.
       virtual SecretKey generateKey();
-
-      // Return the algorithm name (eg, SHA-1)
-      virtual std::string algorithm() const;
 
     protected:
       // Called by base class KeyGenerator::getInstance
       static KeyGenerator* CreateInstance(const std::string& algorithm);
 
-      // Sad, but true. The hash does not cough up its name
+      // Sad, but true. The hash does not always cough up its name
       HashGenerator(const std::string& algorithm);
 
   }; // HashGenerator
 
-  ////////////////////////// HMACs //////////////////////////
+  ////////////////////////// HASHs //////////////////////////
 
-  template <class HM>
+  template <class HASH>
   class HmacGenerator : public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
-      static KeyGenerator* getInstance(const std::string& algorithm);
+      // Initialize the generator for use. Base class processing is
+      // fine for HmacGenerator
+      // virtual void init(unsigned int keyBits);
 
-      virtual void init(unsigned int keyBits);
-
+      // Generate a SecretKey.
       virtual SecretKey generateKey();
-
-      // Return the algorithm name (eg, SHA-1)
-      virtual std::string algorithm() const;
 
     protected:
       // Called by base class KeyGenerator::getInstance
       static KeyGenerator* CreateInstance(const std::string& algorithm);
 
-      // Sad, but true. The hash does not cough up its name
+      // Sad, but true. The hash does not always cough up its name
       HmacGenerator(const std::string& algorithm);
 
   }; // HmacGenerator
 
   ////////////////////////// Stream Ciphers ////////////////////////
 
-  template <class SS>
+  template <class CIPHER>
   class StreamCipherGenerator : public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
     public:
-      static KeyGenerator* getInstance(const std::string& algorithm);
+      // Initialize the generator for use. Base class processing is
+      // fine for StreamCipherGenerator
+      // virtual void init(unsigned int keyBits);
 
-      virtual void init(unsigned int keyBits);
-
+      // Generate a SecretKey.
       virtual SecretKey generateKey();
-
-      // Return the algorithm name (eg, SHA-1)
-      virtual std::string algorithm() const;
 
     protected:
       // Called by base class KeyGenerator::getInstance
       static KeyGenerator* CreateInstance(const std::string& algorithm);
 
-      // Sad, but true. The hash does not cough up its name
+      // Sad, but true. The stream cipher does not always cough up its name
       StreamCipherGenerator(const std::string& algorithm);
 
   }; // StreamCipherGenerator
@@ -168,3 +177,4 @@ namespace esapi
 }; // NAMESPACE esapi
 
 #endif // __INCLUDED_KEY_ENCRYPTOR__
+
