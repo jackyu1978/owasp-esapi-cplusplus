@@ -31,6 +31,10 @@
 # error "Unsupported operating system platform"
 #endif
 
+#if defined(ESAPI_OS_WINDOWS)
+# include <windows.h>
+#endif
+
 #if defined(ESAPI_OS_STARNIX)
 # include <pthread.h>
 # include <errno.h>
@@ -90,7 +94,7 @@ namespace esapi
       explicit AutoLock(CRITICAL_SECTION& cs);
       virtual ~AutoLock();
     private:
-      CRITICAL_SECTION& mm_cs;
+      CRITICAL_SECTION& mm_lock;
 #elif defined(ESAPI_OS_STARNIX)
     public:
       explicit AutoLock(pthread_mutex_t& mtx);
@@ -112,7 +116,7 @@ namespace esapi
     // thread is operating at a time since there's only one set of data within the
     // class. That is, there is no thread local storage.
 #if defined(ESAPI_OS_WINDOWS)
-    mutable CRITICAL_SECTION m_cs;
+    mutable CRITICAL_SECTION m_lock;
 #elif defined(ESAPI_OS_STARNIX)
     mutable pthread_mutex_t m_lock;
 #endif
