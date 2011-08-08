@@ -118,15 +118,15 @@ namespace esapi
 #if defined(ESAPI_OS_WINDOWS)
 
   // Standard destructor.
-  virtual SecureRandom::~SecureRandom()
+  SecureRandom::~SecureRandom()
   {
-    DeleteCriticalSection(&m_cs); 
+    DeleteCriticalSection(&m_lock); 
   }
 
   // Initialize the lock for the PRNG
   void SecureRandom::InitializeLock() const
   {
-    InitializeCriticalSection(&m_cs);
+    InitializeCriticalSection(&m_lock);
   }
 
   // Lock on construction
