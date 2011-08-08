@@ -6,8 +6,8 @@
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  *
  */
 
@@ -40,7 +40,9 @@
 
 /**
  * This class implements functionality similar to Java's KeyGenerator for consistency
+ * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
  */
+
 namespace esapi
 {
   ////////////////////////// Block Ciphers //////////////////////////
@@ -389,7 +391,7 @@ namespace esapi
   }
 
   // Default implementation for derived classes which do nothing
-  std::string KeyGenerator::algorithm() const
+  std::string KeyGenerator::getAlgorithm() const
   {
     return m_algorithm;
   }

@@ -6,8 +6,8 @@
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  *
  */
 
@@ -23,6 +23,10 @@
 
 namespace esapi
 {
+  /**
+   * This class implements functionality similar to Java's KeyGenerator for consistency
+   * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
+   */
   class KeyGenerator
   {
     public:
@@ -36,7 +40,7 @@ namespace esapi
       virtual void init(unsigned int keyBits = DefaultKeySize);
 
       // Return the standard algorithm name.
-      virtual std::string algorithm() const;
+      virtual std::string getAlgorithm() const;
 
       // Generate a SecretKey. Must be overriden in derived classes.
       virtual SecretKey generateKey() = 0;
