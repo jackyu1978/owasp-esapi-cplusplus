@@ -122,7 +122,8 @@ namespace esapi
     CryptoPP::StreamTransformationFilter filter(m_encryptor);
     filter.PutMessageEnd(key.BytePtr(), key.SizeInBytes());
 
-    const size_t ret = filter.MaxRetrievable();
+	// MaxMaxRetrievable returns an lword, which is 64 bits.
+    const unsigned int ret = (unsigned int)filter.MaxRetrievable();
     ASSERT(ret >= keyBytes);
     if( !(ret >= keyBytes) )
     {
