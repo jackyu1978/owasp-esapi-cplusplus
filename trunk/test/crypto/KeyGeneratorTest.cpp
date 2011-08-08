@@ -17,6 +17,8 @@ using std::auto_ptr;
 using esapi::SecretKey;
 using esapi::KeyGenerator;
 
+// #define VERBOSE 1
+
 static const unsigned int KEY_SIZES[] = { 63, 64, 65, 80, 112, 128, 192, 256, 384, 512 };
 
 // Block ciphers
@@ -55,8 +57,6 @@ void VerifyKeyGenerator()
 
 void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
 {
-    // #define DUMP_KEYS 1
-
     SecretKey k1 = kgen->generateKey();
     if(k1.SizeInBytes() < bytes)
       cerr << "  Key 1 is too small: " << k1 << endl;
@@ -65,14 +65,14 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
     if(k2.SizeInBytes() < bytes)
       cerr << "  Key 2 is too small: " << k2 << endl;
 
-    #if defined(DUMP_KEYS)
+    #if defined(VERBOSE)
       cout << " " << k1 << endl;
     #endif
 
     if(k1 == k2)
        cerr << "  Key 1 equals key 2: " << k1 << endl;
 
-    #if defined(DUMP_KEYS)
+    #if defined(VERBOSE)
       cout << " " << k2 << endl;
     #endif
 }

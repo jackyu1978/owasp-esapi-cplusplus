@@ -65,7 +65,7 @@ namespace esapi
     // requested key size is greater than the default key length, use the
     // cipher's maximum key length". If the requested key size is less than
     // the default key length, we use the cipher's default key length.
-    if(m_keyBits > ksize)
+    if(GetKeySize() > ksize)
       ksize = m_encryptor.MaxKeyLength();
 
     CryptoPP::SecByteBlock seed(ksize+bsize);
@@ -93,22 +93,23 @@ namespace esapi
   template <class CIPHER, template <class CIPHER> class MODE>
   SecretKey BlockCipherGenerator<CIPHER, MODE>::generateKey()
   {
-    // Single testing point to ensure init() has been called. All
-    // generateKey() methods must call the function.
-    KeyGenerator::VerifyKeyBitsSize();
-
-    if(m_encryptor.IsResynchronizable())
+    // If the block cipher is not resynchronizable, we will generate the same key bits
+    ASSERT( m_encryptor.IsResynchronizable() );
+    if( !m_encryptor.IsResynchronizable() )
     {
-      // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-      CryptoPP::AutoSeededX917RNG<CIPHER> prng;
-
-      CryptoPP::SecByteBlock iv(CIPHER::BLOCKSIZE);
-      prng.GenerateBlock(iv.BytePtr(), iv.SizeInBytes());
-
-      m_encryptor.Resynchronize(iv.BytePtr(), iv.SizeInBytes());
+      throw std::runtime_error("Failed to resynchronize block cipher");
     }
+
+    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
+    CryptoPP::AutoSeededX917RNG<CIPHER> prng;
+
+    CryptoPP::SecByteBlock iv(CIPHER::BLOCKSIZE);
+    prng.GenerateBlock(iv.BytePtr(), iv.SizeInBytes());
+
+    m_encryptor.Resynchronize(iv.BytePtr(), iv.SizeInBytes());
     
-    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+    // GetKeySize() will verify init() has been called
+    const unsigned int keyBytes = GetKeySize();
 
     // The SecByteBlock is initialized to a null vector. Encrypt the null
     // vector, and return the result to the caller as the SecretKey.
@@ -124,7 +125,7 @@ namespace esapi
     if( !(ret >= keyBytes) )
     {
       std::ostringstream oss;
-      oss << "Failed to generate the requested " << m_keyBits << " bits of material.";
+      oss << "Failed to generate the requested " << keyBytes << " bits of material.";
       throw std::runtime_error(oss.str());
     }
 
@@ -152,11 +153,8 @@ namespace esapi
   template <class HASH>
   SecretKey HashGenerator<HASH>::generateKey()
   {
-    // Single testing point to ensure init() has been called. All
-    // generateKey() methods must call the function.
-    KeyGenerator::VerifyKeyBitsSize();
-       
-    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+    // GetKeySize() will verify init() has been called
+    const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
     SecretKey key(keyBytes);
@@ -214,11 +212,8 @@ namespace esapi
   template <class HASH>
   SecretKey HmacGenerator<HASH>::generateKey()
   {
-    // Single testing point to ensure init() has been called. All
-    // generateKey() methods must call the function.
-    KeyGenerator::VerifyKeyBitsSize();
-
-    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+    // GetKeySize() will verify init() has been called
+    const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
     SecretKey key(keyBytes);
@@ -281,11 +276,8 @@ namespace esapi
   template <class CIPHER>
   SecretKey StreamCipherGenerator<CIPHER>::generateKey()
   {
-    // Single testing point to ensure init() has been called. All
-    // generateKey() methods must call the function.
-    KeyGenerator::VerifyKeyBitsSize();
-
-    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+    // GetKeySize() will verify init() has been called
+    const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
     SecretKey key(keyBytes);
@@ -368,6 +360,18 @@ namespace esapi
     }
 
     m_keyBits = keyBits;
+  }
+
+  // Called by derived classes to fetch key bytes (not bits)
+  unsigned int KeyGenerator::GetKeySize() const
+  {
+    // Single testing point to ensure init() has been called. All
+    // generateKey() methods must call the function.
+    KeyGenerator::VerifyKeyBitsSize();
+
+    // SafeInt will throw on wrap
+    const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
+    return keyBytes;
   }
 
   void KeyGenerator::SetAlgorithmName(const std::string& algorithmName)
