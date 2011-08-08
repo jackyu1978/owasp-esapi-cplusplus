@@ -16,8 +16,8 @@
 
 #include <string>
 
-#ifndef __INCLUDED_KEY_ENCRYPTOR__
-#define __INCLUDED_KEY_ENCRYPTOR__
+#ifndef __INCLUDED_KEY_GENERATOR__
+#define __INCLUDED_KEY_GENERATOR__
 
 #pragma once
 
@@ -179,5 +179,5 @@ namespace esapi
 
 }; // NAMESPACE esapi
 
-#endif // __INCLUDED_KEY_ENCRYPTOR__
+#endif // __INCLUDED_KEY_GENERATOR__
 
