@@ -274,7 +274,9 @@ namespace esapi
         if(req < copySize)
             throw std::out_of_range("Copy size exceeds source or destination size");
         
+		ESAPI_MS_NO_WARNING(4996)
         std::copy(src, src+req, dest);
+		ESAPI_MS_DEF_WARNING(4996)
     }
 
     /**
