@@ -1,20 +1,11 @@
-/*
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
-
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
+
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
 
 #include <string>
 using std::string;
@@ -32,6 +23,20 @@ void VerifyKeyDerivationFunction6();
 void VerifyKeyDerivationFunction7();
 void VerifyKeyDerivationFunction8();
 void VerifyKeyDerivationFunction9();
+
+BOOST_AUTO_TEST_CASE( test_case_KeyDerivationFunction )
+{
+	  VerifyKeyDerivationFunction1();
+	  VerifyKeyDerivationFunction2();
+	  VerifyKeyDerivationFunction3();
+	  VerifyKeyDerivationFunction4();
+	  VerifyKeyDerivationFunction5();
+	  VerifyKeyDerivationFunction6();
+	  VerifyKeyDerivationFunction7();
+	  VerifyKeyDerivationFunction8();
+	  VerifyKeyDerivationFunction9();
+	  //BOOST_REQUIRE( 1 == 1 );
+}
 
 void VerifyKeyDerivationFunction()
 {

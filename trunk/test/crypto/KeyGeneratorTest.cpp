@@ -1,21 +1,9 @@
-/*
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
-
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
+#define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -29,8 +17,6 @@ using std::auto_ptr;
 #include <crypto/KeyGenerator.h>
 using esapi::SecretKey;
 using esapi::KeyGenerator;
-
-// #define VERBOSE 1
 
 static const unsigned int KEY_SIZES[] = { 63, 64, 65, 80, 112, 128, 192, 256, 384, 512 };
 
@@ -52,7 +38,7 @@ void VerifyArc4KeyGenerator();
 
 void VerifyKey(auto_ptr<KeyGenerator>& kgen, size_t bytes);
 
-void VerifyKeyGenerator()
+BOOST_AUTO_TEST_CASE( test_case_KeyGenerator )
 {
     VerifyAesKeyGenerator();
     VerifyDesEdeKeyGenerator();
@@ -66,10 +52,13 @@ void VerifyKeyGenerator()
     VerifyHmacWhirlpoolKeyGenerator();
 
     VerifyArc4KeyGenerator();
+	  //BOOST_REQUIRE( 1 == 1 );
 }
 
 void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
 {
+    // #define DUMP_KEYS 1
+
     SecretKey k1 = kgen->generateKey();
     if(k1.SizeInBytes() < bytes)
       cerr << "  Key 1 is too small: " << k1 << endl;
@@ -78,14 +67,14 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
     if(k2.SizeInBytes() < bytes)
       cerr << "  Key 2 is too small: " << k2 << endl;
 
-    #if defined(VERBOSE)
+    #if defined(DUMP_KEYS)
       cout << " " << k1 << endl;
     #endif
 
     if(k1 == k2)
        cerr << "  Key 1 equals key 2: " << k1 << endl;
 
-    #if defined(VERBOSE)
+    #if defined(DUMP_KEYS)
       cout << " " << k2 << endl;
     #endif
 }
@@ -106,7 +95,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
     
@@ -122,7 +111,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -138,7 +127,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -154,73 +143,8 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "AES";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo/CBC";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -240,7 +164,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -256,7 +180,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -272,7 +196,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -288,73 +212,8 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Camellia";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo/CBC";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -374,7 +233,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -390,7 +249,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -406,7 +265,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -422,73 +281,8 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "DESede";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo/CBC";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -508,7 +302,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -524,7 +318,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -540,7 +334,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -556,73 +350,8 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Blowfish";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo/CBC";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -642,7 +371,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -658,7 +387,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -674,7 +403,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -690,7 +419,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -706,52 +435,8 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "SHA1";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -767,52 +452,8 @@ void VerifyWhirlpoolKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Whirlpool";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -832,7 +473,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -848,7 +489,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -864,7 +505,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -880,7 +521,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -896,52 +537,8 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "HMACSha1";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -957,52 +554,8 @@ void VerifyHmacWhirlpoolKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "HmacWhirlpool";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 
@@ -1018,52 +571,8 @@ void VerifyArc4KeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "ArcFour";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing unitialized " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> oops(KeyGenerator::getInstance(alg));
-            SecretKey kk = oops->generateKey();
-
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-
-    alg = "Foo";
-
-    {
-		bool success = false;
-
-		try
-		{
-            cout << "Testing " << alg << " generator" << endl;
-		    auto_ptr<KeyGenerator> bogus(KeyGenerator::getInstance(alg));
-		}
-		catch(...)
-		{
-		    success = true;
-		}
-        
-        if( !success )
-          cerr << "Failed to catch bogus algorithm " << alg << endl;
     }
 }
 

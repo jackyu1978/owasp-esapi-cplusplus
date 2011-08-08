@@ -104,7 +104,8 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/SecureRandomTest.cpp \
 			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
-			test/crypto/KeyDerivationFunctionTest.cpp
+			test/crypto/KeyDerivationFunctionTest.cpp \
+			test/errors/ValidationExceptionTest.cpp
 
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
 CRYPTOOBJS =	$(CRYPTOSRCS:.cpp=.o)
