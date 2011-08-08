@@ -2,7 +2,8 @@
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see * http://www.owasp.org/index.php/ESAPI.
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
@@ -40,53 +41,59 @@ static const unsigned int THREAD_COUNT = 64;
 
 BOOST_AUTO_TEST_CASE( VerifySecureRandom )
 {
-	BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
+  BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
 
-	DoWorkerThreadStuff();
+  DoWorkerThreadStuff();
 }
 
 void DoWorkerThreadStuff()
 {
-	pthread_t threads[THREAD_COUNT];
+  pthread_t threads[THREAD_COUNT];
 
-	// *** Worker Threads ***
-	for(unsigned int i=0; i<THREAD_COUNT; i++)
-	{
-		int ret = pthread_create(&threads[i], NULL, WorkerThreadProc, (void*)i);
-		if(0 != ret /*success*/)
-		{
-			BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
-		}
-	}
+  // *** Worker Threads ***
+  for(unsigned int i=0; i<THREAD_COUNT; i++)
+    {
+      int ret = pthread_create(&threads[i], NULL, WorkerThreadProc, (void*)i);
+      if(0 != ret /*success*/)
+        {
+          BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
+        }
+    }
 
-	for(unsigned int i=0; i<THREAD_COUNT; i++)
-	{
-		int ret = pthread_join(threads[i], NULL);
-		if(0 != ret /*success*/)
-		{
-			BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );
-		}
-	}
+  for(unsigned int i=0; i<THREAD_COUNT; i++)
+    {
+      int ret = pthread_join(threads[i], NULL);
+      if(0 != ret /*success*/)
+        {
+          BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );
+        }
+    }
 
-    BOOST_MESSAGE( " All threads completed successfully" );
+  BOOST_MESSAGE( " All threads completed successfully" );
 }
 
 void* WorkerThreadProc(void* param)
 {
-	byte random[16384];
+  byte random[8192];
 
-    SecureRandom prng1;
-    prng1.nextBytes(random, sizeof(random));
+  SecureRandom prng1;
+  for (unsigned int i = 0; i < 64; i++)
+    prng1.nextBytes(random, i+1);
 
-	// give up the remainder of this time quantum to help interleave
-	// thread creation between parent/child
-	sleep(0);
+  prng1.nextBytes(random, sizeof(random));
 
-    SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
-    prng2.nextBytes(random, sizeof(random));
+  // give up the remainder of this time quantum to help interleave
+  // thread creation and execution
+  sleep(0);
 
-    BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
+  SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
+  prng2.nextBytes(random, sizeof(random));
 
-    return (void*)0;
+  for (unsigned int i = 0; i < 64; i++)
+    prng2.setSeed(random, i+8);
+
+  BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
+
+  return (void*)0;
 }
 
