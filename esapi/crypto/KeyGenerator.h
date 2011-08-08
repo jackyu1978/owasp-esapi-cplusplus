@@ -48,6 +48,9 @@ namespace esapi
       // Called by derived classes in init()
       void SetKeySize(unsigned int keySize);
 
+      // Called by derived classes to fetch key bytes (not bits)
+      unsigned int GetKeySize() const;
+
       // Called by derived classes in CreateInstance()
       void SetAlgorithmName(const std::string& algorithmName);
 
@@ -64,7 +67,7 @@ namespace esapi
       static const unsigned int NoKeySize;
       static const unsigned int MaxKeySize;
 
-    protected:
+    private:
       std::string m_algorithm;
       unsigned int m_keyBits;  
   };
