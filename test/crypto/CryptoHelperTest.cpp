@@ -63,6 +63,8 @@ int VerifyCryptoHelper109();
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper )
 {
+	BOOST_MESSAGE( "Verifying CryptoHelper class" );
+
 	// generateSecretKey
 
 	// computeDerivedKey tested in KeyDerivationFuntiontest.cpp

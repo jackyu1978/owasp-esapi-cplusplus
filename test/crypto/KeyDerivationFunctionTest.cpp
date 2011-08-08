@@ -40,6 +40,8 @@ void VerifyKeyDerivationFunction9();
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
 {
+  BOOST_MESSAGE( "Verifying KeyDerivationFunction class" );
+
 	  VerifyKeyDerivationFunction1();
 	  VerifyKeyDerivationFunction2();
 	  VerifyKeyDerivationFunction3();

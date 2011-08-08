@@ -29,7 +29,7 @@ using esapi::CipherText;
 
 BOOST_AUTO_TEST_CASE( VerifyCipherText )
 {
-
+	BOOST_MESSAGE( "Verifying CipherText class" );
 }
 
 
