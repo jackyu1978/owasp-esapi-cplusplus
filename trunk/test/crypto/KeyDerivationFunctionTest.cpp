@@ -9,6 +9,7 @@
  *
  * @author Kevin Wall, kevin.w.wall@gmail.com
  * @author Jeffrey Walton, noloader@gmail.com
+ * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
 #include <iostream>
