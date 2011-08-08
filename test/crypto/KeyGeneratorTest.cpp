@@ -18,7 +18,7 @@ using std::auto_ptr;
 using esapi::SecretKey;
 using esapi::KeyGenerator;
 
-static const unsigned int KEY_SIZES[] = { 63, 64, 65, 80, 112, 128, 192, 256, 384, 512 };
+static const unsigned int KEY_SIZES[] = { 1, 8, 63, 64, 65, 80, 112, 128, 192, 256, 384, 512 };
 
 // Block ciphers
 void VerifyAesKeyGenerator();
@@ -95,7 +95,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
     
@@ -111,7 +111,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -127,7 +127,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -143,7 +143,7 @@ void VerifyAesKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -164,7 +164,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -180,7 +180,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -196,7 +196,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -212,7 +212,7 @@ void VerifyCamelliaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -233,7 +233,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -249,7 +249,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -265,7 +265,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -281,7 +281,7 @@ void VerifyDesEdeKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -302,7 +302,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -318,7 +318,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -334,7 +334,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -350,7 +350,7 @@ void VerifyBlowfishKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -371,7 +371,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -387,7 +387,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -403,7 +403,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -419,7 +419,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -435,7 +435,7 @@ void VerifyShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -452,7 +452,7 @@ void VerifyWhirlpoolKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -473,7 +473,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -489,7 +489,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -505,7 +505,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -521,7 +521,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 
@@ -537,7 +537,7 @@ void VerifyHmacShaKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -554,7 +554,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -571,7 +571,7 @@ void VerifyArc4KeyGenerator()
         const unsigned int bytes = (bits+7)/8;
         kg->init(bits);
 
-        cout << "Testing " << kg->algorithm() << " (" << bits << ")" << endl;
+        cout << "Testing " << kg->getAlgorithm() << " (" << bits << ")" << endl;
         VerifyKeyGeneration(kg, bytes);
     }
 }
