@@ -6,8 +6,8 @@
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  *
  */
 

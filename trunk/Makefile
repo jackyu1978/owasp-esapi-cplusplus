@@ -34,12 +34,16 @@ CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 EGREP = egrep
 
+UNAME = uname
+
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
 
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-9])")
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
+
+IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 
 ifneq ($(INTEL_COMPILER),0)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
@@ -60,12 +64,19 @@ ifneq ($(GCC46_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
 
+# http://lists.debian.org/debian-devel/2003/10/msg01538.html
+ifneq ($(IS_LINUX), 0)
+  CXXFLAGS += -D_REENTRANT
+  LDLIBS += -lpthread
+endif
+
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp
 
 CRYPTOSRCS = src/crypto/PlainText.cpp \
-			src/crypto/PlainText.cpp \
+			src/crypto/CipherText.cpp \
 			src/crypto/SecretKey.cpp \
+			src/crypto/SecureRandom.cpp \
 			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/KeyDerivationFunction.cpp
@@ -90,6 +101,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
+			test/crypto/SecureRandomTest.cpp \
 			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp
@@ -118,12 +130,6 @@ LDLIBS +=	-lcryptopp
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
-
-# http://lists.debian.org/debian-devel/2003/10/msg01538.html
-ifeq ($(UNAME),Linux)
-  LDFLAGS += -D_REENTRANT
-  LDLIBS += -lpthreads
-endif
 
 # Might need this. TOOD: test and uncomment or remove
 # ifeq ($(UNAME),Darwin)
