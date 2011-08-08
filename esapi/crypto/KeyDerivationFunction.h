@@ -24,9 +24,8 @@
  * also made valuable suggestions regarding the modeling of the method,
  * {@link #computeDerivedKey(SecretKey, int, String)}.
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
- * @since 2.0
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  */
 
 namespace esapi
