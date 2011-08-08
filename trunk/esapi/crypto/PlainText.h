@@ -14,9 +14,6 @@
 #include "EsapiCommon.h"
 #include <cryptopp/secblock.h>
 
-#ifndef __INCLUDED_PLAIN_TEXT__
-#define __INCLUDED_PLAIN_TEXT__
-
 #pragma once
 
 namespace esapi
@@ -25,5 +22,3 @@ namespace esapi
   typedef std::string PlainText;
 
 }; // NAMESPACE esapi
-
-#endif // __INCLUDED_PLAIN_TEXT__
