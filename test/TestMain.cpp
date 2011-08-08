@@ -10,21 +10,7 @@
  * @author Jeffrey Walton, noloader@gmail.com
  *
  */
-
-void VerifySecretKey();
-void VerifyKeyGenerator();
-void VerifyCryptoHelper();
-void VerifySecureRandom();
-void VerifyKeyDerivationFunction();
-
-int main(int, char**)
-{
-	VerifySecretKey();
-	VerifyKeyGenerator();
-	VerifyCryptoHelper();
-	VerifySecureRandom();
-    VerifyKeyDerivationFunction();
-
-    return 0;
-}
-
+ 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE "ESAPI C++ Unit Tests"
+#include <boost/test/unit_test.hpp>
