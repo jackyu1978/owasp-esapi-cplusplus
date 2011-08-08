@@ -61,7 +61,7 @@ int VerifyCryptoHelper107();
 int VerifyCryptoHelper108();
 int VerifyCryptoHelper109();
 
-BOOST_AUTO_TEST_CASE( test_case_CryptoHelper )
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper )
 {
 	// generateSecretKey
 

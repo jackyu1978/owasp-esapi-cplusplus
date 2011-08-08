@@ -27,3 +27,9 @@ using std::string;
 #include <crypto/CipherText.h>
 using esapi::CipherText;
 
+BOOST_AUTO_TEST_CASE( VerifyCipherText )
+{
+
+}
+
+

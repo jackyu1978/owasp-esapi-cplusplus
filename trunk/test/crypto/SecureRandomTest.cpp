@@ -12,13 +12,14 @@
  *
  */
 
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
+
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
-
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
 
 #include <string>
 using std::string;
@@ -37,16 +38,16 @@ void* WorkerThreadProc(void* param);
 
 static const unsigned int THREAD_COUNT = 64;
 
-void VerifySecureRandom()
+BOOST_AUTO_TEST_CASE( VerifySecureRandom )
 {
-    DoWorkerThreadStuff();
+	DoWorkerThreadStuff();
 }
 
 void DoWorkerThreadStuff()
 {
 	pthread_t threads[THREAD_COUNT];
 
-    cout << "Testing SecureRandom with " << THREAD_COUNT << " threads" << endl;
+    BOOST_MESSAGE( "Testing SecureRandom with " << THREAD_COUNT << " threads" );
 
 	// *** Worker Threads ***
 	for(unsigned int i=0; i<THREAD_COUNT; i++)
@@ -54,7 +55,7 @@ void DoWorkerThreadStuff()
 		int ret = pthread_create(&threads[i], NULL, WorkerThreadProc, (void*)i);
 		if(0 != ret /*success*/)
 		{
-			cerr << "pthread_create failed (thread " << i << "): " << strerror(errno) << endl;
+			BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
 		}
 	}
 
@@ -63,11 +64,11 @@ void DoWorkerThreadStuff()
 		int ret = pthread_join(threads[i], NULL);
 		if(0 != ret /*success*/)
 		{
-			cerr << "pthread_join failed (thread " << i << "): " << strerror(errno) << endl;
+			BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );
 		}
 	}
 
-    cout << "All threads completed successfully" << endl;
+    BOOST_MESSAGE( "All threads completed successfully" );
 }
 
 void* WorkerThreadProc(void* param)
@@ -84,7 +85,7 @@ void* WorkerThreadProc(void* param)
     SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
     prng2.nextBytes(random, sizeof(random));
 
-    cout << "  Thread " << (size_t)param << " completed" << endl;
+    BOOST_MESSAGE( "  Thread " << (size_t)param << " completed" );
 
     return (void*)0;
 }

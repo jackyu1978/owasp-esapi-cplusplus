@@ -27,7 +27,7 @@ using std::string;
 #include <crypto/SecretKey.h>
 using esapi::SecretKey;
 
-void VerifySecretKey()
+BOOST_AUTO_TEST_CASE( VerifySecretKey )
 {
 
 }

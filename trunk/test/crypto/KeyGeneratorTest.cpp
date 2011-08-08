@@ -52,7 +52,7 @@ void VerifyArc4KeyGenerator();
 
 void VerifyKey(auto_ptr<KeyGenerator>& kgen, size_t bytes);
 
-BOOST_AUTO_TEST_CASE( test_case_KeyGenerator )
+BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
 {
     VerifyAesKeyGenerator();
     VerifyDesEdeKeyGenerator();

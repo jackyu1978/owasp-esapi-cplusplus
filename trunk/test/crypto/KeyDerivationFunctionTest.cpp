@@ -38,7 +38,7 @@ void VerifyKeyDerivationFunction7();
 void VerifyKeyDerivationFunction8();
 void VerifyKeyDerivationFunction9();
 
-BOOST_AUTO_TEST_CASE( test_case_KeyDerivationFunction )
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
 {
 	  VerifyKeyDerivationFunction1();
 	  VerifyKeyDerivationFunction2();
