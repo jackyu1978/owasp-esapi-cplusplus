@@ -122,7 +122,8 @@ typedef unsigned char byte;
 # include <pthread.h>
 #endif
 
-#if defined(ESAPI_OS_WINDOWS)
+// Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
+#if defined(ESAPI_OS_WINDOWS) && (_MSC_VER >= 1500)
 # define ESAPI_MS_NO_WARNING(x) \
 	__pragma(warning(disable:x))
 # define ESAPI_MS_DEF_WARNING(x) \
