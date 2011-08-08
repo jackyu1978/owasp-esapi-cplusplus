@@ -18,9 +18,6 @@
 
 #include <string>
 
-#ifndef __INCLUDED_CRYPTO_HELPER__
-#define __INCLUDED_CRYPTO_HELPER__
-
 #pragma once
 
 /**
@@ -227,5 +224,3 @@ namespace esapi
       CryptoHelper() { /* No instantiation */ };
   };
 }; // NAMESPACE esapi
-
-#endif // __INCLUDED_CRYPTO_HELPER__

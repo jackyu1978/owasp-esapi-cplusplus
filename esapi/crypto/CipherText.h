@@ -14,9 +14,6 @@
 #include "EsapiCommon.h"
 #include <cryptopp/secblock.h>
 
-#ifndef __INCLUDED_CIPHER_TEXT__
-#define __INCLUDED_CIPHER_TEXT__
-
 #pragma once
 
 namespace esapi
@@ -26,4 +23,3 @@ namespace esapi
 
 }; // NAMESPACE esapi
 
-#endif // __INCLUDED_CIPHER_TEXT__
