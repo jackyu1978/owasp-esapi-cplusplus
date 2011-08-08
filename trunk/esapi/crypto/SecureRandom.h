@@ -44,77 +44,77 @@ namespace esapi
    */
   class SecureRandom
   {
-    public:
-      // Retrieve a reference to the global PRNG.
-      static SecureRandom& GlobalSecureRandom();
+  public:
+    // Retrieve a reference to the global PRNG.
+    static SecureRandom& GlobalSecureRandom();
 
-      // Create an instance PRNG.
-      explicit SecureRandom();
+    // Create an instance PRNG.
+    explicit SecureRandom();
 
-      // Create an instance PRNG with a seed.
-      explicit SecureRandom(const byte* seed, size_t size);
+    // Create an instance PRNG with a seed.
+    explicit SecureRandom(const byte* seed, size_t size);
 
-      // Create an instance PRNG with a seed.
-      explicit SecureRandom(const std::vector<byte>& seed);
+    // Create an instance PRNG with a seed.
+    explicit SecureRandom(const std::vector<byte>& seed);
 
-      // Standard destructor.
-      virtual ~SecureRandom();
+    // Standard destructor.
+    virtual ~SecureRandom();
 
-      // Returns the name of the algorithm implemented by this SecureRandom object.
-      std::string getAlgorithm() const;
+    // Returns the name of the algorithm implemented by this SecureRandom object.
+    std::string getAlgorithm() const;
 
-      // Generates a user-specified number of random bytes.
-      void nextBytes(byte* bytes, size_t size);   
+    // Generates a user-specified number of random bytes.
+    void nextBytes(byte* bytes, size_t size);   
 
-      // Generates a user-specified number of random bytes.
-      void nextBytes(std::vector<byte>& bytes);
+    // Generates a user-specified number of random bytes.
+    void nextBytes(std::vector<byte>& bytes);
 
-      // Reseeds this random object.
-      void setSeed(const byte* seed, size_t size);
+    // Reseeds this random object.
+    void setSeed(const byte* seed, size_t size);
 
-      // Reseeds this random object.
-      void setSeed(const std::vector<byte>& seed);
+    // Reseeds this random object.
+    void setSeed(const std::vector<byte>& seed);
       
-      // Reseeds this random object, using the bytes contained in the given long seed.
-      void setSeed(long seed);
+    // Reseeds this random object, using the bytes contained in the given long seed.
+    void setSeed(long seed);
 
-    protected:
+  protected:
 
-      // Initialize the lock for the PRNG
-      void InitializeLock() const;
+    // Initialize the lock for the PRNG
+    void InitializeLock() const;
 
-      class AutoLock
-      {
+    class AutoLock
+    {
 #if defined(ESAPI_OS_WINDOWS)
-        public:
-          explicit AutoLock(CRITICAL_SECTION& cs);
-          virtual ~AutoLock();
-        private:
-          CRITICAL_SECTION& mm_cs;
-#elif defined(ESAPI_OS_STARNIX)
-        public:
-          explicit AutoLock(pthread_mutex_t& mtx);
-          virtual ~AutoLock();
-        private:
-          pthread_mutex_t& mm_lock;
-#endif        
-      };
-
+    public:
+      explicit AutoLock(CRITICAL_SECTION& cs);
+      virtual ~AutoLock();
     private:
-      // A instance PRNG
-      CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
-
-      // A global PRNG
-      static SecureRandom g_prng;
-
-      // Crypto++ is MT safe at the class level, meaning it does not share data amoung
-      // instances. If a Global PRNG is provided, we must take care to ensure only one 
-      // thread is operating at a time since there's only one set of data within the
-      // class. That is, there is no thread local storage.
-#if defined(ESAPI_OS_WINDOWS)
-      mutable CRITICAL_SECTION m_cs;
+      CRITICAL_SECTION& mm_cs;
 #elif defined(ESAPI_OS_STARNIX)
-      mutable pthread_mutex_t m_lock;
+    public:
+      explicit AutoLock(pthread_mutex_t& mtx);
+      virtual ~AutoLock();
+    private:
+      pthread_mutex_t& mm_lock;
+#endif        
+    };
+
+  private:
+    // A instance PRNG
+    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
+
+    // A global PRNG
+    static SecureRandom g_prng;
+
+    // Crypto++ is MT safe at the class level, meaning it does not share data amoung
+    // instances. If a Global PRNG is provided, we must take care to ensure only one 
+    // thread is operating at a time since there's only one set of data within the
+    // class. That is, there is no thread local storage.
+#if defined(ESAPI_OS_WINDOWS)
+    mutable CRITICAL_SECTION m_cs;
+#elif defined(ESAPI_OS_STARNIX)
+    mutable pthread_mutex_t m_lock;
 #endif
 
   };
