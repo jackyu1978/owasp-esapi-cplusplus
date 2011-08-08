@@ -108,7 +108,7 @@ namespace esapi
     CryptoPP::SecByteBlock iv(CIPHER::BLOCKSIZE);
     prng.GenerateBlock(iv.BytePtr(), iv.SizeInBytes());
 
-    m_encryptor.Resynchronize(iv.BytePtr(), iv.SizeInBytes());
+    m_encryptor.Resynchronize(iv.BytePtr(), (int)iv.SizeInBytes());
     
     // GetKeySize() will verify init() has been called
     const unsigned int keyBytes = GetKeySize();
@@ -174,7 +174,7 @@ namespace esapi
     while(remaining)
     {
       HASH hasher;
-      const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+      const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
       // Initial or previous hash result
       hasher.Update(hash.BytePtr(), hash.SizeInBytes());
@@ -238,7 +238,7 @@ namespace esapi
     while(remaining)
     {
       hasher.Restart();
-      const size_t req = std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+      const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
       // Initial or previous hash result
       hasher.Update(hash.BytePtr(), hash.SizeInBytes());
