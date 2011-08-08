@@ -122,7 +122,7 @@ namespace esapi
     CryptoPP::StreamTransformationFilter filter(m_encryptor);
     filter.PutMessageEnd(key.BytePtr(), key.SizeInBytes());
 
-	// MaxMaxRetrievable returns an lword, which is 64 bits.
+	// MaxRetrievable returns an lword, which is 64 bits.
     const unsigned int ret = (unsigned int)filter.MaxRetrievable();
     ASSERT(ret >= keyBytes);
     if( !(ret >= keyBytes) )
@@ -185,7 +185,9 @@ namespace esapi
       hasher.TruncatedFinal(hash.BytePtr(), req);
 
       // Copy out to key
+	  ESAPI_MS_NO_WARNING(4996)
       std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+	  ESAPI_MS_DEF_WARNING(4996)
 
       // Book keeping
       idx += req;
@@ -249,7 +251,9 @@ namespace esapi
       hasher.TruncatedFinal(hash.BytePtr(), req);
 
       // Copy out to key
+	  ESAPI_MS_NO_WARNING(4996)
       std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+	  ESAPI_MS_DEF_WARNING(4996)
 
       // Book keeping
       idx += req;

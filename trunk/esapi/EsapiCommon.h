@@ -122,3 +122,12 @@ typedef unsigned char byte;
 # include <pthread.h>
 #endif
 
+#if defined(ESAPI_OS_WINDOWS)
+# define ESAPI_MS_NO_WARNING(x) \
+	__pragma(warning(disable:x))
+# define ESAPI_MS_DEF_WARNING(x) \
+	__pragma(warning(default:x))
+#else
+# define ESAPI_MS_NO_WARNING(x)
+# define ESAPI_MS_DEF_WARNING(x)
+#endif
