@@ -15,15 +15,14 @@
  * @created 2011
  */
 
-#ifndef __INCLUDED_ESAPI_COMMON__
-#define __INCLUDED_ESAPI_COMMON__
-
 #pragma once
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstddef>
 #include <cstring>
+
+#include <assert.h>
 #include <signal.h>
 
 // Only one or the other, but not both
@@ -119,4 +118,7 @@ typedef unsigned char byte;
 # define nullptr NULL
 #endif
 
-#endif // __INCLUDED_ESAPI_COMMON__
+#if defined(ESAPI_OS_STARNIX)
+# include <pthread.h>
+#endif
+
