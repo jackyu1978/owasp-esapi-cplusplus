@@ -40,14 +40,14 @@ static const unsigned int THREAD_COUNT = 64;
 
 BOOST_AUTO_TEST_CASE( VerifySecureRandom )
 {
+	BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
+
 	DoWorkerThreadStuff();
 }
 
 void DoWorkerThreadStuff()
 {
 	pthread_t threads[THREAD_COUNT];
-
-    BOOST_MESSAGE( "Testing SecureRandom with " << THREAD_COUNT << " threads" );
 
 	// *** Worker Threads ***
 	for(unsigned int i=0; i<THREAD_COUNT; i++)
@@ -68,7 +68,7 @@ void DoWorkerThreadStuff()
 		}
 	}
 
-    BOOST_MESSAGE( "All threads completed successfully" );
+    BOOST_MESSAGE( " All threads completed successfully" );
 }
 
 void* WorkerThreadProc(void* param)
@@ -85,7 +85,7 @@ void* WorkerThreadProc(void* param)
     SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
     prng2.nextBytes(random, sizeof(random));
 
-    BOOST_MESSAGE( "  Thread " << (size_t)param << " completed" );
+    BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
 
     return (void*)0;
 }
