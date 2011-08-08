@@ -27,3 +27,8 @@ using std::string;
 #include <crypto/PlainText.h>
 using esapi::PlainText;
 
+BOOST_AUTO_TEST_CASE( VerifyPlainText )
+{
+
+}
+
