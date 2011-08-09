@@ -69,73 +69,73 @@ void VerifyKeyDerivationFunction()
 
 void VerifyKeyDerivationFunction1()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  if(d.SizeInBytes() != 16)
+  if(d.sizeInBytes() != 16)
     cerr << "VerifyKeyDerivationFunction1 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction2()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  if(d.SizeInBytes() != 16)
+  if(d.sizeInBytes() != 16)
     cerr << "VerifyKeyDerivationFunction1 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction3()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  if(d.SizeInBytes() != 7)
+  if(d.sizeInBytes() != 7)
     cerr << "VerifyKeyDerivationFunction3 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction4()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  if(d.SizeInBytes() != 7)
+  if(d.sizeInBytes() != 7)
     cerr << "VerifyKeyDerivationFunction4 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction5()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  if(d.SizeInBytes() != 64)
+  if(d.sizeInBytes() != 64)
     cerr << "VerifyKeyDerivationFunction5 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction6()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  if(d.SizeInBytes() != 64)
+  if(d.sizeInBytes() != 64)
     cerr << "VerifyKeyDerivationFunction6 failed" << endl;
 }
 
 void VerifyKeyDerivationFunction7()
 {
-  SecretKey k(0);
+  SecretKey k("Testing", 0);
   std::string p("encryption");
   bool success = false;
 
@@ -156,7 +156,7 @@ void VerifyKeyDerivationFunction7()
 
 void VerifyKeyDerivationFunction8()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   std::string p("encryption");
   bool success = false;
 
@@ -175,7 +175,7 @@ void VerifyKeyDerivationFunction8()
 
 void VerifyKeyDerivationFunction9()
 {
-  SecretKey k(32);
+  SecretKey k("Testing", 32);
   bool success = false;
 
   try

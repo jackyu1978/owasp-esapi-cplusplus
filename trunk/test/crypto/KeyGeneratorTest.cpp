@@ -76,11 +76,11 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
     // #define DUMP_KEYS 1
 
     SecretKey k1 = kgen->generateKey();
-    if(k1.SizeInBytes() < bytes)
+    if(k1.sizeInBytes() < bytes)
       BOOST_ERROR( "  Key 1 is too small: " << k1 );
 
     SecretKey k2 = kgen->generateKey();
-    if(k2.SizeInBytes() < bytes)
+    if(k2.sizeInBytes() < bytes)
       BOOST_ERROR( "  Key 2 is too small: " << k2 );
 
     #if defined(DUMP_KEYS)
@@ -89,7 +89,7 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
 
     // Ignore it when single bytes are produced consecutively
     // (fails on occasion for 1 and 2 byte keys).
-    if(k1 == k2 && k1.SizeInBytes() > 2)
+    if(k1 == k2 && k1.sizeInBytes() > 2)
        BOOST_ERROR( "  Key 1 equals key 2: " << k1 );
 
     #if defined(DUMP_KEYS)
