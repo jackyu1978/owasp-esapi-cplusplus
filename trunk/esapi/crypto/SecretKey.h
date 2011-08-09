@@ -17,7 +17,9 @@
 #include "EsapiCommon.h"
 #include "crypto/Key.h"
 
+ESAPI_MS_WARNING_LEVEL(3)
 #include <cryptopp/secblock.h>
+ESAPI_MS_WARNING_POP()
 
 /**
  * This class implements functionality similar to Java's SecretKey for

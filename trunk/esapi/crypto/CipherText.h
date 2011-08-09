@@ -14,7 +14,9 @@
 
 #include "EsapiCommon.h"
 
+ESAPI_MS_WARNING_LEVEL(3)
 #include <cryptopp/secblock.h>
+ESAPI_MS_WARNING_POP()
 
 #pragma once
 

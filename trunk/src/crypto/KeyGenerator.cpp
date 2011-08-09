@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <stdexcept>
 
+ESAPI_MS_WARNING_LEVEL(3)
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
 #include <cryptopp/sha.h>
@@ -36,6 +37,7 @@
 #include <cryptopp/whrlpool.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/secblock.h>
+ESAPI_MS_WARNING_POP()
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptopp/arc4.h>

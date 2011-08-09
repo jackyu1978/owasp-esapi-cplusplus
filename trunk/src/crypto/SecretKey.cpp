@@ -16,8 +16,10 @@
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
 
+ESAPI_MS_WARNING_LEVEL(3)
 #include <cryptopp/hex.h>
 #include <cryptopp/filters.h>
+ESAPI_MS_WARNING_POP()
 
 namespace esapi
 {
