@@ -49,8 +49,9 @@ namespace esapi
     virtual ~Key() { }
 
   private:
-    // Ensure compiler never generates this.
-    virtual Key& operator=(const Key& rhs);
+    // Ensure compiler never generates this. We have to have it, see
+    // Miscellaneous iten 5 at http://gcc.gnu.org/faq.html.
+    // virtual Key& operator=(const Key& rhs);
   };
 
 }; // NAMESPACE esapi

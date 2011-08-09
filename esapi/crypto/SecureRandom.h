@@ -25,8 +25,9 @@
 
 // Crypto++ is MT safe at the class level, meaning it does not share data amoung
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
-// thread is operating at a time since there's only one set of data within the
-// class. That is, there is no thread local storage.
+// thread is operating on it at a time since there's only one set of data within
+// the class (ie, there is no thread local storage). So far, we only support
+// Windows, Linux, and Apple.
 #if !defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_OS_STARNIX)
 # error "Unsupported operating system platform"
 #endif
@@ -113,8 +114,8 @@ namespace esapi
 
     // Crypto++ is MT safe at the class level, meaning it does not share data amoung
     // instances. If a Global PRNG is provided, we must take care to ensure only one 
-    // thread is operating at a time since there's only one set of data within the
-    // class. That is, there is no thread local storage.
+    // thread is operating on it at a time since there's only one set of data within
+    // the class (ie, there is no thread local storage).
 #if defined(ESAPI_OS_WINDOWS)
     mutable CRITICAL_SECTION m_lock;
 #elif defined(ESAPI_OS_STARNIX)

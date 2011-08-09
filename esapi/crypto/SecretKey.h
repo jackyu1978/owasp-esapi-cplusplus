@@ -40,7 +40,7 @@ namespace esapi
   public:
     /**
      * Create a random SecretKey of 'size' bytes using the
-     * SecureRandom::GlobalSecureRandom() generator.
+     * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES).
      */
     SecretKey(const std::string& alg, const size_t size, const std::string& format = "RAW");
 	/**
