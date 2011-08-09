@@ -20,9 +20,11 @@
 #include <string>
 #include <vector>
 
+ESAPI_MS_WARNING_LEVEL(3)
 #include <cryptopp/aes.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/secblock.h>
+ESAPI_MS_WARNING_POP()
 
 // Crypto++ is MT safe at the class level, meaning it does not share data amoung
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
@@ -97,6 +99,8 @@ namespace esapi
       virtual ~AutoLock();
     private:
       CRITICAL_SECTION& mm_lock;
+	private:
+      AutoLock& operator=(const AutoLock&) { /* hidden */ }
 #elif defined(ESAPI_OS_STARNIX)
     public:
       explicit AutoLock(pthread_mutex_t& mtx);

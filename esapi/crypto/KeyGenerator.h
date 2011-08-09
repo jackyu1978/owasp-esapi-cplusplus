@@ -17,9 +17,6 @@
 
 #include <string>
 
-#ifndef __INCLUDED_KEY_GENERATOR__
-#define __INCLUDED_KEY_GENERATOR__
-
 #pragma once
 
 namespace esapi
@@ -183,6 +180,3 @@ namespace esapi
   }; // StreamCipherGenerator
 
 }; // NAMESPACE esapi
-
-#endif // __INCLUDED_KEY_GENERATOR__
-
