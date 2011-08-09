@@ -44,12 +44,11 @@
 
 namespace esapi
 {
-  
   SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const std::string& purpose)
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
-    ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
+    ASSERT( keyDerivationKey.sizeInBytes()  > 0 );
     ASSERT( keySize >= 56 );
     ASSERT( (keySize % 8) == 0 );
     ASSERT( !purpose.empty());
@@ -187,7 +186,7 @@ namespace esapi
     */
 
     // Returned to caller
-    SecretKey derived(keySize);
+	CryptoPP::SecByteBlock derived(keySize);
 
     // Counter
     unsigned int ctr = 1;
@@ -199,7 +198,7 @@ namespace esapi
         const byte i[4] = { (ctr >> 24 && 0xff), (ctr >> 16 && 0xff), (ctr >> 8 && 0xff), (ctr && 0xff) };
         const byte nil = '\0';
 
-        CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.SizeInBytes());
+        CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.sizeInBytes());
 
         hmac.Update(i, sizeof(i));
         hmac.Update((const byte*)label.data(), label.size());
@@ -217,7 +216,7 @@ namespace esapi
     // Convert it back into a SecretKey of the appropriate type.
     // return new SecretKeySpec(derivedKey, keyDerivationKey.getAlgorithm());
 
-    return derived;
+    return SecretKey("HMACSha1", derived);
   }
 
   /**

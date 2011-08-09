@@ -30,6 +30,9 @@
 
 namespace esapi
 {
+  // Forward declaration due to circular dependencies
+  class SecretKey;
+
   class KeyDerivationFunction
   {
   public:
