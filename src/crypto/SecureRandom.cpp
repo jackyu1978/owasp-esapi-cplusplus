@@ -143,7 +143,7 @@ namespace esapi
   SecureRandom::AutoLock::~AutoLock()
   {
     // Yet another function which never fails.
-    DeleteCriticalSection(&mm_lock);
+    LeaveCriticalSection(&mm_lock);
   }
 
 #elif defined(ESAPI_OS_STARNIX) // ESAPI_OS_WINDOWS
