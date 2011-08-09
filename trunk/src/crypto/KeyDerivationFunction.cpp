@@ -186,7 +186,7 @@ namespace esapi
     */
 
     // Returned to caller
-	CryptoPP::SecByteBlock derived(keySize);
+    CryptoPP::SecByteBlock derived(keySize);
 
     // Counter
     unsigned int ctr = 1;
