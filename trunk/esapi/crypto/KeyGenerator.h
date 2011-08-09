@@ -41,7 +41,7 @@ namespace esapi
       virtual void init(unsigned int keyBits = DefaultKeySize);
 
       // Return the standard algorithm name.
-      virtual std::string getAlgorithm() const;
+      virtual const std::string& getAlgorithm() const;
 
       // Generate a SecretKey. Must be overriden in derived classes.
       virtual SecretKey generateKey() = 0;

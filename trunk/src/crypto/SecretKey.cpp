@@ -77,7 +77,7 @@ namespace esapi
     return BytePtr();
   }
 
-  std::string SecretKey::getFormat() const
+  const std::string& SecretKey::getFormat() const
   {
     return m_format;
   }

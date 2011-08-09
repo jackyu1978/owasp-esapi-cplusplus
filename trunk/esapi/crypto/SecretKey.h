@@ -67,7 +67,7 @@ namespace esapi
      * data format, if an ASN.1 specification for this key exists. When no
      * encoding exists, a reference to the string "RAW" should be returned.
      */
-    virtual std::string getFormat() const;
+    virtual const std::string& getFormat() const;
 
     /**
      * Returns the key in its primary encoding format, or nullptr
