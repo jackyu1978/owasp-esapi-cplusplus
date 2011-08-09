@@ -112,8 +112,8 @@ namespace esapi
      */
     static unsigned int calcKeySize(unsigned int keyBits);
 
-    private:
-      KeyDerivationFunction() { /* No instantiation */ };
+  private:
+    KeyDerivationFunction() { /* No instantiation */ };
   };
 
 }; // NAMESPACE esapi

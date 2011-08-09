@@ -29,7 +29,7 @@ ESAPI_MS_WARNING_POP()
 // Crypto++ is MT safe at the class level, meaning it does not share data amoung
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
 // thread is operating on it at a time since there's only one set of data within
-// the class (ie, there is no thread local storage). So far, we only support
+// the class (ie, there is no thread local storage). To date, we only support
 // Windows, Linux, and Apple.
 #if !defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_OS_STARNIX)
 # error "Unsupported operating system platform"
@@ -99,7 +99,7 @@ namespace esapi
       virtual ~AutoLock();
     private:
       CRITICAL_SECTION& mm_lock;
-	private:
+    private:
       AutoLock& operator=(const AutoLock&) { /* hidden */ }
 #elif defined(ESAPI_OS_STARNIX)
     public:
@@ -111,12 +111,12 @@ namespace esapi
     };
 
   private:
-    // A instance PRNG
-    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;	
+    // An instance PRNG
+    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;    
 
     // A global PRNG
     static SecureRandom g_prng;
-	static std::string g_name; // `prng` returns "unknown"
+    static std::string g_name; // `prng` returns "unknown"
 
     // Crypto++ is MT safe at the class level, meaning it does not share data amoung
     // instances. If a Global PRNG is provided, we must take care to ensure only one 

@@ -69,7 +69,7 @@ namespace esapi
   // Returns the name of the algorithm implemented by this SecureRandom object.
   const std::string& SecureRandom::getAlgorithm() const
   {
-	return g_name;
+    return g_name;
   }
 
   // Generates a user-specified number of random bytes.
