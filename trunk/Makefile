@@ -99,7 +99,7 @@ endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 ifneq ($(GCC_COMPILER),0)
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0
+  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
