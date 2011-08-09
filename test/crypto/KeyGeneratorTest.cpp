@@ -87,7 +87,9 @@ void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
       BOOST_MESSAGE( "  " << k1 );
     #endif
 
-    if(k1 == k2)
+    // Ignore it when single bytes are produced consecutively
+    // (fails on occasion for 1 and 2 byte keys).
+    if(k1 == k2 && k1.SizeInBytes() > 2)
        BOOST_ERROR( "  Key 1 equals key 2: " << k1 );
 
     #if defined(DUMP_KEYS)
