@@ -398,7 +398,7 @@ namespace esapi
   }
 
   // Default implementation for derived classes which do nothing
-  std::string KeyGenerator::getAlgorithm() const
+  const std::string& KeyGenerator::getAlgorithm() const
   {
     return m_algorithm;
   }
