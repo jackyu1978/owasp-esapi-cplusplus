@@ -29,7 +29,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual std::string getAlgorithm() const = 0;
+    virtual const std::string& getAlgorithm() const = 0;
 
     /**
      * Returns the name of the primary encoding format of this key, or
