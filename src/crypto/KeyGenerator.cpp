@@ -2,7 +2,8 @@
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see * http://www.owasp.org/index.php/ESAPI.
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
@@ -98,9 +99,9 @@ namespace esapi
     // If the block cipher is not resynchronizable, we will generate the same key bits
     ASSERT( m_encryptor.IsResynchronizable() );
     if( !m_encryptor.IsResynchronizable() )
-    {
-      throw std::runtime_error("Failed to resynchronize block cipher");
-    }
+      {
+        throw std::runtime_error("Failed to resynchronize block cipher");
+      }
 
     // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
     CryptoPP::AutoSeededX917RNG<CIPHER> prng;
@@ -115,22 +116,22 @@ namespace esapi
 
     // The SecByteBlock is initialized to a null vector. Encrypt the null
     // vector, and return the result to the caller as the SecretKey.
-	CryptoPP::SecByteBlock key(keyBytes);
+    CryptoPP::SecByteBlock key(keyBytes);
 
     // We use a StreamTransformationFilter since it will handle details such as
     // PKCS5 padding (as required)
     CryptoPP::StreamTransformationFilter filter(m_encryptor);
     filter.PutMessageEnd(key.BytePtr(), key.SizeInBytes());
 
-	// MaxRetrievable returns an lword, which is 64 bits.
+    // MaxRetrievable returns an lword, which is 64 bits.
     const unsigned int ret = (unsigned int)filter.MaxRetrievable();
     ASSERT(ret >= keyBytes);
     if( !(ret >= keyBytes) )
-    {
-      std::ostringstream oss;
-      oss << "Failed to generate the requested " << keyBytes << " bits of material.";
-      throw std::runtime_error(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Failed to generate the requested " << keyBytes << " bits of material.";
+        throw std::runtime_error(oss.str());
+      }
 
     filter.Get(key.BytePtr(), key.SizeInBytes());
     return SecretKey(getAlgorithm(), key);
@@ -173,26 +174,26 @@ namespace esapi
     size_t idx = 0;
     unsigned int remaining = keyBytes;
     while(remaining)
-    {
-      HASH hasher;
-      const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+      {
+        HASH hasher;
+        const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
-      // Initial or previous hash result
-      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+        // Initial or previous hash result
+        hasher.Update(hash.BytePtr(), hash.SizeInBytes());
 
-      // Though we continually call TruncatedFinal, we are retrieving a
-      // full block except for possibly the last block
-      hasher.TruncatedFinal(hash.BytePtr(), req);
+        // Though we continually call TruncatedFinal, we are retrieving a
+        // full block except for possibly the last block
+        hasher.TruncatedFinal(hash.BytePtr(), req);
 
-      // Copy out to key
-	  ESAPI_MS_NO_WARNING(4996)
-      std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
-	  ESAPI_MS_DEF_WARNING(4996)
+        // Copy out to key
+        ESAPI_MS_NO_WARNING(4996)
+          std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+        ESAPI_MS_DEF_WARNING(4996)
 
-      // Book keeping
-      idx += req;
-      remaining -= req;
-    }
+          // Book keeping
+          idx += req;
+        remaining -= req;
+      }
 
     return SecretKey(getAlgorithm(), key);
   }
@@ -239,26 +240,26 @@ namespace esapi
     size_t idx = 0;
     size_t remaining = keyBytes;
     while(remaining)
-    {
-      hasher.Restart();
-      const size_t req = std::min(remaining, (size_t)HASH::DIGESTSIZE);
+      {
+        hasher.Restart();
+        const size_t req = std::min(remaining, (size_t)HASH::DIGESTSIZE);
 
-      // Initial or previous hash result
-      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+        // Initial or previous hash result
+        hasher.Update(hash.BytePtr(), hash.SizeInBytes());
 
-      // Though we continually call TruncatedFinal, we are retrieving a
-      // full block except for possibly the last block
-      hasher.TruncatedFinal(hash.BytePtr(), req);
+        // Though we continually call TruncatedFinal, we are retrieving a
+        // full block except for possibly the last block
+        hasher.TruncatedFinal(hash.BytePtr(), req);
 
-      // Copy out to key
-	  ESAPI_MS_NO_WARNING(4996)
-      std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
-	  ESAPI_MS_DEF_WARNING(4996)
+        // Copy out to key
+        ESAPI_MS_NO_WARNING(4996)
+          std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+        ESAPI_MS_DEF_WARNING(4996)
 
-      // Book keeping
-      idx += req;
-      remaining -= req;
-    }
+          // Book keeping
+          idx += req;
+        remaining -= req;
+      }
 
     return SecretKey(getAlgorithm(), key);
   }
@@ -334,11 +335,11 @@ namespace esapi
       throw std::invalid_argument("Key size (in bits) is not valid.");
 
     if( !(m_keyBits < MaxKeySize) )
-    {
-      std::ostringstream oss;
-      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
-      throw std::invalid_argument(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+        throw std::invalid_argument(oss.str());
+      }
   }
 
   // Default implementation throws to ensure a default key is not used
@@ -360,11 +361,11 @@ namespace esapi
       throw std::invalid_argument("Key size (in bits) is not valid.");
 
     if( !(keyBits < MaxKeySize) )
-    {
-      std::ostringstream oss;
-      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
-      throw std::invalid_argument(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+        throw std::invalid_argument(oss.str());
+      }
 
     m_keyBits = keyBits;
   }
@@ -386,11 +387,11 @@ namespace esapi
     ASSERT( !algorithmName.empty() );
 
     if( algorithmName.empty() )
-    {
-      std::ostringstream oss;
-      oss << "Algorithm name \'" << algorithmName << "\' is not valid.";
-      throw std::invalid_argument(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Algorithm name \'" << algorithmName << "\' is not valid.";
+        throw std::invalid_argument(oss.str());
+      }
 
     m_algorithm = algorithmName;
   }
@@ -422,10 +423,10 @@ namespace esapi
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
     if(std::string::npos != (pos = alg.find('/')))
-    {
-      mode = alg.substr(pos+1, -1);
-      alg.erase(pos, -1);
-    }
+      {
+        mode = alg.substr(pos+1, -1);
+        alg.erase(pos, -1);
+      }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
     if(std::string::npos != (pos = mode.find('/')))

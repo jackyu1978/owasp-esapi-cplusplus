@@ -2,12 +2,13 @@
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see * http://www.owasp.org/index.php/ESAPI.
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  *
  */
 
@@ -32,10 +33,10 @@ namespace esapi
     // For comparisons in the outside world, such as the self tests
     friend bool operator==(const SecretKey&, const SecretKey&);
     friend bool operator!=(const SecretKey&, const SecretKey&);
-	// For dumping keys. Use with care
+    // For dumping keys. Use with care
     friend std::ostream& operator<<(std::ostream&, const SecretKey&);
-	// For internal routines and duties
-	friend class KeyDerivationFunction;
+    // For internal routines and duties
+    friend class KeyDerivationFunction;
 
   public:
     /**
@@ -43,18 +44,18 @@ namespace esapi
      * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES).
      */
     SecretKey(const std::string& alg, const size_t size, const std::string& format = "RAW");
-	/**
-	 * Create a SecretKey from a Crypto++ SecByteBlock
-	 */
-	SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
+    /**
+     * Create a SecretKey from a Crypto++ SecByteBlock
+     */
+    SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
 
-	/*
-	 * Standard destructor
-	 */
+    /*
+     * Standard destructor
+     */
     virtual ~SecretKey();
-	
+        
   public:
-	/**
+    /**
      * Returns the standard algorithm name for this key.
      */
     virtual std::string getAlgorithm() const;
@@ -68,7 +69,7 @@ namespace esapi
      */
     virtual std::string getFormat() const;
 
-	/**
+    /**
      * Returns the key in its primary encoding format, or nullptr
      * if this key does not support encoding.
      */
@@ -88,15 +89,15 @@ namespace esapi
     const byte* BytePtr() const;
 
   private:
-    CryptoPP::SecByteBlock secBlock;    // The actual secret key
     std::string m_algorithm;            // Standard name for crypto algorithm
+    CryptoPP::SecByteBlock secBlock;    // The actual secret key
     std::string m_format;               // Encoding format
 
   };
 
-bool operator==(const SecretKey& lhs, const SecretKey& rhs);
-bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
+  bool operator==(const SecretKey& lhs, const SecretKey& rhs);
+  bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
 
-std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
+  std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
 
 }; // NAMESPACE esapi

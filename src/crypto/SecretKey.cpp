@@ -7,11 +7,9 @@
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
- * @author kevin.w.wall@gmail.com
- * @author noloader@gmail.com
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
  */
-
-#pragma once
 
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
@@ -27,25 +25,25 @@ namespace esapi
                        const std::string& format)
     : m_algorithm(alg), secBlock(size), m_format(format)
   {
-	  ASSERT( !m_algorithm.empty() );
-	  ASSERT( secBlock.size() );
-	  ASSERT( !m_format.empty() );
+    ASSERT( !m_algorithm.empty() );
+    ASSERT( secBlock.size() );
+    ASSERT( !m_format.empty() );
 
-	  if(size)
-	  {
-		SecureRandom& prng = SecureRandom::GlobalSecureRandom();
-		prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());
-	  }
+    if(size)
+      {
+        SecureRandom& prng = SecureRandom::GlobalSecureRandom();
+        prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());
+      }
   }
 
   SecretKey::SecretKey(const std::string& alg,
-	                   const CryptoPP::SecByteBlock& bytes,
-			           const std::string& format)
+                       const CryptoPP::SecByteBlock& bytes,
+                       const std::string& format)
     : m_algorithm(alg), secBlock(bytes), m_format(format)
   {
-	  ASSERT( !m_algorithm.empty() );
-	  ASSERT( secBlock.size() );
-	  ASSERT( !m_format.empty() );
+    ASSERT( !m_algorithm.empty() );
+    ASSERT( secBlock.size() );
+    ASSERT( !m_format.empty() );
   }
 
   SecretKey::~SecretKey()
@@ -75,25 +73,25 @@ namespace esapi
 
   const byte* SecretKey::getEncoded() const
   {
-      return BytePtr();
+    return BytePtr();
   }
 
   std::string SecretKey::getFormat() const
   {
-      return m_format;
+    return m_format;
   }
 
   std::string SecretKey::getAlgorithm() const
   {
-      return m_algorithm;
+    return m_algorithm;
   }
 
-/***********************    not so sure about this one...
+  /***********************    not so sure about this one...
   byte* SecretKey::BytePtr()
   {
     return secBlock.BytePtr();
   }
-*********************************************************/
+  *********************************************************/
 
   const byte* SecretKey::BytePtr() const
   {
@@ -109,8 +107,8 @@ namespace esapi
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
-      new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-    );
+                          new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+                          );
 
     return (os << hex);
   }
