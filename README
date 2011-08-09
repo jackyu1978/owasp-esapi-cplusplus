@@ -31,7 +31,7 @@ Please visit https://code.google.com/p/owasp-esapi-cplusplus/source/checkout for
   * To checkin your canges, issue the following:
     `svn checkin <FILE1> <FILE2> ... -m "<Summary of changes>"
 
-If working on Windows, the Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in '...\Program Files\Boost\', the envrioment should be 'BOOST=...\Program Files\Boost'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
+If working on Windows, the Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
 
 == ESAPI Library Programming ==
 

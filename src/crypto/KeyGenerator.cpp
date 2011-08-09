@@ -14,6 +14,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/KeyGenerator.h"
+#include "crypto/SecureRandom.h"
 #include "crypto/SecretKey.h"
 
 #include "safeint/SafeInt3.hpp"
@@ -57,8 +58,8 @@ namespace esapi
     // SetKeyBits will throw if any funny business goes on
     SetKeySize(keyBits);
 
-    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-    CryptoPP::AutoSeededX917RNG<CIPHER> prng;
+    // The global generator is Crypto++'s ANSI X.931/AES
+    SecureRandom& prng = SecureRandom::GlobalSecureRandom();
     
     // Crypto++ magic
     size_t ksize = CIPHER::DEFAULT_KEYLENGTH;
@@ -74,7 +75,7 @@ namespace esapi
     CryptoPP::SecByteBlock seed(ksize+bsize);
 
     // Initialize the generator
-    prng.GenerateBlock(seed.BytePtr(), seed.SizeInBytes());
+    prng.nextBytes(seed.BytePtr(), seed.SizeInBytes());
     m_encryptor.SetKeyWithIV(seed.BytePtr(), ksize, seed.BytePtr()+ksize);    
   }
 
@@ -103,11 +104,11 @@ namespace esapi
         throw std::runtime_error("Failed to resynchronize block cipher");
       }
 
-    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-    CryptoPP::AutoSeededX917RNG<CIPHER> prng;
+    // The global generator is Crypto++'s ANSI X.931/AES
+    SecureRandom& prng = SecureRandom::GlobalSecureRandom();
 
     CryptoPP::SecByteBlock iv(CIPHER::BLOCKSIZE);
-    prng.GenerateBlock(iv.BytePtr(), iv.SizeInBytes());
+    prng.nextBytes(iv.BytePtr(), iv.SizeInBytes());
 
     m_encryptor.Resynchronize(iv.BytePtr(), (int)iv.SizeInBytes());
     
@@ -167,9 +168,9 @@ namespace esapi
     CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
 
     // Initial seed of the hash stream
-    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
-    prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
+    // The global generator is Crypto++'s ANSI X.931/AES
+    SecureRandom& prng = SecureRandom::GlobalSecureRandom();
+    prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
     
     size_t idx = 0;
     unsigned int remaining = keyBytes;
@@ -227,15 +228,15 @@ namespace esapi
     // Scratch
     CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
     
-    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
-    prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
+    // The global generator is Crypto++'s ANSI X.931/AES
+    SecureRandom& prng = SecureRandom::GlobalSecureRandom();
+    prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
 
     // Key the HASH
     CryptoPP::HMAC<HASH> hasher(hash.BytePtr(), hash.SizeInBytes());
 
     // Initial seed of the hash stream
-    prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
+    prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
     
     size_t idx = 0;
     size_t remaining = keyBytes;
@@ -290,9 +291,9 @@ namespace esapi
     // Returned to caller
     CryptoPP::SecByteBlock key(keyBytes);
     
-    // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
-    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
-    prng.GenerateBlock(key.BytePtr(), key.SizeInBytes());
+    // The global generator is Crypto++'s ANSI X.931/AES
+    SecureRandom& prng = SecureRandom::GlobalSecureRandom();
+    prng.nextBytes(key.BytePtr(), key.SizeInBytes());
 
     // Crypto++ discards bytes from the key stream in the case of RC4. See
     // http://www.cryptopp.com/docs/ref/arc4_8cpp_source.html, line 50.

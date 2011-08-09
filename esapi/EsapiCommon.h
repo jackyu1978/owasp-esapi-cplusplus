@@ -132,3 +132,8 @@ typedef unsigned char byte;
 # define ESAPI_MS_NO_WARNING(x)
 # define ESAPI_MS_DEF_WARNING(x)
 #endif
+
+// Windows defines a min that clashes with std::min
+#if defined(ESAPI_OS_WINDOWS)
+# define NOMINMAX
+#endif
