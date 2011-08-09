@@ -189,12 +189,12 @@ namespace esapi
         hasher.TruncatedFinal(hash.BytePtr(), req);
 
         // Copy out to key
-        ESAPI_MS_NO_WARNING(4996)
-          std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
-        ESAPI_MS_DEF_WARNING(4996)
+        ESAPI_MS_NO_WARNING(4996);
+        std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+        ESAPI_MS_DEF_WARNING(4996);
 
-          // Book keeping
-          idx += req;
+        // Book keeping
+        idx += req;
         remaining -= req;
       }
 
