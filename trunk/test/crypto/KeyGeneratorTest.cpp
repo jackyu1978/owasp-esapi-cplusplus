@@ -166,6 +166,22 @@ void VerifyAesKeyGenerator()
         BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
         VerifyKeyGeneration(kg, bytes);
     }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "aes/OFB/PKCS5";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyCamelliaKeyGenerator()
@@ -225,6 +241,22 @@ void VerifyCamelliaKeyGenerator()
     ///////////////////////////////////////////////////////////////////////
 
     alg = "CameLLia/OFB";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "CameLLia/OFB/  PKCS5   ";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -308,6 +340,22 @@ void VerifyDesEdeKeyGenerator()
         BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
         VerifyKeyGeneration(kg, bytes);
     }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "DeSEdE/OFB\\PKCS 7";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+        VerifyKeyGeneration(kg, bytes);
+    }
 }
 
 void VerifyBlowfishKeyGenerator()
@@ -367,6 +415,22 @@ void VerifyBlowfishKeyGenerator()
     ///////////////////////////////////////////////////////////////////////
 
     alg = "BlowFISH/OFB";
+
+    for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
+    {
+        auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+
+        const unsigned int bits = KEY_SIZES[i];
+        const unsigned int bytes = (bits+7)/8;
+        kg->init(bits);
+
+        BOOST_MESSAGE( "  Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+        VerifyKeyGeneration(kg, bytes);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
+    alg = "BlowFISH/OFB//Zero";
 
     for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
