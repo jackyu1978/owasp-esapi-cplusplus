@@ -65,7 +65,7 @@ namespace esapi
     virtual ~SecureRandom();
 
     // Returns the name of the algorithm implemented by this SecureRandom object.
-    std::string getAlgorithm() const;
+    virtual std::string getAlgorithm() const;
 
     // Generates a user-specified number of random bytes.
     void nextBytes(byte* bytes, size_t size);   

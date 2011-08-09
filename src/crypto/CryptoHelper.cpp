@@ -91,7 +91,7 @@ namespace esapi
     SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
     {
         // Shamelessly ripped from KeyDerivationFunction.cpp
-        ASSERT( keyDerivationKey.SizeInBytes()  > 0 );
+        ASSERT( keyDerivationKey.sizeInBytes()  > 0 );
         ASSERT( keyBits >= 56 );
         ASSERT( (keyBits % 8) == 0 );
         ASSERT( purpose == "authenticity" || purpose == "encryption" );
@@ -183,7 +183,7 @@ namespace esapi
      */
     bool CryptoHelper::isCipherTextMACvalid(const SecretKey& secretKey, const CipherText& cipherText)
     {
-        ASSERT(secretKey.SizeInBytes() > 0);
+        ASSERT(secretKey.sizeInBytes() > 0);
         ASSERT(!cipherText.empty());
 
         ASSERT(0);

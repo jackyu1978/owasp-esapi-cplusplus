@@ -115,7 +115,7 @@ namespace esapi
 
     // The SecByteBlock is initialized to a null vector. Encrypt the null
     // vector, and return the result to the caller as the SecretKey.
-    SecretKey key(keyBytes);
+	CryptoPP::SecByteBlock key(keyBytes);
 
     // We use a StreamTransformationFilter since it will handle details such as
     // PKCS5 padding (as required)
@@ -133,7 +133,7 @@ namespace esapi
     }
 
     filter.Get(key.BytePtr(), key.SizeInBytes());
-    return key;
+    return SecretKey(getAlgorithm(), key);
   }
 
   ////////////////////////// Hashes //////////////////////////
@@ -160,7 +160,7 @@ namespace esapi
     const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
-    SecretKey key(keyBytes);
+    CryptoPP::SecByteBlock key(keyBytes);
 
     // Scratch
     CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
@@ -194,7 +194,7 @@ namespace esapi
       remaining -= req;
     }
 
-    return key;
+    return SecretKey(getAlgorithm(), key);
   }
 
   ////////////////////////// Hashes //////////////////////////
@@ -221,7 +221,7 @@ namespace esapi
     const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
-    SecretKey key(keyBytes);
+    CryptoPP::SecByteBlock key(keyBytes);
 
     // Scratch
     CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
@@ -260,7 +260,7 @@ namespace esapi
       remaining -= req;
     }
 
-    return key;
+    return SecretKey(getAlgorithm(), key);
   }
 
   ////////////////////////// Hashes //////////////////////////
@@ -287,7 +287,7 @@ namespace esapi
     const unsigned int keyBytes = GetKeySize();
 
     // Returned to caller
-    SecretKey key(keyBytes);
+    CryptoPP::SecByteBlock key(keyBytes);
     
     // Though named X.917, its a 9.31 generator when using an approved cipher such as AES.
     CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;
@@ -298,7 +298,7 @@ namespace esapi
     CIPHER stream(key.BytePtr(), key.SizeInBytes());
     stream.ProcessString(key.BytePtr(), key.SizeInBytes());
 
-    return key;
+    return SecretKey(getAlgorithm(), key);
   }
 
   ////////////////////////// Base Class (KeyGenerator) //////////////////////////
@@ -345,7 +345,7 @@ namespace esapi
   SecretKey KeyGenerator::generateKey()
   {
     throw std::runtime_error("Using the default KeyGenerator::generateKey");
-    return SecretKey(0);
+    return SecretKey("Error", 0, "Error");
   }
 
   void KeyGenerator::SetKeySize(unsigned int keyBits)
