@@ -425,13 +425,13 @@ namespace esapi
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
     if(std::string::npos != (pos = alg.find('/')))
       {
-        mode = alg.substr(pos+1, -1);
-        alg.erase(pos, -1);
+        mode = alg.substr(pos+1);
+        alg.erase(pos);
       }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
     if(std::string::npos != (pos = mode.find('/')))
-      mode.erase(pos, -1);
+      mode.erase(pos);
 
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
