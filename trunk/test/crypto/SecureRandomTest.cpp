@@ -46,6 +46,11 @@ BOOST_AUTO_TEST_CASE( VerifySecureRandom )
   DoWorkerThreadStuff();
 }
 
+#if defined(WIN32) || defined(_WIN32) 
+void DoWorkerThreadStuff()
+{
+}
+#elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
 void DoWorkerThreadStuff()
 {
   pthread_t threads[THREAD_COUNT];
@@ -71,6 +76,7 @@ void DoWorkerThreadStuff()
 
   BOOST_MESSAGE( " All threads completed successfully" );
 }
+#endif
 
 void* WorkerThreadProc(void* param)
 {
@@ -82,9 +88,13 @@ void* WorkerThreadProc(void* param)
 
   prng1.nextBytes(random, sizeof(random));
 
-  // give up the remainder of this time quantum to help interleave
-  // thread creation and execution
+  // give up the remainder of this time quantum to help
+  // interleave thread creation and execution
+#if defined(WIN32) || defined(_WIN32) 
+  Sleep(0);
+#elif defined(__linux__) || defined(__unix__) || defined(__APPLE__)
   sleep(0);
+#endif
 
   SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
   prng2.nextBytes(random, sizeof(random));

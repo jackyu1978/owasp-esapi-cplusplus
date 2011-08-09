@@ -58,7 +58,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual std::string getAlgorithm() const;
+    virtual const std::string& getAlgorithm() const;
 
     /**
      * Returns the name of the primary encoding format of this key, or

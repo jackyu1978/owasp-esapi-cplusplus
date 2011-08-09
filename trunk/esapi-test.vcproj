@@ -44,11 +44,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(BOOST)\libs;"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -118,11 +118,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -139,7 +139,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(BOOST)\libs;"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="17"
@@ -193,9 +193,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -213,7 +213,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(BOOST)\libs;"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -270,9 +270,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -290,7 +290,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(BOOST)\libs;"
+				AdditionalLibraryDirectories="&quot;$(BOOST)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -332,17 +332,43 @@
 				RelativePath=".\test\TestMain.cpp"
 				>
 			</File>
+			<Filter
+				Name="crypto"
+				>
+				<File
+					RelativePath=".\test\crypto\CipherTextTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\CryptoHelperTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\KeyDerivationFunctionTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\KeyGeneratorTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\PlainTextTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\SecretKeyTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\test\crypto\SecureRandomTest.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
 	</Files>

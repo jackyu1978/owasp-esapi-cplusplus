@@ -82,7 +82,7 @@ namespace esapi
     return m_format;
   }
 
-  std::string SecretKey::getAlgorithm() const
+  const std::string& SecretKey::getAlgorithm() const
   {
     return m_algorithm;
   }
