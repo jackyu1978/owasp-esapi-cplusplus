@@ -12,6 +12,9 @@
 .SUFFIXES:
 .SUFFIXES: .c .cpp .o
 
+# Target of plain `make`
+.DEFAULT: test
+
 # Comeau C++ Compiler
 # CXX =		como
 # Intel ICC
@@ -19,12 +22,57 @@
 # GNU C++ Compiler
 CXX =		g++
 
-# Debug
-# CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0
-# Release
-# CXXFLAGS += -DNDEBUG=1 -g -O2
-# Test
-CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O0
+DYNAMIC_LIB =	libesapi-c++.so
+STATIC_LIB =	libesapi-c++.a
+
+# Try and pick up on targets/goals.
+# See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html.
+ifeq ($(MAKECMDGOALS),debug)
+  WANT_DEBUG := 1
+endif
+
+ifeq ($(MAKECMDGOALS),release)
+  WANT_RELEASE := 1
+endif
+
+ifeq ($(MAKECMDGOALS),test)
+  WANT_TEST := 1
+endif
+
+ifeq ($(MAKECMDGOALS),all)
+  WANT_RELEASE := 1
+endif
+
+ifeq ($(MAKECMDGOALS),$(DYNAMIC_LIB))
+  WANT_RELEASE := 1
+endif
+
+ifeq ($(MAKECMDGOALS),$(STATIC_LIB))
+  WANT_RELEASE := 1
+endif
+
+# If nothing is specified, default to Test. This catch all is why
+# CXXFLAGS are not set above in the MAKECMDGOALS tests.
+ifneq ($(WANT_DEBUG),1)
+ ifneq ($(WANT_RELEASE),1)
+  ifneq ($(WANT_TEST),1)
+   WANT_TEST := 1
+  endif
+ endif
+endif
+
+# libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
+ifeq ($(WANT_DEBUG),1)
+CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0
+endif
+
+ifeq ($(WANT_RELEASE),1)
+CXXFLAGS += -DNDEBUG=1 -g -O2
+endif
+
+ifeq ($(WANT_TEST),1)
+CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O2
+endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
 # the bit pattern is negated, but the type remains the same. So a positive
@@ -121,9 +169,6 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-DYNAMIC_LIB =	libesapi-c++.so
-STATIC_LIB =	libesapi-c++.a
-
 INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
@@ -151,9 +196,23 @@ $(STATIC_LIB): $(LIBOBJS)
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
 
+# `make all` builds the DOS and Archive. OPT=O2, SYM=G1, Asserts are off.
+all: $(STATIC_LIB) $(DYNAMIC_LIB)
+
+# `make` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
+
+
+# `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
+debug: test
+
+# `make release` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
+release: test
+
+# `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
+
 # If you are missing libboost-filesystem or libboost_unit_test_framework, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
-check test: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
+test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
 	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
 
@@ -171,7 +230,6 @@ ref reference: $(REFOBJS)
 
 $(TESTTARGET): ;
 
-all: $(STATIC_LIB) $(DYNAMIC_LIB) test
-
+.PHONY: clean
 clean:
 	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM *.core
