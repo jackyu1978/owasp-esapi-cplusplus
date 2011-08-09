@@ -87,7 +87,7 @@ namespace esapi
   protected:
 
     // Initialize the lock for the PRNG
-    void InitializeLock() const;
+    inline void InitializeLock() const;
 
     class AutoLock
     {
