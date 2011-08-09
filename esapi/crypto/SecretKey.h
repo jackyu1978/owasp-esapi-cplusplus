@@ -17,7 +17,7 @@
 #include "EsapiCommon.h"
 #include "crypto/Key.h"
 
-ESAPI_MS_WARNING_LEVEL(3)
+ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
 

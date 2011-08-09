@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-ESAPI_MS_WARNING_LEVEL(3)
+ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/sha.h>
 #include <cryptopp/hmac.h>
 ESAPI_MS_WARNING_POP()
