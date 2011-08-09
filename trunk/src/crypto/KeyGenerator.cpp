@@ -237,11 +237,11 @@ namespace esapi
     prng.GenerateBlock(hash.BytePtr(), hash.SizeInBytes());
     
     size_t idx = 0;
-    unsigned int remaining = keyBytes;
+    size_t remaining = keyBytes;
     while(remaining)
     {
       hasher.Restart();
-      const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+      const size_t req = std::min(remaining, (size_t)HASH::DIGESTSIZE);
 
       // Initial or previous hash result
       hasher.Update(hash.BytePtr(), hash.SizeInBytes());
