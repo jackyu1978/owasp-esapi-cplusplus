@@ -128,14 +128,14 @@ typedef unsigned char byte;
 	__pragma(warning(disable:x))
 # define ESAPI_MS_DEF_WARNING(x) \
 	__pragma(warning(default:x))
-# define ESAPI_MS_WARNING_LEVEL(x) \
+# define ESAPI_MS_WARNING_PUSH(x) \
 	__pragma(warning(push, x))
 # define ESAPI_MS_WARNING_POP() \
 	__pragma(warning(pop))
 #else
 # define ESAPI_MS_NO_WARNING(x)
 # define ESAPI_MS_DEF_WARNING(x)
-# define ESAPI_MS_WARNING_LEVEL(x)
+# define ESAPI_MS_WARNING_PUSH(x)
 # define ESAPI_MS_WARNING_POP() 
 #endif
 

@@ -24,7 +24,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-ESAPI_MS_WARNING_LEVEL(3)
+ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
 #include <cryptopp/sha.h>
@@ -464,13 +464,13 @@ namespace esapi
       return BlockCipherGenerator<CryptoPP::Camellia, CryptoPP::OFB_Mode>::CreateInstance("Camellia");
 
     if(alg == "blowfish" && mode == "cbc")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CBC_Mode>::CreateInstance("Blowfish/CBC");
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CBC_Mode>::CreateInstance("Blowfis/CBC");
 
     if(alg == "blowfish" && mode == "cfb")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CFB_Mode>::CreateInstance("Blowfish/CFB");
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::CFB_Mode>::CreateInstance("Blowfis/CFB");
 
     if(alg == "blowfish" && mode == "ofb")
-      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance("Blowfish/OFB");
+      return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance("Blowfis/OFB");
 
     if(alg == "blowfish" && mode == "")
       return BlockCipherGenerator<CryptoPP::Blowfish, CryptoPP::OFB_Mode>::CreateInstance("Blowfish");

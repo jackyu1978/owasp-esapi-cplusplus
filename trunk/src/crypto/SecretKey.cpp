@@ -16,7 +16,7 @@
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
 
-ESAPI_MS_WARNING_LEVEL(3)
+ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/hex.h>
 #include <cryptopp/filters.h>
 ESAPI_MS_WARNING_POP()

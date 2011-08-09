@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-ESAPI_MS_WARNING_LEVEL(3)
+ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/aes.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/secblock.h>
