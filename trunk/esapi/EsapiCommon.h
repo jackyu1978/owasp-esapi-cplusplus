@@ -88,11 +88,13 @@
 # define ESAPI_ENV_MINGW 1
 #endif
 
-// A debug assert which should be sprinkled liberally. This assert fires and then continues rather than calling abort().
-// strrchr() gives the filename rather than the entire path. Useful when examining negative test cases under a debugger!
+// A debug assert which should be sprinkled liberally. This assert fires and then continues rather
+// than calling abort(). Useful when examining negative test cases from the command line.
 #if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX) && !defined(ESAPI_BUILD_TEST)
 #  define ESAPI_ASSERT(exp) {                                           \
-    if(!(exp)) { std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" << (int)__LINE__ << "): " << (const char*)__func__ << std::endl; \
+    if(!(exp)) {                                                        \
+      std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
+      << (int)__LINE__ << "): " << (const char*)__func__ << std::endl;  \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
@@ -152,19 +154,23 @@ static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (111)
 typedef unsigned char byte;
 #endif
 
-// We *cannot* count on '!defined(nullptr)' since its a keyword.
+// We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
 // For Microsoft, nullptr is available in Visual Studio 2010 and
-// above (version 1600), so we test for something earlier For GCC,
-// its 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t
-// in the latest draft:
-// C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
-// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
+// above (version 1600), so we test for something earlier. For GCC, its
+// 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
+// latest draft. C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html
+// and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
 #if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t)
 #  define nullptr NULL
 #endif
 
 #if defined(ESAPI_OS_STARNIX)
 # include <pthread.h>
+#endif
+
+// Windows defines a min that clashes with std::min
+#if defined(ESAPI_OS_WINDOWS)
+# define NOMINMAX
 #endif
 
 // Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
@@ -184,7 +190,3 @@ typedef unsigned char byte;
 # define ESAPI_MS_WARNING_POP() 
 #endif
 
-// Windows defines a min that clashes with std::min
-#if defined(ESAPI_OS_WINDOWS)
-# define NOMINMAX
-#endif
