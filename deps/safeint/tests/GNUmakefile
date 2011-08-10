@@ -87,9 +87,22 @@ endif
 
 # For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
 ifneq ($(GCC46_OR_LATER),0)
-# Commented out until the tables are fixed. See http://gcc.gnu.org/ml/gcc-help/2011-08/msg00136.html.
+# Commented out until the tables are fixed. See comment that follows.
 #  CXXFLAGS += -std=c++0x
 endif
+
+#According to Jonathan Wakely over at GCC list, -std=c++0x and
+#-fpermissive are an odd combination. See "Question on GCC 4.6 and
+#-fpermissive", http://gcc.gnu.org/ml/gcc-help/2011-08/msg00136.html.
+#
+#There is a switch to suppress the narrowing warnings, but apparently
+#its available in GCC 4.7. I tested on GCC 4.6, and -Wno-narrow and
+#-Wno-narrowing did not suppress.
+#
+#At this point, I think the best course of action is to remove
+#-std=c++0x. Its just too distracting and any useful warnings are
+#lost in the noise. As soon as (1) the tables are fixed or (2)
+#narrowing warnings can be suppressed, we should add -std=c++0x.
 
 RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp UnaryVerify.cpp PtrVerify.cpp
 RUNTIME_OBJS = $(RUNTIME_SRCS:.cpp=.o)
