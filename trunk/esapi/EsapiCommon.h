@@ -108,7 +108,7 @@
 # endif
 #endif
 
-// So common, don't put it in a namespace
+// So common, don't put in a namespace
 #if !defined(byte)
 typedef unsigned char byte;
 #endif
@@ -120,7 +120,7 @@ typedef unsigned char byte;
 // -std=c++0x. Stroustrup gives us nullptr_t in the latest draft:
 // C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
-#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t))
+#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t)
 #  define nullptr NULL
 #endif
 
