@@ -77,7 +77,7 @@ ifneq ($(INTEL_COMPILER),0)
 endif
 
 ifneq ($(GCC_COMPILER),0)
-  CXXFLAGS += -pipe -fwrapv -fsigned-char
+  CXXFLAGS += -pipe
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
@@ -87,7 +87,7 @@ endif
 
 # For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
 ifneq ($(GCC46_OR_LATER),0)
-  CXXFLAGS += -std=c++0x
+  CXXFLAGS += -std=c++0x -fpermissive -Wno-narrow
 endif
 
 RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp UnaryVerify.cpp PtrVerify.cpp
