@@ -25,6 +25,8 @@
 #include <assert.h>
 #include <signal.h>
 
+#include <iostream>
+
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
 # error Both DEBUG and NDEBUG are defined.
@@ -89,7 +91,11 @@
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather than calling abort().
 // strrchr() gives the filename rather than the entire path. Useful when examining negative test cases under a debugger!
 #if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX) && !defined(ESAPI_BUILD_TEST)
-#  define ESAPI_ASSERT(exp) { if(!(exp)) { fprintf(stderr, "Assertion failed: %s (%d): %s\n", (strrchr(__FILE__, '/')+1), __LINE__, __func__); raise(SIGTRAP); } }
+#  define ESAPI_ASSERT(exp) {                                           \
+    if(!(exp)) { std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" << (int)__LINE__ << "): " << (const char*)__func__ << std::endl; \
+      raise(SIGTRAP);                                                   \
+    }                                                                   \
+  }
 #elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_BUILD_TEST)
 #  define ESAPI_ASSERT(exp) assert(exp)
 #else
@@ -98,6 +104,39 @@
 
 // For the lazy folks like me!
 #define ASSERT(x) ESAPI_ASSERT(x)
+
+#if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
+// Add a TRAP handler for *nix, otherwise we still abort.
+struct DebugTrapHandler
+{
+  DebugTrapHandler()
+  {
+    struct sigaction new_handler, old_handler;
+
+    do
+      {
+        // Don't step on another's handler
+        sigaction (SIGTRAP, NULL, &old_handler);
+        if (old_handler.sa_handler != NULL) break;
+
+        // Set up the structure to specify the null action.
+        new_handler.sa_handler = &DebugTrapHandler::NullHandler;
+        sigemptyset (&new_handler.sa_mask);
+        new_handler.sa_flags = 0;
+
+        // Install it
+        sigaction (SIGTRAP, &new_handler, NULL);
+
+      } while(0);
+  }
+
+  static void NullHandler(int unused) { }
+};
+
+// We specify a relatively low priority, to make sure we run before other CTORs
+// http://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Attributes.html#C_002b_002b-Attributes
+static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (111)));
+#endif // *nix debug
 
 // For counting elements
 #if !defined(COUNTOF)
@@ -113,11 +152,11 @@
 typedef unsigned char byte;
 #endif
 
-
-// OWASP change: try to automate this detection. We *cannot* count on
-// '!defined(nullptr)' since its a keyword. For Microsoft, it available
-// in Visual Studio 2010 and above. For GCC, its 4.6 and above with
-// -std=c++0x. Stroustrup gives us nullptr_t in the latest draft:
+// We *cannot* count on '!defined(nullptr)' since its a keyword.
+// For Microsoft, nullptr is available in Visual Studio 2010 and
+// above (version 1600), so we test for something earlier For GCC,
+// its 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t
+// in the latest draft:
 // C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
 #if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t)
@@ -130,14 +169,14 @@ typedef unsigned char byte;
 
 // Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
 #if defined(ESAPI_OS_WINDOWS) && (_MSC_VER >= 1500)
-# define ESAPI_MS_NO_WARNING(x) \
-	__pragma(warning(disable:x))
-# define ESAPI_MS_DEF_WARNING(x) \
-	__pragma(warning(default:x))
-# define ESAPI_MS_WARNING_PUSH(x) \
-	__pragma(warning(push, x))
-# define ESAPI_MS_WARNING_POP() \
-	__pragma(warning(pop))
+# define ESAPI_MS_NO_WARNING(x)                 \
+  __pragma(warning(disable:x))
+# define ESAPI_MS_DEF_WARNING(x)                \
+  __pragma(warning(default:x))
+# define ESAPI_MS_WARNING_PUSH(x)               \
+  __pragma(warning(push, x))
+# define ESAPI_MS_WARNING_POP()                 \
+  __pragma(warning(pop))
 #else
 # define ESAPI_MS_NO_WARNING(x)
 # define ESAPI_MS_DEF_WARNING(x)
