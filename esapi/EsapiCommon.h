@@ -116,12 +116,12 @@ typedef unsigned char byte;
 
 // OWASP change: try to automate this detection. We *cannot* count on
 // '!defined(nullptr)' since its a keyword. For Microsoft, it available
-// in Visual Studio 2008 and above. For GCC, its 4.6 and above with
-// -std=c++0x. Stroustrup also give us nullptr_t in the latest draft:
+// in Visual Studio 2010 and above. For GCC, its 4.6 and above with
+// -std=c++0x. Stroustrup gives us nullptr_t in the latest draft:
 // C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
-#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || (defined(__GNUC__) && !defined(nullptr_t)) || NEEDS_NULLPTR_DEFINED
-#define nullptr NULL
+#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t))
+#  define nullptr NULL
 #endif
 
 #if defined(ESAPI_OS_STARNIX)
