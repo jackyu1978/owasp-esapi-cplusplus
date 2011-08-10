@@ -1,6 +1,6 @@
 /*-----------------------------------------------------------------------------------------------------------
 SafeInt.hpp
-Version 3.0.15p
+Version 3.0.16p
 
 This software is licensed under the Microsoft Public License (Ms-PL).
 For more information about Microsoft open source licenses, refer to 
@@ -84,24 +84,25 @@ Version 3.0
 #define NEEDS_INT_DEFINED
 
 #if !defined NULL
-#define NULL ((void*)0)
+#define NULL 0
 #endif
 
 #include <stdint.h>
 
-// These two may not be defined, either
-#if !defined uintptr_t
-#define uintptr_t size_t
-#endif
-
-#if !defined intptr_t
-#define intptr_t ptrdiff_t
-#endif
-
 #endif
 
 // Might need this for gcc and older Microsoft compilers
-#if !defined nullptr
+#if !defined NEEDS_NULLPTR_DEFINED
+#define NEEDS_NULLPTR_DEFINED 0
+#endif
+
+// OWASP change: try to automate this detection. We *cannot* count on
+// '!defined(nullptr)' since its a keyword. For Microsoft, it available
+// in Visual Studio 2010 and above. For GCC, its 4.6 and above with
+// -std=c++0x. Stroustrup also give us nullptr_t in the latest draft:
+// C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html.
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
+#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || (defined(__GNUC__) && !defined(nullptr_t)) || NEEDS_NULLPTR_DEFINED
 #define nullptr NULL
 #endif
 
@@ -6749,12 +6750,12 @@ template < typename T, typename U, typename E >
 T*& operator +=( T*& lhs, SafeInt< U, E > rhs )
 {
     // Cast the pointer to a number so we can do arithmetic
-    SafeInt< uintptr_t, E > ptr_val = reinterpret_cast< uintptr_t >( lhs );
+    SafeInt< size_t, E > ptr_val = reinterpret_cast< size_t >( lhs );
     // Check first that rhs is valid for the type of ptrdiff_t
     // and that multiplying by sizeof( T ) doesn't overflow a ptrdiff_t
     // Next, we need to add 2 SafeInts of different types, so unbox the ptr_diff
     // Finally, cast the number back to a pointer of the correct type
-    lhs = reinterpret_cast< T* >( (uintptr_t)( ptr_val + (ptrdiff_t)( SafeInt< ptrdiff_t, E >( rhs ) * sizeof( T ) ) ) );
+    lhs = reinterpret_cast< T* >( (size_t)( ptr_val + (ptrdiff_t)( SafeInt< ptrdiff_t, E >( rhs ) * sizeof( T ) ) ) );
     return lhs;
 }
 
@@ -6762,9 +6763,9 @@ template < typename T, typename U, typename E >
 T*& operator -=( T*& lhs, SafeInt< U, E > rhs )
 {
     // Cast the pointer to a number so we can do arithmetic
-    SafeInt< size_t, E > ptr_val = reinterpret_cast< uintptr_t >( lhs );
+    SafeInt< size_t, E > ptr_val = reinterpret_cast< size_t >( lhs );
     // See above for comments
-    lhs = reinterpret_cast< T* >( (uintptr_t)( ptr_val - (ptrdiff_t)( SafeInt< ptrdiff_t, E >( rhs ) * sizeof( T ) ) ) );
+    lhs = reinterpret_cast< T* >( (size_t)( ptr_val - (ptrdiff_t)( SafeInt< ptrdiff_t, E >( rhs ) * sizeof( T ) ) ) );
     return lhs;
 }
 
