@@ -107,7 +107,8 @@
 // For the lazy folks like me!
 #define ASSERT(x) ESAPI_ASSERT(x)
 
-#if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
+#if !defined(ESAPI_NO_SIGTRAP_HANDLER)
+# if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
 // Add a TRAP handler for *nix, otherwise we still abort.
 struct DebugTrapHandler
 {
@@ -137,8 +138,9 @@ struct DebugTrapHandler
 
 // We specify a relatively low priority, to make sure we run before other CTORs
 // http://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Attributes.html#C_002b_002b-Attributes
-static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (111)));
-#endif // *nix debug
+static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (110)));
+# endif // *nix debug
+#endif // ESAPI_NO_SIGTRAP_HANDLER
 
 // For counting elements
 #if !defined(COUNTOF)
