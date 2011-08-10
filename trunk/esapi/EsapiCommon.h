@@ -17,11 +17,6 @@
 
 #pragma once
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstddef>
-#include <cstring>
-
 #include <assert.h>
 #include <signal.h>
 
@@ -90,15 +85,16 @@
 
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
-#if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX) && !defined(ESAPI_BUILD_TEST)
+#if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)
 #  define ESAPI_ASSERT(exp) {                                           \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
-      << (int)__LINE__ << "): " << (const char*)__func__ << std::endl;  \
+                << (int)__LINE__ << "): " << (const char*)__func__      \
+                << std::endl;                                           \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
-#elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_BUILD_TEST)
+#elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)
 #  define ESAPI_ASSERT(exp) assert(exp)
 #else
 #  define ESAPI_ASSERT(exp) ((void)(exp))
@@ -114,21 +110,29 @@ struct DebugTrapHandler
 {
   DebugTrapHandler()
   {
+    // http://pubs.opengroup.org/onlinepubs/007908799/xsh/sigaction.html
     struct sigaction new_handler, old_handler;
 
     do
       {
+        int ret = 0;
+        
+        ret = sigaction (SIGTRAP, NULL, &old_handler);
+        if (ret != 0) break; // Failed
+        
         // Don't step on another's handler
-        sigaction (SIGTRAP, NULL, &old_handler);
         if (old_handler.sa_handler != NULL) break;
 
         // Set up the structure to specify the null action.
         new_handler.sa_handler = &DebugTrapHandler::NullHandler;
-        sigemptyset (&new_handler.sa_mask);
         new_handler.sa_flags = 0;
 
+        ret = sigemptyset (&new_handler.sa_mask);
+        if (ret != 0) break; // Failed
+
         // Install it
-        sigaction (SIGTRAP, &new_handler, NULL);
+        ret = sigaction (SIGTRAP, &new_handler, NULL);
+        if (ret != 0) break; // Failed
 
       } while(0);
   }
@@ -162,7 +166,7 @@ typedef unsigned char byte;
 // 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
 // latest draft. C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html
 // and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
-#if (defined(_MSC_VER) && (_MSC_VER < 1600)) || !defined(nullptr_t)
+#if (defined(ESAPI_CXX_MSVC) && (_MSC_VER < 1600)) || !defined(nullptr_t)
 #  define nullptr NULL
 #endif
 
@@ -176,7 +180,7 @@ typedef unsigned char byte;
 #endif
 
 // Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
-#if defined(ESAPI_OS_WINDOWS) && (_MSC_VER >= 1500)
+#if defined(ESAPI_CXX_MSVC) && (_MSC_VER >= 1500)
 # define ESAPI_MS_NO_WARNING(x)                 \
   __pragma(warning(disable:x))
 # define ESAPI_MS_DEF_WARNING(x)                \
