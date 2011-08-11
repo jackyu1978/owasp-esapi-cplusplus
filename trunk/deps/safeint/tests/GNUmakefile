@@ -104,7 +104,7 @@ endif
 #lost in the noise. As soon as (1) the tables are fixed or (2)
 #narrowing warnings can be suppressed, we should add -std=c++0x.
 
-RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp UnaryVerify.cpp PtrVerify.cpp
+RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp NegVerify.cpp PtrVerify.cpp
 RUNTIME_OBJS = $(RUNTIME_SRCS:.cpp=.o)
 
 test check: TestMain.exe
@@ -114,8 +114,8 @@ all: TestMain.exe
 	-./TestMain.exe
 
 # TestMain.cpp is a run time test
-TestMain.exe: SafeInt3.hpp TestMain.cpp $(RUNTIME_SRCS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) TestMain.cpp $(RUNTIME_SRCS) -o $@
+TestMain.exe: SafeInt3.hpp TestMain.cpp $(RUNTIME_OBJS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) TestMain.cpp $(RUNTIME_OBJS) -o $@
 
 SafeInt3.hpp: ;
 

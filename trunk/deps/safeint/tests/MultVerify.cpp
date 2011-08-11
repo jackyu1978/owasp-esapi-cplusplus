@@ -42,29 +42,7 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) Microsoft Corporation.  All rights reserved.
 */
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 )
-#endif
-
-#include <stdio.h>
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-#include <iomanip>
-using std::hex;
-using std::setw;
-using std::setfill;
-
-#if defined(_countof)
-# define COUNTOF(x) _countof(x)
-#else
-# define COUNTOF(x) (sizeof(x)/sizeof((x)[0]))
-#endif
+#include "TestMain.h"
 
 /*
 * Interesting numbers:
@@ -76,6 +54,9 @@ using std::setfill;
 *  signed __int64
 *  0, 1, 2, 0x7fffffff, 0x80000000, 0xffffffff, 0x100000000, 0x200000000, 0x7fffffffffffffff, 0x8000000000000000, 0xffffffffffffffff
 */
+
+namespace mult_verify
+{
 
 template <typename T, typename U>
 struct MultTest
@@ -2051,4 +2032,6 @@ void MultVerify()
 
 	MultVerifyInt8Int8();
 	MultVerifyUint8Uint8();
+}
+
 }

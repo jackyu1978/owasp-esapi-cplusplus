@@ -42,33 +42,7 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) OWASP Project (https://www.owasp.org), 2011. All rights reserved.
 */
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 4309 )
-#endif
-
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-#include <iomanip>
-using std::dec;
-using std::hex;
-using std::setw;
-using std::setfill;
-
-#if !defined(COUNTOF)
-# if defined(_countof)
-# define COUNTOF(x) _countof(x)
-# else
-# define COUNTOF(x) (sizeof(x)/sizeof((x)[0]))
-# endif
-#endif
-
-#define HEX(x) hex << setw(x) << setfill('0')
+#include "TestMain.h"
 
 #if defined(__GNUC__)
 # include <stdint.h>
@@ -77,6 +51,9 @@ using std::setfill;
 #if !defined(CHAR_BIT)
 # include <limits.h>
 #endif
+
+namespace mod_verify
+{
 
 enum Sign{ Unsigned, Signed };
 
@@ -320,4 +297,6 @@ void ModVerify()
 	// Lets see.....
 	ModVerifyTest1<size_t, Unsigned> t50;
 	ModVerifyTest2<size_t, Unsigned> t51;
+}
+
 }

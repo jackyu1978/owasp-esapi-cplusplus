@@ -42,40 +42,22 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) Microsoft Corporation.  All rights reserved.
 */
 
+#include "TestMain.h"
+
 #if !defined __GNUC__
 #pragma warning( disable: 4711 4514 4820 )
 #endif
 
-void AddVerify();
-void SubVerify();
-void MultVerify();
-void DivVerify();
-void ModVerify();
-void UnaryVerify();
-void IncDecVerify();
-void PtrVerify();
-
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-int main(int, char**)
+int main(int, char*)
 {
-	AddVerify();
-	SubVerify();
+    mult_verify::MultVerify();
+    div_verify::DivVerify();
+    sub_verify::SubVerify();
+    add_verify::AddVerify();
+    mod_verify::ModVerify();
+    ptr_verify::PtrVerify();
+    neg_verify::NegVerify();
+    incdec_verify::IncDecVerify();
 
-	MultVerify();
-	DivVerify();
-	ModVerify();
-
-	IncDecVerify();
-
-	PtrVerify();
-
-	UnaryVerify();
-
-	return 0;
+    return 0;
 }

@@ -39,33 +39,12 @@ cannot change. To the extent permitted under your local laws, the contributors e
 of merchantability, fitness for a particular purpose and non-infringement.
 
 
-Copyright (c) OWASP Project (https://www.owasp.org), 2011. All rights reserved.
+Copyright (c) Microsoft Corporation. All rights reserved.
 */
+#include "TestMain.h"
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 4309 )
-#endif
-
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-#include <iomanip>
-using std::hex;
-using std::setw;
-using std::setfill;
-
-#if !defined(COUNTOF)
-# if defined(_countof)
-#  define COUNTOF(x) _countof(x)
-# else
-#  define COUNTOF(x) (sizeof(x)/sizeof((x)[0]))
-# endif
-#endif
+namespace sub_verify
+{
 
 template <typename T, typename U>
 struct SubTest
@@ -7013,4 +6992,6 @@ void SubVerify()
     SubVerifyInt8Int32();
     SubVerifyInt8Int16();
     SubVerifyInt8Int8();
+}
+
 }
