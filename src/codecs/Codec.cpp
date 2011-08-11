@@ -114,7 +114,7 @@ std::string esapi::Codec::getHexForNonAlphanumeric(char c) const{
   if(i < (int)ARR_SIZE)
     return this->hex->at(i);
 
-  return toHex(i);
+  return toHex((char)i);
 }
 
 std::string esapi::Codec::toOctal(char c) const{
