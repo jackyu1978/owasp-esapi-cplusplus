@@ -76,7 +76,7 @@ namespace esapi
 		/**
 		 * String the input of all chars contained in the list
 		 */
-		virtual std::string whitelist(const std::string &, const std::set<char>) =0;
+		virtual std::string whitelist(const std::string &, const std::set<char> &) =0;
 
 		virtual ~ValidationRule() {};
 	};
