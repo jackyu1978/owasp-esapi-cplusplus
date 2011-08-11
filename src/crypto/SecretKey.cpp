@@ -79,8 +79,13 @@ namespace esapi
     return BytePtr();
   }
 
+  // The return value is a bit confusing. If the key supports encoding, return
+  // the ASN.1 name for the method, otherwise retun the empty string. If the
+  // key does *not* support encoding, return "RAW".
   const std::string& SecretKey::getFormat() const
   {
+    ASSERT( !m_format.empty() );
+
     return m_format;
   }
 
@@ -88,13 +93,6 @@ namespace esapi
   {
     return m_algorithm;
   }
-
-  /***********************    not so sure about this one...
-  byte* SecretKey::BytePtr()
-  {
-    return secBlock.BytePtr();
-  }
-  *********************************************************/
 
   const byte* SecretKey::BytePtr() const
   {
