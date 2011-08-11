@@ -45,29 +45,29 @@ namespace esapi
 
   protected:
     // This class calls CreateInstance on a derived class
-    static KeyGenerator* CreateInstance();
+    ESAPI_PRIVATE static KeyGenerator* CreateInstance();
 
     // Called by derived classes in init()
-    void SetKeySize(unsigned int keySize);
+    ESAPI_PRIVATE void SetKeySize(unsigned int keySize);
 
     // Called by derived classes to fetch key bytes (not bits)
-    unsigned int GetKeySize() const;
+    ESAPI_PRIVATE unsigned int GetKeySize() const;
 
     // Called by derived classes in CreateInstance()
-    void SetAlgorithmName(const std::string& algorithmName);
+    ESAPI_PRIVATE void SetAlgorithmName(const std::string& algorithmName);
 
-    // Single testing point to ensure init() has been called. All derived
-    // classes *must* call VerifyKeyBitsSize() in their generateKey().
-    void VerifyKeyBitsSize() const;
+    // Single testing point to ensure init() has been called. Will be
+    // called when the derived class fetches the key size with GetKeySize().
+    ESAPI_PRIVATE void VerifyKeySize() const;
 
   protected:
     // Not for general consumption
-  KeyGenerator(const std::string& algorithmName = "") : m_algorithm(algorithmName),
+  ESAPI_PRIVATE KeyGenerator(const std::string& algorithmName = "") : m_algorithm(algorithmName),
       m_keyBits(NoKeySize) { /* No external instantiations */ }    
 
   protected:
-    static const unsigned int NoKeySize;
-    static const unsigned int MaxKeySize;
+    ESAPI_PRIVATE static const unsigned int NoKeySize;
+    ESAPI_PRIVATE static const unsigned int MaxKeySize;
 
   private:
     std::string m_algorithm;

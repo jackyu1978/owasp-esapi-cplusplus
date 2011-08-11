@@ -72,10 +72,14 @@ namespace esapi
     /**
      * Create a random SecretKey of 'size' bytes using the
      * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES).
+     * This should be hidden, but the test files need it (and we
+     * can't work around with preprocessor tricks without a new macro).
      */
     SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
     /**
      * Create a SecretKey from a Crypto++ SecByteBlock
+     * This should be hidden, but the test files need it (and we
+     * can't work around with preprocessor tricks without a new macro).
      */
     SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
 
@@ -93,7 +97,7 @@ namespace esapi
 
   protected:
     // Hold overs from Crypto++ SecByteBlock.
-    const byte* BytePtr() const;
+    ESAPI_PRIVATE const byte* BytePtr() const;
 
   private:
     std::string m_algorithm;            // Standard name for crypto algorithm

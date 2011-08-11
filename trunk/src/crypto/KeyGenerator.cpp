@@ -324,8 +324,8 @@ namespace esapi
   }
 
   // Single testing point to ensure init() has been called. All derived
-  // classes *must* call VerifyKeyBitsSize() in their generateKey().
-  void KeyGenerator::VerifyKeyBitsSize() const
+  // classes *must* call VerifyKeySize() in their generateKey().
+  void KeyGenerator::VerifyKeySize() const
   {
     // generateKey() must be implemented by all derived classes. The two checks below
     // are common to all derived classes. However, the base class' defualt behavior
@@ -378,7 +378,7 @@ namespace esapi
   {
     // Single testing point to ensure init() has been called. All
     // generateKey() methods must call the function.
-    KeyGenerator::VerifyKeyBitsSize();
+    KeyGenerator::VerifyKeySize();
 
     // SafeInt will throw on wrap
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
