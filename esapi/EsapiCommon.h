@@ -85,7 +85,7 @@
 
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
-#if defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)
+#if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT(exp) {                                           \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
@@ -94,7 +94,7 @@
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
-#elif defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)
+#elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT(exp) assert(exp)
 #else
 #  define ESAPI_ASSERT(exp) ((void)(exp))
@@ -103,7 +103,7 @@
 // For the lazy folks like me!
 #define ASSERT(x) ESAPI_ASSERT(x)
 
-#if !defined(ESAPI_NO_SIGTRAP_HANDLER)
+#if !defined(ESAPI_NO_ASSERT)
 # if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
 // Add a TRAP handler for *nix, otherwise we still abort.
 struct DebugTrapHandler

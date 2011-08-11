@@ -8,13 +8,6 @@
 #
 # Copyright (c) 2011 - The OWASP Foundation
 
-# Clear unneeded implicit rules
-.SUFFIXES:
-.SUFFIXES: .c .cpp .o
-
-# Target of plain `make`
-.DEFAULT: test
-
 # Comeau C++ Compiler
 # CXX =		como
 # Intel ICC
@@ -28,55 +21,30 @@ STATIC_LIB =	libesapi-c++.a
 # Try and pick up on targets/goals.
 # See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html for mixing and matching Debug/Release/Test from goals.
 
-ifeq ($(MAKECMDGOALS),debug)
+DEBUG_GOALS = $(filter $(MAKECMDGOALS), debug crypto codec codecs err errors ref reference)
+ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
 endif
 
-ifeq ($(MAKECMDGOALS),release)
+RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
+ifneq ($(RELEASE_GOALS),)
   WANT_RELEASE := 1
 endif
 
-ifeq ($(MAKECMDGOALS),test)
+TEST_GOALS = $(filter $(MAKECMDGOALS), test)
+ifneq ($(TEST_GOALS),)
   WANT_TEST := 1
-endif
-
-ifeq ($(MAKECMDGOALS),crypto)
-  WANT_DEBUG := 1
-endif
-
-ifeq ($(MAKECMDGOALS),codec)
-  WANT_DEBUG := 1
-endif
-
-ifeq ($(MAKECMDGOALS),codecs)
-  WANT_DEBUG := 1
-endif
-
-ifeq ($(MAKECMDGOALS),all)
-  WANT_RELEASE := 1
-endif
-
-ifeq ($(MAKECMDGOALS),$(DYNAMIC_LIB))
-  WANT_RELEASE := 1
-endif
-
-ifeq ($(MAKECMDGOALS),$(STATIC_LIB))
-  WANT_RELEASE := 1
 endif
 
 # If nothing is specified, default to Test. This catch all is why
 # CXXFLAGS are not set above in the MAKECMDGOALS tests.
-ifneq ($(WANT_DEBUG),1)
- ifneq ($(WANT_RELEASE),1)
-  ifneq ($(WANT_TEST),1)
-   WANT_TEST := 1
-  endif
- endif
+ifeq ($(MAKECMDGOALS),)
+  WANT_TEST := 1
 endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
-CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0
+CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
@@ -84,7 +52,7 @@ CXXFLAGS += -DNDEBUG=1 -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
-CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O2 -Dprivate=public -Dprotected=public
+CXXFLAGS += -DESAPI_NO_ASSERT=1 -g3 -ggdb -O2 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
@@ -197,11 +165,18 @@ TESTTARGET = test/run_esapi_tests
 #   CXX = c++
 # endif
 
+# Default rule for `make`
+default: test
+
+# Clear unneeded implicit rules
+.SUFFIXES:
+.SUFFIXES: .c .cpp .o
+
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
 	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
-	
+
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
 	$(RANLIB) lib/$@
@@ -209,17 +184,17 @@ $(STATIC_LIB): $(LIBOBJS)
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
 
-# `make all` builds the DOS and Archive. OPT=O2, SYM=G1, Asserts are off.
+# `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)
 
 # `make` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
-
+# covered under the default rule above
 
 # `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
 debug: test
 
 # `make release` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
-release: test
+release: all
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 
