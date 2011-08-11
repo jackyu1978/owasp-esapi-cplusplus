@@ -181,9 +181,6 @@ $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
 	$(RANLIB) lib/$@
 
-.cpp.o:
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
-
 # `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)
 
@@ -193,13 +190,10 @@ all: $(STATIC_LIB) $(DYNAMIC_LIB)
 # `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
 debug: test
 
-# `make release` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
+# `make release` is `make all`. OPT=O2, SYM=G1, ASSERTs are off.
 release: all
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
-
-# If you are missing libboost-filesystem or libboost_unit_test_framework, see
-# https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
 	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
 	./$(TESTTARGET)
@@ -216,6 +210,10 @@ err error: $(ERROBJS)
 # Test compile reference sources, no final link
 ref reference: $(REFOBJS)
 
+.cpp.o:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
+
+# Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
 
 .PHONY: clean
