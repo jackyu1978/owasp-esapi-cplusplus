@@ -24,15 +24,15 @@ ESAPI_MS_WARNING_POP()
 namespace esapi
 {
   SecretKey::SecretKey(const std::string& alg,
-                       const size_t size,
+                       const size_t sizeInBytes,
                        const std::string& format)
-    : m_algorithm(alg), secBlock(size), m_format(format)
+    : m_algorithm(alg), secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
     ASSERT( secBlock.size() );
     ASSERT( !m_format.empty() );
 
-    if(size)
+    if(sizeInBytes)
       {
         SecureRandom& prng = SecureRandom::GlobalSecureRandom();
         prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());

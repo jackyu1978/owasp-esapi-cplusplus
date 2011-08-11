@@ -27,9 +27,6 @@ ESAPI_MS_WARNING_POP()
  */
 namespace esapi
 {
-  // Forward declarations for circular dependencies
-  class KeyDerivationFunction;
-
   class SecretKey : public Key
   {
     // For comparisons in the outside world, such as the self tests
@@ -37,25 +34,15 @@ namespace esapi
     friend bool operator!=(const SecretKey&, const SecretKey&);
     // For dumping keys. Use with care
     friend std::ostream& operator<<(std::ostream&, const SecretKey&);
-    // For internal routines and duties
+    // From KeyDerivationFunction,cpp, which couphs up a SecretKey
     friend class KeyDerivationFunction;
+    // From KeyGeneration.cpp, which couphs up a SecretKey
+    friend class KeyGenerator;
+    template <class CIPHER> friend class StreamCipherGenerator;
+    template <class HASH> friend class HmacGenerator;
+    template <class HASH> friend class HashGenerator;
+    template <class CIPHER, template <class CIPHER> class MODE> friend class BlockCipherGenerator;
 
-  public:
-    /**
-     * Create a random SecretKey of 'size' bytes using the
-     * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES).
-     */
-    SecretKey(const std::string& alg, const size_t size, const std::string& format = "RAW");
-    /**
-     * Create a SecretKey from a Crypto++ SecByteBlock
-     */
-    SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
-
-    /*
-     * Standard destructor
-     */
-    virtual ~SecretKey();
-        
   public:
     /**
      * Returns the standard algorithm name for this key.
@@ -77,9 +64,28 @@ namespace esapi
      */
     virtual const byte* getEncoded() const;
 
+  /**
+   * Not for general consumption. To derive a SecretKey from a secret value, use KeyDerivationFunction.
+   * To generate a SecretKey with a specified algorithm, use KeyGenerator::generateKey();
+   */
+  protected:
+    /**
+     * Create a random SecretKey of 'size' bytes using the
+     * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES).
+     */
+    SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
+    /**
+     * Create a SecretKey from a Crypto++ SecByteBlock
+     */
+    SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
+
   public:
-    // kww - Small thing, but copy CTOR and assignment operator operate on RHS,
-    // not LHS. Changed here and in .cpp file.
+    /*
+     * Standard destructor
+     */
+    virtual ~SecretKey();
+
+  public:
     SecretKey(const SecretKey& rhs);
     SecretKey& operator=(const SecretKey& rhs);
 
