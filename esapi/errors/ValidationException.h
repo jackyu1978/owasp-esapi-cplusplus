@@ -14,41 +14,42 @@
  * @created 2007
  */
 
-#ifndef _ValidationException_H_
-#define _ValidationException_H_
+#pragma once
+
+#include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
-#include "EnterpriseSecurityException.h"
 
 namespace esapi {
 
-/**
- * A ValidationException should be thrown to indicate that the data provided by
- * the user or from some other external source does not match the validation
- * rules that have been specified for that data.
- *
- * @author Jeff Williams (jeff.williams@aspectsecurity.com)
- * @author Dan Amodio (dan.amodio@aspectsecurity.com)
- */
-class ValidationException : public EnterpriseSecurityException
-{
-protected:
+  /**
+   * A ValidationException should be thrown to indicate that the data provided by
+   * the user or from some other external source does not match the validation
+   * rules that have been specified for that data.
+   *
+   * @author Jeff Williams (jeff.williams@aspectsecurity.com)
+   * @author Dan Amodio (dan.amodio@aspectsecurity.com)
+   */
+  class ESAPI_EXPORT ValidationException : public EnterpriseSecurityException
+  {
+  protected:
 
-private:
-	/** The UI reference that caused this ValidationException */
-	std::string context;
+  private:
+    /** The UI reference that caused this ValidationException */
+    std::string context;
 
-public:
+  public:
     /**
      * Creates a new instance of ValidationException.
      *
      * @param userMessage
      *            the message to display to users
      * @param logMessage
-	 * 			  the message logged
+     *                        the message logged
      */
-	ValidationException(const std::string &userMessage, const std::string &logMessage): EnterpriseSecurityException(userMessage, logMessage) {}
+  ValidationException(const std::string &userMessage, const std::string &logMessage): EnterpriseSecurityException(userMessage, logMessage) {}
 
     /**
      * Creates a new instance of ValidationException.
@@ -56,29 +57,29 @@ public:
      * @param userMessage
      *            the message to display to users
      * @param logMessage
-	 * 			  the message logged
+     *                        the message logged
      * @param context
      *            the source that caused this exception
      */
-	ValidationException(const std::string &, const std::string &, const std::string &);
+    ValidationException(const std::string &, const std::string &, const std::string &);
 
-	/**
-	 * Returns the UI reference that caused this ValidationException
-	 *
-	 * @return context, the source that caused the exception, stored as a string
-	 */
-	std::string getContext();
+    /**
+     * Returns the UI reference that caused this ValidationException
+     *
+     * @return context, the source that caused the exception, stored as a string
+     */
+    std::string getContext();
 
-	/**
-	 * Set's the UI reference that caused this ValidationException
-	 *
-	 * @param context
-	 * 			the context to set, passed as a String
-	 */
-	void setContext(const std::string &);
+    /**
+     * Set's the UI reference that caused this ValidationException
+     *
+     * @param context
+     *                      the context to set, passed as a String
+     */
+    void setContext(const std::string &);
 
-	~ValidationException() throw() {};
+    ~ValidationException() throw() {};
+  };
+
 };
 
-};
-#endif /* _ValidationException_H_ */

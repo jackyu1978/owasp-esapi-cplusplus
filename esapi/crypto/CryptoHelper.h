@@ -26,7 +26,7 @@
  */
 namespace esapi
 {
-  class CryptoHelper
+  class ESAPI_EXPORT CryptoHelper
   {
   public:
 

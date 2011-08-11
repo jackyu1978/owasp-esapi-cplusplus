@@ -25,7 +25,7 @@ namespace esapi
    * This class implements functionality similar to Java's KeyGenerator for consistency
    * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
    */
-  class KeyGenerator
+  class ESAPI_EXPORT KeyGenerator
   {
   public:
     static const std::string DefaultAlgorithm;
