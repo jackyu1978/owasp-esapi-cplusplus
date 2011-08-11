@@ -89,9 +89,9 @@ namespace esapi
   protected:
 
     // Initialize the lock for the PRNG
-    inline void InitializeLock() const;
+    ESAPI_PRIVATE inline void InitializeLock() const;
 
-    class AutoLock
+    class ESAPI_PRIVATE AutoLock
     {
 #if defined(ESAPI_OS_WINDOWS)
     public:
@@ -115,8 +115,8 @@ namespace esapi
     CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;    
 
     // A global PRNG
-    static SecureRandom g_prng;
-    static std::string g_name; // `prng` returns "unknown"
+    ESAPI_PRIVATE static SecureRandom g_prng;
+    ESAPI_PRIVATE static std::string g_name; // `prng` returns "unknown"
 
     // Crypto++ is MT safe at the class level, meaning it does not share data amoung
     // instances. If a Global PRNG is provided, we must take care to ensure only one 
