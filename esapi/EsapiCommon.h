@@ -87,12 +87,12 @@
 // than calling abort(). Useful when examining negative test cases from the command line.
 #if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT(exp) {                                           \
-    if(!(exp)) {                                                        \
-      std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
-                << (int)__LINE__ << "): " << (const char*)__func__      \
-                << std::endl;                                           \
-      raise(SIGTRAP);                                                   \
-    }                                                                   \
+  if(!(exp)) {                                                        \
+  std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
+  << (int)__LINE__ << "): " << (const char*)__func__      \
+  << std::endl;                                           \
+  raise(SIGTRAP);                                                   \
+  }                                                                   \
   }
 #elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT(exp) assert(exp)
@@ -114,27 +114,27 @@ struct DebugTrapHandler
     struct sigaction new_handler, old_handler;
 
     do
-      {
-        int ret = 0;
-        
-        ret = sigaction (SIGTRAP, NULL, &old_handler);
-        if (ret != 0) break; // Failed
-        
-        // Don't step on another's handler
-        if (old_handler.sa_handler != NULL) break;
+    {
+      int ret = 0;
 
-        // Set up the structure to specify the null action.
-        new_handler.sa_handler = &DebugTrapHandler::NullHandler;
-        new_handler.sa_flags = 0;
+      ret = sigaction (SIGTRAP, NULL, &old_handler);
+      if (ret != 0) break; // Failed
 
-        ret = sigemptyset (&new_handler.sa_mask);
-        if (ret != 0) break; // Failed
+      // Don't step on another's handler
+      if (old_handler.sa_handler != NULL) break;
 
-        // Install it
-        ret = sigaction (SIGTRAP, &new_handler, NULL);
-        if (ret != 0) break; // Failed
+      // Set up the structure to specify the null action.
+      new_handler.sa_handler = &DebugTrapHandler::NullHandler;
+      new_handler.sa_flags = 0;
 
-      } while(0);
+      ret = sigemptyset (&new_handler.sa_mask);
+      if (ret != 0) break; // Failed
+
+      // Install it
+      ret = sigaction (SIGTRAP, &new_handler, NULL);
+      if (ret != 0) break; // Failed
+
+    } while(0);
   }
 
   static void NullHandler(int unused) { }
@@ -196,3 +196,19 @@ typedef unsigned char byte;
 # define ESAPI_MS_WARNING_POP() 
 #endif
 
+#if defined(ESAPI_CXX_MSVC)
+# ifdef ESAPI_MS_DLL_EXPORTS
+#  define ESAPI_EXPORT __declspec(dllexport)
+# else
+#  define ESAPI_EXPORT __declspec(dllimport)
+# endif
+# define ESAPI_PRIVATE
+#elif defined(ESAPI_CXX_GCC)
+# if (__GNUC__ >= 4)
+#  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
+#  define ESAPI_PRIVATE  __attribute__ ((visibility ("hidden")))
+# else
+#  define ESAPI_EXPORT
+#  define ESAPI_PRIVATE
+# endif
+#endif
