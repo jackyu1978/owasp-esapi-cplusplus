@@ -87,7 +87,6 @@ namespace esapi
 
   protected:
     // Hold overs from Crypto++ SecByteBlock.
-    //  byte* BytePtr();    -- kww - wary about this one.
     const byte* BytePtr() const;
 
   private:
