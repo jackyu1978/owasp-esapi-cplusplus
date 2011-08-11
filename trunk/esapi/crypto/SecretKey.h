@@ -27,7 +27,7 @@ ESAPI_MS_WARNING_POP()
  */
 namespace esapi
 {
-  class SecretKey : public Key
+  class ESAPI_EXPORT SecretKey : public Key
   {
     // For comparisons in the outside world, such as the self tests
     friend bool operator==(const SecretKey&, const SecretKey&);
@@ -102,9 +102,9 @@ namespace esapi
 
   };
 
-  bool operator==(const SecretKey& lhs, const SecretKey& rhs);
-  bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
+  ESAPI_EXPORT bool operator==(const SecretKey& lhs, const SecretKey& rhs);
+  ESAPI_EXPORT bool operator!=(const SecretKey& lhs, const SecretKey& rhs);
 
-  std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
+  ESAPI_EXPORT std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
 
 }; // NAMESPACE esapi

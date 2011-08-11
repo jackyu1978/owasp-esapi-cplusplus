@@ -41,7 +41,7 @@ namespace esapi
   // Forward declaration due to circular dependencies
   class SecretKey;
 
-  class KeyDerivationFunction
+  class ESAPI_EXPORT KeyDerivationFunction
   {
   public:
     /**

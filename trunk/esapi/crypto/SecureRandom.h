@@ -50,7 +50,7 @@ namespace esapi
    * This class implements functionality similar to Java's SecureRandom for consistency
    * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
    */
-  class SecureRandom
+  class ESAPI_EXPORT SecureRandom
   {
   public:
     // Retrieve a reference to the global PRNG.
