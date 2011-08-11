@@ -42,17 +42,10 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) OWASP Project (https://www.owasp.org), 2011. All rights reserved.
 */
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 4309 )
-#endif
+#include "TestMain.h"
 
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
+namespace ptr_verify
+{
 
 struct S1 {
 	__int8 x;
@@ -2451,3 +2444,5 @@ void PtrVerify()
 	PtrS5Sub32Verify();
 	PtrS5Sub64Verify();
 }
+
+} // NAMESPACE

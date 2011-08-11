@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TestMain"
-	ProjectGUID="{C0C53708-5DB3-462D-88FD-2477C5C26BE3}"
-	RootNamespace="TestMain"
+	Name="SafeIntTest"
+	ProjectGUID="{946454FA-65AC-4353-B49E-05D8D3A9604C}"
+	RootNamespace="SafeInt"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\TestMain\x86\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\TestMain\Temp\x86\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\SafeIntTest\x86\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\SafeIntTest\Temp\x86\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -43,7 +43,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="/analyze"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
@@ -93,8 +92,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)\TestMain\x64\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\TestMain\Temp\x64\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\SafeIntTest\x64\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\SafeIntTest\Temp\x64\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -165,8 +164,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\TestMain\x86\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\TestMain\Temp\x86\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\SafeIntTest\x86\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\SafeIntTest\Temp\x86\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -188,7 +187,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
@@ -239,8 +238,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)\TestMain\x64\$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)\TestMain\Temp\x64\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\SafeIntTest\x64\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\SafeIntTest\Temp\x64\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -322,39 +321,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AddVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DivVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\IncDecVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ModVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MultVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\NegVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PtrVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SubVerify.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TestMain.cpp"
+				RelativePath=".\SafeIntTest.cpp"
 				>
 			</File>
 		</Filter>
@@ -365,10 +332,6 @@
 			>
 			<File
 				RelativePath=".\SafeInt3.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\TestMain.h"
 				>
 			</File>
 		</Filter>

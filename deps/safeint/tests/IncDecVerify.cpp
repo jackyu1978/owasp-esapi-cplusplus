@@ -42,32 +42,10 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) OWASP Project (https://www.owasp.org), 2011. All rights reserved.
 */
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 4309 )
-#endif
+#include "TestMain.h"
 
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-#include <iomanip>
-using std::hex;
-using std::setw;
-using std::setfill;
-
-#if !defined(COUNTOF)
-# if defined(_countof)
-#  define COUNTOF(x) _countof(x)
-# else
-#  define COUNTOF(x) (sizeof(x)/sizeof((x)[0]))
-# endif
-#endif
-
-#define HEX(x) hex << setw(x) << setfill('0')
+namespace incdec_verify
+{
 
 template <typename T>
 struct IncTest
@@ -81,7 +59,7 @@ template <typename T>
 struct DecTest
 {
 	T x;			// value
-	T y;			// value--
+	T y;			// value++
 	bool fExpected;	// false = overflow
 };
 
@@ -142,11 +120,6 @@ void PostIncTestUint8()
 			SafeInt<unsigned __int8> vv = si++;
 
 			if(vv != inc_uint8[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != inc_uint8[i].y)
 			{
 				fSuccess = false;
 			}
@@ -225,11 +198,6 @@ void PostIncTestUint16()
 			{
 				fSuccess = false;
 			}
-
-			if(si != inc_uint16[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -302,11 +270,6 @@ void PostIncTestUint32()
 			SafeInt<unsigned __int32> vv = si++;
 
 			if(vv != inc_uint32[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != inc_uint32[i].y)
 			{
 				fSuccess = false;
 			}
@@ -393,11 +356,6 @@ void PostIncTestUint64()
 			{
 				fSuccess = false;
 			}
-
-			if(si != inc_uint64[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -470,11 +428,6 @@ void PostIncTestInt8()
 			SafeInt< __int8 > vv = si++;
 
 			if(vv != inc_int8[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != inc_int8[i].y)
 			{
 				fSuccess = false;
 			}
@@ -553,11 +506,6 @@ void PostIncTestInt16()
 			{
 				fSuccess = false;
 			}
-
-			if(si != inc_int16[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -630,11 +578,6 @@ void PostIncTestInt32()
 			SafeInt< __int32 > vv = si++;
 
 			if(vv != inc_int32[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != inc_int32[i].y)
 			{
 				fSuccess = false;
 			}
@@ -721,11 +664,6 @@ void PostIncTestInt64()
 			{
 				fSuccess = false;
 			}
-
-			if(si != inc_int64[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -798,11 +736,6 @@ void PostDecTestUint8()
 			SafeInt<unsigned __int8> vv = si--;
 
 			if(vv != dec_uint8[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != dec_uint8[i].y)
 			{
 				fSuccess = false;
 			}
@@ -881,11 +814,6 @@ void PostDecTestUint16()
 			{
 				fSuccess = false;
 			}
-
-			if(si != dec_uint16[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -958,11 +886,6 @@ void PostDecTestUint32()
 			SafeInt<unsigned __int32> vv = si--;
 
 			if(vv != dec_uint32[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != dec_uint32[i].y)
 			{
 				fSuccess = false;
 			}
@@ -1049,12 +972,6 @@ void PostDecTestUint64()
 			{
 				fSuccess = false;
 			}
-
-			if(si != dec_uint64[i].y)
-			{
-				fSuccess = false;
-			}
-
 		}
 		catch(SafeIntException&)
 		{
@@ -1127,11 +1044,6 @@ void PostDecTestInt8()
 			SafeInt< __int8 > vv = si--;
 
 			if(vv != dec_int8[i].x)
-			{
-				fSuccess = false;
-			}
-
-			if(si != dec_int8[i].y)
 			{
 				fSuccess = false;
 			}
@@ -1210,11 +1122,6 @@ void PostDecTestInt16()
 			{
 				fSuccess = false;
 			}
-
-			if(si != dec_int16[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -1290,12 +1197,6 @@ void PostDecTestInt32()
 			{
 				fSuccess = false;
 			}
-
-			if(si != dec_int32[i].y)
-			{
-				fSuccess = false;
-			}
-
 		}
 		catch(SafeIntException&)
 		{
@@ -1379,11 +1280,6 @@ void PostDecTestInt64()
 			{
 				fSuccess = false;
 			}
-
-			if(si != dec_int64[i].y)
-			{
-				fSuccess = false;
-			}
 		}
 		catch(SafeIntException&)
 		{
@@ -1401,6 +1297,7 @@ void PostDecTestInt64()
 
 void IncDecVerify()
 {
+   cout << "Verifying Increment-decrement:" << endl;
 	PreIncTestUint8();
 	PostIncTestUint8();
 	PreIncTestUint16();
@@ -1435,4 +1332,6 @@ void IncDecVerify()
 	PostDecTestInt32();
 	PreDecTestInt64();
 	PostDecTestInt64();
+}
+
 }

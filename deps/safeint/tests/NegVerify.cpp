@@ -42,32 +42,10 @@ of merchantability, fitness for a particular purpose and non-infringement.
 Copyright (c) OWASP Project (https://www.owasp.org), 2011. All rights reserved.
 */
 
-#if !defined __GNUC__
-#pragma warning( disable: 4571 4820 4514 4987 4710 4309 )
-#endif
+#include "TestMain.h"
 
-#include <assert.h>
-#include "SafeInt3.hpp"
-
-#include <iostream>
-using std::cout;
-using std::cerr;
-using std::endl;
-
-#include <iomanip>
-using std::hex;
-using std::setw;
-using std::setfill;
-
-#if !defined(COUNTOF)
-# if defined(_countof)
-#  define COUNTOF(x) _countof(x)
-# else
-#  define COUNTOF(x) (sizeof(x)/sizeof((x)[0]))
-# endif
-#endif
-
-#define HEX(x) hex << setw(x) << setfill('0')
+namespace neg_verify
+{
 
 template <typename T>
 struct UnsignedTest
@@ -285,7 +263,7 @@ void NegVerifyInt64()
 	}
 }
 
-void UnaryVerify()
+void NegVerify()
 {
 	cout << "Verifying Negation:" << endl;
 
@@ -303,3 +281,5 @@ void UnaryVerify()
 	NegVerifyInt32();
 	NegVerifyInt64();
 }
+
+} // NAMESPACE
