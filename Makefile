@@ -26,7 +26,8 @@ DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
 
 # Try and pick up on targets/goals.
-# See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html.
+# See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html for mixing and matching Debug/Release/Test from goals.
+
 ifeq ($(MAKECMDGOALS),debug)
   WANT_DEBUG := 1
 endif
@@ -37,6 +38,18 @@ endif
 
 ifeq ($(MAKECMDGOALS),test)
   WANT_TEST := 1
+endif
+
+ifeq ($(MAKECMDGOALS),crypto)
+  WANT_DEBUG := 1
+endif
+
+ifeq ($(MAKECMDGOALS),codec)
+  WANT_DEBUG := 1
+endif
+
+ifeq ($(MAKECMDGOALS),codecs)
+  WANT_DEBUG := 1
 endif
 
 ifeq ($(MAKECMDGOALS),all)
@@ -71,7 +84,7 @@ CXXFLAGS += -DNDEBUG=1 -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
-CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O2
+CXXFLAGS += -DNDEBUG=1 -g3 -ggdb -O2 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
