@@ -96,7 +96,8 @@ std::string esapi::Codec::decode(const std::string& input) const{
 }
 
 char esapi::Codec::decodeCharacter(PushbackString& input) const{
-  // This method needs to reset input uder certain conditions, which it is not doing
+  // This method needs to reset input under certain conditions,
+  // which it is not doing. See the comments in the header file.
   ASSERT(0);
   ASSERT(input.hasNext());
 
