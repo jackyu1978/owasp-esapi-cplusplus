@@ -174,6 +174,8 @@ LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
 LDLIBS +=	-lcryptopp
 LDHIDE +=	-Wl,--exclude-libs,libcryptopp.a
 
+TESTLIBS +=	-lboost_filesystem -lboost_unit_test_framework
+
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
 
@@ -214,7 +216,7 @@ release: all
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) lib/$(DYNAMIC_LIB) -lboost_filesystem -lboost_unit_test_framework
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
