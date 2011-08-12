@@ -11,16 +11,26 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
 
 // TODO: Finish Porting from Java
 
-class ESAPI_EXPORT EncryptionException : public std::runtime_error
+namespace esapi {
+
+class ESAPI_EXPORT EncryptionException : public esapi::EnterpriseSecurityException
 {
 public:
-	EncryptionException(): std::runtime_error( "EncryptionException" ) {}
+	explicit EncryptionException(const std::string &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
+  	explicit EncryptionException(const std::string &userMessage, const std::string &logMessage)
+    : EnterpriseSecurityException(userMessage, logMessage)
+  {
+  }
 };
 
-#endif /* _EncryptionException_H_ */
+} // NAMESPACE
