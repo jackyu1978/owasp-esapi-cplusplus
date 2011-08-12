@@ -1,16 +1,16 @@
 /*
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*
+* @author Kevin Wall, kevin.w.wall@gmail.com
+* @author Jeffrey Walton, noloader@gmail.com
+*
+*/
 
 #pragma once
 
@@ -49,64 +49,91 @@ ESAPI_MS_NO_WARNING(4251)
 namespace esapi
 {
   /**
-   * This class implements functionality similar to Java's SecureRandom for consistency
-   * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
-   */
+  * This class implements functionality similar to Java's SecureRandom for consistency
+  * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
+  */
   class ESAPI_EXPORT SecureRandom
   {
   public:
     // Retrieve a reference to the global PRNG.
-    static SecureRandom& GlobalSecureRandom();
+    static SecureRandom& GlobalSecureRandom() ESAPI_NOTHROW;
 
-    // Create an instance PRNG.
-    explicit SecureRandom();
+    // Create an instance PRNG. Throws an EncryptionException if the
+    // class fails to initialize its lock for thread safe operations.
+    explicit SecureRandom() ESAPI_THROW;
 
-    // Create an instance PRNG with a seed.
-    explicit SecureRandom(const byte* seed, size_t size);
+    // Create an instance PRNG with a seed. Throws an EncryptionException if
+    // the class fails to initialize its lock for thread safe operations.
+    explicit SecureRandom(const byte* seed, size_t size) ESAPI_THROW;
 
-    // Create an instance PRNG with a seed.
-    explicit SecureRandom(const std::vector<byte>& seed);
+    // Create an instance PRNG with a seed. Throws an EncryptionException if
+    // the class fails to initialize its lock for thread safe operations.
+    explicit SecureRandom(const std::vector<byte>& seed) ESAPI_THROW;
 
     // Standard destructor.
-    virtual ~SecureRandom();
+    virtual ~SecureRandom() ESAPI_NOTHROW;
 
     // Returns the name of the algorithm implemented by this SecureRandom object.
-    virtual const std::string& getAlgorithm() const;
+    virtual const std::string& getAlgorithm() const ESAPI_NOTHROW;
 
-    // Generates a user-specified number of random bytes.
-    void nextBytes(byte* bytes, size_t size);   
+    // Generates a user-specified number of random bytes. Throws an
+    // EncryptionException if the arguments are not valid or there is
+    // a failure to generate the requested number of bytes.
+    void nextBytes(byte* bytes, size_t size) ESAPI_THROW;   
 
-    // Generates a user-specified number of random bytes.
-    void nextBytes(std::vector<byte>& bytes);
+    // Generates a user-specified number of random bytes. Throws an
+    // EncryptionException if the arguments are not valid or there is
+    // a failure to generate the requested number of bytes.
+    void nextBytes(std::vector<byte>& bytes) ESAPI_THROW;
 
-    // Reseeds this random object.
-    void setSeed(const byte* seed, size_t size);
+    // Reseeds this random object. Throws an EncryptionException
+    // if the arguments are not valid or there is a failure
+    // incorporating the entropy.
+    void setSeed(const byte* seed, size_t size) ESAPI_THROW;
 
-    // Reseeds this random object.
-    void setSeed(const std::vector<byte>& seed);
-      
-    // Reseeds this random object, using the bytes contained in the given long seed.
-    void setSeed(long seed);
+    // Reseeds this random object. Throws an EncryptionException
+    // if the arguments are not valid or there is a failure
+    // incorporating the entropy.
+    void setSeed(const std::vector<byte>& seed) ESAPI_THROW;
+
+    // Reseeds this random object, using the bytes contained in
+    // the given long seed. Throws an EncryptionException
+    // if there is a failure incorporating the entropy.
+    void setSeed(long seed) ESAPI_THROW;
 
   protected:
 
-    // Initialize the lock for the PRNG
-    ESAPI_PRIVATE inline void InitializeLock() const;
+    // Initialize the lock for the PRNG. Throws an
+    // EncryptionException if there is a failure initializing
+    // the lock
+    ESAPI_PRIVATE inline void InitializeLock() const ESAPI_THROW;
 
     class ESAPI_PRIVATE AutoLock
     {
 #if defined(ESAPI_OS_WINDOWS)
     public:
-      explicit AutoLock(CRITICAL_SECTION& cs);
-      virtual ~AutoLock();
+      // Acquires the lock during construction.  Throws an
+      // EncryptionException if there is a failure acquiring
+      // the lock
+      explicit AutoLock(CRITICAL_SECTION& cs) ESAPI_THROW;
+      // Release the lock during destruction.  Throws an
+      // EncryptionException if there is a failure releasing
+      // the lock
+      virtual ~AutoLock() ESAPI_THROW;
     private:
       CRITICAL_SECTION& mm_lock;
     private:
       AutoLock& operator=(const AutoLock&) { /* hidden */ }
 #elif defined(ESAPI_OS_STARNIX)
     public:
-      explicit AutoLock(pthread_mutex_t& mtx);
-      virtual ~AutoLock();
+      // Acquires the lock during construction.  Throws an
+      // EncryptionException if there is a failure acquiring
+      // the lock
+      explicit AutoLock(pthread_mutex_t& mtx) ESAPI_THROW;
+      // Release the lock during destruction.  Throws an
+      // EncryptionException if there is a failure releasing
+      // the lock
+      virtual ~AutoLock() ESAPI_THROW;
     private:
       pthread_mutex_t& mm_lock;
 #endif        
@@ -118,13 +145,13 @@ namespace esapi
 
     // A global PRNG
     ESAPI_PRIVATE static SecureRandom g_prng;
-    ESAPI_PRIVATE static std::string g_name; // `prng` returns "unknown"
+    ESAPI_PRIVATE static std::string g_name; // Crypto++ `prng` returns "unknown"
 
-  // Crypto++ is MT safe at the class level, meaning it does not share data amoung
-  // instances. If a Global PRNG is provided, we must take care to ensure only one 
-  // thread is operating on it at a time since there's only one set of data within
-  // the class (ie, there is no thread local storage). To date, we only support
-  // Windows, Linux, and Apple.
+    // Crypto++ is MT safe at the class level, meaning it does not share data amoung
+    // instances. If a Global PRNG is provided, we must take care to ensure only one 
+    // thread is operating on it at a time since there's only one set of data within
+    // the class (ie, there is no thread local storage). To date, we only support
+    // Windows, Linux, and Apple.
 #if defined(ESAPI_OS_WINDOWS)
     mutable CRITICAL_SECTION m_lock;
 #elif defined(ESAPI_OS_STARNIX)
