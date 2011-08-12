@@ -16,6 +16,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
+#include "errors/EncryptionException.h"
 
 #include <string>
 #include <vector>
@@ -60,15 +61,15 @@ namespace esapi
 
     // Create an instance PRNG. Throws an EncryptionException if the
     // class fails to initialize its lock for thread safe operations.
-    explicit SecureRandom() ESAPI_THROW;
+    explicit SecureRandom() ESAPI_THROW1(EncryptionException);
 
     // Create an instance PRNG with a seed. Throws an EncryptionException if
     // the class fails to initialize its lock for thread safe operations.
-    explicit SecureRandom(const byte* seed, size_t size) ESAPI_THROW;
+    explicit SecureRandom(const byte* seed, size_t size) ESAPI_THROW1(EncryptionException);
 
     // Create an instance PRNG with a seed. Throws an EncryptionException if
     // the class fails to initialize its lock for thread safe operations.
-    explicit SecureRandom(const std::vector<byte>& seed) ESAPI_THROW;
+    explicit SecureRandom(const std::vector<byte>& seed) ESAPI_THROW1(EncryptionException);
 
     // Standard destructor.
     virtual ~SecureRandom() ESAPI_NOTHROW;
@@ -79,34 +80,34 @@ namespace esapi
     // Generates a user-specified number of random bytes. Throws an
     // EncryptionException if the arguments are not valid or there is
     // a failure to generate the requested number of bytes.
-    void nextBytes(byte* bytes, size_t size) ESAPI_THROW;   
+    void nextBytes(byte* bytes, size_t size) ESAPI_THROW1(EncryptionException);   
 
     // Generates a user-specified number of random bytes. Throws an
     // EncryptionException if the arguments are not valid or there is
     // a failure to generate the requested number of bytes.
-    void nextBytes(std::vector<byte>& bytes) ESAPI_THROW;
+    void nextBytes(std::vector<byte>& bytes) ESAPI_THROW1(EncryptionException);
 
     // Reseeds this random object. Throws an EncryptionException
     // if the arguments are not valid or there is a failure
     // incorporating the entropy.
-    void setSeed(const byte* seed, size_t size) ESAPI_THROW;
+    void setSeed(const byte* seed, size_t size) ESAPI_THROW1(EncryptionException);
 
     // Reseeds this random object. Throws an EncryptionException
     // if the arguments are not valid or there is a failure
     // incorporating the entropy.
-    void setSeed(const std::vector<byte>& seed) ESAPI_THROW;
+    void setSeed(const std::vector<byte>& seed) ESAPI_THROW1(EncryptionException);
 
     // Reseeds this random object, using the bytes contained in
     // the given long seed. Throws an EncryptionException
     // if there is a failure incorporating the entropy.
-    void setSeed(long seed) ESAPI_THROW;
+    void setSeed(long seed) ESAPI_THROW1(EncryptionException);
 
   protected:
 
     // Initialize the lock for the PRNG. Throws an
     // EncryptionException if there is a failure initializing
     // the lock
-    ESAPI_PRIVATE inline void InitializeLock() const ESAPI_THROW;
+    ESAPI_PRIVATE inline void InitializeLock() const ESAPI_THROW1(EncryptionException);
 
     class ESAPI_PRIVATE AutoLock
     {
@@ -115,11 +116,11 @@ namespace esapi
       // Acquires the lock during construction.  Throws an
       // EncryptionException if there is a failure acquiring
       // the lock
-      explicit AutoLock(CRITICAL_SECTION& cs) ESAPI_THROW;
+      explicit AutoLock(CRITICAL_SECTION& cs) ESAPI_THROW1(EncryptionException);
       // Release the lock during destruction.  Throws an
       // EncryptionException if there is a failure releasing
       // the lock
-      virtual ~AutoLock() ESAPI_THROW;
+      virtual ~AutoLock() ESAPI_THROW1(EncryptionException);
     private:
       CRITICAL_SECTION& mm_lock;
     private:
@@ -129,11 +130,11 @@ namespace esapi
       // Acquires the lock during construction.  Throws an
       // EncryptionException if there is a failure acquiring
       // the lock
-      explicit AutoLock(pthread_mutex_t& mtx) ESAPI_THROW;
+      explicit AutoLock(pthread_mutex_t& mtx) ESAPI_THROW1(EncryptionException);
       // Release the lock during destruction.  Throws an
       // EncryptionException if there is a failure releasing
       // the lock
-      virtual ~AutoLock() ESAPI_THROW;
+      virtual ~AutoLock() ESAPI_THROW1(EncryptionException);
     private:
       pthread_mutex_t& mm_lock;
 #endif        
