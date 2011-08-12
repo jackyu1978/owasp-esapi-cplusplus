@@ -20,6 +20,7 @@
 ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
+ESAPI_MS_NO_WARNING(4251)
 
 /**
  * This class implements functionality similar to Java's SecretKey for
@@ -30,10 +31,10 @@ namespace esapi
   class ESAPI_EXPORT SecretKey : public Key
   {
     // For comparisons in the outside world, such as the self tests
-    friend bool operator==(const SecretKey&, const SecretKey&);
-    friend bool operator!=(const SecretKey&, const SecretKey&);
+    friend ESAPI_EXPORT bool operator==(const SecretKey&, const SecretKey&);
+    friend ESAPI_EXPORT bool operator!=(const SecretKey&, const SecretKey&);
     // For dumping keys. Use with care
-    friend std::ostream& operator<<(std::ostream&, const SecretKey&);
+    friend ESAPI_EXPORT std::ostream& operator<<(std::ostream&, const SecretKey&);
     // From KeyDerivationFunction,cpp, which couphs up a SecretKey
     friend class KeyDerivationFunction;
     // From KeyGeneration.cpp, which couphs up a SecretKey
@@ -99,7 +100,7 @@ namespace esapi
     // Hold overs from Crypto++ SecByteBlock.
     ESAPI_PRIVATE const byte* BytePtr() const;
 
-  private:
+  private:    
     std::string m_algorithm;            // Standard name for crypto algorithm
     CryptoPP::SecByteBlock secBlock;    // The actual secret key
     std::string m_format;               // Encoding format

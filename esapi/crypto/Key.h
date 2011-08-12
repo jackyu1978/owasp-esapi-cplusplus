@@ -23,7 +23,7 @@
  */
 namespace esapi
 {
-  class Key
+  class ESAPI_EXPORT Key
   {
   public:
     /**

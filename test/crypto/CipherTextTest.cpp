@@ -17,9 +17,11 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
+#if !defined(ESAPI_OS_WINDOWS)
+# define BOOST_TEST_DYN_LINK
+# include <boost/test/unit_test.hpp>
+  using namespace boost::unit_test;
+#endif
 
 #include <string>
 using std::string;
@@ -31,5 +33,3 @@ BOOST_AUTO_TEST_CASE( VerifyCipherText )
 {
 	BOOST_MESSAGE( "Verifying CipherText class" );
 }
-
-

@@ -349,7 +349,10 @@ namespace esapi
   SecretKey KeyGenerator::generateKey()
   {
     throw std::runtime_error("Using the default KeyGenerator::generateKey");
+
+    ESAPI_MS_NO_WARNING(4702);
     return SecretKey("Error", 0, "Error");
+    ESAPI_MS_DEF_WARNING(4702);
   }
 
   void KeyGenerator::SetKeySize(unsigned int keyBits)
