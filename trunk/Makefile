@@ -159,7 +159,8 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp \
-			test/errors/ValidationExceptionTest.cpp
+			test/errors/ValidationExceptionTest.cpp \
+			test/reference/DefaultEncryptorTest.cpp
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
