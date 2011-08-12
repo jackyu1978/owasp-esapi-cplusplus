@@ -14,9 +14,6 @@
  * @created 2011
  */
 
-#ifndef _Codec_H_
-#define _Codec_H_
-
 #pragma once
 
 #include <vector>
@@ -44,7 +41,7 @@ namespace esapi {
 
   private:
 
-    /*template <>
+    /**template <>
       std::string* initHexArray(){
       std::string foo[256] = {"bar", "bar", "bar"};
       return foo;
@@ -151,6 +148,4 @@ namespace esapi {
 
   };
 
-}; /* esapi Namespace */
-
-#endif /* _Codec_H_ */
+}; /** esapi Namespace */

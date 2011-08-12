@@ -57,7 +57,7 @@ namespace esapi {
      */
     void pushback( char );
 
-    /*
+    /**
      * Get the current index of the PushbackString. Typically used in error messages.
      *
      * @return size_t
@@ -134,6 +134,6 @@ namespace esapi {
 
   };
 
-}; /* esapi namespace */
+}; /** esapi namespace */
 
-#endif /* _PushbackString_H_ */
+#endif /** _PushbackString_H_ */

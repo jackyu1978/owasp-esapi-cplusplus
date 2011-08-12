@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -12,6 +12,10 @@
 
 #include <string>
 #include <cstdio>
+
+#include "crypto/PlainText.h"
+#include "crypto/CipherText.h"
+#include "crypto/SecretKey.h"
 
 #include "errors/EncryptionException.h"
 #include "errors/IntegrityException.h"

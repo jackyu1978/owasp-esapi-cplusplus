@@ -1,4 +1,4 @@
-/*
+/**
 * OWASP Enterprise Security API (ESAPI)
 *
 * This file is part of the Open Web Application Security Project (OWASP)
@@ -65,7 +65,7 @@ namespace esapi
   protected:
     // Not for general consumption
   ESAPI_PRIVATE KeyGenerator(const std::string& algorithmName = "") : m_algorithm(algorithmName),
-      m_keyBits(NoKeySize) { /* No external instantiations */ }    
+      m_keyBits(NoKeySize) { /** No external instantiations */ }    
 
   protected:
     ESAPI_PRIVATE static const unsigned int NoKeySize;

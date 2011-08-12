@@ -33,4 +33,4 @@ namespace esapi
 	};
 };
 
-#endif /* _StringValidationRule_h_ */
+#endif /** _StringValidationRule_h_ */

@@ -103,4 +103,4 @@ namespace esapi
 	};
 };
 
-#endif /* _BaseValidationRule_h_ */
+#endif /** _BaseValidationRule_h_ */

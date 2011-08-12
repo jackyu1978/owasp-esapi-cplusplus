@@ -6,21 +6,14 @@
  * http://www.owasp.org/index.php/ESAPI.
  *
  * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
  */
 
-#include "EsapiCommon.h"
+#include "reference/DefaultEncryptor.h"
 
-#include "safeint/SafeInt3.hpp"
-
-#include <sstream>
-#include <algorithm>
-#include <stdexcept>
+#include <string>
 
 namespace esapi
 {
-
+  std::string DefaultEncryptor::hashAlgorithm = "SHA-512";
+  unsigned int DefaultEncryptor::hashIterations = 1024;
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -107,7 +107,7 @@ namespace esapi
     // Using an insecure 'hex' string (it does not zeroize). We could switch to a
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
-    CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
+    CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /** don't buffer */
 			  new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
 			  );
 

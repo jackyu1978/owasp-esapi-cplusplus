@@ -18,15 +18,15 @@
 
 #include <string>
 
-#include "RandomAccessReferenceMap.h"
+#include "reference/RandomAccessReferenceMap.h"
 
 std::string esapi::RandomAccessReferenceMap::getUniqueReference() {
 	std::string candidate;
     do
-    {
-       candidate = ESAPI.randomizer().getRandomString(6, EncoderConstants.CHAR_ALPHANUMERICS);
+    {      
+      //  candidate = ESAPI.randomizer().getRandomString(6, EncoderConstants.CHAR_ALPHANUMERICS);
     }
-    while (itod.keySet().contains(candidate));
+    while (/*itod.keySet().contains(candidate)*/ false );
     return candidate;
 }
 

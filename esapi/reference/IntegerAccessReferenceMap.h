@@ -14,10 +14,10 @@ namespace esapi
 		virtual std::string getUniqueReference() =0;
 
 	private:
-		int count = 1;
+		int count;
 
 		virtual ~IntegerAccessReferenceMap() {};
 	};
 };
 
-#endif /* _IntegerAccessReferenceMap_h_ */
+#endif /** _IntegerAccessReferenceMap_h_ */

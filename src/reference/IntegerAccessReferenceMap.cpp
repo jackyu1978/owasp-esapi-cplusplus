@@ -18,9 +18,8 @@
 
 #include <string>
 
-#include "IntegerAccessReferenceMap.h"
+#include "reference/IntegerAccessReferenceMap.h"
 
 std::string esapi::IntegerAccessReferenceMap::getUniqueReference() {
 	return "" + count++;  // returns a string version of the counter
 }
-

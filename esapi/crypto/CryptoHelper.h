@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -221,6 +221,6 @@ namespace esapi
     // static Logger logger;
 
   private:
-    CryptoHelper() { /* No instantiation */ };
+    CryptoHelper() { /** No instantiation */ };
   };
 }; // NAMESPACE esapi

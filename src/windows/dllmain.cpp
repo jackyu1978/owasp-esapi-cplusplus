@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-BOOL APIENTRY DllMain( HMODULE /*hModule*/, DWORD  dwReason, LPVOID /*lpReserved*/ )
+BOOL APIENTRY DllMain( HMODULE /**hModule*/, DWORD  dwReason, LPVOID /**lpReserved*/ )
 {
 	switch (dwReason)
 	{
