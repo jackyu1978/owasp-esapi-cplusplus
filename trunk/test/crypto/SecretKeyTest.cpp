@@ -21,6 +21,8 @@ using std::endl;
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
+#include "EsapiCommon.h"
+
 #include <string>
 using std::string;
 

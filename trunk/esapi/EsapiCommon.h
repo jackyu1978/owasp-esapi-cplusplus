@@ -104,33 +104,40 @@
 # define ESAPI_CPLUSPLUS_0X 1
 #endif
 
+// Yet another ICPC workaround
+#if defined(ESAPI_CXX_ICC)
+# undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
+#endif
+
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
 #if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
-#  define ESAPI_ASSERT(exp) {                                           \
+#  define ESAPI_ASSERT1(exp) {                                          \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-		<< (int)__LINE__ << "): " << (char*)(__func__)          \
-		<< std::endl;                                           \
+        << (int)__LINE__ << "): " << (char*)(__func__)   cccc           \
+        << std::endl;                                                   \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
-#  define ESAPI_ASSERT(exp, msg) {                                      \
+#  define ESAPI_ASSERT2(exp, msg) {                                     \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-		<< (int)__LINE__ << "): " << (char*)(__func__)          \
-		<< ": \"" << (char*)(msg) << "\"" << std::endl;         \
+        << (int)__LINE__ << "): " << (char*)(__func__)                  \
+        << ": \"" << (char*)(msg) << "\"" << std::endl;                 \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
 #elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
-#  define ESAPI_ASSERT(exp) assert(exp)
+#  define ESAPI_ASSERT1(exp) assert(exp)
+#  define ESAPI_ASSERT2(exp, msg) assert(exp)
 #else
-#  define ESAPI_ASSERT(exp) ((void)(exp))
+#  define ESAPI_ASSERT1(exp) ((void)(exp))
+#  define ESAPI_ASSERT2(exp, msg) ((void)(exp))
 #endif
 
 // For the lazy folks like me!
-#define ASSERT(x) ESAPI_ASSERT(x)
+#define ASSERT(x) ESAPI_ASSERT1(x)
 
 #if !defined(ESAPI_NO_ASSERT)
 # if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
@@ -232,7 +239,10 @@ typedef unsigned char byte;
 #  define ESAPI_EXPORT __declspec(dllimport)
 # endif
 # define ESAPI_PRIVATE
-#elif defined(ESAPI_CXX_GCC) && !defined(ESAPI_CXX_ICC)
+#elif defined(ESAPI_CXX_ICC)
+#  define ESAPI_EXPORT
+#  define ESAPI_PRIVATE
+#elif defined(ESAPI_CXX_GCC)
 # if (__GNUC__ >= 4)
 #  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
 #  define ESAPI_PRIVATE  __attribute__ ((visibility ("hidden")))
@@ -241,3 +251,4 @@ typedef unsigned char byte;
 #  define ESAPI_PRIVATE
 # endif
 #endif
+
