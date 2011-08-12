@@ -172,6 +172,7 @@ INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
 LDLIBS +=	-lcryptopp
+LDHIDE +=	-Wl,--exclude-libs,libcryptopp.a
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
@@ -193,7 +194,7 @@ default: test
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
-	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) $(LDHIDE) -shared $(LDLIBS)
 
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
