@@ -41,11 +41,11 @@ namespace esapi
 	{
 	public:
 		virtual std::string hash(const std::string &, const std::string &) throw (EncryptionException) =0;
-		virtual std::string hash(const std::string &, const std::string &, int) throw (EncryptionException) =0;
-		virtual CipherText encrypt(PlainText) throw (EncryptionException) =0;
-		virtual CipherText encrypt(SecretKey, PlainText) throw (EncryptionException) =0;
-		virtual PlainText decrypt(CipherText) throw (EncryptionException) =0;
-		virtual PlainText decrypt(SecretKey, CipherText) throw (EncryptionException) =0;
+		virtual std::string hash(const std::string &, const std::string &, unsigned int) throw (EncryptionException) =0;
+		virtual CipherText encrypt(const PlainText&) throw (EncryptionException) =0;
+		virtual CipherText encrypt(const SecretKey&, const PlainText&) throw (EncryptionException) =0;
+		virtual PlainText decrypt(const CipherText&) throw (EncryptionException) =0;
+		virtual PlainText decrypt(const SecretKey&, const CipherText&) throw (EncryptionException) =0;
 		virtual std::string sign(const std::string & data) throw (EncryptionException) =0;
 		virtual bool verifySignature(const std::string &, const std::string &) =0;
 		virtual std::string seal(const std::string &, long) throw (IntegrityException) =0;

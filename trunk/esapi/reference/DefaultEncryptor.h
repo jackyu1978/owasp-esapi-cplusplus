@@ -33,12 +33,12 @@ namespace esapi
     static unsigned int hashIterations; //  = 1024;
 
   public:
-    virtual std::string hash(const std::string &plaintext, const std::string &salt)
+    virtual std::string hash(const std::string &plaintext, const std::string &salt) throw (EncryptionException)
     {
       return hash( plaintext, salt, hashIterations );
     }
 
-    virtual std::string hash(const std::string &plaintext, const std::string &salt, int iterations)
+    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations) throw (EncryptionException)
     {
       std::string encoded;
 
@@ -68,37 +68,37 @@ namespace esapi
       return std::string();
     }
 
-    virtual CipherText encrypt(PlainText)
+    virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException)
     {
       return CipherText();
     }
 
-    virtual CipherText encrypt(SecretKey, PlainText)
+    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
     {
       return CipherText();
     }
 
-    virtual PlainText decrypt(CipherText)
+    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException)
     {
       return PlainText();
     }
 
-    virtual PlainText decrypt(SecretKey, CipherText)
+    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText) throw (EncryptionException)
     {
       return PlainText();
     }
 
-    virtual std::string sign(const std::string &)
+    virtual std::string sign(const std::string & message) throw (EncryptionException)
     {
       return std::string();
     }
 
-    virtual std::string seal(const std::string &, long)
+    virtual std::string seal(const std::string &, long) throw (IntegrityException)
     {
       return std::string();
     }
 
-    virtual std::string unseal(const std::string &)
+    virtual std::string unseal(const std::string &) throw (EncryptionException)
     {
       return std::string();
     }
@@ -108,7 +108,7 @@ namespace esapi
       return false;
     }
 
-    virtual long getRelativeTimeStamp(long)
+    virtual long getRelativeTimeStamp(long timeStamp)
     {
       return 0;
     }
