@@ -129,13 +129,18 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/SecureRandom.cpp \
 			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
+			src/crypto/MessageDigest.cpp \
 			src/crypto/KeyDerivationFunction.cpp
 
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
 			src/errors/ValidationException.cpp
 
 REFSRCS =   src/reference/DefaultEncoder.cpp \
+			src/reference/DefaultEncryptor.cpp \
+			src/reference/DefaultExecutor.cpp \
 			src/reference/DefaultValidator.cpp \
+			src/reference/IntegerAccessReferenceMap.cpp \
+			src/reference/RandomAccessReferenceMap.cpp \
 			src/reference/validation/BaseValidationRule.cpp
 
 LIBSRCS =	$(ROOTSRCS) \
