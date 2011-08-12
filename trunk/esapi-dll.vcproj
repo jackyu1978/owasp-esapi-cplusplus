@@ -336,6 +336,14 @@
 				RelativePath=".\src\windows\dllmain.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\src\EncoderConstants.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\ValidationErrorList.cpp"
+				>
+			</File>
 			<Filter
 				Name="crypto"
 				>

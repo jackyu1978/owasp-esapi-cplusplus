@@ -16,7 +16,7 @@
  * @created 2007
  */
 
-#include "esapi/ValidationErrorList.h"
+#include "ValidationErrorList.h"
 
 void esapi::ValidationErrorList::addError(const std::string &context, esapi::ValidationException *vex) {
 	if ( context.compare("") ) throw( "Context for cannot be null: " + vex->getLogMessage() );
