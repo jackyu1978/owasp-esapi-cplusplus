@@ -17,9 +17,12 @@
 
 // TODO: Finish Porting from Java
 
+namespace esapi {
+
 class ESAPI_EXPORT IntegrityException : public std::runtime_error
 {
 public:
 	IntegrityException(): std::runtime_error( "IntegrityException" ) {}
 };
 
+} // NAMESPACE

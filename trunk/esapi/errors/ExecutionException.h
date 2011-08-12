@@ -16,6 +16,7 @@
 #include <string>
 
 // TODO: Finish Porting from Java
+namespace esapi {
 
 class ESAPI_EXPORT ExecutionException : public std::runtime_error
 {
@@ -23,3 +24,4 @@ public:
 	ExecutionException(): std::runtime_error( "ExecutionException" ) {}
 };
 
+} // NAMESPACE

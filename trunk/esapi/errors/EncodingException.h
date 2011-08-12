@@ -17,9 +17,12 @@
 
 // TODO: Finish Porting from Java
 
+namespace esapi {
+
 class ESAPI_EXPORT EncodingException : public std::runtime_error
 {
 public:
 	EncodingException(): std::runtime_error( "EncodingException" ) {}
 };
 
+} // NAMESPACE
