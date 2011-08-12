@@ -1,5 +1,14 @@
-#ifndef _Validator_h_
-#define _Validator_h_
+/*
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
+
+#pragma once
 
 #include <fstream>
 #include <string>
@@ -629,5 +638,3 @@ namespace esapi
 		virtual ~Validator() {};
 	};
 };
-
-#endif	// _Validator_h_

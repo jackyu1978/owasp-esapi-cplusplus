@@ -1,5 +1,14 @@
-#ifndef _validation_rule_h_
-#define _validation_rule_h_
+/*
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
+
+#pragma once
 
 #include <string>
 #include <set>
@@ -81,5 +90,3 @@ namespace esapi
 		virtual ~ValidationRule() {};
 	};
 };
-
-#endif /* _validation_rule_h_ */

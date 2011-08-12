@@ -1,5 +1,14 @@
-#ifndef _Encryptor_h_
-#define _Encryptor_h_
+/*
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
+
+#pragma once
 
 #include <string>
 #include <cstdio>
@@ -44,5 +53,3 @@ namespace esapi
 		virtual ~Encryptor() {};
 	};
 };
-
-#endif	// _encryptor_h_
