@@ -23,17 +23,15 @@ using std::endl;
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
+#include "EsapiCommon.h"
+
 // nullptr and unique_ptr (auto_ptr is deprecated in C++0X)
 #include <cstddef>
 
 #include <string>
 using std::string;
 
-#if defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))
-# define GCC_HACK_ITS_CPP0X 1
-#endif
-
-#if defined(nullptr_t) || (__cplusplus > 199711L) || defined(GCC_HACK_ITS_CPP0X)
+#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
 # include <memory>
   using std::unique_ptr;
 # define THE_AUTO_PTR  unique_ptr
