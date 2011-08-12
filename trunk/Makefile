@@ -26,7 +26,7 @@ ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
 endif
 
-RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
+RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all static dynamic $(DYNAMIC_LIB) $(STATIC_LIB))
 ifneq ($(RELEASE_GOALS),)
   WANT_RELEASE := 1
 endif
@@ -216,6 +216,10 @@ err error: $(ERROBJS)
 
 # Test compile reference sources, no final link
 ref reference: $(REFOBJS)
+
+static: $(STATIC_LIB)
+
+dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
