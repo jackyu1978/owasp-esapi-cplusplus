@@ -19,7 +19,6 @@
 #include "EsapiCommon.h"
 
 #include <stdexcept>
-//#include "logger.h"
 #include <string>
 
 // http://msdn.microsoft.com/en-us/library/3tdb471s(v=VS.90).aspx
