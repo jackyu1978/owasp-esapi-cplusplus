@@ -400,6 +400,42 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="reference"
+				>
+				<File
+					RelativePath=".\src\reference\CryptoppEncryptor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\reference\DefaultEncoder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\reference\DefaultExecutor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\reference\DefaultValidator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\reference\IntegerAccessReferenceMap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\reference\RandomAccessReferenceMap.cpp"
+					>
+				</File>
+				<Filter
+					Name="validation"
+					>
+					<File
+						RelativePath=".\src\reference\validation\BaseValidationRule.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -548,6 +584,34 @@
 						RelativePath=".\esapi\errors\ValidationException.h"
 						>
 					</File>
+				</Filter>
+				<Filter
+					Name="reference"
+					>
+					<File
+						RelativePath=".\esapi\reference\CryptoppEncryptor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\reference\IntegerAccessReferenceMap.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\reference\RandomAccessReferenceMap.h"
+						>
+					</File>
+					<Filter
+						Name="validation"
+						>
+						<File
+							RelativePath=".\esapi\reference\validation\BaseValidationRule.h"
+							>
+						</File>
+						<File
+							RelativePath=".\esapi\reference\validation\StringValidationRule.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 		</Filter>
