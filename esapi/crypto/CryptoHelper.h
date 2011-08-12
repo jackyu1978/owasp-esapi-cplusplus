@@ -12,14 +12,14 @@
  *
  */
 
+#pragma once
+
 #include "EsapiCommon.h"
 #include "crypto/PlainText.h"
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 
 #include <string>
-
-#pragma once
 
 /**
  * This class implements functionality similar to Java's CryptoHelper for consistency

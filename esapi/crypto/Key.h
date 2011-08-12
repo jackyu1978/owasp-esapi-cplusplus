@@ -18,6 +18,8 @@
 
 #include <string>
 
+ESAPI_MS_NO_WARNING(4251)
+
 /**
  * This abstract base class mimics functionality similar to Java's Key
  * interface for consistency and easier porting from ESAPI for Java.

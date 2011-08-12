@@ -12,10 +12,10 @@
  *
  */
 
+#pragma once
+
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
-
-#pragma once
 
 #include <string>
 #include <vector>
@@ -25,6 +25,8 @@ ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/osrng.h>
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
+
+ESAPI_MS_NO_WARNING(4251)
 
 // Crypto++ is MT safe at the class level, meaning it does not share data amoung
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
@@ -118,10 +120,11 @@ namespace esapi
     ESAPI_PRIVATE static SecureRandom g_prng;
     ESAPI_PRIVATE static std::string g_name; // `prng` returns "unknown"
 
-    // Crypto++ is MT safe at the class level, meaning it does not share data amoung
-    // instances. If a Global PRNG is provided, we must take care to ensure only one 
-    // thread is operating on it at a time since there's only one set of data within
-    // the class (ie, there is no thread local storage).
+  // Crypto++ is MT safe at the class level, meaning it does not share data amoung
+  // instances. If a Global PRNG is provided, we must take care to ensure only one 
+  // thread is operating on it at a time since there's only one set of data within
+  // the class (ie, there is no thread local storage). To date, we only support
+  // Windows, Linux, and Apple.
 #if defined(ESAPI_OS_WINDOWS)
     mutable CRITICAL_SECTION m_lock;
 #elif defined(ESAPI_OS_STARNIX)
