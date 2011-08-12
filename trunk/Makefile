@@ -117,6 +117,9 @@ ifneq ($(IS_LINUX), 0)
   LDLIBS += -lpthread
 endif
 
+ROOTSRCS =	src/EncoderConstants.cpp \
+			src/ValidationErrorList.cpp
+
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp
 
@@ -135,8 +138,7 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/DefaultValidator.cpp \
 			src/reference/validation/BaseValidationRule.cpp
 
-LIBSRCS =	src/EncoderConstants.cpp \
-			src/ValidationErrorList.cpp \
+LIBSRCS =	$(ROOTSRCS) \
 			$(CODECSRCS) \
 			$(CRYPTOSRCS) \
 			$(ERRSRCS) \
@@ -154,6 +156,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp \
 			test/errors/ValidationExceptionTest.cpp
 
+ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
 CRYPTOOBJS =	$(CRYPTOSRCS:.cpp=.o)
 ERROBJS =		$(ERRCSRCS:.cpp=.o)
