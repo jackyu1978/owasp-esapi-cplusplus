@@ -23,11 +23,25 @@ using std::endl;
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
+// nullptr and unique_ptr (auto_ptr is deprecated in C++0X)
+#include <cstddef>
+
 #include <string>
 using std::string;
 
-#include <memory>
-using std::auto_ptr;
+#if defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))
+# define GCC_HACK_ITS_CPP0X 1
+#endif
+
+#if defined(nullptr_t) || (__cplusplus >= 199711L) || defined(GCC_HACK_ITS_CPP0X)
+# include <memory>
+  using std::unique_ptr;
+# define THE_AUTO_PTR  unique_ptr
+#else
+# include <memory>
+  using std::auto_ptr;
+# define THE_AUTO_PTR  auto_ptr
+#endif
 
 #include <crypto/SecretKey.h>
 #include <crypto/KeyGenerator.h>
@@ -52,7 +66,7 @@ void VerifyHmacWhirlpoolKeyGenerator();
 
 void VerifyArc4KeyGenerator();
 
-void VerifyKey(auto_ptr<KeyGenerator>& kgen, size_t bytes);
+void VerifyKey(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes);
 
 BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
 {
@@ -91,7 +105,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
  *  System.out.println("Key 3 size: " + key3.getEncoded().length);
  */
 
-void VerifyKeyGeneration(auto_ptr<KeyGenerator>& kgen, size_t bytes)
+void VerifyKeyGeneration(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes)
 {
   // #define DUMP_KEYS 1
 
@@ -161,7 +175,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -177,7 +191,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -193,7 +207,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -209,7 +223,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -225,7 +239,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -248,7 +262,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -264,7 +278,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -280,7 +294,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -296,7 +310,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -312,7 +326,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -335,7 +349,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -351,7 +365,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -367,7 +381,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -383,7 +397,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -399,7 +413,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -422,7 +436,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -438,7 +452,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -454,7 +468,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -470,7 +484,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -486,7 +500,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -509,7 +523,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -525,7 +539,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -541,7 +555,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -557,7 +571,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -573,7 +587,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -592,7 +606,7 @@ void VerifyWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -615,7 +629,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -631,7 +645,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -647,7 +661,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -663,7 +677,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -679,7 +693,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -698,7 +712,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -717,7 +731,7 @@ void VerifyArc4KeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      auto_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;

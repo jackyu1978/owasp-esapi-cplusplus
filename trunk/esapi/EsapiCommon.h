@@ -83,22 +83,32 @@
 # define ESAPI_ENV_MINGW 1
 #endif
 
+// Try and clear auto_ptr warnings
+// http://www2.research.att.com/~bs/C++0xFAQ.html#0x
+#if defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))
+# define GCC_HACK_ITS_CPP0X 1
+#endif
+
+#if defined(nullptr_t) || (__cplusplus >= 199711L) || defined(GCC_HACK_ITS_CPP0X)
+# define ESAPI_CPLUSPLUS_0X 1
+#endif
+
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
 #if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT(exp) {                                           \
     if(!(exp)) {                                                        \
-      std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
-		<< (int)__LINE__ << "): " << (const char*)__func__              \
-		<< std::endl;                                                   \
+      std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
+		<< (int)__LINE__ << "): " << (char*)(__func__)          \
+		<< std::endl;                                           \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
 #  define ESAPI_ASSERT(exp, msg) {                                      \
     if(!(exp)) {                                                        \
-      std::cerr << "Assertion failed: " << (const char*)__FILE__ << "(" \
-		<< (int)__LINE__ << "): " << (const char*)__func__              \
-		<< ": \"" << (const char*)msg << "\"" << std::endl;             \
+      std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
+		<< (int)__LINE__ << "): " << (char*)(__func__)          \
+		<< ": \"" << (char*)(msg) << "\"" << std::endl;         \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
