@@ -1,14 +1,25 @@
-#ifndef _ExecutionException_H_
-#define _ExecutionException_H_
+/*
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
+
+#pragma once
+
+#include "EsapiCommon.h"
 
 #include <stdexcept>
+#include <string>
 
 // TODO: Finish Porting from Java
 
-class ExecutionException : public std::runtime_error
+class ESAPI_EXPORT ExecutionException : public std::runtime_error
 {
 public:
 	ExecutionException(): std::runtime_error( "ExecutionException" ) {}
 };
 
-#endif /* _ExecutionException_H_ */
