@@ -232,7 +232,7 @@ typedef unsigned char byte;
 #  define ESAPI_EXPORT __declspec(dllimport)
 # endif
 # define ESAPI_PRIVATE
-#elif defined(ESAPI_CXX_GCC)
+#elif defined(ESAPI_CXX_GCC) && !defined(ESAPI_CXX_ICC)
 # if (__GNUC__ >= 4)
 #  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
 #  define ESAPI_PRIVATE  __attribute__ ((visibility ("hidden")))

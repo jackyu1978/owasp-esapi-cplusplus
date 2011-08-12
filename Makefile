@@ -77,6 +77,10 @@ GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 
+# Would like -fvisibility=hidden, but intel's syntax is:
+# int foo(int a) __attribute__ ((visibility ("default")));
+# MS and GCC allow the attribute at the beggingn of the declaraion.....
+# See http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifneq ($(INTEL_COMPILER),0)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
@@ -104,7 +108,7 @@ endif
 
 # For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
 #ifneq ($(GCC46_OR_LATER),0)
-#  CXXFLAGS += -std=c++0x
+#  CXXFLAGS += -std=c++0x // Included in 4.4
 #endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
