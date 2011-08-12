@@ -21,7 +21,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
 			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -48,9 +48,9 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -85,7 +85,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
 			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -113,9 +113,9 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -150,7 +150,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
 			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -177,10 +177,10 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -215,7 +215,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
 			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -243,10 +243,10 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="./esapi; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool

@@ -1,16 +1,16 @@
 /*
-  * OWASP Enterprise Security API (ESAPI)
-  *
-  * This file is part of the Open Web Application Security Project (OWASP)
-  * Enterprise Security API (ESAPI) project. For details, please see
-  * http://www.owasp.org/index.php/ESAPI.
-  *
-  * Copyright (c) 2011 - The OWASP Foundation
-  *
-  * @author Kevin Wall, kevin.w.wall@gmail.com
-  * @author Jeffrey Walton, noloader@gmail.com
-  *
-  */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*
+* @author Kevin Wall, kevin.w.wall@gmail.com
+* @author Jeffrey Walton, noloader@gmail.com
+*
+*/
 
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
@@ -22,9 +22,9 @@
 namespace esapi
 {
   /**
-   * This class implements functionality similar to Java's KeyGenerator for consistency
-   * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
-   */
+  * This class implements functionality similar to Java's KeyGenerator for consistency
+  * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
+  */
   class ESAPI_EXPORT KeyGenerator
   {
   public:
@@ -71,13 +71,13 @@ namespace esapi
 
   private:
     std::string m_algorithm;
-    unsigned int m_keyBits;  
+    unsigned int m_keyBits;
   };
 
   ////////////////////////// Block Ciphers //////////////////////////
 
   template <class CIPHER, template <class CIPHER> class MODE>
-    class BlockCipherGenerator : public KeyGenerator
+  class BlockCipherGenerator: public KeyGenerator
   {
     typedef typename MODE < CIPHER >::Encryption ENCRYPTOR;
 
@@ -107,7 +107,7 @@ namespace esapi
   ////////////////////////// Hashes //////////////////////////
 
   template <class HASH>
-    class HashGenerator : public KeyGenerator
+  class HashGenerator: public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
@@ -132,7 +132,7 @@ namespace esapi
   ////////////////////////// HASHs //////////////////////////
 
   template <class HASH>
-    class HmacGenerator : public KeyGenerator
+  class HmacGenerator: public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
@@ -157,7 +157,7 @@ namespace esapi
   ////////////////////////// Stream Ciphers ////////////////////////
 
   template <class CIPHER>
-    class StreamCipherGenerator : public KeyGenerator
+  class StreamCipherGenerator: public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
