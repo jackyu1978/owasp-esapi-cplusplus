@@ -106,7 +106,7 @@
 
 // Yet another ICPC workaround
 #if defined(ESAPI_CXX_ICC)
-# undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
+# undef ESAPI_CPLUSPLUS_UNIQUE_PTR
 #endif
 
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
@@ -115,16 +115,16 @@
 #  define ESAPI_ASSERT1(exp) {                                          \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-        << (int)__LINE__ << "): " << (char*)(__func__)   cccc           \
-        << std::endl;                                                   \
+                << (int)__LINE__ << "): " << (char*)(__func__)          \
+                << std::endl;                                           \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
 #  define ESAPI_ASSERT2(exp, msg) {                                     \
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-        << (int)__LINE__ << "): " << (char*)(__func__)                  \
-        << ": \"" << (char*)(msg) << "\"" << std::endl;                 \
+                << (int)__LINE__ << "): " << (char*)(__func__)          \
+                << ": \"" << (char*)(msg) << "\"" << std::endl;         \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
@@ -151,24 +151,24 @@ struct DebugTrapHandler
 
     do
       {
-	int ret = 0;
+        int ret = 0;
 
-	ret = sigaction (SIGTRAP, NULL, &old_handler);
-	if (ret != 0) break; // Failed
+        ret = sigaction (SIGTRAP, NULL, &old_handler);
+        if (ret != 0) break; // Failed
 
-	// Don't step on another's handler
-	if (old_handler.sa_handler != NULL) break;
+        // Don't step on another's handler
+        if (old_handler.sa_handler != NULL) break;
 
-	// Set up the structure to specify the null action.
-	new_handler.sa_handler = &DebugTrapHandler::NullHandler;
-	new_handler.sa_flags = 0;
+        // Set up the structure to specify the null action.
+        new_handler.sa_handler = &DebugTrapHandler::NullHandler;
+        new_handler.sa_flags = 0;
 
-	ret = sigemptyset (&new_handler.sa_mask);
-	if (ret != 0) break; // Failed
+        ret = sigemptyset (&new_handler.sa_mask);
+        if (ret != 0) break; // Failed
 
-	// Install it
-	ret = sigaction (SIGTRAP, &new_handler, NULL);
-	if (ret != 0) break; // Failed
+        // Install it
+        ret = sigaction (SIGTRAP, &new_handler, NULL);
+        if (ret != 0) break; // Failed
 
       } while(0);
   }
