@@ -1,6 +1,6 @@
+#pragma once
 
-#ifndef _EncoderConstants_h_
-#define _EncoderConstants_h_
+#include "EsapiCommon.h"
 
 #include <set>
 
@@ -93,5 +93,3 @@ private:
 };
 
 }; /* esapi namespace */
-
-#endif /* _EncoderConstants_h_ */

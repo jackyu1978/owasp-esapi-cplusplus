@@ -16,10 +16,11 @@
  * @created 2007
  */
 
-#ifndef _ValidationErrorList_H_
-#define _ValidationErrorList_H_
+#pragma once
 
+#include "EsapiCommon.h"
 #include "errors/ValidationException.h"
+
 #include <string>
 #include <map>
 #include <list>
@@ -135,5 +136,3 @@ namespace esapi {
 		virtual ~ValidationErrorList() {};
 	};
 };
-
-#endif /* _ValidationErrorList_H_ */

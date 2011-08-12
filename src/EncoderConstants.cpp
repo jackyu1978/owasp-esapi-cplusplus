@@ -1,4 +1,4 @@
-#include "esapi/EncoderConstants.h"
+#include "EncoderConstants.h"
 #include <string>
 
 
