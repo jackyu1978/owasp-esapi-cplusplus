@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -113,7 +113,7 @@ namespace esapi
     static unsigned int calcKeySize(unsigned int keyBits);
 
   private:
-    KeyDerivationFunction() { /* No instantiation */ };
+    KeyDerivationFunction() { /** No instantiation */ };
   };
 
 }; // NAMESPACE esapi

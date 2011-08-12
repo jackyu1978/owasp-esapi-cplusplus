@@ -1,4 +1,4 @@
-/*
+/**
 * OWASP Enterprise Security API (ESAPI)
 *
 * This file is part of the Open Web Application Security Project (OWASP)
@@ -124,7 +124,7 @@ namespace esapi
     private:
       CRITICAL_SECTION& mm_lock;
     private:
-      AutoLock& operator=(const AutoLock&) { /* hidden */ }
+      AutoLock& operator=(const AutoLock&) { /** hidden */ }
 #elif defined(ESAPI_OS_STARNIX)
     public:
       // Acquires the lock during construction.  Throws an

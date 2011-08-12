@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -81,7 +81,7 @@ namespace esapi
     keySize = calcKeySize( keySize );
     ASSERT(keySize);
 
-    /*
+    /**
       byte[] derivedKey = new byte[ keySize ];
       byte[] label;              // Same purpose as NIST SP 800-108's "label" in section 5.1.
       byte[] context;            // See setContext() for details.
@@ -109,7 +109,7 @@ namespace esapi
     // for how secure this key-stretching is. Worse, it might not be specified
     // as to *how* it is done and left to each JCE provider.
 
-    /*
+    /**
       SecretKey sk = new SecretKeySpec(keyDerivationKey.getEncoded(), "HmacSHA1");
       Mac mac = null;
 
@@ -122,7 +122,7 @@ namespace esapi
       }
     */
         
-    /*
+    /**
     // Repeatedly call of HmacSHA1 hash until we've collected enough bits
     // for the derived key. The first time through, we calculate the HmacSHA1
     // on the "purpose" string, but subsequent calculations are performed
@@ -228,7 +228,7 @@ namespace esapi
    * @return  True if {@code prfAlgName} is supported, otherwise false.
    */
 
-  /*
+  /**
     public static boolean isValidPRF(String prfAlgName) {
     for (PRF_ALGORITHMS prf : PRF_ALGORITHMS.values()) {
     if ( prf.getAlgName().equals(prfAlgName) ) {

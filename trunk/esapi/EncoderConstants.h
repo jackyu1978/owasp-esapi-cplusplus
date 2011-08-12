@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -102,4 +102,4 @@ private:
 
 };
 
-}; /* esapi namespace */
+}; /** esapi namespace */

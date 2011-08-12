@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -10,8 +10,12 @@
 
 #pragma once
 
+#include "EsapiCommon.h"
+#include "codecs/Codec.h"
+#include "errors/ExecutionException.h"
+
 #include <fstream>
-#include <list>
+#include <vector>
 #include <string>
 
 namespace esapi
@@ -32,11 +36,15 @@ namespace esapi
  *
  * @since June 11, 2011
  */
+
+  // Hack!!!
+  typedef unsigned int ExecuteResult;
+
 	class Executor
 	{
 	public:
-		virtual ExecuteResult executeSystemCommand(std::fstream, std::list) =0 throw ExecutorException;
-		virtual ExecuteResult executeSystemCommand(std::fstream, std::list, std::fstream, Codec, bool, bool) =0 throw ExecutorException;
+		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params) throw(ExecutionException) = 0;
+		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params, std::fstream&, Codec&, bool, bool) throw(ExecutionException) = 0;
 
 		virtual ~Executor() {};
 	};

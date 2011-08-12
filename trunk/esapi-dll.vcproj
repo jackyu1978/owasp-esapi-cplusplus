@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./errors; ./reference; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./errors; ./reference; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN64;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -195,7 +195,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./errors; ./reference; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -273,7 +273,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="./esapi; ./errors; ./reference; ./deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN64;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -364,6 +364,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\crypto\MessageDigest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\crypto\PlainText.cpp"
 					>
 				</File>
@@ -404,11 +408,11 @@
 				Name="reference"
 				>
 				<File
-					RelativePath=".\src\reference\CryptoppEncryptor.cpp"
+					RelativePath=".\src\reference\DefaultEncoder.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\DefaultEncoder.cpp"
+					RelativePath=".\src\reference\DefaultEncryptor.cpp"
 					>
 				</File>
 				<File
@@ -529,6 +533,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\crypto\MessageDigest.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\crypto\PlainText.h"
 						>
 					</File>
@@ -556,6 +564,10 @@
 				<Filter
 					Name="errors"
 					>
+					<File
+						RelativePath=".\AccessControlException.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\errors\EncodingException.h"
 						>
@@ -589,7 +601,7 @@
 					Name="reference"
 					>
 					<File
-						RelativePath=".\esapi\reference\CryptoppEncryptor.h"
+						RelativePath=".\esapi\reference\DefaultEncryptor.h"
 						>
 					</File>
 					<File

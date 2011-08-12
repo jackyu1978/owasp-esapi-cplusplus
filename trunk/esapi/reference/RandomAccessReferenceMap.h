@@ -18,4 +18,4 @@ namespace esapi
 	};
 };
 
-#endif /* _RandomAccessReferenceMap_h_ */
+#endif /** _RandomAccessReferenceMap_h_ */

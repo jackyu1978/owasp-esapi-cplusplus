@@ -1,4 +1,4 @@
-/*
+/**
 * OWASP Enterprise Security API (ESAPI)
 *
 * This file is part of the Open Web Application Security Project (OWASP)
@@ -35,7 +35,7 @@ using std::string;
 
 int main(int, char**)
 {
-  /*
+  /**
   string password = "password";
   string salt = "salt";
   SecretKey k = KeyDerivationFunction::computeDerivedKey(20*8, (byte*)password.data(), password.size(), (byte*)salt.data(), salt.size(), 2);

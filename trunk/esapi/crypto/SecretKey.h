@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -86,7 +86,7 @@ namespace esapi
     SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
 
   public:
-    /*
+    /**
      * Standard destructor
      */
     virtual ~SecretKey();

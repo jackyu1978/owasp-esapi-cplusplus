@@ -232,6 +232,11 @@ typedef unsigned char byte;
 # define ESAPI_MS_WARNING_POP() 
 #endif
 
+// Kill warning on non-standard template extension from Crypto++
+ESAPI_MS_NO_WARNING(4231)
+// Knock out the MS Warning about ignoring exception lists
+ESAPI_MS_NO_WARNING(4290)
+
 #if defined(ESAPI_CXX_MSVC)
 # ifdef ESAPI_MS_DLL_EXPORTS
 #  define ESAPI_EXPORT __declspec(dllexport)

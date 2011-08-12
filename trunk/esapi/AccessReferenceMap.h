@@ -1,4 +1,4 @@
-/*
+/**
  * OWASP Enterprise Security API (ESAPI)
  *
  * This file is part of the Open Web Application Security Project (OWASP)
@@ -9,6 +9,8 @@
  */
 
 #pragma once
+
+#include "errors/AccessControlException.h"
 
 #include <set>
 
@@ -54,15 +56,20 @@ namespace esapi
  * @author Chris Schmidt (chrisisbeef@gmail.com)
  * @author David Anderson (david.anderson@aspectsecurity.com)
  */
+
+  typedef size_t Iterator;
+  typedef unsigned int T;
+  typedef unsigned int K;
+
 	class AccessReferenceMap
 	{
 	public:
 		virtual Iterator iterator() =0;
-		virtual <T> K getIndirectReference(T directReference) =0;
-		virtual <T> T getDirectReference(K indirectReference) =0 throw  AccessControlException;
-		virtual <T> K addDirectReference(T direct) =0;
-		virtual <T> K removeDirectReference(T direct) =0 throw AccessControlException;
-		virtual void update(std:set directReferences) =0;
+		virtual K getIndirectReference(T directReference) =0;
+		virtual T getDirectReference(K indirectReference) throw(AccessControlException) =0 ;
+		virtual K addDirectReference(T direct) =0;
+		virtual K removeDirectReference(T direct) throw(AccessControlException) =0;
+    virtual void update(std::set<T>& directReferences) =0;
 
 		virtual ~AccessReferenceMap() {};
 	};
