@@ -71,6 +71,8 @@ COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-9])")
+GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[4-9]|[5-9])")
+GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[5-9]|[5-9])")
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
@@ -95,10 +97,15 @@ ifneq ($(GCC43_OR_LATER),0)
   CXXFLAGS += -Wall -Wextra -Wno-type-limits -Wno-unused
 endif
 
-# For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
-ifneq ($(GCC46_OR_LATER),0)
+# For unique_ptr - see http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_440
+ifneq ($(GCC44_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
+
+# For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
+#ifneq ($(GCC46_OR_LATER),0)
+#  CXXFLAGS += -std=c++0x
+#endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifneq ($(IS_LINUX), 0)

@@ -84,13 +84,23 @@
 # define ESAPI_ENV_MINGW 1
 #endif
 
-// Try and clear auto_ptr warnings
-// http://www2.research.att.com/~bs/C++0xFAQ.html#0x
-#if defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))
-# define GCC_HACK_ITS_CPP0X 1
+// For auto_ptr/unique_ptr (auto_ptr is deprecated) - see
+//  http://www2.research.att.com/~bs/C++0xFAQ.html#0x and 
+//  http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_440
+#if (defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 4) || (__GNUC__ >= 5))) || (_MSC_VER >= 1600)
+# define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
 #endif
 
-#if defined(nullptr_t) || (__cplusplus > 199711L) || defined(GCC_HACK_ITS_CPP0X)
+// For nullptr - see see http://gcc.gnu.org/projects/cxx0x.html.
+#if (defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))) || (_MSC_VER >= 1600)
+# define ESAPI_CPLUSPLUS_NULLPTR 1
+#endif
+
+#if (__cplusplus > 199711L) || (_MSC_VER >= 1600)
+# undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
+# define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
+# undef  ESAPI_CPLUSPLUS_NULLPTR
+# define ESAPI_CPLUSPLUS_NULLPTR 1
 # define ESAPI_CPLUSPLUS_0X 1
 #endif
 
