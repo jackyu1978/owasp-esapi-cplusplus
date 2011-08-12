@@ -20,6 +20,7 @@
 #include <assert.h>
 #include <signal.h>
 
+#include <cstddef>
 #include <iostream>
 
 // Only one or the other, but not both
@@ -89,7 +90,7 @@
 # define GCC_HACK_ITS_CPP0X 1
 #endif
 
-#if defined(nullptr_t) || (__cplusplus >= 199711L) || defined(GCC_HACK_ITS_CPP0X)
+#if defined(nullptr_t) || (__cplusplus > 199711L) || defined(GCC_HACK_ITS_CPP0X)
 # define ESAPI_CPLUSPLUS_0X 1
 #endif
 

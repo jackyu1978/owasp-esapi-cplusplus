@@ -12,41 +12,7 @@
 *
 */
 
-/////////////////////////////////////////////////////////////
-// Used by Windows. For Linux, Boost::Test provides main() //
-/////////////////////////////////////////////////////////////
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE "ESAPI C++ Unit Tests"
+#include <boost/test/unit_test.hpp>
 
-#include "crypto/KeyDerivationFunction.h"
-using esapi::KeyDerivationFunction;
-
-#include "crypto/SecretKey.h"
-using esapi::SecretKey;
-using esapi::Key;
-
-#include "crypto/KeyGenerator.h"
-using esapi::KeyGenerator;
-
-#include <iostream>
-using std::cout;
-using std::endl;
-
-#include <string>
-using std::string;
-
-int main(int, char**)
-{
-  /*
-  string password = "password";
-  string salt = "salt";
-  SecretKey k = KeyDerivationFunction::computeDerivedKey(20*8, (byte*)password.data(), password.size(), (byte*)salt.data(), salt.size(), 2);
-  cout << "Ours: " << k << endl;
-  */
-
-  KeyGenerator* kg = KeyGenerator::getInstance("Sha1");
-  kg->init(16 * 8);
-  kg->init(16*8);
-  SecretKey kk = kg->generateKey();
-  Key& kr = kk;
-
-  return 0;
-}
