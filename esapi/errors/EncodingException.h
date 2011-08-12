@@ -11,6 +11,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
@@ -19,10 +20,13 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT EncodingException : public std::runtime_error
+class ESAPI_EXPORT EncodingException : public EnterpriseSecurityException
 {
 public:
-	EncodingException(): std::runtime_error( "EncodingException" ) {}
+	explicit EncodingException(const std::string &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
 };
 
 } // NAMESPACE
