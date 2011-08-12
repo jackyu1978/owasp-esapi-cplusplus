@@ -1,30 +1,31 @@
 /*
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*
+* @author Kevin Wall, kevin.w.wall@gmail.com
+* @author Jeffrey Walton, noloader@gmail.com
+*
+*/
 
 #include "EsapiCommon.h"
 #include "crypto/SecureRandom.h"
+#include "errors/EncryptionException.h"
 
 #include "safeint/SafeInt3.hpp"
 
 #include <string>
 #include <sstream>
 #include <stdexcept>
-    
+
 /**
- * This class implements functionality similar to Java's SecureRandom for consistency
- * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
- */
+* This class implements functionality similar to Java's SecureRandom for consistency
+* http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
+*/
 namespace esapi
 {
   // Allocate storage
@@ -49,10 +50,21 @@ namespace esapi
     ASSERT(seed);
     ASSERT(size);
 
+    if(!seed && size)
+      throw esapi::EncryptionException("The seed array or size is not valid.");
+
     InitializeLock();
 
     AutoLock lock(m_lock);
-    prng.IncorporateEntropy(seed, size);
+
+    try
+    {
+      prng.IncorporateEntropy(seed, size);
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Create an instance PRNG with a seed.
@@ -63,12 +75,21 @@ namespace esapi
     InitializeLock();
 
     AutoLock lock(m_lock);
-    prng.IncorporateEntropy(&seed[0], seed.size());
+
+    try
+    {
+      prng.IncorporateEntropy(&seed[0], seed.size());
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Returns the name of the algorithm implemented by this SecureRandom object.
   const std::string& SecureRandom::getAlgorithm() const
   {
+    ASSERT(!g_name.empty());
     return g_name;
   }
 
@@ -78,8 +99,19 @@ namespace esapi
     ASSERT(bytes);
     ASSERT(size);
 
+    if(!bytes && size)
+      throw esapi::EncryptionException("The byte array or size is not valid.");
+
     AutoLock lock(m_lock);
-    prng.GenerateBlock(bytes, size);
+
+    try
+    {
+      prng.GenerateBlock(bytes, size);
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Generates a user-specified number of random bytes.
@@ -88,7 +120,15 @@ namespace esapi
     ASSERT(bytes.size());
 
     AutoLock lock(m_lock);
-    prng.GenerateBlock(&bytes[0], bytes.size());
+
+    try
+    {
+      prng.GenerateBlock(&bytes[0], bytes.size());
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Reseeds this random object.
@@ -97,8 +137,19 @@ namespace esapi
     ASSERT(seed);
     ASSERT(size);
 
+    if(!seed && size)
+      throw esapi::EncryptionException("The seed array or size is not valid.");
+
     AutoLock lock(m_lock);
-    prng.IncorporateEntropy(seed, size);
+
+    try
+    {
+      prng.IncorporateEntropy(seed, size);
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Reseeds this random object.
@@ -107,14 +158,30 @@ namespace esapi
     ASSERT(seed.size());
 
     AutoLock lock(m_lock);
-    prng.IncorporateEntropy(&seed[0], seed.size());
+
+    try
+    {
+      prng.IncorporateEntropy(&seed[0], seed.size());
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
   // Reseeds this random object, using the bytes contained in the given long seed.
   void SecureRandom::setSeed(long seed)
   {
     AutoLock lock(m_lock);
-    prng.IncorporateEntropy((const byte*)&seed, sizeof(seed));
+
+    try
+    {
+      prng.IncorporateEntropy((const byte*)&seed, sizeof(seed));
+    }
+    catch(CryptoPP::Exception& e)
+    {
+      throw esapi::EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+    }
   }
 
 #if defined(ESAPI_OS_WINDOWS)
@@ -128,6 +195,8 @@ namespace esapi
   // Initialize the lock for the PRNG
   void SecureRandom::InitializeLock() const
   {
+    // Windows can never fail? My Arse! Bill, we need a return value.
+    // http://msdn.microsoft.com/en-us/library/ms682608%28v=vs.85%29.aspx
     InitializeCriticalSection(&m_lock);
   }
 
@@ -135,7 +204,7 @@ namespace esapi
   SecureRandom::AutoLock::AutoLock(CRITICAL_SECTION& cs)
     : mm_lock(cs)
   {
-    // Windows can never fails? My Arse! Bill, we need a return value.
+    // Windows can never fail? My Arse! Bill, we need a return value.
     // http://msdn.microsoft.com/en-us/library/ms682608%28v=vs.85%29.aspx
     EnterCriticalSection(&mm_lock);
   }
@@ -163,11 +232,11 @@ namespace esapi
     int ret = pthread_mutex_init(&m_lock, NULL);
     ASSERT(ret == 0);
     if(ret != 0)
-      {
-        std::ostringstream oss;
-        oss << "Failed to intialize mutex, error = " << errno << ".";
-        throw std::runtime_error(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Failed to intialize mutex, error = " << errno << ".";
+      throw esapi::EncryptionException(oss.str());
+    }
   }
 
   // Lock on construction
@@ -177,11 +246,11 @@ namespace esapi
     int ret = pthread_mutex_lock( &mm_lock );
     ASSERT(ret == 0);
     if(ret != 0)
-      {
-        std::ostringstream oss;
-        oss << "Failed to acquire mutex, error = " << errno << ".";
-        throw std::runtime_error(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Failed to acquire mutex, error = " << errno << ".";
+      throw esapi::EncryptionException(oss.str());
+    }
   }
 
   // Release on destruction
@@ -190,11 +259,11 @@ namespace esapi
     int ret = pthread_mutex_unlock( &mm_lock );
     ASSERT(ret == 0);
     if(ret != 0)
-      {
-        std::ostringstream oss;
-        oss << "Failed to release mutex, error = " << errno << ".";
-        throw std::runtime_error(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Failed to release mutex, error = " << errno << ".";
+      throw esapi::EncryptionException(oss.str());
+    }
   }
 #endif // ESAPI_OS_STARNIX
 
