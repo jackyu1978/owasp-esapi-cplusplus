@@ -14,8 +14,7 @@
  * @created 2007
  */
 
-#ifndef _Encoder_h_
-#define _Encoder_h_
+#pragma once
 
 #include <string>
 #include "errors/EncodingException.h"
@@ -444,5 +443,3 @@ public:
 
 
 }; // esapi namespace
-
-#endif	// _Encoder_h_
