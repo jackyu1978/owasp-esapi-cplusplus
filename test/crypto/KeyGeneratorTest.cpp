@@ -33,7 +33,7 @@ using std::string;
 # define GCC_HACK_ITS_CPP0X 1
 #endif
 
-#if defined(nullptr_t) || (__cplusplus >= 199711L) || defined(GCC_HACK_ITS_CPP0X)
+#if defined(nullptr_t) || (__cplusplus > 199711L) || defined(GCC_HACK_ITS_CPP0X)
 # include <memory>
   using std::unique_ptr;
 # define THE_AUTO_PTR  unique_ptr
