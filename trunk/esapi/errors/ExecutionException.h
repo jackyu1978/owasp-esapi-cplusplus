@@ -11,6 +11,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
@@ -18,10 +19,13 @@
 // TODO: Finish Porting from Java
 namespace esapi {
 
-class ESAPI_EXPORT ExecutionException : public std::runtime_error
+class ESAPI_EXPORT ExecutionException : public EnterpriseSecurityException
 {
 public:
-	ExecutionException(): std::runtime_error( "ExecutionException" ) {}
+	explicit ExecutionException(const std::string &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
 };
 
 } // NAMESPACE

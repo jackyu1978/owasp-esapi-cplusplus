@@ -11,14 +11,18 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
 
 // TODO: Finish Porting from Java
 
-class ESAPI_EXPORT IntrusionException : public std::runtime_error
+class ESAPI_EXPORT IntrusionException : public EnterpriseSecurityException
 {
 public:
-	IntrusionException(): std::runtime_error( "Intrusion Exception" ) {}
+	explicit IntrusionException(const std::string &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
 };

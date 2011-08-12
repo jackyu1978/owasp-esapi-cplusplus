@@ -11,6 +11,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
 #include <string>
@@ -19,10 +20,13 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT IntegrityException : public std::runtime_error
+class ESAPI_EXPORT IntegrityException : public EnterpriseSecurityException
 {
 public:
-	IntegrityException(): std::runtime_error( "IntegrityException" ) {}
+	explicit IntegrityException(const std::string &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
 };
 
 } // NAMESPACE

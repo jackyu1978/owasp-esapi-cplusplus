@@ -20,7 +20,7 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT EncryptionException : public esapi::EnterpriseSecurityException
+class ESAPI_EXPORT EncryptionException : public EnterpriseSecurityException
 {
 public:
 	explicit EncryptionException(const std::string &message)
