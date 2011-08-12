@@ -20,6 +20,7 @@
 ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
+
 ESAPI_MS_NO_WARNING(4251)
 
 /**

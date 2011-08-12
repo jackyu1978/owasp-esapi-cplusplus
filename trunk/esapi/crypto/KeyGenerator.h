@@ -12,12 +12,14 @@
 *
 */
 
+#pragma once
+
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 
 #include <string>
 
-#pragma once
+ESAPI_MS_NO_WARNING(4251)
 
 namespace esapi
 {
