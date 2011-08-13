@@ -55,9 +55,6 @@ namespace esapi
     // Called by derived classes to fetch key bytes (not bits)
     ESAPI_PRIVATE unsigned int GetKeySize() const;
 
-    // Called by derived classes in CreateInstance()
-    ESAPI_PRIVATE void SetAlgorithmName(const std::string& algorithmName);
-
     // Single testing point to ensure init() has been called. Will be
     // called when the derived class fetches the key size with GetKeySize().
     ESAPI_PRIVATE void VerifyKeySize() const;
