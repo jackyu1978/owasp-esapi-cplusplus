@@ -256,10 +256,3 @@ ESAPI_MS_NO_WARNING(4290)
 #  define ESAPI_PRIVATE
 # endif
 #endif
-
-#define ESAPI_NOTHROW throw()
-#define ESAPI_THROW throw(...)
-#define ESAPI_THROW1(ex1) throw(ex1)
-#define ESAPI_THROW2(ex1,ex2) throw(ex1,ex2)
-#define ESAPI_THROW3(ex1,ex2,ex3) throw(ex1,ex2,ex3)
-#define ESAPI_THROW4(ex1,ex2,ex3,ex4) throw(ex1,ex2,ex3,ex4)
