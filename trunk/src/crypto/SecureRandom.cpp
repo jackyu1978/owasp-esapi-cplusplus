@@ -33,155 +33,126 @@ namespace esapi
   std::string SecureRandom::g_name = "X9.31/AES";
 
   // Retrieve a reference to the global PRNG.
-  SecureRandom& SecureRandom::GlobalSecureRandom() ESAPI_NOTHROW
+  SecureRandom& SecureRandom::GlobalSecureRandom() throw()
   {
     return g_prng;
   }
 
   // Create an instance PRNG.
-  SecureRandom::SecureRandom() ESAPI_THROW1(EncryptionException)
+  SecureRandom::SecureRandom() throw(EncryptionException)
   {
     InitializeLock();
   }
 
   // Create an instance PRNG with a seed.
-  SecureRandom::SecureRandom(const byte* seed, size_t size) ESAPI_THROW1(EncryptionException)
+  SecureRandom::SecureRandom(const byte* seed, size_t size)
+    throw(EncryptionException)
   {
     ASSERT(seed);
     ASSERT(size);
 
-    if(!seed && size)
-      throw EncryptionException("The seed array or size is not valid.");
-
     InitializeLock();
 
-    AutoLock lock(m_lock);
-
-    try
-    {
-      prng.IncorporateEntropy(seed, size);
-    }
-    catch(CryptoPP::Exception& e)
-    {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
-    }
+    setSeed(seed, size);
   }
 
   // Create an instance PRNG with a seed.
-  SecureRandom::SecureRandom(const std::vector<byte>& seed) ESAPI_THROW1(EncryptionException)
+  SecureRandom::SecureRandom(const std::vector<byte>& seed) throw(EncryptionException)
   {
     ASSERT(seed.size());
 
     InitializeLock();
 
-    AutoLock lock(m_lock);
-
-    try
-    {
-      prng.IncorporateEntropy(&seed[0], seed.size());
-    }
-    catch(CryptoPP::Exception& e)
-    {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
-    }
+    setSeed(&seed[0], seed.size());
   }
 
   // Returns the name of the algorithm implemented by this SecureRandom object.
-  const std::string& SecureRandom::getAlgorithm() const ESAPI_NOTHROW
+  const std::string& SecureRandom::getAlgorithm() const throw()
   {
     ASSERT(!g_name.empty());
     return g_name;
   }
 
   // Generates a user-specified number of random bytes.
-  void SecureRandom::nextBytes(byte* bytes, size_t size) ESAPI_THROW1(EncryptionException)
+  void SecureRandom::nextBytes(byte* bytes, size_t size) throw(EncryptionException)
   {
     ASSERT(bytes);
     ASSERT(size);
 
-    if(!bytes && size)
-      throw EncryptionException("The byte array or size is not valid.");
+    if(!bytes && !size)
+      return;
 
-    AutoLock lock(m_lock);
+    if(!bytes)
+      throw EncryptionException("The byte array or size is not valid.");    
 
     try
     {
+      SafeInt<size_t> safe((size_t)bytes);
+      safe += size;
+
+      AutoLock lock(m_lock);
       prng.GenerateBlock(bytes, size);
     }
-    catch(CryptoPP::Exception& e)
+    catch(SafeIntException&)
     {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+      throw EncryptionException("Integer overflow detected.");
+    }
+    catch(CryptoPP::Exception& ex)
+    {
+      throw EncryptionException(std::string("Crypto++ internal error: ") + ex.what());
     }
   }
 
   // Generates a user-specified number of random bytes.
-  void SecureRandom::nextBytes(std::vector<byte>& bytes) ESAPI_THROW1(EncryptionException)
+  void SecureRandom::nextBytes(std::vector<byte>& bytes) throw(EncryptionException)
   {
     ASSERT(bytes.size());
 
-    AutoLock lock(m_lock);
-
-    try
-    {
-      prng.GenerateBlock(&bytes[0], bytes.size());
-    }
-    catch(CryptoPP::Exception& e)
-    {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
-    }
+    nextBytes(&bytes[0], bytes.size());
   }
 
   // Reseeds this random object.
-  void SecureRandom::setSeed(const byte* seed, size_t size) ESAPI_THROW1(EncryptionException)
+  void SecureRandom::setSeed(const byte* seed, size_t size) throw(EncryptionException)
   {
     ASSERT(seed);
     ASSERT(size);
 
-    if(!seed && size)
-      throw EncryptionException("The seed array or size is not valid.");
+    if(!seed && !size)
+      return;
 
-    AutoLock lock(m_lock);
+    if(!seed)
+      throw EncryptionException("The seed array or size is not valid.");    
 
     try
     {
+      SafeInt<size_t> safe((size_t)seed);
+      safe += size;
+
+      AutoLock lock(m_lock);
       prng.IncorporateEntropy(seed, size);
     }
-    catch(CryptoPP::Exception& e)
+    catch(SafeIntException&)
     {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
+      throw EncryptionException("Integer overflow detected.");
+    }
+    catch(CryptoPP::Exception& ex)
+    {
+      throw EncryptionException(std::string("Crypto++ internal error: ") + ex.what());
     }
   }
 
   // Reseeds this random object.
-  void SecureRandom::setSeed(const std::vector<byte>& seed) ESAPI_THROW1(EncryptionException)
+  void SecureRandom::setSeed(const std::vector<byte>& seed) throw(EncryptionException)
   {
     ASSERT(seed.size());
 
-    AutoLock lock(m_lock);
-
-    try
-    {
-      prng.IncorporateEntropy(&seed[0], seed.size());
-    }
-    catch(CryptoPP::Exception& e)
-    {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
-    }
+    setSeed(&seed[0], seed.size());
   }
 
   // Reseeds this random object, using the bytes contained in the given long seed.
-  void SecureRandom::setSeed(long seed) ESAPI_THROW1(EncryptionException)
+  void SecureRandom::setSeed(long seed) throw(EncryptionException)
   {
-    AutoLock lock(m_lock);
-
-    try
-    {
-      prng.IncorporateEntropy((const byte*)&seed, sizeof(seed));
-    }
-    catch(CryptoPP::Exception& e)
-    {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + e.what());
-    }
+    setSeed((const byte*)&seed, sizeof(seed));
   }
 
 #if defined(ESAPI_OS_WINDOWS)
@@ -210,7 +181,7 @@ namespace esapi
   }
 
   // Release on destruction
-  SecureRandom::AutoLock::~AutoLock() ESAPI_NOTHROW
+  SecureRandom::AutoLock::~AutoLock() throw()
   {
     // Yet another function which never fails.
     LeaveCriticalSection(&mm_lock);
@@ -219,7 +190,7 @@ namespace esapi
 #elif defined(ESAPI_OS_STARNIX) // ESAPI_OS_WINDOWS
 
   // Standard destructor.
-  SecureRandom::~SecureRandom() ESAPI_NOTHROW
+  SecureRandom::~SecureRandom() throw()
   {
     int ret = pthread_mutex_destroy(&m_lock);
     // ASSERT, but don't throw
@@ -227,7 +198,7 @@ namespace esapi
   }
 
   // Initialize the lock for the PRNG
-  void SecureRandom::InitializeLock() const ESAPI_THROW1(EncryptionException)
+  void SecureRandom::InitializeLock() const throw(EncryptionException)
   {
     int ret = pthread_mutex_init(&m_lock, NULL);
     ASSERT(ret == 0);
@@ -240,7 +211,7 @@ namespace esapi
   }
 
   // Lock on construction
-  SecureRandom::AutoLock::AutoLock(pthread_mutex_t& mtx) ESAPI_THROW1(EncryptionException)
+  SecureRandom::AutoLock::AutoLock(pthread_mutex_t& mtx) throw(EncryptionException)
     : mm_lock(mtx)
   {
     int ret = pthread_mutex_lock( &mm_lock );
@@ -254,7 +225,7 @@ namespace esapi
   }
 
   // Release on destruction
-  SecureRandom::AutoLock::~AutoLock() ESAPI_THROW1(EncryptionException)
+  SecureRandom::AutoLock::~AutoLock() throw(EncryptionException)
   {
     int ret = pthread_mutex_unlock( &mm_lock );
     ASSERT(ret == 0);
