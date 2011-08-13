@@ -1,16 +1,16 @@
 /**
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*
+* @author Kevin Wall, kevin.w.wall@gmail.com
+* @author Jeffrey Walton, noloader@gmail.com
+*
+*/
 
 #include "EsapiCommon.h"
 #include "crypto/KeyGenerator.h"
@@ -43,9 +43,9 @@ ESAPI_MS_WARNING_POP()
 #include <cryptopp/arc4.h>
 
 /**
- * This class implements functionality similar to Java's KeyGenerator for consistency
- * http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
- */
+* This class implements functionality similar to Java's KeyGenerator for consistency
+* http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
+*/
 
 namespace esapi
 {
@@ -62,7 +62,7 @@ namespace esapi
 
     // The global generator is Crypto++'s ANSI X.931/AES
     SecureRandom& prng = SecureRandom::GlobalSecureRandom();
-    
+
     // Crypto++ magic
     size_t ksize = CIPHER::DEFAULT_KEYLENGTH;
     size_t bsize = CIPHER::BLOCKSIZE;
@@ -84,9 +84,9 @@ namespace esapi
   // Sad, but true. CIPER does not always cough up its name
   template <class CIPHER, template <class CIPHER> class MODE>
   BlockCipherGenerator<CIPHER, MODE>::BlockCipherGenerator(const std::string& algorithm)
+    : KeyGenerator(algorithm)
   {
     ASSERT( !algorithm.empty() );
-    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -102,9 +102,9 @@ namespace esapi
     // If the block cipher is not resynchronizable, we will generate the same key bits
     ASSERT( m_encryptor.IsResynchronizable() );
     if( !m_encryptor.IsResynchronizable() )
-      {
-        throw std::runtime_error("Failed to resynchronize block cipher");
-      }
+    {
+      throw std::runtime_error("Failed to resynchronize block cipher");
+    }
 
     // The global generator is Crypto++'s ANSI X.931/AES
     SecureRandom& prng = SecureRandom::GlobalSecureRandom();
@@ -113,7 +113,7 @@ namespace esapi
     prng.nextBytes(iv.BytePtr(), iv.SizeInBytes());
 
     m_encryptor.Resynchronize(iv.BytePtr(), (int)iv.SizeInBytes());
-    
+
     // GetKeySize() will verify init() has been called
     const unsigned int keyBytes = GetKeySize();
 
@@ -130,11 +130,11 @@ namespace esapi
     const unsigned int ret = (unsigned int)filter.MaxRetrievable();
     ASSERT(ret >= keyBytes);
     if( !(ret >= keyBytes) )
-      {
-        std::ostringstream oss;
-        oss << "Failed to generate the requested " << keyBytes << " bits of material.";
-        throw std::runtime_error(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Failed to generate the requested " << keyBytes << " bits of material.";
+      throw std::runtime_error(oss.str());
+    }
 
     filter.Get(key.BytePtr(), key.SizeInBytes());
     return SecretKey(getAlgorithm(), key);
@@ -147,7 +147,6 @@ namespace esapi
   HashGenerator<HASH>::HashGenerator(const std::string& algorithm)
   {
     ASSERT( !algorithm.empty() );
-    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -173,30 +172,30 @@ namespace esapi
     // The global generator is Crypto++'s ANSI X.931/AES
     SecureRandom& prng = SecureRandom::GlobalSecureRandom();
     prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
-    
+
     size_t idx = 0;
     unsigned int remaining = keyBytes;
     while(remaining)
-      {
-        HASH hasher;
-        const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
+    {
+      HASH hasher;
+      const unsigned int req = (unsigned int)std::min(remaining, (unsigned int)HASH::DIGESTSIZE);
 
-        // Initial or previous hash result
-        hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+      // Initial or previous hash result
+      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
 
-        // Though we continually call TruncatedFinal, we are retrieving a
-        // full block except for possibly the last block
-        hasher.TruncatedFinal(hash.BytePtr(), req);
+      // Though we continually call TruncatedFinal, we are retrieving a
+      // full block except for possibly the last block
+      hasher.TruncatedFinal(hash.BytePtr(), req);
 
-        // Copy out to key
-        ESAPI_MS_NO_WARNING(4996);
-        std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
-        ESAPI_MS_DEF_WARNING(4996);
+      // Copy out to key
+      ESAPI_MS_NO_WARNING(4996);
+      std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+      ESAPI_MS_DEF_WARNING(4996);
 
-        // Book keeping
-        idx += req;
-        remaining -= req;
-      }
+      // Book keeping
+      idx += req;
+      remaining -= req;
+    }
 
     return SecretKey(getAlgorithm(), key);
   }
@@ -206,9 +205,9 @@ namespace esapi
   // Sad, but true. CIPER does not always cough up its name
   template <class HASH>
   HmacGenerator<HASH>::HmacGenerator(const std::string& algorithm)
+    : KeyGenerator(algorithm)
   {
     ASSERT( !algorithm.empty() );
-    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -229,7 +228,7 @@ namespace esapi
 
     // Scratch
     CryptoPP::SecByteBlock hash(HASH::DIGESTSIZE);
-    
+
     // The global generator is Crypto++'s ANSI X.931/AES
     SecureRandom& prng = SecureRandom::GlobalSecureRandom();
     prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
@@ -239,30 +238,30 @@ namespace esapi
 
     // Initial seed of the hash stream
     prng.nextBytes(hash.BytePtr(), hash.SizeInBytes());
-    
+
     size_t idx = 0;
     size_t remaining = keyBytes;
     while(remaining)
-      {
-        hasher.Restart();
-        const size_t req = std::min(remaining, (size_t)HASH::DIGESTSIZE);
+    {
+      hasher.Restart();
+      const size_t req = std::min(remaining, (size_t)HASH::DIGESTSIZE);
 
-        // Initial or previous hash result
-        hasher.Update(hash.BytePtr(), hash.SizeInBytes());
+      // Initial or previous hash result
+      hasher.Update(hash.BytePtr(), hash.SizeInBytes());
 
-        // Though we continually call TruncatedFinal, we are retrieving a
-        // full block except for possibly the last block
-        hasher.TruncatedFinal(hash.BytePtr(), req);
+      // Though we continually call TruncatedFinal, we are retrieving a
+      // full block except for possibly the last block
+      hasher.TruncatedFinal(hash.BytePtr(), req);
 
-        // Copy out to key
-        ESAPI_MS_NO_WARNING(4996)
-          std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
-        ESAPI_MS_DEF_WARNING(4996)
+      // Copy out to key
+      ESAPI_MS_NO_WARNING(4996)
+        std::copy(hash.BytePtr(), hash.BytePtr()+req, key.BytePtr()+idx);
+      ESAPI_MS_DEF_WARNING(4996)
 
-          // Book keeping
-          idx += req;
-        remaining -= req;
-      }
+        // Book keeping
+        idx += req;
+      remaining -= req;
+    }
 
     return SecretKey(getAlgorithm(), key);
   }
@@ -272,9 +271,9 @@ namespace esapi
   // Sad, but true. CIPER does not always cough up its name
   template <class CIPHER>
   StreamCipherGenerator<CIPHER>::StreamCipherGenerator(const std::string& algorithm)
+    : KeyGenerator(algorithm)
   {
     ASSERT( !algorithm.empty() );
-    SetAlgorithmName( algorithm );
   }
 
   // Called by base class KeyGenerator::getInstance
@@ -292,7 +291,7 @@ namespace esapi
 
     // Returned to caller
     CryptoPP::SecByteBlock key(keyBytes);
-    
+
     // The global generator is Crypto++'s ANSI X.931/AES
     SecureRandom& prng = SecureRandom::GlobalSecureRandom();
     prng.nextBytes(key.BytePtr(), key.SizeInBytes());
@@ -338,11 +337,11 @@ namespace esapi
       throw std::invalid_argument("Key size (in bits) is not valid.");
 
     if( !(m_keyBits < MaxKeySize) )
-      {
-        std::ostringstream oss;
-        oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
-        throw std::invalid_argument(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+      throw std::invalid_argument(oss.str());
+    }
   }
 
   // Default implementation throws to ensure a default key is not used
@@ -367,11 +366,11 @@ namespace esapi
       throw std::invalid_argument("Key size (in bits) is not valid.");
 
     if( !(keyBits < MaxKeySize) )
-      {
-        std::ostringstream oss;
-        oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
-        throw std::invalid_argument(oss.str());
-      }
+    {
+      std::ostringstream oss;
+      oss << "Key size (in bits) must be less than " << MaxKeySize << ".";
+      throw std::invalid_argument(oss.str());
+    }
 
     m_keyBits = keyBits;
   }
@@ -386,20 +385,6 @@ namespace esapi
     // SafeInt will throw on wrap
     const unsigned int keyBytes = (unsigned int)((SafeInt<unsigned int>(m_keyBits) + 7) / 8);
     return keyBytes;
-  }
-
-  void KeyGenerator::SetAlgorithmName(const std::string& algorithmName)
-  {
-    ASSERT( !algorithmName.empty() );
-
-    if( algorithmName.empty() )
-      {
-        std::ostringstream oss;
-        oss << "Algorithm name \'" << algorithmName << "\' is not valid.";
-        throw std::invalid_argument(oss.str());
-      }
-
-    m_algorithm = algorithmName;
   }
 
   // Default implementation for derived classes which do nothing
@@ -429,10 +414,10 @@ namespace esapi
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
     if(std::string::npos != (pos = alg.find('/')))
-      {
-        mode = alg.substr(pos+1);
-        alg.erase(pos);
-      }
+    {
+      mode = alg.substr(pos+1);
+      alg.erase(pos);
+    }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
     if(std::string::npos != (pos = mode.find('/')))
@@ -546,5 +531,5 @@ namespace esapi
     // This should really be declared __no_return__
     return nullptr;
   }
-   
+
 } // NAMESPACE esapi
