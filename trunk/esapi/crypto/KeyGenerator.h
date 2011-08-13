@@ -65,8 +65,8 @@ namespace esapi
 
   protected:
     // Not for general consumption
-    ESAPI_PRIVATE KeyGenerator(const std::string& algorithmName = ""): m_algorithm(algorithmName),
-      m_keyBits(NoKeySize) { /** No external instantiations */ }
+    ESAPI_PRIVATE explicit KeyGenerator(const std::string& algorithmName)
+      : m_algorithm(algorithmName), m_keyBits(NoKeySize) { /** No external instantiations */ }
 
   protected:
     ESAPI_PRIVATE static const unsigned int NoKeySize;
@@ -100,10 +100,10 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_EXPORT static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
 
     // Sad, but true. ENCRYPTOR does not always cough up its name
-    ESAPI_EXPORT BlockCipherGenerator(const std::string& algorithm);
+    ESAPI_PRIVATE explicit BlockCipherGenerator(const std::string& algorithm);
 
   private:
     ENCRYPTOR m_encryptor;
@@ -116,7 +116,7 @@ namespace esapi
   class HashGenerator: public KeyGenerator
   {
     // Base class needs access to protected CreateInstance in derived class
-    friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
+    friend KeyGenerator* KeyGenerator::getInstance(const std::string& algorithm);
 
   public:
     // Initialize the generator for use. Base class processing is
@@ -131,10 +131,10 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_EXPORT static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
 
     // Sad, but true. The hash does not always cough up its name
-    ESAPI_EXPORT HashGenerator(const std::string& algorithm);
+    ESAPI_PRIVATE explicit HashGenerator(const std::string& algorithm);
 
   }; // HashGenerator
 
@@ -159,10 +159,10 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_EXPORT static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
 
     // Sad, but true. The hash does not always cough up its name
-    ESAPI_EXPORT HmacGenerator(const std::string& algorithm);
+    ESAPI_PRIVATE explicit HmacGenerator(const std::string& algorithm);
 
   }; // HmacGenerator
 
@@ -187,10 +187,10 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_EXPORT static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
 
     // Sad, but true. The stream cipher does not always cough up its name
-    ESAPI_EXPORT StreamCipherGenerator(const std::string& algorithm);
+    ESAPI_PRIVATE explicit StreamCipherGenerator(const std::string& algorithm);
 
   }; // StreamCipherGenerator
 

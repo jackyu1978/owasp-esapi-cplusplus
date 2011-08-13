@@ -145,6 +145,7 @@ namespace esapi
   // Sad, but true. CIPER does not always cough up its name
   template <class HASH>
   HashGenerator<HASH>::HashGenerator(const std::string& algorithm)
+    : KeyGenerator(algorithm)
   {
     ASSERT( !algorithm.empty() );
   }
@@ -525,7 +526,7 @@ namespace esapi
     ///////////////////////////////// Catch All /////////////////////////////////
 
     std::ostringstream oss;
-    oss << "Algorithm specification \'" << algorithm << "\' is not supported.";
+    oss << "Algorithm \'" << algorithm << "\' is not supported.";
     throw std::invalid_argument(oss.str());
 
     // This should really be declared __no_return__
