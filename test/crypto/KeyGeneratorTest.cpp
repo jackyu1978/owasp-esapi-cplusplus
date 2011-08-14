@@ -108,11 +108,11 @@ void VerifyKeyGeneration(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes)
 
   // First key generation
   SecretKey k1 = kgen->generateKey();
-  BOOST_CHECK_MESSAGE( k1.sizeInBytes() < bytes, "Key 1 is too small: " << k1 );
+  BOOST_CHECK_MESSAGE( !(k1.sizeInBytes() < bytes), "Key 1 is too small: " << k1 );
 
   // Second key generation
   SecretKey k2 = kgen->generateKey();
-  BOOST_CHECK_MESSAGE( k2.sizeInBytes() < bytes, "Key 2 is too small: " << k2 );
+  BOOST_CHECK_MESSAGE( !(k2.sizeInBytes() < bytes), "Key 2 is too small: " << k2 );
 
 #if defined(DUMP_KEYS)
   BOOST_MESSAGE( "  " << k1 );
@@ -120,7 +120,7 @@ void VerifyKeyGeneration(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes)
 
   // Ignore it when single bytes are produced consecutively
   // (fails on occasion for 1 and 2 byte keys).
-  BOOST_CHECK_MESSAGE( k1 == k2 && k1.sizeInBytes() > 2, "Key 2 is too small: " << k2 );( "Key 1 equals key 2: " << k1 );
+  BOOST_CHECK_MESSAGE( !(k1 == k2 && k1.sizeInBytes() > 2), "Key 2 is too small: " << k2 );
 
 #if defined(DUMP_KEYS)
   BOOST_MESSAGE( "  " << k2 );
