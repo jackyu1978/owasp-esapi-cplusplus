@@ -163,7 +163,7 @@ namespace esapi
     virtual unsigned int digest(std::vector<byte>& buf, size_t offset, size_t len);
 
   protected:
-    // Called by base class KeyGenerator::getInstance
+    // Called by base class MessageDigest::getInstance
     ESAPI_PRIVATE static MessageDigest* createInstance(const std::string& algorithm);
 
     // Sad, but true. HASH does not always cough up its name
