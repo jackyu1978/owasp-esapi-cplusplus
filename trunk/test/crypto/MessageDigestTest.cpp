@@ -191,6 +191,44 @@ void VerifyArguments()
 
     /////////////////////////////////////////////////////////////////////////
 
+	try
+	{    
+		success = false;
+    	THE_AUTO_PTR<MessageDigest> md8(MessageDigest::getInstance());
+        const size_t sz = md8->getDigestLength();
+        THE_AUTO_PTR<byte> buf(new byte[sz]);
+        md8->digest(buf.get(), sz, sz-1, 2*sz-1);
+	}
+    catch(InvalidArgumentException& ex)
+    {
+		success = true;
+	}
+	catch(EncryptionException& ex)
+	{
+		cerr << "!!Caught EncryptionException" << endl;
+	}
+    BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (digest)");
+
+    /////////////////////////////////////////////////////////////////////////
+
+	try
+	{    
+		success = false;
+    	THE_AUTO_PTR<MessageDigest> md9(MessageDigest::getInstance());
+        const size_t sz = md9->getDigestLength();
+        THE_AUTO_PTR<byte> buf(new byte[sz]);
+        md9->update(buf.get(), sz, sz-1, 2*sz-1);
+	}
+    catch(InvalidArgumentException& ex)
+    {
+		success = true;
+	}
+	catch(EncryptionException& ex)
+	{
+		cerr << "!!Caught EncryptionException" << endl;
+	}
+    BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (update)");
+
 }
 
 void VerifyMD5()
