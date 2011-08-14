@@ -11,6 +11,7 @@
 #pragma once
 
 #include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include <string>
 #include <vector>
@@ -26,7 +27,7 @@ namespace esapi
     static const std::string DefaultAlgorithm;
 
     // Standard factory method
-    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm);
+    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm) throw(EncryptionException);
 
     // Standard name of the hash
     virtual std::string getAlgorithm() const;
@@ -87,7 +88,7 @@ namespace esapi
     *
     * @throws       throws an EncryptionException if a cryptographic failure occurs.
     */
-    virtual void update(byte input) throw(EncryptionException);
+    virtual void update(byte input);
 
     /**
     * Updates the digest using the specified array of bytes.
@@ -98,7 +99,7 @@ namespace esapi
     * @throws       throws an EncryptionException if the array or size is not valid
     *               or a cryptographic failure occurs.
     */
-    virtual void update(const byte input[], size_t size) throw(EncryptionException);
+    virtual void update(const byte input[], size_t size);
 
     /**
     * Updates the digest using the specified array of bytes.
@@ -108,7 +109,7 @@ namespace esapi
     * @throws       throws an EncryptionException if the array or size is not valid
     *               or a cryptographic failure occurs.
     */
-    virtual void update(const std::vector<byte>& input) throw(EncryptionException);
+    virtual void update(const std::vector<byte>& input);
 
     /**
     * Updates the digest using the specified array of bytes, starting at the specified offset.
@@ -122,7 +123,7 @@ namespace esapi
     *               offset and len exceeds the array's bounds, or a cryptographic
     *               failure occurs.
     */
-    virtual void update(const byte input[], size_t size, size_t offset, size_t len) throw(EncryptionException);
+    virtual void update(const byte input[], size_t size, size_t offset, size_t len) throw(InvalidArgumentException, EncryptionException);
 
     /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
@@ -144,7 +145,7 @@ namespace esapi
     *
     * @return       the number of digest bytes written to buf.
     */
-    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len);
+    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len) throw(InvalidArgumentException, EncryptionException);
 
     /**
     * Completes the hash computation by performing final operations such as padding.
@@ -155,7 +156,7 @@ namespace esapi
     *
     * @return       the number of digest bytes written to buf.
     */
-    virtual unsigned int digest(std::vector<byte>& buf, size_t offset, size_t len) throw(EncryptionException);
+    virtual unsigned int digest(std::vector<byte>& buf, size_t offset, size_t len);
 
   protected:
     // Called by base class KeyGenerator::getInstance

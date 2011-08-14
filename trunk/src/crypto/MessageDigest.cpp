@@ -123,7 +123,7 @@ namespace esapi
   * Updates the digest using the specified array of bytes. 
   */
   template <class HASH>
-  void MessageDigestImpl<HASH>::update(const byte input[], size_t size) throw(EncryptionException)
+  void MessageDigestImpl<HASH>::update(const byte input[], size_t size)
   {
     //ASSERT(input);
     //ASSERT(size);
@@ -135,7 +135,7 @@ namespace esapi
   * Updates the digest using the specified array of bytes.
   */
   template <class HASH>
-  void MessageDigestImpl<HASH>::update(const std::vector<byte>& input) throw(EncryptionException)
+  void MessageDigestImpl<HASH>::update(const std::vector<byte>& input)
   {
     ASSERT( !input.empty() );
 
@@ -146,7 +146,8 @@ namespace esapi
   * Updates the digest using the specified array of bytes, starting at the specified offset.
   */
   template <class HASH>
-  void MessageDigestImpl<HASH>::update(const byte input[], size_t size, size_t offset, size_t len) throw(EncryptionException)
+  void MessageDigestImpl<HASH>::update(const byte input[], size_t size, size_t offset, size_t len)
+    throw(InvalidArgumentException, EncryptionException)
   {
     //ASSERT(input);
     //ASSERT(size);
@@ -195,6 +196,7 @@ namespace esapi
   */
   template <class HASH>
   unsigned int MessageDigestImpl<HASH>::digest(byte buf[], size_t size, size_t offset, size_t len)
+    throw(InvalidArgumentException, EncryptionException)
   {
     ASSERT(buf);
     ASSERT(size);
@@ -238,7 +240,7 @@ namespace esapi
   * Completes the hash computation by performing final operations such as padding.
   */
   template <class HASH>
-  unsigned int  MessageDigestImpl<HASH>::digest(std::vector<byte>& buf, size_t offset, size_t len) throw(EncryptionException)
+  unsigned int  MessageDigestImpl<HASH>::digest(std::vector<byte>& buf, size_t offset, size_t len)
   {
     ASSERT( !buf.empty() );
     return digest(&buf[0], buf.size(), offset, len);

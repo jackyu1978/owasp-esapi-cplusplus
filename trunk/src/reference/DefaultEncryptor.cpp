@@ -29,7 +29,7 @@ ESAPI_MS_WARNING_POP()
 // rather than a typedef to avoid the template arguments here.
 #if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
 # define THE_AUTO_PTR  std::unique_ptr
-#else;
+#else
 # define THE_AUTO_PTR  std::auto_ptr
 #endif
 

@@ -29,6 +29,12 @@ using std::string;
 #include <reference/DefaultEncryptor.h>
 using esapi::DefaultEncryptor;
 
+#include <errors/EncryptionException.h>
+using esapi::EncryptionException;
+
+#include <errors/InvalidArgumentException.h>
+using esapi::InvalidArgumentException;
+
 // auto_ptr is deprecated in C++0X
 #if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
 using std::unique_ptr;
@@ -120,7 +126,7 @@ void VerifyHash2()
   byte p[] = { 213,75,186,206,204,235,120,11 };
   byte s[] = { 242,153,45,232,101,16,15,224 };
 
-  string password(p, sizeof(p)), salt(s, sizeof(s)), encoded;
+  string password((char*)p, sizeof(p)), salt((char*)s, sizeof(s)), encoded;
   bool success = false;
 
   try
@@ -148,7 +154,7 @@ void VerifyHash2()
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
-void VerifyHash5()
+void VerifyHash3()
 {
   // String data
   string password = "", salt = "", encoded;
@@ -221,7 +227,7 @@ void VerifyHash5()
     DefaultEncryptor encryptor;
     encoded = encryptor.hash(password, salt);
 
-    const string encoded	"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
+    const string expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
     success = (encoded == expected);
 
   }
