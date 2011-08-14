@@ -158,6 +158,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/SecureRandomTest.cpp \
 			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \
+			test/crypto/MessageDigestTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp \
 			test/errors/ValidationExceptionTest.cpp \
 			test/reference/DefaultEncryptorTest.cpp
