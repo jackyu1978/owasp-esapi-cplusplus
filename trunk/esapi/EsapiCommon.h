@@ -96,7 +96,7 @@
 # define ESAPI_CPLUSPLUS_NULLPTR 1
 #endif
 
-#if (__cplusplus > 199711L) || (_MSC_VER >= 1600)
+#if (__cplusplus > 199711L) || (_MSC_VER >= 1600) || defined(HAVE_UNIQUE_PTR)
 # undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
 # define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
 # undef  ESAPI_CPLUSPLUS_NULLPTR

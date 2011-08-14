@@ -34,7 +34,7 @@ namespace esapi
 {
   const std::string MessageDigest::DefaultAlgorithm = "SHA-256";
 
-  MessageDigest* MessageDigest::getInstance(const std::string& algorithm) throw(EncryptionException)
+  MessageDigest* MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
   {
     ASSERT(!algorithm.empty());
 
@@ -82,9 +82,15 @@ namespace esapi
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
+    // This Java program will throws a NoSuchAlgorithmException
+    // byte[] scratch = new byte[16];
+    // MessageDigest md = MessageDigest.getInstance("Foo");
+    // md.update(scratch);
+
+	// We only have InvalidArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported.";
-    throw EncryptionException(oss.str());
+    throw InvalidArgumentException(oss.str());
   }
 
   // Default implementation for derived classes which do nothing
@@ -152,11 +158,24 @@ namespace esapi
     //ASSERT(input);
     //ASSERT(size);
 
-    if(!input && !size)
-      return;
+	// This Java program will throws a NullPointerException
+    // byte[] scratch = null;
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // md.update(scratch);
 
+	// This Java program is OK
+    // byte[] scratch = new byte[0];
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // md.update(scratch);
+
+    // NOT: if(!input || !size)
     if(!input)
-      throw InvalidArgumentException("The input array or size is not valid.");
+      throw InvalidArgumentException("The input array or size is not valid");
+
+	// This Java program will throws an IllegalArgumentException
+    // byte[] scratch = new byte[16];
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // md.update(scratch, 1, 16);
 
     try
     {
@@ -168,13 +187,13 @@ namespace esapi
       SafeInt<size_t> safe2(offset);
       safe2 += len;
       if((size_t)safe2 > size)
-        throw EncryptionException("The offset or length is not valid.");
+        throw InvalidArgumentException("The buffer is too small for specified offset and length");
 
       m_hash.Update(input+offset, len);
     }
     catch(SafeIntException&)
     {
-      throw EncryptionException("Integer overflow detected.");
+      throw EncryptionException("Integer overflow detected");
     }
     catch(CryptoPP::Exception& ex)
     {
@@ -198,14 +217,27 @@ namespace esapi
   unsigned int MessageDigestImpl<HASH>::digest(byte buf[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
   {
-    ASSERT(buf);
-    ASSERT(size);
+    // ASSERT(buf);
+    // ASSERT(size);
 
-    if(!buf && !size)
-      return 0;
+	// This Java program will throws an IllegalArgumentException
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // int size = md.digest(null, 0, 0);
 
-    if(!buf)
-      throw InvalidArgumentException("The buffer array or size is not valid.");
+    if(!buf || !size)
+      throw InvalidArgumentException("The buffer array or size is not valid");
+
+	// This Java program will throws an DigestException
+    // byte[] scratch = new byte[1];
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // int size = md.digest(scratch, 0, 0);
+
+    if(size < (unsigned int)m_hash.DigestSize())
+    {
+      std::ostringstream oss;
+      oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithm();
+      throw InvalidArgumentException(oss.str());
+    }
 
     const size_t req = std::min(size, std::min((size_t)HASH::DIGESTSIZE, len));
 
@@ -219,14 +251,14 @@ namespace esapi
       SafeInt<size_t> safe2(offset);
       safe2 += len;
       if((size_t)safe2 > size)
-        throw EncryptionException("The offset or length is not valid.");
+        throw InvalidArgumentException("The buffer is too small for specified offset and length");
 
       // TruncatedFinal returns the requested number of bytes and restarts the hash.
       m_hash.TruncatedFinal(buf+offset, req);
     }
     catch(SafeIntException&)
     {
-      throw EncryptionException("Integer overflow detected.");
+      throw EncryptionException("Integer overflow detected");
     }
     catch(CryptoPP::Exception& ex)
     {
