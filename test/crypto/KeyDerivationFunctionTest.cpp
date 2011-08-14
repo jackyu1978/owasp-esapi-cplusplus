@@ -42,16 +42,16 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
 {
   BOOST_MESSAGE( "Verifying KeyDerivationFunction class" );
 
-	  VerifyKeyDerivationFunction1();
-	  VerifyKeyDerivationFunction2();
-	  VerifyKeyDerivationFunction3();
-	  VerifyKeyDerivationFunction4();
-	  VerifyKeyDerivationFunction5();
-	  VerifyKeyDerivationFunction6();
-	  VerifyKeyDerivationFunction7();
-	  VerifyKeyDerivationFunction8();
-	  VerifyKeyDerivationFunction9();
-	  //BOOST_REQUIRE( 1 == 1 );
+  VerifyKeyDerivationFunction1();
+  VerifyKeyDerivationFunction2();
+  VerifyKeyDerivationFunction3();
+  VerifyKeyDerivationFunction4();
+  VerifyKeyDerivationFunction5();
+  VerifyKeyDerivationFunction6();
+  VerifyKeyDerivationFunction7();
+  VerifyKeyDerivationFunction8();
+  VerifyKeyDerivationFunction9();
+  //BOOST_REQUIRE( 1 == 1 );
 }
 
 void VerifyKeyDerivationFunction()
