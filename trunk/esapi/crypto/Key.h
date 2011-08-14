@@ -48,9 +48,8 @@ namespace esapi
     virtual const byte* getEncoded() const = 0;
 
   protected:
-    virtual ~Key() { }
-  private:
     Key() { /* no public instantiations */ }
+    virtual ~Key() { }
 
   private:
     // Ensure compiler never generates this. We have to have it, see
