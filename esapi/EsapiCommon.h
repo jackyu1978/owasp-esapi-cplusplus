@@ -22,6 +22,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <memory>
 
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
@@ -96,7 +97,8 @@
 # define ESAPI_CPLUSPLUS_NULLPTR 1
 #endif
 
-#if (__cplusplus > 199711L) || (_MSC_VER >= 1600) || defined(HAVE_UNIQUE_PTR)
+// _UNIQUE_PTR_H is from Ubuntu /usr/include/c++/.../bits/unique_ptr.h
+#if (__cplusplus > 199711L) || (_MSC_VER >= 1600) || defined(_UNIQUE_PTR_H)
 # undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
 # define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
 # undef  ESAPI_CPLUSPLUS_NULLPTR
