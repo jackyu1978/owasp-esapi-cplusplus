@@ -27,7 +27,7 @@ namespace esapi
     static const std::string DefaultAlgorithm;
 
     // Standard factory method
-    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm) throw(EncryptionException);
+    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm) throw(InvalidArgumentException);
 
     // Standard name of the hash
     virtual std::string getAlgorithm() const;
@@ -42,12 +42,14 @@ namespace esapi
     virtual void update(byte input) = 0;
     virtual void update(const byte input[], size_t size) = 0;
     virtual void update(const std::vector<byte>& input) = 0;
-    virtual void update(const byte input[], size_t size, size_t offset, size_t len) = 0;
+    virtual void update(const byte input[], size_t size, size_t offset, size_t len)
+      throw(InvalidArgumentException, EncryptionException) = 0;
 
     // Hash calculation
     // virtual byte[] digest(byte input[], size_t size) = 0;
     virtual unsigned int digest(std::vector<byte>& buf, size_t offset, size_t len) = 0;
-    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len) = 0;
+    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len)
+      throw(InvalidArgumentException, EncryptionException) = 0;
 
     // CTORs and DTORs are very important for MS DLLs
   private:
@@ -123,7 +125,8 @@ namespace esapi
     *               offset and len exceeds the array's bounds, or a cryptographic
     *               failure occurs.
     */
-    virtual void update(const byte input[], size_t size, size_t offset, size_t len) throw(InvalidArgumentException, EncryptionException);
+    virtual void update(const byte buf[], size_t size, size_t offset, size_t len)
+      throw(InvalidArgumentException, EncryptionException);
 
     /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
@@ -145,7 +148,8 @@ namespace esapi
     *
     * @return       the number of digest bytes written to buf.
     */
-    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len) throw(InvalidArgumentException, EncryptionException);
+    virtual unsigned int digest(byte buf[], size_t size, size_t offset, size_t len)
+      throw(InvalidArgumentException, EncryptionException);
 
     /**
     * Completes the hash computation by performing final operations such as padding.
