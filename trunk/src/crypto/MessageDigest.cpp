@@ -82,7 +82,7 @@ namespace esapi
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
-    // This Java program will throws a NoSuchAlgorithmException
+    // This Java program will throw a NoSuchAlgorithmException
     // byte[] scratch = new byte[16];
     // MessageDigest md = MessageDigest.getInstance("Foo");
     // md.update(scratch);
@@ -158,7 +158,7 @@ namespace esapi
     //ASSERT(input);
     //ASSERT(size);
 
-	// This Java program will throws a NullPointerException
+	// This Java program will throw a NullPointerException
     // byte[] scratch = null;
     // MessageDigest md = MessageDigest.getInstance("MD5");
     // md.update(scratch);
@@ -172,7 +172,7 @@ namespace esapi
     if(!input)
       throw InvalidArgumentException("The input array or size is not valid");
 
-	// This Java program will throws an IllegalArgumentException
+	// This Java program will throw an IllegalArgumentException
     // byte[] scratch = new byte[16];
     // MessageDigest md = MessageDigest.getInstance("MD5");
     // md.update(scratch, 1, 16);
@@ -220,19 +220,24 @@ namespace esapi
     // ASSERT(buf);
     // ASSERT(size);
 
-	// This Java program will throws an IllegalArgumentException
+	// This Java program will throw an IllegalArgumentException
     // MessageDigest md = MessageDigest.getInstance("MD5");
     // int size = md.digest(null, 0, 0);
 
     if(!buf || !size)
       throw InvalidArgumentException("The buffer array or size is not valid");
 
-	// This Java program will throws an DigestException
+	// This Java program will throw an DigestException
     // byte[] scratch = new byte[1];
     // MessageDigest md = MessageDigest.getInstance("MD5");
     // int size = md.digest(scratch, 0, 0);
 
-    if(size < (unsigned int)m_hash.DigestSize())
+    // And so will this one
+    // byte[] scratch = new byte[16];
+    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // int ret = md.digest(scratch, 0, 15);
+
+    if(size < (unsigned int)m_hash.DigestSize() || len < (unsigned int)m_hash.DigestSize())
     {
       std::ostringstream oss;
       oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithm();
