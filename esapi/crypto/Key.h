@@ -49,6 +49,8 @@ namespace esapi
 
   protected:
     virtual ~Key() { }
+  private:
+    Key() { /* no public instantiations */ }
 
   private:
     // Ensure compiler never generates this. We have to have it, see
