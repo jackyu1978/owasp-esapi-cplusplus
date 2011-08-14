@@ -181,7 +181,7 @@ INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
 LDLIBS +=	-lcryptopp
-LDHIDE +=	-Wl,--exclude-libs,libcryptopp.a
+LDHIDE +=	-Wl,--exclude-libs,ALL
 
 TESTLIBS +=	-lboost_filesystem -lboost_unit_test_framework
 
