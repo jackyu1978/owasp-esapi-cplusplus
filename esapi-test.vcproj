@@ -64,8 +64,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -138,8 +139,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="17"
@@ -212,8 +214,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -289,8 +292,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
