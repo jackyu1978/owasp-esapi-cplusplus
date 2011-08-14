@@ -93,7 +93,7 @@ endif
 # http://gcc.gnu.org/wiki/Visibility
 # http://people.redhat.com/drepper/dsohowto.pdf
 ifneq ($(GCC40_OR_LATER),0)
-  CXXFLAGS += -fvisibility=hidden
+#  CXXFLAGS += -fvisibility=hidden
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
