@@ -49,10 +49,6 @@ namespace esapi
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
-    // Normalize the slashes (we expect forward slashes, not back slashes)
-    while(std::string::npos != (pos = alg.find('\\')))
-      alg.replace(pos, 1, "/");
-
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
     /////////////////////////////////// Factory ///////////////////////////////////
@@ -155,7 +151,7 @@ namespace esapi
   void MessageDigestImpl<HASH>::update(const byte input[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
   {
-    //ASSERT(input);
+    ASSERT(input);
     //ASSERT(size);
 
     // This Java program will throw a NullPointerException
@@ -217,8 +213,8 @@ namespace esapi
   unsigned int MessageDigestImpl<HASH>::digest(byte buf[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
   {
-    // ASSERT(buf);
-    // ASSERT(size);
+    ASSERT(buf);
+    ASSERT(size);
 
     // This Java program will throw an IllegalArgumentException
     // MessageDigest md = MessageDigest.getInstance("MD5");
