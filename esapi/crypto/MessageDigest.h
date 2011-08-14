@@ -69,7 +69,7 @@ namespace esapi
     class MessageDigestImpl: public MessageDigest
   {
     // Base class needs access to protected createInstance in derived class
-    friend MessageDigest* MessageDigest::getInstance(const std::string&);
+    friend MessageDigest* MessageDigest::getInstance(const std::string&) throw(InvalidArgumentException);
 
   public:
 

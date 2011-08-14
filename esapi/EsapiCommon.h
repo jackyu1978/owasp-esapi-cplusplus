@@ -244,6 +244,7 @@ ESAPI_MS_NO_WARNING(4275)
 // Knock out the MS Warning about CXX ignoring exception lists
 ESAPI_MS_NO_WARNING(4290)
 
+#if 0
 #if defined(ESAPI_CXX_MSVC)
 # if defined ESAPI_MS_DLL_EXPORTS
 #  define ESAPI_EXPORT __declspec(dllexport)
@@ -268,3 +269,7 @@ ESAPI_MS_NO_WARNING(4290)
 # endif
 # define ESAPI_NO_VTABLE
 #endif
+#endif
+
+#  define ESAPI_EXPORT
+#  define ESAPI_PRIVATE
