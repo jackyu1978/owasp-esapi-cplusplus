@@ -70,7 +70,7 @@ namespace esapi
      * @param keySizeThe cipher's key size (in bits) for the {@code keyDerivationKey}.
      * Must have a minimum size of 56 bits and be an integral multiple of 8-bits.
      * Note: The derived key will have the same size as this.
-     * @param purposeThe purpose for the derived key. For the ESAPI reference implementation,
+     * @param purpose The purpose for the derived key. For the ESAPI reference implementation,
      * {@code JavaEncryptor}, this must be either the string "encryption" or
      * "authenticity", where "encryption" is used for creating a derived key to use
      * for confidentiality, and "authenticity" is used for creating a derived key to

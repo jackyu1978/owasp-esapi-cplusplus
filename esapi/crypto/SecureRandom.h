@@ -17,6 +17,7 @@
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 #include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include <string>
 #include <vector>
@@ -26,8 +27,6 @@ ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/osrng.h>
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
-
-ESAPI_MS_NO_WARNING(4251)
 
 // Crypto++ is MT safe at the class level, meaning it does not share data amoung
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
@@ -63,9 +62,10 @@ namespace esapi
     // class fails to initialize its lock for thread safe operations.
     explicit SecureRandom() throw(EncryptionException);
 
-    // Create an instance PRNG with a seed. Throws an EncryptionException if
+    // Create an instance PRNG with a seed. Throws an InvalidArgumentException
+    // if the arguments are not valid and an EncryptionException if
     // the class fails to initialize its lock for thread safe operations.
-    explicit SecureRandom(const byte* seed, size_t size) throw(EncryptionException);
+    explicit SecureRandom(const byte* seed, size_t size) throw(InvalidArgumentException, EncryptionException);
 
     // Create an instance PRNG with a seed. Throws an EncryptionException if
     // the class fails to initialize its lock for thread safe operations.
@@ -75,22 +75,23 @@ namespace esapi
     virtual ~SecureRandom() throw();
 
     // Returns the name of the algorithm implemented by this SecureRandom object.
-    virtual const std::string& getAlgorithm() const throw();
+    virtual std::string getAlgorithm() const throw();
 
     // Generates a user-specified number of random bytes. Throws an
-    // EncryptionException if the arguments are not valid or there is
-    // a failure to generate the requested number of bytes.
-    void nextBytes(byte* bytes, size_t size) throw(EncryptionException);   
+    // InvalidArgumentException if the arguments are not valid or and
+    // EncryptionException for a failure to generate the requested
+    // number of bytes.
+    void nextBytes(byte* bytes, size_t size) throw(InvalidArgumentException, EncryptionException);   
 
     // Generates a user-specified number of random bytes. Throws an
     // EncryptionException if the arguments are not valid or there is
     // a failure to generate the requested number of bytes.
     void nextBytes(std::vector<byte>& bytes) throw(EncryptionException);
 
-    // Reseeds this random object. Throws an EncryptionException
-    // if the arguments are not valid or there is a failure
-    // incorporating the entropy.
-    void setSeed(const byte* seed, size_t size) throw(EncryptionException);
+    // Reseeds this random object. Throws an InvalidArgumentException
+    // if the arguments are not valid and EncryptionException if there
+    // is a failure incorporating the entropy.
+    void setSeed(const byte* seed, size_t size) throw(InvalidArgumentException, EncryptionException);
 
     // Reseeds this random object. Throws an EncryptionException
     // if the arguments are not valid or there is a failure

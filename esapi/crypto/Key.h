@@ -18,8 +18,6 @@
 
 #include <string>
 
-ESAPI_MS_NO_WARNING(4251)
-
 /**
  * This abstract base class mimics functionality similar to Java's Key
  * interface for consistency and easier porting from ESAPI for Java.
@@ -32,7 +30,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual const std::string& getAlgorithm() const = 0;
+    virtual std::string getAlgorithm() const = 0;
 
     /**
      * Returns the name of the primary encoding format of this key, or
@@ -41,7 +39,7 @@ namespace esapi
      * data format, if an ASN.1 specification for this key exists. When no
      * encoding exists, a reference to the string "RAW" should be returned.
      */
-    virtual const std::string& getFormat() const = 0;
+    virtual std::string getFormat() const = 0;
 
     /**
      * Returns the key in its primary encoding format, or nullptr
@@ -54,7 +52,7 @@ namespace esapi
 
   private:
     // Ensure compiler never generates this. We have to have it, see
-    // Miscellaneous iten 5 at http://gcc.gnu.org/faq.html.
+    // Miscellaneous item 5 at http://gcc.gnu.org/faq.html.
     // virtual Key& operator=(const Key& rhs);
   };
 
