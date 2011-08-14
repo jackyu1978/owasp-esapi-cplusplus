@@ -31,6 +31,6 @@ using esapi::SecretKey;
 
 BOOST_AUTO_TEST_CASE( VerifySecretKey )
 {
-    BOOST_MESSAGE( "Verifying SecretKey class" );
+  BOOST_MESSAGE( "Verifying SecretKey class" );
 }
 

@@ -33,15 +33,17 @@ using std::string;
 
 // auto_ptr is deprecated in C++0X
 #if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-  using std::unique_ptr;
+using std::unique_ptr;
 # define THE_AUTO_PTR  unique_ptr
 #else
-  using std::auto_ptr;
+using std::auto_ptr;
 # define THE_AUTO_PTR  std::auto_ptr
 #endif
 
+#include <crypto/Key.h>
 #include <crypto/SecretKey.h>
 #include <crypto/KeyGenerator.h>
+using esapi::Key;
 using esapi::SecretKey;
 using esapi::KeyGenerator;
 
@@ -153,6 +155,10 @@ void VerifyKeyGeneration(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes)
     }
 
   BOOST_CHECK_MESSAGE( success, "Failed to generate key after re-init()" );
+
+  // Test base class reference
+  Key& kk = k1;
+  kk = k2;
 }
 
 void VerifyAesKeyGenerator()
