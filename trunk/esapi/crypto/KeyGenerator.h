@@ -19,8 +19,6 @@
 
 #include <string>
 
-ESAPI_MS_NO_WARNING(4251)
-
 namespace esapi
 {
   /**
@@ -41,7 +39,7 @@ namespace esapi
     virtual void init(unsigned int keyBits = DefaultKeySize);
 
     // Return the standard algorithm name.
-    virtual const std::string& getAlgorithm() const;
+    virtual std::string getAlgorithm() const;
 
     // Generate a SecretKey. Must be overriden in derived classes.
     virtual SecretKey generateKey() = 0;
@@ -50,18 +48,18 @@ namespace esapi
     virtual ~KeyGenerator(){ }
 
   protected:
-    // This class calls CreateInstance on a derived class
-    ESAPI_PRIVATE static KeyGenerator* CreateInstance();
+    // This class calls createInstance on a derived class
+    ESAPI_PRIVATE static KeyGenerator* createInstance();
 
     // Called by derived classes in init()
-    ESAPI_PRIVATE void SetKeySize(unsigned int keySize);
+    ESAPI_PRIVATE void setKeySize(unsigned int keySize);
 
     // Called by derived classes to fetch key bytes (not bits)
-    ESAPI_PRIVATE unsigned int GetKeySize() const;
+    ESAPI_PRIVATE unsigned int getKeySize() const;
 
     // Single testing point to ensure init() has been called. Will be
-    // called when the derived class fetches the key size with GetKeySize().
-    ESAPI_PRIVATE void VerifyKeySize() const;
+    // called when the derived class fetches the key size with getKeySize().
+    ESAPI_PRIVATE void verifyKeySize() const;
 
   protected:
     // Not for general consumption
@@ -84,7 +82,7 @@ namespace esapi
   {
     typedef typename MODE < CIPHER >::Encryption ENCRYPTOR;
 
-    // Base class needs access to protected CreateInstance in derived class
+    // Base class needs access to protected createInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
   public:
@@ -100,7 +98,7 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* createInstance(const std::string& algorithm);
 
     // Sad, but true. ENCRYPTOR does not always cough up its name
     ESAPI_PRIVATE explicit BlockCipherGenerator(const std::string& algorithm);
@@ -115,7 +113,7 @@ namespace esapi
   template <class HASH>
   class HashGenerator: public KeyGenerator
   {
-    // Base class needs access to protected CreateInstance in derived class
+    // Base class needs access to protected createInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string& algorithm);
 
   public:
@@ -131,7 +129,7 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* createInstance(const std::string& algorithm);
 
     // Sad, but true. The hash does not always cough up its name
     ESAPI_PRIVATE explicit HashGenerator(const std::string& algorithm);
@@ -143,7 +141,7 @@ namespace esapi
   template <class HASH>
   class HmacGenerator: public KeyGenerator
   {
-    // Base class needs access to protected CreateInstance in derived class
+    // Base class needs access to protected createInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
   public:
@@ -159,7 +157,7 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* createInstance(const std::string& algorithm);
 
     // Sad, but true. The hash does not always cough up its name
     ESAPI_PRIVATE explicit HmacGenerator(const std::string& algorithm);
@@ -171,7 +169,7 @@ namespace esapi
   template <class CIPHER>
   class StreamCipherGenerator: public KeyGenerator
   {
-    // Base class needs access to protected CreateInstance in derived class
+    // Base class needs access to protected createInstance in derived class
     friend KeyGenerator* KeyGenerator::getInstance(const std::string&);
 
   public:
@@ -187,7 +185,7 @@ namespace esapi
 
   protected:
     // Called by base class KeyGenerator::getInstance
-    ESAPI_PRIVATE static KeyGenerator* CreateInstance(const std::string& algorithm);
+    ESAPI_PRIVATE static KeyGenerator* createInstance(const std::string& algorithm);
 
     // Sad, but true. The stream cipher does not always cough up its name
     ESAPI_PRIVATE explicit StreamCipherGenerator(const std::string& algorithm);

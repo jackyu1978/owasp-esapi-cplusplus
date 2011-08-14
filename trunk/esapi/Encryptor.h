@@ -40,7 +40,6 @@ namespace esapi
 	class Encryptor
 	{
 	public:
-		virtual std::string hash(const std::string &, const std::string &) throw (EncryptionException) =0;
 		virtual std::string hash(const std::string &, const std::string &, unsigned int) throw (EncryptionException) =0;
 		virtual CipherText encrypt(const PlainText&) throw (EncryptionException) =0;
 		virtual CipherText encrypt(const SecretKey&, const PlainText&) throw (EncryptionException) =0;
@@ -50,10 +49,14 @@ namespace esapi
 		virtual bool verifySignature(const std::string &, const std::string &) =0;
 		virtual std::string seal(const std::string &, long) throw (IntegrityException) =0;
 		virtual std::string unseal(const std::string &) throw (EncryptionException) =0;
-		virtual bool verifyseal(const std::string &) =0;
+		virtual bool verifySeal(const std::string &) =0;
 		virtual long getRelativeTimeStamp(long) =0;
 		virtual long getTimeStamp() =0;
 
+  protected:
+    explicit Encryptor() {};
+
+  public:
 		virtual ~Encryptor() {};
 	};
 };

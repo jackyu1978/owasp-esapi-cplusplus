@@ -21,8 +21,6 @@ ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/secblock.h>
 ESAPI_MS_WARNING_POP()
 
-ESAPI_MS_NO_WARNING(4251)
-
 /**
  * This class implements functionality similar to Java's SecretKey for
  * consistency and simplifed porting from ESAPI for Java code.
@@ -49,7 +47,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual const std::string& getAlgorithm() const;
+    virtual std::string getAlgorithm() const;
 
     /**
      * Returns the name of the primary encoding format of this key, or
@@ -58,7 +56,7 @@ namespace esapi
      * data format, if an ASN.1 specification for this key exists. When no
      * encoding exists, a reference to the string "RAW" should be returned.
      */
-    virtual const std::string& getFormat() const;
+    virtual std::string getFormat() const;
 
     /**
      * Returns the key in its primary encoding format, or nullptr

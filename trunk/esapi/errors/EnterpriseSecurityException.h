@@ -21,11 +21,6 @@
 #include <stdexcept>
 #include <string>
 
-// http://msdn.microsoft.com/en-us/library/3tdb471s(v=VS.90).aspx
-// http://msdn.microsoft.com/en-us/library/esew7y1w(v=VS.90).aspx
-ESAPI_MS_NO_WARNING(4251)
-ESAPI_MS_NO_WARNING(4275)
-
 namespace esapi {
 
   /**

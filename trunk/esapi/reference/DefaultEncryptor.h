@@ -24,49 +24,21 @@ ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/filters.h>
 ESAPI_MS_WARNING_POP()
 
+// Must be consistent with JavaEncryptor.java.
+// http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
+
 namespace esapi
 {
   class ESAPI_EXPORT DefaultEncryptor : public Encryptor
   {
-    // hashing
-    static std::string hashAlgorithm;   // = "SHA-512";
-    static unsigned int hashIterations; //  = 1024;
+  public:
+
+    static std::string DefaultDigestAlgorithm;
+    static unsigned int DefaultDigestIterations;
 
   public:
-    virtual std::string hash(const std::string &plaintext, const std::string &salt) throw (EncryptionException)
-    {
-      return hash( plaintext, salt, hashIterations );
-    }
 
-    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations) throw (EncryptionException)
-    {
-      std::string encoded;
-
-      /*
-      MessageDigest digest = MessageDigest.getInstance(hashAlgorithm);
-      byte bytes[digest::DIGESTSIZE];
-      try {
-      digest.Update(securityConfiguration().getMasterSalt());
-      digest.Update(salt.getBytes(encoding));
-      digest.Update(plaintext.getBytes(encoding));
-
-      // rehash a number of times to help strengthen weak passwords
-      digest.Final(bytes);
-      for (int i = 0; i < iterations; i++) {
-      digest.Update(bytes);
-      digest.Final(bytes);
-      }
-      CryptoPP::StringSource(bytes, false, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(encoded)));
-
-      } catch (NoSuchAlgorithmException& e) {
-      throw new EncryptionException("Internal error", "Can't find hash algorithm " + hashAlgorithm, e);
-      } catch (UnsupportedEncodingException& ex) {
-      throw new EncryptionException("Internal error", "Can't find encoding for " + encoding, ex);
-      }
-      */
-
-      return std::string();
-    }
+    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations) throw (EncryptionException);
 
     virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException)
     {
@@ -93,6 +65,11 @@ namespace esapi
       return std::string();
     }
 
+    virtual bool verifySignature(const std::string &, const std::string &)
+    {
+      return false;
+    }
+
     virtual std::string seal(const std::string &, long) throw (IntegrityException)
     {
       return std::string();
@@ -103,7 +80,7 @@ namespace esapi
       return std::string();
     }
 
-    virtual bool verifyseal(const std::string &)
+    virtual bool verifySeal(const std::string &)
     {
       return false;
     }
@@ -117,6 +94,11 @@ namespace esapi
     {
       return 0;
     }
+
+    // CTORs and DTORs are very important for MS DLLs
+  public:
+    DefaultEncryptor() { }  
+    virtual ~DefaultEncryptor() { }
 
   };
 } // NAMESPACE

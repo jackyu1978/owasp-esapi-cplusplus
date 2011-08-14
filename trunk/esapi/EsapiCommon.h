@@ -232,21 +232,30 @@ typedef unsigned char byte;
 # define ESAPI_MS_WARNING_POP() 
 #endif
 
-// Kill warning on non-standard template extension from Crypto++
+// Kill MS warning on non-standard template extension from Crypto++
 ESAPI_MS_NO_WARNING(4231)
-// Knock out the MS Warning about ignoring exception lists
+// STL gear needs to have dll-interface to be used by clients
+//   http://msdn.microsoft.com/en-us/library/3tdb471s(v=VS.90).aspx
+//   http://msdn.microsoft.com/en-us/library/esew7y1w(v=VS.90).aspx
+ESAPI_MS_NO_WARNING(4251)
+ESAPI_MS_NO_WARNING(4275)
+// Knock out the MS Warning about CXX ignoring exception lists
 ESAPI_MS_NO_WARNING(4290)
 
 #if defined(ESAPI_CXX_MSVC)
-# ifdef ESAPI_MS_DLL_EXPORTS
+# if defined ESAPI_MS_DLL_EXPORTS
 #  define ESAPI_EXPORT __declspec(dllexport)
-# else
+#  define ESAPI_PRIVATE
+# elif defined ESAPI_MS_DLL_IMPORTS
 #  define ESAPI_EXPORT __declspec(dllimport)
-# endif
-# define ESAPI_PRIVATE
-#elif defined(ESAPI_CXX_ICC)
+#  define ESAPI_PRIVATE
+# else
 #  define ESAPI_EXPORT
 #  define ESAPI_PRIVATE
+# endif
+#elif defined(ESAPI_CXX_ICC)
+# define ESAPI_EXPORT
+# define ESAPI_PRIVATE
 #elif defined(ESAPI_CXX_GCC)
 # if (__GNUC__ >= 4)
 #  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
@@ -255,4 +264,5 @@ ESAPI_MS_NO_WARNING(4290)
 #  define ESAPI_EXPORT
 #  define ESAPI_PRIVATE
 # endif
+# define ESAPI_NO_VTABLE
 #endif

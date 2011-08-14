@@ -15,6 +15,7 @@
 #include "EsapiCommon.h"
 #include "crypto/SecureRandom.h"
 #include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
 
@@ -46,7 +47,7 @@ namespace esapi
 
   // Create an instance PRNG with a seed.
   SecureRandom::SecureRandom(const byte* seed, size_t size)
-    throw(EncryptionException)
+    throw(InvalidArgumentException, EncryptionException)
   {
     ASSERT(seed);
     ASSERT(size);
@@ -67,14 +68,15 @@ namespace esapi
   }
 
   // Returns the name of the algorithm implemented by this SecureRandom object.
-  const std::string& SecureRandom::getAlgorithm() const throw()
+  std::string SecureRandom::getAlgorithm() const throw()
   {
     ASSERT(!g_name.empty());
     return g_name;
   }
 
   // Generates a user-specified number of random bytes.
-  void SecureRandom::nextBytes(byte* bytes, size_t size) throw(EncryptionException)
+  void SecureRandom::nextBytes(byte* bytes, size_t size)
+    throw(InvalidArgumentException, EncryptionException)
   {
     ASSERT(bytes);
     ASSERT(size);
@@ -83,7 +85,7 @@ namespace esapi
       return;
 
     if(!bytes)
-      throw EncryptionException("The byte array or size is not valid.");    
+      throw InvalidArgumentException("The byte array or size is not valid.");
 
     try
     {
@@ -99,7 +101,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + ex.what());
+      throw EncryptionException(std::string("Internal error: ") + ex.what());
     }
   }
 
@@ -112,7 +114,8 @@ namespace esapi
   }
 
   // Reseeds this random object.
-  void SecureRandom::setSeed(const byte* seed, size_t size) throw(EncryptionException)
+  void SecureRandom::setSeed(const byte* seed, size_t size)
+    throw(InvalidArgumentException, EncryptionException)
   {
     ASSERT(seed);
     ASSERT(size);
@@ -121,7 +124,7 @@ namespace esapi
       return;
 
     if(!seed)
-      throw EncryptionException("The seed array or size is not valid.");    
+      throw InvalidArgumentException("The seed array or size is not valid.");
 
     try
     {
@@ -137,7 +140,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(std::string("Crypto++ internal error: ") + ex.what());
+      throw EncryptionException(std::string("Internal error: ") + ex.what());
     }
   }
 
@@ -160,7 +163,7 @@ namespace esapi
   // Standard destructor.
   SecureRandom::~SecureRandom()
   {
-    DeleteCriticalSection(&m_lock); 
+    DeleteCriticalSection(&m_lock);
   }
 
   // Initialize the lock for the PRNG
@@ -187,7 +190,7 @@ namespace esapi
     LeaveCriticalSection(&mm_lock);
   }
 
-#elif defined(ESAPI_OS_STARNIX) // ESAPI_OS_WINDOWS
+#elif defined(ESAPI_OS_STARNIX)// ESAPI_OS_WINDOWS
 
   // Standard destructor.
   SecureRandom::~SecureRandom() throw()
