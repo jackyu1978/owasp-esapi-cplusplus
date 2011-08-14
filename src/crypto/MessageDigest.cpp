@@ -94,7 +94,7 @@ namespace esapi
   }
 
   // Default implementation for derived classes which do nothing
-  std::string MessageDigest::getAlgorithm() const
+  std::string MessageDigest::getAlgorithm() const throw()
   {
     return m_algorithm;
   }

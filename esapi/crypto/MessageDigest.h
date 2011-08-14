@@ -30,10 +30,10 @@ namespace esapi
     static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm) throw(InvalidArgumentException);
 
     // Standard name of the hash
-    virtual std::string getAlgorithm() const;
+    virtual std::string getAlgorithm() const throw();
 
     // Digest size
-    virtual unsigned int getDigestLength() const = 0;
+    virtual unsigned int getDigestLength() const throw() = 0;
 
     // Resets the digest
     virtual void reset() = 0;
@@ -76,7 +76,7 @@ namespace esapi
     /**
     * Returns the length of the digest in bytes.
     */
-    virtual unsigned int getDigestLength() const { return m_hash.DigestSize(); }
+    virtual unsigned int getDigestLength() const throw() { return m_hash.DigestSize(); }
 
     /**
     * Resets the digest for further use.
