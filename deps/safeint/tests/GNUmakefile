@@ -55,7 +55,7 @@ CXX = g++
 
 # Pick Debug or Release
 # CXXFLAGS = -DDEBUG=1 -g3 -ggdb -O0
-CXXFLAGS = -DNDEBUG=1 -g -O2
+CXXFLAGS += -DNDEBUG=1 -g -O2
 
 # Painting with a broad brush, unsigned negation is bad becuase the bit pattern is negated,
 # but the type remains the same. So an positive integer is never transformed into a negative
@@ -63,14 +63,14 @@ CXXFLAGS = -DNDEBUG=1 -g -O2
 CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 EGREP = egrep
-INCLUDES = -I../.
+INCLUDES += -I./. -I../.
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
 
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-9])")
-GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
+GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[4-9]|[5-9])")
 
 ifneq ($(INTEL_COMPILER),0)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
@@ -85,11 +85,14 @@ ifneq ($(GCC43_OR_LATER),0)
   CXXFLAGS += -Wall -Wextra -Wno-type-limits -Wno-unused
 endif
 
-# For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
-ifneq ($(GCC46_OR_LATER),0)
+# For nullptr and unique_ptr - see http://gcc.gnu.org/projects/cxx0x.html
+ifneq ($(GCC44_OR_LATER),0)
 # Commented out until the tables are fixed. See comment that follows.
 #  CXXFLAGS += -std=c++0x
 endif
+
+# GCC 4.4.3 on Ubuntu is nt adding the includes????
+CXXFLAGS += $(INCLUDES)
 
 #According to Jonathan Wakely over at GCC list, -std=c++0x and
 #-fpermissive are an odd combination. See "Question on GCC 4.6 and
@@ -107,15 +110,15 @@ endif
 RUNTIME_SRCS = IncDecVerify.cpp AddVerify.cpp SubVerify.cpp MultVerify.cpp DivVerify.cpp ModVerify.cpp NegVerify.cpp PtrVerify.cpp
 RUNTIME_OBJS = $(RUNTIME_SRCS:.cpp=.o)
 
-test check: TestMain.exe
+all: TestMain.exe
 	-./TestMain.exe
 
-all: TestMain.exe
+test check: TestMain.exe
 	-./TestMain.exe
 
 # TestMain.cpp is a run time test
 TestMain.exe: SafeInt3.hpp TestMain.cpp $(RUNTIME_OBJS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) TestMain.cpp $(RUNTIME_OBJS) -o $@
+	$(CXX) $(CXXFLAGS) TestMain.cpp $(RUNTIME_OBJS) -o $@
 
 SafeInt3.hpp: ;
 
