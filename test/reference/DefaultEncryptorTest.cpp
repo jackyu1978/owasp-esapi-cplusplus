@@ -1,16 +1,16 @@
 /*
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-* @author David Anderson, david.anderson@aspectsecurity.com
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ * @author David Anderson, david.anderson@aspectsecurity.com
+ */
 
 #include <iostream>
 using std::cout;
@@ -37,10 +37,8 @@ using esapi::InvalidArgumentException;
 
 // auto_ptr is deprecated in C++0X
 #if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-using std::unique_ptr;
-# define THE_AUTO_PTR  unique_ptr
+# define THE_AUTO_PTR  std::unique_ptr
 #else
-using std::auto_ptr;
 # define THE_AUTO_PTR  std::auto_ptr
 #endif
 
@@ -96,26 +94,26 @@ void VerifyHash1()
   bool success = false;
 
   try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
 
-    const string expected = "KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
-    success = (encoded == expected);
+      const string expected = "KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
+      success = (encoded == expected);
 
-  }
+    }
   catch(InvalidArgumentException&)
-  {
-    BOOST_ERROR("Caught InvalidArgumentException");
-  }
+    {
+      BOOST_ERROR("Caught InvalidArgumentException");
+    }
   catch(EncryptionException&)
-  {
-    BOOST_ERROR("Caught EncryptionException");
-  }
+    {
+      BOOST_ERROR("Caught EncryptionException");
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
@@ -130,30 +128,31 @@ void VerifyHash2()
   bool success = false;
 
   try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
 
-    const string expected = "dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
+      const string expected = "dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
 
-    success = (encoded == expected);
+      success = (encoded == expected);
 
-  }
+    }
   catch(InvalidArgumentException&)
-  {
-    BOOST_ERROR("Caught InvalidArgumentException");
-  }
+    {
+      BOOST_ERROR("Caught InvalidArgumentException");
+    }
   catch(EncryptionException&)
-  {
-    BOOST_ERROR("Caught EncryptionException");
-  }
+    {
+      BOOST_ERROR("Caught EncryptionException");
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
+
 void VerifyHash3()
 {
   // String data
@@ -161,26 +160,26 @@ void VerifyHash3()
   bool success = false;
 
   try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
 
-    const string expected = "0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
-    success = (encoded == expected);
+      const string expected = "0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
+      success = (encoded == expected);
 
-  }
+    }
   catch(InvalidArgumentException&)
-  {
-    BOOST_ERROR("Caught InvalidArgumentException");
-  }
+    {
+      BOOST_ERROR("Caught InvalidArgumentException");
+    }
   catch(EncryptionException&)
-  {
-    BOOST_ERROR("Caught EncryptionException");
-  }
+    {
+      BOOST_ERROR("Caught EncryptionException");
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
@@ -192,26 +191,26 @@ void VerifyHash4()
   bool success = false;
 
   try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
 
-    const string expected = "l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
-    success = (encoded == expected);
+      const string expected = "l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
+      success = (encoded == expected);
 
-  }
+    }
   catch(InvalidArgumentException&)
-  {
-    BOOST_ERROR("Caught InvalidArgumentException");
-  }
+    {
+      BOOST_ERROR("Caught InvalidArgumentException");
+    }
   catch(EncryptionException&)
-  {
-    BOOST_ERROR("Caught EncryptionException");
-  }
+    {
+      BOOST_ERROR("Caught EncryptionException");
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
@@ -223,26 +222,26 @@ void VerifyHash5()
   bool success = false;
 
   try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
 
-    const string expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
-    success = (encoded == expected);
+      const string expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
+      success = (encoded == expected);
 
-  }
+    }
   catch(InvalidArgumentException&)
-  {
-    BOOST_ERROR("Caught InvalidArgumentException");
-  }
+    {
+      BOOST_ERROR("Caught InvalidArgumentException");
+    }
   catch(EncryptionException&)
-  {
-    BOOST_ERROR("Caught EncryptionException");
-  }
+    {
+      BOOST_ERROR("Caught EncryptionException");
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
 }
