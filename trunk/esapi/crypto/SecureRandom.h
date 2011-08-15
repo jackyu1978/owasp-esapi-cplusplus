@@ -145,10 +145,6 @@ namespace esapi
     // An instance PRNG
     CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;    
 
-    // A global PRNG
-    ESAPI_PRIVATE static SecureRandom g_prng;
-    ESAPI_PRIVATE static std::string g_name; // Crypto++ `prng` returns "unknown"
-
     // Crypto++ is MT safe at the class level, meaning it does not share data amoung
     // instances. If a Global PRNG is provided, we must take care to ensure only one 
     // thread is operating on it at a time since there's only one set of data within

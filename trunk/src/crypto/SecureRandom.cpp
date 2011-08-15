@@ -29,14 +29,11 @@
 */
 namespace esapi
 {
-  // Allocate storage
-  SecureRandom SecureRandom::g_prng;
-  std::string SecureRandom::g_name = "X9.31/AES";
-
   // Retrieve a reference to the global PRNG.
   SecureRandom& SecureRandom::GlobalSecureRandom() throw()
   {
-    return g_prng;
+    static SecureRandom s_prng;
+    return s_prng;
   }
 
   // Create an instance PRNG.
@@ -70,8 +67,7 @@ namespace esapi
   // Returns the name of the algorithm implemented by this SecureRandom object.
   std::string SecureRandom::getAlgorithm() const throw()
   {
-    ASSERT(!g_name.empty());
-    return g_name;
+    return "X9.31/AES";
   }
 
   // Generates a user-specified number of random bytes.
