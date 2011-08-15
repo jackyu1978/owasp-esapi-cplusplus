@@ -91,7 +91,7 @@ ifneq ($(GCC44_OR_LATER),0)
 #  CXXFLAGS += -std=c++0x
 endif
 
-# GCC 4.4.3 on Ubuntu is nt adding the includes????
+# GCC 4.4.3 on Ubuntu 10/Xfce is not adding the includes????
 CXXFLAGS += $(INCLUDES)
 
 #According to Jonathan Wakely over at GCC list, -std=c++0x and
