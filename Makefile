@@ -226,7 +226,7 @@ release: all
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) ${LIBOBJS} $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
