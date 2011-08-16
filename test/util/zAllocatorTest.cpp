@@ -190,6 +190,7 @@ void VerifyListAllocation()
     {
       success = false;
       std::list< int, zallocator<int> > ll;
+
       ll.push_front(1);
       ll.push_front(2);
       ll.push_front(3);
@@ -210,8 +211,11 @@ void VerifyListAllocation()
     }
   BOOST_CHECK_MESSAGE(success, "Failed to compare lists");
 
+  try
+    {
       success = true;
       std::list< int, zallocator<int> > ll;
+
       ll.push_front(1);
       ll.push_front(2);
 
@@ -222,6 +226,21 @@ void VerifyListAllocation()
       it = ll.begin();
       
       success |= (*it == 2);
+
+      it = ll.end();
+      success |= (*(--it) == 2);
+
+      ll.erase(it);
+      success |= (ll.size() == 0);
+    }
+  catch(std::exception&)
+    {
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to compare lists");
 }
 
 void VerifySecureByteArray()
