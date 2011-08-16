@@ -1,38 +1,127 @@
-//#define BOOST_TEST_MODULE MyTest
-//#define BOOST_TEST_NO_LIB
-//#include "boost/test/unit_test.hpp"
-
 /*
-int add( int i, int j ) { return i+j; }
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Dan Amodio, dan.amodio@aspectsecurity.com
+ */
 
-BOOST_AUTO_TEST_CASE( my_test )
+#include <iostream>
+
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
+
+#include "EsapiCommon.h"
+#include <codecs/PushbackString.h>
+
+#include <string>
+
+
+using esapi::PushbackString;
+
+BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 {
-    // seven ways to detect and report the same error:
-    BOOST_CHECK( add( 2,2 ) == 4 );        // #1 continues on error
+  PushbackString pbs("asdf");
 
-    BOOST_REQUIRE( add( 2,2 ) == 4 );      // #2 throws on error
+  BOOST_CHECK(pbs.index() == 0);
+  BOOST_CHECK(pbs.input.compare("asdf") == 0);
+  BOOST_CHECK(pbs.hasNext());
 
-    if( add( 2,2 ) != 4 )
-      BOOST_ERROR( "Ouch..." );            // #3 continues on error
-
-    if( add( 2,2 ) != 4 )
-      BOOST_FAIL( "Ouch..." );             // #4 throws on error
-
-    if( add( 2,2 ) != 4 ) throw "Ouch..."; // #5 throws on error
-
-    BOOST_CHECK_MESSAGE( add( 2,2 ) == 4,  // #6 continues on error
-                         "add(..) result: " << add( 2,2 ) );
-
-    BOOST_CHECK_EQUAL( add( 2,2 ), 4 );   // #7 continues on error
+  pbs.input = "";
+  BOOST_CHECK(pbs.hasNext() == false);
 }
-*/
 
-/*
-#include <stdio.h>
-
-int main()
+BOOST_AUTO_TEST_CASE( PushbackStringNext )
 {
-        printf ("This test has not been created yet.\n");
-    return 0;
-}*/
+  PushbackString pbs("asdf");
 
+  char next = pbs.next();
+
+  BOOST_CHECK_MESSAGE(next == 'a', "On string 'asdf' next() returned '" << next << "'");
+  BOOST_CHECK(next != 0);
+
+  pbs.pushback('x');
+  next = pbs.next();
+  BOOST_CHECK(next != 0);
+  BOOST_CHECK(next != 'a');
+  BOOST_CHECK(next == 'x');
+
+  next = pbs.next();
+  BOOST_CHECK(next == 's');
+
+  next = pbs.next();
+  BOOST_CHECK(next == 'd');
+
+  next = pbs.next();
+  BOOST_CHECK(next == 'f');
+
+  next = pbs.next();
+  BOOST_CHECK(next == 0);
+
+  next = pbs.next();
+  BOOST_CHECK(next == 0);
+
+}
+
+BOOST_AUTO_TEST_CASE( PushbackStringIsHexDigit )
+{
+  PushbackString pbs("asdf");
+
+  BOOST_CHECK(pbs.isHexDigit('a'));
+  BOOST_CHECK(pbs.isHexDigit('f'));
+  BOOST_CHECK(pbs.isHexDigit('3'));
+  BOOST_CHECK(pbs.isHexDigit('E'));
+  BOOST_CHECK(!pbs.isHexDigit('l'));
+  BOOST_CHECK(!pbs.isHexDigit('P'));
+  BOOST_CHECK(!pbs.isHexDigit('#'));
+}
+
+BOOST_AUTO_TEST_CASE( PushbackStringIsOctalDigit )
+{
+  PushbackString pbs("asdf");
+
+  BOOST_CHECK(pbs.isOctalDigit('1'));
+  BOOST_CHECK(pbs.isOctalDigit('7'));
+  BOOST_CHECK(!pbs.isOctalDigit('9'));
+  BOOST_CHECK(!pbs.isOctalDigit('b'));
+}
+
+BOOST_AUTO_TEST_CASE( PushbackStringNextHex )
+{
+  PushbackString pbs("asdf");
+
+  char next = pbs.nextHex();
+  BOOST_CHECK(next == 0x61);
+  BOOST_CHECK(next == 'a');
+  BOOST_CHECK(next != 0);
+
+  next = pbs.nextHex();
+
+  // s is not hex
+  BOOST_CHECK(next == 0);
+}
+
+BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
+{
+  PushbackString pbs("141");
+
+  char next = pbs.nextOctal();
+  BOOST_CHECK_MESSAGE(next == '1', "nextOctal() on 'asdf' returned '" << next << "'");
+  BOOST_CHECK(next != 0);
+
+  pbs.input = "9999";
+  next = pbs.nextOctal();
+  BOOST_CHECK(next == 0);
+}
+
+BOOST_AUTO_TEST_CASE( PushbackStringTest )
+{
+  PushbackString pbs("asdf");
+
+  BOOST_CHECK(true);
+}
