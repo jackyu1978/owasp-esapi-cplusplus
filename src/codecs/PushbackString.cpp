@@ -34,7 +34,7 @@ size_t esapi::PushbackString::index() const{
 
 bool esapi::PushbackString::hasNext() const{
   if ( this->varPushback != 0 ) return true;
-  if ( this->input.compare("") ) return false;
+  if ( this->input.compare("") == 0 ) return false;
   if ( this->input.length() == 0 ) return false;
   if ( this->varIndex >= this->input.length() ) return false;
   return true;
@@ -46,7 +46,7 @@ char esapi::PushbackString::next() {
     this->varPushback = 0;
     return save;
   }
-  if ( this->input.compare("") ) return 0;
+  if ( this->input.compare("") == 0) return 0;
   if ( this->input.length() == 0 ) return 0;
   if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -86,7 +86,7 @@ bool esapi::PushbackString::isOctalDigit( char c ) {
 
 char esapi::PushbackString::peek() const{
   if ( this->varPushback != 0 ) return this->varPushback;
-  if ( this->input.compare("") ) return 0;
+  if ( this->input.compare("") == 0) return 0;
   if ( this->input.length() == 0 ) return 0;
   if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -98,7 +98,7 @@ bool esapi::PushbackString::peek( char c ) const{
   ASSERT(c != 0);
 
   if ( this->varPushback != 0 && this->varPushback == c ) return true;
-  if ( this->input.compare("") ) return false;
+  if ( this->input.compare("") == 0) return false;
   if ( this->input.length() == 0 ) return false;
   if ( this->varIndex >= this->input.length() ) return false;
 
