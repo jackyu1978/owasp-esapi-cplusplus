@@ -730,8 +730,8 @@ template <> class MinMax< true,  16 > { public: const static __int16 min = ( -0x
 const static __int16 max = 0x7fff; };
 template <> class MinMax< true,  32 > { public: const static __int32 min = ( -0x7fffffff -1 ); 
 const static __int32 max = 0x7fffffff; };
-template <> class MinMax< true,  64 > { public: const static __int64 min = 0x8000000000000000;  
-const static __int64 max = 0x7fffffffffffffff; };
+template <> class MinMax< true,  64 > { public: const static __int64 min = 0x8000000000000000LL;  
+const static __int64 max = 0x7fffffffffffffffLL; };
 
 template <> class MinMax< false,  8 > { public: const static unsigned __int8  min = 0;
 const static unsigned __int8  max = 0xff; };
@@ -740,7 +740,7 @@ const static unsigned __int16 max = 0xffff; };
 template <> class MinMax< false, 32 > { public: const static unsigned __int32 min = 0;  
 const static unsigned __int32 max = 0xffffffff; };
 template <> class MinMax< false, 64 > { public: const static unsigned __int64 min = 0;
-const static unsigned __int64 max = 0xffffffffffffffff; };
+const static unsigned __int64 max = 0xffffffffffffffffULL; };
 
 template < typename T > class IntTraits
 {
