@@ -23,6 +23,11 @@
 #include <cstddef>
 #include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
+
+// Zeroizing allocator used with SecureByteArray and SecureIntArray below
+#include "util/zAllocator.h"
 
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
@@ -268,4 +273,10 @@ ESAPI_MS_NO_WARNING(4290)
 # endif
 # define ESAPI_NO_VTABLE
 #endif
+
+namespace esapi {
+  // Value added typedefs. zallocator comes from util/zAllocator.h.
+  typedef std::vector< byte, esapi::zallocator<byte> > SecureByteArray;
+  typedef std::vector< int, esapi::zallocator<int> > SecureIntArray;
+}
 

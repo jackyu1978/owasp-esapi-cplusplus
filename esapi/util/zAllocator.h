@@ -12,11 +12,12 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
+#pragma once
+
 #include "EsapiCommon.h"
 
-#include <new>
-#include <string>
-#include <vector>
+#include <cstring>
+#include <limits>
 
 // For problems with the allocator, ask on the GCC mailing list.
 // For problems with _Alloc_hider, see http://gcc.gnu.org/ml/gcc-help/2011-08/msg00199.html.
@@ -95,10 +96,5 @@ namespace esapi
   // Storage and intialization
   template <class T>
   volatile void* zallocator<T>::g_dummy = NULL;
-
-  // Value added typedefs
-  typedef std::basic_string< char, std::char_traits<char>, zallocator<char> > SecureString;
-  typedef std::vector< byte, zallocator<byte> > SecureByteArray;
-  typedef std::vector< int, zallocator<int> > SecureIntArray;
 
 } // esapi
