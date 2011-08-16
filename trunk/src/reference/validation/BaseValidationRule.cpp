@@ -26,13 +26,14 @@ esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName) {
 }
 
 
-esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, Encoder &encoder)
+esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, Encoder &newEncoder)
 {
 	//this();
 	allowNull = false;
 	typeName = "";
 
-	setEncoder( encoder );
+	//setEncoder( encoder );
+	this->encoder = &newEncoder;
 
 	typeName = newTypeName;
 }

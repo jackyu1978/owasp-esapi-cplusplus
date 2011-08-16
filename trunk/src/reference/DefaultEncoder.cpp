@@ -39,7 +39,7 @@ esapi::DefaultEncoder::DefaultEncoder() {
 }
 
 esapi::Encoder* esapi::DefaultEncoder::getInstance() {
-	Encoder* enc;
+	Encoder* enc = NULL;
 	return enc;
 }
 
