@@ -11,6 +11,7 @@
 
 #include "reference/validation/BaseValidationRule.h"
 #include <exception>
+#include "Encoder.h"
 
 
 esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName) {
@@ -31,7 +32,7 @@ esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, E
 	allowNull = false;
 	typeName = "";
 
-	// TODO //setEncoder( encoder );
+	setEncoder( encoder );
 
 	typeName = newTypeName;
 }

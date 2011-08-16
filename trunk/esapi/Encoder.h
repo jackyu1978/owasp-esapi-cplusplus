@@ -272,7 +272,7 @@ public:
 	 *
 	 * @return input encoded for use in SQL
 	 */
-	virtual std::string encodeForSQL(Codec*, const std::string &) =0;
+	virtual std::string encodeForSQL(const Codec &, const std::string &) =0;
 
     /**
      * Encode for an operating system command shell according to the selected codec (appropriate codecs include the WindowsCodec and UnixCodec).
@@ -292,7 +292,7 @@ public:
      *
      * @return input encoded for use in command shell
      */
-	virtual std::string encodeForOS(Codec*, const std::string &) =0;
+	virtual std::string encodeForOS(const Codec &, const std::string &) =0;
 
 	/**
 	 * Encode data for use in LDAP queries.
