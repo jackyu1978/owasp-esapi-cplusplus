@@ -6,19 +6,19 @@ This is a roadmap for the ESAPI C++ API
 
 = Summary =
 || *Category* || *State* || *Lead* ||
-|| *Core* || Unfinished ||  ||
-|| *Authenticator* || Unfinished ||  ||
-|| *User* || Unfinished ||  ||
-|| *AccessController* || Unfinished ||  ||
-|| *AccessReferenceMap* || Unfinished ||  ||
-|| *Validation* || Unfinished || Dan Amodio ||
-|| *Encoding* || Unfinished ||  Dan Amodio ||
-|| *Encryptor* || Unfinished || ||
-|| *EncryptedProperties* || Unfinished ||  ||
-|| *Randomizer* || Unfinished ||  ||
-|| *ExceptionHandling* || Unfinished ||  ||
-|| *Logger* || Unfinished ||  ||
-|| *SecurityConfiguration* || Unfinished ||  ||
+|| *Core* || --% ||  ||
+|| *Authenticator* || --% ||  ||
+|| *User* || --% ||  ||
+|| *AccessController* || --% ||  ||
+|| *AccessReferenceMap* || --% || David Anderson ||
+|| *Validation* || --% || Dan Amodio ||
+|| *Encoding* || --% ||  Dan Amodio ||
+|| *Encryptor* || --% || Jeffery Walton ||
+|| *EncryptedProperties* || --% ||  ||
+|| *Randomizer* || --% ||  ||
+|| *ExceptionHandling* || --% ||  ||
+|| *Logger* || --% || David Anderson ||
+|| *SecurityConfiguration* || --% ||  ||
 
 = Roadmap =
 Dates?
@@ -27,6 +27,7 @@ Dates?
 == Core ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
 || ESAPI ||  ||  ||  ||  ||  ||
+|| EsapiCommon || X || X ||  ||  || Jeffery Walton ||
 || Executor || X ||  ||  ||  ||  ||
 
 ----
@@ -70,7 +71,7 @@ Dates?
 || Encoder || X || X ||  ||  || Dan Amodio ||
 || EncoderConstants || X || X ||  ||  || Dan Amodio ||
 || DefaultEncoder ||  ||  ||  ||  || Dan Amodio ||
-|| Codec || X || X ||  ||  || Dan Amodio ||
+|| Codec || X || X || X ||  || Dan Amodio ||
 
 === Codecs ===
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
@@ -79,8 +80,17 @@ Dates?
 ----
 == Encryptor ==
 || *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| Encryptor || X ||  ||  ||  ||  ||
-|| CryptoppEncryptor || X ||  ||  ||  ||  ||
+|| Encryptor || X ||  ||  ||  || Jeffery Walton ||
+|| CipherText || X ||  ||  ||  || Jeffery Walton ||
+|| CryptoHelper || X || X || X ||  || Jeffery Walton ||
+|| Key || X ||  ||  ||  || Jeffery Walton ||
+|| KeyDerivationFunction || X || X || X ||  || Jeffery Walton ||
+|| KeyGenerator || X || X || X ||  || Jeffery Walton ||
+|| MessageDigest || X || X || X ||  || Jeffery Walton ||
+|| PlainText || X ||  ||  ||  || Jeffery Walton ||
+|| SecretKey || X ||  ||  ||  || Jeffery Walton ||
+|| SecureRandom || X || X || X ||  || Jeffery Walton ||
+|| DefaultEncryptor || X ||  ||  ||  || Jeffery Walton ||
 
 ----
 == EncryptedProperties ==
