@@ -26,7 +26,7 @@ namespace esapi
   {
     public:
 
-      typedef typename std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > ThisBase;
+      typedef std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > ThisBase;
 
       // Construction
       SecureString();
