@@ -144,7 +144,7 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/RandomAccessReferenceMap.cpp \
 			src/reference/validation/BaseValidationRule.cpp
 
-# UTILSRCS = 	src/util/
+UTILSRCS =	src/util/SecureString.cpp
 
 LIBSRCS =	$(ROOTSRCS) \
 			$(CODECSRCS) \
@@ -166,7 +166,9 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp \
 			test/errors/ValidationExceptionTest.cpp \
 			test/reference/DefaultEncryptorTest.cpp \
-			test/util/zAllocatorTest.cpp
+			test/util/zAllocatorTest.cpp \
+			test/util/SecureStringTest1.cpp \
+			test/util/SecureStringTest2.cpp
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
