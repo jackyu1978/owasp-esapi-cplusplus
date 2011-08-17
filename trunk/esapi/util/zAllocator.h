@@ -16,6 +16,7 @@
 
 #include "EsapiCommon.h"
 
+#include <memory>
 #include <cstring>
 #include <limits>
 
