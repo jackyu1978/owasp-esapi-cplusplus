@@ -121,7 +121,8 @@ ROOTSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp
 
 CODECSRCS =	src/codecs/Codec.cpp \
-			src/codecs/PushbackString.cpp
+			src/codecs/PushbackString.cpp \
+			src/codecs/HTMLEntityCodec.cpp
 
 CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/CipherText.cpp \
