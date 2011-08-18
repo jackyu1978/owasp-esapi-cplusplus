@@ -39,7 +39,6 @@ namespace esapi
     ASSERT(!algorithm.empty());
 
     std::string alg = algorithm;
-    std::string::size_type pos;
 
     // Cut out whitespace
     std::string::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
