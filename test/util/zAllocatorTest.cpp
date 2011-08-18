@@ -447,12 +447,10 @@ void VerifySecureByteArray()
       SecureByteArray vv;
       vv.push_back(1);
       vv.push_back(2);
-      vv.push_back(3);
-      vv.push_back(4);
 
       std::vector< byte > uu;
-      uu.push_back(1);
       uu.push_back(2);
+      uu.push_back(1);
 
       success = !equal(vv.begin(), vv.end(), uu.begin());
     }
@@ -672,10 +670,8 @@ void VerifySecureIntArray()
       success = false;
 
       SecureIntArray vv;
-      vv.push_back(1);
       vv.push_back(2);
-      vv.push_back(3);
-      vv.push_back(4);
+      vv.push_back(1);
 
       std::vector< byte > uu;
       uu.push_back(1);
