@@ -251,6 +251,9 @@ err error: $(ERROBJS)
 # Test compile reference sources, no final link
 ref reference: $(REFOBJS)
 
+# Test compile reference sources, no final link
+util: $(UTILOBJS)
+
 static: $(STATIC_LIB)
 
 dynamic: $(DYNAMIC_LIB)
