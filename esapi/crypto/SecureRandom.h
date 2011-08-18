@@ -1,20 +1,21 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #pragma once
 
 #include "EsapiCommon.h"
+#include "util/Mutex.h"
 #include "crypto/SecretKey.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -32,26 +33,14 @@ ESAPI_MS_WARNING_POP()
 // instances. If a Global PRNG is provided, we must take care to ensure only one 
 // thread is operating on it at a time since there's only one set of data within
 // the class (ie, there is no thread local storage). To date, we only support
-// Windows, Linux, and Apple.
-#if !defined(ESAPI_OS_WINDOWS) && !defined(ESAPI_OS_STARNIX)
-# error "Unsupported operating system platform"
-#endif
-
-#if defined(ESAPI_OS_WINDOWS)
-# include <windows.h>
-#endif
-
-#if defined(ESAPI_OS_STARNIX)
-# include <pthread.h>
-# include <errno.h>
-#endif
+// Windows, Linux, and Apple due to Mutex and MutexAutoLock.
 
 namespace esapi
 {
   /**
-  * This class implements functionality similar to Java's SecureRandom for consistency
-  * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
-  */
+   * This class implements functionality similar to Java's SecureRandom for consistency
+   * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
+   */
   class ESAPI_EXPORT SecureRandom
   {
   public:
@@ -105,57 +94,17 @@ namespace esapi
 
   protected:
 
-    // Initialize the lock for the PRNG. Throws an
-    // EncryptionException if there is a failure initializing
-    // the lock
-    ESAPI_PRIVATE inline void InitializeLock() const throw(EncryptionException);
-
-    class ESAPI_PRIVATE AutoLock
-    {
-#if defined(ESAPI_OS_WINDOWS)
-    public:
-      // Acquires the lock during construction.  Throws an
-      // EncryptionException if there is a failure acquiring
-      // the lock
-      explicit AutoLock(CRITICAL_SECTION& cs) throw(EncryptionException);
-      // Release the lock during destruction.  Throws an
-      // EncryptionException if there is a failure releasing
-      // the lock
-      virtual ~AutoLock() throw(EncryptionException);
-    private:
-      CRITICAL_SECTION& mm_lock;
-    private:
-      AutoLock& operator=(const AutoLock&) { /** hidden */ }
-#elif defined(ESAPI_OS_STARNIX)
-    public:
-      // Acquires the lock during construction.  Throws an
-      // EncryptionException if there is a failure acquiring
-      // the lock
-      explicit AutoLock(pthread_mutex_t& mtx) throw(EncryptionException);
-      // Release the lock during destruction.  Throws an
-      // EncryptionException if there is a failure releasing
-      // the lock
-      virtual ~AutoLock() throw(EncryptionException);
-    private:
-      pthread_mutex_t& mm_lock;
-#endif        
-    };
-
-  private:
-    // An instance PRNG
-    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;    
-
     // Crypto++ is MT safe at the class level, meaning it does not share data amoung
     // instances. If a Global PRNG is provided, we must take care to ensure only one 
     // thread is operating on it at a time since there's only one set of data within
     // the class (ie, there is no thread local storage). To date, we only support
-    // Windows, Linux, and Apple.
-#if defined(ESAPI_OS_WINDOWS)
-    mutable CRITICAL_SECTION m_lock;
-#elif defined(ESAPI_OS_STARNIX)
-    mutable pthread_mutex_t m_lock;
-#endif
+    // Windows, Linux, and Apple due to Mutex and MutexAutoLock.
 
+    // An instance PRNG used as a seeder
+    CryptoPP::AutoSeededX917RNG<CryptoPP::AES> prng;   
+
+    // Lock for using our PRNG and the Crypto++ PRNG
+    Mutex m_mutex;
   };
 
 }; // NAMESPACE esapi

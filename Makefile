@@ -144,7 +144,8 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/RandomAccessReferenceMap.cpp \
 			src/reference/validation/BaseValidationRule.cpp
 
-UTILSRCS =	src/util/SecureString.cpp
+UTILSRCS =	src/util/SecureString.cpp \
+			src/util/Mutex.cpp
 
 LIBSRCS =	$(ROOTSRCS) \
 			$(CODECSRCS) \

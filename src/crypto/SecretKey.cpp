@@ -108,8 +108,8 @@ namespace esapi
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
-			  new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-			  );
+                          new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+                          );
 
     return (os << hex);
   }
