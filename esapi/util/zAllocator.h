@@ -54,8 +54,9 @@ namespace esapi
       inline ~zallocator() { }
       inline zallocator(zallocator const&) { }
 
+      // Dropped explicit. See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50118
       template<typename U>
-      inline explicit zallocator(zallocator<U> const&) { }
+      inline zallocator(zallocator<U> const&) { }
 
       // address
       inline pointer address(reference r) { return &r; }
