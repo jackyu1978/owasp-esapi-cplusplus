@@ -19,6 +19,7 @@
 #include <string>
 #include <map>
 
+#include "EsapiCommon.h"
 #include "util/Mutex.h"
 #include "codecs/PushbackString.h"
 #include "codecs/Trie.h"
@@ -34,7 +35,7 @@ namespace esapi {
   * @since June 1, 2007
   * @see org.owasp.esapi.Encoder
   */
-  class HTMLEntityCodec : public esapi::Codec {
+  class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
   private:
     static const std::string REPLACEMENT_CHAR;
     static const std::string REPLACEMENT_HEX;

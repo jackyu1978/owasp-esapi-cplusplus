@@ -7,9 +7,9 @@
  *
  * Copyright (c) 2011 - The OWASP Foundation
  *
+ * @author Daniel Amodio, dan.amodio@aspectsecurity.com
  * @author Kevin Wall, kevin.w.wall@gmail.com
  * @author Jeffrey Walton, noloader@gmail.com
- * @author David Anderson, david.anderson@aspectsecurity.com
  *
  */
 
@@ -39,8 +39,8 @@ using std::stringstream;
 using std::istringstream;
 using std::ostringstream;
 
-#include <crypto/SecureRandom.h>
-using esapi::SecureRandom;
+#include "codecs/HTMLEntityCodec.h"
+using esapi::HTMLEntityCodec;
 
 // Some worker thread stuff
 static void DoWorkerThreadStuff();
@@ -48,9 +48,9 @@ static void* WorkerThreadProc(void* param);
 
 static const unsigned int THREAD_COUNT = 64;
 
-BOOST_AUTO_TEST_CASE( VerifySecureRandom )
+BOOST_AUTO_TEST_CASE( VerifyHTMLEntityCodec )
 {
-  BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
+  BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << " threads" );
 
   DoWorkerThreadStuff();
 }
@@ -89,14 +89,6 @@ void DoWorkerThreadStuff()
 
 void* WorkerThreadProc(void* param)
 {
-  byte random[8192];
-
-  SecureRandom prng1;
-  for (unsigned int i = 0; i < 64; i++)
-    prng1.nextBytes(random, i+1);
-
-  prng1.nextBytes(random, sizeof(random));
-
   // give up the remainder of this time quantum to help
   // interleave thread creation and execution
 #if defined(WIN32) || defined(_WIN32) 
@@ -105,11 +97,8 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
-  SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
-  prng2.nextBytes(random, sizeof(random));
-
-  for (unsigned int i = 0; i < 64; i++)
-    prng2.setSeed(random, i+8);
+  const std::map<char,std::string>& characterToEntityMap = HTMLEntityCodec::mkCharacterToEntityMap();
+  ASSERT(characterToEntityMap.size() > 0);
 
   BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
 
