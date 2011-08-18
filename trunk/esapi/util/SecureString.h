@@ -76,21 +76,39 @@ namespace esapi
 
       virtual size_t find(const SecureString& str, size_t pos = 0) const;
       virtual size_t find(const std::string& str, size_t pos = 0) const;
+      virtual size_t find(const char* s, size_t pos, size_t n) const;
+      virtual size_t find(const char* s, size_t pos = 0) const;
+      virtual size_t find(char c, size_t pos = 0) const;
 
       virtual size_t rfind(const SecureString& str, size_t pos = npos) const;
       virtual size_t rfind(const std::string& str, size_t pos = npos) const;
+      virtual size_t rfind(const char* s, size_t pos, size_t n) const;
+      virtual size_t rfind(const char* s, size_t pos = npos) const;
+      virtual size_t rfind(char c, size_t pos = npos) const;
 
       virtual size_t find_first_of(const SecureString& str, size_t pos = 0) const;
       virtual size_t find_first_of(const std::string& str, size_t pos = 0) const;
+      virtual size_t find_first_of(const char* s, size_t pos, size_t n) const;
+      virtual size_t find_first_of(const char* s, size_t pos = 0) const;
+      virtual size_t find_first_of(char c, size_t pos = 0) const;
 
       virtual size_t find_last_of(const SecureString& str, size_t pos = npos) const;
       virtual size_t find_last_of(const std::string& str, size_t pos = npos) const;
+      virtual size_t find_last_of(const char* s, size_t pos, size_t n) const;
+      virtual size_t find_last_of(const char* s, size_t pos = npos) const;
+      virtual size_t find_last_of(char c, size_t pos = npos) const;
 
       virtual size_t find_first_not_of(const SecureString& str, size_t pos = 0) const;
       virtual size_t find_first_not_of(const std::string& str, size_t pos = 0) const;
+      virtual size_t find_first_not_of(const char* s, size_t pos, size_t n) const;
+      virtual size_t find_first_not_of(const char* s, size_t pos = 0) const;
+      virtual size_t find_first_not_of(char c, size_t pos = 0) const;
 
       virtual size_t find_last_not_of(const SecureString& str, size_t pos = npos) const;
       virtual size_t find_last_not_of(const std::string& str, size_t pos = npos) const;
+      virtual size_t find_last_not_of(const char* s, size_t pos, size_t n) const;
+      virtual size_t find_last_not_of(const char* s, size_t pos = npos) const;
+      virtual size_t find_last_not_of(char c, size_t pos = npos) const;
 
       virtual int compare(const SecureString& str) const;
       virtual int compare(size_t pos, size_t n, const SecureString& str) const;
