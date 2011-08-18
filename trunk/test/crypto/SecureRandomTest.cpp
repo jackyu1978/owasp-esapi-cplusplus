@@ -39,6 +39,8 @@ using std::stringstream;
 using std::istringstream;
 using std::ostringstream;
 
+#include <errno.h>
+
 #include <crypto/SecureRandom.h>
 using esapi::SecureRandom;
 

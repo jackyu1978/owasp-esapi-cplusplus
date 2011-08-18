@@ -19,6 +19,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <errno.h>
+
 namespace esapi
 {
   Mutex::Mutex()

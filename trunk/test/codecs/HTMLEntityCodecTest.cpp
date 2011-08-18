@@ -39,6 +39,8 @@ using std::stringstream;
 using std::istringstream;
 using std::ostringstream;
 
+#include <errno.h>
+
 #include "codecs/HTMLEntityCodec.h"
 using esapi::HTMLEntityCodec;
 
