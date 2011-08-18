@@ -400,6 +400,10 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\src\util\Mutex.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\util\SecureString.cpp"
 					>
 				</File>
@@ -608,6 +612,10 @@
 				<Filter
 					Name="util"
 					>
+					<File
+						RelativePath=".\esapi\util\Mutex.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\util\SecureString.h"
 						>
