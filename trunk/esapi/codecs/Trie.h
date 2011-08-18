@@ -19,6 +19,7 @@
 #include <map>
 #include <string>
 #include <set>
+#include "errors/UnsupportedOperationException.h"
 
 namespace esapi {
 /*
@@ -28,23 +29,23 @@ namespace esapi {
  * @author Dan Amodio (dan.amodio@aspectsecurity.com)
  */
 template <typename T>
-class Trie {
-private:
-	std::map<std::string,T> map;
+class Trie : std::map<std::string, T>{
+//private:
+	//std::map<std::string,T> map;
 public:
-	std::pair<std::string,T> getLongestMatch(std::string);
+	std::pair<std::string,T> getLongestMatch(std::string) =0;
 	//pair<std::string,T> getLongestMatch(PushbackReader) =0;
-	int getMaxKeyLength();
+	int getMaxKeyLength() =0;
 
 	template <typename Y>
-	class TrieProxy : Trie<Y> {
+	class TrieProxy : public Trie<Y> {
 		private:
-			Trie<Y> wrapped;
+			Trie<Y>* wrapped;
 
-			TrieProxy(Trie<Y>);
+			TrieProxy(const Trie<Y> &);
 
 		protected:
-			Trie<Y> getWrapped();
+			const Trie<Y>& getWrapped();
 
 		public:
 			std::pair<std::string,Y> getLongestMatch (std::string);
@@ -69,24 +70,24 @@ public:
 
 			void clear();
 
-			std::set<std::string> keySet();
+			/*std::set<std::string> keySet();
 
 			std::set<Y> values();
 
 			std::set< std::pair<std::string,Y> > entrySet();
 
-			int hashCode();
+			int hashCode();*/
 	};
 
 	template <typename U>
-	class Unmodifiable : TrieProxy<U> {
+	class Unmodifiable : public TrieProxy<U> {
 	public:
-		Unmodifiable(Trie<U> toWrap);
+		Unmodifiable(const Trie<U> &);
 
-		U put(std::string, U);
-		U remove(std::string);
-		void putAll(std::map<std::string,U>);
-		void clear();
+		U put(std::string, U) throw (UnsupportedOperationException);
+		U remove(std::string) throw (UnsupportedOperationException);
+		void putAll(std::map<std::string,U>) throw (UnsupportedOperationException);
+		void clear() throw (UnsupportedOperationException);
 		std::set<std::string> keySet();
 		std::set<U> values();
 		std::set< std::pair<std::string,U> > entrySet();
@@ -97,7 +98,7 @@ public:
 	private:
 		Util() {};
 	public:
-		static Trie<V> unmodifiable(Trie<V>);
+		static Trie<V>* unmodifiable(const Trie<V> &);
 	};
 
 };
