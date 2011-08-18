@@ -113,9 +113,14 @@ namespace esapi
       virtual int compare(const SecureString& str) const;
       virtual int compare(size_t pos, size_t n, const SecureString& str) const;
       virtual int compare(size_t pos1, size_t n1, const SecureString& str, size_t pos2, size_t n2) const;
+
       virtual int compare(const std::string& str) const;
       virtual int compare(size_t pos, size_t n, const std::string& str) const;
-      virtual int compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const;     
+      virtual int compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const;
+
+      virtual int compare(const char* s) const;
+      virtual int compare(size_t pos, size_t n, const char* s) const;
+      virtual int compare(size_t pos1, size_t n1, const char* s, size_t n2) const;
   };
 }
 
