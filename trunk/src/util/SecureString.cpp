@@ -182,6 +182,20 @@ namespace esapi
     return *this;
   }
 
+  SecureString& SecureString::insert(size_t pos, const char* s, size_t n)
+  {
+    ThisBase::insert(pos, s, n);
+
+    return *this;
+  }
+
+  SecureString& SecureString::insert(size_t pos, const char* s)
+  {
+    ThisBase::insert(pos, s);
+
+    return *this;
+  }
+
   // Swap
   void SecureString::swap(SecureString& str)
   {
