@@ -383,6 +383,21 @@ namespace esapi
   {
     return ThisBase::compare(pos1, n1, SecureString(str.data(), str.size()), pos2, n2);
   }
+
+  int SecureString::compare(const char* s) const
+  {
+    return ThisBase::compare(s);
+  }
+
+  int SecureString::compare(size_t pos, size_t n, const char* s) const
+  {
+    return ThisBase::compare(pos, n, s);
+  }
+
+  int SecureString::compare(size_t pos1, size_t n1, const char* s, size_t n2) const
+  {
+    return ThisBase::compare(pos1, n1, s, pos2, n2);
+  }
 }
 
 bool operator==(const std::string& s, const esapi::SecureString& ss)
