@@ -10,7 +10,7 @@
 
 #include "codecs/HTMLEntityCodec.h"
 
-const std::string esapi::HTMLEntityCodec::REPLACEMENT_CHAR = "\ufffd";
+const wchar_t esapi::HTMLEntityCodec::REPLACEMENT_CHAR = "\uFFFD";
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_HEX = "fffd";
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "" + esapi::HTMLEntityCodec::REPLACEMENT_CHAR;
 esapi::Mutex esapi::HTMLEntityCodec::s_mutex;
