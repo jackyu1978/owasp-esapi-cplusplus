@@ -30,18 +30,24 @@ using std::char_traits;
 using std::basic_string;
 
 #include <sstream>
-using std::ostream;
+using std::ostringstream;
 
 #include <util/SecureString.h>
 using esapi::SecureString;
 
 void VerifyAppend();
+void VerifyInsert();
+void VerifyForwardFind();
+void VerifyReverseFind();
 
 BOOST_AUTO_TEST_CASE( VerifySecureString2 )
 {
   BOOST_MESSAGE( "Verifying SecureString class (The Rest)" );
 
   VerifyAppend();
+  VerifyInsert();
+  VerifyForwardFind();
+  VerifyReverseFind();
 }
 
 static const char* THE_STRING1 = "Goodbye, secret";
@@ -112,4 +118,98 @@ void VerifyAppend()
   BOOST_CHECK_MESSAGE(success, "Failed to append SecureString");
 }
 
+void VerifyInsert()
+{
+  bool success = false;
+
+  try
+    {
+      std::string s1 = THE_STRING1;
+      SecureString ss1 = THE_STRING1;
+
+      s1.insert(4, THE_STRING1);
+      ss1.insert(4, THE_STRING1);
+
+      success = (s1 == ss1);
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to insert SecureString");
+}
+
+void VerifyForwardFind()
+{
+  bool success = false;
+
+  try
+    {
+      std::string s1 = THE_STRING1;
+      std::string::size_type sp = s1.find("s");
+
+      SecureString ss1 = THE_STRING1;
+      SecureString::size_type ssp = s1.find("s");
+
+      success = (sp == ssp);
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to find SecureString");
+
+  try
+    {
+      std::string s1 = THE_STRING1;
+      std::string::size_type sp = s1.find("z");
+
+      SecureString ss1 = THE_STRING1;
+      SecureString::size_type ssp = s1.find("z");
+
+      success = (sp == ssp);
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to find SecureString");
+}
+
+void VerifyReverseFind()
+{
+  bool success = false;
+
+  try
+    {
+      std::string s1 = THE_STRING1;
+      std::string::size_type sp = s1.rfind("s");
+
+      SecureString ss1 = THE_STRING1;
+      SecureString::size_type ssp = s1.rfind("s");
+
+      success = (sp == ssp);
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to rfind SecureString");
+
+  try
+    {
+      std::string s1 = THE_STRING1;
+      std::string::size_type sp = s1.rfind("z");
+
+      SecureString ss1 = THE_STRING1;
+      SecureString::size_type ssp = s1.rfind("z");
+
+      success = (sp == ssp);
+    }
+  catch(...)
+    {
+      cerr << "Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to rfind SecureString");
+}
 

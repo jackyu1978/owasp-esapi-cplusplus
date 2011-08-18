@@ -70,6 +70,8 @@ namespace esapi
       virtual SecureString& insert(size_t pos, const std::string& str);
       virtual SecureString& insert(size_t pos1, const std::string& str, size_t pos2, size_t n);
       virtual SecureString& insert(size_t pos1, const SecureString& str, size_t pos2, size_t n);
+      virtual SecureString& insert(size_t pos, const char* s, size_t n);
+      virtual SecureString& insert(size_t pos, const char* s);
 
       virtual void swap(SecureString& str);
       virtual void swap(std::string& str);
