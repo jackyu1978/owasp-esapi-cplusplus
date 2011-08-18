@@ -20,13 +20,19 @@
 using std::char_traits;
 using std::basic_string;
 
+#if defined(_GLIBCXX_DEBUG)
+typedef __gnu_debug::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > SecureStringBase;
+#else
+typedef std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > SecureStringBase;
+#endif
+
 namespace esapi
 {
   class ESAPI_EXPORT SecureString : public std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> >
   {
     public:
 
-      typedef std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > ThisBase;
+      typedef std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > SecureStringBase;
 
       // Construction
       SecureString();
