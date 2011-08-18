@@ -396,7 +396,7 @@ namespace esapi
 
   int SecureString::compare(size_t pos1, size_t n1, const char* s, size_t n2) const
   {
-    return ThisBase::compare(pos1, n1, s, pos2, n2);
+    return ThisBase::compare(pos1, n1, s, n2);
   }
 }
 
