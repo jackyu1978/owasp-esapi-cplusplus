@@ -74,7 +74,7 @@ void* esapi::BaseValidationRule::getSafe( const std::string &context, const std:
 		void* valid = 0;
 		try {
 			valid = this->getValid( context, input );
-		} catch ( ValidationException& e ) {
+		} catch ( ValidationException& /*e*/ ) {
 			return sanitize( context, input );
 		}
 		return valid;
@@ -85,7 +85,7 @@ bool esapi::BaseValidationRule::isValid( const std::string &context, const std::
 		try {
 			this->getValid( context, input );
 			valid = true;
-		} catch( std::exception& e ) {
+		} catch( std::exception& /*e*/ ) {
 			valid = false;
 		}
 
