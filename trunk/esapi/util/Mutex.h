@@ -34,8 +34,8 @@ namespace esapi
     friend class MutexAutoLock;
 
     public:
-      inline explicit Mutex();
-      inline virtual ~Mutex();
+      explicit Mutex();
+      virtual ~Mutex();
 
     private:
       LockPrimitive m_primitive;
@@ -44,8 +44,8 @@ namespace esapi
   class ESAPI_EXPORT MutexAutoLock
   {
     public:
-      inline explicit MutexAutoLock(Mutex& mutex);
-      imline virtual ~MutexAutoLock();
+      explicit MutexAutoLock(Mutex& mutex);
+      virtual ~MutexAutoLock();
 
     private:
       Mutex& m_mutex;
