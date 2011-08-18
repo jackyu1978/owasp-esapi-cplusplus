@@ -93,22 +93,13 @@
 // For auto_ptr/unique_ptr (auto_ptr is deprecated) - see
 //  http://www2.research.att.com/~bs/C++0xFAQ.html#0x and 
 //  http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_440
-#if (defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 4) || (__GNUC__ >= 5))) || (_MSC_VER >= 1600)
+#if (_MSC_VER >= 1600) || defined(_UNIQUE_PTR_H)
 # define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
 #endif
 
 // For nullptr - see see http://gcc.gnu.org/projects/cxx0x.html.
-#if (defined(__GNUC__) && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ >= 5))) || (_MSC_VER >= 1600)
+#if (_MSC_VER >= 1600) || defined(nullptr_t)
 # define ESAPI_CPLUSPLUS_NULLPTR 1
-#endif
-
-// _UNIQUE_PTR_H is from Ubuntu /usr/include/c++/.../bits/unique_ptr.h
-#if (__cplusplus > 199711L) || (_MSC_VER >= 1600) || defined(_UNIQUE_PTR_H)
-# undef  ESAPI_CPLUSPLUS_UNIQUE_PTR
-# define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
-# undef  ESAPI_CPLUSPLUS_NULLPTR
-# define ESAPI_CPLUSPLUS_NULLPTR 1
-# define ESAPI_CPLUSPLUS_0X 1
 #endif
 
 // Yet another ICPC workaround

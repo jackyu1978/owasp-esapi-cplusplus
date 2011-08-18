@@ -31,12 +31,12 @@ using namespace boost::unit_test;
 #include <string>
 using std::string;
 
+#include "EsapiCommon.h"
+
 // auto_ptr is deprecated in C++0X
 #if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-using std::unique_ptr;
-# define THE_AUTO_PTR  unique_ptr
+# define THE_AUTO_PTR  std::unique_ptr
 #else
-using std::auto_ptr;
 # define THE_AUTO_PTR  std::auto_ptr
 #endif
 

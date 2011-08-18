@@ -47,8 +47,13 @@ void VerifyListAllocation();
 void VerifySecureByteArray();
 void VerifySecureIntArray();
 
-struct Useless
+class Useless
 {
+public:
+  Useless() { }
+  virtual ~Useless() { }
+  
+private:
   byte unused[4096];
 };
 

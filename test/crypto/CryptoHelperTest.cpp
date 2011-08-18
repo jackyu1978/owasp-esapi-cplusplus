@@ -21,6 +21,15 @@ using std::endl;
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
+#include "EsapiCommon.h"
+
+// auto_ptr is deprecated in C++0X
+#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
+# define THE_AUTO_PTR  std::unique_ptr
+#else
+# define THE_AUTO_PTR  std::auto_ptr
+#endif
+
 #include <string>
 using std::string;
 

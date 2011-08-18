@@ -44,15 +44,15 @@ endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
-CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
-CXXFLAGS += -DNDEBUG=1 -g -O2
+  CXXFLAGS += -DNDEBUG=1 -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
-CXXFLAGS += -DESAPI_NO_ASSERT=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  CXXFLAGS += -DESAPI_NO_ASSERT=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase

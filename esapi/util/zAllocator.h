@@ -63,7 +63,7 @@ namespace esapi
     inline pointer allocate(size_type cnt, typename std::allocator<void>::const_pointer = 0)
     {
       // Overflow/wrap is checked for by the container. Set a breakpoint
-      // on max_size() and view the call stack (the preceeding frame)
+      // on max_size() and view the call stack (ie, the preceeding frame)
       // for verification.
       return reinterpret_cast<pointer>(::operator new(cnt * sizeof (T))); 
     }
@@ -71,9 +71,9 @@ namespace esapi
     inline void deallocate(pointer p, size_type n)
     {
       // Pointer 'p' is checked for validity by the container. Because 'p'
-      // is assinged to a static volatile pointer, the optimizer currently
+      // is assigned to a static volatile pointer, the optimizer currently
       // does not optimize out the ::memset as dead code. Set a breakpoint
-      // on line 66 and view the call stack (the preceeding frame) for
+      // on line 66 and view the call stack (ie, the preceeding frame) for
       // verification. 
       ::memset(p, 0x00, n);
       g_dummy = p;
@@ -87,7 +87,9 @@ namespace esapi
     }
 
     // construction/destruction
-    inline void construct(pointer p, const T& t) { new(p) T(t); }
+    // inline void construct(pointer p, const T& t) { new(p) T(t); }
+    // Added for Fedora 15/GCC 4.6. Was the previous construct non-compliant?
+    inline void construct(pointer p, const T& t = T()) { new(p) T(t); }
     inline void destroy(pointer p) { p->~T(); }
 
     inline bool operator==(zallocator const&) const { return true; }
