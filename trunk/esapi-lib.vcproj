@@ -304,6 +304,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\codecs\HTMLEntityCodec.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\codecs\PushbackString.cpp"
 					>
 				</File>
@@ -392,6 +396,14 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="util"
+				>
+				<File
+					RelativePath=".\src\util\SecureString.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -469,7 +481,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\codecs\PushbackString.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\Trie.h"
 						>
 					</File>
 				</Filter>
@@ -557,6 +577,10 @@
 					Name="reference"
 					>
 					<File
+						RelativePath=".\esapi\reference\DefaultEncoder.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\reference\DefaultEncryptor.h"
 						>
 					</File>
@@ -580,6 +604,18 @@
 							>
 						</File>
 					</Filter>
+				</Filter>
+				<Filter
+					Name="util"
+					>
+					<File
+						RelativePath=".\esapi\util\SecureString.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\util\zAllocator.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
