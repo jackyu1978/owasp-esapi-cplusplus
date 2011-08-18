@@ -262,7 +262,6 @@ ESAPI_MS_NO_WARNING(4290)
 #  define ESAPI_EXPORT
 #  define ESAPI_PRIVATE
 # endif
-# define ESAPI_NO_VTABLE
 #endif
 
 namespace esapi {

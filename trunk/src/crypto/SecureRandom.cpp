@@ -13,6 +13,7 @@
 */
 
 #include "EsapiCommon.h"
+#include "util/Mutex.h"
 #include "crypto/SecureRandom.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -39,7 +40,6 @@ namespace esapi
   // Create an instance PRNG.
   SecureRandom::SecureRandom() throw(EncryptionException)
   {
-    InitializeLock();
   }
 
   // Create an instance PRNG with a seed.
@@ -49,17 +49,17 @@ namespace esapi
     ASSERT(seed);
     ASSERT(size);
 
-    InitializeLock();
-
     setSeed(seed, size);
+  }
+
+  SecureRandom::~SecureRandom() throw()
+  {
   }
 
   // Create an instance PRNG with a seed.
   SecureRandom::SecureRandom(const std::vector<byte>& seed) throw(EncryptionException)
   {
     ASSERT(seed.size());
-
-    InitializeLock();
 
     setSeed(&seed[0], seed.size());
   }
@@ -88,7 +88,7 @@ namespace esapi
       SafeInt<size_t> safe((size_t)bytes);
       safe += size;
 
-      AutoLock lock(m_lock);
+      MutexAutoLock lock(m_mutex);
       prng.GenerateBlock(bytes, size);
     }
     catch(SafeIntException&)
@@ -127,7 +127,7 @@ namespace esapi
       SafeInt<size_t> safe((size_t)seed);
       safe += size;
 
-      AutoLock lock(m_lock);
+      MutexAutoLock lock(m_mutex);
       prng.IncorporateEntropy(seed, size);
     }
     catch(SafeIntException&)
@@ -153,88 +153,5 @@ namespace esapi
   {
     setSeed((const byte*)&seed, sizeof(seed));
   }
-
-#if defined(ESAPI_OS_WINDOWS)
-
-  // Standard destructor.
-  SecureRandom::~SecureRandom()
-  {
-    DeleteCriticalSection(&m_lock);
-  }
-
-  // Initialize the lock for the PRNG
-  void SecureRandom::InitializeLock() const
-  {
-    // Windows can never fail? My Arse! Bill, we need a return value.
-    // http://msdn.microsoft.com/en-us/library/ms682608%28v=vs.85%29.aspx
-    InitializeCriticalSection(&m_lock);
-  }
-
-  // Lock on construction
-  SecureRandom::AutoLock::AutoLock(CRITICAL_SECTION& cs)
-    : mm_lock(cs)
-  {
-    // Windows can never fail? My Arse! Bill, we need a return value.
-    // http://msdn.microsoft.com/en-us/library/ms682608%28v=vs.85%29.aspx
-    EnterCriticalSection(&mm_lock);
-  }
-
-  // Release on destruction
-  SecureRandom::AutoLock::~AutoLock() throw()
-  {
-    // Yet another function which never fails.
-    LeaveCriticalSection(&mm_lock);
-  }
-
-#elif defined(ESAPI_OS_STARNIX)// ESAPI_OS_WINDOWS
-
-  // Standard destructor.
-  SecureRandom::~SecureRandom() throw()
-  {
-    int ret = pthread_mutex_destroy(&m_lock);
-    // ASSERT, but don't throw
-    ASSERT(ret == 0);
-  }
-
-  // Initialize the lock for the PRNG
-  void SecureRandom::InitializeLock() const throw(EncryptionException)
-  {
-    int ret = pthread_mutex_init(&m_lock, NULL);
-    ASSERT(ret == 0);
-    if(ret != 0)
-    {
-      std::ostringstream oss;
-      oss << "Failed to intialize mutex, error = " << errno << ".";
-      throw EncryptionException(oss.str());
-    }
-  }
-
-  // Lock on construction
-  SecureRandom::AutoLock::AutoLock(pthread_mutex_t& mtx) throw(EncryptionException)
-    : mm_lock(mtx)
-  {
-    int ret = pthread_mutex_lock( &mm_lock );
-    ASSERT(ret == 0);
-    if(ret != 0)
-    {
-      std::ostringstream oss;
-      oss << "Failed to acquire mutex, error = " << errno << ".";
-      throw EncryptionException(oss.str());
-    }
-  }
-
-  // Release on destruction
-  SecureRandom::AutoLock::~AutoLock() throw(EncryptionException)
-  {
-    int ret = pthread_mutex_unlock( &mm_lock );
-    ASSERT(ret == 0);
-    if(ret != 0)
-    {
-      std::ostringstream oss;
-      oss << "Failed to release mutex, error = " << errno << ".";
-      throw EncryptionException(oss.str());
-    }
-  }
-#endif // ESAPI_OS_STARNIX
 
 } // NAMESPACE esapi
