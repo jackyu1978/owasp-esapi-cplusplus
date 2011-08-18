@@ -20,7 +20,9 @@
 #include <cstring>
 #include <limits>
 
-// For problems with the allocator, ask on the GCC mailing list.
+// Fo problems with allocator and its use, ask on comp.lang.c++
+// For problems with the libstd-c++ implementation and use of allocator, ask on the
+//   GCC mailing list (its easy to get off topic, use sparingly)
 // For problems with _Alloc_hider, see http://gcc.gnu.org/ml/gcc-help/2011-08/msg00199.html.
 
 namespace esapi
