@@ -197,6 +197,7 @@ namespace esapi
     str = std::string(temp.data(), temp.size());
   }
 
+  // Forward find
   size_t SecureString::find(const SecureString& str, size_t pos) const
   {
     return ThisBase::find(str, pos);
@@ -207,6 +208,22 @@ namespace esapi
     return ThisBase::find(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::find(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::find(s, pos, n);
+  }
+
+  size_t SecureString::find(const char* s, size_t pos) const
+  {
+    return ThisBase::find(s, pos);
+  }
+
+  size_t SecureString::find(char c, size_t pos) const
+  {
+    return ThisBase::find(c, pos);
+  }
+
+  // Reverse find
   size_t SecureString::rfind(const SecureString& str, size_t pos) const
   {
     return ThisBase::rfind(str, pos);
@@ -217,6 +234,22 @@ namespace esapi
     return ThisBase::rfind(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::rfind(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::rfind(s, pos, n);
+  }
+
+  size_t SecureString::rfind(const char* s, size_t pos) const
+  {
+    return ThisBase::rfind(s, pos);
+  }
+
+  size_t SecureString::rfind(char c, size_t pos) const
+  {
+    return ThisBase::rfind(c, pos);
+  }
+
+  // find_first_of
   size_t SecureString::find_first_of(const SecureString& str, size_t pos) const
   {
     return ThisBase::find_first_of(str, pos);
@@ -227,6 +260,22 @@ namespace esapi
     return ThisBase::find_first_of(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::find_first_of(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::find_first_of(s, pos, n);
+  }
+
+  size_t SecureString::find_first_of(const char* s, size_t pos) const
+  {
+    return ThisBase::find_first_of(s, pos);
+  }
+
+  size_t SecureString::find_first_of(char c, size_t pos) const
+  {
+    return ThisBase::find_first_of(c, pos);
+  }
+
+  // find_last_of
   size_t SecureString::find_last_of(const SecureString& str, size_t pos) const
   {
     return ThisBase::find_last_of(str, pos);
@@ -237,6 +286,22 @@ namespace esapi
     return ThisBase::find_last_of(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::find_last_of(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::find_last_of(s, pos, n);
+  }
+
+  size_t SecureString::find_last_of(const char* s, size_t pos) const
+  {
+    return ThisBase::find_last_of(s, pos);
+  }
+
+  size_t SecureString::find_last_of(char c, size_t pos) const
+  {
+    return ThisBase::find_last_of(c, pos);
+  }
+
+  // find_first_not_of
   size_t SecureString::find_first_not_of(const SecureString& str, size_t pos) const
   {
     return ThisBase::find_first_not_of(str, pos);
@@ -247,6 +312,22 @@ namespace esapi
     return ThisBase::find_first_not_of(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::find_first_not_of(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::find_first_not_of(s, pos, n);
+  }
+
+  size_t SecureString::find_first_not_of(const char* s, size_t pos) const
+  {
+    return ThisBase::find_first_not_of(s, pos);
+  }
+
+  size_t SecureString::find_first_not_of(char c, size_t pos) const
+  {
+    return ThisBase::find_first_not_of(c, pos);
+  }
+
+  // find_last_not_of
   size_t SecureString::find_last_not_of(const SecureString& str, size_t pos) const
   {
     return ThisBase::find_last_not_of(str, pos);
@@ -257,6 +338,22 @@ namespace esapi
     return ThisBase::find_last_not_of(SecureString(str.data(), str.size()), pos);
   }
 
+  size_t SecureString::find_last_not_of(const char* s, size_t pos, size_t n) const
+  {
+    return ThisBase::find_last_not_of(s, pos, n);
+  }
+
+  size_t SecureString::find_last_not_of(const char* s, size_t pos) const
+  {
+    return ThisBase::find_last_not_of(s, pos);
+  }
+
+  size_t SecureString::find_last_not_of(char c, size_t pos) const
+  {
+    return ThisBase::find_last_not_of(c, pos);
+  }
+
+  // compare
   int SecureString::compare(const SecureString& str) const
   {
     return ThisBase::compare(str);
