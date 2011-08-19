@@ -23,7 +23,7 @@
 
 namespace esapi
 {
-  Mutex::Mutex()
+    Mutex::Mutex()
   {
 #if defined(ESAPI_OS_WINDOWS)
     InitializeCriticalSection(&m_primitive);
@@ -50,13 +50,18 @@ namespace esapi
 #endif
   }
 
+  LockPrimitive& Mutex::getMutex()
+  {
+    return m_primitive;
+  }
+
   MutexAutoLock::MutexAutoLock(Mutex& mutex)
     : m_mutex(mutex)
   {
 #if defined(ESAPI_OS_WINDOWS)
-    EnterCriticalSection(&m_mutex.m_primitive);
+    EnterCriticalSection(&m_mutex.getMutex());
 #elif defined(ESAPI_OS_STARNIX)
-    int ret = pthread_mutex_lock(&m_mutex.m_primitive);
+    int ret = pthread_mutex_lock(&m_mutex.getMutex());
     ASSERT(ret == 0);
     if(ret != 0)
       {
@@ -70,9 +75,9 @@ namespace esapi
   MutexAutoLock::~MutexAutoLock()
   {
 #if defined(ESAPI_OS_WINDOWS)
-    LeaveCriticalSection(&m_mutex.m_primitive);
+    LeaveCriticalSection(&m_mutex.getMutex());
 #elif defined(ESAPI_OS_STARNIX)
-    int ret = pthread_mutex_unlock(&m_mutex.m_primitive);
+    int ret = pthread_mutex_unlock(&m_mutex.getMutex());
     ASSERT(ret == 0);
     if(ret != 0)
       {
