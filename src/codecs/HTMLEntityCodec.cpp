@@ -12,7 +12,7 @@
 
 //const char esapi::HTMLEntityCodec::REPLACEMENT_CHAR = '\uFFFD';
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_HEX = "fffd";
-const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "" + esapi::HTMLEntityCodec::REPLACEMENT_CHAR;
+const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "\uFFFD";
 esapi::Mutex esapi::HTMLEntityCodec::s_mutex;
 const std::map<char,std::string> esapi::HTMLEntityCodec::characterToEntityMap = mkCharacterToEntityMap();
 
