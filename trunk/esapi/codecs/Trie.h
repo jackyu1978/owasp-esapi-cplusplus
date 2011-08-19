@@ -47,7 +47,7 @@ public:
 			TrieProxy() {};
 
 		protected:
-			const Trie<Y>& getWrapped();
+			const Trie<T>& getWrapped();
 
 		public:
 			std::pair<std::string,Y> getLongestMatch (std::string);
@@ -100,7 +100,7 @@ public:
 	private:
 		Util() {};
 	public:
-		static Trie<V>* unmodifiable(const Trie<V> &);
+		static Trie<T>* unmodifiable(const Trie<V> &);
 	};
 
 };
@@ -117,7 +117,7 @@ esapi::Trie<T>::TrieProxy<Y>::TrieProxy(const esapi::Trie<Y> & toWrap) {
 
 template <typename T>
 template <typename Y>
-const esapi::Trie<Y>& esapi::Trie<T>::TrieProxy<Y>::getWrapped() {
+const esapi::Trie<T>& esapi::Trie<T>::TrieProxy<Y>::getWrapped() {
 	return this->wrapped;
 }
 
@@ -291,6 +291,6 @@ std::set< std::pair<std::string,U> > esapi::Trie<T>::Unmodifiable<U>::entrySet()
 
 template <typename T>
 template <typename V>
-esapi::Trie<V>* esapi::Trie<T>::Util<V>::unmodifiable(const Trie<V> & toWrap){
+esapi::Trie<T>* esapi::Trie<T>::Util<V>::unmodifiable(const Trie<V> & toWrap){
 	return new Unmodifiable<V>(toWrap);
 }

@@ -37,7 +37,7 @@ namespace esapi {
   */
   class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
   private:
-    static const char REPLACEMENT_CHAR = (char)65533;
+    static const int REPLACEMENT_CHAR = 65533;
     static const std::string REPLACEMENT_HEX;
     static const std::string REPLACEMENT_STR;
     static Mutex s_mutex;
