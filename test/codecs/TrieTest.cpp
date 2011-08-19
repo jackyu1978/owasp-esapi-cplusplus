@@ -56,4 +56,24 @@ BOOST_AUTO_TEST_CASE( TrieTestCase )
 	BOOST_CHECK(tp.containsKey("bar"));
 	BOOST_CHECK(!tp.containsKey("foobar"));
 	BOOST_CHECK(!tp.containsKey("lalalala"));
+
+	BOOST_CHECK(tp.containsValue(1));
+	BOOST_CHECK(tp.containsValue(2));
+	BOOST_CHECK(tp.containsValue(3));
+	BOOST_CHECK(tp.containsValue(4));
+	BOOST_CHECK(!tp.containsValue(5));
+	BOOST_CHECK(!tp.containsValue(12));
+
+	BOOST_CHECK(tp.size() == 4);
+	BOOST_CHECK(!tp.isEmpty());
+
+	BOOST_CHECK(tp.get("asdf") == 1);
+	BOOST_CHECK(tp.get("foobar") == 0);
+	BOOST_CHECK(tp.get("aspectsecurity") == 0);
+	BOOST_CHECK(tp.get("fdsa") == 2);
+
+	tp.remove("asdf");
+	BOOST_CHECK(!tp.containsKey("asdf"));
+
+
 }
