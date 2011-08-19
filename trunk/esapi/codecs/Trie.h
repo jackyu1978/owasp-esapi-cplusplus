@@ -44,7 +44,7 @@ public:
 			Trie<Y> wrapped;
 
 			TrieProxy(const Trie<Y> &);
-			TrieProxy();
+			TrieProxy() {};
 
 		protected:
 			const Trie<Y>& getWrapped();
@@ -107,19 +107,12 @@ public:
 }; // esapi namespace
 
 
-// Silly compilers don't like seperate files for templates.
+// Silly compilers don't like separate files for templates.
 
 template <typename T>
 template <typename Y>
 esapi::Trie<T>::TrieProxy<Y>::TrieProxy(const esapi::Trie<Y> & toWrap) {
 	this->wrapped = toWrap;
-}
-
-template <typename T>
-template <typename Y>
-esapi::Trie<T>::TrieProxy<Y>::TrieProxy() {
-	esapi::Trie<Y> newTrie;
-	this->wrapped = newTrie;
 }
 
 template <typename T>
@@ -178,9 +171,9 @@ Y esapi::Trie<T>::TrieProxy<Y>::get(std::string key) {
 	typename std::map<std::string,Y>::iterator it = this->wrapped.map.find(key);
 
 	if (it == this->wrapped.map.end())
-		return 0;
+		return NULL;
 	else
-		return it.second;
+		return it->second;
 }
 
 template <typename T>
@@ -193,7 +186,7 @@ Y esapi::Trie<T>::TrieProxy<Y>::put (std::string key, Y value) {
 
 	if (ret.second==false) {
 		// return previous existing value
-		ret.first->second;
+		return ret.first->second;
 	} else {
 		return NULL;
 	}
@@ -207,7 +200,7 @@ Y esapi::Trie<T>::TrieProxy<Y>::remove(std::string key) {
 	if (it == this->wrapped.map.end()) {
 		return NULL;
 	} else {
-		Y val = it.second;
+		Y val = it->second;
 		this->wrapped.map.erase(it);
 		return val;
 	}
