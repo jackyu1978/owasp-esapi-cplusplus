@@ -31,11 +31,11 @@ namespace esapi
 
   class ESAPI_EXPORT Mutex
   {
-    friend class MutexAutoLock;
-
     public:
       explicit Mutex();
       virtual ~Mutex();
+
+	  LockPrimitive& getMutex();
 
     private:
       LockPrimitive m_primitive;
