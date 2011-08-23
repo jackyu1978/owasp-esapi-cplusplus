@@ -29,7 +29,7 @@ namespace esapi
   * available, the pool will attempt to read from /dev/urandom. If not available
   * the pool will latch a [temporary] error condition.
   *
-  * If SecureRandom attempts read bytes while in an error condition, the pool
+  * If SecureRandom attempts fetch bytes while in an error condition, the pool
   * will attempt to clear the error by seeding as described above. If the pool
   * is not able to clear the condition, the pool will throw during the call.
   *
@@ -38,13 +38,15 @@ namespace esapi
   * fetches bytes from the pool, time data is encrypted under the key. The time data
   * consists of the pair {Performance Counter||GetTimeOfDay}. As output blocks are
   * created, the blocks are used fulfill the request for bytes. In addition, the
-  * block is fed back into the system for the next encryption operation.
+  * blocks are fed back into the system for the next encryption operation.
   *
   * Analysis: since this system uses AES-256/OFB, it is no less secure than the raw
   * entropy bits retrieved from the operating system. That is, generating a stream
   * using AES-256/OFB (keyed with /dev/[u]random) is *not* less secure than using
   * /dev/[u]random directly.
   */
+
+  // TODO: Remove ESAPI_EXPORT (its there for testing)
   class ESAPI_EXPORT RandomPool : public NotCopyable
   {
   public:
@@ -81,21 +83,22 @@ namespace esapi
     bool Rekey();
 
     /**
-    * Acquires entropy from the pool, runs it through SHA-512, fetches
-    * time data (via GetTimeData), and creates the key and IV for the cipher.
+    * Fetches time data, encrypts the time data under the key and iv selected earlier.
     */
     bool GenerateKey(byte* key, size_t ksize);
 
     /**
     * Fetches time related data. The time data is a value from a
-    * high resolution timer and the standard time of day.
+    * high resolution timer and the standard time of day. We are
+    * intersted in the high performance counter since it is helpful
+    * in a virtual environment where rollbacks may occur.
     */
     bool GetTimeData(byte* data, size_t dsize);
 
   private:
     /**
     * A lock for the internal operations. Its static because GetSharedIntstance()
-    * serves up a single static object. Before the first construction of thew static
+    * serves up a single static object. Before the first construction of the static
     * object, the lock is acquired.
     */
     static Mutex& GetSharedLock();

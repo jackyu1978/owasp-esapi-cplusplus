@@ -28,6 +28,7 @@
 
 namespace esapi
 {
+  // Helper to automatically close a file descriptor
   class AutoFileDesc
   {
   public:
@@ -44,15 +45,21 @@ namespace esapi
     int m_fd;
   };
 
-#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64)
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64))
+  // Shamelessy ripped from somehwere.
   static __inline__ unsigned long long rdtsc(void)
   {
     unsigned hi, lo;
     __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
-    return ( (unsigned long long)lo)|( ((unsigned long long)hi)<<32 );
+    return ((((unsigned long long)hi) << 32) | (unsigned long long)lo);
   }
 #endif
 
+  /**
+  * Fetches time data, encrypts the time data under the key and iv selected earlier.
+  * The key is being constructed for the RandomPool's AES256 cipher. Since we also
+  * sync an IV, at least 48 bytes will be needed.
+  */
   bool RandomPool::GenerateKey(byte* key, size_t ksize)
   {
     ASSERT(key && ksize);
@@ -68,7 +75,7 @@ namespace esapi
         int fd = open("/dev/random", O_RDONLY);
         AutoFileDesc z1(fd);
 
-        ASSERT(fd > 0);
+        ESAPI_ASSERT2(fd > 0, "Failed to open /dev/random");
         if( !(fd > 0) ) break; /* Failed */
 
         do
@@ -79,7 +86,7 @@ namespace esapi
           struct rand_pool_info info;
 
           int ret = ioctl(fd, RNDGETENTCNT, &info);
-          ASSERT(ret == 0 /*success*/);
+          ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
 
           if(ret != 0) break; /* Failed */
           if(info.entropy_count < 128 /*16 bytes*/) break; /* Failed (could block) */
@@ -88,22 +95,25 @@ namespace esapi
           static const size_t Chunk = 8;
           const size_t req = std::min(rem, Chunk);
 
+          // Since we are reading chunks in a loop, we are interested if we block on the nth
+          // iteration. If so, we don't make the call for the next itearion (we might block again).
           CryptoPP::Timer timer;
           timer.StartTimer();
 
           ret = read(fd, key+idx, req);
-          ASSERT(ret == req);
-          if(ret != req) break; /* Failed */
+          ASSERT((unsigned int)ret == req);
 
           // The return value determines number of bytes read
           rem -= ret;
           idx += ret;
 
+          // Test for failure now so we consume any available bytes
+          if((unsigned int)ret != req) break; /* Failed */
+
           // If it appears we have read too little or blocked, break and fall back /dev/urandom
-          if(timer.ElapsedTime() > 1) break;
+          if(timer.ElapsedTime() > 1 /*second*/) break;
 
         } while(rem > 0);
-
       } while(false);
     }
 
@@ -117,7 +127,7 @@ namespace esapi
         int fd = open("/dev/urandom", O_RDONLY);
         AutoFileDesc z1(fd);
 
-        ASSERT(fd > 0);
+        ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");
         if( !(fd > 0) ) break; /* Failed */
 
         int ret = read(fd, key+idx, rem);
@@ -132,6 +142,12 @@ namespace esapi
     return (rem == 0);
   }
 
+  /**
+  * Fetches time related data. The time data is a value from a
+  * high resolution timer and the standard time of day. We are
+  * intersted in the high performance counter since it is helpful
+  * in a virtual environment where rollbacks may occur.
+  */
   bool RandomPool::GetTimeData(byte* data, size_t dsize)
   {
     ASSERT(data && dsize);
@@ -139,7 +155,7 @@ namespace esapi
 
     size_t idx = 0, rem = dsize, req = 0;
 
-#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64)
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64))
     unsigned long long ts = rdtsc();
 
     req = std::min(rem, sizeof(ts));
