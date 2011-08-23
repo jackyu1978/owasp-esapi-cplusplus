@@ -78,10 +78,10 @@ namespace esapi
           struct rand_pool_info info;
 
           int ret = ioctl(fd, RNDGETENTCNT, &info);
-          ASSERT(ret >= 0);
+          ASSERT(ret == 0 /*success*/);
 
-          if( !(ret >= 0) ) break; /* Failed */
-          if(info.entropy_count < 128) break; /* Failed (would block) */
+          if(ret != 0) break; /* Failed */
+          if(info.entropy_count < 128 /*16 bytes*/) break; /* Failed (could block) */
 #endif
 
           static const size_t Chunk = 8;
@@ -91,15 +91,15 @@ namespace esapi
           timer.StartTimer();
 
           ret = read(fd, key+idx, req);
-          ASSERT(ret >= 0);
-          if( !(ret >= 0) ) break; /* Failed */
+          ASSERT(ret == req);
+          if(ret != req) break; /* Failed */
 
           // The return value determines number of bytes read
           rem -= ret;
           idx += ret;
 
           // If it appears we have read too little or blocked, break and fall back /dev/urandom
-          if(req != (unsigned int)ret || timer.ElapsedTime() > 1) break;
+          if(timer.ElapsedTime() > 1) break;
 
         } while(rem > 0);
 
