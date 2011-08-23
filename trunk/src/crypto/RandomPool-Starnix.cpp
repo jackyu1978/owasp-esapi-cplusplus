@@ -20,8 +20,11 @@
 
 #include <time.h>
 #include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/random.h>
+
+#if defined(ESAPI_OS_LINUX)
+# include <sys/ioctl.h>
+# include <linux/random.h>
+#endif
 
 namespace esapi
 {
@@ -40,12 +43,14 @@ namespace esapi
     int m_fd;
   };
 
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && defined(ESAPI_ARCH_X86)
   static __inline__ unsigned long long rdtsc(void)
   {
     unsigned hi, lo;
     __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
     return ( (unsigned long long)lo)|( ((unsigned long long)hi)<<32 );
   }
+#endif
 
   bool RandomPool::GenerateKey(byte* key, size_t ksize)
   {
@@ -67,12 +72,17 @@ namespace esapi
 
         do
         {
+
+#if defined(ESAPI_OS_LINUX)
+          // Try to detect a blocking condition
           struct rand_pool_info info;
+
           int ret = ioctl(fd, RNDGETENTCNT, &info);
           ASSERT(ret >= 0);
-          if( !(ret >= 0) ) break; /* Failed */
 
+          if( !(ret >= 0) ) break; /* Failed */
           if(info.entropy_count < 128) break; /* Failed (would block) */
+#endif
 
           static const size_t Chunk = 8;
           const size_t req = std::min(rem, Chunk);
@@ -126,6 +136,7 @@ namespace esapi
 
     size_t idx = 0, rem = dsize, req = 0;
 
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && defined(ESAPI_ARCH_X86)
     unsigned long long ts = rdtsc();
 
     req = std::min(rem, sizeof(ts));
@@ -134,6 +145,7 @@ namespace esapi
 
     // Any room remaining? There should be...
     if(!rem) return true;
+#endif
 
     time_t now;
     time(&now);
