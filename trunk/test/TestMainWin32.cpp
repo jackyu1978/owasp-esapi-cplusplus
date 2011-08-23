@@ -16,30 +16,19 @@
 // Used by Windows. For Linux, Boost::Test provides main() //
 /////////////////////////////////////////////////////////////
 
+// gcc -g3 -ggdb -O0 -I./esapi test/TestMainWin32.cpp -o TestMain.exe -L./lib -lesapi-c++ -lstdc++ -lcryptopp
+
 #include "errors/EncryptionException.h"
 using esapi::EncryptionException;
 
 #include "errors/InvalidArgumentException.h"
 using esapi::InvalidArgumentException;
 
-#include "crypto/KeyDerivationFunction.h"
-using esapi::KeyDerivationFunction;
-
-#include "crypto/SecretKey.h"
-using esapi::SecretKey;
-using esapi::Key;
-
-#include "crypto/KeyGenerator.h"
-using esapi::KeyGenerator;
+#include "crypto/RandomPool.h"
+using esapi::RandomPool;
 
 #include "crypto/SecureRandom.h"
 using esapi::SecureRandom;
-
-#include "crypto/MessageDigest.h"
-using esapi::MessageDigest;
-
-#include "reference/DefaultEncryptor.h"
-using esapi::DefaultEncryptor;
 
 #include <iostream>
 using std::cout;
@@ -54,49 +43,19 @@ using std::string;
 #include <string>
 using std::string;
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-  using std::unique_ptr;
-# define THE_AUTO_PTR  unique_ptr
-#else
-  using std::auto_ptr;
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
-
 int main(int, char**)
 {
-  /*
-  string password = "password";
-  string salt = "salt";
-  SecretKey k = KeyDerivationFunction::computeDerivedKey(20*8, (byte*)password.data(), password.size(), (byte*)salt.data(), salt.size(), 2);
-  cout << "Ours: " << k << endl;
-  */
 
-  //byte p[8], s[8];
-  //SecureRandom prng;
+  byte scratch[12];
+  RandomPool& pool = RandomPool::GetSharedInstance();
+  pool.GenerateBlock(scratch, sizeof(scratch));
+
+  cout << (int)scratch[0] << " " << (int)scratch[1] << " " << (int)scratch[2] << " " << (int)scratch[3] << " ";
+  cout << (int)scratch[4] << " " << (int)scratch[5] << " " << (int)scratch[6] << " " << (int)scratch[7] << endl;
 
   //prng.nextBytes(p, sizeof(p));
   //prng.nextBytes(s, sizeof(s));
   // string password((char*)p, sizeof(p)), salt((char*)s, sizeof(s));
-
-  string password="", salt = "salt";
-  string encoded;
-  try
-  {
-    DefaultEncryptor encryptor;
-    encoded = encryptor.hash(password, salt);
-  }
-  catch(InvalidArgumentException&)
-  {
-  }
-  catch(EncryptionException&)
-  {
-  }
-  catch(...)
-  {
-  }
-
-  cout << DefaultEncryptor::DefaultDigestAlgorithm << ", " << encoded << endl;
 
   return 0;
 }

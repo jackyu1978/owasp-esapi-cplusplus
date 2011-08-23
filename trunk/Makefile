@@ -26,7 +26,7 @@ ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
 endif
 
-RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all static dynamic $(DYNAMIC_LIB) $(STATIC_LIB))
+RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
 ifneq ($(RELEASE_GOALS),)
   WANT_RELEASE := 1
 endif
@@ -132,6 +132,8 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/MessageDigest.cpp \
+			src/crypto/RandomPool-Shared.cpp \
+			src/crypto/RandomPool-Linux.cpp \
 			src/crypto/KeyDerivationFunction.cpp
 
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
