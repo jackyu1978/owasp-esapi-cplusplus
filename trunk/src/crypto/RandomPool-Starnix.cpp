@@ -44,7 +44,7 @@ namespace esapi
     int m_fd;
   };
 
-#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && defined(ESAPI_ARCH_X86)
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64)
   static __inline__ unsigned long long rdtsc(void)
   {
     unsigned hi, lo;
@@ -139,7 +139,7 @@ namespace esapi
 
     size_t idx = 0, rem = dsize, req = 0;
 
-#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && defined(ESAPI_ARCH_X86)
+#if defined(ESAPI_OS_LINUX) && defined(ESAPI_CXX_GCC) && (defined(ESAPI_ARCH_X86) || defined(ESAPI_ARCH_X64)
     unsigned long long ts = rdtsc();
 
     req = std::min(rem, sizeof(ts));
