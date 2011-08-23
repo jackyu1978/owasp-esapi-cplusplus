@@ -45,7 +45,7 @@ namespace esapi
   * using AES-256/OFB (keyed with /dev/[u]random) is *not* less secure than using
   * /dev/[u]random directly.
   */
-  class RandomPool : public NotCopyable
+  class ESAPI_EXPORT RandomPool : public NotCopyable
   {
   public:
     /**
