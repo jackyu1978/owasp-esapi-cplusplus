@@ -133,7 +133,7 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/MessageDigest.cpp \
 			src/crypto/RandomPool-Shared.cpp \
-			src/crypto/RandomPool-Linux.cpp \
+			src/crypto/RandomPool-Starnix.cpp \
 			src/crypto/KeyDerivationFunction.cpp
 
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
