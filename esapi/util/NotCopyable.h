@@ -13,12 +13,16 @@
 
 #pragma once
 
+/**
+* From Meyers' Effective C++ (3ed), Item 6, p.39.
+*/
 namespace esapi
 {
   class NotCopyable
   {
-  public:
+  protected:
     NotCopyable() { };
+    ~NotCopyable() { };
   private:
     NotCopyable(const NotCopyable&);
     NotCopyable& operator=(const NotCopyable&);
