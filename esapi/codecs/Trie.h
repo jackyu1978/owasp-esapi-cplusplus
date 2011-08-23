@@ -33,10 +33,11 @@ class Trie : std::map<std::string, T>{
 protected:
 	std::map<std::string,T> map;
 public:
-	std::pair<std::string,T> getLongestMatch(std::string);
+	virtual std::pair<std::string,T> getLongestMatch(std::string);
 	//pair<std::string,T> getLongestMatch(PushbackReader) =0;
-	int getMaxKeyLength();
-	int size();
+	virtual int getMaxKeyLength();
+	virtual int size();
+	virtual ~Trie() {};
 
 	template <typename Y>
 	class TrieProxy : public Trie<Y> {
@@ -47,38 +48,40 @@ public:
 			TrieProxy() {};
 
 		protected:
-			const Trie<T>& getWrapped();
+			virtual const Trie<T>& getWrapped();
 
 		public:
-			std::pair<std::string,Y> getLongestMatch (std::string);
+			virtual std::pair<std::string,Y> getLongestMatch (std::string);
 
-			int getMaxKeyLength();
+			virtual int getMaxKeyLength();
 
-			int size();
+			virtual int size();
 
-			bool isEmpty();
+			virtual bool isEmpty();
 
-			bool containsKey(std::string);
+			virtual bool containsKey(std::string);
 
-			bool containsValue(Y);
+			virtual bool containsValue(Y);
 
-			Y get(std::string);
+			virtual Y get(std::string);
 
-			Y put (std::string, Y);
+			virtual Y put (std::string, Y);
 
-			Y remove(std::string);
+			virtual Y remove(std::string);
 
-			void putAll(std::map<std::string, Y>);
+			virtual void putAll(std::map<std::string, Y>);
 
-			void clear();
+			virtual void clear();
 
-			/*std::set<std::string> keySet();
+			virtual std::set<std::string> keySet();
 
-			std::set<Y> values();
+			virtual std::set<Y> values();
 
-			std::set< std::pair<std::string,Y> > entrySet();
+			virtual std::set< std::pair<std::string,Y> > entrySet();
 
-			int hashCode();*/
+			/*virtual int hashCode();*/
+
+			virtual ~TrieProxy() {};
 	};
 
 	template <typename U>
@@ -110,6 +113,22 @@ public:
 // Silly compilers don't like separate files for templates.
 
 template <typename T>
+std::pair<std::string,T> esapi::Trie<T>::getLongestMatch(std::string){
+	std::pair<std::string,T> foo;
+	return foo; //TODO implement
+}
+
+template <typename T>
+int esapi::Trie<T>::getMaxKeyLength(){
+	return 0; //TODO implement
+}
+
+template <typename T>
+int esapi::Trie<T>::size(){
+	return 0; //TODO implement
+}
+
+template <typename T>
 template <typename Y>
 esapi::Trie<T>::TrieProxy<Y>::TrieProxy(const esapi::Trie<Y> & toWrap) {
 	this->wrapped = toWrap;
@@ -123,8 +142,8 @@ const esapi::Trie<T>& esapi::Trie<T>::TrieProxy<Y>::getWrapped() {
 
 template <typename T>
 template <typename Y>
-std::pair<std::string,Y> esapi::Trie<T>::TrieProxy<Y>::getLongestMatch (std::string) {
-	return this->wrapped.getLongestMatch();
+std::pair<std::string,Y> esapi::Trie<T>::TrieProxy<Y>::getLongestMatch (std::string keyIn) {
+	return this->wrapped.getLongestMatch(keyIn);
 }
 
 template <typename T>
@@ -218,24 +237,28 @@ void esapi::Trie<T>::TrieProxy<Y>::clear() {
 	this->wrapped.map.clear();
 }
 
-/*template <typename T>
+template <typename T>
 template <typename Y>
 std::set<std::string> esapi::Trie<T>::TrieProxy<Y>::keySet() {
-
+	std::set<std::string> foo;
+	return foo; //TODO implement
 }
 
 template <typename T>
 template <typename Y>
 std::set<Y> esapi::Trie<T>::TrieProxy<Y>::values() {
-
+	std::set<Y> foo;
+	return foo; //TODO implement;
 }
 
 template <typename T>
 template <typename Y>
 std::set< std::pair<std::string,Y> > esapi::Trie<T>::TrieProxy<Y>::entrySet() {
-
+	std::set< std::pair<std::string,Y> > foo;
+	return foo; //TODO implement;
 }
 
+/*
 template <typename T>
 template <typename Y>
 int esapi::Trie<T>::TrieProxy<Y>::hashCode() {

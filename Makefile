@@ -123,6 +123,7 @@ ROOTSRCS =	src/EncoderConstants.cpp \
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp \
 			src/codecs/HTMLEntityCodec.cpp \
+			src/codecs/HashTrie.cpp \
 			src/codecs/Trie.cpp
 
 CRYPTOSRCS = src/crypto/PlainText.cpp \
