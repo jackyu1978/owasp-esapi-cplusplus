@@ -122,7 +122,7 @@
     if(!(exp)) {                                                        \
       std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
                 << (int)__LINE__ << "): " << (char*)(__func__)          \
-                << ": \"" << (char*)(msg) << "\"" << std::endl;         \
+                << ": \"" << (msg) << "\"" << std::endl;                \
       raise(SIGTRAP);                                                   \
     }                                                                   \
   }
