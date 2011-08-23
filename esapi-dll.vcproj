@@ -372,7 +372,55 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\crypto\RandomPool-Shared.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\crypto\RandomPool-Starnix.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\src\crypto\RandomPool-Win32.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\crypto\SecretKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\crypto\SecureRamdomImpl.cpp"
 					>
 				</File>
 				<File
@@ -393,6 +441,10 @@
 				</File>
 				<File
 					RelativePath=".\src\codecs\PushbackString.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\codecs\Trie.cpp"
 					>
 				</File>
 			</Filter>
@@ -447,6 +499,10 @@
 			<Filter
 				Name="util"
 				>
+				<File
+					RelativePath=".\src\util\Mutex.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\src\util\SecureString.cpp"
 					>
@@ -529,6 +585,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\crypto\Crypto++Common.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\crypto\CryptoHelper.h"
 						>
 					</File>
@@ -550,6 +610,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\crypto\PlainText.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\RandomPool.h"
 						>
 					</File>
 					<File
@@ -585,11 +649,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath=".\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
@@ -618,6 +682,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\errors\InvalidArgumentException.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\errors\UnsupportedOperationException.h"
 						>
 					</File>
 					<File
@@ -660,6 +728,18 @@
 				<Filter
 					Name="util"
 					>
+					<File
+						RelativePath=".\esapi\util\ArrayZeroizer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\util\Mutex.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\util\NotCopyable.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\util\SecureString.h"
 						>
