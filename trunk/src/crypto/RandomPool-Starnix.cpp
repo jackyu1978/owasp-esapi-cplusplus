@@ -34,9 +34,10 @@ namespace esapi
     explicit AutoFileDesc(int& fd) : m_fd(fd) { }
 
     ~AutoFileDesc() {
-      if(m_fd)
+      if(m_fd) {
         close(m_fd);
-      m_fd = NULL;
+        m_fd = NULL;
+      }
     }
 
   private:
