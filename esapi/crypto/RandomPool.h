@@ -46,8 +46,7 @@ namespace esapi
   * /dev/[u]random directly.
   */
 
-  // TODO: Remove ESAPI_EXPORT (its there for testing)
-  class ESAPI_EXPORT RandomPool : public NotCopyable
+  class ESAPI_TEXPORT RandomPool : private NotCopyable
   {
   public:
     /**
