@@ -208,9 +208,13 @@ typedef unsigned char byte;
 # include <pthread.h>
 #endif
 
-// Windows defines a min that clashes with std::min
+// Windows defines a min that clashes with std::min. We also need
+// Windows 2000 (_WIN32_WINNT = 0x0500) for WinCrypt gear
 #if defined(ESAPI_OS_WINDOWS)
 # define NOMINMAX
+# define  _WIN32_WINNT 0x0500
+# include <windows.h>
+# include <Wincrypt.h>
 #endif
 
 // Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
@@ -253,6 +257,7 @@ ESAPI_MS_NO_WARNING(4290)
 # endif
 #elif defined(ESAPI_CXX_ICC)
 # define ESAPI_EXPORT
+# define ESAPI_TEXPORT
 # define ESAPI_PRIVATE
 #elif defined(ESAPI_CXX_GCC)
 # if (__GNUC__ >= 4)
@@ -264,9 +269,16 @@ ESAPI_MS_NO_WARNING(4290)
 # endif
 #endif
 
+// Some stuff needs to be exported for testing. For example,
+// RandomPool is meant to be used only by secure random.
+#if !defined(ESAPI_BUILD_RELEASE)
+# define ESAPI_TEXPORT ESAPI_EXPORT
+#else
+# define ESAPI_TEXPORT
+#endif
+
 namespace esapi {
   // Value added typedefs. zallocator comes from util/zAllocator.h.
   typedef std::vector< byte, esapi::zallocator<byte> > SecureByteArray;
   typedef std::vector< int, esapi::zallocator<int> > SecureIntArray;
 }
-
