@@ -120,8 +120,8 @@ namespace esapi
         if( !(fd > 0) ) break; /* Failed */
 
         int ret = read(fd, key+idx, rem);
-        ASSERT(ret == rem);
-        if( ret != rem ) break; /* Failed */
+        ASSERT((unsigned int)ret == rem);
+        if( (unsigned int)ret != rem ) break; /* Failed */
 
         rem -= ret;
 
