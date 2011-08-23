@@ -94,7 +94,7 @@ namespace esapi
           ASSERT(ret >= 0);
           if( !(ret >= 0) ) break; /* Failed */
 
-          // The return value determine bytes read
+          // The return value determines number of bytes read
           rem -= ret;
           idx += ret;
 
@@ -120,8 +120,10 @@ namespace esapi
         if( !(fd > 0) ) break; /* Failed */
 
         int ret = read(fd, key+idx, rem);
-        ASSERT(ret >= 0);
-        if( !(ret >= 0) ) break; /* Failed */
+        ASSERT(ret == rem);
+        if( ret != rem ) break; /* Failed */
+
+        rem -= ret;
 
       } while(false);
     }
