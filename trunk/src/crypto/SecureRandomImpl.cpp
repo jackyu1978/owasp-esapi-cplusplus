@@ -1,16 +1,16 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #include "EsapiCommon.h"
 #include "crypto/RandomPool.h"
@@ -25,78 +25,101 @@
 #include <stdexcept>
 
 /**
-* This class implements functionality similar to Java's SecureRandom for consistency
-* http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html.
-*
-* SP800-90, 'Recommendation for Random Number Generation Using Deterministic
-* Random Bit Generators'. SP800-90 algorithms are used for Hash, Hmac, and
-* Block Ciphers. For Block ciphers, SP800-90 specifies CTR mode. The counter
-* is a special case of an IV with [possibly] a nonce and monotomically
-* increasing values. For non-CTR modes (ie, AES/CFB), we use a random IV
-* drawn from the Random Pool.
-*
-* Seed material is {entropy || nonce || personalization}. Entropy is *not* the
-* user provided seed bytes per Section 8.7.2. Instead, enropy is a string of
-* bits obtained from a "Source of Entropy" (SEI) per Section 10. A "Source of
-* Entropy" produces unpredictable data per Appendix C. Appendix C recommends
-* for example, a Geiger counter or noisy diode. Obviously, we don't expect
-* to have a Geiger counter on a COMM or USB port.
-*
-* SecureRandom defers to ESAPI's Random Pool for unpredictable data. RandomPool
-* is the "Source of Entropy" abstraction, and is mildly intelligent about drawing
-* bits from its supported sources. For example, on Windows the pool will attempt
-* to pull bytes from an Intel i8XX chipset (a hardware based RNG). On Linux,
-* it will attempt to acquire bits via /dev/random *without* blocking. If bits are
-* not available from preferred sources, the pool will fall back to Windows'
-* CryptGenRandom from the default CSP, or /dev/urandom from Linux.
-*
-* Getting back to {entropy || nonce || personalization}, a user provided
-* seed is "Additional Input" per Section 8.7.2. The nonce is an additional
-* unpredictable value (more on nonce and its relationship with entropy below).
-* The personalization string is more unique data such as device UUID, host
-* name, user name, or public key (per Section 8.6.7). The personalization string
-* is known by other names in other documents and standards, such as a 'purpose',
-* 'label', and 'context info'. Per 8.6.7, its OK to fotgo a Personalization String.
-*
-* When instantiating a generator, we *must* have entropy. If we don't have entropy,
-* its a catastrohpic failure. Because of the Random Pool, we can expect to have
-* entropy. Each generator performs to a specific Security Level. The amount of
-* entropy we need is related to the security level and specified as Seed Length.
-* The nonce should have at least 1/2 SeedLength bits. If the nonce is provided
-* by the same source as entropy (which it is), we need 3/2*SeedLength per
-* Section 8.6.7.
-*
-* Instantiating a generator to a Security Level means our pool must match
-* security level. To keep a single pool for all generators, the Random Pool
-* uses AES-256/OFB. AES-256/OFB matches the security level of the strongest
-* SecureRandoms we provide (ie, SHA-512, HmacSHA-512, AES-256/CTR). Weaker
-* SecureRandoms are slightly penalized in speed due to the stronger RandomPool
-* algorithm.
-*
-* Enough with the background info. When we instantiate, here's what we do:
-* seed_material = Entropy (SeedLength bits from Random Pool) ||
-* Nonce (1/2 SeedLength bits from Random Pool) ||
-* Personalization String (the user provided seed)
-* Some generators need to preporcess seed_material (cf, Hash), others do
-* not. Regardless, Instantiate() occurs with some form of seed_material.
-*
-* Reseeding is similar in operation. We fetch new bytes from the Random Pool
-* and mix in user supplied data (ie, their 'seed') to arrive at seed_material
-*/
+ * This class implements functionality similar to Java's SecureRandom for consistency
+ * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html.
+ *
+ * SP800-90, 'Recommendation for Random Number Generation Using Deterministic
+ * Random Bit Generators'. SP800-90 algorithms are used for Hash, Hmac, and
+ * Block Ciphers. For Block ciphers, SP800-90 specifies CTR mode. The counter
+ * is a special case of an IV with [possibly] a nonce and monotomically
+ * increasing values. For non-CTR modes (ie, AES/CFB), we use a random IV
+ * drawn from the Random Pool.
+ *
+ * Seed material is {entropy || nonce || personalization}. Entropy is *not* the
+ * user provided seed bytes per Section 8.7.2. Instead, enropy is a string of
+ * bits obtained from a "Source of Entropy" (SEI) per Section 10. A "Source of
+ * Entropy" produces unpredictable data per Appendix C. Appendix C recommends
+ * for example, a Geiger counter or noisy diode. Obviously, we don't expect
+ * to have a Geiger counter on a COMM or USB port.
+ *
+ * SecureRandom defers to ESAPI's RandomPool for unpredictable data. RandomPool
+ * is the "Source of Entropy" abstraction, and is mildly intelligent about drawing
+ * bits from its supported sources. For example, on Windows the pool will attempt
+ * to pull bytes from an Intel i8XX chipset (a hardware based RNG). On Linux,
+ * it will attempt to acquire bits via /dev/random *without* blocking. If bits are
+ * not available from preferred sources, the pool will fall back to the default CSP
+ * on Windows, or /dev/urandom from Linux. IF you have an EntropyKey
+ * (http://www.entropykey.co.uk/) jacked in, you will most likely always seed
+ * from /dev/random. During testing, I could never drain /dev/random with an
+ * EntropyKey present.
+ *
+ * Getting back to {entropy || nonce || personalization}: a user provided seed is
+ * considered "Additional Input" per Section 8.7.2, so don't confuse it with 'entropy'.
+ * The nonce is an additional unpredictable value (more on nonce and its
+ * relationship with entropy below). The personalization string is more unique
+ * data such as device UUID, host name, user name, or public key (per Section 8.6.7).
+ * The personalization string is known by other names in other documents and standards,
+ * such as a 'purpose', 'label', and 'context info'. Per 8.6.7, its OK to forego a
+ * Personalization String.
+ *
+ * When instantiating a generator, we *must* have entropy. If we don't have entropy,
+ * its a catastrohpic failure. Because of the Random Pool, we can expect to have
+ * entropy. Each generator performs to a specific Security Level. The amount of
+ * entropy we need is related to the cipher/algorithm, the security level and
+ * specified as SeedLength. The nonce should have at least 1/2 SeedLength bits.
+ * If the nonce is provided by the same source as entropy (which it is), we need
+ * 3/2*SeedLength per Section 8.6.7.
+ *
+ * Instantiating a generator to a Security Level means our RandomPool must match
+ * security levels. To keep a single pool for all generators, the Random Pool
+ * uses AES-256/OFB. AES-256/OFB matches the security level of the strongest
+ * SecureRandoms we provide (ie, SHA-512, HmacSHA-512, AES-256/CTR). Weaker
+ * SecureRandoms (ie, SHA-1) are slightly penalized due to the stronger RandomPool
+ * algorithm.
+ *
+ * Enough with the background info. When we instantiate, here's what we do:
+ *   seed_material = Entropy (SeedLength bits from Random Pool) ||
+ *                   Nonce (1/2 SeedLength bits from Random Pool) ||
+ *                   Personalization String (the user provided seed)
+ *
+ * Some generators need to preporcess seed_material (cf, Hash), others do
+ * not. Regardless, Instantiate() occurs with seed_material dominated by
+ * the Random Pool.
+ *
+ * Reseeding is similar in operation. We fetch new bytes from the Random Pool
+ * and mix in user supplied data (ie, their 'seed') to arrive at seed_material:
+ *   seed_material = Entropy (SeedLength bits from Random Pool) ||
+ *                   Additional Data (the user provided seed)
+ *
+ * The reseed algorithms include [some] previous state during the operation.
+ * There is a limit on how much 'seed' data the user can provide (~2^16 per
+ * the Special Publication). If the threshold is exceeded, the PRNG will throw.
+ * Under most circumstances, Reseed() will be dominated by previous stated and
+ * the Random Pool.
+ *
+ * Finally, a generator has a finite lifetime. At end of life, the PRNG must
+ * be reseeded. The standard does not discuss Auto Seeding, so it is not performed.
+ * Instead an exception is thrown after ~2^12 invocations (not bytes). A comment
+ * was filed with NIST asking for guidance on Auto Seeding.
+ */
 namespace esapi
 {
   /**
-  * Analysis: since this system uses AES-256/OFB mixer for OS provided data, it is
-  * no less secure than the raw entropy bits retrieved from the operating system.
-  * That is, generating a stream using AES-256/OFB (keyed with /dev/[u]random) is
-  * *not* less secure than using /dev/[u]random or CryptGenRandom directly.
-  */
+   * Analysis: since this system uses AES-256/OFB mixer for OS provided data, it is
+   * no less secure than the raw entropy bits retrieved from the operating system.
+   * That is, generating a stream using AES-256/OFB (keyed with /dev/[u]random) is
+   * *not* less secure than using /dev/[u]random or CryptGenRandom directly.
+   */
+
+  /**
+   * A single random pool for use among all generators.
+   */
   RandomPool& SecureRandomImpl::g_pool = RandomPool::GetSharedInstance();
 
   /**
-  * Factory method to cough up an implementation.
-  * Used by getInstance and most stack based SecureRandoms
-  */
+   * Factory method to cough up an implementation.
+   * Used by getInstance and most stack based SecureRandoms
+   */
   SecureRandomImpl* SecureRandomImpl::createInstance(const std::string& algorithm, const byte* seed, size_t size)
   {
 
@@ -216,15 +239,6 @@ namespace esapi
     if(algorithm == "HmacWhirlpool")
       return new HmacImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    ////////////////////////////// Stream Ciphers //////////////////////////////
-
-#if 0
-#if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
-    if(algorithm == "ARCFOUR")
-      return new StreamCipherImpl<CryptoPP::Weak::ARC4>(algorithm, seed, size);
-#endif
-#endif
-
     ///////////////////////////////// Catch All /////////////////////////////////
 
     std::ostringstream oss;
@@ -233,17 +247,17 @@ namespace esapi
   }
 
   /**
-  * Constructs a secure random number generator (RNG) implementing the named
-  * random number algorithm.
-  */
+   * Constructs a secure random number generator (RNG) implementing the named
+   * random number algorithm.
+   */
   SecureRandomImpl::SecureRandomImpl(const std::string& algorithm, const byte*, size_t)
     : m_catastrophic(false), m_algorithm(algorithm), m_lock(new Mutex)
   {
   }
 
   /**
-  * Returns the name of the algorithm implemented by this SecureRandomImpl object.
-  */
+   * Returns the name of the algorithm implemented by this SecureRandomImpl object.
+   */
   std::string SecureRandomImpl::getAlgorithmImpl() const
   {
     ASSERT( !m_algorithm.empty() );
@@ -251,8 +265,8 @@ namespace esapi
   }
 
   /**
-  * Retrieves the object level lock
-  */
+   * Retrieves the object level lock
+   */
   Mutex& SecureRandomImpl::getObjectLock() const
   {
     ASSERT(m_lock.get());
@@ -260,8 +274,8 @@ namespace esapi
   }
 
   /**
-  * Convenience function to move a big integer into a buffer
-  */
+   * Convenience function to move a big integer into a buffer
+   */
   void SecureRandomImpl::IntegerToBuffer(const CryptoPP::Integer& n, byte* buff, size_t bsize)
   {
     ASSERT(buff && bsize);
@@ -285,8 +299,8 @@ namespace esapi
   ///////////////////////////////////////////////////////////////
 
   /**
-  * Create a SecureRandom implementation based on a hash
-  */
+   * Create a SecureRandom implementation based on a hash
+   */
   template <class HASH, class DRBGINFO>
   HashImpl<HASH, DRBGINFO>::HashImpl(const std::string& algorithm, const byte* seed, size_t ssize)
     : SecureRandomImpl(algorithm), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
@@ -298,41 +312,41 @@ namespace esapi
       throw InvalidArgumentException("The seed buffer or size is not valid");
 
     try
-    {
-      // To instantiate, we use {entropy || nonce || personalization}.
-      // Since we are drawing entropy and nonce from the same source, we
-      // need 3/2*SeedLength rather than just SeedLength (see Section 8.6.7).
-      // Personalization is optional. If using the default constructor,
-      // it is not present. If using SecureRandom::getInstance(SEED), the
-      // seed will be present and used as the personalization string.
-      const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
-      CryptoPP::SecByteBlock material(msize + ssize);
+      {
+        // To instantiate, we use {entropy || nonce || personalization}.
+        // Since we are drawing entropy and nonce from the same source, we
+        // need 3/2*SeedLength rather than just SeedLength (see Section 8.6.7).
+        // Personalization is optional. If using the default constructor,
+        // it is not present. If using SecureRandom::getInstance(SEED), the
+        // seed will be present and used as the personalization string.
+        const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
+        CryptoPP::SecByteBlock material(msize + ssize);
 
-      g_pool.GenerateBlock(material.data(), msize);
+        g_pool.GenerateBlock(material.data(), msize);
 
-      // Copy in the user provided "personalization"
-      if(seed && ssize)
-        ::memcpy(material.data()+msize, seed, ssize);
+        // Copy in the user provided "personalization"
+        if(seed && ssize)
+          ::memcpy(material.data()+msize, seed, ssize);
 
-      // All forward facing gear which manipulates internal state acquires the object lock
-      // We might not even need locking here - the object has yet to be constructed, so
-      // the thread has not returned and the object cannot be copied. We'll do it for
-      // good measure to make an audit easier on the eyes.
-      MutexAutoLock lock(getObjectLock());
+        // All forward facing gear which manipulates internal state acquires the object lock
+        // We might not even need locking here - the object has yet to be constructed, so
+        // the thread has not returned and the object cannot be copied. We'll do it for
+        // good measure to make an audit easier on the eyes.
+        MutexAutoLock lock(getObjectLock());
 
-      HashInstantiate(material.data(), material.size());
-    }
+        HashInstantiate(material.data(), material.size());
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Returns the security level associated with the SecureRandom object. Used
-  * by KeyGenerator to determine the appropriate key size for init.
-  */
+   * Returns the security level associated with the SecureRandom object. Used
+   * by KeyGenerator to determine the appropriate key size for init.
+   */
   template <class HASH, class DRBGINFO>
   unsigned int HashImpl<HASH, DRBGINFO>::getSecurityLevelImpl() const
   {
@@ -340,8 +354,8 @@ namespace esapi
   }
 
   /**
-  * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
-  */
+   * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
+   */
   template <class HASH, class DRBGINFO>
   byte* HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
@@ -357,8 +371,8 @@ namespace esapi
   }
 
   /**
-  * Returns the name of the algorithm implemented by this SecureRandom object.
-  */
+   * Returns the name of the algorithm implemented by this SecureRandom object.
+   */
   template <class HASH, class DRBGINFO>
   std::string HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
   {
@@ -371,8 +385,8 @@ namespace esapi
   }
 
   /**
-  * Generates a user-specified number of random bytes.
-  */
+   * Generates a user-specified number of random bytes.
+   */
   template <class HASH, class DRBGINFO>
   void HashImpl<HASH, DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
@@ -390,26 +404,26 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      // Set up a temporary so we don't leak bits on an exception
-      CryptoPP::SecByteBlock temp(size);
-      HashGenerate(temp.data(), temp.size());
+        // Set up a temporary so we don't leak bits on an exception
+        CryptoPP::SecByteBlock temp(size);
+        HashGenerate(temp.data(), temp.size());
 
-      ::memcpy(bytes, temp.data(), size);
-    }
+        ::memcpy(bytes, temp.data(), size);
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Reseeds this random object.
-  */
+   * Reseeds this random object.
+   */
   template <class HASH, class DRBGINFO>
   void HashImpl<HASH, DRBGINFO>::setSeedImpl(const byte seed[], size_t size)
   {
@@ -426,22 +440,22 @@ namespace esapi
       throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      HashReseed(seed, size);
-    }
+        HashReseed(seed, size);
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Reseeds this random object, using the bytes contained in the given long seed.
-  */
+   * Reseeds this random object, using the bytes contained in the given long seed.
+   */
   template <class HASH, class DRBGINFO>
   void HashImpl<HASH, DRBGINFO>::setSeedImpl(int seed)
   {
@@ -454,22 +468,22 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      setSeedImpl((const byte*)&seed, sizeof(seed));
-    }
+        setSeedImpl((const byte*)&seed, sizeof(seed));
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * The hash instantiate described in 10.1.1.2.
-  */
+   * The hash instantiate described in 10.1.1.2.
+   */
   template <class HASH, class DRBGINFO>
   void HashImpl<HASH, DRBGINFO>::HashInstantiate(const byte* seed, size_t ssize)
   {
@@ -481,20 +495,20 @@ namespace esapi
       throw InvalidArgumentException("Unable to instatiate hash drbg. The seed buffer or size is not valid");
 
     try
-    {
-      HashDerivationFunction(seed, ssize, m_v.data(), m_v.size());
+      {
+        HashDerivationFunction(seed, ssize, m_v.data(), m_v.size());
 
-      byte c[SeedLength+1];
-      ByteArrayZeroizer z1 (c, sizeof(c));
+        byte c[SeedLength+1];
+        ByteArrayZeroizer z1 (c, sizeof(c));
 
-      HashInitBufferWithData(0x00, m_v.data(), m_v.size(), c, sizeof(c));
-      HashDerivationFunction(c, sizeof(c), m_c.data(), m_c.size());
-    }
+        HashInitBufferWithData(0x00, m_v.data(), m_v.size(), c, sizeof(c));
+        HashDerivationFunction(c, sizeof(c), m_c.data(), m_c.size());
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -516,67 +530,67 @@ namespace esapi
       throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
-    {
-      static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
-      m_hash.Restart();
+      {
+        static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
+        m_hash.Restart();
 
-      /////////////////////////////////////////////////////////
-      // Preprocess V, Steps 1 and 2
-      /////////////////////////////////////////////////////////
-      byte w[HASH::DIGESTSIZE];
-      ByteArrayZeroizer z1(w, sizeof(w));
+        /////////////////////////////////////////////////////////
+        // Preprocess V, Steps 1 and 2
+        /////////////////////////////////////////////////////////
+        byte w[HASH::DIGESTSIZE];
+        ByteArrayZeroizer z1(w, sizeof(w));
 
-      static const int two = 0x02;
-      m_hash.Update((const byte*)&two, sizeof(two));
-      m_hash.Update(m_v.data(), m_v.size());
-      m_hash.TruncatedFinal(w, sizeof(w));
+        static const int two = 0x02;
+        m_hash.Update((const byte*)&two, sizeof(two));
+        m_hash.Update(m_v.data(), m_v.size());
+        m_hash.TruncatedFinal(w, sizeof(w));
 
-      // Can we do this faster with a cascading add rather than using an Integer?
-      CryptoPP::Integer v(m_v.data(), m_v.size());
-      v += CryptoPP::Integer(w, sizeof(w));
-      v %= seedPower2;
+        // Can we do this faster with a cascading add rather than using an Integer?
+        CryptoPP::Integer v(m_v.data(), m_v.size());
+        v += CryptoPP::Integer(w, sizeof(w));
+        v %= seedPower2;
 
-      ASSERT(v.ByteCount() <= SeedLength);
-      IntegerToBuffer(v, m_v.data(), m_v.size());
+        ASSERT(v.ByteCount() <= SeedLength);
+        IntegerToBuffer(v, m_v.data(), m_v.size());
 
-      /////////////////////////////////////////////////////////
-      // Hashgen, Step 3
-      /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        // Hashgen, Step 3
+        /////////////////////////////////////////////////////////
 
-      HashGenerateHelper(hash, hsize);
+        HashGenerateHelper(hash, hsize);
 
-      /////////////////////////////////////////////////////////
-      // Postprocess V, Steps 4, 5, and 6
-      /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        // Postprocess V, Steps 4, 5, and 6
+        /////////////////////////////////////////////////////////
 
-      static const byte three = 0x03;
-      byte h[HASH::DIGESTSIZE];
-      ByteArrayZeroizer z2(h, sizeof(h));
+        static const byte three = 0x03;
+        byte h[HASH::DIGESTSIZE];
+        ByteArrayZeroizer z2(h, sizeof(h));
 
-      m_hash.Update(&three, sizeof(three));
-      m_hash.Update(m_v.data(), m_v.size());
-      m_hash.TruncatedFinal(h, sizeof(h));
+        m_hash.Update(&three, sizeof(three));
+        m_hash.Update(m_v.data(), m_v.size());
+        m_hash.TruncatedFinal(h, sizeof(h));
 
-      // Can we do this faster with a cascading add rather than using an Integer?
-      v = CryptoPP::Integer(m_v.data(), m_v.size());
-      v += CryptoPP::Integer(h, sizeof(h));
-      v += CryptoPP::Integer(m_c.data(), m_c.size());
-      v += m_rctr;
-      v %= seedPower2;
+        // Can we do this faster with a cascading add rather than using an Integer?
+        v = CryptoPP::Integer(m_v.data(), m_v.size());
+        v += CryptoPP::Integer(h, sizeof(h));
+        v += CryptoPP::Integer(m_c.data(), m_c.size());
+        v += m_rctr;
+        v %= seedPower2;
 
-      ASSERT(v.ByteCount() <= SeedLength);
-      IntegerToBuffer(v, m_v.data(), m_v.size());
+        ASSERT(v.ByteCount() <= SeedLength);
+        IntegerToBuffer(v, m_v.data(), m_v.size());
 
-      /////////////////////////////////////////////////////////
-      // Copy out the generated data to the hash
-      /////////////////////////////////////////////////////////
-      m_rctr++;
-    }
+        /////////////////////////////////////////////////////////
+        // Copy out the generated data to the hash
+        /////////////////////////////////////////////////////////
+        m_rctr++;
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -603,47 +617,47 @@ namespace esapi
       throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
-    {
-      static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
-      m_hash.Restart();
-
-      byte data[SeedLength];
-      ByteArrayZeroizer z1(data, sizeof(data));
-
-      ::memcpy(data, m_v.data(), m_v.size());
-      size_t idx = 0, rem /*remaining*/ = hsize;
-
-      // Write the string W directly into the provided buffer
-      // (10.1.1.4 forms W = w_1 || w_2 || ... || w_i)
-      while(rem)
       {
-        const size_t req = std::min(rem, (size_t)HASH::DIGESTSIZE);
-        m_hash.Update(data, sizeof(data));
-        m_hash.TruncatedFinal(hash+idx, req);
+        static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
+        m_hash.Restart();
 
-        // Can we do this faster with a cascading add rather than using an Integer?
-        CryptoPP::Integer d(data, sizeof(data));
-        d += 1;
-        d %= seedPower2;
+        byte data[SeedLength];
+        ByteArrayZeroizer z1(data, sizeof(data));
 
-        ASSERT(d.ByteCount() <= SeedLength);
-        IntegerToBuffer(d, data, sizeof(data));
+        ::memcpy(data, m_v.data(), m_v.size());
+        size_t idx = 0, rem /*remaining*/ = hsize;
 
-        idx += req;
-        rem -= req;
+        // Write the string W directly into the provided buffer
+        // (10.1.1.4 forms W = w_1 || w_2 || ... || w_i)
+        while(rem)
+          {
+            const size_t req = std::min(rem, (size_t)HASH::DIGESTSIZE);
+            m_hash.Update(data, sizeof(data));
+            m_hash.TruncatedFinal(hash+idx, req);
+
+            // Can we do this faster with a cascading add rather than using an Integer?
+            CryptoPP::Integer d(data, sizeof(data));
+            d += 1;
+            d %= seedPower2;
+
+            ASSERT(d.ByteCount() <= SeedLength);
+            IntegerToBuffer(d, data, sizeof(data));
+
+            idx += req;
+            rem -= req;
+          }
       }
-    }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * The hash derivation function (Hash_df) described in SP 800-90, 10.4.1.
-  * {bytes,length} is the seed_material described in 10.1.1.2.
-  */
+   * The hash derivation function (Hash_df) described in SP 800-90, 10.4.1.
+   * {bytes,length} is the seed_material described in 10.1.1.2.
+   */
   template <class HASH, class DRBGINFO>
   void HashImpl<HASH, DRBGINFO>::HashDerivationFunction(const byte* data, size_t dsize, byte* hash, size_t hsize)
   {
@@ -662,30 +676,30 @@ namespace esapi
     byte counter = 1;
 
     try
-    {
-      size_t idx = 0, rem = hsize;
-      while(rem)
       {
-        m_hash.Update(&counter, 1);
-        m_hash.Update((const byte*)&seedBits, sizeof(seedBits));
-        m_hash.Update(data, dsize);
+        size_t idx = 0, rem = hsize;
+        while(rem)
+          {
+            m_hash.Update(&counter, 1);
+            m_hash.Update((const byte*)&seedBits, sizeof(seedBits));
+            m_hash.Update(data, dsize);
 
-        // Though we call TruncatedFinal, full digest sizes are
-        // retireved, except for possibly the last block. Note
-        // that TruncatedFinal will reset the hash object.
-        const size_t req = std::min(rem,(size_t)HASH::DIGESTSIZE);
-        m_hash.TruncatedFinal(hash+idx, req);
+            // Though we call TruncatedFinal, full digest sizes are
+            // retireved, except for possibly the last block. Note
+            // that TruncatedFinal will reset the hash object.
+            const size_t req = std::min(rem,(size_t)HASH::DIGESTSIZE);
+            m_hash.TruncatedFinal(hash+idx, req);
 
-        counter++;
-        idx += req;
-        rem -= req;
+            counter++;
+            idx += req;
+            rem -= req;
+          }
       }
-    }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -699,37 +713,37 @@ namespace esapi
       throw InvalidArgumentException("Unable to reseed hash drbg. The seed buffer or size is not valid");
 
     try
-    {
-      const size_t msize /*seed material size*/ = 1 + m_v.size() + SeedLength + ssize;
-      size_t idx = 0;
+      {
+        const size_t msize /*seed material size*/ = 1 + m_v.size() + SeedLength + ssize;
+        size_t idx = 0;
 
-      CryptoPP::SecByteBlock material(msize);
-      material.data()[idx] = 0x01; idx++;
+        CryptoPP::SecByteBlock material(msize);
+        material.data()[idx] = 0x01; idx++;
 
-      ::memcpy(material.data()+idx, m_v.data(), m_v.size());
-      idx += m_v.size();
+        ::memcpy(material.data()+idx, m_v.data(), m_v.size());
+        idx += m_v.size();
 
-      g_pool.GenerateBlock(material.data()+idx, SeedLength);
-      idx += SeedLength;
+        g_pool.GenerateBlock(material.data()+idx, SeedLength);
+        idx += SeedLength;
 
-      if(seed)
-        ::memcpy(material.data()+idx, seed, ssize);
+        if(seed)
+          ::memcpy(material.data()+idx, seed, ssize);
 
-      HashDerivationFunction(material.data(), material.size(), m_v.data(), m_v.size());
+        HashDerivationFunction(material.data(), material.size(), m_v.data(), m_v.size());
 
-      byte c[SeedLength+1];
-      ByteArrayZeroizer z1(c, sizeof(c));
+        byte c[SeedLength+1];
+        ByteArrayZeroizer z1(c, sizeof(c));
 
-      HashInitBufferWithData(0x00, m_v.data(), m_v.size(), c, sizeof(c));
-      HashDerivationFunction(c, sizeof(c), m_c.data(), m_c.size());
+        HashInitBufferWithData(0x00, m_v.data(), m_v.size(), c, sizeof(c));
+        HashDerivationFunction(c, sizeof(c), m_c.data(), m_c.size());
 
-      m_rctr = 1;
-    }
+        m_rctr = 1;
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   ///////////////////////////////////////////////////////////////
@@ -737,8 +751,8 @@ namespace esapi
   ///////////////////////////////////////////////////////////////
 
   /**
-  * Create a SecureRandom implementation based on a block cipher
-  */
+   * Create a SecureRandom implementation based on a block cipher
+   */
   template <class HASH, class DRBGINFO>
   HmacImpl<HASH, DRBGINFO>::HmacImpl(const std::string& algorithm, const byte* seed, size_t ssize)
     : SecureRandomImpl(algorithm), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
@@ -749,41 +763,41 @@ namespace esapi
       throw InvalidArgumentException("The seed buffer or size is not valid");
 
     try
-    {
-      // To instantiate, we use {entropy || nonce || personalization}.
-      // Since we are drawing entropy and nonce from the same source, we
-      // need 3/2*SeedLength rather than just SeedLength (see Section 8.6.7).
-      // Personalization is optional. If using the default constructor,
-      // it is not present. If using SecureRandom::getInstance(SEED), the
-      // seed will be present and used as the personalization string.
-      const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
-      CryptoPP::SecByteBlock material(msize + ssize);
+      {
+        // To instantiate, we use {entropy || nonce || personalization}.
+        // Since we are drawing entropy and nonce from the same source, we
+        // need 3/2*SeedLength rather than just SeedLength (see Section 8.6.7).
+        // Personalization is optional. If using the default constructor,
+        // it is not present. If using SecureRandom::getInstance(SEED), the
+        // seed will be present and used as the personalization string.
+        const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
+        CryptoPP::SecByteBlock material(msize + ssize);
 
-      g_pool.GenerateBlock(material.data(), msize);
+        g_pool.GenerateBlock(material.data(), msize);
 
-      // Copy in the user provided "personalization"
-      if(seed && ssize)
-        ::memcpy(material.data()+msize, seed, ssize);
+        // Copy in the user provided "personalization"
+        if(seed && ssize)
+          ::memcpy(material.data()+msize, seed, ssize);
 
-      // All forward facing gear which manipulates internal state acquires the object lock
-      // We might not even need locking here - the object has yet to be constructed, so
-      // the thread has not returned and the object cannot be copied. We'll do it for
-      // good measure to make an audit easier on the eyes.
-      MutexAutoLock lock(getObjectLock());
+        // All forward facing gear which manipulates internal state acquires the object lock
+        // We might not even need locking here - the object has yet to be constructed, so
+        // the thread has not returned and the object cannot be copied. We'll do it for
+        // good measure to make an audit easier on the eyes.
+        MutexAutoLock lock(getObjectLock());
 
-      HmacInstantiate(material.data(), material.size());
-    }
+        HmacInstantiate(material.data(), material.size());
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Returns the security level associated with the SecureRandom object. Used
-  * by KeyGenerator to determine the appropriate key size for init.
-  */
+   * Returns the security level associated with the SecureRandom object. Used
+   * by KeyGenerator to determine the appropriate key size for init.
+   */
   template <class HASH, class DRBGINFO>
   unsigned int HmacImpl<HASH,DRBGINFO>::getSecurityLevelImpl() const
   {
@@ -791,8 +805,8 @@ namespace esapi
   }
 
   /**
-  * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
-  */
+   * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
+   */
   template <class HASH, class DRBGINFO>
   byte* HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
@@ -800,8 +814,8 @@ namespace esapi
   }
 
   /**
-  * Returns the name of the algorithm implemented by this SecureRandom object.
-  */
+   * Returns the name of the algorithm implemented by this SecureRandom object.
+   */
   template <class HASH, class DRBGINFO>
   std::string HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
   {
@@ -809,8 +823,8 @@ namespace esapi
   }
 
   /**
-  * Generates a user-specified number of random bytes.
-  */
+   * Generates a user-specified number of random bytes.
+   */
   template <class HASH, class DRBGINFO>
   void HmacImpl<HASH,DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
@@ -828,26 +842,26 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      // Set up a temporary so we don't leak bits on an exception
-      CryptoPP::SecByteBlock temp(size);
-      HmacGenerate(temp.data(), temp.size());
+        // Set up a temporary so we don't leak bits on an exception
+        CryptoPP::SecByteBlock temp(size);
+        HmacGenerate(temp.data(), temp.size());
 
-      ::memcpy(bytes, temp.data(), size);
-    }
+        ::memcpy(bytes, temp.data(), size);
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Reseeds this random object.
-  */
+   * Reseeds this random object.
+   */
   template <class HASH, class DRBGINFO>
   void HmacImpl<HASH,DRBGINFO>::setSeedImpl(const byte seed[], size_t size)
   {
@@ -864,22 +878,22 @@ namespace esapi
       throw InvalidArgumentException("Unable to reseed the hmac drbg. The seed buffer or size is not valid");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      HmacReseed(seed, size);
-    }
+        HmacReseed(seed, size);
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Reseeds this random object, using the bytes contained in the given long seed.
-  */
+   * Reseeds this random object, using the bytes contained in the given long seed.
+   */
   template <class HASH, class DRBGINFO>
   void HmacImpl<HASH,DRBGINFO>::setSeedImpl(int seed)
   {
@@ -892,17 +906,17 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     try
-    {
-      // All forward facing gear which manipulates internal state acquires the object lock
-      MutexAutoLock lock(getObjectLock());
+      {
+        // All forward facing gear which manipulates internal state acquires the object lock
+        MutexAutoLock lock(getObjectLock());
 
-      setSeedImpl((const byte*)&seed, sizeof(seed));
-    }
+        setSeedImpl((const byte*)&seed, sizeof(seed));
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    } }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      } }
 
   template <class HASH, class DRBGINFO>
   void HmacImpl<HASH,DRBGINFO>::HmacInstantiate(const byte* seed, size_t ssize)
@@ -915,19 +929,19 @@ namespace esapi
       throw InvalidArgumentException("Unable to instatiate hmac drbg. The seed buffer or size is not valid");
 
     try
-    {
-      ::memset(m_k.data(), 0x00, m_k.size());
-      ::memset(m_v.data(), 0x01, m_v.size());
+      {
+        ::memset(m_k.data(), 0x00, m_k.size());
+        ::memset(m_v.data(), 0x01, m_v.size());
 
-      m_hmac.SetKey(m_k.data(), m_k.size());
+        m_hmac.SetKey(m_k.data(), m_k.size());
 
-      HmacUpdate(seed, ssize);
-    }
+        HmacUpdate(seed, ssize);
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -942,53 +956,53 @@ namespace esapi
       throw InvalidArgumentException("The data buffer or size is not valid");
 
     try
-    {
-      static const byte zero = 0x00;
-      static const byte one = 0x01;
+      {
+        static const byte zero = 0x00;
+        static const byte one = 0x01;
 
-      /////////////////////////////////////////////////////////
-      // Re-key, Step 1
-      /////////////////////////////////////////////////////////
-      m_hmac.Update(m_v.data(), m_v.size());
-      m_hmac.Update(&zero, sizeof(zero));
-      m_hmac.Update(data, dsize);
+        /////////////////////////////////////////////////////////
+        // Re-key, Step 1
+        /////////////////////////////////////////////////////////
+        m_hmac.Update(m_v.data(), m_v.size());
+        m_hmac.Update(&zero, sizeof(zero));
+        m_hmac.Update(data, dsize);
 
-      m_hmac.TruncatedFinal(m_k.data(), m_k.size());
-      m_hmac.SetKey(m_k.data(), m_k.size());
+        m_hmac.TruncatedFinal(m_k.data(), m_k.size());
+        m_hmac.SetKey(m_k.data(), m_k.size());
 
-      /////////////////////////////////////////////////////////
-      // Update V, Step 2
-      /////////////////////////////////////////////////////////
-      m_hmac.Update(m_v.data(), m_v.size());
-      m_hmac.TruncatedFinal(m_v.data(), m_v.size());
+        /////////////////////////////////////////////////////////
+        // Update V, Step 2
+        /////////////////////////////////////////////////////////
+        m_hmac.Update(m_v.data(), m_v.size());
+        m_hmac.TruncatedFinal(m_v.data(), m_v.size());
 
-      /////////////////////////////////////////////////////////
-      // Early out, Step 3
-      /////////////////////////////////////////////////////////
-      if(!data)
-        return;
+        /////////////////////////////////////////////////////////
+        // Early out, Step 3
+        /////////////////////////////////////////////////////////
+        if(!data)
+          return;
 
-      /////////////////////////////////////////////////////////
-      // Re-key, Step 4
-      /////////////////////////////////////////////////////////
-      m_hmac.Update(m_v.data(), m_v.size());
-      m_hmac.Update(&one, sizeof(one));
-      m_hmac.Update(data, dsize);
+        /////////////////////////////////////////////////////////
+        // Re-key, Step 4
+        /////////////////////////////////////////////////////////
+        m_hmac.Update(m_v.data(), m_v.size());
+        m_hmac.Update(&one, sizeof(one));
+        m_hmac.Update(data, dsize);
 
-      m_hmac.TruncatedFinal(m_k.data(), m_k.size());
-      m_hmac.SetKey(m_k.data(), m_k.size());
+        m_hmac.TruncatedFinal(m_k.data(), m_k.size());
+        m_hmac.SetKey(m_k.data(), m_k.size());
 
-      /////////////////////////////////////////////////////////
-      // Update V, Step 5
-      /////////////////////////////////////////////////////////
-      m_hmac.Update(m_v.data(), m_v.size());
-      m_hmac.TruncatedFinal(m_v.data(), m_v.size());
-    }
+        /////////////////////////////////////////////////////////
+        // Update V, Step 5
+        /////////////////////////////////////////////////////////
+        m_hmac.Update(m_v.data(), m_v.size());
+        m_hmac.TruncatedFinal(m_v.data(), m_v.size());
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -1020,45 +1034,45 @@ namespace esapi
     /////////////////////////////////////////////////////////
 
     try
-    {
-      /////////////////////////////////////////////////////////
-      // Generate bits, Step 4
-      /////////////////////////////////////////////////////////
-      size_t idx = 0, rem /*remaining*/ = hsize;
-      while(rem)
       {
         /////////////////////////////////////////////////////////
-        // Update V, Step 4.1
+        // Generate bits, Step 4
+        /////////////////////////////////////////////////////////
+        size_t idx = 0, rem /*remaining*/ = hsize;
+        while(rem)
+          {
+            /////////////////////////////////////////////////////////
+            // Update V, Step 4.1
+            /////////////////////////////////////////////////////////
+            m_hmac.Update(m_v.data(), m_v.size());
+            m_hmac.TruncatedFinal(m_v.data(), m_v.size());
+
+            /////////////////////////////////////////////////////////
+            // Copy out, Step 4.2 (and 5)
+            /////////////////////////////////////////////////////////
+            const size_t req = std::min(rem, (size_t)CryptoPP::HMAC<HASH>::DIGESTSIZE);
+            ::memcpy(hash+idx, m_v.data(), req);
+
+            idx += req;
+            rem -= req;
+          }
+
+        /////////////////////////////////////////////////////////
+        // Update V, Step 6
         /////////////////////////////////////////////////////////
         m_hmac.Update(m_v.data(), m_v.size());
         m_hmac.TruncatedFinal(m_v.data(), m_v.size());
 
         /////////////////////////////////////////////////////////
-        // Copy out, Step 4.2 (and 5)
+        // Update reseed counter, Step 7
         /////////////////////////////////////////////////////////
-        const size_t req = std::min(rem, (size_t)CryptoPP::HMAC<HASH>::DIGESTSIZE);
-        ::memcpy(hash+idx, m_v.data(), req);
-
-        idx += req;
-        rem -= req;
+        m_rctr++;
       }
-
-      /////////////////////////////////////////////////////////
-      // Update V, Step 6
-      /////////////////////////////////////////////////////////
-      m_hmac.Update(m_v.data(), m_v.size());
-      m_hmac.TruncatedFinal(m_v.data(), m_v.size());
-
-      /////////////////////////////////////////////////////////
-      // Update reseed counter, Step 7
-      /////////////////////////////////////////////////////////
-      m_rctr++;
-    }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   template <class HASH, class DRBGINFO>
@@ -1072,27 +1086,27 @@ namespace esapi
       throw InvalidArgumentException("Unable to reseed hmac drbg. The seed buffer or size is not valid");
 
     try
-    {
-      // To reseed, we use {entropy || additional data}.
-      // For this operation, we only need SeedLength (see Section 8.6.7).
-      // Additional data optional, but should be present because the
-      // setSeed interfaces require bits
-      const size_t msize /*seed material size*/ = SeedLength;
-      CryptoPP::SecByteBlock material(msize + ssize);
+      {
+        // To reseed, we use {entropy || additional data}.
+        // For this operation, we only need SeedLength (see Section 8.6.7).
+        // Additional data optional, but should be present because the
+        // setSeed interfaces require bits
+        const size_t msize /*seed material size*/ = SeedLength;
+        CryptoPP::SecByteBlock material(msize + ssize);
 
-      g_pool.GenerateBlock(material.data(), msize);
+        g_pool.GenerateBlock(material.data(), msize);
 
-      // Copy in the user provided "personalization"
-      if(seed && ssize)
-        ::memcpy(material.data()+msize, seed, ssize);
+        // Copy in the user provided "personalization"
+        if(seed && ssize)
+          ::memcpy(material.data()+msize, seed, ssize);
 
-      HmacUpdate(material.data(), material.size());
-    }
+        HmacUpdate(material.data(), material.size());
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      m_catastrophic = true;
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        m_catastrophic = true;
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   ///////////////////////////////////////////////////////////////
@@ -1100,8 +1114,8 @@ namespace esapi
   ///////////////////////////////////////////////////////////////
 
   /**
-  * Constructs a secure random number generator (RNG).
-  */
+   * Constructs a secure random number generator (RNG).
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* seed, size_t size)
     : SecureRandomImpl(algorithm)
@@ -1109,9 +1123,9 @@ namespace esapi
   }
 
   /**
-  * Returns the security level associated with the SecureRandom object. Used
-  * by KeyGenerator to determine the appropriate key size for init.
-  */
+   * Returns the security level associated with the SecureRandom object. Used
+   * by KeyGenerator to determine the appropriate key size for init.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   unsigned int BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getSecurityLevelImpl() const
   {
@@ -1119,8 +1133,8 @@ namespace esapi
   }
 
   /**
-  * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
-  */
+   * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   byte* BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
@@ -1136,8 +1150,8 @@ namespace esapi
   }
 
   /**
-  * Returns the name of the algorithm implemented by this SecureRandom object.
-  */
+   * Returns the name of the algorithm implemented by this SecureRandom object.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   std::string BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
@@ -1145,8 +1159,8 @@ namespace esapi
   }
 
   /**
-  * Generates a user-specified number of random bytes.
-  */
+   * Generates a user-specified number of random bytes.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
@@ -1162,8 +1176,8 @@ namespace esapi
   }
 
   /**
-  * Reseeds this random object.
-  */
+   * Reseeds this random object.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(const byte seed[], size_t size)
   {
@@ -1179,8 +1193,8 @@ namespace esapi
   }
 
   /**
-  * Reseeds this random object, using the bytes contained in the given long seed.
-  */
+   * Reseeds this random object, using the bytes contained in the given long seed.
+   */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(int seed)
   {
