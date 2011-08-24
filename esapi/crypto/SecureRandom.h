@@ -60,7 +60,7 @@ namespace esapi
     /**
     * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
     */
-    static SecureRandom SecureRandom::getInstance(const std::string& algorithm);
+    static SecureRandom getInstance(const std::string& algorithm);
 
     /**
     * Constructs a secure random number generator (RNG) implementing the named
@@ -91,12 +91,12 @@ namespace esapi
     /**
     * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
     */
-    byte* SecureRandom::generateSeed(unsigned int numBytes);
+    byte* generateSeed(unsigned int numBytes);
 
     /**
     * Returns the name of the algorithm implemented by this SecureRandom object.
     */
-    std::string SecureRandom::getAlgorithm() const;
+    std::string getAlgorithm() const;
 
     /**
     * Generates a user-specified number of random bytes.
@@ -126,7 +126,7 @@ namespace esapi
     * Constructs a secure random number generator (RNG) algorithm name
     * and SecureRandomImpl implementation.
     */
-    SecureRandom::SecureRandom(SecureRandomImpl* impl);
+    SecureRandom(SecureRandomImpl* impl);
 
     /**
     * Returns the security level associated with the SecureRandom object. Used
