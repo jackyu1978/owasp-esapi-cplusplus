@@ -237,7 +237,7 @@ namespace esapi
   * random number algorithm.
   */
   SecureRandomImpl::SecureRandomImpl(const std::string& algorithm, const byte*, size_t)
-    : m_algorithm(algorithm), m_lock(new Mutex), m_catastrophic(false)
+    : m_catastrophic(false), m_algorithm(algorithm), m_lock(new Mutex)
   {
   }
 

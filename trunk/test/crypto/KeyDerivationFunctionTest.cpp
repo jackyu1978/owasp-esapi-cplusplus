@@ -71,7 +71,7 @@ void VerifyKeyDerivationFunction()
 
 void VerifyKeyDerivationFunction1()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
@@ -82,7 +82,7 @@ void VerifyKeyDerivationFunction1()
 
 void VerifyKeyDerivationFunction2()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
@@ -93,7 +93,7 @@ void VerifyKeyDerivationFunction2()
 
 void VerifyKeyDerivationFunction3()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
@@ -104,7 +104,7 @@ void VerifyKeyDerivationFunction3()
 
 void VerifyKeyDerivationFunction4()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
@@ -115,7 +115,7 @@ void VerifyKeyDerivationFunction4()
 
 void VerifyKeyDerivationFunction5()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
@@ -126,7 +126,7 @@ void VerifyKeyDerivationFunction5()
 
 void VerifyKeyDerivationFunction6()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
@@ -137,7 +137,7 @@ void VerifyKeyDerivationFunction6()
 
 void VerifyKeyDerivationFunction7()
 {
-  SecretKey k("Testing", 0);
+  SecretKey k("SHA-512", 0);
   std::string p("encryption");
   bool success = false;
 
@@ -158,7 +158,7 @@ void VerifyKeyDerivationFunction7()
 
 void VerifyKeyDerivationFunction8()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   std::string p("encryption");
   bool success = false;
 
@@ -177,7 +177,7 @@ void VerifyKeyDerivationFunction8()
 
 void VerifyKeyDerivationFunction9()
 {
-  SecretKey k("Testing", 32);
+  SecretKey k("SHA-512", 32);
   bool success = false;
 
   try
