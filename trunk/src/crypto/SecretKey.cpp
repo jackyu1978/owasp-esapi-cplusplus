@@ -1,31 +1,27 @@
 /**
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- *
- * @author Kevin Wall, kevin.w.wall@gmail.com
- * @author Jeffrey Walton, noloader@gmail.com
- *
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*
+* @author Kevin Wall, kevin.w.wall@gmail.com
+* @author Jeffrey Walton, noloader@gmail.com
+*
+*/
 
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/hex.h>
-#include <cryptopp/filters.h>
-ESAPI_MS_WARNING_POP()
+#include "crypto/Crypto++Common.h"
 
 namespace esapi
 {
   SecretKey::SecretKey(const std::string& alg,
-                       const size_t sizeInBytes,
-                       const std::string& format)
+    const size_t sizeInBytes,
+    const std::string& format)
     : m_algorithm(alg), secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -33,15 +29,15 @@ namespace esapi
     ASSERT( !m_format.empty() );
 
     if(sizeInBytes)
-      {
-        SecureRandom& prng = SecureRandom::GlobalSecureRandom();
-        prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());
-      }
+    {
+      SecureRandom prng = SecureRandom::getInstance(alg);
+      prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());
+    }
   }
 
   SecretKey::SecretKey(const std::string& alg,
-                       const CryptoPP::SecByteBlock& bytes,
-                       const std::string& format)
+    const CryptoPP::SecByteBlock& bytes,
+    const std::string& format)
     : m_algorithm(alg), secBlock(bytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -54,7 +50,7 @@ namespace esapi
   }
 
   SecretKey::SecretKey(const SecretKey& rhs)
-    : secBlock(rhs.secBlock)
+    : Key(rhs), m_algorithm(rhs.m_algorithm), secBlock(rhs.secBlock), m_format(rhs.m_format)
   {
   }
 
@@ -62,9 +58,13 @@ namespace esapi
   {
     // No self assignment
     if(this != &rhs)
-      {
-        secBlock = rhs.secBlock;
-      }
+    {
+      Key::operator =(rhs);
+
+      m_algorithm = rhs.m_algorithm;
+      secBlock = rhs.secBlock;
+      m_format = rhs.m_format;
+    }
 
     return *this;
   }
@@ -101,15 +101,15 @@ namespace esapi
 
   bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.secBlock == rhs.secBlock; }
   bool operator!=(const SecretKey& lhs, const SecretKey& rhs)  { return lhs.secBlock != rhs.secBlock; }
-    
+
   std::ostream& operator<<(std::ostream& os, const SecretKey& rhs)
   {
     // Using an insecure 'hex' string (it does not zeroize). We could switch to a
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
-                          new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-                          );
+      new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+      );
 
     return (os << hex);
   }

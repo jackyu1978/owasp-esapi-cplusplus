@@ -65,7 +65,7 @@ namespace esapi
     ASSERT(key && ksize);
     if(!key || !ksize) return false;
 
-    size_t rem = ksize;
+    size_t rem /*remaining*/ = ksize;
     size_t idx = 0;
 
     // First try the random pool
@@ -85,6 +85,7 @@ namespace esapi
           // Try to detect a blocking condition
           struct rand_pool_info info;
 
+          // No need for SU to read entropy counts. Its not in the man pages - inspect <linux/random.h>
           int ret = ioctl(fd, RNDGETENTCNT, &info);
           ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
 
@@ -101,7 +102,7 @@ namespace esapi
           timer.StartTimer();
 
           ret = read(fd, key+idx, req);
-          ASSERT((unsigned int)ret == req);
+          ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chumk from /dev/random");
 
           // The return value determines number of bytes read
           rem -= ret;
@@ -131,7 +132,7 @@ namespace esapi
         if( !(fd > 0) ) break; /* Failed */
 
         int ret = read(fd, key+idx, rem);
-        ASSERT((unsigned int)ret == rem);
+        ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chumk from /dev/urandom");
         if( (unsigned int)ret != rem ) break; /* Failed */
 
         rem -= ret;

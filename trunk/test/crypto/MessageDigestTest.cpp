@@ -27,14 +27,10 @@ using namespace boost::unit_test;
 #include <string>
 using std::string;
 
-#include "EsapiCommon.h"
+#include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
+#include "EsapiCommon.h"
 
 #include <errors/InvalidArgumentException.h>
 using esapi::InvalidArgumentException;
@@ -69,7 +65,7 @@ void VerifyArguments()
     
   try
     {    
-      THE_AUTO_PTR<MessageDigest> md1(MessageDigest::getInstance("Foo"));
+      boost::shared_ptr<MessageDigest> md1(MessageDigest::getInstance("Foo"));
     }
   catch(InvalidArgumentException&)
     {
@@ -83,7 +79,7 @@ void VerifyArguments()
 
   /////////////////////////////////////////////////////////////////////////
 
-  THE_AUTO_PTR<MessageDigest> md2(MessageDigest::getInstance());
+  boost::shared_ptr<MessageDigest> md2(MessageDigest::getInstance());
   success = (md2->getAlgorithm() == "SHA-256");
   BOOST_CHECK_MESSAGE(success, "Default generator " << md2->getAlgorithm() << " is unexpected");
 
@@ -92,8 +88,8 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md3(MessageDigest::getInstance("MD-5"));
-      md3->digest((byte*)NULL, 0, 0, 0);
+      boost::shared_ptr<MessageDigest> md3(MessageDigest::getInstance("MD-5"));
+      md3->digest((byte*)nullptr, 0, 0, 0);
     }
   catch(InvalidArgumentException&)
     {   
@@ -115,9 +111,9 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md4(MessageDigest::getInstance());
+      boost::shared_ptr<MessageDigest> md4(MessageDigest::getInstance());
       const size_t sz = md4->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
       md4->digest(buf.get(), sz, 0, sz-1);
     }
   catch(InvalidArgumentException& ex)
@@ -135,7 +131,7 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md5(MessageDigest::getInstance());
+      boost::shared_ptr<MessageDigest> md5(MessageDigest::getInstance());
       size_t ptr = ((size_t)-1) - 7;
       const size_t size = md5->getDigestLength();
       md5->digest((byte*)ptr, size, 0, size);
@@ -155,8 +151,8 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md6(MessageDigest::getInstance());
-      md6->update((byte*)NULL, 0, 0, 0);
+      boost::shared_ptr<MessageDigest> md6(MessageDigest::getInstance());
+      md6->update((byte*)nullptr, 0, 0, 0);
     }
   catch(InvalidArgumentException&)
     {   
@@ -173,7 +169,7 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md7(MessageDigest::getInstance());
+      boost::shared_ptr<MessageDigest> md7(MessageDigest::getInstance());
       volatile size_t ptr = ((size_t)-1) - 7;
       md7->update((byte*)ptr, md7->getDigestLength(), 0, 4);
     }
@@ -192,9 +188,9 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md8(MessageDigest::getInstance());
+      boost::shared_ptr<MessageDigest> md8(MessageDigest::getInstance());
       const size_t sz = md8->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
       md8->digest(buf.get(), sz, sz-1, 2*sz-1);
     }
   catch(InvalidArgumentException& ex)
@@ -212,9 +208,9 @@ void VerifyArguments()
   try
     {    
       success = false;
-      THE_AUTO_PTR<MessageDigest> md9(MessageDigest::getInstance());
+      boost::shared_ptr<MessageDigest> md9(MessageDigest::getInstance());
       const size_t sz = md9->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
       md9->update(buf.get(), sz, sz-1, 2*sz-1);
     }
   catch(InvalidArgumentException& ex)
@@ -246,10 +242,10 @@ void VerifyMD5()
     {
       //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
       success = false;
-      THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
 
       const size_t sz = md->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
 
       const string msg("");
       md->update((const byte*)msg.data(), msg.size());
@@ -270,10 +266,10 @@ void VerifyMD5()
     {
       //MD5 ("abc") = 900150983cd24fb0d6963f7d28e17f72
       success = false;
-      THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
 
       const size_t sz = md->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
 
       const string msg("abc");
       md->update((const byte*)msg.data(), msg.size());
@@ -294,10 +290,10 @@ void VerifyMD5()
     {
       //MD5 ("message digest") = f96b697d7cb7938d525a2f31aaf161d0
       success = false;
-      THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
 
       const size_t sz = md->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
 
       const string msg("message digest");
       md->update((const byte*)msg.data(), msg.size());
@@ -318,10 +314,10 @@ void VerifyMD5()
     {
       //MD5 ("abcdefghijklmnopqrstuvwxyz") = c3fcd3d76192e4007dfb496cca67e13b
       success = false;
-      THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
 
       const size_t sz = md->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
 
       const string msg("abcdefghijklmnopqrstuvwxyz");
       md->update((const byte*)msg.data(), msg.size());
@@ -342,10 +338,10 @@ void VerifyMD5()
     {
       //MD5 ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = d174ab98d277d9f5a5611c2c9f419d9f
       success = false;
-      THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
 
       const size_t sz = md->getDigestLength();
-      THE_AUTO_PTR<byte> buf(new byte[sz]);
+      boost::shared_ptr<byte> buf(new byte[sz]);
 
       const string msg("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
       md->update((const byte*)msg.data(), msg.size());

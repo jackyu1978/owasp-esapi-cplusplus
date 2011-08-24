@@ -23,13 +23,6 @@ using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
-
 #include <string>
 using std::string;
 
@@ -154,7 +147,7 @@ int VerifyCryptoHelper71()
 
   try
     {
-      CryptoHelper::overwrite(NULL, 16, 'A');
+      CryptoHelper::overwrite(nullptr, 16, 'A');
     }
   catch(...)
     {
@@ -221,7 +214,7 @@ int VerifyCryptoHelper81()
 
   try
     {
-      CryptoHelper::overwrite(NULL, 16);
+      CryptoHelper::overwrite(nullptr, 16);
     }
   catch(...)
     {
@@ -320,7 +313,7 @@ int VerifyCryptoHelper92()
 
   try
     {
-      CryptoHelper::copyByteArray(NULL, sizeof(b1), b2, sizeof(b2), 16);
+      CryptoHelper::copyByteArray(nullptr, sizeof(b1), b2, sizeof(b2), 16);
     }
   catch(...)
     {
@@ -364,7 +357,7 @@ int VerifyCryptoHelper94()
 
   try
     {
-      CryptoHelper::copyByteArray(b1, sizeof(b1), NULL, sizeof(b2), 16);
+      CryptoHelper::copyByteArray(b1, sizeof(b1), nullptr, sizeof(b2), 16);
     }
   catch(...)
     {
@@ -563,7 +556,7 @@ int VerifyCryptoHelper104()
 
   try
     {
-      success = !CryptoHelper::arrayCompare(NULL, sizeof(b1), b2, sizeof(b2));
+      success = !CryptoHelper::arrayCompare(nullptr, sizeof(b1), b2, sizeof(b2));
     }
   catch(...)
     {
@@ -607,7 +600,7 @@ int VerifyCryptoHelper106()
 
   try
     {
-      success = !CryptoHelper::arrayCompare(b1, sizeof(b1), NULL, sizeof(b2));
+      success = !CryptoHelper::arrayCompare(b1, sizeof(b1), nullptr, sizeof(b2));
     }
   catch(...)
     {

@@ -115,6 +115,6 @@ namespace esapi
 
   // Storage and intialization
   template <class T>
-    volatile void* zallocator<T>::g_dummy = NULL;
+    volatile void* zallocator<T>::g_dummy = nullptr;
 
 } // esapi

@@ -15,6 +15,8 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include <string>
 
@@ -24,7 +26,7 @@
  */
 namespace esapi
 {
-  class ESAPI_EXPORT Key
+  class ESAPI_TEXPORT Key
   {
   public:
     /**
@@ -49,12 +51,9 @@ namespace esapi
 
   protected:
     Key() { /* no public instantiations */ }
+
     virtual ~Key() { }
 
-  private:
-    // Ensure compiler never generates this. We have to have it, see
-    // Miscellaneous item 5 at http://gcc.gnu.org/faq.html.
-    // virtual Key& operator=(const Key& rhs);
   };
 
 }; // NAMESPACE esapi

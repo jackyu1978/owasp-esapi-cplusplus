@@ -26,7 +26,7 @@ namespace esapi
     static volatile void* g_dummy;
 
   public:
-    // Attach to an array of type T type and countof(T)
+    // Attach to an array of type T and countof(T)
     explicit ArrayZeroizer(T* t, size_t c)
       : m_t(t), m_c(c) { }
 
@@ -41,7 +41,7 @@ namespace esapi
   };
 
   template<class T>
-  volatile void* ArrayZeroizer<T>::g_dummy = NULL;
+  volatile void* ArrayZeroizer<T>::g_dummy = nullptr;
 
   typedef ArrayZeroizer<char> CharArrayZeroizer;
   typedef ArrayZeroizer<byte> ByteArrayZeroizer;

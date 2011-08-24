@@ -15,10 +15,9 @@
 #pragma once
 
 #include "EsapiCommon.h"
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/secblock.h>
-ESAPI_MS_WARNING_POP()
+#include "crypto/Crypto++Common.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 namespace esapi
 {

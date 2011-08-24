@@ -18,20 +18,7 @@
 #include <string>
 #include <memory>
 
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/hex.h>
-#include <cryptopp/base64.h>
-#include <cryptopp/filters.h>
-ESAPI_MS_WARNING_POP()
-
-// auto_ptr is deprecated, and causes boat loads of warnings
-// on GCC 4.6. A silent cockpit is a safe cockpit. We use a define
-// rather than a typedef to avoid the template arguments here.
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
+#include <boost/shared_ptr.hpp>
 
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
@@ -43,9 +30,9 @@ namespace esapi
 
   std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations) throw(EncryptionException)
   {      
-    THE_AUTO_PTR<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm));
+    boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm));
     const size_t size = md->getDigestLength();
-    THE_AUTO_PTR<byte> hash(new byte[size]);
+    boost::shared_ptr<byte> hash(new byte[size]);
 
     // Initial updates
     md->update((const byte*)salt.data(), salt.size());
