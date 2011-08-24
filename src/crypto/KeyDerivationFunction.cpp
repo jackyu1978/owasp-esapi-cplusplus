@@ -14,6 +14,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/KeyDerivationFunction.h"
+#include "crypto/Crypto++Common.h"
 #include "crypto/SecretKey.h"
 
 #include "safeint/SafeInt3.hpp"
@@ -21,11 +22,6 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/sha.h>
-#include <cryptopp/hmac.h>
-ESAPI_MS_WARNING_POP()
 
 /**
  * This class implements a Key Derivation Function (KDF) and supporting methods.
