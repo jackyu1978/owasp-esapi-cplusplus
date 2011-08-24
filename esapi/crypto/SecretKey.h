@@ -16,10 +16,9 @@
 
 #include "EsapiCommon.h"
 #include "crypto/Key.h"
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/secblock.h>
-ESAPI_MS_WARNING_POP()
+#include "crypto/Crypto++Common.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 /**
  * This class implements functionality similar to Java's SecretKey for
@@ -29,19 +28,15 @@ namespace esapi
 {
   class ESAPI_EXPORT SecretKey : public Key
   {
-    // For comparisons in the outside world, such as the self tests
-    friend ESAPI_EXPORT bool operator==(const SecretKey&, const SecretKey&);
-    friend ESAPI_EXPORT bool operator!=(const SecretKey&, const SecretKey&);
-    // For dumping keys. Use with care
-    friend ESAPI_EXPORT std::ostream& operator<<(std::ostream&, const SecretKey&);
-    // From KeyDerivationFunction,cpp, which couphs up a SecretKey
+    // For comparisons in the outside world, such as the self tests.
+    friend ESAPI_TEXPORT bool operator==(const SecretKey&, const SecretKey&);
+    friend ESAPI_TEXPORT bool operator!=(const SecretKey&, const SecretKey&);
+    // For dumping keys. Use with care.
+    friend ESAPI_TEXPORT std::ostream& operator<<(std::ostream&, const SecretKey&);
+    // From KeyDerivationFunction,cpp, which couphs up a SecretKey.
     friend class KeyDerivationFunction;
     // From KeyGeneration.cpp, which couphs up a SecretKey
     friend class KeyGenerator;
-    template <class CIPHER> friend class StreamCipherGenerator;
-    template <class HASH> friend class HmacGenerator;
-    template <class HASH> friend class HashGenerator;
-    template <class CIPHER, template <class CIPHER> class MODE> friend class BlockCipherGenerator;
 
   public:
     /**
@@ -64,22 +59,23 @@ namespace esapi
      */
     virtual const byte* getEncoded() const;
 
+    // TODO: testing - remove me
+    SecretKey() { }
+
   /**
    * Not for general consumption. To derive a SecretKey from a secret value, use KeyDerivationFunction.
-   * To generate a SecretKey with a specified algorithm, use KeyGenerator::generateKey();
+   * To generate a SecretKey with a specified algorithm, use the KeyGenerator class.
    */
   protected:
     /**
-     * Create a random SecretKey of 'size' bytes using the
-     * SecureRandom::GlobalSecureRandom() generator (ANSI X9.31/AES). This
-     * should be hidden and tagged ESAPI_PRIVATE, but the test files need it
-     * (and we can't work around with preprocessor tricks without a new macro).
+     * Create a random SecretKey of 'size' bytes using a SecureRandom generator
+     * specified by algorithm. This should be hidden and tagged ESAPI_PRIVATE,
+     * but the test files need it.
      */
     SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
     /**
-     * Create a SecretKey from a Crypto++ SecByteBlock
-     * This should be hidden and tagged ESAPI_PRIVATE, but the test files need it
-     * (and we can't work around with preprocessor tricks without a new macro).
+     * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
+     * tagged ESAPI_PRIVATE, but the test files need it.
      */
     SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
 
@@ -89,10 +85,19 @@ namespace esapi
      */
     virtual ~SecretKey();
 
-  public:
+    /**
+     * Copy a SecretKey
+     */
     SecretKey(const SecretKey& rhs);
+
+    /**
+     * Assign a SecretKey
+     */
     SecretKey& operator=(const SecretKey& rhs);
 
+    /**
+     * Returns the size of a SecretKey in bytes
+     */
     size_t sizeInBytes() const;
 
   protected:
@@ -103,7 +108,6 @@ namespace esapi
     std::string m_algorithm;            // Standard name for crypto algorithm
     CryptoPP::SecByteBlock secBlock;    // The actual secret key
     std::string m_format;               // Encoding format
-
   };
 
   ESAPI_EXPORT bool operator==(const SecretKey& lhs, const SecretKey& rhs);

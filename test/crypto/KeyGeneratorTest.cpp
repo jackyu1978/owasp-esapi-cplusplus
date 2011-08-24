@@ -31,14 +31,10 @@ using namespace boost::unit_test;
 #include <string>
 using std::string;
 
-#include "EsapiCommon.h"
+#include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
+#include "EsapiCommon.h"
 
 #include <crypto/Key.h>
 #include <crypto/SecretKey.h>
@@ -65,7 +61,7 @@ void VerifyHmacWhirlpoolKeyGenerator();
 
 void VerifyArc4KeyGenerator();
 
-void VerifyKey(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes);
+void VerifyKey(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes);
 
 BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
 {
@@ -104,7 +100,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
  *  System.out.println("Key 3 size: " + key3.getEncoded().length);
  */
 
-void VerifyKeyGeneration(THE_AUTO_PTR<KeyGenerator>& kgen, size_t bytes)
+void VerifyKeyGeneration(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes)
 {
   // #define DUMP_KEYS 1
 
@@ -173,7 +169,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -189,7 +185,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -205,7 +201,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -221,7 +217,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -237,7 +233,7 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -260,7 +256,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -276,7 +272,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -292,7 +288,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -308,7 +304,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -324,7 +320,7 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -347,7 +343,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -363,7 +359,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -379,7 +375,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -395,7 +391,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -411,7 +407,7 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -434,7 +430,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -450,7 +446,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -466,7 +462,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -482,7 +478,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -498,7 +494,7 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -521,7 +517,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -537,7 +533,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -553,7 +549,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -569,7 +565,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -585,7 +581,7 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -604,7 +600,7 @@ void VerifyWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -627,7 +623,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -643,7 +639,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -659,7 +655,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -675,7 +671,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -691,7 +687,7 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -710,7 +706,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
@@ -729,7 +725,7 @@ void VerifyArc4KeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      THE_AUTO_PTR<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;

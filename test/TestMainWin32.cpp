@@ -28,6 +28,12 @@ using esapi::SecureRandom;
 #include "crypto/RandomPool.h"
 using esapi::RandomPool;
 
+#include "crypto/KeyGenerator.h"
+using esapi::KeyGenerator;
+
+#include "crypto/SecretKey.h"
+using esapi::SecretKey;
+
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -50,11 +56,33 @@ int main(int, char**)
 
   pool.Reseed();
   pool.GenerateBlock(scratch, sizeof(scratch));
-#endif
 
   SecureRandom prng = SecureRandom::getInstance("SHA1");
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
+
+  prng = SecureRandom::getInstance("HmacSHA1");
+  prng.nextBytes(scratch, sizeof(scratch));
+  prng.setSeed(scratch, sizeof(scratch));
+#endif
+
+  KeyGenerator kg = KeyGenerator::getInstance("SHA-384");
+  kg.init();
+
+  cout << "Generator: " << kg.getAlgorithm() << endl;
+
+  SecretKey key = kg.generateKey();
+  cout << "Key: " << key.getAlgorithm() << endl;
+  cout << "Key size: " << key.sizeInBytes() << endl;
+
+  kg = KeyGenerator::getInstance("SHA-512");
+  kg.init(384);
+
+  cout << "Generator: " << kg.getAlgorithm() << endl;
+
+  key = kg.generateKey();
+  cout << "Key: " << key.getAlgorithm() << endl;
+  cout << "Key size: " << key.sizeInBytes() << endl;
 
   return 0;
 }

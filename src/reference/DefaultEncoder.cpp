@@ -11,11 +11,11 @@
 #include "EncoderConstants.h"
 #include "reference/DefaultEncoder.h"
 
-esapi::Encoder* esapi::DefaultEncoder::singletonInstance = NULL;
-//esapi::Logger* esapi::DefaultEncoder::logger = NULL;
+esapi::Encoder* esapi::DefaultEncoder::singletonInstance = nullptr;
+//esapi::Logger* esapi::DefaultEncoder::logger = nullptr;
 
 // Codecs
-//std::list<esapi::Codec*> esapi::DefaultEncoder::codecs = NULL;
+//std::list<esapi::Codec*> esapi::DefaultEncoder::codecs = nullptr;
 //esapi::HTMLEntityCodec esapi::DefaultEncoder::htmlCodec;
 //esapi::XMLEntityCodec esapi::DefaultEncoder::xmlCodec;
 //esapi::PercentCodec esapi::DefaultEncoder::percentCodec;
@@ -25,7 +25,7 @@ esapi::Encoder* esapi::DefaultEncoder::singletonInstance = NULL;
 
 const char esapi::DefaultEncoder::IMMUNE_HTML [] = { ',', '.', '-', '_', ' ' };
 const char esapi::DefaultEncoder::IMMUNE_HTMLATTR [] = { ',', '.', '-', '_' };
-const char esapi::DefaultEncoder::IMMUNE_CSS [] = {};
+const char esapi::DefaultEncoder::IMMUNE_CSS [] = { '\0' };
 const char esapi::DefaultEncoder::IMMUNE_JAVASCRIPT [] = { ',', '.', '_' };
 const char esapi::DefaultEncoder::IMMUNE_VBSCRIPT [] = { ',', '.', '_' };
 const char esapi::DefaultEncoder::IMMUNE_XML [] = { ',', '.', '-', '_', ' ' };
@@ -53,7 +53,7 @@ esapi::Encoder* esapi::DefaultEncoder::getInstance() {
         }
         return singletonInstance;
 	 */
-	Encoder* enc = NULL;
+	Encoder* enc = nullptr;
 	return enc;
 }
 

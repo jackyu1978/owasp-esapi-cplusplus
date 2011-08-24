@@ -19,13 +19,6 @@ using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
-
 #include <iostream>
 using std::cout;
 using std::cerr;
@@ -69,7 +62,7 @@ void DoWorkerThreadStuff()
   // *** Worker Threads ***
   for(unsigned int i=0; i<THREAD_COUNT; i++)
     {
-      int ret = pthread_create(&threads[i], NULL, WorkerThreadProc, (void*)i);
+      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)i);
       if(0 != ret /*success*/)
         {
           BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
@@ -78,7 +71,7 @@ void DoWorkerThreadStuff()
 
   for(unsigned int i=0; i<THREAD_COUNT; i++)
     {
-      int ret = pthread_join(threads[i], NULL);
+      int ret = pthread_join(threads[i], nullptr);
       if(0 != ret /*success*/)
         {
           BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );

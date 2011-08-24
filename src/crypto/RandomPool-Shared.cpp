@@ -35,7 +35,14 @@ namespace esapi
   */
   RandomPool::RandomPool( ) : m_keyed(false)
   {
-    Rekey();
+    try
+    {
+      Rekey();
+    }
+    catch(CryptoPP::Exception&)
+    {
+      throw EncryptionException("Failed to intialize Random Pool");
+    }
   }
 
   /**
@@ -51,7 +58,7 @@ namespace esapi
   bool RandomPool::Rekey()
   {
     // Key and IV
-    byte key[32+16];
+    byte key[32 /*AES256 key*/ + 16 /*AES Blocksize*/];
     ByteArrayZeroizer(key, sizeof(key));
 
     if(GenerateKey(key, sizeof(key)))

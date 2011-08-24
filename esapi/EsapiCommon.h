@@ -26,9 +26,6 @@
 #include <string>
 #include <vector>
 
-// Zeroizing allocator used with SecureByteArray and SecureIntArray below
-#include "util/zAllocator.h"
-
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
 # error Both DEBUG and NDEBUG are defined.
@@ -97,9 +94,19 @@
 # define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
 #endif
 
+// We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
+// For Microsoft, nullptr is available in Visual Studio 2010 and
+// above (version 1600), so we test for something earlier. For GCC, its
+// 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
+// latest draft. C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html
+// and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
 // For nullptr - see see http://gcc.gnu.org/projects/cxx0x.html.
 #if (_MSC_VER >= 1600) || defined(nullptr_t)
 # define ESAPI_CPLUSPLUS_NULLPTR 1
+#endif
+
+#if !defined(ESAPI_CPLUSPLUS_NULLPTR)
+# define nullptr NULL
 #endif
 
 // Yet another ICPC workaround
@@ -171,7 +178,7 @@ struct DebugTrapHandler
       } while(0);
   }
 
-  static void NullHandler(int unused) { }
+  static void NullHandler(int /*unused*/) { }
 };
 
 // We specify a relatively low priority, to make sure we run before other CTORs
@@ -194,22 +201,12 @@ static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (110)
 typedef unsigned char byte;
 #endif
 
-// We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
-// For Microsoft, nullptr is available in Visual Studio 2010 and
-// above (version 1600), so we test for something earlier. For GCC, its
-// 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
-// latest draft. C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html
-// and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
-#if (defined(ESAPI_CXX_MSVC) && (_MSC_VER < 1600)) || !defined(nullptr_t)
-#  define nullptr NULL
-#endif
-
 #if defined(ESAPI_OS_STARNIX)
 # include <pthread.h>
 #endif
 
 // Windows defines a min that clashes with std::min. We also need
-// Windows 2000 (_WIN32_WINNT = 0x0500) for WinCrypt gear
+// Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
 #if defined(ESAPI_OS_WINDOWS)
 # define NOMINMAX
 # define  _WIN32_WINNT 0x0500
@@ -276,6 +273,10 @@ ESAPI_MS_NO_WARNING(4290)
 #else
 # define ESAPI_TEXPORT
 #endif
+
+// Zeroizing allocator used with SecureByteArray and SecureIntArray
+// Need to include after the ESAPI_CPLUSPLUS_NULLPTR define.
+#include "util/zAllocator.h"
 
 namespace esapi {
   // Value added typedefs. zallocator comes from util/zAllocator.h.

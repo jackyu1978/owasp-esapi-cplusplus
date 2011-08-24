@@ -32,7 +32,7 @@ namespace esapi
   //         in this file as well??? Maybe save for ESAPI 2.1 or 3.0.
 
   // Tames the optimizer
-  static volatile void* g_dummy = NULL;
+  static volatile void* g_dummy = nullptr;
 
   /**
    * Generate a random secret key appropriate to the specified cipher algorithm
@@ -48,10 +48,11 @@ namespace esapi
     ASSERT( keyBits >= 56 );
     ASSERT( (keyBits % 8) == 0 );
 
-    std::auto_ptr<KeyGenerator> kgen(KeyGenerator::getInstance(alg));
-    kgen->init(keyBits);
+    // std::auto_ptr<KeyGenerator> kgen(KeyGenerator::getInstance(alg));
+    // kgen->init(keyBits);
 
-    return kgen->generateKey();
+    // return kgen->generateKey();
+    return SecretKey();
   }
 
   /**
