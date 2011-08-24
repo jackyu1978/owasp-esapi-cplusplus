@@ -23,7 +23,10 @@
 
 namespace esapi
 {
-  const std::string MessageDigest::DefaultAlgorithm = "SHA-256";
+  std::string MessageDigest::DefaultAlgorithm()
+  {
+    return "SHA-256";
+  }
 
   MessageDigest* MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
   {
