@@ -10,6 +10,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/MessageDigest.h"
+#include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 
@@ -19,16 +20,6 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/sha.h>
-#include <cryptopp/whrlpool.h>
-ESAPI_MS_WARNING_POP()
-
-ESAPI_MS_WARNING_PUSH(3)
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-#include <cryptopp/md5.h>
-ESAPI_MS_WARNING_POP()
 
 namespace esapi
 {
