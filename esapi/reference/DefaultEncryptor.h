@@ -16,13 +16,12 @@
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
+#include "crypto/Crypto++Common.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include <string>
 #include <cstdio>
-
-ESAPI_MS_WARNING_PUSH(3)
-#include <cryptopp/filters.h>
-ESAPI_MS_WARNING_POP()
 
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
