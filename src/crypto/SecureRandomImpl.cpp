@@ -11,10 +11,10 @@
 * @author Jeffrey Walton, noloader@gmail.com
 *
 */
-#define NOMINMAX
 
-#include "crypto/SecureRandom.h"
+#include "EsapiCommon.h"
 #include "crypto/RandomPool.h"
+#include "crypto/SecureRandom.h"
 #include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
 #include "util/ArrayZeroizer.h"
@@ -1036,7 +1036,7 @@ namespace esapi
         /////////////////////////////////////////////////////////
         // Copy out, Step 4.2 (and 5)
         /////////////////////////////////////////////////////////
-        const size_t req = std::min(rem, (unsigned int)CryptoPP::HMAC<HASH>::DIGESTSIZE);
+        const size_t req = std::min(rem, (size_t)CryptoPP::HMAC<HASH>::DIGESTSIZE);
         ::memcpy(hash+idx, m_v.data(), req);
 
         idx += req;

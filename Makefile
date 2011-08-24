@@ -130,6 +130,7 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/CipherText.cpp \
 			src/crypto/SecretKey.cpp \
 			src/crypto/SecureRandom.cpp \
+			src/crypto/SecureRandomImpl.cpp \
 			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
 			src/crypto/MessageDigest.cpp \

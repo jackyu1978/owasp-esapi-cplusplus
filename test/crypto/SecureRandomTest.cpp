@@ -100,7 +100,7 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
-  SecureRandom& prng2 = SecureRandom::GlobalSecureRandom();
+  SecureRandom prng2 = SecureRandom::getInstance("SHA-256");
   prng2.nextBytes(random, sizeof(random));
 
   for (unsigned int i = 0; i < 64; i++)
