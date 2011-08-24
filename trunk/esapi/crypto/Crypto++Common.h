@@ -14,14 +14,17 @@
 
 #pragma once
 
-#include "EsapiCommon.h"
+#if defined(_MSC_VER)
+# pragma warning( push, 2 )
+#endif
 
-ESAPI_MS_WARNING_PUSH(3)
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
 #include <cryptopp/sha.h>
 #include <cryptopp/hex.h>
+#include <cryptopp/md5.h>
 #include <cryptopp/hmac.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/modes.h>
@@ -34,7 +37,8 @@ ESAPI_MS_WARNING_PUSH(3)
 #include <cryptopp/filters.h>
 #include <cryptopp/secblock.h>
 
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptopp/arc4.h>
 
-ESAPI_MS_WARNING_POP()
+#if defined(_MSC_VER)
+# pragma warning( pop )
+#endif

@@ -18,6 +18,8 @@
 #include "crypto/PlainText.h"
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
 
 #include <string>
 
