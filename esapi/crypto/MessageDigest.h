@@ -26,10 +26,10 @@ namespace esapi
   public:
 
     // Default hash algorithm, currently returns SHA-256
-    static const std::string DefaultAlgorithm;
+    static std::string DefaultAlgorithm();
 
     // Standard factory method
-    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm) throw(InvalidArgumentException);
+    static MessageDigest* getInstance(const std::string& algorithm = DefaultAlgorithm()) throw(InvalidArgumentException);
 
     // Standard name of the hash
     virtual std::string getAlgorithm() const throw();
