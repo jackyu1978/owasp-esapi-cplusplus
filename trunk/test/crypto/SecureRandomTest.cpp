@@ -84,14 +84,6 @@ void DoWorkerThreadStuff()
 
 void* WorkerThreadProc(void* param)
 {
-  byte random[8192];
-
-  SecureRandom prng1;
-  for (unsigned int i = 0; i < 64; i++)
-    prng1.nextBytes(random, i+1);
-
-  prng1.nextBytes(random, sizeof(random));
-
   // give up the remainder of this time quantum to help
   // interleave thread creation and execution
 #if defined(WIN32) || defined(_WIN32) 
@@ -100,11 +92,41 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
+  byte random[8192];
+
+  SecureRandom prng1;
+  for (unsigned int i = 0; i < 64; i++)
+    prng1.nextBytes(random, i+1);
+
+  prng1.nextBytes(random, sizeof(random));
+
   SecureRandom prng2 = SecureRandom::getInstance("SHA-256");
   prng2.nextBytes(random, sizeof(random));
 
   for (unsigned int i = 0; i < 64; i++)
     prng2.setSeed(random, i+8);
+
+  SecureRandom prng3 = prng1;
+  for (unsigned int i = 0; i < 64; i++)
+    prng3.nextBytes(random, i+1);
+
+  // 1 and 3 are the same generators
+  prng1.setSeed((int)(size_t)param);
+  prng3.setSeed((int)(size_t)param);
+
+  prng1.nextBytes(random, sizeof(random));
+  prng3.nextBytes(random, sizeof(random));
+
+  BOOST_CHECK(prng1.getAlgorithm() == prng3.getAlgorithm());
+
+  SecureRandom prng4 = SecureRandom::getInstance("SHA-512");
+  for (unsigned int i = 0; i < 64; i++)
+  {
+    prng4.setSeed(random, 128);
+    prng4.nextBytes(random, sizeof(random));
+  }
+
+  BOOST_CHECK(prng2.getAlgorithm() != prng4.getAlgorithm());
 
   BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
 
