@@ -17,6 +17,7 @@
 #pragma once
 
 #include "codecs/Trie.h"
+#include "EsapiCommon.h"
 #include "errors/NullPointerException.h"
 #include "errors/UnsupportedOperationException.h"
 
@@ -53,8 +54,6 @@ private:
 	{
 	private:
 		std::pair<std::string,Y> pair;
-		std::string key;
-		Y value;
 
 	public:
 		Entry(std::string, Y);
@@ -68,7 +67,7 @@ private:
 		 *	new Entry(key,value) if {@link CharSequence#length()} == keyLength
 		 *	new Entry(key.subSequence(0,keyLength),value) otherwise
 		 */
-		static Entry<T> newInstanceIfNeeded(std::string, int, T);
+		static Entry<Y> newInstanceIfNeeded(std::string, int, Y);
 
 		/**
 		 * Convinence instantiator.
@@ -77,7 +76,7 @@ private:
 		 * @return null if key or value is null
 		 *	new Entry(key,value) otherwise
 		 */
-		static Entry<T> newInstanceIfNeeded(std::string, T);
+		static Entry<Y> newInstanceIfNeeded(std::string, Y);
 
                 /*************/
                 /* std::pair */
@@ -85,15 +84,15 @@ private:
 
 		std::string getKey();
 
-		T getValue();
+		Y getValue();
 
-		T setValue(T);
+		Y setValue(Y);
 
                 /********************/
                 /* java.lang.Object */
                 /********************/
 
-		bool equals(std::pair<std::string,Y>); // TODO overload equals operator?
+		bool equals(std::pair<std::string,Y>);
 
 		int hashCode();
 
@@ -108,7 +107,9 @@ private:
 	{
 	private:
 		U value;
-		std::map<char,Node<U> > nextMap;
+		std::map<char, Node<U> > *nextMap;
+
+		Node();
 
 		/**
 		 * Create a new Map for a node level. This is here so
@@ -219,7 +220,7 @@ private:
 	};
 
 	Node<T> root;
-	int maxKeyLen;
+	unsigned int maxKeyLen;
 	unsigned int trieSize;
 
 public:
@@ -303,3 +304,163 @@ public:
 	bool isEmpty();
 };
 }; // esapi namespace
+
+
+// compiler does not allow template code in seperate cpp file
+
+template <typename T>
+template <typename Y>
+esapi::HashTrie<T>::Entry<Y>::Entry(std::string key, Y value) {
+	this->pair.first = key;
+	this->pair.second = value;
+}
+
+template <typename T>
+template <typename Y>
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Entry<Y>::newInstanceIfNeeded(std::string key, int keyLength, Y value) {
+	if(value == NULL || (key.compare("")==0) )
+		return NULL;
+	if(key.size() > keyLength)
+		key = key.substr(0,keyLength);
+	return new Entry<Y>(key,value);
+}
+
+template <typename T>
+template <typename Y>
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Entry<Y>::newInstanceIfNeeded(std::string key, Y value) {
+	if(value == NULL || (key.compare("")==0) )
+		return NULL;
+	return new Entry<Y>(key,value);
+}
+
+template <typename T>
+template <typename Y>
+std::string esapi::HashTrie<T>::Entry<Y>::getKey() {
+	return this->pair.first;
+}
+
+template <typename T>
+template <typename Y>
+Y esapi::HashTrie<T>::Entry<Y>::getValue() {
+	return this->pair.second;
+}
+
+template <typename T>
+template <typename Y>
+Y esapi::HashTrie<T>::Entry<Y>::setValue(Y) {
+	throw new UnsupportedOperationException("setValue(..) is not supported for HashTrie.");
+}
+
+template <typename T>
+template <typename Y>
+bool esapi::HashTrie<T>::Entry<Y>::equals(std::pair<std::string,Y> other) {
+	// TODO: should use NullSafe, but at this moment, it has not been ported yet.
+	ASSERT(other);
+	ASSERT(!other.first.empty());
+	ASSERT(other.second);
+
+	return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
+}
+
+template <typename T>
+template <typename Y>
+int esapi::HashTrie<T>::Entry<Y>::hashCode() {
+	throw new UnsupportedOperationException("hashCode(..) is not supported for HashTrie.");
+}
+
+template <typename T>
+template <typename Y>
+std::string esapi::HashTrie<T>::Entry<Y>::toString() {
+	// TODO: should use NullSafe
+	ASSERT(!this->pair.first->empty());
+	ASSERT(this->pair.second);
+
+	return this->pair.first << " => " << this->pair.second;
+}
+
+template <typename T>
+template <typename U>
+esapi::HashTrie<T>::Node<U>::Node() {this->nextMap = NULL;}
+
+/* TODO: does not compile, fix.
+template <typename T>
+template <typename U>
+std::map<char, typename esapi::HashTrie<T>::Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap() {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+std::map<char, esapi::HashTrie<T>::Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap(std::map<char,Node<U> >) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}*/
+
+template <typename T>
+template <typename U>
+void esapi::HashTrie<T>::Node<U>::setValue(U) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+esapi::HashTrie<T>::Node<U> esapi::HashTrie<T>::Node<U>::getNextNode(char) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+U esapi::HashTrie<T>::Node<U>::put(std::string, int, U) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+U esapi::HashTrie<T>::Node<U>::get(std::string, int) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+/* TODO does not compile. fix.
+template <typename T>
+template <typename Y>
+template <typename U>
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::string, int) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+
+template <typename T>
+template <typename Y>
+template <typename U>
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::string, std::string) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}*/
+
+template <typename T>
+template <typename U>
+void esapi::HashTrie<T>::Node<U>::remap() {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+bool esapi::HashTrie<T>::Node<U>::containsValue(U) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+std::set<U> esapi::HashTrie<T>::Node<U>::values(std::set<U>) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+std::set<std::string> esapi::HashTrie<T>::Node<U>::keySet(std::string, std::set<std::string>) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
+
+template <typename T>
+template <typename U>
+std::map<std::string,U> esapi::HashTrie<T>::Node<U>::entrySet(std::string, std::set<std::pair<std::string,U> >) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
