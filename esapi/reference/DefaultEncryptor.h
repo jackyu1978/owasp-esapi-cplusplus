@@ -32,12 +32,12 @@ namespace esapi
   {
   public:
 
-    static std::string DefaultDigestAlgorithm;
-    static unsigned int DefaultDigestIterations;
+    static std::string DefaultDigestAlgorithm();
+    static unsigned int DefaultDigestIterations();
 
   public:
 
-    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations) throw (EncryptionException);
+    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations()) throw (EncryptionException);
 
     virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException)
     {
