@@ -25,12 +25,19 @@
 
 namespace esapi
 {
-  std::string DefaultEncryptor::DefaultDigestAlgorithm = "SHA-512";
-  unsigned int DefaultEncryptor::DefaultDigestIterations = 1024;
+  std::string DefaultEncryptor::DefaultDigestAlgorithm()
+  {
+    return "SHA-512";
+  }
+
+  unsigned int DefaultEncryptor::DefaultDigestIterations()
+  {
+    return 1024;
+  }
 
   std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations) throw(EncryptionException)
   {      
-    boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm));
+    boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm()));
     const size_t size = md->getDigestLength();
     boost::shared_ptr<byte> hash(new byte[size]);
 
