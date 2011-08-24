@@ -59,27 +59,22 @@ void VerifyWhirlpoolKeyGenerator();
 void VerifyHmacShaKeyGenerator();
 void VerifyHmacWhirlpoolKeyGenerator();
 
-void VerifyArc4KeyGenerator();
-
-void VerifyKey(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes);
+void VerifyKey(KeyGenerator& kgen, size_t bytes);
 
 BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
 {
   BOOST_MESSAGE( "Verifying KeyGeneration class" );
 
-  VerifyAesKeyGenerator();
-  VerifyDesEdeKeyGenerator();
-  VerifyBlowfishKeyGenerator();
-  VerifyCamelliaKeyGenerator();
+  //VerifyAesKeyGenerator();
+  //VerifyDesEdeKeyGenerator();
+  //VerifyBlowfishKeyGenerator();
+  //VerifyCamelliaKeyGenerator();
 
   VerifyShaKeyGenerator();
   VerifyWhirlpoolKeyGenerator();
 
   VerifyHmacShaKeyGenerator();
   VerifyHmacWhirlpoolKeyGenerator();
-
-  VerifyArc4KeyGenerator();
-  //BOOST_REQUIRE( 1 == 1 );
 }
 
 /**
@@ -100,16 +95,16 @@ BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
  *  System.out.println("Key 3 size: " + key3.getEncoded().length);
  */
 
-void VerifyKeyGeneration(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes)
+void VerifyKeyGeneration(KeyGenerator& kgen, size_t bytes)
 {
   // #define DUMP_KEYS 1
 
   // First key generation
-  SecretKey k1 = kgen->generateKey();
+  SecretKey k1 = kgen.generateKey();
   BOOST_CHECK_MESSAGE( !(k1.sizeInBytes() < bytes), "Key 1 is too small: " << k1 );
 
   // Second key generation
-  SecretKey k2 = kgen->generateKey();
+  SecretKey k2 = kgen.generateKey();
   BOOST_CHECK_MESSAGE( !(k2.sizeInBytes() < bytes), "Key 2 is too small: " << k2 );
 
 #if defined(DUMP_KEYS)
@@ -129,7 +124,7 @@ void VerifyKeyGeneration(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes)
   bool success = false;
   try
     {      
-      kgen->init( (bytes * 3 / 2) * 8);
+      kgen.init( (bytes * 3 / 2) * 8);
       success = true;
     }
   catch(...)
@@ -143,7 +138,7 @@ void VerifyKeyGeneration(boost::shared_ptr<KeyGenerator>& kgen, size_t bytes)
       success = false;
 
       // Third key generation
-      SecretKey k3 = kgen->generateKey();
+      SecretKey k3 = kgen.generateKey();
       success = true;
     }
   catch(...)
@@ -169,13 +164,13 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
     
@@ -185,13 +180,13 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -201,13 +196,13 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -217,13 +212,13 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -233,13 +228,13 @@ void VerifyAesKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -256,13 +251,13 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -272,13 +267,13 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -288,13 +283,13 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -304,13 +299,13 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -320,13 +315,13 @@ void VerifyCamelliaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -343,13 +338,13 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -359,13 +354,13 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -375,13 +370,13 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -391,13 +386,13 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -407,13 +402,13 @@ void VerifyDesEdeKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -430,13 +425,13 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -446,13 +441,13 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -462,13 +457,13 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -478,13 +473,13 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -494,13 +489,13 @@ void VerifyBlowfishKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -517,13 +512,13 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -533,13 +528,13 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -549,13 +544,13 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -565,13 +560,13 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -581,13 +576,13 @@ void VerifyShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -600,13 +595,13 @@ void VerifyWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -623,13 +618,13 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -639,13 +634,13 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -655,13 +650,13 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -671,13 +666,13 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -687,13 +682,13 @@ void VerifyHmacShaKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -706,32 +701,14 @@ void VerifyHmacWhirlpoolKeyGenerator()
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
+      KeyGenerator kg(KeyGenerator::getInstance(alg));
 
       const unsigned int bits = KEY_SIZES[i];
       const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
+      kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
 
-void VerifyArc4KeyGenerator()
-{
-  BOOST_MESSAGE( " Verifying ARC4" );
-
-  string alg = "ArcFour";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      boost::shared_ptr<KeyGenerator> kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg->init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg->getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-}
