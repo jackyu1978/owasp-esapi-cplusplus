@@ -26,6 +26,7 @@ using std::endl;
 using std::string;
 
 #include <map>
+#include <set>
 
 #include <sstream>
 using std::stringstream;
@@ -93,4 +94,66 @@ BOOST_AUTO_TEST_CASE( TrieTestCase )
 
 	tp.remove("asdf");
 	BOOST_CHECK(!tp.containsKey("asdf"));
+
+
+	/*std::set<std::string> keys;
+	std::map<std::string,int>::iterator it;
+	for (it=this->map.begin(); it != this->map.end(); it++)
+		keys.insert(it->first);*/
+
+
+	std::set<std::string> ks = tp.keySet();
+
+	BOOST_CHECK(tp.keySet().size() > 0);
+
+	BOOST_CHECK(ks.size() > 0);
+	BOOST_CHECK(ks.size() != 0);
+
+	BOOST_CHECK(ks.count("fdsa") > 0);
+	BOOST_CHECK(ks.find("fdsa") != ks.end());
+	BOOST_CHECK(ks.find("foo") != ks.end());
+	BOOST_CHECK(ks.find("bar") != ks.end());
+
+	BOOST_CHECK(ks.find("asdf") == ks.end());
+	BOOST_CHECK(ks.count("asdf") == 0);
+
+	ks.insert("ffff");
+	BOOST_CHECK(ks.count("ffff") >0);
+	BOOST_CHECK(tp.get("ffff") == 0);
+
+
+	std::set<int> vs = tp.values();
+
+	BOOST_CHECK(vs.count(4) > 0);
+	BOOST_CHECK(vs.count(2) > 0);
+	BOOST_CHECK(vs.count(3) > 0);
+	BOOST_CHECK(vs.count(5) == 0);
+	BOOST_CHECK(vs.count(12) == 0);
+	BOOST_CHECK(vs.count(65) == 0); /*'A'*/
+	BOOST_CHECK(vs.count(97) == 0); /*'a'*/
+
+	BOOST_CHECK(vs.find(4) != vs.end());
+	BOOST_CHECK(vs.find(2) != vs.end());
+	BOOST_CHECK(vs.find(3) != vs.end());
+	BOOST_CHECK(vs.find(12) == vs.end());
+	BOOST_CHECK(vs.find(65) == vs.end());
+	BOOST_CHECK(vs.find(55) == vs.end());
+
+	std::map<std::string,int> es = tp.entrySet();
+
+	BOOST_CHECK(es == tp.wrapped.map);
+	BOOST_CHECK(es.size() == tp.size());
+	BOOST_CHECK(es.count("fdsa")>0);
+
+	es.insert( std::pair<std::string,int>("pppp",99) );
+	BOOST_CHECK(es.count("pppp") >0);
+	BOOST_CHECK(!tp.containsKey("pppp")); // If it worked like Java this should fail, because the entrySet is linked to the map entries.
+
+	/* This is how the java map is supposed to work: */
+	/*std::map<std::string,int> *esp = tp.entrySet();
+
+	esp->insert( std::pair<std::string,int>("qqqq",101) );
+
+	BOOST_CHECK(esp->count("qqqq") >0);
+	BOOST_CHECK(tp.containsKey("qqqq"));*/
 }

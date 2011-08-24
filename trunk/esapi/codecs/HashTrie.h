@@ -215,12 +215,12 @@ private:
 		 * @param entries Set to add to
 		 * @return entries with additions
 		 */
-		std::set<std::pair<std::string,U> > entrySet(std::string, std::set<std::pair<std::string,U> >);
+		std::map<std::string,U> entrySet(std::string, std::set<std::pair<std::string,U> >);
 	};
 
 	Node<T> root;
 	int maxKeyLen;
-	int trieSize;
+	unsigned int trieSize;
 
 public:
 	HashTrie();
@@ -288,7 +288,7 @@ public:
 	 * Get the number of entries.
 	 * @return the number or entries.
 	 */
-	int size();
+	unsigned int size();
 
 	/** {@inheritDoc} */
 	//bool equals(Object); TODO is this necessary?
