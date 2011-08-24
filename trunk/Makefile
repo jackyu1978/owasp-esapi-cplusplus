@@ -164,6 +164,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/PushbackStringTest.cpp \
 			test/codecs/HTMLEntityCodecTest.cpp \
 			test/codecs/TrieTest.cpp \
+			test/codecs/HashTrieTest.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
