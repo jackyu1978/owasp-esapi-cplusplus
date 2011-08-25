@@ -39,9 +39,7 @@ namespace esapi {
   private:
     static const int REPLACEMENT_CHAR = 65533;
     static const std::string REPLACEMENT_HEX;
-    static const std::string REPLACEMENT_STR;
-    static Mutex s_mutex;
-    static const std::map<int,std::string> characterToEntityMap;
+    static const std::string REPLACEMENT_STR;    
 
     //TODO
     //static const Trie<Character> entityToCharacterTrie;
@@ -100,16 +98,22 @@ namespace esapi {
     char getNamedEntity( PushbackString ) ;
 
     /**
+    * Retrieve the class wide intialization lock.
+    * @return the mutex used to lock the class.
+    */
+    static Mutex& getInitLock();
+
+    /**
     * Build a unmodifiable Map from entity Character to Name.
     * @return Unmodifiable map.
     */
-    static const std::map<int,std::string>& mkCharacterToEntityMap(); //TODO Thread safety?
+    static const std::map<int,std::string>& getCharacterToEntityMap();
 
     /**
     * Build a unmodifiable Trie from entitiy Name to Character
     * @return Unmodifiable trie.
     */
-    //TODO static Trie<Character> mkEntityToCharacterTrie(); //TODO Thread safety?
+    static const Trie<int>& getEntityToCharacterTrie();
 
   public:
     /**
