@@ -382,8 +382,6 @@ template <typename T>
 template <typename U>
 esapi::HashTrie<T>::Node<U>::Node() {this->nextMap = NULL;}
 
-// TODO: does not compile, fix.
-
 
 template <typename T>
 template <typename U>
