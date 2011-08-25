@@ -99,7 +99,7 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
-  const std::map<char,std::string>& characterToEntityMap = HTMLEntityCodec::mkCharacterToEntityMap();
+  const std::map<int,std::string>& characterToEntityMap = HTMLEntityCodec::mkCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
 
   BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );

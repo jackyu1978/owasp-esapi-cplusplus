@@ -41,7 +41,7 @@ namespace esapi {
     static const std::string REPLACEMENT_HEX;
     static const std::string REPLACEMENT_STR;
     static Mutex s_mutex;
-    static const std::map<char,std::string> characterToEntityMap;
+    static const std::map<int,std::string> characterToEntityMap;
 
     //TODO
     //static const Trie<Character> entityToCharacterTrie;
@@ -103,7 +103,7 @@ namespace esapi {
     * Build a unmodifiable Map from entity Character to Name.
     * @return Unmodifiable map.
     */
-    static const std::map<char,std::string>& mkCharacterToEntityMap(); //TODO Thread safety?
+    static const std::map<int,std::string>& mkCharacterToEntityMap(); //TODO Thread safety?
 
     /**
     * Build a unmodifiable Trie from entitiy Name to Character
