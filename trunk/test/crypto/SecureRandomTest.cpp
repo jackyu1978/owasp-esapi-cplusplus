@@ -78,9 +78,11 @@ void DoWorkerThreadStuff()
         }
     }
 
-  BOOST_MESSAGE( " All threads completed successfully" );
+  BOOST_MESSAGE( "All threads completed successfully" );
 }
 #endif
+
+static SecureRandom g_prng = SecureRandom::getInstance("HmacSHA-256");;
 
 void* WorkerThreadProc(void* param)
 {
@@ -93,6 +95,9 @@ void* WorkerThreadProc(void* param)
 #endif
 
   byte random[8192];
+
+  // This is the intended usage we envision - a single shared PRNG
+  g_prng.nextBytes(random, sizeof(random));
 
   SecureRandom prng1;
   for (unsigned int i = 0; i < 64; i++)
@@ -128,7 +133,12 @@ void* WorkerThreadProc(void* param)
 
   BOOST_CHECK(prng2.getAlgorithm() != prng4.getAlgorithm());
 
-  BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
+  // 1, 3 and 5 are the same generators
+  SecureRandom prng5(prng1);
+  BOOST_CHECK(prng1.getAlgorithm() == prng5.getAlgorithm());
+  BOOST_CHECK(prng3.getAlgorithm() == prng5.getAlgorithm());
+
+  BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
 
   return (void*)0;
 }

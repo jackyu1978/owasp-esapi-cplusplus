@@ -92,7 +92,7 @@ private:
                 /* java.lang.Object */
                 /********************/
 
-		bool equals(std::pair<std::string,Y>);
+		bool equals(const std::pair<std::string,Y>&);
 
 		int hashCode();
 
@@ -353,10 +353,10 @@ Y esapi::HashTrie<T>::Entry<Y>::setValue(Y) {
 
 template <typename T>
 template <typename Y>
-bool esapi::HashTrie<T>::Entry<Y>::equals(std::pair<std::string,Y> other) {
+bool esapi::HashTrie<T>::Entry<Y>::equals(const std::pair<std::string,Y>& other) {
 	// TODO: should use NullSafe, but at this moment, it has not been ported yet.
-	ASSERT(other);
-	ASSERT(!other.first.empty());
+	// ASSERT(other); // cannot be NULL since its a reference
+	ASSERT(!(other.first.empty()));
 	ASSERT(other.second);
 
 	return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
