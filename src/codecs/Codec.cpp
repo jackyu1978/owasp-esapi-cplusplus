@@ -104,7 +104,7 @@ char esapi::Codec::decodeCharacter(PushbackString& input) const{
   return input.next();
 }
 
-std::string esapi::Codec::getHexForNonAlphanumeric(char c) const{
+std::string esapi::Codec::getHexForNonAlphanumeric(char c) {
   ASSERT(c != 0);
   ASSERT(hex);
 
@@ -113,12 +113,12 @@ std::string esapi::Codec::getHexForNonAlphanumeric(char c) const{
 
   int i = (int)c;
   if(i < (int)ARR_SIZE)
-    return this->hex->at(i);
+    return hex->at(i);
 
   return toHex((char)i);
 }
 
-std::string esapi::Codec::toOctal(char c) const{
+std::string esapi::Codec::toOctal(char c) {
   ASSERT(c != 0);
 
   std::ostringstream str;
@@ -127,7 +127,7 @@ std::string esapi::Codec::toOctal(char c) const{
   return str.str();
 }
 
-std::string esapi::Codec::toHex(char c) const{
+std::string esapi::Codec::toHex(char c) {
   ASSERT(c != 0);
 
   std::ostringstream str;
