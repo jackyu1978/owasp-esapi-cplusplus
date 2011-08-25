@@ -117,7 +117,7 @@ private:
 		 * be switched it is easily done.
 		 * @return A new Map for use.
 		 */
-		static std::map<char,Node<U> > newNodeMap();
+		static std::map<char, Node<U> > newNodeMap();
 
 		/**
 		 * Create a new Map for a node level. This is here so
@@ -382,18 +382,21 @@ template <typename T>
 template <typename U>
 esapi::HashTrie<T>::Node<U>::Node() {this->nextMap = NULL;}
 
-/* TODO: does not compile, fix.
-template <typename T>
-template <typename U>
-std::map<char, typename esapi::HashTrie<T>::Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap() {
-	throw new UnsupportedOperationException("working on it..."); //TODO
-}
+// TODO: does not compile, fix.
+
 
 template <typename T>
 template <typename U>
-std::map<char, esapi::HashTrie<T>::Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap(std::map<char,Node<U> >) {
+std::map<char, typename esapi::HashTrie<T>::template Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap() {
 	throw new UnsupportedOperationException("working on it..."); //TODO
-}*/
+}
+
+
+template <typename T>
+template <typename U>
+std::map<char, typename esapi::HashTrie<T>::template Node<U> > esapi::HashTrie<T>::Node<U>::newNodeMap(std::map<char,Node<U> >) {
+	throw new UnsupportedOperationException("working on it..."); //TODO
+}
 
 template <typename T>
 template <typename U>
@@ -419,15 +422,16 @@ U esapi::HashTrie<T>::Node<U>::get(std::string, int) {
 	throw new UnsupportedOperationException("working on it..."); //TODO
 }
 
-/* TODO does not compile. fix.
+// TODO does not compile. fix.
+/*
 template <typename T>
 template <typename Y>
 template <typename U>
 esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::string, int) {
 	throw new UnsupportedOperationException("working on it..."); //TODO
-}
+}*/
 
-
+/*
 template <typename T>
 template <typename Y>
 template <typename U>

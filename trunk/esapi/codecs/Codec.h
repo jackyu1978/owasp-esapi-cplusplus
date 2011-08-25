@@ -121,11 +121,11 @@ namespace esapi {
      * @return, return null if alphanumeric or the character code
      * 	in hex.
      */
-    std::string getHexForNonAlphanumeric(char) const;
+    static std::string getHexForNonAlphanumeric(char);
 
-    std::string toOctal(char) const;
+    static std::string toOctal(char) ;
 
-    std::string toHex(char) const;
+    static std::string toHex(char) ;
 
     /**
      * Utility to search a string for a specific char.
