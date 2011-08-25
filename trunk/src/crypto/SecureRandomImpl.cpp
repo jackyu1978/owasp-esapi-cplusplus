@@ -371,7 +371,7 @@ namespace esapi
   template <class HASH, class DRBGINFO>
   std::string HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
   {
-    // Don't throw the catastrophic error here. TThe user might need the name of the generator.
+    // Don't throw the catastrophic error here. The user might need the name of the generator.
 
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexAutoLock lock(getObjectLock());

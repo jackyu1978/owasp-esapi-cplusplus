@@ -65,20 +65,29 @@ namespace esapi
       // memory allocation
       inline pointer allocate(size_type cnt, typename std::allocator<void>::const_pointer = 0)
       {
-        // Overflow/wrap is checked for by the container. Set a breakpoint
-        // on max_size() and view the call stack (ie, the preceeding frame)
-        // for verification.
+        ASSERT(cnt > 0);
+        ASSERT(cnt <= max_size());
+
+        // Check for overflow/wrap. Standard containers only need to check for wrap in
+        // vector::reserve. Other containers might check, but don't be fooled into complacency.
+        // zero count allocation are legal, but near useless.
+        if(cnt > max_size())
+          throw std::bad_alloc();
+
         return reinterpret_cast<pointer>(::operator new(cnt * sizeof (T))); 
       }
     
       inline void deallocate(pointer p, size_type cnt)
       {
-        // Pointer 'p' is checked for validity by the container. cnt is a 
-        // count of elements, not bytes.
+        ASSERT(p);
+        ASSERT(cnt);
+        if(!p) return;
+
+        // cnt is a count of elements, not bytes.
         // Because 'p' is assigned to a static volatile pointer, the
         // optimizer currently does not optimize out the ::memset as dead
-        // code. Set a breakpoint on line 83 and view the assembled code
-        // for verification.
+        // code. Set a breakpoint on the assignment to g_dummy in the
+        // assembled code for verification.
         ::memset(p, 0x00, cnt * sizeof (T));
         g_dummy = p;
         ::operator delete(p);

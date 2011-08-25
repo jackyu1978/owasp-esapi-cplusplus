@@ -37,7 +37,7 @@ namespace esapi
     ~AutoFileDesc() {
       if(m_fd) {
         close(m_fd);
-        m_fd = 0;
+        m_fd = -1;
       }
     }
 
