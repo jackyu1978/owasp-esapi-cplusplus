@@ -70,6 +70,7 @@ INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
+GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[1-9]|[5-9])")
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-9])")
 GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[4-9]|[5-9])")
 GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[5-9]|[5-9])")
@@ -94,6 +95,12 @@ endif
 # http://people.redhat.com/drepper/dsohowto.pdf
 ifneq ($(GCC40_OR_LATER),0)
   CXXFLAGS += -fvisibility=hidden
+endif
+
+# http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
+# http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
+ifneq ($(GCC41_OR_LATER),0)
+  CXXFLAGS += -fstack-protector-all
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
