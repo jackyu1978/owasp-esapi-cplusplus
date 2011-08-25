@@ -73,12 +73,12 @@ namespace esapi
     
       inline void deallocate(pointer p, size_type cnt)
       {
-        // Pointer 'p' is checked for validity by the container. Because 'p'
-        // is assigned to a static volatile pointer, the optimizer currently
-        // does not optimize out the ::memset as dead code. Set a breakpoint
-        // on line 66 and view the call stack (ie, the preceeding frame) for
-        // verification.
-        // cnt is a count of elements, not bytes.
+        // Pointer 'p' is checked for validity by the container. cnt is a 
+        // count of elements, not bytes.
+        // Because 'p' is assigned to a static volatile pointer, the
+        // optimizer currently does not optimize out the ::memset as dead
+        // code. Set a breakpoint on line 83 and view the assembled code
+        // for verification.
         ::memset(p, 0x00, cnt * sizeof (T));
         g_dummy = p;
         ::operator delete(p);
