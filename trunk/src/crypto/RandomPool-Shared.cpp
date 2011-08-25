@@ -57,6 +57,8 @@ namespace esapi
   */
   bool RandomPool::Rekey()
   {
+    // Lock was acquired in RandomPool::Reseed()
+
     // Key and IV
     byte key[32 /*AES256 key*/ + 16 /*AES Blocksize*/];
     ByteArrayZeroizer(key, sizeof(key));
