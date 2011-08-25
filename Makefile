@@ -103,6 +103,12 @@ ifneq ($(GCC41_OR_LATER),0)
   CXXFLAGS += -fstack-protector-all
 endif
 
+ifneq ($(GCC41_OR_LATER),0)
+  ifeq ($(WANT_DEBUG),1)
+    CXXFLAGS += -D_FORTIFY_SOURCE=2
+  endif
+endif
+
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 ifneq ($(GCC43_OR_LATER),0)
   CXXFLAGS += -Wall -Wextra -Wno-type-limits -Wno-unused
