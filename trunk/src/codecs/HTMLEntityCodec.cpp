@@ -13,8 +13,6 @@
 //const char esapi::HTMLEntityCodec::REPLACEMENT_CHAR = '\uFFFD';
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_HEX = "fffd";
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "\uFFFD";
-esapi::Mutex esapi::HTMLEntityCodec::s_mutex;
-const std::map<int,std::string> esapi::HTMLEntityCodec::characterToEntityMap = mkCharacterToEntityMap();
 
 //TODO
 //Trie<Character> entityToCharacterTrie  = mkEntityToCharacterTrie();
@@ -133,7 +131,21 @@ char esapi::HTMLEntityCodec::getNamedEntity( PushbackString ) {
   return 0;
 }
 
-const std::map<int,std::string>& esapi::HTMLEntityCodec::mkCharacterToEntityMap() {
+/**
+* Retrieve the class wide intialization lock.
+* @return the mutex used to lock the class.
+*/
+esapi::Mutex& esapi::HTMLEntityCodec::getInitLock() {
+  static esapi::Mutex s_mutex;
+  return s_mutex;
+}
+
+/**
+* Build a unmodifiable Map from entity Character to Name.
+* @return Unmodifiable map.
+*/
+const std::map<int,std::string>& esapi::HTMLEntityCodec::getCharacterToEntityMap() {
+
   // Double checked intialization
   static volatile bool init = false;
   static std::map<int, std::string> map;
@@ -142,7 +154,7 @@ const std::map<int,std::string>& esapi::HTMLEntityCodec::mkCharacterToEntityMap(
   if(!init)
   {
     // Acquire the lock
-    MutexAutoLock lock(s_mutex);
+    MutexAutoLock lock(getInitLock());
 
     // Verify we did not acquire the lock after another thread initialized and and released
     if(!init)
@@ -408,15 +420,44 @@ const std::map<int,std::string>& esapi::HTMLEntityCodec::mkCharacterToEntityMap(
   return map;
 }
 
-/*TODO static Trie<Character> mkEntityToCharacterTrie() {
-//TODO Thread safety?
-Trie<Character> trie = new HashTrie<Character>();
-
-for(Map.Entry<Character,String> entry : characterToEntityMap.entrySet())
-trie.put(entry.getValue(),entry.getKey());
-return Trie.Util.unmodifiable(trie);
-}
+/**
+* Build a unmodifiable Trie from entitiy Name to Character
+* @return Unmodifiable trie.
 */
+const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
+{
+  //for(Map.Entry<Character,String> entry : characterToEntityMap.entrySet())
+  //trie.put(entry.getValue(), entry.getKey());
+  //return Trie.Util.unmodifiable(trie);  
+
+  // Double checked intialization
+  static volatile bool init = false;
+  static Trie<int> trie;
+
+  // First check
+  if(!init)
+  {
+    // Acquire the lock
+    MutexAutoLock lock(getInitLock());
+
+    // Verify we did not acquire the lock after another thread initialized and and released
+    if(!init)
+    {
+      const std::map<int,std::string>& entityMap = esapi::HTMLEntityCodec::getCharacterToEntityMap();
+      std::map<int,std::string>::const_iterator it = entityMap.begin();
+
+      for(; it != entityMap.end(); it++)
+      {
+        // trie.insert( std::pair<char, std::string>(it->second, it->first) );
+      }
+
+      init = true;
+
+    } // Inner !init
+  } // Outer !init
+
+  return trie;
+}
 
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const{
   /*
