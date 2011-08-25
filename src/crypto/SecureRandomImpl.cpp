@@ -112,11 +112,6 @@ namespace esapi
    */
 
   /**
-   * A single random pool for use among all generators.
-   */
-  RandomPool& SecureRandomImpl::g_pool = RandomPool::GetSharedInstance();
-
-  /**
    * Factory method to cough up an implementation.
    * Used by getInstance and most stack based SecureRandoms
    */
@@ -322,7 +317,7 @@ namespace esapi
         const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
         CryptoPP::SecByteBlock material(msize + ssize);
 
-        g_pool.GenerateBlock(material.data(), msize);
+        RandomPool::GetSharedInstance().GenerateBlock(material.data(), msize);
 
         // Copy in the user provided "personalization"
         if(seed && ssize)
@@ -723,7 +718,7 @@ namespace esapi
         ::memcpy(material.data()+idx, m_v.data(), m_v.size());
         idx += m_v.size();
 
-        g_pool.GenerateBlock(material.data()+idx, SeedLength);
+        RandomPool::GetSharedInstance().GenerateBlock(material.data()+idx, SeedLength);
         idx += SeedLength;
 
         if(seed)
@@ -773,7 +768,7 @@ namespace esapi
         const size_t msize /*seed material size*/ = 3 * SeedLength / 2;
         CryptoPP::SecByteBlock material(msize + ssize);
 
-        g_pool.GenerateBlock(material.data(), msize);
+        RandomPool::GetSharedInstance().GenerateBlock(material.data(), msize);
 
         // Copy in the user provided "personalization"
         if(seed && ssize)
@@ -1094,7 +1089,7 @@ namespace esapi
         const size_t msize /*seed material size*/ = SeedLength;
         CryptoPP::SecByteBlock material(msize + ssize);
 
-        g_pool.GenerateBlock(material.data(), msize);
+        RandomPool::GetSharedInstance().GenerateBlock(material.data(), msize);
 
         // Copy in the user provided "personalization"
         if(seed && ssize)

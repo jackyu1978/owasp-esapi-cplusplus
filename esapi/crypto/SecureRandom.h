@@ -151,13 +151,6 @@ namespace esapi
     // SecureRandom needs access to createInstance() and getSecurityLevel()
     friend class SecureRandom;
 
-  protected:
-    /**
-     * A shared pool for all PRNG objects. Note this is a reference to a RandomPool,
-     * and not a copy. Its initalized in the CPP file.
-     */
-    static RandomPool& g_pool;
-
   public:
     /**
      * Destroy this random number generator (RNG).

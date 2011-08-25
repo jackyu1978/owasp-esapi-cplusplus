@@ -1,16 +1,16 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #include "crypto/SecureRandom.h"
 #include "crypto/Crypto++Common.h"
@@ -22,34 +22,34 @@
 #include <stdexcept>
 
 /**
-* This class implements functionality similar to Java's SecureRandom for consistency
-* http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
-*/
+ * This class implements functionality similar to Java's SecureRandom for consistency
+ * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
+ */
 namespace esapi
 {
   /**
-  * The default secure random number generator (RNG) algorithm. SHA-1 is approved for
-  * Random Number Generation. See SP 800-57, Table 2.
-  */
+   * The default secure random number generator (RNG) algorithm. SHA-1 is approved for
+   * Random Number Generation. See SP 800-57, Table 2.
+   */
   std::string SecureRandom::DefaultAlgorithm()
   {
     return "SHA-256";
   }
 
   /**
-  * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
-  */
+   * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
+   */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
   {
     std::string alg = normalizeAlgortihm(algorithm);
     ASSERT( !alg.empty() );
 
     if(alg.empty())
-    {
-      std::ostringstream oss;
-      oss << "Algorithm \'" << algorithm << "\' is not supported.";
-      throw EncryptionException(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Algorithm \'" << algorithm << "\' is not supported.";
+        throw EncryptionException(oss.str());
+      }
 
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
 
@@ -61,9 +61,9 @@ namespace esapi
   }
 
   /**
-  * Constructs a secure random number generator (RNG) implementing the named
-  * random number algorithm if specified
-  */
+   * Constructs a secure random number generator (RNG) implementing the named
+   * random number algorithm if specified
+   */
   SecureRandom::SecureRandom(const std::string& algorithm)
     : m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
@@ -73,8 +73,8 @@ namespace esapi
   }
 
   /**
-  * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
-  */
+   * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
+   */
   SecureRandom::SecureRandom(const byte seed[], size_t size)
     : m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
   {
@@ -88,24 +88,24 @@ namespace esapi
   }
 
   /**
-  * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
-  */
+   * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
+   */
   SecureRandom::SecureRandom(SecureRandomImpl* impl)
     : m_impl(impl)
   {
   }
 
   /**
-  * Copy this secure random number generator (RNG).
-  */
+   * Copy this secure random number generator (RNG).
+   */
   SecureRandom::SecureRandom(const SecureRandom& rhs)
     : m_impl(rhs.m_impl)
   {
   }
 
   /**
-  * Assign this secure random number generator (RNG).
-  */
+   * Assign this secure random number generator (RNG).
+   */
   SecureRandom& SecureRandom::operator=(const SecureRandom& rhs)
   {
     if(this != &rhs)
@@ -115,16 +115,16 @@ namespace esapi
   }
 
   /**
-  * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
-  */
+   * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
+   */
   byte* SecureRandom::generateSeed(unsigned int numBytes)
   {
     throw std::runtime_error("Not implemented");
   }
 
   /**
-  * Returns the name of the algorithm implemented by this SecureRandom object.
-  */
+   * Returns the name of the algorithm implemented by this SecureRandom object.
+   */
   std::string SecureRandom::getAlgorithm() const
   {
     ASSERT(m_impl.get() != nullptr);
@@ -135,10 +135,10 @@ namespace esapi
   }
 
   /**
-  * Normalizes the algorithm name. An empty string on input is interpreted as
-  * the default algortihm. If the algorithm is not found (ie, unsupported),
-  * return the empty string.
-  */
+   * Normalizes the algorithm name. An empty string on input is interpreted as
+   * the default algortihm. If the algorithm is not found (ie, unsupported),
+   * return the empty string.
+   */
   std::string SecureRandom::normalizeAlgortihm(const std::string& algorithm)
   {
     std::string alg = algorithm, mode;
@@ -162,10 +162,10 @@ namespace esapi
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
     if(std::string::npos != (pos = alg.find('/')))
-    {
-      mode = alg.substr(pos+1);
-      alg.erase(pos);
-    }
+      {
+        mode = alg.substr(pos+1);
+        alg.erase(pos);
+      }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
     if(std::string::npos != (pos = mode.find('/')))
@@ -339,9 +339,9 @@ namespace esapi
   }
 
   /**
-  * Returns the security level associated with the SecureRandom object. Used
-  * by KeyGenerator to determine the appropriate key size for init.
-  */
+   * Returns the security level associated with the SecureRandom object. Used
+   * by KeyGenerator to determine the appropriate key size for init.
+   */
   unsigned int SecureRandom::getSecurityLevel() const
   {
     ASSERT(m_impl.get() != nullptr);
@@ -352,8 +352,8 @@ namespace esapi
   }
 
   /**
-  * Generates a user-specified number of random bytes.
-  */
+   * Generates a user-specified number of random bytes.
+   */
   void SecureRandom::nextBytes(byte bytes[], size_t size)
   {
     ASSERT(m_impl.get() != nullptr);
@@ -364,8 +364,8 @@ namespace esapi
   }
 
   /**
-  * Reseeds this random object.
-  */
+   * Reseeds this random object.
+   */
   void SecureRandom::setSeed(const byte seed[], size_t size)
   {
     ASSERT(m_impl.get() != nullptr);
@@ -376,8 +376,8 @@ namespace esapi
   }
 
   /**
-  * Reseeds this random object, using the bytes contained in the given long seed.
-  */
+   * Reseeds this random object, using the bytes contained in the given long seed.
+   */
   void SecureRandom::setSeed(int seed)
   {
     ASSERT(m_impl.get() != nullptr);
