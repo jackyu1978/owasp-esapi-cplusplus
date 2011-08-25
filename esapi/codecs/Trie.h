@@ -35,10 +35,10 @@ namespace esapi {
   protected:
     std::map<std::string,T> map;
   public:
-    virtual std::pair<std::string,T> getLongestMatch(std::string);
+    virtual std::pair<std::string,T> getLongestMatch(const std::string&) const;
     //pair<std::string,T> getLongestMatch(PushbackReader) =0;
-    virtual int getMaxKeyLength();
-    virtual unsigned int size();
+    virtual int getMaxKeyLength() const;
+    virtual unsigned int size() const;
     virtual ~Trie() {};
 
     template <typename Y>
@@ -53,25 +53,25 @@ namespace esapi {
       virtual const Trie<T>& getWrapped();
 
     public:
-      virtual std::pair<std::string,Y> getLongestMatch (std::string);
+      virtual std::pair<std::string,Y> getLongestMatch (const std::string&) const;
 
-      virtual int getMaxKeyLength();
+      virtual int getMaxKeyLength() const;
 
-      virtual unsigned int size();
+      virtual unsigned int size() const;
 
-      virtual bool isEmpty();
+      virtual bool isEmpty() const;
 
-      virtual bool containsKey(std::string);
+      virtual bool containsKey(const std::string&) const;
 
-      virtual bool containsValue(Y);
+      virtual bool containsValue(const Y&) const;
 
-      virtual Y get(std::string);
+      virtual Y get(const std::string&);
 
-      virtual Y put (std::string, Y);
+      virtual Y put (const std::string&, const Y&);
 
-      virtual Y remove(std::string);
+      virtual Y remove(const std::string&);
 
-      virtual void putAll(std::map<std::string, Y>);
+      virtual void putAll(const std::map<std::string, Y>&);
 
       virtual void clear();
 
@@ -115,17 +115,17 @@ namespace esapi {
 // Silly compilers don't like separate files for templates.
 
 template <typename T>
-std::pair<std::string,T> esapi::Trie<T>::getLongestMatch(std::string key){
+std::pair<std::string,T> esapi::Trie<T>::getLongestMatch(const std::string& key) const {
   return std::pair<std::string,T>(key, this->map.find(key)->second );
 }
 
 template <typename T>
-int esapi::Trie<T>::getMaxKeyLength(){
+int esapi::Trie<T>::getMaxKeyLength() const{
   return 0;
 }
 
 template <typename T>
-unsigned int esapi::Trie<T>::size(){
+unsigned int esapi::Trie<T>::size() const{
   return this->map.size();
 }
 
@@ -143,31 +143,31 @@ const esapi::Trie<T>& esapi::Trie<T>::TrieProxy<Y>::getWrapped() {
 
 template <typename T>
 template <typename Y>
-std::pair<std::string,Y> esapi::Trie<T>::TrieProxy<Y>::getLongestMatch (std::string keyIn) {
+std::pair<std::string,Y> esapi::Trie<T>::TrieProxy<Y>::getLongestMatch (const std::string& keyIn) const {
   return this->wrapped.getLongestMatch(keyIn);
 }
 
 template <typename T>
 template <typename Y>
-int esapi::Trie<T>::TrieProxy<Y>::getMaxKeyLength() {
+int esapi::Trie<T>::TrieProxy<Y>::getMaxKeyLength() const {
   return this->wrapped.getMaxKeyLength();
 }
 
 template <typename T>
 template <typename Y>
-unsigned int esapi::Trie<T>::TrieProxy<Y>::size() {
+unsigned int esapi::Trie<T>::TrieProxy<Y>::size() const {
   return this->wrapped.map.size();
 }
 
 template <typename T>
 template <typename Y>
-bool esapi::Trie<T>::TrieProxy<Y>::isEmpty() {
+bool esapi::Trie<T>::TrieProxy<Y>::isEmpty() const {
   return this->wrapped.map.empty();
 }
 
 template <typename T>
 template <typename Y>
-bool esapi::Trie<T>::TrieProxy<Y>::containsKey(std::string key) {
+bool esapi::Trie<T>::TrieProxy<Y>::containsKey(const std::string& key) const {
   if (this->wrapped.map.count(key)>0)
     return true;
   else
@@ -176,8 +176,8 @@ bool esapi::Trie<T>::TrieProxy<Y>::containsKey(std::string key) {
 
 template <typename T>
 template <typename Y>
-bool esapi::Trie<T>::TrieProxy<Y>::containsValue(Y val) {
-  typename std::map<std::string,Y>::iterator it;
+bool esapi::Trie<T>::TrieProxy<Y>::containsValue(const Y& val) const {
+  typename std::map<std::string,Y>::const_iterator it;
   for ( it=this->wrapped.map.begin() ; it != this->wrapped.map.end(); it++ ) {
     if ( (*it).second == val)
       return true;
@@ -187,7 +187,7 @@ bool esapi::Trie<T>::TrieProxy<Y>::containsValue(Y val) {
 
 template <typename T>
 template <typename Y>
-Y esapi::Trie<T>::TrieProxy<Y>::get(std::string key) {
+Y esapi::Trie<T>::TrieProxy<Y>::get(const std::string& key) {
   typename std::map<std::string,Y>::iterator it = this->wrapped.map.find(key);
 
   if (it == this->wrapped.map.end())
@@ -203,7 +203,7 @@ Y esapi::Trie<T>::TrieProxy<Y>::get(std::string key) {
 
 template <typename T>
 template <typename Y>
-Y esapi::Trie<T>::TrieProxy<Y>::put (std::string key, Y value) {
+Y esapi::Trie<T>::TrieProxy<Y>::put (const std::string& key, const Y& value) {
   typename std::pair<std::string,Y> newElement(key,value);
   std::pair< typename std::map<std::string,Y>::iterator,bool > ret;
 
@@ -222,7 +222,7 @@ Y esapi::Trie<T>::TrieProxy<Y>::put (std::string key, Y value) {
 
 template <typename T>
 template <typename Y>
-Y esapi::Trie<T>::TrieProxy<Y>::remove(std::string key) {
+Y esapi::Trie<T>::TrieProxy<Y>::remove(const std::string& key) {
   typename std::map<std::string,Y>::iterator it = this->wrapped.map.find(key);
 
   if (it == this->wrapped.map.end()) {
@@ -239,7 +239,7 @@ Y esapi::Trie<T>::TrieProxy<Y>::remove(std::string key) {
 
 template <typename T>
 template <typename Y>
-void esapi::Trie<T>::TrieProxy<Y>::putAll(std::map<std::string, Y> t) {
+void esapi::Trie<T>::TrieProxy<Y>::putAll(const std::map<std::string, Y>& t) {
   this->wrapped.map.insert(t.begin(),t.end());
 }
 
