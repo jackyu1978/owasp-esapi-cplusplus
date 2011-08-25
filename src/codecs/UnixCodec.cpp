@@ -38,13 +38,13 @@ char esapi::UnixCodec::decodeCharacter( PushbackString& input) const {
 	char first = input.next();
 	if ( first == 0 ) {
 		input.reset();
-		return NULL;
+		return '\0';
 	}
 
 	// if this is not an encoded character, return null
 	if ( first != '\\' ) {
 		input.reset();
-		return NULL;
+		return '\0';
 	}
 
 	char second = input.next();
