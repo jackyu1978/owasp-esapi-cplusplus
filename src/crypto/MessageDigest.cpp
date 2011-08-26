@@ -259,7 +259,7 @@ namespace esapi
         throw EncryptionException(std::string("Internal error: ") + ex.what());
       }
 
-    return req;
+    return (unsigned int)req;
   }
 
   /**
