@@ -9,6 +9,7 @@
 */
 
 #include "codecs/HTMLEntityCodec.h"
+#include "crypto/Crypto++Common.h"
 
 //const char esapi::HTMLEntityCodec::REPLACEMENT_CHAR = '\uFFFD';
 const std::string esapi::HTMLEntityCodec::REPLACEMENT_HEX = "fffd";
@@ -17,7 +18,7 @@ const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "\uFFFD";
 //TODO
 //Trie<Character> entityToCharacterTrie  = mkEntityToCharacterTrie();
 
-char esapi::HTMLEntityCodec::getNumericEntity( PushbackString ) {
+char esapi::HTMLEntityCodec::getNumericEntity(PushbackString&) {
   /*
   Character first = input.peek();
   if ( first == null ) return null;
@@ -31,7 +32,7 @@ char esapi::HTMLEntityCodec::getNumericEntity( PushbackString ) {
   return 0;
 }
 
-char esapi::HTMLEntityCodec::parseNumber( PushbackString input ) {
+char esapi::HTMLEntityCodec::parseNumber(PushbackString& input) {
   /*
   StringBuilder sb = new StringBuilder();
   while( input.hasNext() ) {
@@ -65,7 +66,7 @@ char esapi::HTMLEntityCodec::parseNumber( PushbackString input ) {
   return 0;
 }
 
-char esapi::HTMLEntityCodec::parseHex( PushbackString ) {
+char esapi::HTMLEntityCodec::parseHex(PushbackString&) {
   /*
   StringBuilder sb = new StringBuilder();
   while( input.hasNext() ) {
@@ -99,7 +100,7 @@ char esapi::HTMLEntityCodec::parseHex( PushbackString ) {
   return 0;
 }
 
-char esapi::HTMLEntityCodec::getNamedEntity( PushbackString ) {
+char esapi::HTMLEntityCodec::getNamedEntity(PushbackString&) {
   /*
   StringBuilder possible = new StringBuilder();
   Map.Entry<CharSequence,Character> entry;
@@ -460,6 +461,8 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
 }
 
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const{
+  ASSERT(immune);
+  ASSERT(length);
   /*
 
   // check for immune characters
@@ -489,10 +492,10 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   // return the hex entity as suggested in the spec
   return "&#x" + hex + ";";
   */
-  return "";
+  return std::string();
 }
 
-char esapi::HTMLEntityCodec::decodeCharacter( PushbackString& input) const {
+char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& input) const {
   /*
   input.mark();
   Character first = input.next();
