@@ -16,21 +16,20 @@
 
 std::string esapi::UnixCodec::encodeCharacter( const char immune[], size_t length, char c) const {
 	ASSERT (c != 0);
-	ASSERT (length != 0);
 
 	// check for immune characters
 	for (unsigned int i=0; i<length; i++) {
 		if (immune[i] == c)
-			return ""+c;
+			return (std::string)""+c;
 	}
 
 	// check for alphanumeric characters
 	std::string hex = esapi::Codec::getHexForNonAlphanumeric( c );
 	if ( hex.compare("") == 0 ) {
-		return ""+c;
+		return (std::string)""+c;
 	}
 
-    return "\\" + c;
+    return (std::string)"\\"+c;
 }
 
 char esapi::UnixCodec::decodeCharacter( PushbackString& input) const {
