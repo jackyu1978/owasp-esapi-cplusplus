@@ -53,7 +53,7 @@ namespace esapi {
     * @return
     * 			null if input is null, the character of input after decoding
     */
-    char getNumericEntity( PushbackString );
+    char getNumericEntity( PushbackString& );
 
     /**
     * Parse a decimal number, such as those from JavaScript's String.fromCharCode(value)
@@ -64,7 +64,7 @@ namespace esapi {
     * 			character representation of this decimal value, e.g. A
     * @throws NumberFormatException
     */
-    char parseNumber( PushbackString ) ;
+    char parseNumber( PushbackString& ) ;
 
     /**
     * Parse a hex encoded entity
@@ -75,7 +75,7 @@ namespace esapi {
     * 			A single character from the string
     * @throws NumberFormatException
     */
-    char parseHex( PushbackString ) ;
+    char parseHex( PushbackString& ) ;
 
     /**
     *
@@ -95,7 +95,7 @@ namespace esapi {
     * @return
     * 		Returns the decoded version of the character starting at index, or null if no decoding is possible.
     */
-    char getNamedEntity( PushbackString ) ;
+    char getNamedEntity( PushbackString& ) ;
 
     /**
     * Retrieve the class wide intialization lock.
@@ -140,6 +140,6 @@ namespace esapi {
     *   &#xhhhh;
     *   &name;
     */
-    char decodeCharacter( esapi::PushbackString& ) const;
+    char decodeCharacter( PushbackString& ) const;
   };
 }; // esapi namespace
