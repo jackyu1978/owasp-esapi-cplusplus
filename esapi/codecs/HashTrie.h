@@ -289,7 +289,7 @@ public:
 	 * Get the number of entries.
 	 * @return the number or entries.
 	 */
-	size_t size();
+	size_t size() const;
 
 	/** {@inheritDoc} */
 	//bool equals(Object) const; TODO is this necessary?
@@ -425,7 +425,7 @@ U esapi::HashTrie<T>::Node<U>::get(const std::string&, size_t) {
 template <typename T>
 template <typename Y>
 template <typename U>
-esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::string, int) {
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(const std::string&, size_t) {
 	throw new UnsupportedOperationException("working on it..."); //TODO
 }*/
 
@@ -433,7 +433,7 @@ esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::s
 template <typename T>
 template <typename Y>
 template <typename U>
-esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(std::string, std::string) {
+esapi::HashTrie<T>::Entry<Y> esapi::HashTrie<T>::Node<U>::getLongestMatch(const std::string&, const std::string&) {
 	throw new UnsupportedOperationException("working on it..."); //TODO
 }*/
 
