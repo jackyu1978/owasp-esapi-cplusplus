@@ -38,7 +38,7 @@ namespace esapi {
     virtual std::pair<std::string,T> getLongestMatch(const std::string&) const;
     //pair<std::string,T> getLongestMatch(PushbackReader) =0;
     virtual size_t getMaxKeyLength() const;
-    virtual unsigned int size() const;
+    virtual size_t size() const;
     virtual ~Trie() {};
 
     template <typename Y>
@@ -57,7 +57,7 @@ namespace esapi {
 
       virtual size_t getMaxKeyLength() const;
 
-      virtual unsigned int size() const;
+      virtual size_t size() const;
 
       virtual bool isEmpty() const;
 
@@ -125,7 +125,7 @@ size_t esapi::Trie<T>::getMaxKeyLength() const{
 }
 
 template <typename T>
-unsigned int esapi::Trie<T>::size() const{
+size_t esapi::Trie<T>::size() const{
   return this->map.size();
 }
 
@@ -155,7 +155,7 @@ size_t esapi::Trie<T>::TrieProxy<Y>::getMaxKeyLength() const {
 
 template <typename T>
 template <typename Y>
-unsigned int esapi::Trie<T>::TrieProxy<Y>::size() const {
+size_t esapi::Trie<T>::TrieProxy<Y>::size() const {
   return this->wrapped.map.size();
 }
 
