@@ -137,6 +137,7 @@ CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp \
 			src/codecs/HTMLEntityCodec.cpp \
 			src/codecs/UnixCodec.cpp \
+			src/codecs/WindowsCodec.cpp \
 			src/codecs/HashTrie.cpp \
 			src/codecs/Trie.cpp
 
