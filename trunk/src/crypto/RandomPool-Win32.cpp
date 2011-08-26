@@ -46,6 +46,9 @@ namespace esapi
       }
     }
   private:
+    AutoProvider& operator=(const AutoProvider&);
+
+  private:
     HCRYPTPROV& m_handle;
   };
 
@@ -101,7 +104,7 @@ namespace esapi
         }
       }
       // Get a random number
-      if(hProvider && CryptGenRandom(hProvider, req, &key[idx]))
+      if(hProvider && CryptGenRandom(hProvider, (DWORD)req, &key[idx]))
       {
         req = 0;
       }

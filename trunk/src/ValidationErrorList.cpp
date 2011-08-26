@@ -41,10 +41,10 @@ esapi::ValidationException *esapi::ValidationErrorList::getError(const std::stri
 	return errorList.find(context)->second;
 }
 
-bool esapi::ValidationErrorList::isEmpty(void){
+bool esapi::ValidationErrorList::isEmpty() const{
 	return errorList.empty();
 }
 
-int esapi::ValidationErrorList::size(){
+size_t esapi::ValidationErrorList::size() const{
 	return errorList.size();
 }

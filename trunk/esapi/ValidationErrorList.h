@@ -124,14 +124,14 @@ namespace esapi {
 		 *
 		 * @return bool
 		 */
-		virtual bool isEmpty(void);
+		virtual bool isEmpty( ) const;
 
 		/**
 		 * Returns the numbers of errors present.
 		 *
 		 * @return int
 		 */
-		virtual int size();
+		virtual size_t size() const;
 
 		virtual ~ValidationErrorList() {};
 	};
