@@ -45,7 +45,7 @@ namespace esapi{
   * @author Dan Amodio (dan.amodio@aspectsecurity.com)
   */
   template <typename T>
-  class HashTrie: Trie<T>
+  class ESAPI_EXPORT HashTrie: Trie<T>
   {
   private:
     template <typename Y>
@@ -301,6 +301,8 @@ namespace esapi{
 
     /** {@inheritDoc} */
     bool isEmpty() const;
-
   };
+
+  // Force an instantiation
+  static HashTrie<int>::Node<int> inst1;
 } // esapi

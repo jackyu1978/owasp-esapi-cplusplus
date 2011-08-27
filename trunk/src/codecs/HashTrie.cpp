@@ -23,7 +23,7 @@ namespace esapi
 
   template <typename T>
   template <typename Y>
-  typename HashTrie<T>::Entry<Y>
+  HashTrie<T>::Entry<Y>
     HashTrie<T>::Entry<Y>::newInstanceIfNeeded(const std::string& key, size_t keyLength, const Y& value){
       if(value == NULL || (key.compare("")==0) )
         return NULL;
@@ -34,7 +34,7 @@ namespace esapi
 
   template <typename T>
   template <typename Y>
-  typename HashTrie<T>::Entry<Y>
+  HashTrie<T>::Entry<Y>
     HashTrie<T>::Entry<Y>::newInstanceIfNeeded(const std::string& key, const Y& value){
       if(value == NULL || (key.compare("")==0) )
         return NULL;
@@ -61,13 +61,15 @@ namespace esapi
 
   template <typename T>
   template <typename Y>
-  bool HashTrie<T>::Entry<Y>::equals(const std::pair<std::string,Y>& other) const{
-    // TODO: should use NullSafe, but at this moment, it has not been ported yet.
-    // ASSERT(other); // cannot be NULL since its a reference
-    ASSERT(!(other.first.empty()));
-    ASSERT(other.second);
+  bool
+  HashTrie<T>::Entry<Y>::equals(
+    const std::pair<std::string,Y>& other) const{
+      // TODO: should use NullSafe, but at this moment, it has not been ported yet.
+      // ASSERT(other); // cannot be NULL since its a reference
+      ASSERT(!(other.first.empty()));
+      ASSERT(other.second);
 
-    return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
+     return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
   }
 
   template <typename T>
@@ -93,15 +95,18 @@ namespace esapi
 
   template <typename T>
   template <typename U>
-  std::map<char, typename HashTrie<T>::Node<U> > HashTrie<T>::Node<U>::newNodeMap(){
+  std::map<char, typename HashTrie<T>::template Node<U> >
+  HashTrie<T>::Node<U>::newNodeMap(){
     throw new UnsupportedOperationException("working on it..."); //TODO
   }
 
 
   template <typename T>
   template <typename U>
-  std::map<char, typename HashTrie<T>::Node<U> > HashTrie<T>::Node<U>::newNodeMap(const std::map<char,Node<U> >&){
-    throw new UnsupportedOperationException("working on it..."); //TODO
+  std::map<char, typename HashTrie<T>::template Node<U> >
+  HashTrie<T>::Node<U>::newNodeMap(
+    const std::map<char, typename HashTrie<T>::template Node<U> >&){
+      throw new UnsupportedOperationException("working on it..."); //TODO
   }
 
   template <typename T>
@@ -112,8 +117,9 @@ namespace esapi
 
   template <typename T>
   template <typename U>
-  typename HashTrie<T>::Node<U> HashTrie<T>::Node<U>::getNextNode(char){
-    throw new UnsupportedOperationException("working on it..."); //TODO
+  typename HashTrie<T>::template Node<U>
+    HashTrie<T>::Node<U>::getNextNode(char){
+      throw new UnsupportedOperationException("working on it..."); //TODO
   }
 
   template <typename T>
