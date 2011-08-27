@@ -36,6 +36,10 @@ namespace esapi {
   * @see org.owasp.esapi.Encoder
   */
   class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
+
+    typedef std::map<int,std::string> EntityMap;
+    typedef Trie<int> EntityTrie;
+
   private:
     static const int REPLACEMENT_CHAR = 65533;
     static const std::string REPLACEMENT_HEX;
@@ -101,7 +105,7 @@ namespace esapi {
     * Retrieve the class wide intialization lock.
     * @return the mutex used to lock the class.
     */
-    static Mutex& getInitLock();
+    static Mutex& getClassMutex();
 
     /**
     * Build a unmodifiable Map from entity Character to Name.
