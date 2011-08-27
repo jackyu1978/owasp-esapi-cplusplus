@@ -63,7 +63,7 @@ namespace esapi
   template <typename Y>
   bool
   HashTrie<T>::Entry<Y>::equals(
-    const std::pair<std::string,Y>& other) const{
+    const std::pair<std::string, Y>& other) const{
       // TODO: should use NullSafe, but at this moment, it has not been ported yet.
       // ASSERT(other); // cannot be NULL since its a reference
       ASSERT(!(other.first.empty()));
