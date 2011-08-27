@@ -41,9 +41,9 @@ namespace esapi {
     typedef Trie<int> EntityTrie;
 
   private:
-    static const int REPLACEMENT_CHAR = 65533;
-    static const std::string REPLACEMENT_HEX;
-    static const std::string REPLACEMENT_STR;    
+    static unsigned int REPLACEMENT_CHAR();
+    static const std::string& REPLACEMENT_HEX();
+    static const std::string& REPLACEMENT_STR();    
 
     //TODO
     //static const Trie<Character> entityToCharacterTrie;
@@ -111,13 +111,13 @@ namespace esapi {
     * Build a unmodifiable Map from entity Character to Name.
     * @return Unmodifiable map.
     */
-    static const std::map<int,std::string>& getCharacterToEntityMap();
+    static const EntityMap& getCharacterToEntityMap();
 
     /**
     * Build a unmodifiable Trie from entitiy Name to Character
     * @return Unmodifiable trie.
     */
-    static const Trie<int>& getEntityToCharacterTrie();
+    static const EntityTrie& getEntityToCharacterTrie();
 
   public:
     /**

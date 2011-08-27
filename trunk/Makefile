@@ -52,7 +52,7 @@ ifeq ($(WANT_RELEASE),1)
 endif
 
 ifeq ($(WANT_TEST),1)
-  CXXFLAGS += -DESAPI_NO_ASSERT=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
