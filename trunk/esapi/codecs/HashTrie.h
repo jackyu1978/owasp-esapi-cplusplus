@@ -18,7 +18,6 @@
 
 #include "EsapiCommon.h"
 #include "codecs/Trie.h"
-#include "EsapiCommon.h"
 #include "errors/NullPointerException.h"
 #include "errors/UnsupportedOperationException.h"
 
