@@ -49,7 +49,7 @@ namespace esapi{
   {
   private:
     template <typename Y>
-    class Entry
+    class ESAPI_EXPORT Entry
     {
     private:
       std::pair<std::string,Y> pair;
@@ -102,7 +102,7 @@ namespace esapi{
     * Node inside the trie.
     */
     template <typename U>
-    class Node
+    class ESAPI_EXPORT Node
     {
     private:
       U value;
@@ -305,4 +305,5 @@ namespace esapi{
 
   // Force an instantiation
   static HashTrie<int>::Node<int> inst1;
+  static HashTrie<int>::Entry<int> inst2("unused", 1);
 } // esapi
