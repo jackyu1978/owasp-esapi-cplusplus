@@ -43,6 +43,15 @@ static void* WorkerThreadProc(void* param);
 
 static const unsigned int THREAD_COUNT = 64;
 
+struct Args
+{
+  Args(unsigned int i, SecureRandom& r)
+    : id(i), random(r) { }
+
+  unsigned int id;
+  SecureRandom& random;
+};
+
 BOOST_AUTO_TEST_CASE( VerifySecureRandom )
 {
   BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
@@ -57,14 +66,17 @@ void DoWorkerThreadStuff()
 #elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
 void DoWorkerThreadStuff()
 {
+  SecureRandom shared = SecureRandom::getInstance("HmacSHA256");
   pthread_t threads[THREAD_COUNT];
 
   // *** Worker Threads ***
   for(unsigned int i=0; i<THREAD_COUNT; i++)
     {
-      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)i);
+      Args* args = new Args(i, shared);
+      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)args);
       if(0 != ret /*success*/)
         {
+          if(args) delete args;
           BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
         }
     }
@@ -82,10 +94,15 @@ void DoWorkerThreadStuff()
 }
 #endif
 
-static SecureRandom g_prng = SecureRandom::getInstance("HmacSHA-256");;
-
 void* WorkerThreadProc(void* param)
 {
+  if(!param) return (void*)-1;
+
+  Args args(*(Args*)param);
+  delete (Args*)param;
+
+  byte random[8192];
+
   // give up the remainder of this time quantum to help
   // interleave thread creation and execution
 #if defined(WIN32) || defined(_WIN32) 
@@ -94,10 +111,8 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
-  byte random[8192];
-
-  // This is the intended usage we envision - a single shared PRNG
-  g_prng.nextBytes(random, sizeof(random));
+  // This is the usage we envision - a single shared PRNG
+  args.random.nextBytes(random, sizeof(random));
 
   SecureRandom prng1;
   for (unsigned int i = 0; i < 64; i++)
@@ -116,8 +131,8 @@ void* WorkerThreadProc(void* param)
     prng3.nextBytes(random, i+1);
 
   // 1 and 3 are the same generators
-  prng1.setSeed((int)(size_t)param);
-  prng3.setSeed((int)(size_t)param);
+  prng1.setSeed((int)args.id+1);
+  prng3.setSeed((int)args.id);
 
   prng1.nextBytes(random, sizeof(random));
   prng3.nextBytes(random, sizeof(random));
@@ -138,7 +153,7 @@ void* WorkerThreadProc(void* param)
   BOOST_CHECK(prng1.getAlgorithm() == prng5.getAlgorithm());
   BOOST_CHECK(prng3.getAlgorithm() == prng5.getAlgorithm());
 
-  BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
+  BOOST_MESSAGE( "Thread " << args.id << " completed" );
 
   return (void*)0;
 }
