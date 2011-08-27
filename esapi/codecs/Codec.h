@@ -49,11 +49,6 @@ namespace esapi {
       }*/
 
     /**
-     * Precomputed size of the internal hex array
-     */
-    static const size_t ARR_SIZE = 256;
-
-    /**
      * Used to initialize the values of private member hex
      *
      * @return reference to the initialized array
@@ -61,9 +56,9 @@ namespace esapi {
     static const esapi::HexArray& getHexArray ();
 
     /**
-     * Used to lock the class (not instance) for intialization
+     * Retrieve the class wide intialization lock.
      *
-     * @return reference to the mutex
+     * @return the mutex used to lock the class.
      */
     static esapi::Mutex& getClassMutex ();
 

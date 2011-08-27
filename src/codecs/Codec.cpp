@@ -25,6 +25,12 @@
 #define HEX(x) std::hex << std::setw(x) << std::setfill('0')
 #define OCT(x) std::octal << std::setw(x) << std::setfill('0')
 
+/**
+ * Precomputed size of the internal hex array.
+ * Private to this compilation unit.
+ */
+static const size_t ARR_SIZE = 256;
+
 const esapi::HexArray& esapi::Codec::getHexArray () {
 
   static boost::shared_ptr<HexArray> hexArr;
@@ -39,7 +45,7 @@ const esapi::HexArray& esapi::Codec::getHexArray () {
       if(nullptr == hexArr.get())
         throw std::bad_alloc();
 
-      // convenience
+      // Convenience
       HexArray& arr = *hexArr.get();
 
       // Save on reallocations
@@ -62,10 +68,10 @@ const esapi::HexArray& esapi::Codec::getHexArray () {
 }
 
 /**
-* Used to lock the class (not instance) for intialization
-*
-* @return reference to the mutex
-*/
+ * Retrieve the class wide intialization lock.
+ *
+ * @return the mutex used to lock the class.
+ */
 esapi::Mutex& esapi::Codec::getClassMutex ()
 {
   static esapi::Mutex s_mutex;
