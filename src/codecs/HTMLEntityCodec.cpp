@@ -12,12 +12,24 @@
 #include "crypto/Crypto++Common.h"
 #include <boost/shared_ptr.hpp>
 
-//const char esapi::HTMLEntityCodec::REPLACEMENT_CHAR = '\uFFFD';
-const std::string esapi::HTMLEntityCodec::REPLACEMENT_HEX = "fffd";
-const std::string esapi::HTMLEntityCodec::REPLACEMENT_STR = "\uFFFD";
+unsigned int esapi::HTMLEntityCodec::REPLACEMENT_CHAR()
+{
+  return 65533;
+}
 
-//TODO
-//Trie<Character> entityToCharacterTrie  = mkEntityToCharacterTrie();
+const std::string& esapi::HTMLEntityCodec::REPLACEMENT_HEX()
+{
+  static const std::string str("fffd");
+  return str;
+}
+
+const std::string& esapi::HTMLEntityCodec::REPLACEMENT_STR()
+{
+  // return "\uFFFD";
+  static const char cch[] = { (char)0xff, (char)0xfd, (char)0x00 };
+  static const std::string str(cch);
+  return str;
+}
 
 char esapi::HTMLEntityCodec::getNumericEntity(PushbackString&) {
   /*
@@ -146,7 +158,7 @@ esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex() {
 * Build a unmodifiable Map from entity Character to Name.
 * @return Unmodifiable map.
 */
-const std::map<int,std::string>& esapi::HTMLEntityCodec::getCharacterToEntityMap() {
+const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToEntityMap() {
 
   // Double checked intialization
   static boost::shared_ptr<EntityMap> map;

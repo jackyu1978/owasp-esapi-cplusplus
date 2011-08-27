@@ -64,7 +64,7 @@
 }
 
 {
-   Boost Logging 5
+   Boost Logging 6
    Helgrind:Race
    ...
    fun:_ZN5boost9unit_test15unit_test_log_tlsERKNS0_3log3endE
