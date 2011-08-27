@@ -37,7 +37,7 @@ const esapi::HexArray& esapi::Codec::getHexArray () {
 
   if(nullptr == hexArr.get())
   {
-    esapi::MutexAutoLock lock(getClassMutex());
+    esapi::MutexLock lock(getClassMutex());
     if(nullptr == hexArr.get())
     {
       hexArr = boost::shared_ptr<HexArray>(new HexArray);

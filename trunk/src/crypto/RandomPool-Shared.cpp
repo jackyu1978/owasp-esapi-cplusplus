@@ -85,7 +85,7 @@ namespace esapi
   void RandomPool::Reseed()
   {
     // Forward facing function. Lock the object to ensure state integrity.
-    MutexAutoLock lock(RandomPool::GetSharedLock());
+    MutexLock lock(RandomPool::GetSharedLock());
 
     m_keyed = false;
 
@@ -96,7 +96,7 @@ namespace esapi
   RandomPool& RandomPool::GetSharedInstance()
   {
     // Forward facing function. Lock the object to ensure state integrity.
-    MutexAutoLock lock(RandomPool::GetSharedLock());
+    MutexLock lock(RandomPool::GetSharedLock());
 
     static RandomPool s_pool;
     return s_pool;
@@ -105,7 +105,7 @@ namespace esapi
   void RandomPool::GenerateBlock(byte* bytes, size_t size)
   {
     // Forward facing function. Lock the object to ensure state integrity.
-    MutexAutoLock lock(RandomPool::GetSharedLock());
+    MutexLock lock(RandomPool::GetSharedLock());
 
     ASSERT(bytes && size);
     if( !(bytes && size) )

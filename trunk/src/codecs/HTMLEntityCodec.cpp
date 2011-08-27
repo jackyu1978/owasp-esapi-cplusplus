@@ -168,7 +168,7 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
   if(!init)
   {
     // Acquire the lock
-    MutexAutoLock lock(getClassMutex());
+    MutexLock lock(getClassMutex());
 
     // Verify we did not acquire the lock after another thread initialized and and released
     if(!init)
@@ -181,6 +181,7 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
       // Convenience
       EntityMap& m = *map.get();
 
+      // 252 items, but no reserve() on std::map
       m[34]  = "quot";        /* quotation mark */
       m[38]  = "amp";         /* ampersand */
       m[60]  = "lt";          /* less-than sign */
@@ -459,7 +460,7 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
   if(nullptr == trie.get())
   {
     // Acquire the lock
-    MutexAutoLock lock(getClassMutex());
+    MutexLock lock(getClassMutex());
 
     // Verify we did not acquire the lock after another thread initialized and and released
     if(nullptr == trie.get())
