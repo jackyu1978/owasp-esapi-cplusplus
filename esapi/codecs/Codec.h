@@ -18,6 +18,7 @@
 
 #include <vector>
 #include <string>
+#include "util/Mutex.h"
 #include "codecs/PushbackString.h"
 
 namespace esapi {
@@ -53,19 +54,18 @@ namespace esapi {
     static const size_t ARR_SIZE = 256;
 
     /**
-     * Initialize an array to mark which characters are to be encoded. Store the hex
-     * string for that character to save time later. If the character shouldn't be
-     * encoded, then store null.
-     */
-    static const esapi::HexArray* hex;
-
-    /**
      * Used to initialize the values of private member hex
      *
-     * @return pointer to the initialized array
+     * @return reference to the initialized array
      */
-    static esapi::HexArray* hexArray ();
+    static const esapi::HexArray& getHexArray ();
 
+    /**
+     * Used to lock the class (not instance) for intialization
+     *
+     * @return reference to the mutex
+     */
+    static esapi::Mutex& getClassMutex ();
 
   public:
     /**
