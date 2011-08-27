@@ -161,16 +161,17 @@ esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex() {
 const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToEntityMap() {
 
   // Double checked intialization
+  static volatile bool init = false;
   static boost::shared_ptr<EntityMap> map;
 
   // First check
-  if(nullptr == map.get())
+  if(!init)
   {
     // Acquire the lock
     MutexAutoLock lock(getClassMutex());
 
     // Verify we did not acquire the lock after another thread initialized and and released
-    if(nullptr == map.get())
+    if(!init)
     {
       map = boost::shared_ptr<EntityMap>(new EntityMap);
       ASSERT(map);
@@ -432,6 +433,8 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
       m[9827] =   "clubs";       /* black club suit */
       m[9829] =   "hearts";      /* black heart suit */
       m[9830] =   "diams";       /* black diamond suit */
+
+      init = true;
 
     } // Inner !init
   } // Outer !init

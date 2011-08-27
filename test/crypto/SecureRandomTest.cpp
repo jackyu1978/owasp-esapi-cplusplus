@@ -41,7 +41,7 @@ using esapi::SecureRandom;
 static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
 
-static const unsigned int THREAD_COUNT = 64;
+static const unsigned int THREAD_COUNT = 16;
 
 struct Args
 {
@@ -66,7 +66,7 @@ void DoWorkerThreadStuff()
 #elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
 void DoWorkerThreadStuff()
 {
-  SecureRandom shared = SecureRandom::getInstance("HmacSHA256");
+  SecureRandom shared = SecureRandom::getInstance(std::string("HmacSHA256"));
   pthread_t threads[THREAD_COUNT];
 
   // *** Worker Threads ***
