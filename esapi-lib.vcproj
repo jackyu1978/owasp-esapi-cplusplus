@@ -304,6 +304,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\codecs\HashTrie.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\codecs\HTMLEntityCodec.cpp"
 					>
 				</File>
@@ -313,6 +317,14 @@
 				</File>
 				<File
 					RelativePath=".\src\codecs\Trie.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\codecs\UnixCodec.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\codecs\WindowsCodec.cpp"
 					>
 				</File>
 			</Filter>
@@ -392,11 +404,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\SecureRandomImpl.cpp"
+					RelativePath=".\src\crypto\SecureRandom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\SecureRandom.cpp"
+					RelativePath=".\src\crypto\SecureRandomImpl.cpp"
 					>
 				</File>
 			</Filter>
@@ -537,6 +549,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\codecs\HashTrie.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
 						>
 					</File>
@@ -546,6 +562,14 @@
 					</File>
 					<File
 						RelativePath=".\esapi\codecs\Trie.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\UnixCodec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\WindowsCodec.h"
 						>
 					</File>
 				</Filter>
