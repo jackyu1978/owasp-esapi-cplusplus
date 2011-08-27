@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "EsapiCommon.h"
 #include "codecs/Trie.h"
 #include "EsapiCommon.h"
 #include "errors/NullPointerException.h"
@@ -91,7 +92,9 @@ namespace esapi{
       /* java.lang.Object */
       /********************/
 
-      bool equals(const std::pair<std::string, Y>&) const;
+      bool equals(const std::pair<std::string, Y>& other) const {
+        return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
+      }
 
       int hashCode() const;
 
@@ -223,7 +226,7 @@ namespace esapi{
     size_t trieSize;
 
   public:
-    HashTrie();
+    HashTrie() { };
 
     /**
     * Get the key value entry who's key is the longest prefix match.
@@ -236,7 +239,7 @@ namespace esapi{
     * Get the maximum key length.
     * @return max key length.
     */
-    size_t getMaxKeyLength() const;
+    size_t getMaxKeyLength() const { return maxKeyLen; };
 
 
     /**
@@ -288,7 +291,7 @@ namespace esapi{
     * Get the number of entries.
     * @return the number or entries.
     */
-    size_t size() const;
+    size_t size() const { return Trie<T>::size(); };
 
     /** {@inheritDoc} */
     //bool equals(Object) const; TODO is this necessary?
@@ -304,6 +307,7 @@ namespace esapi{
   };
 
   // Force an instantiation
-  static HashTrie<int>::Node<int> inst1;
-  static HashTrie<int>::Entry<int> inst2("unused", 1);
+  static HashTrie<int> inst1;
+  static HashTrie<int>::Node<int> inst2;
+  static HashTrie<int>::Entry<int> inst3(std::string(), 0);
 } // esapi
