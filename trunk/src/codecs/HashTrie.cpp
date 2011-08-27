@@ -59,6 +59,7 @@ namespace esapi
     throw new UnsupportedOperationException("setValue(..) is not supported for HashTrie.");
   }
 
+/*
   template <typename T>
   template <typename Y>
   bool
@@ -71,6 +72,7 @@ namespace esapi
 
      return ((this->pair.first.compare(other.first)==0) && (this->pair.second == other.second));
   }
+*/
 
   template <typename T>
   template <typename Y>
@@ -134,20 +136,29 @@ namespace esapi
     throw new UnsupportedOperationException("working on it..."); //TODO
   }
 
-  // TODO does not compile. fix.
-  /*
+ /**
+  * Get the key value entry who's key is the longest prefix match.
+  * @param key The key to lookup
+  * @return Entry with the longest matching key.
+  */
   template <typename T>
-  template <typename Y>
+  std::pair<std::string, T>  HashTrie<T>::getLongestMatch(const std::string&) const {
+      throw new UnsupportedOperationException("working on it...");
+  }
+
+
+  template <typename T>
   template <typename U>
-  HashTrie<T>::Entry<Y> HashTrie<T>::Node<U>::getLongestMatch(const std::string&, size_t) {
-  throw new UnsupportedOperationException("working on it..."); //TODO
-  }*/
+  typename HashTrie<T>::template Entry<U>
+    HashTrie<T>::Node<U>::getLongestMatch(const std::string&, size_t) const {
+      throw new UnsupportedOperationException("working on it...");
+  }
 
   /*
   template <typename T>
   template <typename Y>
   template <typename U>
-  HashTrie<T>::Entry<Y> HashTrie<T>::Node<U>::getLongestMatch(const std::string&, const std::string&) {
+  HashTrie<T>::Entry<Y> HashTrie<T>::Node<U>::getLongestMatch(const std::string&, const std::string&) const {
   throw new UnsupportedOperationException("working on it..."); //TODO
   }*/
 
