@@ -327,7 +327,7 @@ namespace esapi
         // We might not even need locking here - the object has yet to be constructed, so
         // the thread has not returned and the object cannot be copied. We'll do it for
         // good measure to make an audit easier on the eyes.
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         HashInstantiate(material.data(), material.size());
       }
@@ -360,7 +360,7 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }
@@ -374,7 +374,7 @@ namespace esapi
     // Don't throw the catastrophic error here. The user might need the name of the generator.
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     return SecureRandomImpl::getAlgorithmImpl();
   }
@@ -401,7 +401,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         // Set up a temporary so we don't leak bits on an exception
         CryptoPP::SecByteBlock temp(size);
@@ -437,7 +437,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         HashReseed(seed, size);
       }
@@ -465,7 +465,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         setSeedImpl((const byte*)&seed, sizeof(seed));
       }
@@ -778,7 +778,7 @@ namespace esapi
         // We might not even need locking here - the object has yet to be constructed, so
         // the thread has not returned and the object cannot be copied. We'll do it for
         // good measure to make an audit easier on the eyes.
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         HmacInstantiate(material.data(), material.size());
       }
@@ -839,7 +839,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         // Set up a temporary so we don't leak bits on an exception
         CryptoPP::SecByteBlock temp(size);
@@ -875,7 +875,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         HmacReseed(seed, size);
       }
@@ -903,7 +903,7 @@ namespace esapi
     try
       {
         // All forward facing gear which manipulates internal state acquires the object lock
-        MutexAutoLock lock(getObjectLock());
+        MutexLock lock(getObjectLock());
 
         setSeedImpl((const byte*)&seed, sizeof(seed));
       }
@@ -1139,7 +1139,7 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }
@@ -1165,7 +1165,7 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }
@@ -1182,7 +1182,7 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }
@@ -1199,7 +1199,7 @@ namespace esapi
       throw EncryptionException("A catastrophic error was previously encountered");
 
     // All forward facing gear which manipulates internal state acquires the object lock
-    MutexAutoLock lock(getObjectLock());
+    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }

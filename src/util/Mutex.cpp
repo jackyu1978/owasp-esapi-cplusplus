@@ -55,7 +55,7 @@ namespace esapi
     return m_primitive;
   }
 
-  MutexAutoLock::MutexAutoLock(Mutex& mutex)
+  MutexLock::MutexLock(Mutex& mutex)
     : m_mutex(mutex)
   {
 #if defined(ESAPI_OS_WINDOWS)
@@ -72,7 +72,7 @@ namespace esapi
 #endif
   }
 
-  MutexAutoLock::~MutexAutoLock()
+  MutexLock::~MutexLock()
   {
 #if defined(ESAPI_OS_WINDOWS)
     LeaveCriticalSection(&m_mutex.getMutex());

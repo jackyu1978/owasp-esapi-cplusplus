@@ -27,7 +27,7 @@ typedef pthread_mutex_t LockPrimitive;
 
 namespace esapi
 {
-  class MutexAutoLock;
+  class MutexLock;
 
   class ESAPI_EXPORT Mutex
   {
@@ -41,16 +41,16 @@ namespace esapi
     LockPrimitive m_primitive;
   };
 
-  class ESAPI_EXPORT MutexAutoLock
+  class ESAPI_EXPORT MutexLock
   {
   public:
-    explicit MutexAutoLock(Mutex& mutex);
-    virtual ~MutexAutoLock();
+    explicit MutexLock(Mutex& mutex);
+    virtual ~MutexLock();
 
   private:
     Mutex& m_mutex;
 
   private:
-    MutexAutoLock& operator=(const MutexAutoLock&);
+    MutexLock& operator=(const MutexLock&);
   };
 }
