@@ -39,25 +39,25 @@ namespace esapi
   {      
     boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm()));
     const size_t size = md->getDigestLength();
-    boost::shared_ptr<byte> hash(new byte[size]);
+    SecureByteArray hash(size);
 
     // Initial updates
     md->update((const byte*)salt.data(), salt.size());
     md->update((const byte*)message.data(), message.size());    
 
     // Fetch the hash (resets the object)
-    md->digest(hash.get(), size, 0, size);
+    md->digest(&hash[0], hash.size(), 0, size);
 
     for (unsigned int i = 0; i < iterations; i++)
     {
-      md->update(hash.get(), size);
-      md->digest(hash.get(), size, 0, size);
+      md->update(&hash[0], hash.size());
+      md->digest(&hash[0], hash.size(), 0, size);
     }
 
     std::string encoded;
     try
     {
-      CryptoPP::ArraySource(hash.get(), size, true /* don't buffer */, new CryptoPP::Base64Encoder(
+      CryptoPP::ArraySource(&hash[0], hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
           new CryptoPP::StringSink(encoded), false /* no line breaks */));
     }
     catch(CryptoPP::Exception& ex)
