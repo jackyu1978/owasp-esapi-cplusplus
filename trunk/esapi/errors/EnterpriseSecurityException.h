@@ -86,7 +86,7 @@ namespace esapi {
        */
       virtual std::string getLogMessage();
 
-      ~EnterpriseSecurityException() throw() {};
+      virtual ~EnterpriseSecurityException() throw() { };
     };
 
 };

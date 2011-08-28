@@ -69,6 +69,11 @@ namespace esapi {
     Codec() {};
 
     /**
+     * Standard destructor
+     */
+    virtual ~Codec() {};
+
+    /**
      * Encode a String so that it can be safely used in a specific context.
      *
      * @param immune

@@ -225,7 +225,7 @@ namespace esapi{
     size_t trieSize;
 
   public:
-    HashTrie() { };
+    HashTrie() : root(), maxKeyLen(0), trieSize(0) { };
 
     /**
     * Get the key value entry who's key is the longest prefix match.

@@ -14,7 +14,8 @@
 #pragma once
 
 /**
-* From Meyers' Effective C++ (3ed), Item 6, p.39.
+* From Meyers' Effective C++ (3ed), Item 6, p.39. Diverge from
+* a non-virtual destructor to keep warnings to a minimum.
 */
 namespace esapi
 {
@@ -22,7 +23,7 @@ namespace esapi
   {
   protected:
     NotCopyable() { };
-    ~NotCopyable() { };
+    virtual ~NotCopyable() { };
   private:
     NotCopyable(const NotCopyable&);
     NotCopyable& operator=(const NotCopyable&);

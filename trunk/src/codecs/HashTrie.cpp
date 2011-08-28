@@ -16,9 +16,9 @@ namespace esapi
 {
   template <typename T>
   template <typename Y>
-  HashTrie<T>::Entry<Y>::Entry(const std::string& key, const Y& value){
-    this->pair.first = key;
-    this->pair.second = value;
+  HashTrie<T>::Entry<Y>::Entry(const std::string& key, const Y& value)
+  : pair(std::pair<std::string,Y>(key, value))
+  {
   }
 
   template <typename T>
@@ -92,8 +92,9 @@ namespace esapi
 
   template <typename T>
   template <typename U>
-  HashTrie<T>::Node<U>::Node(){this->nextMap = NULL;}
-
+  HashTrie<T>::Node<U>::Node() : value(), nextMap(nullptr)
+  {
+  }
 
   template <typename T>
   template <typename U>

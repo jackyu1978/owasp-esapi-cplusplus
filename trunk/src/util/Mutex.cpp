@@ -23,7 +23,7 @@
 
 namespace esapi
 {
-    Mutex::Mutex()
+    Mutex::Mutex() : m_primitive()
   {
 #if defined(ESAPI_OS_WINDOWS)
     InitializeCriticalSection(&m_primitive);

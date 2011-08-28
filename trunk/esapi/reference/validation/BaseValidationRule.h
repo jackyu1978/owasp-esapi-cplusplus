@@ -1,10 +1,12 @@
 #ifndef _BaseValidationRule_h_
 #define _BaseValidationRule_h_
 
+#include "Encoder.h"
 #include "ValidationRule.h"
+
 #include <string>
 #include <set>
-#include "Encoder.h"
+#include <boost/shared_ptr.hpp>
 
 /**
  * A ValidationRule performs syntax and possibly semantic validation of a single
@@ -22,7 +24,8 @@ namespace esapi
 	class BaseValidationRule : ValidationRule {
 	protected:
 		bool allowNull;
-		const Encoder *encoder;
+        // TODO: Bring back constness as required
+		boost::shared_ptr<Encoder> encoder;
 
 		/**
 		 * The method is similar to ValidationRuile.getSafe except that it returns a
@@ -35,18 +38,18 @@ namespace esapi
 		 * @param input
 		 * @return a parsed version of the input or a default value.
 		 */
-		virtual void* sanitize(const std::string &, const std::string &) =0;
+		virtual void* sanitize(const std::string &, const std::string &) = 0;
 
 	private:
 		std::string typeName;
 
-		BaseValidationRule () {};
+		BaseValidationRule () : allowNull(false), encoder(), typeName() { };
 
 	public:
 		BaseValidationRule (const std::string &);
-		BaseValidationRule (const std::string &, Encoder&);
+		BaseValidationRule (const std::string &, Encoder*);
 
-		virtual void* getValid(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual void* getValid(const std::string &, const std::string &) throw (ValidationException) = 0;
 
 	    /**
 	     * {@inheritDoc}
@@ -66,7 +69,7 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setEncoder(const Encoder &) =0;
+		virtual void setEncoder(Encoder*) = 0;
 
 	    /**
 	     * {@inheritDoc}

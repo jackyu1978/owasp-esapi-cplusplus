@@ -14,30 +14,18 @@
 #include "Encoder.h"
 
 
-esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName) {
-	//this();
-	this->allowNull = false;
-	//typeName = "";
-
+esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName)
+  : allowNull(false), encoder(), typeName(newTypeName)
+{
 	// get encoder singleton
 	//TODO setEncoder( ESAPI.encoder() );
-
-	this->typeName = newTypeName;
 }
 
 
-esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, Encoder &newEncoder)
+esapi::BaseValidationRule::BaseValidationRule (const std::string &newTypeName, Encoder* newEncoder)
+  : allowNull(false), encoder(newEncoder), typeName(newTypeName)
 {
-	//this();
-	allowNull = false;
-	typeName = "";
-
-	//setEncoder( encoder );
-	this->encoder = &newEncoder;
-
-	typeName = newTypeName;
 }
-
 
 void esapi::BaseValidationRule::setAllowNull( bool flag ) {
 	allowNull = flag;
@@ -52,8 +40,8 @@ void esapi::BaseValidationRule::setTypeName( const std::string &newTypeName ) {
 }
 
 
-void esapi::BaseValidationRule::setEncoder( const Encoder &newEncoder ) {
-		this->encoder = &newEncoder;
+void esapi::BaseValidationRule::setEncoder( Encoder* newEncoder ) {
+		this->encoder = boost::shared_ptr<Encoder>(newEncoder);
 }
 
 void esapi::BaseValidationRule::assertValid( const std::string &context, const std::string &input ) throw (ValidationException) {
@@ -135,7 +123,7 @@ bool esapi::BaseValidationRule::isAllowNull() {
 
 
 const esapi::Encoder* esapi::BaseValidationRule::getEncoder() {
-	return this->encoder;
+	return this->encoder.get();
 }
 
 

@@ -31,8 +31,9 @@ namespace esapi {
    * @author Dan Amodio (dan.amodio@aspectsecurity.com)
    */
   template <typename T>
-    class Trie : std::map<std::string, T>{
+    class Trie : std::map<std::string, T> {
   protected:
+    Trie() : map() { }
     std::map<std::string,T> map;
   public:
     virtual std::pair<std::string,T> getLongestMatch(const std::string&) const;
@@ -47,7 +48,7 @@ namespace esapi {
       Trie<Y> wrapped;
 
       TrieProxy(const Trie<Y> &);
-      TrieProxy() {};
+      TrieProxy() : Trie<Y>(), wrapped() {};
 
     protected:
       virtual const Trie<T>& getWrapped();

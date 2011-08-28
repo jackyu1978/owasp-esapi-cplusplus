@@ -43,10 +43,7 @@ namespace esapi {
   private:
     static unsigned int REPLACEMENT_CHAR();
     static const std::string& REPLACEMENT_HEX();
-    static const std::string& REPLACEMENT_STR();    
-
-    //TODO
-    //static const Trie<Character> entityToCharacterTrie;
+    static const std::string& REPLACEMENT_STR();
 
     /**
     * getNumericEntry checks input to see if it is a numeric entity
@@ -121,9 +118,14 @@ namespace esapi {
 
   public:
     /**
-    *
+    * Default constructor
     */
     HTMLEntityCodec() {};
+
+   /**
+    * Standard destructor
+    */
+    virtual ~HTMLEntityCodec() {};
 
     /**
     * {@inheritDoc}

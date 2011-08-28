@@ -90,7 +90,7 @@ namespace esapi {
 		std::map<std::string, ValidationException *> errorList;
 
 	public:
-		ValidationErrorList() {};
+		ValidationErrorList() : errorList() {};
 
 
 		/**

@@ -22,26 +22,26 @@ namespace esapi
   SecretKey::SecretKey(const std::string& alg,
     const size_t sizeInBytes,
     const std::string& format)
-    : m_algorithm(alg), secBlock(sizeInBytes), m_format(format)
+    : m_algorithm(alg), m_secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
-    ASSERT( secBlock.size() );
+    ASSERT( m_secBlock.size() );
     ASSERT( !m_format.empty() );
 
     if(sizeInBytes)
     {
       SecureRandom prng = SecureRandom::getInstance(alg);
-      prng.nextBytes(secBlock.BytePtr(), secBlock.SizeInBytes());
+      prng.nextBytes(m_secBlock.BytePtr(), m_secBlock.SizeInBytes());
     }
   }
 
   SecretKey::SecretKey(const std::string& alg,
     const CryptoPP::SecByteBlock& bytes,
     const std::string& format)
-    : m_algorithm(alg), secBlock(bytes), m_format(format)
+    : m_algorithm(alg), m_secBlock(bytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
-    ASSERT( secBlock.size() );
+    ASSERT( m_secBlock.size() );
     ASSERT( !m_format.empty() );
   }
 
@@ -50,7 +50,7 @@ namespace esapi
   }
 
   SecretKey::SecretKey(const SecretKey& rhs)
-    : Key(rhs), m_algorithm(rhs.m_algorithm), secBlock(rhs.secBlock), m_format(rhs.m_format)
+    : Key(rhs), m_algorithm(rhs.m_algorithm), m_secBlock(rhs.m_secBlock), m_format(rhs.m_format)
   {
   }
 
@@ -62,7 +62,7 @@ namespace esapi
       Key::operator =(rhs);
 
       m_algorithm = rhs.m_algorithm;
-      secBlock = rhs.secBlock;
+      m_secBlock = rhs.m_secBlock;
       m_format = rhs.m_format;
     }
 
@@ -71,7 +71,7 @@ namespace esapi
 
   size_t SecretKey::sizeInBytes() const
   {
-    return secBlock.SizeInBytes();
+    return m_secBlock.SizeInBytes();
   }
 
   const byte* SecretKey::getEncoded() const
@@ -96,11 +96,11 @@ namespace esapi
 
   const byte* SecretKey::BytePtr() const
   {
-    return secBlock.BytePtr();
+    return m_secBlock.BytePtr();
   }
 
-  bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.secBlock == rhs.secBlock; }
-  bool operator!=(const SecretKey& lhs, const SecretKey& rhs)  { return lhs.secBlock != rhs.secBlock; }
+  bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.m_secBlock == rhs.m_secBlock; }
+  bool operator!=(const SecretKey& lhs, const SecretKey& rhs)  { return lhs.m_secBlock != rhs.m_secBlock; }
 
   std::ostream& operator<<(std::ostream& os, const SecretKey& rhs)
   {

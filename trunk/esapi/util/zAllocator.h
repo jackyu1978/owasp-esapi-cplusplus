@@ -51,7 +51,7 @@ namespace esapi
       };
 
       inline explicit zallocator() { }
-      inline ~zallocator() { }
+      inline virtual ~zallocator() { }
       inline zallocator(zallocator const&) { }
 
       // Dropped explicit. See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50118

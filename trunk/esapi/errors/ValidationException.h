@@ -49,7 +49,8 @@ namespace esapi {
      * @param logMessage
      *                        the message logged
      */
-  ValidationException(const std::string &userMessage, const std::string &logMessage): EnterpriseSecurityException(userMessage, logMessage) {}
+  ValidationException(const std::string &userMessage, const std::string &logMessage)
+    : EnterpriseSecurityException(userMessage, logMessage), context() { }
 
     /**
      * Creates a new instance of ValidationException.
@@ -78,7 +79,7 @@ namespace esapi {
      */
     void setContext(const std::string &);
 
-    ~ValidationException() throw() {};
+    virtual ~ValidationException() throw() {};
   };
 
 };

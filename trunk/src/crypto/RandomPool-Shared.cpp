@@ -33,7 +33,8 @@ namespace esapi
   /**
   * Create a random pool. Users must call GetSharedInstance().
   */
-  RandomPool::RandomPool( ) : m_keyed(false)
+  RandomPool::RandomPool( )
+    : m_keyed(false), m_cipher()
   {
   }
 
