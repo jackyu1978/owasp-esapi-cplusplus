@@ -289,7 +289,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HashImpl<HASH, DRBGINFO>::HashImpl(const std::string& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
+    : SecureRandomImpl(algorithm), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
     // seed and size are thinly veiled as "Personalization", and it is optional.
     // If size is non-zero, seed must be valid.
@@ -720,7 +720,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HmacImpl<HASH, DRBGINFO>::HmacImpl(const std::string& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
+    : SecureRandomImpl(algorithm), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
   {
     // seed and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!seed && !ssize) || (seed && ssize) );

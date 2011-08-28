@@ -33,7 +33,11 @@ namespace esapi
     virtual ~ArrayZeroizer() {
       ::memset(m_t, 0x00, m_c * sizeof(T));
       g_dummy = m_t;
-    }    
+    }   
+
+  private:
+    ArrayZeroizer(const ArrayZeroizer&) { }
+    ArrayZeroizer& operator=(const ArrayZeroizer&) { }
 
   private:
     T* m_t;

@@ -60,7 +60,7 @@ namespace esapi
     virtual const byte* getEncoded() const;
 
     // TODO: testing - remove me
-    SecretKey() { }
+    SecretKey() : m_algorithm(), m_secBlock(), m_format() { }
 
   /**
    * Not for general consumption. To derive a SecretKey from a secret value, use KeyDerivationFunction.
@@ -106,7 +106,7 @@ namespace esapi
 
   private:    
     std::string m_algorithm;            // Standard name for crypto algorithm
-    CryptoPP::SecByteBlock secBlock;    // The actual secret key
+    CryptoPP::SecByteBlock m_secBlock;    // The actual secret key
     std::string m_format;               // Encoding format
   };
 

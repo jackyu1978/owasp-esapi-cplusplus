@@ -60,7 +60,7 @@ namespace esapi
 		/**
 		 * @param encoder the encoder to use
 		 */
-		virtual void setEncoder(const Encoder &) =0;
+		virtual void setEncoder(Encoder *) =0;
 
 		/**
 		 * Check if the input is valid, throw an Exception otherwise

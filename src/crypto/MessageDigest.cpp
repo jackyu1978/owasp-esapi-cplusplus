@@ -93,7 +93,7 @@ namespace esapi
   // Sad, but true. HASH does not always cough up its name
   template <class HASH>
   MessageDigestImpl<HASH>::MessageDigestImpl(const std::string& algorithm)
-    : MessageDigest(algorithm)
+    : MessageDigest(algorithm), m_hash()
   {
     ASSERT( !algorithm.empty() );
   }

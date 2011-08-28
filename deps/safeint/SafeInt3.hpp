@@ -591,11 +591,8 @@ enum SafeIntError
 class SafeIntException
 {
 public:
-	SafeIntException() { m_code = SafeIntNoError; }
-	SafeIntException( SafeIntError code )
-	{
-		m_code = code;
-	}
+	SafeIntException() : m_code( SafeIntNoError ) { }
+	SafeIntException( SafeIntError code ) : m_code( code ) { }
 	SafeIntError m_code;
 };
 
@@ -5402,26 +5399,28 @@ template < typename T, typename E = SafeIntDefaultExceptionHandler > class SafeI
 {
 public:
 	SafeInt() throw()
+      : m_int(0)
 	{
 		C_ASSERT( NumericType< T >::isInt );
-		m_int = 0;
+        // m_int = 0;
 	}
 
 	// Having a constructor for every type of int 
 	// avoids having the compiler evade our checks when doing implicit casts - 
 	// e.g., SafeInt<char> s = 0x7fffffff;
 	SafeInt( const T& i ) throw()
+      : m_int(i)
 	{
 		C_ASSERT( NumericType< T >::isInt );
 		//always safe
-		m_int = i;
+		// m_int = i;
 	}
 
 	// provide explicit boolean converter
 	SafeInt( bool b ) throw()
+      : m_int((T)( b ? 1 : 0 ))
 	{
-		C_ASSERT( NumericType< T >::isInt );
-		m_int = (T)( b ? 1 : 0 );
+		C_ASSERT( NumericType< T >::isInt );		
 	}
 
 	template < typename U > 

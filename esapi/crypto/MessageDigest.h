@@ -55,7 +55,8 @@ namespace esapi
 
     // CTORs and DTORs are very important for MS DLLs
   private:
-    ESAPI_PRIVATE MessageDigest() { /* No external instantiations */ }
+    ESAPI_PRIVATE MessageDigest()
+      : m_algorithm() { /* No external instantiations */ }
   protected:
     ESAPI_PRIVATE explicit MessageDigest(const std::string& algorithmName)
       : m_algorithm(algorithmName) { /* No external instantiations */ }
@@ -173,7 +174,7 @@ namespace esapi
 
     // CTORs and DTORs are very important for MS DLLs
   private:
-    ESAPI_PRIVATE MessageDigestImpl() { /* No external instantiations */ }
+    ESAPI_PRIVATE MessageDigestImpl() : m_hash() { /* No external instantiations */ }
   public:
     virtual ~MessageDigestImpl() { }
 
