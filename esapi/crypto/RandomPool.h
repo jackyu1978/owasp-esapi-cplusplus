@@ -68,11 +68,10 @@ namespace esapi
     */
     void Reseed();
 
-  public:
     /**
     * Destroy the random pool.
     */
-    ~RandomPool();
+    ~RandomPool(); 
 
   private:
     /**
@@ -82,10 +81,10 @@ namespace esapi
     RandomPool();
 
     /**
-    * Initializes the random pool by setting a key and sync'ing an
-    * IV from Operating System acquired entropy.
+    * Initialize the random pool. Called by GetSharedInstance upon
+    * serving up the first instance.
     */
-    bool Rekey();
+    void Init();
 
     /**
     * Fetches bytes from the Operating System provided pool and uses

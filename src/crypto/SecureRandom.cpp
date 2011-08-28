@@ -196,6 +196,9 @@ namespace esapi
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to seed the generator");
 
+    // No need to lock - RandomPool provides its own
+    RandomPool::GetSharedInstance().Reseed();
+
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
 
