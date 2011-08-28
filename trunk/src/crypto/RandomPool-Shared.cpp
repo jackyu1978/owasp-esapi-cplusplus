@@ -35,14 +35,14 @@ namespace esapi
   */
   RandomPool::RandomPool( ) : m_keyed(false)
   {
-    try
-    {
-      Rekey();
-    }
-    catch(CryptoPP::Exception&)
-    {
-      throw EncryptionException("Failed to intialize Random Pool");
-    }
+  }
+
+  /**
+  * Initialize the random pool.
+  */
+  void RandomPool::Init()
+  {
+    Reseed();
   }
 
   /**
@@ -53,55 +53,66 @@ namespace esapi
   }
 
   /**
-  * Initializes the random pool by setting a key and IV from OS acquired entropy.
+  * Reseeds the random pool by setting a key and IV from OS acquired entropy.
   */
-  bool RandomPool::Rekey()
-  {
-    // Lock was acquired in RandomPool::Reseed()
-
-    // Key and IV
-    byte key[32 /*AES256 key*/ + 16 /*AES Blocksize*/];
-    ByteArrayZeroizer(key, sizeof(key));
-
-    if(GenerateKey(key, sizeof(key)))
-    {      
-      CryptoPP::SHA512 hash;
-
-      // Hash key in place
-      hash.Update(key, 32);
-      hash.TruncatedFinal(key, 32);
-
-      // Hash iv in place
-      hash.Update(key+32, 16);
-      hash.TruncatedFinal(key+32, 16);
-
-      m_cipher.SetKeyWithIV(key, 32, key+32);
-      m_keyed = true;
-    }
-
-    return m_keyed;
-  }
-
   void RandomPool::Reseed()
   {
     // Forward facing function. Lock the object to ensure state integrity.
     MutexLock lock(RandomPool::GetSharedLock());
 
-    m_keyed = false;
+    try
+    {
+      m_keyed = false;
 
-    bool result = Rekey();
-    ASSERT(result);
+      // Key and IV
+      byte key[32 /*AES256 key*/ + 16 /*AES Blocksize*/];
+      ByteArrayZeroizer(key, sizeof(key));
+
+      if(GenerateKey(key, sizeof(key)))
+      {      
+        CryptoPP::SHA512 hash;
+
+        // Hash key in place
+        hash.Update(key, 32);
+        hash.TruncatedFinal(key, 32);
+
+        // Hash iv in place
+        hash.Update(key+32, 16);
+        hash.TruncatedFinal(key+32, 16);
+
+        m_cipher.SetKeyWithIV(key, 32, key+32);
+        m_keyed = true;
+      }
+    }
+    catch(CryptoPP::Exception& ex)
+    {
+      throw EncryptionException(std::string("Internal error: ") + ex.what());
+    }
   }
 
   RandomPool& RandomPool::GetSharedInstance()
   {
-    // Forward facing function. Lock the object to ensure state integrity.
-    MutexLock lock(RandomPool::GetSharedLock());
-
+    static volatile bool init = false;
     static RandomPool s_pool;
+
+    if(!init)
+    {
+      // Forward facing function. Lock the object to ensure state integrity.
+      MutexLock lock(RandomPool::GetSharedLock());
+
+      if(!init)
+      {
+        s_pool.Init();
+        init = true;
+      }
+    }
+
     return s_pool;
   }
 
+  /**
+  * Retrieve bytes form the random pool.
+  */
   void RandomPool::GenerateBlock(byte* bytes, size_t size)
   {
     // Forward facing function. Lock the object to ensure state integrity.
@@ -111,26 +122,33 @@ namespace esapi
     if( !(bytes && size) )
       throw InvalidArgumentException("The buffer or size is not valid");
 
-    if(!m_keyed && !Rekey())
+    if(!m_keyed)
       throw EncryptionException("Failed to generate a block in the random pool (1)");
 
-    byte data[CryptoPP::AES::BLOCKSIZE];
-    ByteArrayZeroizer z1(data, sizeof(data));
-
-    if(!GetTimeData(data, sizeof(data)))
-      throw EncryptionException("Failed to generate a block in the random pool (2)");
-
-    size_t idx = 0;
-    while(size)
+    try
     {
-      // Always process a full block.
-      m_cipher.ProcessData(data, data, sizeof(data));
+      byte data[CryptoPP::AES::BLOCKSIZE];
+      ByteArrayZeroizer z1(data, sizeof(data));
 
-      const size_t req = std::min(size, (size_t)CryptoPP::AES::BLOCKSIZE);
-      ::memcpy(bytes+idx, data, req);
+      if(!GetTimeData(data, sizeof(data)))
+        throw EncryptionException("Failed to generate a block in the random pool (2)");
 
-      idx += req;
-      size -= req;
+      size_t idx = 0;
+      while(size)
+      {
+        // Always process a full block.
+        m_cipher.ProcessData(data, data, sizeof(data));
+
+        const size_t req = std::min(size, (size_t)CryptoPP::AES::BLOCKSIZE);
+        ::memcpy(bytes+idx, data, req);
+
+        idx += req;
+        size -= req;
+      }
+    }
+    catch(CryptoPP::Exception& ex)
+    {
+      throw EncryptionException(std::string("Internal error: ") + ex.what());
     }
   }
 }

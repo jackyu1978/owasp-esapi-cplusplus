@@ -50,7 +50,6 @@ int main(int, char**)
 {
   byte scratch[32];
 
-#if 0 
   RandomPool& pool = RandomPool::GetSharedInstance();
   pool.GenerateBlock(scratch, sizeof(scratch));
 
@@ -64,8 +63,9 @@ int main(int, char**)
   prng = SecureRandom::getInstance("HmacSHA1");
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
-#endif
 
+
+#if 0 
   KeyGenerator kg = KeyGenerator::getInstance("SHA-384");
   kg.init();
 
@@ -83,6 +83,7 @@ int main(int, char**)
   key = kg.generateKey();
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
+#endif
 
   return 0;
 }
