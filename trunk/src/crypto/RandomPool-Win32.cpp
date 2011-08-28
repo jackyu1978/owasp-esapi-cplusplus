@@ -52,7 +52,7 @@ namespace esapi
     HCRYPTPROV& m_handle;
   };
 
-  bool RandomPool::GenerateKey(byte* key, size_t ksize)
+  bool RandomPool::GenerateKeyAndIv(byte* key, size_t ksize)
   {
     ASSERT(key && ksize);
     if(!key || !ksize) return false;

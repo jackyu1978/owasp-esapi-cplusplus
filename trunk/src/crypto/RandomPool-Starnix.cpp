@@ -60,7 +60,7 @@ namespace esapi
   * The key is being constructed for the RandomPool's AES256 cipher. Since we also
   * sync an IV, at least 48 bytes will be needed.
   */
-  bool RandomPool::GenerateKey(byte* key, size_t ksize)
+  bool RandomPool::GenerateKeyAndIv(byte* key, size_t ksize)
   {
     ASSERT(key && ksize);
     if(!key || !ksize) return false;
