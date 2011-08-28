@@ -28,12 +28,12 @@
 namespace esapi
 {
   /**
-   * The default secure random number generator (RNG) algorithm. SHA-1 is approved for
-   * Random Number Generation. See SP 800-57, Table 2.
+   * The default secure random number generator (RNG) algorithm. Currently returns
+   * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
    */
   std::string SecureRandom::DefaultAlgorithm()
   {
-    return "SHA-256";
+    return std::string("SHA-256");
   }
 
   /**
@@ -65,7 +65,7 @@ namespace esapi
    * random number algorithm if specified
    */
   SecureRandom::SecureRandom(const std::string& algorithm)
-    : m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))
+    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
@@ -76,7 +76,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
    */
   SecureRandom::SecureRandom(const byte seed[], size_t size)
-    : m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
+    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
   {
     // This is an oddball case. Because we have a seed, we need the
     // default generator with additional entropy. So the SHA classes
@@ -91,7 +91,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
    */
   SecureRandom::SecureRandom(SecureRandomImpl* impl)
-    : m_impl(impl)
+    : m_lock(new Mutex), m_impl(impl)
   {
   }
 
@@ -99,7 +99,7 @@ namespace esapi
    * Copy this secure random number generator (RNG).
    */
   SecureRandom::SecureRandom(const SecureRandom& rhs)
-    : m_impl(rhs.m_impl)
+    : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
   {
   }
 
@@ -109,9 +109,21 @@ namespace esapi
   SecureRandom& SecureRandom::operator=(const SecureRandom& rhs)
   {
     if(this != &rhs)
+    {
+      m_lock = rhs.m_lock;
       m_impl = rhs.m_impl;
+    }
 
     return *this;
+  }
+
+  /**
+   * Retrieves the object level lock
+   */
+  Mutex& SecureRandom::getObjectLock() const
+  {
+    ASSERT(m_lock.get());
+    return *(m_lock.get());
   }
 
   /**
@@ -119,6 +131,13 @@ namespace esapi
    */
   byte* SecureRandom::generateSeed(unsigned int numBytes)
   {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve algorithm name");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     throw std::runtime_error("Not implemented");
   }
 
@@ -131,7 +150,71 @@ namespace esapi
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
 
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     return m_impl->getAlgorithmImpl();
+  }  
+
+  /**
+   * Returns the security level associated with the SecureRandom object. Used
+   * by KeyGenerator to determine the appropriate key size for init.
+   */
+  unsigned int SecureRandom::getSecurityLevel() const
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve security level");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->getSecurityLevelImpl();
+  }
+
+  /**
+   * Generates a user-specified number of random bytes.
+   */
+  void SecureRandom::nextBytes(byte bytes[], size_t size)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to generate random bytes");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    m_impl->nextBytesImpl(bytes, size);
+  }
+
+  /**
+   * Reseeds this random object.
+   */
+  void SecureRandom::setSeed(const byte seed[], size_t size)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to seed the generator");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    m_impl->setSeedImpl(seed, size);
+  }
+
+  /**
+   * Reseeds this random object, using the bytes contained in the given long seed.
+   */
+  void SecureRandom::setSeed(int seed)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to seed the generator");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
 
   /**
@@ -336,54 +419,5 @@ namespace esapi
       return "HmacWhirlpool";
 
     return "";
-  }
-
-  /**
-   * Returns the security level associated with the SecureRandom object. Used
-   * by KeyGenerator to determine the appropriate key size for init.
-   */
-  unsigned int SecureRandom::getSecurityLevel() const
-  {
-    ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve security level");
-
-    return m_impl->getSecurityLevelImpl();
-  }
-
-  /**
-   * Generates a user-specified number of random bytes.
-   */
-  void SecureRandom::nextBytes(byte bytes[], size_t size)
-  {
-    ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to generate random bytes");
-
-    m_impl->nextBytesImpl(bytes, size);
-  }
-
-  /**
-   * Reseeds this random object.
-   */
-  void SecureRandom::setSeed(const byte seed[], size_t size)
-  {
-    ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
-
-    m_impl->setSeedImpl(seed, size);
-  }
-
-  /**
-   * Reseeds this random object, using the bytes contained in the given long seed.
-   */
-  void SecureRandom::setSeed(int seed)
-  {
-    ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
-
-    m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
 } // esapi
