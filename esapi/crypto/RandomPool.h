@@ -99,7 +99,7 @@ namespace esapi
     * does not consume uncooked bits, so GenerateKey runs the bits
     * through a SHA-512 hash before consumption.
     */
-    bool GenerateKey(byte* key, size_t ksize);
+    bool GenerateKeyAndIv(byte* key, size_t ksize);
 
     /**
     * Fetches time related data. The time data is a value from a

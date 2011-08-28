@@ -81,10 +81,10 @@ namespace esapi
       m_keyed = false;
 
       // Key and IV
-      byte key[32 /*AES256 key*/ + 16 /*AES Blocksize*/];
+      byte key[32 /*AES256 key*/ + 16 /*IV, AES Blocksize*/];
       ByteArrayZeroizer(key, sizeof(key));
 
-      if(GenerateKey(key, sizeof(key)))
+      if(GenerateKeyAndIv(key, sizeof(key)))
       {      
         CryptoPP::SHA512 hash;
 
