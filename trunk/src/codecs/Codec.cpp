@@ -33,12 +33,16 @@ static const size_t ARR_SIZE = 256;
 
 const esapi::HexArray& esapi::Codec::getHexArray () {
 
+  static volatile bool init = false;
   static boost::shared_ptr<HexArray> hexArr;
 
-  if(nullptr == hexArr.get())
+  MEMORY_BARRIER();
+
+  if(!init)
   {
     esapi::MutexLock lock(getClassMutex());
-    if(nullptr == hexArr.get())
+
+    if(!init)
     {
       hexArr = boost::shared_ptr<HexArray>(new HexArray);
       ASSERT(hexArr);
@@ -61,6 +65,9 @@ const esapi::HexArray& esapi::Codec::getHexArray () {
           arr[c] = str.str();
         }
       }
+
+      init = true;
+      MEMORY_BARRIER();
     }
   }
 

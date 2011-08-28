@@ -26,6 +26,10 @@
 #include <string>
 #include <vector>
 
+#if defined(WIN32) || defined(_WIN32)
+# include <intrin.h>
+#endif
+
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
 # error Both DEBUG and NDEBUG are defined.
@@ -264,6 +268,15 @@ ESAPI_MS_NO_WARNING(4290)
 #  define ESAPI_EXPORT
 #  define ESAPI_PRIVATE
 # endif
+#endif
+
+#if defined(ESAPI_CXX_MSVC)
+# pragma intrinsic(_ReadWriteBarrier)
+# define MEMORY_BARRIER() _ReadWriteBarrier()
+#elif defined(ESAPI_CXX_ICC)
+# define MEMORY_BARRIER() __memory_barrier()
+#elif defined(ESAPI_CXX_GCC)
+# define MEMORY_BARRIER() __asm__ __volatile__ ("" ::: "memory")
 #endif
 
 // Some stuff needs to be exported for testing. For example,

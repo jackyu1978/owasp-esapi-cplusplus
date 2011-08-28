@@ -111,6 +111,8 @@ namespace esapi
     static volatile bool init = false;
     static RandomPool s_pool;
 
+    MEMORY_BARRIER();
+
     if(!init)
     {
       // Forward facing function. Lock the object to ensure state integrity.
@@ -119,7 +121,9 @@ namespace esapi
       if(!init)
       {
         s_pool.Init();
+
         init = true;
+        MEMORY_BARRIER();
       }
     }
 
