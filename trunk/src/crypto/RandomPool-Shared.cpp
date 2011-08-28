@@ -42,7 +42,11 @@ namespace esapi
   */
   void RandomPool::Init()
   {
-    Reseed();
+    // Do not acquire lock. Though this is a forward facing function, Init() is
+    // a private function and only called by GetSharedInstance(). GetSharedInstance()
+    // will acquire the the lock during double check initialization.
+
+    Rekey();
   }
 
   /**
@@ -53,13 +57,25 @@ namespace esapi
   }
 
   /**
-  * Reseeds the random pool by setting a key and IV from OS acquired entropy.
+  * Reseed the random pool. The pool will re-key and re-sync itself using bits acquired
+  * from the Operating System provided pool. Internally, Reseed() calls Rekey().
+  * As an external function, Reseed() grabs the lock.
   */
   void RandomPool::Reseed()
   {
     // Forward facing function. Lock the object to ensure state integrity.
     MutexLock lock(RandomPool::GetSharedLock());
 
+    Rekey();
+  }
+
+  /**
+  * Rekey the random pool. The pool will re-key and re-sync itself using bits
+  * acquired from the Operating System provided pool. As an internal function,
+  * the lock *is not* acquired.
+  */
+  void RandomPool::Rekey()
+  {
     try
     {
       m_keyed = false;

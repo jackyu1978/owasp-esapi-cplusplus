@@ -65,6 +65,7 @@ namespace esapi
     /**
     * Reseed the random pool. The pool will re-key and re-sync itself
     * using bits acquired from the Operating System provided pool.
+    * Internally, Reseed() calls Rekey().
     */
     void Reseed();
 
@@ -85,6 +86,12 @@ namespace esapi
     * serving up the first instance.
     */
     void Init();
+
+    /**
+    * Rekey the random pool. The pool will re-key and re-sync itself
+    * using bits acquired from the Operating System provided pool.
+    */
+    void Rekey();
 
     /**
     * Fetches bytes from the Operating System provided pool and uses
