@@ -51,10 +51,10 @@ namespace esapi
     // be sure of initializtion order of non-local statics. So they become functions.
 
   public:
-    /**
-     * The default secure random number generator (RNG) algorithm. SHA-1 is approved for
-     * Random Number Generation. See SP 800-90 Table 2 (p.34) and Table 3 (p.46) and SP800-57.
-     */
+   /**
+    * The default secure random number generator (RNG) algorithm. Currently returns
+    * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
+    */
     static std::string DefaultAlgorithm();
 
     /**
@@ -134,7 +134,19 @@ namespace esapi
      */
     unsigned int getSecurityLevel() const;
 
+   private:
+
+    /**
+     * Object level lock for concurrent access
+     */
+    mutable boost::shared_ptr<Mutex> m_lock;
+
   protected:
+
+    /**
+     * Retrieves the object level lock
+     */
+    inline Mutex& getObjectLock() const;
 
     /**
      * shared_ptr is reference counted. Its how we work magic with assignment and copy
@@ -204,11 +216,6 @@ namespace esapi
   protected:
 
     /**
-     * Retrieves the object level lock
-     */
-    inline Mutex& getObjectLock() const;
-
-    /**
      * Convenience function to move a big integer into a buffer
      */
     inline void IntegerToBuffer(const CryptoPP::Integer& n, byte* buff, size_t bsize);
@@ -225,11 +232,6 @@ namespace esapi
      * The standard algorithm name.
      */
     std::string m_algorithm;
-
-    /**
-     * Object level lock for concurrent access
-     */
-    mutable boost::shared_ptr<Mutex> m_lock;
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
