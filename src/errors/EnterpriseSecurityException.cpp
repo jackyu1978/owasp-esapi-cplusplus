@@ -16,9 +16,9 @@
 
 #include "errors/EnterpriseSecurityException.h"
 
-esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::string &userMessage, const std::string &newLogMessage): std::runtime_error( userMessage )
+esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::string &userMessage, const std::string &newLogMessage )
+  : std::runtime_error( userMessage ), logMessage( newLogMessage )
 {
-	this->logMessage = newLogMessage;
 	/**
     if (!ESAPI.securityConfiguration().getDisableIntrusionDetection()) {
     	ESAPI.intrusionDetector().addException(this);
