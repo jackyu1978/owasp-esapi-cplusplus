@@ -164,6 +164,8 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
   static volatile bool init = false;
   static boost::shared_ptr<EntityMap> map;
 
+  MEMORY_BARRIER();
+
   // First check
   if(!init)
   {
@@ -436,6 +438,7 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
       m[9830] =   "diams";       /* black diamond suit */
 
       init = true;
+      MEMORY_BARRIER();
 
     } // Inner !init
   } // Outer !init
@@ -454,16 +457,19 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
   //return Trie.Util.unmodifiable(trie);  
 
    // Double checked intialization
+  static volatile bool init = false;
   static boost::shared_ptr<EntityTrie> trie;
 
+  MEMORY_BARRIER();
+
   // First check
-  if(nullptr == trie.get())
+  if(!init)
   {
     // Acquire the lock
     MutexLock lock(getClassMutex());
 
     // Verify we did not acquire the lock after another thread initialized and and released
-    if(nullptr == trie.get())
+    if(!init)
     {
       trie = boost::shared_ptr<EntityTrie>(new EntityTrie);
       ASSERT(trie);
@@ -480,6 +486,9 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
       {
         // trie.insert( std::pair<char, std::string>(it->second, it->first) );
       }
+
+      init = true;
+      MEMORY_BARRIER();
 
     } // Inner !init
   } // Outer !init
