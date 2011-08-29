@@ -14,8 +14,7 @@
 
 //
 // Thread safe, multiprocessor initialization
-// http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
-// Despite being a Java article, it offers a C++/Memory Barrier sample
+// http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
 //
 
 unsigned int esapi::HTMLEntityCodec::REPLACEMENT_CHAR()
@@ -449,7 +448,6 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
     } // Inner !init
   } // Outer !init
 
-  MEMORY_BARRIER();
   return *map.get();
 }
 
@@ -499,7 +497,6 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
     } // Inner !init
   } // Outer !init
 
-  MEMORY_BARRIER();
   return *trie.get();
 }
 
