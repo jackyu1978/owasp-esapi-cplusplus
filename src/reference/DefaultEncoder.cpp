@@ -17,6 +17,8 @@
 
 #include "errors/NullPointerException.h"
 
+#include <cryptopp/base64.h>
+
 esapi::Encoder* esapi::DefaultEncoder::singletonInstance = nullptr;
 //esapi::Logger* esapi::DefaultEncoder::logger = nullptr;
 
@@ -386,25 +388,29 @@ std::string esapi::DefaultEncoder::decodeFromURL(const std::string & input) thro
 }
 
 std::string esapi::DefaultEncoder::encodeForBase64(const std::string & input, bool wrap) {
-/*
-                if ( input == null ) {
-                        return null;
-                }
-                int options = 0;
-                if ( !wrap ) {
-                        options |= Base64.DONT_BREAK_LINES;
-                }
-                return Base64.encodeBytes(input, options);
- */
-	return "";
+	if ( input.compare("") == 0 )
+			return NULL;
+
+	std::string encoded;
+
+	CryptoPP::StringSource(input, true, new CryptoPP::Base64Encoder(new
+	CryptoPP::StringSink(encoded), wrap));
+
+	return encoded;
+}
+
+std::string esapi::DefaultEncoder::encodeForBase64(const std::string & input) {
+	return this->encodeForBase64(input, false);
 }
 
 std::string esapi::DefaultEncoder::decodeFromBase64(const std::string & input) {
-/*
-	if ( input == null ) {
-            return null;
-    }
-    return Base64.decode( input );
-*/
-	return "";
+	if ( input.compare("") == 0)
+            return NULL;
+
+	std::string decoded;
+
+	CryptoPP::StringSource(input, true, new CryptoPP::Base64Decoder(new
+	CryptoPP::StringSink(decoded)));
+
+	return decoded;
 }
