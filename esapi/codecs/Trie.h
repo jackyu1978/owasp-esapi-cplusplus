@@ -32,12 +32,16 @@ namespace esapi {
    */
   template <typename T>
     class Trie : std::map<std::string, T> {
+
+    // HTMLEntityCodec::getEntityToCharacterTrie returns a Trie<int>
+    friend class HTMLEntityCodec;
+
   protected:
     Trie() : map() { }
     std::map<std::string,T> map;
   public:
     virtual std::pair<std::string,T> getLongestMatch(const std::string&) const;
-    //pair<std::string,T> getLongestMatch(PushbackReader) =0;
+    //pair<std::string,T> getLongestMatch(PushbackReader) = 0;
     virtual size_t getMaxKeyLength() const;
     virtual size_t size() const;
     virtual ~Trie() {};
