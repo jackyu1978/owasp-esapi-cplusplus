@@ -11,6 +11,12 @@
 #include "EncoderConstants.h"
 #include "reference/DefaultEncoder.h"
 
+#include "codecs/Codec.h"
+#include "codecs/UnixCodec.h"
+#include "codecs/WindowsCodec.h"
+
+#include "errors/NullPointerException.h"
+
 esapi::Encoder* esapi::DefaultEncoder::singletonInstance = nullptr;
 //esapi::Logger* esapi::DefaultEncoder::logger = nullptr;
 
@@ -221,6 +227,10 @@ std::string esapi::DefaultEncoder::encodeForSQL(const Codec &codec, const std::s
 	return "";
 }
 
+<<<<<<< .mine
+std::string esapi::DefaultEncoder::encodeForOS(const Codec *codec, const std::string & input) {
+	ASSERT(codec);
+=======
 std::string esapi::DefaultEncoder::encodeForOS(const Codec &codec, const std::string & input) {
 /*
             if( input == null ) {
@@ -228,8 +238,17 @@ std::string esapi::DefaultEncoder::encodeForOS(const Codec &codec, const std::st
             }
             return codec.encode( IMMUNE_OS, input);
  */
+>>>>>>> .r342
 
-	return "";
+	if (codec == nullptr)
+		throw new NullPointerException("encoderForOS(..) : Null pointer to codec");
+
+	if( input.compare("") == 0) {
+		return NULL;
+	}
+
+	return (*codec).encode( IMMUNE_OS, sizeof(IMMUNE_OS)/sizeof(char), input);
+
 }
 
 std::string esapi::DefaultEncoder::encodeForLDAP(const std::string & input) {
