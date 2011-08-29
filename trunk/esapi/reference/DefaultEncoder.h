@@ -167,6 +167,11 @@ public:
 	 */
 	std::string encodeForBase64(const std::string &, bool);
 
+	/*
+	 * For simplicity of calling encodeForBase64(const std::string &, bool);
+	 */
+	std::string encodeForBase64(const std::string &);
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -49,5 +49,8 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 
 	BOOST_CHECK(de.encodeForOS(new esapi::UnixCodec, "sdf:ff").compare("sdf\\:ff")==0);
 
-	//BOOST_CHECK(de.encodeForOS(new esapi::UnixCodec, "asdf<").compare("asdf\\<")==0);
+	encoded = de.encodeForBase64("asdf");
+	BOOST_CHECK(encoded.compare("YXNkZg==") == 0); //base64 value of `asdf`
+	BOOST_CHECK(de.decodeFromBase64(encoded).compare("asdf")==0);
+
 }
