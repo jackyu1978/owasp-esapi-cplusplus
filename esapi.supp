@@ -13,13 +13,7 @@
 ##  http://www.mail-archive.com/valgrind-users@lists.sourceforge.net/msg00928.html
 ################################################################################################
 
-{
-   normalizeAlgortihm/std::string.find()
-   Helgrind:Race
-   fun:_ZNKSs4findEcm
-   fun:_ZN5esapi12SecureRandom18normalizeAlgortihmERKSs
-   ...
-}
+
 
 ################################################################################################
 ## Boost
@@ -79,24 +73,6 @@
    Byte Array Zeroizer (assignment to g_dummy)
    Helgrind:Race
    fun:_ZN5esapi13ArrayZeroizerIhED1Ev
-   ...
-}
-
-{
-   HashImpl::nextBytes
-   Helgrind:Race
-   ...
-   fun:_ZN5esapi8HashImplIN8CryptoPP6SHA512ENS_8DrbgInfoILj32ELj111EEEE13nextBytesImplEPhm
-   fun:_ZN5esapi12SecureRandom9nextBytesEPhm
-   ...
-}
-
-{
-   HashImpl::nextBytes
-   Helgrind:Race
-   ...
-   fun:_ZN5esapi8HashImplIN8CryptoPP6SHA256ENS_8DrbgInfoILj16ELj55EEEE13nextBytesImplEPhm
-   fun:_ZN5esapi12SecureRandom9nextBytesEPhm
    ...
 }
 

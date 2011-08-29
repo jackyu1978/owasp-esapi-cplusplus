@@ -31,41 +31,49 @@
  */
 static const size_t ARR_SIZE = 256;
 
-const esapi::HexArray& esapi::Codec::getHexArray () {
+//
+// Thread safe, multiprocessor initialization
+// http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+// Despite being a Java article, it offers a C++/Memory Barrier sample
+//
 
+const esapi::HexArray& esapi::Codec::getHexArray ()
+{
   static volatile bool init = false;
   static boost::shared_ptr<HexArray> hexArr;
 
+  // First check
   MEMORY_BARRIER();
-
   if(!init)
   {
-    esapi::MutexLock lock(getClassMutex());
+    MutexLock lock(getClassMutex());
 
+    // Second check
     if(!init)
     {
-      hexArr = boost::shared_ptr<HexArray>(new HexArray);
-      ASSERT(hexArr);
-      if(nullptr == hexArr.get())
+      boost::shared_ptr<HexArray> temp(new HexArray);
+      ASSERT(temp);
+      if(nullptr == temp.get())
         throw std::bad_alloc();
 
       // Convenience
-      HexArray& arr = *hexArr.get();
+      HexArray& ta = *temp.get();
 
       // Save on reallocations
-      arr.resize(ARR_SIZE);
+      ta.resize(ARR_SIZE);
 
       for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
         if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
-          arr[c] = "";
+          ta[c] = "";
         } else {
           std::ostringstream str;
           // str << HEX(2) << int(0xFF & c);
           str << std::hex << c;
-          arr[c] = str.str();
+          ta[c] = str.str();
         }
       }
 
+      hexArr = temp;
       init = true;
       MEMORY_BARRIER();
     }
@@ -85,7 +93,8 @@ esapi::Mutex& esapi::Codec::getClassMutex ()
   return s_mutex;
 }
 
-std::string esapi::Codec::encode(const char immune[], size_t length, const std::string& input) const{
+std::string esapi::Codec::encode(const char immune[], size_t length, const std::string& input) const
+{
   ASSERT(immune);
   ASSERT(length);
   ASSERT(!input.empty());

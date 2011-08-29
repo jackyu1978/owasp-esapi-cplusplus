@@ -12,6 +12,12 @@
 #include "crypto/Crypto++Common.h"
 #include <boost/shared_ptr.hpp>
 
+//
+// Thread safe, multiprocessor initialization
+// http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+// Despite being a Java article, it offers a C++/Memory Barrier sample
+//
+
 unsigned int esapi::HTMLEntityCodec::REPLACEMENT_CHAR()
 {
   return 65533;
@@ -149,7 +155,8 @@ char esapi::HTMLEntityCodec::getNamedEntity(PushbackString&) {
 * Retrieve the class wide intialization lock.
 * @return the mutex used to lock the class.
 */
-esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex() {
+esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex()
+{
   static esapi::Mutex s_mutex;
   return s_mutex;
 }
@@ -158,291 +165,291 @@ esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex() {
 * Build a unmodifiable Map from entity Character to Name.
 * @return Unmodifiable map.
 */
-const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToEntityMap() {
-
-  // Double checked intialization
+const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToEntityMap()
+{
   static volatile bool init = false;
   static boost::shared_ptr<EntityMap> map;
 
-  MEMORY_BARRIER();
-
   // First check
+  MEMORY_BARRIER();
   if(!init)
   {
     // Acquire the lock
     MutexLock lock(getClassMutex());
 
-    // Verify we did not acquire the lock after another thread initialized and and released
+    // Second check
     if(!init)
     {
-      map = boost::shared_ptr<EntityMap>(new EntityMap);
-      ASSERT(map);
-      if(nullptr == map.get())
+      boost::shared_ptr<EntityMap> temp(new EntityMap);
+      ASSERT(nullptr != temp.get());
+      if(nullptr == temp.get())
         throw std::bad_alloc();
 
       // Convenience
-      EntityMap& m = *map.get();
+      EntityMap& tm = *temp.get();
 
       // 252 items, but no reserve() on std::map
-      m[34]  = "quot";        /* quotation mark */
-      m[38]  = "amp";         /* ampersand */
-      m[60]  = "lt";          /* less-than sign */
-      m[62]  = "gt";          /* greater-than sign */
-      m[160] =    "nbsp";        /* no-break space */
-      m[161] =    "iexcl";       /* inverted exclamation mark */
-      m[162] =    "cent";        /* cent sign */
-      m[163] =    "pound";       /* pound sign */
-      m[164] =    "curren";      /* currency sign */
-      m[165] =    "yen";         /* yen sign */
-      m[166] =    "brvbar";      /* broken bar */
-      m[167] =    "sect";        /* section sign */
-      m[168] =    "uml";         /* diaeresis */
-      m[169] =    "copy";        /* copyright sign */
-      m[170] =    "ordf";        /* feminine ordinal indicator */
-      m[171] =    "laquo";       /* left-pointing double angle quotation mark */
-      m[172] =    "not";         /* not sign */
-      m[173] =    "shy";         /* soft hyphen */
-      m[174] =    "reg";         /* registered sign */
-      m[175] =    "macr";        /* macron */
-      m[176] =    "deg";         /* degree sign */
-      m[177] =    "plusmn";      /* plus-minus sign */
-      m[178] =    "sup2";        /* superscript two */
-      m[179] =    "sup3";        /* superscript three */
-      m[180] =    "acute";       /* acute accent */
-      m[181] =    "micro";       /* micro sign */
-      m[182] =    "para";        /* pilcrow sign */
-      m[183] =    "middot";      /* middle dot */
-      m[184] =    "cedil";       /* cedilla */
-      m[185] =    "sup1";        /* superscript one */
-      m[186] =    "ordm";        /* masculine ordinal indicator */
-      m[187] =    "raquo";       /* right-pointing double angle quotation mark */
-      m[188] =    "frac14";      /* vulgar fraction one quarter */
-      m[189] =    "frac12";      /* vulgar fraction one half */
-      m[190] =    "frac34";      /* vulgar fraction three quarters */
-      m[191] =    "iquest";      /* inverted question mark */
-      m[192] =    "Agrave";      /* Latin capital letter a with grave */
-      m[193] =    "Aacute";      /* Latin capital letter a with acute */
-      m[194] =    "Acirc";       /* Latin capital letter a with circumflex */
-      m[195] =    "Atilde";      /* Latin capital letter a with tilde */
-      m[196] =    "Auml";        /* Latin capital letter a with diaeresis */
-      m[197] =    "Aring";       /* Latin capital letter a with ring above */
-      m[198] =    "AElig";       /* Latin capital letter ae */
-      m[199] =    "Ccedil";      /* Latin capital letter c with cedilla */
-      m[200] =    "Egrave";      /* Latin capital letter e with grave */
-      m[201] =    "Eacute";      /* Latin capital letter e with acute */
-      m[202] =    "Ecirc";       /* Latin capital letter e with circumflex */
-      m[203] =    "Euml";        /* Latin capital letter e with diaeresis */
-      m[204] =    "Igrave";      /* Latin capital letter i with grave */
-      m[205] =    "Iacute";      /* Latin capital letter i with acute */
-      m[206] =    "Icirc";       /* Latin capital letter i with circumflex */
-      m[207] =    "Iuml";        /* Latin capital letter i with diaeresis */
-      m[208] =    "ETH";         /* Latin capital letter eth */
-      m[209] =    "Ntilde";      /* Latin capital letter n with tilde */
-      m[210] =    "Ograve";      /* Latin capital letter o with grave */
-      m[211] =    "Oacute";      /* Latin capital letter o with acute */
-      m[212] =    "Ocirc";       /* Latin capital letter o with circumflex */
-      m[213] =    "Otilde";      /* Latin capital letter o with tilde */
-      m[214] =    "Ouml";        /* Latin capital letter o with diaeresis */
-      m[215] =    "times";       /* multiplication sign */
-      m[216] =    "Oslash";      /* Latin capital letter o with stroke */
-      m[217] =    "Ugrave";      /* Latin capital letter u with grave */
-      m[218] =    "Uacute";      /* Latin capital letter u with acute */
-      m[219] =    "Ucirc";       /* Latin capital letter u with circumflex */
-      m[220] =    "Uuml";        /* Latin capital letter u with diaeresis */
-      m[221] =    "Yacute";      /* Latin capital letter y with acute */
-      m[222] =    "THORN";       /* Latin capital letter thorn */
-      m[223] =    "szlig";       /* Latin small letter sharp sXCOMMAX German Eszett */
-      m[224] =    "agrave";      /* Latin small letter a with grave */
-      m[225] =    "aacute";      /* Latin small letter a with acute */
-      m[226] =    "acirc";       /* Latin small letter a with circumflex */
-      m[227] =    "atilde";      /* Latin small letter a with tilde */
-      m[228] =    "auml";        /* Latin small letter a with diaeresis */
-      m[229] =    "aring";       /* Latin small letter a with ring above */
-      m[230] =    "aelig";       /* Latin lowercase ligature ae */
-      m[231] =    "ccedil";      /* Latin small letter c with cedilla */
-      m[232] =    "egrave";      /* Latin small letter e with grave */
-      m[233] =    "eacute";      /* Latin small letter e with acute */
-      m[234] =    "ecirc";       /* Latin small letter e with circumflex */
-      m[235] =    "euml";        /* Latin small letter e with diaeresis */
-      m[236] =    "igrave";      /* Latin small letter i with grave */
-      m[237] =    "iacute";      /* Latin small letter i with acute */
-      m[238] =    "icirc";       /* Latin small letter i with circumflex */
-      m[239] =    "iuml";        /* Latin small letter i with diaeresis */
-      m[240] =    "eth";         /* Latin small letter eth */
-      m[241] =    "ntilde";      /* Latin small letter n with tilde */
-      m[242] =    "ograve";      /* Latin small letter o with grave */
-      m[243] =    "oacute";      /* Latin small letter o with acute */
-      m[244] =    "ocirc";       /* Latin small letter o with circumflex */
-      m[245] =    "otilde";      /* Latin small letter o with tilde */
-      m[246] =    "ouml";        /* Latin small letter o with diaeresis */
-      m[247] =    "divide";      /* division sign */
-      m[248] =    "oslash";      /* Latin small letter o with stroke */
-      m[249] =    "ugrave";      /* Latin small letter u with grave */
-      m[250] =    "uacute";      /* Latin small letter u with acute */
-      m[251] =    "ucirc";       /* Latin small letter u with circumflex */
-      m[252] =    "uuml";        /* Latin small letter u with diaeresis */
-      m[253] =    "yacute";      /* Latin small letter y with acute */
-      m[254] =    "thorn";       /* Latin small letter thorn */
-      m[255] =    "yuml";        /* Latin small letter y with diaeresis */
-      m[338] =    "OElig";       /* Latin capital ligature oe */
-      m[339] =    "oelig";       /* Latin small ligature oe */
-      m[352] =    "Scaron";      /* Latin capital letter s with caron */
-      m[353] =    "scaron";      /* Latin small letter s with caron */
-      m[376] =    "Yuml";        /* Latin capital letter y with diaeresis */
-      m[402] =    "fnof";        /* Latin small letter f with hook */
-      m[710] =    "circ";        /* modifier letter circumflex accent */
-      m[732] =    "tilde";       /* small tilde */
-      m[913] =    "Alpha";       /* Greek capital letter alpha */
-      m[914] =    "Beta";        /* Greek capital letter beta */
-      m[915] =    "Gamma";       /* Greek capital letter gamma */
-      m[916] =    "Delta";       /* Greek capital letter delta */
-      m[917] =    "Epsilon";     /* Greek capital letter epsilon */
-      m[918] =    "Zeta";        /* Greek capital letter zeta */
-      m[919] =    "Eta";         /* Greek capital letter eta */
-      m[920] =    "Theta";       /* Greek capital letter theta */
-      m[921] =    "Iota";        /* Greek capital letter iota */
-      m[922] =    "Kappa";       /* Greek capital letter kappa */
-      m[923] =    "Lambda";      /* Greek capital letter lambda */
-      m[924] =    "Mu";          /* Greek capital letter mu */
-      m[925] =    "Nu";          /* Greek capital letter nu */
-      m[926] =    "Xi";          /* Greek capital letter xi */
-      m[927] =    "Omicron";     /* Greek capital letter omicron */
-      m[928] =    "Pi";          /* Greek capital letter pi */
-      m[929] =    "Rho";         /* Greek capital letter rho */
-      m[931] =    "Sigma";       /* Greek capital letter sigma */
-      m[932] =    "Tau";         /* Greek capital letter tau */
-      m[933] =    "Upsilon";     /* Greek capital letter upsilon */
-      m[934] =    "Phi";         /* Greek capital letter phi */
-      m[935] =    "Chi";         /* Greek capital letter chi */
-      m[936] =    "Psi";         /* Greek capital letter psi */
-      m[937] =    "Omega";       /* Greek capital letter omega */
-      m[945] =    "alpha";       /* Greek small letter alpha */
-      m[946] =    "beta";        /* Greek small letter beta */
-      m[947] =    "gamma";       /* Greek small letter gamma */
-      m[948] =    "delta";       /* Greek small letter delta */
-      m[949] =    "epsilon";     /* Greek small letter epsilon */
-      m[950] =    "zeta";        /* Greek small letter zeta */
-      m[951] =    "eta";         /* Greek small letter eta */
-      m[952] =    "theta";       /* Greek small letter theta */
-      m[953] =    "iota";        /* Greek small letter iota */
-      m[954] =    "kappa";       /* Greek small letter kappa */
-      m[955] =    "lambda";      /* Greek small letter lambda */
-      m[956] =    "mu";          /* Greek small letter mu */
-      m[957] =    "nu";          /* Greek small letter nu */
-      m[958] =    "xi";          /* Greek small letter xi */
-      m[959] =    "omicron";     /* Greek small letter omicron */
-      m[960] =    "pi";          /* Greek small letter pi */
-      m[961] =    "rho";         /* Greek small letter rho */
-      m[962] =    "sigmaf";      /* Greek small letter final sigma */
-      m[963] =    "sigma";       /* Greek small letter sigma */
-      m[964] =    "tau";         /* Greek small letter tau */
-      m[965] =    "upsilon";     /* Greek small letter upsilon */
-      m[966] =    "phi";         /* Greek small letter phi */
-      m[967] =    "chi";         /* Greek small letter chi */
-      m[968] =    "psi";         /* Greek small letter psi */
-      m[969] =    "omega";       /* Greek small letter omega */
-      m[977] =    "thetasym";    /* Greek theta symbol */
-      m[978] =    "upsih";       /* Greek upsilon with hook symbol */
-      m[982] =    "piv";         /* Greek pi symbol */
-      m[8194] =   "ensp";        /* en space */
-      m[8195] =   "emsp";        /* em space */
-      m[8201] =   "thinsp";      /* thin space */
-      m[8204] =   "zwnj";        /* zero width non-joiner */
-      m[8205] =   "zwj";         /* zero width joiner */
-      m[8206] =   "lrm";         /* left-to-right mark */
-      m[8207] =   "rlm";         /* right-to-left mark */
-      m[8211] =   "ndash";       /* en dash */
-      m[8212] =   "mdash";       /* em dash */
-      m[8216] =   "lsquo";       /* left single quotation mark */
-      m[8217] =   "rsquo";       /* right single quotation mark */
-      m[8218] =   "sbquo";       /* single low-9 quotation mark */
-      m[8220] =   "ldquo";       /* left double quotation mark */
-      m[8221] =   "rdquo";       /* right double quotation mark */
-      m[8222] =   "bdquo";       /* double low-9 quotation mark */
-      m[8224] =   "dagger";      /* dagger */
-      m[8225] =   "Dagger";      /* double dagger */
-      m[8226] =   "bull";        /* bullet */
-      m[8230] =   "hellip";      /* horizontal ellipsis */
-      m[8240] =   "permil";      /* per mille sign */
-      m[8242] =   "prime";       /* prime */
-      m[8243] =   "Prime";       /* double prime */
-      m[8249] =   "lsaquo";      /* single left-pointing angle quotation mark */
-      m[8250] =   "rsaquo";      /* single right-pointing angle quotation mark */
-      m[8254] =   "oline";       /* overline */
-      m[8260] =   "frasl";       /* fraction slash */
-      m[8364] =   "euro";        /* euro sign */
-      m[8465] =   "image";       /* black-letter capital i */
-      m[8472] =   "weierp";      /* script capital pXCOMMAX Weierstrass p */
-      m[8476] =   "real";        /* black-letter capital r */
-      m[8482] =   "trade";       /* trademark sign */
-      m[8501] =   "alefsym";     /* alef symbol */
-      m[8592] =   "larr";        /* leftwards arrow */
-      m[8593] =   "uarr";        /* upwards arrow */
-      m[8594] =   "rarr";        /* rightwards arrow */
-      m[8595] =   "darr";        /* downwards arrow */
-      m[8596] =   "harr";        /* left right arrow */
-      m[8629] =   "crarr";       /* downwards arrow with corner leftwards */
-      m[8656] =   "lArr";        /* leftwards double arrow */
-      m[8657] =   "uArr";        /* upwards double arrow */
-      m[8658] =   "rArr";        /* rightwards double arrow */
-      m[8659] =   "dArr";        /* downwards double arrow */
-      m[8660] =   "hArr";        /* left right double arrow */
-      m[8704] =   "forall";      /* for all */
-      m[8706] =   "part";        /* partial differential */
-      m[8707] =   "exist";       /* there exists */
-      m[8709] =   "empty";       /* empty set */
-      m[8711] =   "nabla";       /* nabla */
-      m[8712] =   "isin";        /* element of */
-      m[8713] =   "notin";       /* not an element of */
-      m[8715] =   "ni";          /* contains as member */
-      m[8719] =   "prod";        /* n-ary product */
-      m[8721] =   "sum";         /* n-ary summation */
-      m[8722] =   "minus";       /* minus sign */
-      m[8727] =   "lowast";      /* asterisk operator */
-      m[8730] =   "radic";       /* square root */
-      m[8733] =   "prop";        /* proportional to */
-      m[8734] =   "infin";       /* infinity */
-      m[8736] =   "ang";         /* angle */
-      m[8743] =   "and";         /* logical and */
-      m[8744] =   "or";          /* logical or */
-      m[8745] =   "cap";         /* intersection */
-      m[8746] =   "cup";         /* union */
-      m[8747] =   "int";         /* integral */
-      m[8756] =   "there4";      /* therefore */
-      m[8764] =   "sim";         /* tilde operator */
-      m[8773] =   "cong";        /* congruent to */
-      m[8776] =   "asymp";       /* almost equal to */
-      m[8800] =   "ne";          /* not equal to */
-      m[8801] =   "equiv";       /* identical toXCOMMAX equivalent to */
-      m[8804] =   "le";          /* less-than or equal to */
-      m[8805] =   "ge";          /* greater-than or equal to */
-      m[8834] =   "sub";         /* subset of */
-      m[8835] =   "sup";         /* superset of */
-      m[8836] =   "nsub";        /* not a subset of */
-      m[8838] =   "sube";        /* subset of or equal to */
-      m[8839] =   "supe";        /* superset of or equal to */
-      m[8853] =   "oplus";       /* circled plus */
-      m[8855] =   "otimes";      /* circled times */
-      m[8869] =   "perp";        /* up tack */
-      m[8901] =   "sdot";        /* dot operator */
-      m[8968] =   "lceil";       /* left ceiling */
-      m[8969] =   "rceil";       /* right ceiling */
-      m[8970] =   "lfloor";      /* left floor */
-      m[8971] =   "rfloor";      /* right floor */
-      m[9001] =   "lang";        /* left-pointing angle bracket */
-      m[9002] =   "rang";        /* right-pointing angle bracket */
-      m[9674] =   "loz";         /* lozenge */
-      m[9824] =   "spades";      /* black spade suit */
-      m[9827] =   "clubs";       /* black club suit */
-      m[9829] =   "hearts";      /* black heart suit */
-      m[9830] =   "diams";       /* black diamond suit */
+      tm[34]  = "quot";        /* quotation mark */
+      tm[38]  = "amp";         /* ampersand */
+      tm[60]  = "lt";          /* less-than sign */
+      tm[62]  = "gt";          /* greater-than sign */
+      tm[160] =    "nbsp";        /* no-break space */
+      tm[161] =    "iexcl";       /* inverted exclamation mark */
+      tm[162] =    "cent";        /* cent sign */
+      tm[163] =    "pound";       /* pound sign */
+      tm[164] =    "curren";      /* currency sign */
+      tm[165] =    "yen";         /* yen sign */
+      tm[166] =    "brvbar";      /* broken bar */
+      tm[167] =    "sect";        /* section sign */
+      tm[168] =    "uml";         /* diaeresis */
+      tm[169] =    "copy";        /* copyright sign */
+      tm[170] =    "ordf";        /* feminine ordinal indicator */
+      tm[171] =    "laquo";       /* left-pointing double angle quotation mark */
+      tm[172] =    "not";         /* not sign */
+      tm[173] =    "shy";         /* soft hyphen */
+      tm[174] =    "reg";         /* registered sign */
+      tm[175] =    "macr";        /* macron */
+      tm[176] =    "deg";         /* degree sign */
+      tm[177] =    "plusmn";      /* plus-minus sign */
+      tm[178] =    "sup2";        /* superscript two */
+      tm[179] =    "sup3";        /* superscript three */
+      tm[180] =    "acute";       /* acute accent */
+      tm[181] =    "micro";       /* micro sign */
+      tm[182] =    "para";        /* pilcrow sign */
+      tm[183] =    "middot";      /* middle dot */
+      tm[184] =    "cedil";       /* cedilla */
+      tm[185] =    "sup1";        /* superscript one */
+      tm[186] =    "ordm";        /* masculine ordinal indicator */
+      tm[187] =    "raquo";       /* right-pointing double angle quotation mark */
+      tm[188] =    "frac14";      /* vulgar fraction one quarter */
+      tm[189] =    "frac12";      /* vulgar fraction one half */
+      tm[190] =    "frac34";      /* vulgar fraction three quarters */
+      tm[191] =    "iquest";      /* inverted question mark */
+      tm[192] =    "Agrave";      /* Latin capital letter a with grave */
+      tm[193] =    "Aacute";      /* Latin capital letter a with acute */
+      tm[194] =    "Acirc";       /* Latin capital letter a with circumflex */
+      tm[195] =    "Atilde";      /* Latin capital letter a with tilde */
+      tm[196] =    "Auml";        /* Latin capital letter a with diaeresis */
+      tm[197] =    "Aring";       /* Latin capital letter a with ring above */
+      tm[198] =    "AElig";       /* Latin capital letter ae */
+      tm[199] =    "Ccedil";      /* Latin capital letter c with cedilla */
+      tm[200] =    "Egrave";      /* Latin capital letter e with grave */
+      tm[201] =    "Eacute";      /* Latin capital letter e with acute */
+      tm[202] =    "Ecirc";       /* Latin capital letter e with circumflex */
+      tm[203] =    "Euml";        /* Latin capital letter e with diaeresis */
+      tm[204] =    "Igrave";      /* Latin capital letter i with grave */
+      tm[205] =    "Iacute";      /* Latin capital letter i with acute */
+      tm[206] =    "Icirc";       /* Latin capital letter i with circumflex */
+      tm[207] =    "Iuml";        /* Latin capital letter i with diaeresis */
+      tm[208] =    "ETH";         /* Latin capital letter eth */
+      tm[209] =    "Ntilde";      /* Latin capital letter n with tilde */
+      tm[210] =    "Ograve";      /* Latin capital letter o with grave */
+      tm[211] =    "Oacute";      /* Latin capital letter o with acute */
+      tm[212] =    "Ocirc";       /* Latin capital letter o with circumflex */
+      tm[213] =    "Otilde";      /* Latin capital letter o with tilde */
+      tm[214] =    "Ouml";        /* Latin capital letter o with diaeresis */
+      tm[215] =    "times";       /* multiplication sign */
+      tm[216] =    "Oslash";      /* Latin capital letter o with stroke */
+      tm[217] =    "Ugrave";      /* Latin capital letter u with grave */
+      tm[218] =    "Uacute";      /* Latin capital letter u with acute */
+      tm[219] =    "Ucirc";       /* Latin capital letter u with circumflex */
+      tm[220] =    "Uuml";        /* Latin capital letter u with diaeresis */
+      tm[221] =    "Yacute";      /* Latin capital letter y with acute */
+      tm[222] =    "THORN";       /* Latin capital letter thorn */
+      tm[223] =    "szlig";       /* Latin small letter sharp sXCOMMAX German Eszett */
+      tm[224] =    "agrave";      /* Latin small letter a with grave */
+      tm[225] =    "aacute";      /* Latin small letter a with acute */
+      tm[226] =    "acirc";       /* Latin small letter a with circumflex */
+      tm[227] =    "atilde";      /* Latin small letter a with tilde */
+      tm[228] =    "auml";        /* Latin small letter a with diaeresis */
+      tm[229] =    "aring";       /* Latin small letter a with ring above */
+      tm[230] =    "aelig";       /* Latin lowercase ligature ae */
+      tm[231] =    "ccedil";      /* Latin small letter c with cedilla */
+      tm[232] =    "egrave";      /* Latin small letter e with grave */
+      tm[233] =    "eacute";      /* Latin small letter e with acute */
+      tm[234] =    "ecirc";       /* Latin small letter e with circumflex */
+      tm[235] =    "euml";        /* Latin small letter e with diaeresis */
+      tm[236] =    "igrave";      /* Latin small letter i with grave */
+      tm[237] =    "iacute";      /* Latin small letter i with acute */
+      tm[238] =    "icirc";       /* Latin small letter i with circumflex */
+      tm[239] =    "iuml";        /* Latin small letter i with diaeresis */
+      tm[240] =    "eth";         /* Latin small letter eth */
+      tm[241] =    "ntilde";      /* Latin small letter n with tilde */
+      tm[242] =    "ograve";      /* Latin small letter o with grave */
+      tm[243] =    "oacute";      /* Latin small letter o with acute */
+      tm[244] =    "ocirc";       /* Latin small letter o with circumflex */
+      tm[245] =    "otilde";      /* Latin small letter o with tilde */
+      tm[246] =    "ouml";        /* Latin small letter o with diaeresis */
+      tm[247] =    "divide";      /* division sign */
+      tm[248] =    "oslash";      /* Latin small letter o with stroke */
+      tm[249] =    "ugrave";      /* Latin small letter u with grave */
+      tm[250] =    "uacute";      /* Latin small letter u with acute */
+      tm[251] =    "ucirc";       /* Latin small letter u with circumflex */
+      tm[252] =    "uuml";        /* Latin small letter u with diaeresis */
+      tm[253] =    "yacute";      /* Latin small letter y with acute */
+      tm[254] =    "thorn";       /* Latin small letter thorn */
+      tm[255] =    "yuml";        /* Latin small letter y with diaeresis */
+      tm[338] =    "OElig";       /* Latin capital ligature oe */
+      tm[339] =    "oelig";       /* Latin small ligature oe */
+      tm[352] =    "Scaron";      /* Latin capital letter s with caron */
+      tm[353] =    "scaron";      /* Latin small letter s with caron */
+      tm[376] =    "Yuml";        /* Latin capital letter y with diaeresis */
+      tm[402] =    "fnof";        /* Latin small letter f with hook */
+      tm[710] =    "circ";        /* modifier letter circumflex accent */
+      tm[732] =    "tilde";       /* small tilde */
+      tm[913] =    "Alpha";       /* Greek capital letter alpha */
+      tm[914] =    "Beta";        /* Greek capital letter beta */
+      tm[915] =    "Gamma";       /* Greek capital letter gamma */
+      tm[916] =    "Delta";       /* Greek capital letter delta */
+      tm[917] =    "Epsilon";     /* Greek capital letter epsilon */
+      tm[918] =    "Zeta";        /* Greek capital letter zeta */
+      tm[919] =    "Eta";         /* Greek capital letter eta */
+      tm[920] =    "Theta";       /* Greek capital letter theta */
+      tm[921] =    "Iota";        /* Greek capital letter iota */
+      tm[922] =    "Kappa";       /* Greek capital letter kappa */
+      tm[923] =    "Lambda";      /* Greek capital letter lambda */
+      tm[924] =    "Mu";          /* Greek capital letter mu */
+      tm[925] =    "Nu";          /* Greek capital letter nu */
+      tm[926] =    "Xi";          /* Greek capital letter xi */
+      tm[927] =    "Omicron";     /* Greek capital letter omicron */
+      tm[928] =    "Pi";          /* Greek capital letter pi */
+      tm[929] =    "Rho";         /* Greek capital letter rho */
+      tm[931] =    "Sigma";       /* Greek capital letter sigma */
+      tm[932] =    "Tau";         /* Greek capital letter tau */
+      tm[933] =    "Upsilon";     /* Greek capital letter upsilon */
+      tm[934] =    "Phi";         /* Greek capital letter phi */
+      tm[935] =    "Chi";         /* Greek capital letter chi */
+      tm[936] =    "Psi";         /* Greek capital letter psi */
+      tm[937] =    "Omega";       /* Greek capital letter omega */
+      tm[945] =    "alpha";       /* Greek small letter alpha */
+      tm[946] =    "beta";        /* Greek small letter beta */
+      tm[947] =    "gamma";       /* Greek small letter gamma */
+      tm[948] =    "delta";       /* Greek small letter delta */
+      tm[949] =    "epsilon";     /* Greek small letter epsilon */
+      tm[950] =    "zeta";        /* Greek small letter zeta */
+      tm[951] =    "eta";         /* Greek small letter eta */
+      tm[952] =    "theta";       /* Greek small letter theta */
+      tm[953] =    "iota";        /* Greek small letter iota */
+      tm[954] =    "kappa";       /* Greek small letter kappa */
+      tm[955] =    "lambda";      /* Greek small letter lambda */
+      tm[956] =    "mu";          /* Greek small letter mu */
+      tm[957] =    "nu";          /* Greek small letter nu */
+      tm[958] =    "xi";          /* Greek small letter xi */
+      tm[959] =    "omicron";     /* Greek small letter omicron */
+      tm[960] =    "pi";          /* Greek small letter pi */
+      tm[961] =    "rho";         /* Greek small letter rho */
+      tm[962] =    "sigmaf";      /* Greek small letter final sigma */
+      tm[963] =    "sigma";       /* Greek small letter sigma */
+      tm[964] =    "tau";         /* Greek small letter tau */
+      tm[965] =    "upsilon";     /* Greek small letter upsilon */
+      tm[966] =    "phi";         /* Greek small letter phi */
+      tm[967] =    "chi";         /* Greek small letter chi */
+      tm[968] =    "psi";         /* Greek small letter psi */
+      tm[969] =    "omega";       /* Greek small letter omega */
+      tm[977] =    "thetasym";    /* Greek theta symbol */
+      tm[978] =    "upsih";       /* Greek upsilon with hook symbol */
+      tm[982] =    "piv";         /* Greek pi symbol */
+      tm[8194] =   "ensp";        /* en space */
+      tm[8195] =   "emsp";        /* em space */
+      tm[8201] =   "thinsp";      /* thin space */
+      tm[8204] =   "zwnj";        /* zero width non-joiner */
+      tm[8205] =   "zwj";         /* zero width joiner */
+      tm[8206] =   "lrm";         /* left-to-right mark */
+      tm[8207] =   "rlm";         /* right-to-left mark */
+      tm[8211] =   "ndash";       /* en dash */
+      tm[8212] =   "mdash";       /* em dash */
+      tm[8216] =   "lsquo";       /* left single quotation mark */
+      tm[8217] =   "rsquo";       /* right single quotation mark */
+      tm[8218] =   "sbquo";       /* single low-9 quotation mark */
+      tm[8220] =   "ldquo";       /* left double quotation mark */
+      tm[8221] =   "rdquo";       /* right double quotation mark */
+      tm[8222] =   "bdquo";       /* double low-9 quotation mark */
+      tm[8224] =   "dagger";      /* dagger */
+      tm[8225] =   "Dagger";      /* double dagger */
+      tm[8226] =   "bull";        /* bullet */
+      tm[8230] =   "hellip";      /* horizontal ellipsis */
+      tm[8240] =   "permil";      /* per mille sign */
+      tm[8242] =   "prime";       /* prime */
+      tm[8243] =   "Prime";       /* double prime */
+      tm[8249] =   "lsaquo";      /* single left-pointing angle quotation mark */
+      tm[8250] =   "rsaquo";      /* single right-pointing angle quotation mark */
+      tm[8254] =   "oline";       /* overline */
+      tm[8260] =   "frasl";       /* fraction slash */
+      tm[8364] =   "euro";        /* euro sign */
+      tm[8465] =   "image";       /* black-letter capital i */
+      tm[8472] =   "weierp";      /* script capital pXCOMMAX Weierstrass p */
+      tm[8476] =   "real";        /* black-letter capital r */
+      tm[8482] =   "trade";       /* trademark sign */
+      tm[8501] =   "alefsym";     /* alef symbol */
+      tm[8592] =   "larr";        /* leftwards arrow */
+      tm[8593] =   "uarr";        /* upwards arrow */
+      tm[8594] =   "rarr";        /* rightwards arrow */
+      tm[8595] =   "darr";        /* downwards arrow */
+      tm[8596] =   "harr";        /* left right arrow */
+      tm[8629] =   "crarr";       /* downwards arrow with corner leftwards */
+      tm[8656] =   "lArr";        /* leftwards double arrow */
+      tm[8657] =   "uArr";        /* upwards double arrow */
+      tm[8658] =   "rArr";        /* rightwards double arrow */
+      tm[8659] =   "dArr";        /* downwards double arrow */
+      tm[8660] =   "hArr";        /* left right double arrow */
+      tm[8704] =   "forall";      /* for all */
+      tm[8706] =   "part";        /* partial differential */
+      tm[8707] =   "exist";       /* there exists */
+      tm[8709] =   "empty";       /* empty set */
+      tm[8711] =   "nabla";       /* nabla */
+      tm[8712] =   "isin";        /* element of */
+      tm[8713] =   "notin";       /* not an element of */
+      tm[8715] =   "ni";          /* contains as member */
+      tm[8719] =   "prod";        /* n-ary product */
+      tm[8721] =   "sum";         /* n-ary summation */
+      tm[8722] =   "minus";       /* minus sign */
+      tm[8727] =   "lowast";      /* asterisk operator */
+      tm[8730] =   "radic";       /* square root */
+      tm[8733] =   "prop";        /* proportional to */
+      tm[8734] =   "infin";       /* infinity */
+      tm[8736] =   "ang";         /* angle */
+      tm[8743] =   "and";         /* logical and */
+      tm[8744] =   "or";          /* logical or */
+      tm[8745] =   "cap";         /* intersection */
+      tm[8746] =   "cup";         /* union */
+      tm[8747] =   "int";         /* integral */
+      tm[8756] =   "there4";      /* therefore */
+      tm[8764] =   "sim";         /* tilde operator */
+      tm[8773] =   "cong";        /* congruent to */
+      tm[8776] =   "asymp";       /* almost equal to */
+      tm[8800] =   "ne";          /* not equal to */
+      tm[8801] =   "equiv";       /* identical toXCOMMAX equivalent to */
+      tm[8804] =   "le";          /* less-than or equal to */
+      tm[8805] =   "ge";          /* greater-than or equal to */
+      tm[8834] =   "sub";         /* subset of */
+      tm[8835] =   "sup";         /* superset of */
+      tm[8836] =   "nsub";        /* not a subset of */
+      tm[8838] =   "sube";        /* subset of or equal to */
+      tm[8839] =   "supe";        /* superset of or equal to */
+      tm[8853] =   "oplus";       /* circled plus */
+      tm[8855] =   "otimes";      /* circled times */
+      tm[8869] =   "perp";        /* up tack */
+      tm[8901] =   "sdot";        /* dot operator */
+      tm[8968] =   "lceil";       /* left ceiling */
+      tm[8969] =   "rceil";       /* right ceiling */
+      tm[8970] =   "lfloor";      /* left floor */
+      tm[8971] =   "rfloor";      /* right floor */
+      tm[9001] =   "lang";        /* left-pointing angle bracket */
+      tm[9002] =   "rang";        /* right-pointing angle bracket */
+      tm[9674] =   "loz";         /* lozenge */
+      tm[9824] =   "spades";      /* black spade suit */
+      tm[9827] =   "clubs";       /* black club suit */
+      tm[9829] =   "hearts";      /* black heart suit */
+      tm[9830] =   "diams";       /* black diamond suit */
 
+      map = temp;
       init = true;
       MEMORY_BARRIER();
 
     } // Inner !init
   } // Outer !init
 
+  MEMORY_BARRIER();
   return *map.get();
 }
 
@@ -456,47 +463,48 @@ const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
   //trie.put(entry.getValue(), entry.getKey());
   //return Trie.Util.unmodifiable(trie);  
 
-   // Double checked intialization
   static volatile bool init = false;
   static boost::shared_ptr<EntityTrie> trie;
 
-  MEMORY_BARRIER();
-
   // First check
+  MEMORY_BARRIER();
   if(!init)
   {
     // Acquire the lock
     MutexLock lock(getClassMutex());
 
-    // Verify we did not acquire the lock after another thread initialized and and released
+    // Second check
     if(!init)
     {
-      trie = boost::shared_ptr<EntityTrie>(new EntityTrie);
-      ASSERT(trie);
-      if(nullptr == trie.get())
+      boost::shared_ptr<EntityTrie> temp(new EntityTrie);
+      ASSERT(nullptr != temp);
+      if(nullptr == temp.get())
         throw std::bad_alloc();
 
       // Convenience
-      EntityTrie& t = *trie.get();
+      EntityTrie& tet = *temp.get();
 
       const EntityMap& entityMap = esapi::HTMLEntityCodec::getCharacterToEntityMap();
       EntityMap::const_iterator it = entityMap.begin();
 
       for(; it != entityMap.end(); it++)
       {
-        // trie.insert( std::pair<char, std::string>(it->second, it->first) );
+        // tet.insert( std::pair<char, std::string>(it->second, it->first) );
       }
 
+      trie = temp;
       init = true;
       MEMORY_BARRIER();
 
     } // Inner !init
   } // Outer !init
 
+  MEMORY_BARRIER();
   return *trie.get();
 }
 
-std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const{
+std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const
+{
   ASSERT(immune);
   ASSERT(length);
   /*
