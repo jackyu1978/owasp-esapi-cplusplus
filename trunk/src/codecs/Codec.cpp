@@ -33,8 +33,7 @@ static const size_t ARR_SIZE = 256;
 
 //
 // Thread safe, multiprocessor initialization
-// http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
-// Despite being a Java article, it offers a C++/Memory Barrier sample
+// http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
 //
 
 const esapi::HexArray& esapi::Codec::getHexArray ()
