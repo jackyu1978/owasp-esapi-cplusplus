@@ -29,7 +29,7 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
-class WindowsCodec : Codec {
+class WindowsCodec : public Codec {
 
 public:
 	/**

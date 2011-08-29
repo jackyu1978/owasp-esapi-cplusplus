@@ -35,7 +35,7 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
-class DefaultEncoder : Encoder {
+class DefaultEncoder : public Encoder {
 
 private:
 	static Encoder* singletonInstance;
@@ -125,7 +125,7 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForOS(const Codec&, const std::string &);
+	std::string encodeForOS(const Codec*, const std::string &);
 
 	/**
 	 * {@inheritDoc}
