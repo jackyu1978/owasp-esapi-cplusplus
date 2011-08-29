@@ -22,7 +22,6 @@
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
 #include "codecs/PushbackString.h"
-#include "codecs/Trie.h"
 #include "codecs/Codec.h"
 
 namespace esapi {
@@ -38,7 +37,6 @@ namespace esapi {
   class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
 
     typedef std::map<int,std::string> EntityMap;
-    typedef Trie<int> EntityTrie;
 
   private:
     static unsigned int REPLACEMENT_CHAR();
@@ -109,12 +107,6 @@ namespace esapi {
     * @return Unmodifiable map.
     */
     static const EntityMap& getCharacterToEntityMap();
-
-    /**
-    * Build a unmodifiable Trie from entitiy Name to Character
-    * @return Unmodifiable trie.
-    */
-    static const EntityTrie& getEntityToCharacterTrie();
 
   public:
     /**

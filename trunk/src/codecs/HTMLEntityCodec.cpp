@@ -451,55 +451,6 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
   return *map.get();
 }
 
-/**
-* Build a unmodifiable Trie from entitiy Name to Character
-* @return Unmodifiable trie.
-*/
-const esapi::Trie<int>& esapi::HTMLEntityCodec::getEntityToCharacterTrie()
-{
-  //for(Map.Entry<Character,String> entry : characterToEntityMap.entrySet())
-  //trie.put(entry.getValue(), entry.getKey());
-  //return Trie.Util.unmodifiable(trie);  
-
-  static volatile bool init = false;
-  static boost::shared_ptr<EntityTrie> trie;
-
-  // First check
-  MEMORY_BARRIER();
-  if(!init)
-  {
-    // Acquire the lock
-    MutexLock lock(getClassMutex());
-
-    // Second check
-    if(!init)
-    {
-      boost::shared_ptr<EntityTrie> temp(new EntityTrie);
-      ASSERT(nullptr != temp);
-      if(nullptr == temp.get())
-        throw std::bad_alloc();
-
-      // Convenience
-      EntityTrie& tet = *temp.get();
-
-      const EntityMap& entityMap = esapi::HTMLEntityCodec::getCharacterToEntityMap();
-      EntityMap::const_iterator it = entityMap.begin();
-
-      for(; it != entityMap.end(); it++)
-      {
-        // tet.insert( std::pair<char, std::string>(it->second, it->first) );
-      }
-
-      trie = temp;
-      init = true;
-      MEMORY_BARRIER();
-
-    } // Inner !init
-  } // Outer !init
-
-  return *trie.get();
-}
-
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const
 {
   ASSERT(immune);

@@ -227,18 +227,8 @@ std::string esapi::DefaultEncoder::encodeForSQL(const Codec &codec, const std::s
 	return "";
 }
 
-<<<<<<< .mine
 std::string esapi::DefaultEncoder::encodeForOS(const Codec *codec, const std::string & input) {
 	ASSERT(codec);
-=======
-std::string esapi::DefaultEncoder::encodeForOS(const Codec &codec, const std::string & input) {
-/*
-            if( input == null ) {
-                return null;
-            }
-            return codec.encode( IMMUNE_OS, input);
- */
->>>>>>> .r342
 
 	if (codec == nullptr)
 		throw new NullPointerException("encoderForOS(..) : Null pointer to codec");
