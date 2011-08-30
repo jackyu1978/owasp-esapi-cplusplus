@@ -59,10 +59,8 @@ esapi::Validator* esapi::DefaultValidator::getInstance() {
 
 
 esapi::DefaultValidator::DefaultValidator()
-	//: //rules(new std::map<std::string, esapi::ValidationRule*>),
-	//  encoder(&new esapi::Encoder*)
+	: rules(), encoder(nullptr)
 {
-	esapi::DefaultValidator::encoder = nullptr;
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 

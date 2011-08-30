@@ -41,17 +41,19 @@ namespace esapi
    */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
   {
-    std::string alg = normalizeAlgortihm(algorithm);
-    ASSERT( !alg.empty() );
+    const std::string alg(algorithm.c_str(), algorithm.length());
+    const std::string normal = normalizeAlgortihm(alg);
+    ASSERT( !normal.empty() );
 
-    if(alg.empty())
+    if(normal.empty())
       {
         std::ostringstream oss;
         oss << "Algorithm \'" << algorithm << "\' is not supported.";
         throw EncryptionException(oss.str());
       }
 
-    SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
+    MEMORY_BARRIER();
+    SecureRandomImpl* impl = SecureRandomImpl::createInstance(normal);
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
