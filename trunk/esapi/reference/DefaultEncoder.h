@@ -18,6 +18,7 @@
 
 #include "Encoder.h"
 #include "codecs/Codec.h"
+#include "codecs/LDAPCodec.h"
 //#include "Logger.h"
 #include "errors/EncodingException.h"
 #include <list>
@@ -42,7 +43,8 @@ private:
 	//const Logger* logger;
 
 	// Codecs
-	std::list<Codec*> codecs;
+	std::list<const Codec*> codecs;
+	LDAPCodec ldapCodec;
 	//HTMLEntityCodec htmlCodec;
 	//XMLEntityCodec xmlCodec;
 	//PercentCodec percentCodec;
