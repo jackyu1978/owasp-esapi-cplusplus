@@ -59,26 +59,22 @@ esapi::Validator* esapi::DefaultValidator::getInstance() {
 
 
 esapi::DefaultValidator::DefaultValidator()
-	: rules(), encoder(nullptr)
+	: rules(), encoder()
 {
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-esapi::DefaultValidator::DefaultValidator( const esapi::Encoder &)
-	//: //rules(new std::map<std::string, esapi::ValidationRule*>),
-	//  encoder(new esapi::Encoder)
+esapi::DefaultValidator::DefaultValidator(esapi::Encoder* encoder)
+	: rules(), encoder(encoder)
 {
-	esapi::DefaultValidator::encoder = nullptr;
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 //TODO must override to get rid of pointer member warning
-esapi::DefaultValidator::DefaultValidator(const esapi::DefaultValidator&)
-	//: //rules(new std::map<std::string, esapi::ValidationRule*>),
-	//  encoder(new esapi::Encoder)
+esapi::DefaultValidator::DefaultValidator(const esapi::DefaultValidator& other)
+	: rules(other.rules), encoder(other.encoder)
 {
-	esapi::DefaultValidator::encoder = nullptr;
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
