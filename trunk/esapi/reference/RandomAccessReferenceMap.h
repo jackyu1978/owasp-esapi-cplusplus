@@ -7,7 +7,7 @@
 
 namespace esapi
 {
-	class RandomAccessReferenceMap : AccessReferenceMap
+	class ESAPI_EXPORT RandomAccessReferenceMap : AccessReferenceMap
 	{
 	protected:
 

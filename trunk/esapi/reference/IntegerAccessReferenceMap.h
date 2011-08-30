@@ -7,7 +7,7 @@
 
 namespace esapi
 {
-	class IntegerAccessReferenceMap : AccessReferenceMap
+	class ESAPI_EXPORT IntegerAccessReferenceMap : AccessReferenceMap
 	{
 	protected:
 
