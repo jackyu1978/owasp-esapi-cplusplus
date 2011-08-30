@@ -25,7 +25,7 @@ using namespace boost::unit_test;
 
 using esapi::Codec;
 
-BOOST_AUTO_TEST_CASE( CodecContainsCharacter)
+BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
 {
   Codec codec;
 

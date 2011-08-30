@@ -308,6 +308,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\codecs\LDAPCodec.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\codecs\PushbackString.cpp"
 					>
 				</File>
@@ -542,6 +546,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\LDAPCodec.h"
 						>
 					</File>
 					<File
