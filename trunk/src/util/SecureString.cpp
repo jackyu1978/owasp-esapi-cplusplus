@@ -216,6 +216,11 @@ namespace esapi
     return m_base.data();
   }
 
+  SecureString::size_type SecureString::length() const
+  {
+    return m_base.length();
+  }
+
   SecureString::size_type SecureString::size() const
   {
     return m_base.size();
@@ -224,7 +229,9 @@ namespace esapi
   // Swap
   void SecureString::swap(SecureString& str)
   {
-    m_base.swap(SecureStringBase(str.data(), str.size()));
+    SecureStringBase temp(str.data(), str.size());
+    m_base.swap(temp);
+    str = SecureString(temp.data(), temp.size());
   }
 
   void SecureString::swap(std::string& str)

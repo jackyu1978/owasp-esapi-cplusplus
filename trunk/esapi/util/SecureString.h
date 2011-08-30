@@ -83,6 +83,7 @@ namespace esapi
 
     virtual const char* c_str() const;
     virtual const char* data() const;
+    virtual size_type length() const;
     virtual size_type size() const;
 
     virtual void swap(SecureString& str);
