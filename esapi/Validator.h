@@ -127,12 +127,12 @@ namespace esapi
 		/**
 		 * Calls isValidDate and returns true if no exceptions are thrown.
 		 */
-		virtual bool isValidDate(const std::string &, const std::string &, DateFormat &, bool) throw (IntrusionException) =0;
+		virtual bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool) throw (IntrusionException) =0;
 
 		/**
 		 * Calls isValidDate and returns true if no exceptions are thrown.
 		 */
-		virtual bool isValidDate(const std::string &, const std::string &, DateFormat &, bool, ValidationErrorList &) throw (IntrusionException) =0;
+		virtual bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &) throw (IntrusionException) =0;
 
 		/**
 		 * Returns a valid date as a Date. Invalid input will generate a descriptive ValidationException, and input that is clearly an attack
@@ -152,12 +152,12 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual char* getValidDate(const std::string &, const std::string &, DateFormat &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool) throw (ValidationException, IntrusionException) =0;
 
 		/**
 		 * Calls getValidDate with the supplied errorList to capture ValidationExceptions
 		 */
-		virtual char* getValidDate(const std::string &, const std::string &, DateFormat &, bool, ValidationErrorList &) throw (IntrusionException) =0;
+		virtual char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &) throw (IntrusionException) =0;
 
 
 		//virtual bool isValidSafeHTML(String, String, int, bool) =0 throw (IntrusionException);
@@ -541,7 +541,7 @@ namespace esapi
 		 *
 		 *  @throws ValidationException
 		 */
-		virtual char* getValidPrintable(const std::string &, char[], int, bool) throw (ValidationException) =0;
+		virtual char* getValidPrintable(const std::string &, char[], int, bool) throw (ValidationException, IntrusionException) =0;
 
 		/**
 		 * Calls getValidPrintable with the supplied errorList to capture ValidationExceptions
@@ -576,7 +576,7 @@ namespace esapi
 		 *
 		 *  @throws ValidationException
 		 */
-		virtual std::string getValidPrintable(const std::string &, const std::string &, int, bool) throw (ValidationException) =0;
+		virtual std::string getValidPrintable(const std::string &, const std::string &, int, bool) throw (ValidationException, IntrusionException) =0;
 
 		/**
 		 * Calls getValidPrintable with the supplied errorList to capture ValidationExceptions

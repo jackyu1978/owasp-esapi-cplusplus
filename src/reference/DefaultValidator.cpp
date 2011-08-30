@@ -19,4 +19,5 @@
 
 #include "Validator.h"
 #include "ValidationRule.h"
+#include "reference/DefaultValidator.h"
 #include "reference/validation/BaseValidationRule.h"
