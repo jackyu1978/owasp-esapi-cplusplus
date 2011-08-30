@@ -20,6 +20,8 @@
 #pragma once
 
 #include "Validator.h"
+#include "errors/ValidationException.h"
+#include "errors/IntrusionException.h"
 
 #include <map>
 #include <string>
@@ -37,13 +39,13 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Validator
  */
-class DefaultValidator : Validator {
+class DefaultValidator : public Validator {
 private:
 
 	static Validator* instance;
 
 	/** A map of validation rules */
-	std::map<std::string, ValidationRule> rules;
+	std::map<std::string, const ValidationRule*> rules;
 
 	/** The encoder to use for canonicalization */
 	Encoder* encoder;
@@ -105,7 +107,7 @@ public:
 
 	//TODO must override to get rid of pointer member warning
 	DefaultValidator(const esapi::DefaultValidator&);
-
+	DefaultValidator& operator=(const esapi::DefaultValidator&);
 
 	/**
 	 * Add a validation rule to the registry using the "type name" of the rule as the key.
