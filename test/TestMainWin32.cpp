@@ -56,9 +56,11 @@ int main(int, char**)
   pool.Reseed();
   pool.GenerateBlock(scratch, sizeof(scratch));
 
+#if 0 
   SecureRandom prng = SecureRandom::getInstance("SHA1");
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
+#endif
 
   prng = SecureRandom::getInstance("HmacSHA1");
   prng.nextBytes(scratch, sizeof(scratch));
