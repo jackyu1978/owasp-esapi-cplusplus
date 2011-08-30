@@ -36,7 +36,7 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
-class DefaultEncoder : public Encoder {
+class ESAPI_EXPORT DefaultEncoder : public Encoder {
 
 private:
 	static Encoder* singletonInstance;

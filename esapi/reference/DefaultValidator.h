@@ -41,7 +41,7 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Validator
  */
-class DefaultValidator : public Validator {
+class ESAPI_EXPORT DefaultValidator : public Validator {
 private:
 
 	static Validator* instance;
