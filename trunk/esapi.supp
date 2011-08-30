@@ -65,9 +65,63 @@
    ...
 }
 
+
+{
+   Boost Logging 1
+   drd:ConflictingAccess
+   ...
+   fun:_ZN5boost9unit_test15unit_test_log_t14set_checkpointENS0_13basic_cstringIKcEEmS4_
+   ...
+}
+
+{
+   Boost Logging 2
+   drd:ConflictingAccess
+   fun:_ZN5boost9unit_test15unit_test_log_tlsERKNS0_3log5beginE
+   ...
+}
+
+{
+   Boost Logging 3
+   drd:ConflictingAccess
+   ...
+   fun:_ZN5boost9unit_test15unit_test_log_tlsERKNS0_3log5beginE
+   ...
+}
+
+{
+   Boost Logging 4
+   drd:ConflictingAccess
+   ...
+   fun:_ZN5boost10test_tools9tt_detail10check_implERKNS0_16predicate_resultERKNS_9unit_test12lazy_ostreamENS5_13basic_cstringIKcEEmNS1_10tool_levelENS1_10check_typeEmz
+   ...
+}
+
+{
+   Boost Logging 5
+   drd:ConflictingAccess
+   fun:_ZN5boost9unit_test15unit_test_log_tlsERKNS0_3log3endE
+   ...
+}
+
+{
+   Boost Logging 6
+   drd:ConflictingAccess
+   ...
+   fun:_ZN5boost9unit_test15unit_test_log_tlsERKNS0_3log3endE
+   ...
+}
+
 ################################################################################################
 ## ESAPI
 ################################################################################################
+
+{
+   Byte Array Zeroizer (assignment to g_dummy)
+   drd:ConflictingAccess
+   fun:_ZN5esapi13ArrayZeroizerIhED1Ev
+   ...
+}
 
 {
    Byte Array Zeroizer (assignment to g_dummy)

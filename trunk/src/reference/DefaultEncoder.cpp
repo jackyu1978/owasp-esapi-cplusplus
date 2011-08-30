@@ -46,7 +46,9 @@ const char esapi::DefaultEncoder::IMMUNE_OS [] = { '-' };
 const char esapi::DefaultEncoder::IMMUNE_XMLATTR [] = { ',', '.', '-', '_' };
 const char esapi::DefaultEncoder::IMMUNE_XPATH [] = { ',', '.', '-', '_', ' ' };
 
-esapi::DefaultEncoder::DefaultEncoder() : codecs() {
+esapi::DefaultEncoder::DefaultEncoder()
+  : codecs(), ldapCodec()
+{
 	//esapi::LDAPCodec ldapCodec = new esapi::LDAPCodec;
 /*
                 codecs.as->dd( htmlCodec );
@@ -70,7 +72,9 @@ const esapi::Encoder& esapi::DefaultEncoder::getInstance() {
 	return *enc;
 }
 
-esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames) : codecs() {
+esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames)
+  : codecs(), ldapCodec()
+{
 /*
                 for ( String clazz : codecNames ) {
                         try {

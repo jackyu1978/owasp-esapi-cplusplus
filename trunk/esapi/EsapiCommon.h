@@ -277,6 +277,8 @@ ESAPI_MS_NO_WARNING(4290)
 # define MEMORY_BARRIER() __memory_barrier()
 #elif defined(ESAPI_CXX_GCC)
 # define MEMORY_BARRIER() __asm__ __volatile__ ("" ::: "memory")
+#else
+# error "Unknown compiler"
 #endif
 
 // Some stuff needs to be exported for testing. For example,
