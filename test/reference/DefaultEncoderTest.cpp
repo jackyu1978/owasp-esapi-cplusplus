@@ -53,4 +53,6 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	BOOST_CHECK(encoded.compare("YXNkZg==") == 0); //base64 value of `asdf`
 	BOOST_CHECK(de.decodeFromBase64(encoded).compare("asdf")==0);
 
+	BOOST_CHECK(de.encodeForLDAP("asd\\f").compare("asd\\5cf")==0);
+
 }

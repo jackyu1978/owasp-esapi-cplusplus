@@ -22,9 +22,12 @@
 esapi::Encoder* esapi::DefaultEncoder::singletonInstance = nullptr;
 //esapi::Logger* esapi::DefaultEncoder::logger = nullptr;
 
+
+// not static, so I don't think these need to be defined here
 // Codecs
-//std::list<esapi::Codec*> esapi::DefaultEncoder::codecs = nullptr;
+//std::list<const esapi::Codec*> esapi::DefaultEncoder::codecs;
 //esapi::HTMLEntityCodec esapi::DefaultEncoder::htmlCodec;
+//esapi::DefaultEncoder::ldapCodec = new esapi::LDAPCodec;
 //esapi::XMLEntityCodec esapi::DefaultEncoder::xmlCodec;
 //esapi::PercentCodec esapi::DefaultEncoder::percentCodec;
 //esapi::JavaScriptCodec esapi::DefaultEncoder::javaScriptCodec;
@@ -43,8 +46,9 @@ const char esapi::DefaultEncoder::IMMUNE_XMLATTR [] = { ',', '.', '-', '_' };
 const char esapi::DefaultEncoder::IMMUNE_XPATH [] = { ',', '.', '-', '_', ' ' };
 
 esapi::DefaultEncoder::DefaultEncoder() : codecs() {
+	//esapi::LDAPCodec ldapCodec = new esapi::LDAPCodec;
 /*
-                codecs.add( htmlCodec );
+                codecs.as->dd( htmlCodec );
                 codecs.add( percentCodec );
                 codecs.add( javaScriptCodec );
  */
@@ -244,37 +248,10 @@ std::string esapi::DefaultEncoder::encodeForOS(const Codec *codec, const std::st
 }
 
 std::string esapi::DefaultEncoder::encodeForLDAP(const std::string & input) {
-/*
-            if( input == null ) {
-                return null;
-            }
-                // TODO: replace with LDAP codec
-            StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < input.length(); i++) {
-                        char c = input.charAt(i);
-                        switch (c) {
-                        case '\\':
-                                sb.append("\\5c");
-                                break;
-                        case '*':
-                                sb.append("\\2a");
-                                break;
-                        case '(':
-                                sb.append("\\28");
-                                break;
-                        case ')':
-                                sb.append("\\29");
-                                break;
-                        case '\0':
-                                sb.append("\\00");
-                                break;
-                        default:
-                                sb.append(c);
-                        }
-                }
-                return sb.toString();
- */
-	return "";
+    if( input.compare("") == 0) {
+        return NULL;
+    }
+    return ldapCodec.encode( "", 0, input);
 }
 
 std::string esapi::DefaultEncoder::encodeForDN(const std::string & input) {
