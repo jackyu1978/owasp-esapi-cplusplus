@@ -304,51 +304,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\codecs\HashTrie.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath=".\src\codecs\HTMLEntityCodec.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\src\codecs\PushbackString.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\Trie.cpp"
 					>
 				</File>
 				<File
@@ -581,51 +541,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\HashTrie.h"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
 						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
 						>
 					</File>
 					<File
 						RelativePath=".\esapi\codecs\PushbackString.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\Trie.h"
 						>
 					</File>
 					<File
