@@ -16,6 +16,7 @@
 #include "codecs/WindowsCodec.h"
 
 #include "errors/NullPointerException.h"
+#include "errors/UnsupportedOperationException.h"
 
 #include <cryptopp/base64.h>
 
@@ -49,12 +50,12 @@ esapi::DefaultEncoder::DefaultEncoder() : codecs() {
 	//esapi::LDAPCodec ldapCodec = new esapi::LDAPCodec;
 /*
                 codecs.as->dd( htmlCodec );
-                codecs.add( percentCodec );
+                codecs.aldd( percentCodec );
                 codecs.add( javaScriptCodec );
  */
 }
 
-esapi::Encoder* esapi::DefaultEncoder::getInstance() {
+const esapi::Encoder& esapi::DefaultEncoder::getInstance() {
 	// TODO singleton?
 	/*         if ( singletonInstance == null ) {
             synchronized ( DefaultEncoder.class ) {
@@ -66,7 +67,7 @@ esapi::Encoder* esapi::DefaultEncoder::getInstance() {
         return singletonInstance;
 	 */
 	Encoder* enc = nullptr;
-	return enc;
+	return *enc;
 }
 
 esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames) : codecs() {
@@ -83,17 +84,16 @@ esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames) : code
 }
 
 std::string esapi::DefaultEncoder::canonicalize( const std::string & input) {
-	/*
-                if ( input == null ) {
-                        return null;
-                }
-
+	/* TODO Use security configuration
         // Issue 231 - These are reverse boolean logic in the Encoder interface, so we need to invert these values - CS
                 return canonicalize(input,
                                                         !ESAPI.securityConfiguration().getAllowMultipleEncoding(),
                                                         !ESAPI.securityConfiguration().getAllowMixedEncoding() );
 	 */
-	return "";
+	if ( input.compare("") == 0 ) {
+			return NULL;
+	}
+	return canonicalize(input, false, false);
 }
 
 std::string esapi::DefaultEncoder::canonicalize( const std::string & input, bool strict) {
@@ -169,7 +169,7 @@ std::string esapi::DefaultEncoder::encodeForHTML(const std::string & input) {
             return htmlCodec.encode( IMMUNE_HTML, input);
  */
 
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::decodeForHTML(const std::string & input) {
@@ -179,7 +179,7 @@ std::string esapi::DefaultEncoder::decodeForHTML(const std::string & input) {
             }
             return htmlCodec.decode( input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForHTMLAttribute(const std::string & input) {
@@ -190,7 +190,7 @@ std::string esapi::DefaultEncoder::encodeForHTMLAttribute(const std::string & in
             return htmlCodec.encode( IMMUNE_HTMLATTR, input)
  */
 
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForCSS(const std::string & input) {
@@ -200,7 +200,7 @@ std::string esapi::DefaultEncoder::encodeForCSS(const std::string & input) {
             }
             return cssCodec.encode( IMMUNE_CSS, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForJavaScript(const std::string & input) {
@@ -210,7 +210,7 @@ std::string esapi::DefaultEncoder::encodeForJavaScript(const std::string & input
             }
             return javaScriptCodec.encode(IMMUNE_JAVASCRIPT, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForVBScript(const std::string & input) {
@@ -220,7 +220,7 @@ std::string esapi::DefaultEncoder::encodeForVBScript(const std::string & input) 
             }
             return vbScriptCodec.encode(IMMUNE_VBSCRIPT, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForSQL(const Codec &codec, const std::string & input) {
@@ -230,7 +230,7 @@ std::string esapi::DefaultEncoder::encodeForSQL(const Codec &codec, const std::s
             }
             return codec.encode(IMMUNE_SQL, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForOS(const Codec *codec, const std::string & input) {
@@ -298,7 +298,7 @@ std::string esapi::DefaultEncoder::encodeForDN(const std::string & input) {
                 }
                 return sb.toString();
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForXPath(const std::string & input) {
@@ -308,7 +308,7 @@ std::string esapi::DefaultEncoder::encodeForXPath(const std::string & input) {
             }
             return htmlCodec.encode( IMMUNE_XPATH, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForXML(const std::string & input) {
@@ -318,7 +318,7 @@ std::string esapi::DefaultEncoder::encodeForXML(const std::string & input) {
             }
             return xmlCodec.encode( IMMUNE_XML, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForXMLAttribute(const std::string & input) {
@@ -328,7 +328,7 @@ std::string esapi::DefaultEncoder::encodeForXMLAttribute(const std::string & inp
             }
             return xmlCodec.encode( IMMUNE_XMLATTR, input);
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForURL(const std::string & input) throw (EncodingException) {
@@ -344,7 +344,7 @@ std::string esapi::DefaultEncoder::encodeForURL(const std::string & input) throw
                         throw new EncodingException("Encoding failure", "Problem URL encoding input", e);
                 }
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::decodeFromURL(const std::string & input) throw (EncodingException) {
@@ -361,7 +361,7 @@ std::string esapi::DefaultEncoder::decodeFromURL(const std::string & input) thro
                         throw new EncodingException("Decoding failed", "Problem URL decoding input", e);
                 }
  */
-	return "";
+	throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
 std::string esapi::DefaultEncoder::encodeForBase64(const std::string & input, bool wrap) {

@@ -70,7 +70,7 @@ private:
 	DefaultEncoder();
 
 public:
-	static Encoder* getInstance();
+	static const Encoder& getInstance();
 
 	DefaultEncoder( std::list<std::string> );
 
