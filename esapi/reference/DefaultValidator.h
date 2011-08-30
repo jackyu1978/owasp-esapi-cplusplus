@@ -26,6 +26,8 @@
 #include <map>
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
 namespace esapi {
 /**
  * Reference implementation of the Validator interface. This implementation
@@ -48,7 +50,7 @@ private:
 	std::map<std::string, const ValidationRule*> rules;
 
 	/** The encoder to use for canonicalization */
-	Encoder* encoder;
+	boost::shared_ptr<Encoder> encoder;
 
 	/** The encoder to use for file system */
 	static Validator* fileValidator;
@@ -103,7 +105,7 @@ public:
      *
      * @param encoder
      */
-	DefaultValidator( const Encoder &);
+	DefaultValidator(Encoder *);
 
 	//TODO must override to get rid of pointer member warning
 	DefaultValidator(const esapi::DefaultValidator&);
