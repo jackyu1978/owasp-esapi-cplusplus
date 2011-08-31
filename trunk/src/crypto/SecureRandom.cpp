@@ -41,19 +41,19 @@ namespace esapi
    */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
   {
-    const std::string alg(algorithm.c_str(), algorithm.length());
-    const std::string normal = normalizeAlgortihm(alg);
-    ASSERT( !normal.empty() );
+    const std::string alg(normalizeAlgortihm(algorithm));
+    MEMORY_BARRIER();
+    ASSERT( !alg.empty() );
 
-    if(normal.empty())
+    if(alg.empty())
       {
         std::ostringstream oss;
         oss << "Algorithm \'" << algorithm << "\' is not supported.";
         throw EncryptionException(oss.str());
       }
-
+    
+    SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
     MEMORY_BARRIER();
-    SecureRandomImpl* impl = SecureRandomImpl::createInstance(normal);
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
@@ -69,6 +69,8 @@ namespace esapi
   SecureRandom::SecureRandom(const std::string& algorithm)
     : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
+    ASSERT( !algorithm.empty() );
+    ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to create SecureRandom");
@@ -80,10 +82,7 @@ namespace esapi
   SecureRandom::SecureRandom(const byte seed[], size_t size)
     : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
   {
-    // This is an oddball case. Because we have a seed, we need the
-    // default generator with additional entropy. So the SHA classes
-    // provide an alternat CTOR for the job.
-
+    ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to create SecureRandom");
@@ -95,14 +94,27 @@ namespace esapi
   SecureRandom::SecureRandom(SecureRandomImpl* impl)
     : m_lock(new Mutex), m_impl(impl)
   {
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
    * Copy this secure random number generator (RNG).
    */
   SecureRandom::SecureRandom(const SecureRandom& rhs)
-    : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
+    // : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
   {
+    // Cannot initialize - we need to copy the lock to increment its
+    // reference count, and then acquire it to make sure we are not
+    // pulling 'this' out from under someone (including ourselves).
+    boost::shared_ptr<Mutex> tlock(m_lock);
+    ASSERT(tlock.get() != nullptr);
+    MutexLock lock(*tlock.get());
+
+    m_lock = rhs.m_lock;
+    m_impl = rhs.m_impl;
   }
 
   /**
@@ -112,6 +124,10 @@ namespace esapi
   {
     if(this != &rhs)
     {
+      boost::shared_ptr<Mutex> tlock(m_lock);
+      ASSERT(tlock.get() != nullptr);
+      MutexLock lock(*tlock.get());
+
       m_lock = rhs.m_lock;
       m_impl = rhs.m_impl;
     }
