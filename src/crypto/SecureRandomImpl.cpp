@@ -366,16 +366,24 @@ namespace esapi
   {
     // Assert here. Parameters are validated in HashGenerate()
     ASSERT(SeedLength == m_v.size());
-    ASSERT(SeedLength == m_c.size());
+    ASSERT(SeedLength == m_c.size());    
 
-    ASSERT(bytes && size);
-    ASSERT(m_rctr <= MaxReseed);
-    ASSERT(size <= MaxRequest);
-
-    // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
+    // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
+
+    ASSERT(bytes && size);
+    if( !(bytes && size) )
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
+
+    ASSERT(m_rctr <= MaxReseed);
+    if( !(m_rctr <= MaxReseed) )
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
+
+    ASSERT(size <= MaxRequest);
+    if( !(size <= MaxRequest) )
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -483,16 +491,8 @@ namespace esapi
     ASSERT(SeedLength == m_c.size());
 
     ASSERT(hash && hsize);
-    if( !hash || !hsize )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The hash buffer or size is not valid");
-
     ASSERT(m_rctr <= MaxReseed);
-    if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required.");
-
     ASSERT(hsize <= MaxRequest);
-    if( !(hsize <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -791,14 +791,22 @@ namespace esapi
     ASSERT(DigestLength == m_v.size());
     ASSERT(DigestLength == m_k.size());
 
-    ASSERT(bytes && size);
-    ASSERT(m_rctr <= MaxReseed);
-    ASSERT(size <= MaxRequest);
-
-    // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
+    // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
+
+    ASSERT(bytes && size);
+    if( !(bytes && size) )
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The buffer or size is not valid.");
+
+    ASSERT(m_rctr <= MaxReseed);
+    if( !(m_rctr <= MaxReseed) )
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required.");
+
+    ASSERT(size <= MaxRequest);
+    if( !(size <= MaxRequest) )
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -962,6 +970,10 @@ namespace esapi
     ASSERT(DigestLength == m_k.size());
 
     ASSERT(hash && hsize);
+    ASSERT(m_rctr <= MaxReseed);
+    ASSERT(hsize <= MaxRequest);
+
+    ASSERT(hash && hsize);
     if( !hash || !hsize )
       throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The hash buffer or size is not valid");
 
@@ -1111,10 +1123,23 @@ namespace esapi
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
-    // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
+    // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
+
+    ASSERT(bytes && size);
+    if( !(bytes && size) )
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
+
+    ASSERT(m_rctr <= MaxReseed);
+    if( !(m_rctr <= MaxReseed) )
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. A reseed is required.");
+
+    ASSERT(size <= MaxRequest);
+    if( !(size <= MaxRequest) )
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
+
 
     throw std::runtime_error("Not implemented");
   }

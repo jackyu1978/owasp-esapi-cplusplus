@@ -266,6 +266,11 @@ namespace esapi
     virtual void nextBytesImpl(byte bytes[], size_t size);
     virtual void setSeedImpl(const byte seed[], size_t size);
     virtual void setSeedImpl(int seed);
+
+  private:
+    CryptoPP::SecByteBlock m_v;
+    CryptoPP::SecByteBlock m_c;
+    size_t m_rctr;
   };
 
   template <class HASH, class DRBGINFO>
