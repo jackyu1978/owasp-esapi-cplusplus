@@ -129,10 +129,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
+    const string encoded = codec.encodeCharacter(NULL, 0, (char)tests[i].c);
     const string expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character " + expected);
   }
 }
 
