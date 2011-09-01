@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cctype>
 
 #define HEX(x) std::hex << std::setw(x) << std::setfill('0')
 #define OCT(x) std::octal << std::setw(x) << std::setfill('0')
@@ -455,7 +456,7 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
 
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const
 {
-  return encodeCharacter(immune, length, static_cast<int>(c));
+  return encodeCharacter(immune, length, 0xFF & static_cast<int>(c));
 }
 
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, int c) const
@@ -464,13 +465,10 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   ASSERT(length);
 
   // check for immune characters
-  std::string str(immune ? std::string(immune, length) : "" );
+  std::string str(immune ? std::string(immune, length) : std::string());
   if (containsCharacter(c, str)) {
     return std::string(1,c);
   }
-
-  if(::isalphanum(c))
-    return std::string(1, c);
 
   // check for alphanumeric characters
   ASSERT(0);
@@ -492,6 +490,9 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   EntityMapIterator it = map.find(c);
   if(map.end() != it)
     return std::string("&") + it->second + std::string(";");
+
+  if(::isalnum(c))
+    return std::string(1, c);
 
   // return the hex entity as suggested in the spec
   std::ostringstream oss;
