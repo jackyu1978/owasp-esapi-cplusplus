@@ -280,6 +280,47 @@ namespace esapi
     n.Encode(buff+off, len);
   }
 
+  /**
+   * Convenience function to perform a cascading add modulo power2 base.
+   * In essence the Power2 allows us to discard any high byte carries.
+   * It depends on buffer 1 being the correct size (ie, 1 bit fewer than the
+   * Power2, which it is for the hashes). It keeps us out of Crypto++ Integers
+   * and its associated warnings.
+   */
+  static void inline CascadingAddPower2(byte* buffer1, size_t size1, const byte* buffer2, size_t size2)
+  {
+    ASSERT(buffer1 && size1);
+    ASSERT(buffer2 && size2);
+    ASSERT(size1 >= 1 && size2 >= 1);
+    ASSERT(size1 <= 255 && size2 <= 255);
+    ASSERT(size1 >= size2);
+
+    size_t rem = std::min(size1, size2);
+    
+    // The min buffer should be 4, and the max buffer should be ~110 or less.
+    int idx1 = (int)size1 - 1;
+    int idx2 = (int)size2 - 1;
+
+    int carry = 0;
+    while(rem--)
+    {
+      int result = buffer1[idx1] + buffer2[idx2] + carry;
+      buffer1[idx1] = (byte)result;
+
+      carry = result >> 8;
+      idx1--, idx2--;      
+    }
+
+    while(carry && idx1 >= 0)
+    {
+      int result = buffer1[idx1] + carry;
+      buffer1[idx1] = (byte)result;
+
+      carry = result >> 8;
+      idx1--;
+    }
+  }
+
   ///////////////////////////////////////////////////////////////
   //////////////////////////// Hashes ///////////////////////////
   ///////////////////////////////////////////////////////////////
@@ -496,11 +537,8 @@ namespace esapi
 
     try
       {
-        const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
-        m_hash.Restart();
-
         /////////////////////////////////////////////////////////
-        // Preprocess V, Steps 1 and 2
+        // Preprocess V, Step1
         /////////////////////////////////////////////////////////
         byte w[HASH::DIGESTSIZE];
         ByteArrayZeroizer z1(w, sizeof(w));
@@ -510,13 +548,10 @@ namespace esapi
         m_hash.Update(m_v.data(), m_v.size());
         m_hash.TruncatedFinal(w, sizeof(w));
 
-        // Can we do this faster with a cascading add rather than using an Integer?
-        CryptoPP::Integer v(m_v.data(), m_v.size());
-        v += CryptoPP::Integer(w, sizeof(w));
-        v %= seedPower2;
-
-        ASSERT(v.ByteCount() <= SeedLength);
-        IntegerToBuffer(v, m_v.data(), m_v.size());
+        /////////////////////////////////////////////////////////
+        // Preprocess V, Step 2
+        /////////////////////////////////////////////////////////
+        CascadingAddPower2(m_v.data(), m_v.size(), w, sizeof(w));
 
         /////////////////////////////////////////////////////////
         // Hashgen, Step 3
@@ -536,15 +571,9 @@ namespace esapi
         m_hash.Update(m_v.data(), m_v.size());
         m_hash.TruncatedFinal(h, sizeof(h));
 
-        // Can we do this faster with a cascading add rather than using an Integer?
-        v = CryptoPP::Integer(m_v.data(), m_v.size());
-        v += CryptoPP::Integer(h, sizeof(h));
-        v += CryptoPP::Integer(m_c.data(), m_c.size());
-        v += m_rctr;
-        v %= seedPower2;
-
-        ASSERT(v.ByteCount() <= SeedLength);
-        IntegerToBuffer(v, m_v.data(), m_v.size());
+        CascadingAddPower2(m_v.data(), m_v.size(), h, sizeof(h));
+        CascadingAddPower2(m_v.data(), m_v.size(), m_c.data(), m_c.size());
+        CascadingAddPower2(m_v.data(), m_v.size(), (const byte*)&m_rctr, sizeof(m_rctr));
 
         /////////////////////////////////////////////////////////
         // Copy out the generated data to the hash
@@ -583,9 +612,6 @@ namespace esapi
 
     try
       {
-        const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
-        m_hash.Restart();
-
         byte data[SeedLength];
         ByteArrayZeroizer z1(data, sizeof(data));
 
@@ -600,13 +626,8 @@ namespace esapi
             m_hash.Update(data, sizeof(data));
             m_hash.TruncatedFinal(hash+idx, req);
 
-            // Can we do this faster with a cascading add rather than using an Integer?
-            CryptoPP::Integer d(data, sizeof(data));
-            d += 1;
-            d %= seedPower2;
-
-            ASSERT(d.ByteCount() <= SeedLength);
-            IntegerToBuffer(d, data, sizeof(data));
+            static const int one = 1;
+            CascadingAddPower2(data, sizeof(data), (const byte*)&one, sizeof(one));
 
             idx += req;
             rem -= req;
@@ -1080,7 +1101,7 @@ namespace esapi
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* seed, size_t size)
-    : SecureRandomImpl(algorithm), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
+    : SecureRandomImpl(algorithm)
   {
   }
 
