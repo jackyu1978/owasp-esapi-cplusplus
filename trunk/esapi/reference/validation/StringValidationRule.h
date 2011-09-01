@@ -16,7 +16,6 @@
 
 #include <string>
 #include <list>
-#include <limits>
 
 #include "BaseValidationRule.h"
 #include "errors/ValidationException.h"
@@ -40,11 +39,12 @@ namespace esapi
 class StringValidationRule : public BaseValidationRule<std::string>
 {
 protected:
-	std::list<std::string> whitelistPatterns;
-	std::list<std::string> blacklistPatterns;
-	int minLength /*= 0*/;
-	int maxLength /*= INT_MAX*/;
+	std::set<std::string> whitelistPatterns;
+	std::set<std::string> blacklistPatterns;
+	size_t minLength /*= 0*/;
+	size_t maxLength /*= INT_MAX*/;
 	bool validateInputAndCanonical /*= true*/;
+
 
 public:
 
