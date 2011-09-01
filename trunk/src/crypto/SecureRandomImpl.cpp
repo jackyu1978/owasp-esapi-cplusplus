@@ -117,7 +117,6 @@ namespace esapi
    */
   SecureRandomImpl* SecureRandomImpl::createInstance(const std::string& algorithm, const byte* seed, size_t size)
   {
-
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
     ////////////////////////////////// Hashes //////////////////////////////////
@@ -260,27 +259,6 @@ namespace esapi
   }
 
   /**
-   * Convenience function to move a big integer into a buffer
-   */
-  void SecureRandomImpl::IntegerToBuffer(const CryptoPP::Integer& n, byte* buff, size_t bsize)
-  {
-    ASSERT(buff && bsize);
-    if(!buff || !bsize) return;
-
-    // In case we need to pad with leading 0s
-    const size_t len = n.ByteCount();
-    const size_t off = bsize - len;
-
-    ASSERT(bsize >= len);
-    if(!(bsize >= len)) return;
-
-    for(size_t i = 0; i < off; i++)
-      buff[i] = 0;
-
-    n.Encode(buff+off, len);
-  }
-
-  /**
    * Convenience function to perform a cascading add modulo power2 base.
    * In essence the Power2 allows us to discard any high byte carries.
    * It depends on buffer 1 being the correct size (ie, 1 bit fewer than the
@@ -303,22 +281,22 @@ namespace esapi
 
     int carry = 0;
     while(rem--)
-    {
-      int result = buffer1[idx1] + buffer2[idx2] + carry;
-      buffer1[idx1] = (byte)result;
+      {
+        int result = buffer1[idx1] + buffer2[idx2] + carry;
+        buffer1[idx1] = (byte)result;
 
-      carry = result >> 8;
-      idx1--, idx2--;      
-    }
+        carry = result >> 8;
+        idx1--, idx2--;      
+      }
 
     while(carry && idx1 >= 0)
-    {
-      int result = buffer1[idx1] + carry;
-      buffer1[idx1] = (byte)result;
+      {
+        int result = buffer1[idx1] + carry;
+        buffer1[idx1] = (byte)result;
 
-      carry = result >> 8;
-      idx1--;
-    }
+        carry = result >> 8;
+        idx1--;
+      }
   }
 
   ///////////////////////////////////////////////////////////////

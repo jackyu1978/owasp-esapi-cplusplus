@@ -47,14 +47,14 @@ namespace esapi
     // KeyGenerator needs access to getSecurityLevel()
     friend class KeyGenerator;
 
-    // While it make sense to make DefaultAlgorithm public static objects, we can't
-    // be sure of initializtion order of non-local statics. So they become functions.
+    // While it make sense to make DefaultAlgorithm a public static string, we can't
+    // be sure of initializtion order of non-local statics. So it becomes a function.
 
   public:
-   /**
-    * The default secure random number generator (RNG) algorithm. Currently returns
-    * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
-    */
+    /**
+     * The default secure random number generator (RNG) algorithm. Currently returns
+     * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
+     */
     static std::string DefaultAlgorithm();
 
     /**
@@ -118,13 +118,12 @@ namespace esapi
     /**
      * Normalizes the algorithm name. An empty string on input is interpreted as
      * the default algortihm. If the algorithm is not found (ie, unsupported),
-     * return the empty string.
+     * the empty string is returned.
      */
     static std::string normalizeAlgortihm(const std::string& algorithm);
 
     /**
-     * Constructs a secure random number generator (RNG) algorithm name
-     * and SecureRandomImpl implementation.
+     * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
      */
     SecureRandom(SecureRandomImpl* impl);
 
@@ -134,19 +133,17 @@ namespace esapi
      */
     unsigned int getSecurityLevel() const;
 
-   private:
+    /**
+     * Retrieves the object level lock
+     */
+    inline Mutex& getObjectLock() const;
+
+  private:
 
     /**
      * Object level lock for concurrent access
      */
     mutable boost::shared_ptr<Mutex> m_lock;
-
-  protected:
-
-    /**
-     * Retrieves the object level lock
-     */
-    inline Mutex& getObjectLock() const;
 
     /**
      * shared_ptr is reference counted. Its how we work magic with assignment and copy
@@ -214,11 +211,6 @@ namespace esapi
     virtual void setSeedImpl(int seed) = 0;
 
   protected:
-
-    /**
-     * Convenience function to move a big integer into a buffer
-     */
-    inline void IntegerToBuffer(const CryptoPP::Integer& n, byte* buff, size_t bsize);
 
     /**
      * A catastrophic error was encountered. For example, failing to provide a valid seed
