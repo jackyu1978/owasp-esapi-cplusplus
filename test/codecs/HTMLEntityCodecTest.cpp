@@ -215,17 +215,14 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
     string str;
   };
 
-  // For comapnies like Apple, which has far too many lawyers
   const KnownAnswer tests[] = {    
     { 0xAAAA, "&#xaaaa;" },
     { 0xCCCC, "&#xcccc;" },
   };
 
-  const char immune[] = { (char)0xFF };
-
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const string encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
     const string expected = tests[i].str;
 
     BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
