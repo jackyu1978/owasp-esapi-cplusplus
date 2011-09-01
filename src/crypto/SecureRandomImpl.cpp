@@ -259,13 +259,13 @@ namespace esapi
   }
 
   /**
-   * Convenience function to perform a cascading add modulo power2 base.
-   * In essence the Power2 allows us to discard any high byte carries.
-   * It depends on buffer 1 being the correct size (ie, 1 bit fewer than the
-   * Power2, which it is for the hashes). It keeps us out of Crypto++ Integers
-   * and its associated warnings.
+   * Convenience function to perform a cascading add modulo power2 base. In
+   * essence the Power2 allows us to discard any high byte carries. It depends
+   * on buffer1 being the correct size (ie, 1 bit fewer than the Power2,
+   * which it is for the hashes). It keeps us out of Crypto++ Integers and its
+   * associated warnings.
    */
-  static void inline CascadingAddPower2(byte* buffer1, size_t size1, const byte* buffer2, size_t size2)
+  static void inline CascadingAddModPower2(byte* buffer1, size_t size1, const byte* buffer2, size_t size2)
   {
     ASSERT(buffer1 && size1);
     ASSERT(buffer2 && size2);
@@ -529,7 +529,7 @@ namespace esapi
         /////////////////////////////////////////////////////////
         // Preprocess V, Step 2
         /////////////////////////////////////////////////////////
-        CascadingAddPower2(m_v.data(), m_v.size(), w, sizeof(w));
+        CascadingAddModPower2(m_v.data(), m_v.size(), w, sizeof(w));
 
         /////////////////////////////////////////////////////////
         // Hashgen, Step 3
@@ -549,9 +549,9 @@ namespace esapi
         m_hash.Update(m_v.data(), m_v.size());
         m_hash.TruncatedFinal(h, sizeof(h));
 
-        CascadingAddPower2(m_v.data(), m_v.size(), h, sizeof(h));
-        CascadingAddPower2(m_v.data(), m_v.size(), m_c.data(), m_c.size());
-        CascadingAddPower2(m_v.data(), m_v.size(), (const byte*)&m_rctr, sizeof(m_rctr));
+        CascadingAddModPower2(m_v.data(), m_v.size(), h, sizeof(h));
+        CascadingAddModPower2(m_v.data(), m_v.size(), m_c.data(), m_c.size());
+        CascadingAddModPower2(m_v.data(), m_v.size(), (const byte*)&m_rctr, sizeof(m_rctr));
 
         /////////////////////////////////////////////////////////
         // Copy out the generated data to the hash
@@ -605,7 +605,7 @@ namespace esapi
             m_hash.TruncatedFinal(hash+idx, req);
 
             static const int one = 1;
-            CascadingAddPower2(data, sizeof(data), (const byte*)&one, sizeof(one));
+            CascadingAddModPower2(data, sizeof(data), (const byte*)&one, sizeof(one));
 
             idx += req;
             rem -= req;
