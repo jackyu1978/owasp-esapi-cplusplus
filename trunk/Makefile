@@ -88,7 +88,9 @@ endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 ifneq ($(GCC_COMPILER),0)
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Weffc++ -Wno-non-virtual-dtor
+#  Too much Boost noise
+#  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Weffc++ -Wno-non-virtual-dtor
+  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
 endif
 
 # http://gcc.gnu.org/wiki/Visibility
