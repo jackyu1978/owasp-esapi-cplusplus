@@ -469,6 +469,9 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
     return std::string(1,c);
   }
 
+  if(::isalphanum(c))
+    return std::string(1, c);
+
   // check for alphanumeric characters
   ASSERT(0);
   //String hex = Codec.getHexForNonAlphanumeric(c);
