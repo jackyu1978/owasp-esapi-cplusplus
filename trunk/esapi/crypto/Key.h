@@ -26,7 +26,7 @@
  */
 namespace esapi
 {
-  class ESAPI_TEXPORT Key
+  class ESAPI_TEST_EXPORT Key
   {
   public:
     /**

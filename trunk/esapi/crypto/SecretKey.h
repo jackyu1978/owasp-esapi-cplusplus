@@ -29,10 +29,10 @@ namespace esapi
   class ESAPI_EXPORT SecretKey : public Key
   {
     // For comparisons in the outside world, such as the self tests.
-    friend ESAPI_TEXPORT bool operator==(const SecretKey&, const SecretKey&);
-    friend ESAPI_TEXPORT bool operator!=(const SecretKey&, const SecretKey&);
+    friend ESAPI_TEST_EXPORT bool operator==(const SecretKey&, const SecretKey&);
+    friend ESAPI_TEST_EXPORT bool operator!=(const SecretKey&, const SecretKey&);
     // For dumping keys. Use with care.
-    friend ESAPI_TEXPORT std::ostream& operator<<(std::ostream&, const SecretKey&);
+    friend ESAPI_TEST_EXPORT std::ostream& operator<<(std::ostream&, const SecretKey&);
     // From KeyDerivationFunction,cpp, which couphs up a SecretKey.
     friend class KeyDerivationFunction;
     // From KeyGeneration.cpp, which couphs up a SecretKey

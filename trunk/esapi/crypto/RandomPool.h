@@ -49,7 +49,7 @@ namespace esapi
   * /dev/[u]random or CryptGenRandom directly.
   */
 
-  class ESAPI_TEXPORT RandomPool : private NotCopyable
+  class ESAPI_TEST_EXPORT RandomPool : private NotCopyable
   {
   public:
     /**

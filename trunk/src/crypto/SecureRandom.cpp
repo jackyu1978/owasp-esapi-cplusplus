@@ -104,17 +104,17 @@ namespace esapi
    * Copy this secure random number generator (RNG).
    */
   SecureRandom::SecureRandom(const SecureRandom& rhs)
-    // : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
+    : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
   {
     // Cannot initialize - we need to copy the lock to increment its
     // reference count, and then acquire it to make sure we are not
     // pulling 'this' out from under someone (including ourselves).
-    boost::shared_ptr<Mutex> tlock(m_lock);
-    ASSERT(tlock.get() != nullptr);
-    MutexLock lock(*tlock.get());
+    //boost::shared_ptr<Mutex> tlock(m_lock);
+    //ASSERT(tlock.get() != nullptr);
+    //MutexLock lock(*tlock.get());
 
-    m_lock = rhs.m_lock;
-    m_impl = rhs.m_impl;
+    //m_lock = rhs.m_lock;
+    //m_impl = rhs.m_impl;
   }
 
   /**
