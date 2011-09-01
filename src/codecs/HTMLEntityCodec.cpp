@@ -12,6 +12,13 @@
 #include "crypto/Crypto++Common.h"
 #include <boost/shared_ptr.hpp>
 
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+#define HEX(x) std::hex << std::setw(x) << std::setfill('0')
+#define OCT(x) std::octal << std::setw(x) << std::setfill('0')
+
 //
 // Thread safe, multiprocessor initialization
 // http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
@@ -448,38 +455,46 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
 
 std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, char c) const
 {
+  return encodeCharacter(immune, length, static_cast<int>(c));
+}
+
+std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t length, int c) const
+{
   ASSERT(immune);
   ASSERT(length);
-  /*
 
   // check for immune characters
-  if ( containsCharacter(c, immune ) ) {
-  return ""+c;
+  if (containsCharacter(c, std::string(immune, length))) {
+    return std::string(1,c);
   }
 
   // check for alphanumeric characters
-  String hex = Codec.getHexForNonAlphanumeric(c);
-  if ( hex == null ) {
-  return ""+c;
-  }
+  ASSERT(0);
+  //String hex = Codec.getHexForNonAlphanumeric(c);
+  //if ( hex == null ) {
+  //return ""+c;
+  //}
 
   // check for illegal characters
-  if ( ( c <= 0x1f && c != '\t' && c != '\n' && c != '\r' ) || ( c >= 0x7f && c <= 0x9f ) )
-  {
-  hex = REPLACEMENT_HEX;  // Let's entity encode this instead of returning it
-  c = REPLACEMENT_CHAR;
-  }
+  ASSERT(0);
+  //if ( ( c <= 0x1f && c != '\t' && c != '\n' && c != '\r' ) || ( c >= 0x7f && c <= 0x9f ) )
+  //{
+  //  hex = REPLACEMENT_HEX();  // Let's entity encode this instead of returning it
+  //  c = REPLACEMENT_CHAR();
+  //}
 
   // check if there's a defined entity
-  String entityName = (String) characterToEntityMap.get(c);
-  if (entityName != null) {
-  return "&" + entityName + ";";
-  }
+  const EntityMap& map = getCharacterToEntityMap();
+  EntityMapIterator it = map.find(c);
+  if(map.end() != it)
+    return std::string("&") + it->second + std::string(";");
 
   // return the hex entity as suggested in the spec
-  return "&#x" + hex + ";";
-  */
-  return std::string();
+  std::ostringstream oss;
+  oss << HEX(4) << c;
+  return std::string("&#x") + oss.str() + std::string(";");
+
+  // return std::string(1, c);
 }
 
 char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& input) const {

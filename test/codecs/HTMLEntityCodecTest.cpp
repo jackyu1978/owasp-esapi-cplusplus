@@ -19,13 +19,6 @@ using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
 
-// auto_ptr is deprecated in C++0X
-#if defined(ESAPI_CPLUSPLUS_UNIQUE_PTR)
-# define THE_AUTO_PTR  std::unique_ptr
-#else
-# define THE_AUTO_PTR  std::auto_ptr
-#endif
-
 #include <iostream>
 using std::cout;
 using std::cerr;
@@ -50,7 +43,153 @@ static void* WorkerThreadProc(void* param);
 
 static const unsigned int THREAD_COUNT = 64;
 
-BOOST_AUTO_TEST_CASE( VerifyHTMLEntityCodec )
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_1P)
+{
+  // Positive test - construction
+  HTMLEntityCodec codec;
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_2P)
+{
+  // Positive test - copy
+  HTMLEntityCodec codec1;
+  HTMLEntityCodec codec2(codec1);
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_3P)
+{
+  // Positive test - assignment
+  HTMLEntityCodec codec1;
+  HTMLEntityCodec codec2 = codec1;
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4N)
+{
+  // Negative test
+  HTMLEntityCodec codec;
+
+  const char* nil = NULL;
+  string encoded = codec.encodeCharacter(nil, 0, 'A');
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
+{
+  // Negative test
+  HTMLEntityCodec codec;
+  const char immune[] = { (char)0xFF };
+  string encoded = codec.encodeCharacter(immune, 0, 'A');
+  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
+{
+  // Negative test
+  HTMLEntityCodec codec;
+  const char immune[] = { (char)0xFF };
+  string encoded = codec.encodeCharacter((char*)NULL, COUNTOF(immune), 'A');
+  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
+{
+  // Positive test
+  HTMLEntityCodec codec;
+  const char immune[] = { (char)0xFF };
+
+  for( unsigned int c = 'A'; c <= 'Z'; c++)
+  {
+    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)c);
+    BOOST_CHECK_MESSAGE((encoded == string(1, (char)c)), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
+{
+  // Positive test - uses the overload which takes a 'char' character
+  HTMLEntityCodec codec;
+
+  struct KnownAnswer
+  {
+    char c;
+    string str;
+  };
+
+  // First and last 4 from entity table (below char)
+  const KnownAnswer tests[] = {
+    { (char)34, "quot" },
+    { (char)38, "amp" },
+    { (char)60, "lt" },
+    { (char)62, "gt" },
+
+    { (char)252, "uuml" },
+    { (char)253, "yacute" },
+    { (char)254, "thorn" },
+    { (char)255, "yuml" }
+  };
+
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
+  {
+    const string encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
+    const string expected = tests[i].str;
+
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
+{
+  // Positive test - uses the overload which takes a 'int' character
+  HTMLEntityCodec codec;
+
+  struct KnownAnswer
+  {
+    int c;
+    string str;
+  };
+
+  // First, middle, and last 4 from entity table
+  const KnownAnswer tests[] = {
+    { 34, "quot" },
+    { 38, "amp" },
+    { 60, "lt" },
+    { 62, "gt" },
+    { 929, "Rho" },
+    { 931, "Sigma" },
+    { 932, "Tau" },
+    { 933, "Upsilon" },
+    { 9824, "spades" },
+    { 9827, "clubs" },
+    { 9829, "hearts" },
+    { 9830, "diams" }
+  };
+
+  const char immune[] = { (char)0xFF };
+
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
+  {
+    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const string expected = tests[i].str;
+
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
+{
+  // Positive test
+  //HTMLEntityCodec codec;
+  //const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
+
+  //for( unsigned int i = 0; i < COUNTOF(special); i++ )
+  //{
+  //  const string encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
+  //  const string expected(1, special[i]);
+
+  //  BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_11P )
 {
   BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << " threads" );
 
