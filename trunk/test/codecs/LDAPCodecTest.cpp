@@ -94,16 +94,27 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
 {
   // Positive test
   LDAPCodec codec;
-  const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
+
+  struct KnownAnswer
+  {
+    char c;
+    string str;
+  };
+
+  const KnownAnswer tests[] = {
+    { (char)'\\', "\\5c" },
+    { (char)'*', "\\2a" },
+    { (char)'(', "\\28" },
+    { (char)')', "\\29" },
+    { (char)'\0', "\\00" },
+  };
+
   const char immune[] = { (char)0xFF };
 
-  for( unsigned int i = 0; i < COUNTOF(special); i++ )
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)special[i]);
-
-    ostringstream oss;
-    oss << "\\\\" << HEX(2) << special[i];
-    const string expected = oss.str();
+    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const string expected = tests[i].str;
 
     BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }
