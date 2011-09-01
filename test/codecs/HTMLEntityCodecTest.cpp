@@ -116,15 +116,15 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 
   // First and last 4 from entity table (below char)
   const KnownAnswer tests[] = {
-    { (char)34, "quot" },
-    { (char)38, "amp" },
-    { (char)60, "lt" },
-    { (char)62, "gt" },
+    { (char)34, "&quot;" },
+    { (char)38, "&amp;" },
+    { (char)60, "&lt;" },
+    { (char)62, "&gt;" },
 
-    { (char)252, "uuml" },
-    { (char)253, "yacute" },
-    { (char)254, "thorn" },
-    { (char)255, "yuml" }
+    { (char)252, "&uuml;" },
+    { (char)253, "&yacute;" },
+    { (char)254, "&thorn;" },
+    { (char)255, "&yuml;" }
   };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
@@ -149,18 +149,20 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
 
   // First, middle, and last 4 from entity table
   const KnownAnswer tests[] = {
-    { 34, "quot" },
-    { 38, "amp" },
-    { 60, "lt" },
-    { 62, "gt" },
-    { 929, "Rho" },
-    { 931, "Sigma" },
-    { 932, "Tau" },
-    { 933, "Upsilon" },
-    { 9824, "spades" },
-    { 9827, "clubs" },
-    { 9829, "hearts" },
-    { 9830, "diams" }
+    { 34, "&quot;" },
+    { 38, "&amp;" },
+    { 60, "&lt;" },
+    { 62, "&gt;" },
+
+    { 929, "&Rho;" },
+    { 931, "&Sigma;" },
+    { 932, "&Tau;" },
+    { 933, "&Upsilon;" },
+
+    { 9824, "&spades;" },
+    { 9827, "&clubs;" },
+    { 9829, "&hearts;" },
+    { 9830, "&diams;" }
   };
 
   const char immune[] = { (char)0xFF };
@@ -176,6 +178,34 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
 {
+  // Positive test - uses the overload which takes a 'int' character
+  HTMLEntityCodec codec;
+
+  struct KnownAnswer
+  {
+    int c;
+    string str;
+  };
+
+  // For comapnies like Apple, which has far too many lawyers
+  const KnownAnswer tests[] = {    
+    { 169, "&copy;" },
+    { 8482, "&trade;" },
+  };
+
+  const char immune[] = { (char)0xFF };
+
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
+  {
+    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const string expected = tests[i].str;
+
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
+{
   // Positive test
   //HTMLEntityCodec codec;
   //const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
@@ -186,10 +216,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
   //  const string expected(1, special[i]);
 
   //  BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
-  }
+  //}
 }
 
-BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_11P )
+BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_12P )
 {
   BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << " threads" );
 
@@ -232,7 +262,7 @@ void* WorkerThreadProc(void* param)
 {
   // give up the remainder of this time quantum to help
   // interleave thread creation and execution
-#if defined(WIN32) || defined(_WIN32) 
+#if defined(WIN32) || defined(_WIN32)
   Sleep(0);
 #elif defined(__linux__) || defined(__unix__) || defined(__APPLE__)
   sleep(0);

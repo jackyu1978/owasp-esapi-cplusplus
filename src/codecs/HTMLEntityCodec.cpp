@@ -464,7 +464,8 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   ASSERT(length);
 
   // check for immune characters
-  if (containsCharacter(c, std::string(immune, length))) {
+  std::string str(immune ? std::string(immune, length) : "" );
+  if (containsCharacter(c, str)) {
     return std::string(1,c);
   }
 
