@@ -11,14 +11,10 @@
  */
 
 #include <iostream>
+#include <iomanip>
 using std::cout;
 using std::cerr;
 using std::endl;
-
-#include <iomanip>
-using std::hex;
-using std::setfill;
-using std::setw;
 
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
@@ -61,7 +57,8 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_4N)
   // Negative test
   LDAPCodec codec;
 
-  string encoded = codec.encode(NULL, 0, 'A');
+  const char* nil = NULL;
+  string encoded = codec.encodeCharacter(nil, 0, 'A');
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
@@ -69,7 +66,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
   // Negative test
   LDAPCodec codec;
   const char immune[] = { (char)0xFF };
-  string encoded = codec.encode(immune, 0, 'A');
+  string encoded = codec.encodeCharacter(immune, 0, 'A');
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
@@ -77,7 +74,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
   // Negative test
   LDAPCodec codec;
   const char immune[] = { (char)0xFF };
-  string encoded = codec.encode(NULL, COUNTOF(immune), 'A');
+  string encoded = codec.encodeCharacter((char*)NULL, COUNTOF(immune), 'A');
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
@@ -88,8 +85,8 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    string encoded = codec.encode(immune, COUNTOF(immune), (char)c);
-    BOOST_CHECK((encoded == string(1, c)), "Failed to encode character");
+    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)c);
+    BOOST_CHECK_MESSAGE((encoded == string(1, (char)c)), "Failed to encode character");
   }
 }
 
@@ -102,16 +99,17 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
 
   for( unsigned int i = 0; i < COUNTOF(special); i++ )
   {
-    const string encoded = codec.encode(immune, COUNTOF(immune), special[i]);
+    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)special[i]);
 
     ostringstream oss;
     oss << "\\\\" << HEX(2) << special[i];
     const string expected = oss.str();
 
-    BOOST_CHECK((encoded == expected), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }
+}
 
-  BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
+BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
 {
   // Positive test
   LDAPCodec codec;
@@ -119,9 +117,9 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
 
   for( unsigned int i = 0; i < COUNTOF(special); i++ )
   {
-    const string encoded = codec.encode(special, COUNTOF(special), special[i]);
+    const string encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
     const string expected(1, special[i]);
 
-    BOOST_CHECK((encoded == expected), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }
 }
