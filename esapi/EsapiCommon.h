@@ -108,13 +108,6 @@
 # include <pthread.h>
 #endif
 
-// For auto_ptr/unique_ptr (auto_ptr is deprecated) - see
-//  http://www2.research.att.com/~bs/C++0xFAQ.html#0x and 
-//  http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_440
-#if (_MSC_VER >= 1600) || defined(_UNIQUE_PTR_H)
-# define ESAPI_CPLUSPLUS_UNIQUE_PTR 1
-#endif
-
 // We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
 // For Microsoft, nullptr is available in Visual Studio 2010 and
 // above (version 1600), so we test for something earlier. For GCC, its
