@@ -114,7 +114,7 @@ bool esapi::DefaultValidator::isValidInput(const std::string &context, const std
 	try {
 		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
 		return true;
-	} catch( std::exception& e ) {
+	} catch( std::exception& /*e*/ ) {
 		return false;
 	}
 }

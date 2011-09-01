@@ -637,6 +637,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\errors\IllegalArgumentException.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\errors\IntegrityException.h"
 						>
 					</File>
@@ -646,6 +650,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\errors\InvalidArgumentException.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\errors\NullPointerException.h"
 						>
 					</File>
 					<File
@@ -666,6 +674,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\reference\DefaultEncryptor.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\reference\DefaultValidator.h"
 						>
 					</File>
 					<File
