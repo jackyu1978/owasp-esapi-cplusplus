@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #include "codecs/HTMLEntityCodec.h"
 #include "crypto/Crypto++Common.h"
@@ -38,122 +38,122 @@ const std::string& esapi::HTMLEntityCodec::REPLACEMENT_STR()
 
 char esapi::HTMLEntityCodec::getNumericEntity(PushbackString&) {
   /*
-  Character first = input.peek();
-  if ( first == null ) return null;
+    Character first = input.peek();
+    if ( first == null ) return null;
 
-  if (first == 'x' || first == 'X' ) {
-  input.next();
-  return parseHex( input );
-  }
-  return parseNumber( input );
+    if (first == 'x' || first == 'X' ) {
+    input.next();
+    return parseHex( input );
+    }
+    return parseNumber( input );
   */
   return 0;
 }
 
 char esapi::HTMLEntityCodec::parseNumber(PushbackString& input) {
   /*
-  StringBuilder sb = new StringBuilder();
-  while( input.hasNext() ) {
-  Character c = input.peek();
+    StringBuilder sb = new StringBuilder();
+    while( input.hasNext() ) {
+    Character c = input.peek();
 
-  // if character is a digit then add it on and keep going
-  if ( Character.isDigit( c.charValue() ) ) {
-  sb.append( c );
-  input.next();
+    // if character is a digit then add it on and keep going
+    if ( Character.isDigit( c.charValue() ) ) {
+    sb.append( c );
+    input.next();
 
-  // if character is a semi-colon, eat it and quit
-  } else if (c == ';' ) {
-  input.next();
-  break;
+    // if character is a semi-colon, eat it and quit
+    } else if (c == ';' ) {
+    input.next();
+    break;
 
-  // otherwise just quit
-  } else {
-  break;
-  }
-  }
-  try {
-  int i = Integer.parseInt(sb.toString());
-  if (Character.isValidCodePoint(i)) {
-  return (char) i;
-  }
-  } catch( NumberFormatException e ) {
-  // throw an exception for malformed entity?
-  }
-  return null;
+    // otherwise just quit
+    } else {
+    break;
+    }
+    }
+    try {
+    int i = Integer.parseInt(sb.toString());
+    if (Character.isValidCodePoint(i)) {
+    return (char) i;
+    }
+    } catch( NumberFormatException e ) {
+    // throw an exception for malformed entity?
+    }
+    return null;
   */
   return 0;
 }
 
 char esapi::HTMLEntityCodec::parseHex(PushbackString&) {
   /*
-  StringBuilder sb = new StringBuilder();
-  while( input.hasNext() ) {
-  Character c = input.peek();
+    StringBuilder sb = new StringBuilder();
+    while( input.hasNext() ) {
+    Character c = input.peek();
 
-  // if character is a hex digit then add it on and keep going
-  if ( "0123456789ABCDEFabcdef".indexOf(c) != -1 ) {
-  sb.append( c );
-  input.next();
+    // if character is a hex digit then add it on and keep going
+    if ( "0123456789ABCDEFabcdef".indexOf(c) != -1 ) {
+    sb.append( c );
+    input.next();
 
-  // if character is a semi-colon, eat it and quit
-  } else if (c == ';' ) {
-  input.next();
-  break;
+    // if character is a semi-colon, eat it and quit
+    } else if (c == ';' ) {
+    input.next();
+    break;
 
-  // otherwise just quit
-  } else {
-  break;
-  }
-  }
-  try {
-  int i = Integer.parseInt(sb.toString(), 16);
-  if (Character.isValidCodePoint(i)) {
-  return (char) i;
-  }
-  } catch( NumberFormatException e ) {
-  // throw an exception for malformed entity?
-  }
-  return null;
+    // otherwise just quit
+    } else {
+    break;
+    }
+    }
+    try {
+    int i = Integer.parseInt(sb.toString(), 16);
+    if (Character.isValidCodePoint(i)) {
+    return (char) i;
+    }
+    } catch( NumberFormatException e ) {
+    // throw an exception for malformed entity?
+    }
+    return null;
   */
   return 0;
 }
 
 char esapi::HTMLEntityCodec::getNamedEntity(PushbackString&) {
   /*
-  StringBuilder possible = new StringBuilder();
-  Map.Entry<CharSequence,Character> entry;
-  int len;
+    StringBuilder possible = new StringBuilder();
+    Map.Entry<CharSequence,Character> entry;
+    int len;
 
-  // kludge around PushbackString....
-  len = Math.min(input.remainder().length(), entityToCharacterTrie.getMaxKeyLength());
-  for(int i=0;i<len;i++)
-  possible.append(Character.toLowerCase(input.next()));
+    // kludge around PushbackString....
+    len = Math.min(input.remainder().length(), entityToCharacterTrie.getMaxKeyLength());
+    for(int i=0;i<len;i++)
+    possible.append(Character.toLowerCase(input.next()));
 
-  // look up the longest match
-  entry = entityToCharacterTrie.getLongestMatch(possible);
-  if(entry == null)
-  return null;    // no match, caller will reset input
+    // look up the longest match
+    entry = entityToCharacterTrie.getLongestMatch(possible);
+    if(entry == null)
+    return null;    // no match, caller will reset input
 
-  // fixup input
-  input.reset();
-  input.next();   // read &
-  len = entry.getKey().length();  // what matched's length
-  for(int i=0;i<len;i++)
-  input.next();
+    // fixup input
+    input.reset();
+    input.next();   // read &
+    len = entry.getKey().length();  // what matched's length
+    for(int i=0;i<len;i++)
+    input.next();
 
-  // check for a trailing semicolen
-  if(input.peek(';'))
-  input.next();
+    // check for a trailing semicolen
+    if(input.peek(';'))
+    input.next();
 
-  return entry.getValue();
+    return entry.getValue();
   */
   return 0;
 }
 
 /**
-* Retrieve the class wide intialization lock.
-* @return the mutex used to lock the class.
-*/
+ * Retrieve the class wide intialization lock.
+ * @return the mutex used to lock the class.
+ */
 esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex()
 {
   static esapi::Mutex s_mutex;
@@ -161,23 +161,18 @@ esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex()
 }
 
 /**
-* Build a unmodifiable Map from entity Character to Name.
-* @return Unmodifiable map.
-*/
+ * Build a unmodifiable Map from entity Character to Name.
+ * @return Unmodifiable map.
+ */
 const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToEntityMap()
 {
+  MutexLock lock(getClassMutex());
+
   static volatile bool init = false;
   static boost::shared_ptr<EntityMap> map;
 
-  // First check
   MEMORY_BARRIER();
   if(!init)
-  {
-    // Acquire the lock
-    MutexLock lock(getClassMutex());
-
-    // Second check
-    if(!init)
     {
       boost::shared_ptr<EntityMap> temp(new EntityMap);
       MEMORY_BARRIER();
@@ -443,12 +438,12 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
       tm[9829] =   "hearts";      /* black heart suit */
       tm[9830] =   "diams";       /* black diamond suit */
 
-      map = temp;
+      map.swap(temp);
       init = true;
+
       MEMORY_BARRIER();
 
-    } // Inner !init
-  } // Outer !init
+    } // !init
 
   return *map.get();
 }
@@ -491,38 +486,38 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
 
 char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& input) const {
   /*
-  input.mark();
-  Character first = input.next();
-  if ( first == null ) {
-  input.reset();
-  return null;
-  }
+    input.mark();
+    Character first = input.next();
+    if ( first == null ) {
+    input.reset();
+    return null;
+    }
 
-  // if this is not an encoded character, return null
-  if (first != '&' ) {
-  input.reset();
-  return null;
-  }
+    // if this is not an encoded character, return null
+    if (first != '&' ) {
+    input.reset();
+    return null;
+    }
 
-  // test for numeric encodings
-  Character second = input.next();
-  if ( second == null ) {
-  input.reset();
-  return null;
-  }
+    // test for numeric encodings
+    Character second = input.next();
+    if ( second == null ) {
+    input.reset();
+    return null;
+    }
 
-  if (second == '#' ) {
-  // handle numbers
-  Character c = getNumericEntity( input );
-  if ( c != null ) return c;
-  } else if ( Character.isLetter( second.charValue() ) ) {
-  // handle entities
-  input.pushback( second );
-  Character c = getNamedEntity( input );
-  if ( c != null ) return c;
-  }
-  input.reset();
-  return null;
+    if (second == '#' ) {
+    // handle numbers
+    Character c = getNumericEntity( input );
+    if ( c != null ) return c;
+    } else if ( Character.isLetter( second.charValue() ) ) {
+    // handle entities
+    input.pushback( second );
+    Character c = getNamedEntity( input );
+    if ( c != null ) return c;
+    }
+    input.reset();
+    return null;
   */
   return 0;
 }
