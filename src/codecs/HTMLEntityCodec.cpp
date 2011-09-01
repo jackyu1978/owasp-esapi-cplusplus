@@ -175,8 +175,6 @@ const esapi::HTMLEntityCodec::EntityMap& esapi::HTMLEntityCodec::getCharacterToE
   if(!init)
     {
       boost::shared_ptr<EntityMap> temp(new EntityMap);
-      MEMORY_BARRIER();
-
       ASSERT(nullptr != temp.get());
       if(nullptr == temp.get())
         throw std::bad_alloc();

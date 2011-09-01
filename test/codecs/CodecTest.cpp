@@ -22,7 +22,6 @@ using namespace boost::unit_test;
 #include <string>
 #include <sstream>
 
-
 using esapi::Codec;
 
 BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
