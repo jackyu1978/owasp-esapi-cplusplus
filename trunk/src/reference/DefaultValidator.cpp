@@ -45,22 +45,33 @@ bool esapi::DefaultValidator::isEmpty(char[]) const {
 }
 
 esapi::Validator* esapi::DefaultValidator::getInstance() {
+	/*
+         if ( instance == null ) {
+            synchronized ( Validator.class ) {
+                if ( instance == null ) {
+                    instance = new DefaultValidator();
+                }
+            }
+        }
+        return instance;
+	 */
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-/** Initialize file validator with an appropriate set of codecs */
-/*static {
-	List<String> list = new ArrayList<String>();
+void esapi::DefaultValidator::initFileValidator() {
+	/*std::list<String> list = new ArrayList<String>();
 	list.add( "HTMLEntityCodec" );
 	list.add( "PercentCodec" );
 	Encoder fileEncoder = new DefaultEncoder( list );
-	fileValidator = new DefaultValidator( fileEncoder );
-}*/
+	fileValidator = new DefaultValidator( fileEncoder );	*/
+}
 
 
 esapi::DefaultValidator::DefaultValidator()
 	: rules(), encoder()
 {
+	//this.encoder = ESAPI.encoder();
+	initFileValidator();
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
@@ -68,42 +79,55 @@ esapi::DefaultValidator::DefaultValidator()
 esapi::DefaultValidator::DefaultValidator(esapi::Encoder* encoder)
 	: rules(), encoder(encoder)
 {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+	initFileValidator();
 }
 
-//TODO must override to get rid of pointer member warning
+// must override to get rid of pointer member warning
 esapi::DefaultValidator::DefaultValidator(const esapi::DefaultValidator& other)
 	: rules(other.rules), encoder(other.encoder)
 {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+	initFileValidator();
 }
 
 
 
 void esapi::DefaultValidator::addRule( const esapi::ValidationRule & ) {
+	//rules.put( rule.getTypeName(), rule );
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
 esapi::ValidationRule& esapi::DefaultValidator::getRule( const std::string & ) {
+	//return rules.get( name );
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-bool esapi::DefaultValidator::isValidInput(const std::string &, const std::string &, const std::string &, int, bool) throw (esapi::IntrusionException) {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string &input, const std::string &type, int maxLength, bool allowNull) throw (esapi::IntrusionException) {
+	return isValidInput(context, input, type, maxLength, allowNull, true);
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string &, const std::string &, const std::string &, int, bool, esapi::ValidationErrorList &) throw (esapi::IntrusionException) {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string &input, const std::string &type, int maxLength, bool allowNull, esapi::ValidationErrorList &errors) throw (esapi::IntrusionException) {
+	return isValidInput(context, input, type, maxLength, allowNull, true, errors);
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) throw (esapi::IntrusionException) {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+bool esapi::DefaultValidator::isValidInput(const std::string &context, const std::string &input, const std::string &type, int maxLength, bool allowNull, bool canonicalize) throw (esapi::IntrusionException) {
+	try {
+		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
+		return true;
+	} catch( std::exception& e ) {
+		return false;
+	}
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, esapi::ValidationErrorList &) throw (esapi::IntrusionException) {
-	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
+bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string & input, const std::string &type, int maxLength, bool allowNull, bool canonicalize, esapi::ValidationErrorList &errors) throw (esapi::IntrusionException) {
+	try {
+		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
+		return true;
+	} catch( esapi::ValidationException& e ) {
+		errors.addError( context, &e );
+		return false;
+	}
 }
 
 std::string esapi::DefaultValidator::getValidInput(const std::string &, const std::string &, const std::string &, int, bool) throw (esapi::ValidationException) {
