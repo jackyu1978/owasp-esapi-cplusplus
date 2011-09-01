@@ -81,8 +81,8 @@
 // Race hunting with Helgrind and DRD.
 // http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug.html#debug.races.
 #if defined(__GNUC__)
-#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(A) ANNOTATE_HAPPENS_BEFORE(A)
-#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(A)  ANNOTATE_HAPPENS_AFTER(A)
+//#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(A) ANNOTATE_HAPPENS_BEFORE(A)
+//#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(A)  ANNOTATE_HAPPENS_AFTER(A)
 #endif
 
 #include <assert.h>
