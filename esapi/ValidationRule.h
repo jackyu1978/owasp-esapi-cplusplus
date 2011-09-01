@@ -18,6 +18,7 @@
 
 namespace esapi
 {
+	template <typename T>
 	class ValidationRule
 	{
 	public:
@@ -34,7 +35,8 @@ namespace esapi
 		 * @throws ValidationException
 		 *             if any validation rules fail
 		 */
-		virtual void* getValid(const std::string &, const std::string &) throw (ValidationException) =0;
+		//template <typename T>
+		virtual T getValid(const std::string &, const std::string &) throw (ValidationException) =0;
 
 		/**
 		 * Whether or not a valid valid can be null. getValid will throw an
@@ -70,12 +72,14 @@ namespace esapi
 		/**
 		 * Get a validated value, add the errors to an existing error list
 		 */
-		virtual void* getValid(const std::string &, const std::string &, ValidationErrorList &) throw (ValidationException) =0;
+		//template <typename T>
+		virtual T getValid(const std::string &, const std::string &, ValidationErrorList &) throw (ValidationException) =0;
 
 		/**
 		 * Try to call get valid, then call sanitize, finally return a default value
 		 */
-		virtual void* getSafe(const std::string &, const std::string &) =0;
+		//template <typename T>
+		virtual T getSafe(const std::string &, const std::string &) =0;
 
 		/**
 		 * @return true if the input passes validation

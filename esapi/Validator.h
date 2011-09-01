@@ -44,9 +44,9 @@ namespace esapi
 	{
 	public:
 
-		virtual void addRule( const ValidationRule &) =0;
+		virtual void addRule( const ValidationRule<void*> &) =0;
 
-		virtual ValidationRule& getRule(const std::string &) =0;
+		virtual ValidationRule<void*>& getRule(const std::string &) =0;
 
 		/**
 		 * Calls isValidInput and returns true if no exceptions are thrown.

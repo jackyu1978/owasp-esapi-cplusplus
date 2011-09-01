@@ -49,7 +49,7 @@ private:
 	static Validator* instance;
 
 	/** A map of validation rules */
-	std::map<std::string, const ValidationRule*> rules;
+	std::map<std::string, const ValidationRule<void*>* > rules;
 
 	/** The encoder to use for canonicalization */
 	boost::shared_ptr<Encoder> encoder;
@@ -119,12 +119,12 @@ public:
 	/**
 	 * Add a validation rule to the registry using the "type name" of the rule as the key.
 	 */
-	void addRule( const ValidationRule & );
+	void addRule( const ValidationRule<void*> & );
 
 	/**
 	 * Get a validation rule from the registry with the "type name" of the rule as the key.
 	 */
-	ValidationRule& getRule( const std::string & );
+	ValidationRule<void*>& getRule( const std::string & );
 
 	/**
 	 * Returns true if data received from browser is valid. Double encoding is treated as an attack. The

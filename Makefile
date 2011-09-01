@@ -163,7 +163,8 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/DefaultValidator.cpp \
 			src/reference/IntegerAccessReferenceMap.cpp \
 			src/reference/RandomAccessReferenceMap.cpp \
-			src/reference/validation/BaseValidationRule.cpp
+			src/reference/validation/BaseValidationRule.cpp \
+			src/reference/validation/StringValidationRule.cpp
 
 UTILSRCS =	src/util/SecureString.cpp \
 			src/util/Mutex.cpp
