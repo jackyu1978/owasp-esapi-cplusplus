@@ -217,8 +217,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 
   // For comapnies like Apple, which has far too many lawyers
   const KnownAnswer tests[] = {    
-    { 0xAAAA, "&#xAAAA;" },
-    { 0xCCCC, "&#xCCCC;" },
+    { 0xAAAA, "&#xaaaa;" },
+    { 0xCCCC, "&#xcccc;" },
   };
 
   const char immune[] = { (char)0xFF };
