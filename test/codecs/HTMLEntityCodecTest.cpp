@@ -187,7 +187,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
     string str;
   };
 
-  // For comapnies like Apple, which has far too many lawyers
+  // For companies like Apple, which has far too many lawyers
   const KnownAnswer tests[] = {    
     { 169, "&copy;" },
     { 8482, "&trade;" },
@@ -206,6 +206,34 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 {
+  // Positive test - uses the overload which takes a 'int' character
+  HTMLEntityCodec codec;
+
+  struct KnownAnswer
+  {
+    int c;
+    string str;
+  };
+
+  // For comapnies like Apple, which has far too many lawyers
+  const KnownAnswer tests[] = {    
+    { 0xAAAA, "&#xAAAA;" },
+    { 0xCCCC, "&#xCCCC;" },
+  };
+
+  const char immune[] = { (char)0xFF };
+
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
+  {
+    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const string expected = tests[i].str;
+
+    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  }
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
+{
   // Positive test
   //HTMLEntityCodec codec;
   //const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
@@ -219,7 +247,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
   //}
 }
 
-BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_12P )
+BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_13P )
 {
   BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << " threads" );
 
