@@ -132,7 +132,12 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
     const string encoded = codec.encodeCharacter(NULL, 0, (char)tests[i].c);
     const string expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character " + expected);
+    ostringstream oss;
+    oss << "Failed to encode character. Expected ";
+    oss << "'" << expected << "', got ";
+    oss << "'" << encoded << "'";
+
+    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
   }
 }
 
@@ -172,7 +177,12 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
     const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
     const string expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    ostringstream oss;
+    oss << "Failed to encode character. Expected ";
+    oss << "'" << expected << "', got ";
+    oss << "'" << encoded << "'";
+
+    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
   }
 }
 
@@ -200,7 +210,12 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
     const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
     const string expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    ostringstream oss;
+    oss << "Failed to encode character. Expected ";
+    oss << "'" << expected << "', got ";
+    oss << "'" << encoded << "'";
+
+    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
   }
 }
 
@@ -216,7 +231,9 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
   };
 
   const KnownAnswer tests[] = {    
+    { 0xAAA, "&#x0aaa;" },
     { 0xAAAA, "&#xaaaa;" },
+    { 0xCCC, "&#x0ccc;" },
     { 0xCCCC, "&#xcccc;" },
   };
 
@@ -225,7 +242,12 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
     const string encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
     const string expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    ostringstream oss;
+    oss << "Failed to encode character. Expected ";
+    oss << "'" << expected << "', got ";
+    oss << "'" << encoded << "'";
+
+    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
   }
 }
 
@@ -240,7 +262,12 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
   //  const string encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
   //  const string expected(1, special[i]);
 
-  //  BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+  //  ostringstream oss;
+  //  oss << "Failed to encode character. Expected ";
+  //  oss << "'" << expected << "', got ";
+  //  oss << "'" << encoded << "'";
+
+  //  BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
   //}
 }
 
