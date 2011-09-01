@@ -496,7 +496,7 @@ namespace esapi
 
     try
       {
-        static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
+        const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
         m_hash.Restart();
 
         /////////////////////////////////////////////////////////
@@ -583,7 +583,7 @@ namespace esapi
 
     try
       {
-        static const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
+        const CryptoPP::Integer seedPower2 = CryptoPP::Integer::Power2(SeedBits);
         m_hash.Restart();
 
         byte data[SeedLength];
@@ -1080,7 +1080,7 @@ namespace esapi
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* seed, size_t size)
-    : SecureRandomImpl(algorithm)
+    : SecureRandomImpl(algorithm), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
   }
 

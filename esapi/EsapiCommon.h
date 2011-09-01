@@ -17,19 +17,6 @@
 
 #pragma once
 
-#include <assert.h>
-#include <signal.h>
-
-#include <cstddef>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
-
-#if defined(WIN32) || defined(_WIN32)
-# include <intrin.h>
-#endif
-
 // Only one or the other, but not both
 #if (defined(DEBUG) || defined(_DEBUG)) && (defined(NDEBUG) || defined(_NDEBUG))
 # error Both DEBUG and NDEBUG are defined.
@@ -89,6 +76,26 @@
 # define ESAPI_ENV_CYGWIN 1
 #elif defined(MINGW) || defined(MINGW32)
 # define ESAPI_ENV_MINGW 1
+#endif
+
+// Race hunting with Helgrind and DRD.
+// http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug.html#debug.races.
+#if defined(__GNUC__)
+#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(A) ANNOTATE_HAPPENS_BEFORE(A)
+#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(A)  ANNOTATE_HAPPENS_AFTER(A)
+#endif
+
+#include <assert.h>
+#include <signal.h>
+
+#include <cstddef>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+#if defined(ESAPI_CXX_MSVC)
+# include <intrin.h>
 #endif
 
 // For auto_ptr/unique_ptr (auto_ptr is deprecated) - see
@@ -258,7 +265,6 @@ ESAPI_MS_NO_WARNING(4290)
 # endif
 #elif defined(ESAPI_CXX_ICC)
 # define ESAPI_EXPORT
-# define ESAPI_TEST_EXPORT
 # define ESAPI_PRIVATE
 #elif defined(ESAPI_CXX_GCC)
 # if (__GNUC__ >= 4)
@@ -287,13 +293,6 @@ ESAPI_MS_NO_WARNING(4290)
 # define ESAPI_TEST_EXPORT ESAPI_EXPORT
 #else
 # define ESAPI_TEST_EXPORT
-#endif
-
-// Race hunting with Helgrind and DRD.
-// http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug.html#debug.races.
-#if defined(ESAPI_CXX_GCC)
-#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(A) ANNOTATE_HAPPENS_BEFORE(A)
-#  define _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(A)  ANNOTATE_HAPPENS_AFTER(A)
 #endif
 
 // Zeroizing allocator used with SecureByteArray and SecureIntArray
