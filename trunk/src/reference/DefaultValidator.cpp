@@ -90,14 +90,13 @@ esapi::DefaultValidator::DefaultValidator(const esapi::DefaultValidator& other)
 }
 
 
-
-void esapi::DefaultValidator::addRule( const esapi::ValidationRule & ) {
+void esapi::DefaultValidator::addRule( const esapi::ValidationRule<void*> & ) {
 	//rules.put( rule.getTypeName(), rule );
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-esapi::ValidationRule& esapi::DefaultValidator::getRule( const std::string & ) {
+esapi::ValidationRule<void*>& esapi::DefaultValidator::getRule( const std::string & ) {
 	//return rules.get( name );
 	throw new UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
