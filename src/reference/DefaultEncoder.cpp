@@ -85,6 +85,7 @@ esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames)
                         }
                 }
  */
+	throw new UnsupportedOperationException("This operation is not yet supported");
 }
 
 std::string esapi::DefaultEncoder::canonicalize( const std::string & input) {

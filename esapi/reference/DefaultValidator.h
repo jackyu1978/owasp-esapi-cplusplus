@@ -20,6 +20,8 @@
 #pragma once
 
 #include "Validator.h"
+
+#include <exception>
 #include "errors/ValidationException.h"
 #include "errors/IntrusionException.h"
 
@@ -51,6 +53,9 @@ private:
 
 	/** The encoder to use for canonicalization */
 	boost::shared_ptr<Encoder> encoder;
+
+	/** Initialize file validator with an appropriate set of codecs */
+	void initFileValidator();
 
 	/** The encoder to use for file system */
 	static Validator* fileValidator;
@@ -107,7 +112,7 @@ public:
      */
 	DefaultValidator(Encoder *);
 
-	//TODO must override to get rid of pointer member warning
+	// must override to get rid of pointer member warning
 	DefaultValidator(const esapi::DefaultValidator&);
 	DefaultValidator& operator=(const esapi::DefaultValidator&);
 
