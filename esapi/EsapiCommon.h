@@ -94,8 +94,18 @@
 #include <string>
 #include <vector>
 
-#if defined(ESAPI_CXX_MSVC)
+// Windows defines a min that clashes with std::min. We also need
+// Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
+#if defined(ESAPI_OS_WINDOWS)
+# define NOMINMAX
+# define  _WIN32_WINNT 0x0500
+# include <windows.h>
+# include <Wincrypt.h>
 # include <intrin.h>
+#endif
+
+#if defined(ESAPI_OS_STARNIX)
+# include <pthread.h>
 #endif
 
 // For auto_ptr/unique_ptr (auto_ptr is deprecated) - see
@@ -210,19 +220,6 @@ static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (110)
 // So common, don't put in a namespace
 #if !defined(byte)
 typedef unsigned char byte;
-#endif
-
-#if defined(ESAPI_OS_STARNIX)
-# include <pthread.h>
-#endif
-
-// Windows defines a min that clashes with std::min. We also need
-// Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
-#if defined(ESAPI_OS_WINDOWS)
-# define NOMINMAX
-# define  _WIN32_WINNT 0x0500
-# include <windows.h>
-# include <Wincrypt.h>
 #endif
 
 // Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
