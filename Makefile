@@ -215,7 +215,7 @@ LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
 LDLIBS +=	-lcryptopp
 LDHIDE +=	-Wl,--exclude-libs,ALL
 
-TESTLIBS +=	-lboost_unit_test_framework
+TESTLIBS +=	-lboost_unit_test_framework-mt
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests

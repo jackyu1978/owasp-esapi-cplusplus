@@ -1101,7 +1101,7 @@ namespace esapi
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* seed, size_t size)
-    : SecureRandomImpl(algorithm)
+    : SecureRandomImpl(algorithm), m_v(), m_c(), m_rctr(1)
   {
   }
 
