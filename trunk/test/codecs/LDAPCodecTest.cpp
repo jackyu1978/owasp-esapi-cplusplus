@@ -32,6 +32,8 @@ using std::ostringstream;
 #define HEX(x) std::hex << std::setw(x) << std::setfill('0')
 #define OCT(x) std::octal << std::setw(x) << std::setfill('0')
 
+static const unsigned int THREAD_COUNT = 64;
+
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_1P)
 {
   // Positive test - construction
@@ -59,6 +61,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_4N)
 
   const char* nil = NULL;
   string encoded = codec.encodeCharacter(nil, 0, 'A');
+  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
@@ -67,6 +70,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
   LDAPCodec codec;
   const char immune[] = { (char)0xFF };
   string encoded = codec.encodeCharacter(immune, 0, 'A');
+  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
@@ -75,6 +79,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
   LDAPCodec codec;
   const char immune[] = { (char)0xFF };
   string encoded = codec.encodeCharacter((char*)NULL, COUNTOF(immune), 'A');
+  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)

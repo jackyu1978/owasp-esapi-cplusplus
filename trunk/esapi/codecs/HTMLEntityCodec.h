@@ -36,7 +36,8 @@ namespace esapi {
   */
   class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
 
-    typedef std::map<int,std::string> EntityMap;
+    typedef std::map<int, std::string> EntityMap;
+    typedef std::map<int, std::string>::const_iterator EntityMapIterator;
 
   private:
     static unsigned int REPLACEMENT_CHAR();
@@ -94,7 +95,7 @@ namespace esapi {
     * @return
     * 		Returns the decoded version of the character starting at index, or null if no decoding is possible.
     */
-    char getNamedEntity( PushbackString& ) ;
+    char getNamedEntity( PushbackString& str ) ;
 
     /**
     * Retrieve the class wide intialization lock.
@@ -125,7 +126,15 @@ namespace esapi {
     * Encodes a Character for safe use in an HTML entity field.
     * @param immune
     */
-    std::string encodeCharacter( const char*, size_t, char ) const;
+    std::string encodeCharacter( const char* immune, size_t length, char ch ) const;
+
+    /**
+    * {@inheritDoc}
+    *
+    * Encodes a Character for safe use in an HTML entity field.
+    * @param immune
+    */
+    std::string encodeCharacter( const char* immune, size_t length, int ch ) const;
 
     /**
     * {@inheritDoc}
@@ -138,6 +147,6 @@ namespace esapi {
     *   &#xhhhh;
     *   &name;
     */
-    char decodeCharacter( PushbackString& ) const;
+    char decodeCharacter( PushbackString& str ) const;
   };
 }; // esapi namespace
