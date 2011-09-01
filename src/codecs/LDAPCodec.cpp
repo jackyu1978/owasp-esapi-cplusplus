@@ -20,10 +20,13 @@ std::string esapi::LDAPCodec::encodeCharacter( const char immune[], size_t lengt
   ASSERT (c != 0);
 
 	// check for immune characters
+    if(immune)
+    {
 	for (unsigned int i=0; i<length; i++) {
 		if (immune[i] == c)
 			return std::string(1, c);
 	}
+    }
 
     switch (c) {
     case '\\':
