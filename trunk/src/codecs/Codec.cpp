@@ -26,9 +26,9 @@
 #define OCT(x) std::octal << std::setw(x) << std::setfill('0')
 
 /**
- * Precomputed size of the internal hex array.
- * Private to this compilation unit.
- */
+* Precomputed size of the internal hex array.
+* Private to this compilation unit.
+*/
 static const size_t ARR_SIZE = 256;
 
 //
@@ -38,54 +38,51 @@ static const size_t ARR_SIZE = 256;
 
 const esapi::HexArray& esapi::Codec::getHexArray ()
 {
+  MutexLock lock(getClassMutex());
+
   static volatile bool init = false;
   static boost::shared_ptr<HexArray> hexArr;
 
-  // First check
   MEMORY_BARRIER();
   if(!init)
   {
-    MutexLock lock(getClassMutex());
+    boost::shared_ptr<HexArray> temp(new HexArray);
+    ASSERT(temp);
+    if(nullptr == temp.get())
+      throw std::bad_alloc();
 
-    // Second check
-    if(!init)
-    {
-      boost::shared_ptr<HexArray> temp(new HexArray);
-      ASSERT(temp);
-      if(nullptr == temp.get())
-        throw std::bad_alloc();
+    // Convenience
+    HexArray& ta = *temp.get();
 
-      // Convenience
-      HexArray& ta = *temp.get();
+    // Save on reallocations
+    ta.resize(ARR_SIZE);
 
-      // Save on reallocations
-      ta.resize(ARR_SIZE);
-
-      for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
-        if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
-          ta[c] = "";
-        } else {
-          std::ostringstream str;
-          // str << HEX(2) << int(0xFF & c);
-          str << std::hex << c;
-          ta[c] = str.str();
-        }
+    for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
+      if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
+        ta[c] = std::string();
+      } else {
+        std::ostringstream str;
+        // str << HEX(2) << int(0xFF & c);
+        str << std::hex << c;
+        ta[c] = str.str();
       }
-
-      hexArr = temp;
-      init = true;
-      MEMORY_BARRIER();
     }
-  }
+
+    hexArr.swap(temp);
+    init = true;
+
+    MEMORY_BARRIER();
+
+    } // !init
 
   return *hexArr.get();
 }
 
 /**
- * Retrieve the class wide intialization lock.
- *
- * @return the mutex used to lock the class.
- */
+* Retrieve the class wide intialization lock.
+*
+* @return the mutex used to lock the class.
+*/
 esapi::Mutex& esapi::Codec::getClassMutex ()
 {
   static esapi::Mutex s_mutex;
@@ -99,7 +96,7 @@ std::string esapi::Codec::encode(const char immune[], size_t length, const std::
   ASSERT(!input.empty());
 
   if(!immune)
-    return "";
+    return std::string();
 
   std::string sb;
   sb.reserve(input.size());

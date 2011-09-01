@@ -8,19 +8,21 @@
 * Copyright (c) 2011 - The OWASP Foundation
 */
 
-#include <string>
-
+#include "EsapiCommon.h"
 #include "codecs/LDAPCodec.h"
 #include "codecs/Codec.h"
-#include "EsapiCommon.h"
+
+#include <string>
 
 std::string esapi::LDAPCodec::encodeCharacter( const char immune[], size_t length, char c) const {
-	ASSERT (c != 0);
+	ASSERT(immune);
+  ASSERT(length);
+  ASSERT (c != 0);
 
 	// check for immune characters
 	for (unsigned int i=0; i<length; i++) {
 		if (immune[i] == c)
-			return (std::string)""+c;
+			return std::string(1, c);
 	}
 
     switch (c) {
@@ -40,11 +42,13 @@ std::string esapi::LDAPCodec::encodeCharacter( const char immune[], size_t lengt
             return "\\00";
             break;
     default:
-            return (std::string)""+c;
+            return std::string(1, c);
     }
 }
 
-char esapi::LDAPCodec::decodeCharacter( PushbackString& input) const {
+char esapi::LDAPCodec::decodeCharacter(PushbackString& input) const {
+  ASSERT(input.hasNext());
+
 	input.mark();
 	char first = input.next();
 	if ( first == 0 ) {
