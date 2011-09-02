@@ -91,7 +91,7 @@ namespace esapi
     * Rekey the random pool. The pool will re-key and re-sync itself
     * using bits acquired from the Operating System provided pool.
     */
-    void Rekey();
+    bool Rekey();
 
     /**
     * Fetches bytes from the Operating System provided pool and uses
