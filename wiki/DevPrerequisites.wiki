@@ -5,6 +5,8 @@
 
 Some commands to get the prerequisites on the system. It assumes GCC/G++, binutils, and friends are already installed.
 
+ESAPI uses Boost's base installation, regex, and test.
+
 = Details =
 
 == SafeInt ==
@@ -23,7 +25,7 @@ $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 == Boost ==
 
 <pre># Debian and friends
-$ sudo apt-get install libboost-dbg libboost-dev libboost-test-dev libboost-regex-dev</pre>
+$ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-test-dev libboost-regex-dev</pre>
 
 <pre># Fedora and friends
 > su -
