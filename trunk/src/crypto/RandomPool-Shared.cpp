@@ -47,7 +47,10 @@ namespace esapi
     // a private function and only called by GetSharedInstance(). GetSharedInstance()
     // will acquire the the lock during double check initialization.
 
-    Rekey();
+    bool result = Rekey();
+    ASSERT(result);
+    if(!result)
+      throw EncryptionException("Failed to initialize the random pool");
   }
 
   /**
@@ -67,7 +70,10 @@ namespace esapi
     // Forward facing function. Lock the object to ensure state integrity.
     MutexLock lock(RandomPool::GetSharedLock());
 
-    Rekey();
+    bool result = Rekey();
+    ASSERT(result);
+    if(!result)
+      throw EncryptionException("Failed to reseed the random pool");
   }
 
   /**
@@ -75,7 +81,7 @@ namespace esapi
   * acquired from the Operating System provided pool. As an internal function,
   * the lock *is not* acquired.
   */
-  void RandomPool::Rekey()
+  bool RandomPool::Rekey()
   {
     try
     {
@@ -105,27 +111,25 @@ namespace esapi
     {
       throw EncryptionException(std::string("Internal error: ") + ex.what());
     }
+
+    return m_keyed;
   }
 
   RandomPool& RandomPool::GetSharedInstance()
   {
+    // Forward facing function. Lock the object to ensure state integrity.
+    MutexLock lock(RandomPool::GetSharedLock());
+
     static volatile bool init = false;
     static RandomPool s_pool;
 
     MEMORY_BARRIER();
-
     if(!init)
     {
-      // Forward facing function. Lock the object to ensure state integrity.
-      MutexLock lock(RandomPool::GetSharedLock());
+      s_pool.Init();
 
-      if(!init)
-      {
-        s_pool.Init();
-
-        init = true;
-        MEMORY_BARRIER();
-      }
+      init = true;
+      MEMORY_BARRIER();
     }
 
     return s_pool;
