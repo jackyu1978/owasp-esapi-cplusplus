@@ -18,6 +18,8 @@
 
 #include <limits.h>
 #include <sstream>
+
+#define BOOST_REGEX_DYN_LINK
 #include <boost/regex.hpp>
 
 esapi::StringValidationRule::StringValidationRule(const std::string & typeName)
@@ -38,15 +40,15 @@ esapi::StringValidationRule::StringValidationRule(const std::string &typeName, E
 	addWhitelistPattern(whitelistPattern);
 }
 
-std::string esapi::StringValidationRule::getValid(const std::string &, const std::string &) throw (ValidationException) {
-/*
-		String data = null;
+std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) throw (ValidationException) {
+
+		std::string data = "";
 
 		// checks on input itself
 
 		// check for empty/null
-		if(checkEmpty(context, input) == null)
-			return null;
+		if(checkEmpty(context, input).compare("")==0)
+			return "";
 
 		if (validateInputAndCanonical)
 		{
@@ -62,7 +64,7 @@ std::string esapi::StringValidationRule::getValid(const std::string &, const std
 			checkBlacklist(context, input);
 
 			// canonicalize
-			data = encoder.canonicalize( input );
+			data = encoder->canonicalize( input );
 
 		} else {
 
@@ -71,8 +73,8 @@ std::string esapi::StringValidationRule::getValid(const std::string &, const std
 		}
 
 		// check for empty/null
-		if(checkEmpty(context, data, input) == null)
-			return null;
+		if(checkEmpty(context, data, input).compare("")==0)
+			return "";
 
 		// check length
 		checkLength(context, data, input);
@@ -85,8 +87,6 @@ std::string esapi::StringValidationRule::getValid(const std::string &, const std
 
 		// validation passed
 		return data;
- */
-	throw new UnsupportedOperationException("This operation has not yet been implemented");
 }
 
 std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (ValidationException) {
@@ -132,10 +132,10 @@ void esapi::StringValidationRule::setValidateInputAndCanonical(bool flag) {
 }
 
 std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
-	/*boost::regex re;*/
 	std::set<std::string>::iterator it;
 	for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
-		if(/*!boost::regex_match(input,*it, re)*/true) {
+		const boost::regex re(*it);
+		if(!boost::regex_match(input,re)) {
 			std::stringstream userMessage;
 			std::stringstream logMessage;
 			userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
@@ -151,17 +151,19 @@ std::string esapi::StringValidationRule::checkWhitelist(const std::string &conte
 }
 
 std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
-/*
-		// check blacklist patterns
-		for (Pattern p : blacklistPatterns) {
-			if ( p.matcher(input).matches() ) {
-				throw new ValidationException( context + ": Invalid input. Dangerous input matching " + p.pattern() + " detected.", "Dangerous input: context=" + context + ", type(" + getTypeName() + ")=" + p.pattern() + ", input=" + input + (NullSafe.equals(orig,input) ? "" : ", orig=" + orig), context );
-			}
+	std::set<std::string>::iterator it;
+	for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
+		const boost::regex re(*it);
+		if(!boost::regex_match(input,re)) {
+			std::stringstream userMessage;
+			std::stringstream logMessage;
+			userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
+			logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+			throw new ValidationException( userMessage.str(), logMessage.str(), context );
 		}
+	}
+	return input;
 
-		return input;
- */
-	throw new UnsupportedOperationException("This operation has not yet been implemented");
 }
 
 std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) throw (ValidationException) {
