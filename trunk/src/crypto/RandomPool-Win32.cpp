@@ -75,7 +75,10 @@ namespace esapi
           CryptoPP::Timer timer;
           timer.StartTimer();
 
-          CryptGenRandom(hProvider, 1, &key[idx]);
+          BOOL result = CryptGenRandom(hProvider, 1, &key[idx]);
+          ASSERT(result);
+          if(!result) break; /* Failed */
+
           req--; idx++;
 
           // If it appears we have blocked, break and fall back to the base provider
