@@ -491,7 +491,8 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   if(map.end() != it)
     return std::string("&") + it->second + std::string(";");
 
-  if(::isalnum(c))
+  // Hack ahead!!! Need to cut in ESAPI logic
+  if(c < 256 && ::isalnum(c))
     return std::string(1, c);
 
   // return the hex entity as suggested in the spec
