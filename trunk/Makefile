@@ -193,6 +193,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/errors/ValidationExceptionTest.cpp \
 			test/reference/DefaultEncryptorTest.cpp \
 			test/reference/DefaultEncoderTest.cpp \
+			test/reference/validation/StringValidationRuleTest.cpp \
 			test/util/zAllocatorTest.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp
@@ -216,7 +217,7 @@ RANLIB =	ranlib
 INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
-LDLIBS +=	-lcryptopp
+LDLIBS +=	-lcryptopp -lboost_regex-mt
 LDHIDE +=	-Wl,--exclude-libs,ALL
 
 TESTLIBS +=	-lboost_unit_test_framework-mt
