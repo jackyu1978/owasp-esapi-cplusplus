@@ -72,7 +72,7 @@ private:
 public:
 	static const Encoder& getInstance();
 
-	DefaultEncoder( std::list<std::string> );
+	DefaultEncoder( std::set<std::string> );
 
 	/**
 	 * {@inheritDoc}

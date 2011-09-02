@@ -18,7 +18,7 @@
 
 #include "EsapiCommon.h"
 
-#include <stdexcept>
+#include <exception>
 #include <string>
 
 namespace esapi {
@@ -39,14 +39,14 @@ namespace esapi {
    * <P>
    * @author Jeff Williams (jeff.williams@aspectsecurity.com)
    */
-  class ESAPI_EXPORT EnterpriseSecurityException : public std::runtime_error
+  class ESAPI_EXPORT EnterpriseSecurityException : public std::exception
     {
     protected:
 
       /** The logger. */
       //const Logger logger = ESAPI.getLogger("EnterpriseSecurityException");
-
-      std::string logMessage;
+	  const std::string userMessage;
+      const std::string logMessage;
 
     public:
 
@@ -74,7 +74,8 @@ namespace esapi {
        *
        * @return a String containing a message that is safe to display to users
        */
-      virtual std::string getUserMessage();
+      virtual std::string getUserMessage() const;
+      virtual const char* what() const throw();
 
       /**
        * Returns a message that is safe to display in logs, but may contain
@@ -84,7 +85,7 @@ namespace esapi {
        * @return a String containing a message that is safe to display in logs,
        * but probably not to users as it may contain sensitive information.
        */
-      virtual std::string getLogMessage();
+      virtual std::string getLogMessage() const;
 
       virtual ~EnterpriseSecurityException() throw() { };
     };
