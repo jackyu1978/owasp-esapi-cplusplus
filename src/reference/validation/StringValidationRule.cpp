@@ -14,6 +14,8 @@
 
 #include "reference/validation/StringValidationRule.h"
 #include "errors/UnsupportedOperationException.h"
+#include "errors/NullPointerException.h"
+#include "errors/ValidationException.h"
 #include "EncoderConstants.h"
 
 #include <limits.h>
@@ -25,13 +27,18 @@
 esapi::StringValidationRule::StringValidationRule(const std::string & typeName)
 	: BaseValidationRule<std::string>(typeName), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
 {
-
+	//setEncoder( ESAPI.encoder() );
+	setTypeName( typeName );
 }
 
 esapi::StringValidationRule::StringValidationRule(const std::string & typeName, Encoder* encoder)
 	: BaseValidationRule<std::string>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
 {
+	ASSERT(encoder);
+	if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
 
+	setEncoder( encoder );
+	setTypeName( typeName );
 }
 
 esapi::StringValidationRule::StringValidationRule(const std::string &typeName, Encoder* encoder, const std::string & whitelistPattern)
@@ -40,63 +47,69 @@ esapi::StringValidationRule::StringValidationRule(const std::string &typeName, E
 	addWhitelistPattern(whitelistPattern);
 }
 
-std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) throw (ValidationException) {
+std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+	//ASSERT(encoder);
+	//if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
 
-		std::string data = "";
+	std::string data = "";
 
-		// checks on input itself
+	// checks on input itself
 
-		// check for empty/null
-		if(checkEmpty(context, input).compare("")==0)
-			return "";
+	// check for empty/null
+	if(checkEmpty(context, input).compare("")==0)
+		return "";
 
-		if (validateInputAndCanonical)
-		{
-			//first validate pre-canonicalized data
-
-			// check length
-			checkLength(context, input);
-
-			// check whitelist patterns
-			checkWhitelist(context, input);
-
-			// check blacklist patterns
-			checkBlacklist(context, input);
-
-			// canonicalize
-			data = encoder->canonicalize( input );
-
-		} else {
-
-			//skip canonicalization
-			data = input;
-		}
-
-		// check for empty/null
-		if(checkEmpty(context, data, input).compare("")==0)
-			return "";
+	if (validateInputAndCanonical)
+	{
+		//first validate pre-canonicalized data
 
 		// check length
-		checkLength(context, data, input);
+		checkLength(context, input);
 
 		// check whitelist patterns
-		checkWhitelist(context, data, input);
+		checkWhitelist(context, input);
 
 		// check blacklist patterns
-		checkBlacklist(context, data, input);
+		checkBlacklist(context, input);
 
-		// validation passed
-		return data;
+		// canonicalize
+		//data = encoder->canonicalize( input );
+		data = input; // HACK! TODO: remove after locater class works.
+
+	} else {
+
+		//skip canonicalization
+		data = input;
+	}
+
+	// check for empty/null
+	if(checkEmpty(context, data, input).compare("")==0)
+		return "";
+
+	// check length
+	checkLength(context, data, input);
+
+	// check whitelist patterns
+	checkWhitelist(context, data, input);
+
+	// check blacklist patterns
+	checkBlacklist(context, data, input);
+
+	// validation passed
+	return data;
 }
 
-std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (ValidationException) {
-		std::string valid;
-		try {
-			valid = this->getValid( context, input );
-		} catch (ValidationException &e) {
-			errorList.addError(context, &e);
-		}
-		return valid;
+std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (esapi::ValidationException) {
+	ASSERT(&errorList);
+	if (&errorList==nullptr) throw new NullPointerException("errorList has null pointer");
+
+	std::string valid;
+	try {
+		valid = this->getValid( context, input );
+	} catch (ValidationException &e) {
+		errorList.addError(context, &e);
+	}
+	return valid;
 }
 
 std::string esapi::StringValidationRule::sanitize(const std::string &context, const std::string &input) {
@@ -131,46 +144,54 @@ void esapi::StringValidationRule::setValidateInputAndCanonical(bool flag) {
 	this->validateInputAndCanonical = flag;
 }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
 	std::set<std::string>::iterator it;
-	for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
-		const boost::regex re(*it);
-		if(!boost::regex_match(input,re)) {
-			std::stringstream userMessage;
-			std::stringstream logMessage;
-			userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
-			logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-			throw new ValidationException( userMessage.str(), logMessage.str(), context );
+
+	if (!whitelistPatterns.empty()) {
+		for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
+			const boost::regex re(*it);
+			if(!boost::regex_match(input,re)) {
+				std::stringstream userMessage;
+				std::stringstream logMessage;
+				userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
+				logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			}
 		}
 	}
+
 	return input;
 }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
 	return checkWhitelist(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
 	std::set<std::string>::iterator it;
-	for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
-		const boost::regex re(*it);
-		if(!boost::regex_match(input,re)) {
-			std::stringstream userMessage;
-			std::stringstream logMessage;
-			userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
-			logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-			throw new ValidationException( userMessage.str(), logMessage.str(), context );
+
+	if (!blacklistPatterns.empty()) {
+		for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
+			const boost::regex re(*it);
+			if(!boost::regex_match(input,re)) {
+				std::stringstream userMessage;
+				std::stringstream logMessage;
+				userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
+				logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			}
 		}
 	}
+
 	return input;
 
 }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
 	return checkBlacklist(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
 	if (input.size() < minLength) {
 		std::stringstream userMessage;
 		std::stringstream logMessage;
@@ -190,11 +211,11 @@ std::string esapi::StringValidationRule::checkLength(const std::string &context,
 	return input;
 }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
 	return checkLength(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input, const std::string &orig) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
 	if(!input.empty())
 		return input;
 	if(allowNull)
@@ -207,6 +228,6 @@ std::string esapi::StringValidationRule::checkEmpty(const std::string &context, 
 	throw new ValidationException(userMessage.str(), logMessage.str(), context );
 }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input) throw (ValidationException) {
+std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
 	return checkEmpty(context, input, input);
 }

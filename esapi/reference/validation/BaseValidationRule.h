@@ -76,7 +76,7 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setEncoder(Encoder*) = 0;
+		virtual void setEncoder(Encoder*);
 
 	    /**
 	     * {@inheritDoc}
@@ -156,12 +156,12 @@ void esapi::BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::assertValid( const std::string &context, const std::string &input ) throw (ValidationException) {
+void esapi::BaseValidationRule<T>::assertValid( const std::string &context, const std::string &input ) throw (esapi::ValidationException) {
 		getValid( context, input, *(new ValidationErrorList));
 }
 
 template <typename T>
-T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (ValidationException) {
+T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (esapi::ValidationException) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );

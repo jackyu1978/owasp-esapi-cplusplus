@@ -17,7 +17,7 @@
 #include "errors/EnterpriseSecurityException.h"
 
 esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::string &userMessage, const std::string &newLogMessage )
-  : std::runtime_error( userMessage ), logMessage( newLogMessage )
+  : userMessage( userMessage ), logMessage( newLogMessage )
 {
 	/**
     if (!ESAPI.securityConfiguration().getDisableIntrusionDetection()) {
@@ -25,12 +25,17 @@ esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::strin
     }*/
 }
 
-std::string esapi::EnterpriseSecurityException::getUserMessage()
+std::string esapi::EnterpriseSecurityException::getUserMessage() const
 {
-	return this->what();
+	return this->userMessage;
 }
 
-std::string esapi::EnterpriseSecurityException::getLogMessage()
+const char* esapi::EnterpriseSecurityException::what() const throw()
+{
+	return this->userMessage.c_str();
+}
+
+std::string esapi::EnterpriseSecurityException::getLogMessage() const
 {
 	return this->logMessage;
 }

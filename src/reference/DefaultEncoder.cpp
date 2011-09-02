@@ -72,7 +72,7 @@ const esapi::Encoder& esapi::DefaultEncoder::getInstance() {
 	return *enc;
 }
 
-esapi::DefaultEncoder::DefaultEncoder( std::list<std::string> codecNames)
+esapi::DefaultEncoder::DefaultEncoder( std::set<std::string> codecNames)
   : codecs(), ldapCodec()
 {
 /*
