@@ -83,10 +83,10 @@ const esapi::HexArray& esapi::Codec::getHexArray ()
 *
 * @return the mutex used to lock the class.
 */
-esapi::Mutex& esapi::Codec::getClassMutex ()
+esapi::Mutex* esapi::Codec::getClassMutex ()
 {
   static esapi::Mutex s_mutex;
-  return s_mutex;
+  return &s_mutex;
 }
 
 std::string esapi::Codec::encode(const char immune[], size_t length, const std::string& input) const

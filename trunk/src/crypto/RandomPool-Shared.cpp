@@ -24,10 +24,10 @@ namespace esapi
   * serves up a single static object. Before the first construction of the static
   * object, the lock is acquired.
   */
-  Mutex& RandomPool::GetSharedLock()
+  Mutex* RandomPool::GetSharedLock()
   {
     static Mutex s_lock;
-    return s_lock;
+    return &s_lock;
   }
 
   /**
