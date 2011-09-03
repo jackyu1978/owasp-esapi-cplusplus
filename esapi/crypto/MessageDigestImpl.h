@@ -29,15 +29,15 @@ namespace esapi
     explicit MessageDigestImpl(const std::string& algorithm)
       : m_algorithm(algorithm) { }
 
-    virtual std::string getAlgorithmImpl() const { return m_algorithm; };
+    virtual std::string getAlgorithmImpl() const throw(EncryptionException) { return m_algorithm; };
 
-    virtual size_t getDigestLengthImpl() const throw() = 0;
+    virtual size_t getDigestLengthImpl() const throw(EncryptionException) = 0;
 
-    virtual void resetImpl() = 0;
+    virtual void resetImpl() throw(EncryptionException) = 0;
 
-    virtual void updateImpl(byte input) = 0;
+    virtual void updateImpl(byte input) throw(EncryptionException) = 0;
 
-    virtual void updateImpl(const byte input[], size_t size) = 0;
+    virtual void updateImpl(const byte input[], size_t size) throw(InvalidArgumentException, EncryptionException) = 0;
 
     virtual void updateImpl(const byte buf[], size_t size, size_t offset, size_t len)
       throw(InvalidArgumentException, EncryptionException) = 0;
@@ -49,7 +49,7 @@ namespace esapi
 
   protected:
 
-    static MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm)
+    static MessageDigestImpl* createInstance(const std::string& algorithm)
       throw(InvalidArgumentException);
 
   private:
@@ -66,20 +66,22 @@ namespace esapi
 
     explicit MessageDigestTmpl(const std::string& algorithm);
 
-    virtual std::string getAlgorithmImpl() const;
+    virtual std::string getAlgorithmImpl() const  throw(EncryptionException);
 
-    virtual size_t getDigestLengthImpl() const throw();
+    virtual size_t getDigestLengthImpl() const throw(EncryptionException);
 
-    virtual void resetImpl();
+    virtual void resetImpl() throw(EncryptionException);
 
-    virtual void updateImpl(byte input);
+    virtual void updateImpl(byte input) throw(EncryptionException);
 
-    virtual void updateImpl(const byte input[], size_t size);
+    virtual void updateImpl(const byte input[], size_t size)
+      throw(InvalidArgumentException, EncryptionException);
 
     virtual void updateImpl(const byte buf[], size_t size, size_t offset, size_t len)
       throw(InvalidArgumentException, EncryptionException);
 
-    // virtual byte[] digest(byte input[], size_t size);
+    // virtual byte[] digest(byte input[], size_t size)
+    //   throw(InvalidArgumentException, EncryptionException);
 
     virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len)
       throw(InvalidArgumentException, EncryptionException);

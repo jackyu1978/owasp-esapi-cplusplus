@@ -28,7 +28,7 @@ namespace esapi
     /**
     * Returns the default message digest, currently defined as SHA-256.
     */
-    static std::string MessageDigest::DefaultAlgorithm();
+    static std::string DefaultAlgorithm();
 
     /**
     * Returns a MessageDigest object that implements the specified digest algorithm.

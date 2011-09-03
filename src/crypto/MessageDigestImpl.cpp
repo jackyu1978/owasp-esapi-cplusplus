@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #include "EsapiCommon.h"
 #include "crypto/MessageDigest.h"
@@ -71,46 +71,69 @@ namespace esapi
   }
 
   /**
-  * Returns a string that identifies the algorithm, independent of implementation details.
-  */
+   * Returns a string that identifies the algorithm, independent of implementation details.
+   */
   template <class HASH>
   std::string MessageDigestTmpl<HASH>::getAlgorithmImpl() const
+    throw(EncryptionException)
   {
     return MessageDigestImpl::getAlgorithmImpl();
   }
 
   /**
-  * Returns a string that identifies the algorithm, independent of implementation details.
-  */
+   * Returns a string that identifies the algorithm, independent of implementation details.
+   */
   template <class HASH>
   size_t MessageDigestTmpl<HASH>::getDigestLengthImpl() const
+    throw(EncryptionException)
   {
-    return (size_t)m_hash.DigestSize();
+    size_t size;
+
+    try
+      {
+        size = (size_t)m_hash.DigestSize();
+      }
+    catch(CryptoPP::Exception& ex)
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
+
+    return size;
   }
 
   /**
-  * Returns a string that identifies the algorithm, independent of implementation details.
-  */
+   * Returns a string that identifies the algorithm, independent of implementation details.
+   */
   template <class HASH>
   void MessageDigestTmpl<HASH>::resetImpl()
+    throw(EncryptionException)
   {
-    m_hash.Restart();
+    try
+      {
+        m_hash.Restart();
+      }
+    catch(CryptoPP::Exception& ex)
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Updates the digest using the specified byte.
-  */
+   * Updates the digest using the specified byte.
+   */
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(byte input)
+    throw(EncryptionException)
   {
     m_hash.Update(&input, 1);
   }
 
   /**
-  * Updates the digest using the specified array of bytes.
-  */
+   * Updates the digest using the specified array of bytes.
+   */
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size)
+    throw(InvalidArgumentException, EncryptionException)
   {
     //ASSERT(input);
     //ASSERT(size);
@@ -119,8 +142,8 @@ namespace esapi
   }
 
   /**
-  * Updates the digest using the specified array of bytes, starting at the specified offset.
-  */
+   * Updates the digest using the specified array of bytes, starting at the specified offset.
+   */
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
@@ -148,41 +171,41 @@ namespace esapi
     // md.update(scratch, 1, 16);
 
     try
-    {
-      // Pointer wrap?
-      SafeInt<size_t> safe1((size_t)input);
-      safe1 += size;
+      {
+        // Pointer wrap?
+        SafeInt<size_t> safe1((size_t)input);
+        safe1 += size;
 
-      // Within bounds?
-      SafeInt<size_t> safe2(offset);
-      safe2 += len;
-      if((size_t)safe2 > size)
-        throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+        // Within bounds?
+        SafeInt<size_t> safe2(offset);
+        safe2 += len;
+        if((size_t)safe2 > size)
+          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
 
-      m_hash.Update(input+offset, len);
-    }
+        m_hash.Update(input+offset, len);
+      }
     catch(SafeIntException&)
-    {
-      throw EncryptionException("Integer overflow detected");
-    }
+      {
+        throw EncryptionException("Integer overflow detected");
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
   }
 
   /**
-  * Performs a final update on the digest using the specified array of bytes, then completes the
-  * digest computation.
-  */
+   * Performs a final update on the digest using the specified array of bytes, then completes the
+   * digest computation.
+   */
   // template <class HASH>
   // byte[] MessageDigestTmpl<HASH>::digest(byte input[], size_t size)
   // {
   // }
 
   /**
-  * Completes the hash computation by performing final operations such as padding.
-  */
+   * Completes the hash computation by performing final operations such as padding.
+   */
   template <class HASH>
   size_t MessageDigestTmpl<HASH>::digestImpl(byte buf[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
@@ -208,37 +231,37 @@ namespace esapi
     // int ret = md.digest(scratch, 0, 15);
 
     if(size < (size_t)m_hash.DigestSize() || len < (size_t)m_hash.DigestSize())
-    {
-      std::ostringstream oss;
-      oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithmImpl();
-      throw InvalidArgumentException(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithmImpl();
+        throw InvalidArgumentException(oss.str());
+      }
 
     const size_t req = std::min(size, std::min((size_t)HASH::DIGESTSIZE, len));
 
     try
-    {
-      // Pointer wrap?
-      SafeInt<size_t> safe1((size_t)buf);
-      safe1 += size;
+      {
+        // Pointer wrap?
+        SafeInt<size_t> safe1((size_t)buf);
+        safe1 += size;
 
-      // Within bounds?
-      SafeInt<size_t> safe2(offset);
-      safe2 += len;
-      if((size_t)safe2 > size)
-        throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+        // Within bounds?
+        SafeInt<size_t> safe2(offset);
+        safe2 += len;
+        if((size_t)safe2 > size)
+          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
 
-      // TruncatedFinal returns the requested number of bytes and restarts the hash.
-      m_hash.TruncatedFinal(buf+offset, req);
-    }
+        // TruncatedFinal returns the requested number of bytes and restarts the hash.
+        m_hash.TruncatedFinal(buf+offset, req);
+      }
     catch(SafeIntException&)
-    {
-      throw EncryptionException("Integer overflow detected");
-    }
+      {
+        throw EncryptionException("Integer overflow detected");
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
 
     return (size_t)req;
   }
