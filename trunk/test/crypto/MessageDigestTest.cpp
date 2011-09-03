@@ -39,14 +39,31 @@ using esapi::EncryptionException;
 #include <crypto/MessageDigest.h>
 using esapi::MessageDigest;
 
-void* WorkerThreadProc(void* param);
-void DoWorkerThreadStuff();
+#include <pthread.h>
 
-BOOST_AUTO_TEST_SUITE( VerifyMessageDigest )
+static void* WorkerThreadProc(void* param);
+static void DoWorkerThreadStuff();
+static const unsigned int THREAD_COUNT = 64;
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 {
   bool success = false;
+
+  try
+    {    
+      MessageDigest md1("Foo");
+    }
+  catch(InvalidArgumentException&)
+    {
+      success = true;
+    }
+  catch(EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch InvalidArgumentException");
+
+  /////////////////////////////////////////////////////////////////////////
     
   try
     {    
@@ -65,8 +82,8 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
   /////////////////////////////////////////////////////////////////////////
 
   MessageDigest md2(MessageDigest::getInstance());
-  success = (md2->getAlgorithm() == "SHA-256");
-  BOOST_CHECK_MESSAGE(success, "Default generator " << md2->getAlgorithm() << " is unexpected");
+  success = (md2.getAlgorithm() == "SHA-256");
+  BOOST_CHECK_MESSAGE(success, "Default generator " << md2.getAlgorithm() << " is unexpected");
 
   /////////////////////////////////////////////////////////////////////////
 
@@ -97,7 +114,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       success = false;
       MessageDigest md4(MessageDigest::getInstance());
-      const size_t sz = md4->getDigestLength();
+      const size_t sz = md4.getDigestLength();
       SecureByteArray buf(sz);
       md4.digest(&buf[0], buf.size(), 0, sz-1);
     }
@@ -118,7 +135,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       success = false;
       MessageDigest md5(MessageDigest::getInstance());
       size_t ptr = ((size_t)-1) - 7;
-      const size_t size = md5->getDigestLength();
+      const size_t size = md5.getDigestLength();
       md5.digest((byte*)ptr, size, 0, size);
     }
   catch(InvalidArgumentException& ex)
@@ -156,7 +173,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       success = false;
       MessageDigest md7(MessageDigest::getInstance());
       const size_t ptr = ((size_t)-1) - 7;
-      md7.update((byte*)ptr, md7->getDigestLength(), 0, 4);
+      md7.update((byte*)ptr, md7.getDigestLength(), 0, 4);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -174,7 +191,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       success = false;
       MessageDigest md8(MessageDigest::getInstance());
-      const size_t sz = md8->getDigestLength();
+      const size_t sz = md8.getDigestLength();
       SecureByteArray buf(sz);
       md8.digest(&buf[0], buf.size(), sz-1, 2*sz-1);
     }
@@ -194,7 +211,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       success = false;
       MessageDigest md9(MessageDigest::getInstance());
-      const size_t sz = md9->getDigestLength();
+      const size_t sz = md9.getDigestLength();
       SecureByteArray buf(sz);
       md9.update(&buf[0], buf.size(), sz-1, 2*sz-1);
     }
@@ -212,7 +229,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestThreads )
 {
-  DoWorkerThreadStuff();
+  // DoWorkerThreadStuff();
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
@@ -346,9 +363,9 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
     }
   BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (4)");
 
-  /////////////////////////////////////////////////////////////////////////
 }
 
+/*
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA1 )
 {
 }
@@ -372,25 +389,30 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA512 )
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestWhirlpool )
 {
 }
+*/
 
-#if defined(WIN32) || defined(_WIN32) 
+void* WorkerThreadProc(void* param)
+{
+  // BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
+
+  return (void*)0;
+}
+
+#if defined(ESAPI_OS_WINDOWS) 
 void DoWorkerThreadStuff()
 {
 }
-#elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
+#elif defined(ESAPI_OS_STARNIX)
 void DoWorkerThreadStuff()
 {
-  SecureRandom shared = SecureRandom::getInstance(std::string("HmacSHA256"));
   pthread_t threads[THREAD_COUNT];
 
   // *** Worker Threads ***
   for(unsigned int i=0; i<THREAD_COUNT; i++)
     {
-      Args* args = new Args(i, shared);
-      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)args);
+      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)i);
       if(0 != ret /*success*/)
         {
-          if(args) delete args;
           BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
         }
     }
@@ -408,10 +430,3 @@ void DoWorkerThreadStuff()
 }
 #endif
 
-void* WorkerThreadProc(void* param)
-{
-
-  BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
-
-  return (void*)0;
-}
