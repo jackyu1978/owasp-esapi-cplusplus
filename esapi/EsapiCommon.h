@@ -107,6 +107,7 @@
 
 #if defined(ESAPI_OS_STARNIX)
 # include <pthread.h>
+# include <errno.h>
 #endif
 
 // We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
@@ -143,6 +144,7 @@
       oss << "Assertion failed: " << (char*)(__FILE__) << "("     \
           << (int)__LINE__ << "): " << (char*)(__func__)          \
           << ": \"" << (msg) << "\"" << std::endl;                \
+      std::cerr << oss.str();                                     \
       raise(SIGTRAP);                                             \
     }                                                             \
   }
