@@ -23,7 +23,7 @@ namespace esapi
   {
   protected:
     NotCopyable() { };
-    virtual ~NotCopyable() { };
+    ~NotCopyable() { };
   private:
     NotCopyable(const NotCopyable&);
     NotCopyable& operator=(const NotCopyable&);

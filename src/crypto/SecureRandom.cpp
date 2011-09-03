@@ -144,10 +144,10 @@ namespace esapi
   /**
    * Retrieves the object level lock
    */
-  Mutex* SecureRandom::getObjectLock() const
+  Mutex& SecureRandom::getObjectLock() const
   {
     ASSERT(m_lock.get());
-    return m_lock.get();
+    return *m_lock.get();
   }
 
   /**

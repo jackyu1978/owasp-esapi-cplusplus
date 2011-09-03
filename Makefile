@@ -194,7 +194,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/errors/ValidationExceptionTest.cpp \
 			test/reference/DefaultEncryptorTest.cpp \
 			test/reference/DefaultEncoderTest.cpp \
-			test/reference/validation/StringValidationRuleTest.cpp \
+#			test/reference/validation/StringValidationRuleTest.cpp \
 			test/util/zAllocatorTest.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp
