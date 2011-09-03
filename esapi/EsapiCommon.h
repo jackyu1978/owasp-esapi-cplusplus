@@ -90,6 +90,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <sstream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -131,21 +132,24 @@
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
 #if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
-#  define ESAPI_ASSERT1(exp) {                                          \
-    if(!(exp)) {                                                        \
-      std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-                << (int)__LINE__ << "): " << (char*)(__func__)          \
-                << std::endl;                                           \
-      raise(SIGTRAP);                                                   \
-    }                                                                   \
+#  define ESAPI_ASSERT1(exp) {                                    \
+    if(!(exp)) {                                                  \
+      std::ostringstream oss;                                     \
+      oss << "Assertion failed: " << (char*)(__FILE__) << "("     \
+          << (int)__LINE__ << "): " << (char*)(__func__)          \
+          << std::endl;                                           \
+      std::cerr << oss.str();                                     \
+      raise(SIGTRAP);                                             \
+    }                                                             \
   }
-#  define ESAPI_ASSERT2(exp, msg) {                                     \
-    if(!(exp)) {                                                        \
-      std::cerr << "Assertion failed: " << (char*)(__FILE__) << "("     \
-                << (int)__LINE__ << "): " << (char*)(__func__)          \
-                << ": \"" << (msg) << "\"" << std::endl;                \
-      raise(SIGTRAP);                                                   \
-    }                                                                   \
+#  define ESAPI_ASSERT2(exp, msg) {                               \
+    if(!(exp)) {                                                  \
+      std::ostringstream oss;                                     \
+      oss << "Assertion failed: " << (char*)(__FILE__) << "("     \
+          << (int)__LINE__ << "): " << (char*)(__func__)          \
+          << ": \"" << (msg) << "\"" << std::endl;                \
+      raise(SIGTRAP);                                             \
+    }                                                             \
   }
 #elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
 #  define ESAPI_ASSERT1(exp) assert(exp)
