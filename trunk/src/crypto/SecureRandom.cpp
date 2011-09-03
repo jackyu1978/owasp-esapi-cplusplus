@@ -13,6 +13,7 @@
  */
 
 #include "crypto/SecureRandom.h"
+#include "crypto/SecureRandomImpl.h"
 #include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
 
@@ -49,7 +50,7 @@ namespace esapi
       {
         std::ostringstream oss;
         oss << "Algorithm \'" << algorithm << "\' is not supported.";
-        throw EncryptionException(oss.str());
+        throw InvalidArgumentException(oss.str());
       }
     
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
@@ -72,6 +73,7 @@ namespace esapi
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
+
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to create SecureRandom");
   }
@@ -84,6 +86,7 @@ namespace esapi
   {
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
+
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to create SecureRandom");
   }
@@ -96,6 +99,7 @@ namespace esapi
   {
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
+
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to create SecureRandom");
   }
@@ -106,15 +110,8 @@ namespace esapi
   SecureRandom::SecureRandom(const SecureRandom& rhs)
     : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
   {
-    // Cannot initialize - we need to copy the lock to increment its
-    // reference count, and then acquire it to make sure we are not
-    // pulling 'this' out from under someone (including ourselves).
-    //boost::shared_ptr<Mutex> tlock(m_lock);
-    //ASSERT(tlock.get() != nullptr);
-    //MutexLock lock(*tlock.get());
-
-    //m_lock = rhs.m_lock;
-    //m_impl = rhs.m_impl;
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
   }
 
   /**
@@ -122,15 +119,18 @@ namespace esapi
    */
   SecureRandom& SecureRandom::operator=(const SecureRandom& rhs)
   {
+    boost::shared_ptr<Mutex> tlock(m_lock);
+    ASSERT(tlock.get() != nullptr);
+    MutexLock lock(*tlock.get());
+
     if(this != &rhs)
     {
-      boost::shared_ptr<Mutex> tlock(m_lock);
-      ASSERT(tlock.get() != nullptr);
-      MutexLock lock(*tlock.get());
-
       m_lock = rhs.m_lock;
       m_impl = rhs.m_impl;
     }
+
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
 
     return *this;
   }

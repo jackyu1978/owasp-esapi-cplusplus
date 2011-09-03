@@ -1,15 +1,16 @@
 /**
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*/
 
 #include "EsapiCommon.h"
 #include "crypto/MessageDigest.h"
+#include "crypto/MessageDigestImpl.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -23,15 +24,250 @@
 
 namespace esapi
 {
+  // Forward declaration
+  template <typename HASH> class MessageDigestTmpl;
+
   std::string MessageDigest::DefaultAlgorithm()
   {
-    return "SHA-256";
+    return std::string("SHA-256");
   }
 
-  MessageDigest* MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
+  /**
+  * Creates a message digest with the specified algorithm name.
+  */
+  MessageDigest::MessageDigest(const std::string& algorithm)
+    throw(InvalidArgumentException)
+    : m_lock(new Mutex), m_impl(MessageDigestImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
-    ASSERT(!algorithm.empty());
+    ASSERT( !algorithm.empty() );
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
 
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to create MessageDigest");
+  }
+
+  /**
+  * Creates a MessageDigest from an implmentation
+  */
+  MessageDigest::MessageDigest(MessageDigestImpl* impl)
+    : m_lock(new Mutex), m_impl(impl)
+  {
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
+
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to create MessageDigest");
+  }
+
+  /**
+  * Copies a message digest.
+  */
+  MessageDigest::MessageDigest(const MessageDigest& rhs)
+    : m_lock(rhs.m_lock), m_impl(rhs.m_impl)
+  {
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
+  }
+
+  /**
+  * Assign a message digest.
+  */
+  MessageDigest& MessageDigest::operator=(const MessageDigest& rhs)
+  {
+    boost::shared_ptr<Mutex> tlock(m_lock);
+    ASSERT(tlock.get() != nullptr);
+    MutexLock lock(*tlock.get());
+
+    if(this != &rhs)
+    {
+      m_lock = rhs.m_lock;
+      m_impl = rhs.m_impl;
+    }
+
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
+
+    return *this;
+  }
+
+  MessageDigest MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
+  {
+    const std::string alg(normalizeAlgortihm(algorithm));
+    MEMORY_BARRIER();
+    ASSERT( !alg.empty() );
+
+    if(alg.empty())
+    {
+      std::ostringstream oss;
+      oss << "Algorithm \'" << algorithm << "\' is not supported.";
+      throw InvalidArgumentException(oss.str());
+    }
+
+    MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
+    MEMORY_BARRIER();
+
+    ASSERT(impl != nullptr);
+    if(impl == nullptr)
+      throw EncryptionException("Failed to create MessageDigest");
+
+    return MessageDigest(impl);
+  }
+
+  // Default implementation for derived classes which do nothing
+  std::string MessageDigest::getAlgorithm() const
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve algorithm name");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->getAlgorithmImpl();
+  }
+
+  /**
+  * Returns the length of the digest in bytes.
+  */
+  size_t MessageDigest::getDigestLength() const
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve algorithm name");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->getDigestLengthImpl();
+  }
+
+  /**
+  * Resets the digest for further use.
+  */
+  void MessageDigest::reset()
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to reset");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->resetImpl();
+  }
+
+  /**
+  * Updates the digest using the specified byte.
+  *
+  * @param input the specified byte.
+  *
+  * @throws throws an EncryptionException if a cryptographic failure occurs.
+  */
+  void MessageDigest::update(byte input)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->updateImpl(input);
+  }
+
+  /**
+  * Updates the digest using the specified array of bytes.
+  *
+  * @param input the specified array.
+  * @param size the size fo the array.
+  *
+  * @throws throws an EncryptionException if the array or size is not valid
+  * or a cryptographic failure occurs.
+  */
+  void MessageDigest::update(const byte input[], size_t size)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->updateImpl(input, size);
+  }
+
+  /**
+  * Updates the digest using the specified array of bytes, starting at the specified offset.
+  *
+  * @param input the specified array.
+  * @param size the size of the array.
+  * @param offset the offset into the array.
+  * @param len the length of data to digest.
+  *
+  * @throws throws an EncryptionException if the array or size is not valid,
+  * offset and len exceeds the array's bounds, or a cryptographic
+  * failure occurs.
+  */
+  void MessageDigest::update(const byte buf[], size_t size, size_t offset, size_t len)
+    throw(InvalidArgumentException, EncryptionException)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->updateImpl(buf, size, offset, len);
+  }
+
+  /**
+  * Performs a final update on the digest using the specified array of bytes, then completes the
+  * digest computation.
+  *
+  * @param buf the output buffer for the computed digest.
+  * @param offset the offset into the output buffer to begin storing the digest.
+  * @param len the number of bytes within buf allotted for the digest.
+  */
+  // byte[] MessageDigest::digest(byte input[], size_t size);
+
+  /**
+  * Completes the hash computation by performing final operations such as padding.
+  *
+  * @param buf the output buffer for the computed digest.
+  * @param size the size of the output buffer.
+  * @param offset offset into the output buffer to begin storing the digest.
+  * @param len number of bytes within buf allotted for the digest.
+  *
+  * @return the number of digest bytes written to buf.
+  */
+  size_t MessageDigest::digest(byte buf[], size_t size, size_t offset, size_t len)
+    throw(InvalidArgumentException, EncryptionException)
+  {
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve digest");
+
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    return m_impl->digestImpl(buf, size, offset, len);
+  }
+
+  Mutex& MessageDigest::getObjectLock() const
+  {
+    ASSERT(m_lock.get() != nullptr);
+    return *m_lock.get();
+  }
+
+  /**
+  * Normalizes the algorithm name. An empty string on input is interpreted as
+  * the default algortihm. If the algorithm is not found (ie, unsupported),
+  * return the empty string.
+  */
+  std::string MessageDigest::normalizeAlgortihm(const std::string& algorithm)
+  {
     std::string alg = algorithm;
 
     // Cut out whitespace
@@ -39,236 +275,34 @@ namespace esapi
     if(it != alg.end())
       alg.erase(it, alg.end());
 
+    // Select default algorithm if empty
+    if(alg.empty())
+      alg = DefaultAlgorithm();
+
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
-    // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
-
-    /////////////////////////////////// Factory ///////////////////////////////////
-
-#if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
     if(alg == "md5" || alg == "md-5")
-      return MessageDigestImpl<CryptoPP::Weak::MD5>::createInstance("MD5");
-#endif
+      return "MD5";
 
-    if(alg == "sha1" || alg == "sha1")
-      return MessageDigestImpl<CryptoPP::SHA1>::createInstance("SHA-1");
+    if(alg == "sha-1" || alg == "sha1" || alg == "sha")
+      return "SHA-1";
 
-    if(alg == "sha224" || alg == "sha-224")
-      return MessageDigestImpl<CryptoPP::SHA224>::createInstance("SHA-224");
+    if(alg == "sha-224" || alg == "sha224")
+      return "SHA-224";
 
-    if(alg == "sha256" || alg == "sha-256")
-      return MessageDigestImpl<CryptoPP::SHA256>::createInstance("SHA-256");
+    if(alg == "sha-256" || alg == "sha256")
+      return "SHA-256";
 
-    if(alg == "sha384" || alg == "sha-384")
-      return MessageDigestImpl<CryptoPP::SHA384>::createInstance("SHA-384");
+    if(alg == "sha-384" || alg == "sha384")
+      return "SHA-384";
 
-    if(alg == "sha512" || alg == "sha-512")
-      return MessageDigestImpl<CryptoPP::SHA512>::createInstance("SHA-512");
+    if(alg == "sha-512" || alg == "sha512")
+      return "SHA-512";
 
     if(alg == "whirlpool")
-      return MessageDigestImpl<CryptoPP::Whirlpool>::createInstance("Whirlpool");
+      return "Whirlpool";
 
-    ///////////////////////////////// Catch All /////////////////////////////////
-
-    // This Java program will throw a NoSuchAlgorithmException
-    // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("Foo");
-    // md.update(scratch);
-
-    // We only have InvalidArgumentException and EncryptionException
-    std::ostringstream oss;
-    oss << "Algorithm \'" << algorithm << "\' is not supported.";
-    throw InvalidArgumentException(oss.str());
-  }
-
-  // Default implementation for derived classes which do nothing
-  std::string MessageDigest::getAlgorithm() const throw()
-  {
-    return m_algorithm;
-  }
-
-  /////////////////////// Concrete Implementation ///////////////////////
-
-  // Sad, but true. HASH does not always cough up its name
-  template <class HASH>
-  MessageDigestImpl<HASH>::MessageDigestImpl(const std::string& algorithm)
-    : MessageDigest(algorithm), m_hash()
-  {
-    ASSERT( !algorithm.empty() );
-  }
-
-  // Called by base class MessageDigest::getInstance
-  template <class HASH>
-  MessageDigest* MessageDigestImpl<HASH>::createInstance(const std::string& algorithm)
-  {
-    return new MessageDigestImpl<HASH>(algorithm);
-  }
-
-  /**
-   * Updates the digest using the specified byte.
-   */
-  template <class HASH>
-  void MessageDigestImpl<HASH>::update(byte input)
-  {
-    m_hash.Update(&input, 1);
-  }
-
-  /**
-   * Updates the digest using the specified array of bytes. 
-   */
-  template <class HASH>
-  void MessageDigestImpl<HASH>::update(const byte input[], size_t size)
-  {
-    //ASSERT(input);
-    //ASSERT(size);
-
-    update(input, size, 0, size);
-  }
-
-  /**
-   * Updates the digest using the specified array of bytes.
-   */
-  template <class HASH>
-  void MessageDigestImpl<HASH>::update(const std::vector<byte>& input)
-  {
-    ASSERT( !input.empty() );
-
-    update(&input[0], input.size());
-  }
-
-  /**
-   * Updates the digest using the specified array of bytes, starting at the specified offset.
-   */
-  template <class HASH>
-  void MessageDigestImpl<HASH>::update(const byte input[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
-  {
-    ASSERT(input);
-    //ASSERT(size);
-
-    // This Java program will throw a NullPointerException
-    // byte[] scratch = null;
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // md.update(scratch);
-
-    // This Java program is OK
-    // byte[] scratch = new byte[0];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // md.update(scratch);
-
-    // NOT: if(!input || !size)
-    if(!input)
-      throw InvalidArgumentException("The input array or size is not valid");
-
-    // This Java program will throw an IllegalArgumentException
-    // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // md.update(scratch, 1, 16);
-
-    try
-      {
-        // Pointer wrap?
-        SafeInt<size_t> safe1((size_t)input);
-        safe1 += size;
-
-        // Within bounds?
-        SafeInt<size_t> safe2(offset);
-        safe2 += len;
-        if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
-
-        m_hash.Update(input+offset, len);
-      }
-    catch(SafeIntException&)
-      {
-        throw EncryptionException("Integer overflow detected");
-      }
-    catch(CryptoPP::Exception& ex)
-      {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
-      }
-  }
-
-  /**
-   * Performs a final update on the digest using the specified array of bytes, then completes the
-   * digest computation.
-   */
-  // template <class HASH>
-  // byte[] MessageDigestImpl<HASH>::digest(byte input[], size_t size)
-  // {
-  // }
-
-  /**
-   * Completes the hash computation by performing final operations such as padding.
-   */
-  template <class HASH>
-  unsigned int MessageDigestImpl<HASH>::digest(byte buf[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
-  {
-    ASSERT(buf);
-    ASSERT(size);
-
-    // This Java program will throw an IllegalArgumentException
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // int size = md.digest(null, 0, 0);
-
-    if(!buf || !size)
-      throw InvalidArgumentException("The buffer array or size is not valid");
-
-    // This Java program will throw an DigestException
-    // byte[] scratch = new byte[1];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // int size = md.digest(scratch, 0, 0);
-
-    // And so will this one
-    // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
-    // int ret = md.digest(scratch, 0, 15);
-
-    if(size < (unsigned int)m_hash.DigestSize() || len < (unsigned int)m_hash.DigestSize())
-      {
-        std::ostringstream oss;
-        oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithm();
-        throw InvalidArgumentException(oss.str());
-      }
-
-    const size_t req = std::min(size, std::min((size_t)HASH::DIGESTSIZE, len));
-
-    try
-      {
-        // Pointer wrap?
-        SafeInt<size_t> safe1((size_t)buf);
-        safe1 += size;
-
-        // Within bounds?
-        SafeInt<size_t> safe2(offset);
-        safe2 += len;
-        if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
-
-        // TruncatedFinal returns the requested number of bytes and restarts the hash.
-        m_hash.TruncatedFinal(buf+offset, req);
-      }
-    catch(SafeIntException&)
-      {
-        throw EncryptionException("Integer overflow detected");
-      }
-    catch(CryptoPP::Exception& ex)
-      {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
-      }
-
-    return (unsigned int)req;
-  }
-
-  /**
-   * Completes the hash computation by performing final operations such as padding.
-   */
-  template <class HASH>
-  unsigned int  MessageDigestImpl<HASH>::digest(std::vector<byte>& buf, size_t offset, size_t len)
-  {
-    ASSERT( !buf.empty() );
-    return digest(&buf[0], buf.size(), offset, len);
+    return "";
   }
 }

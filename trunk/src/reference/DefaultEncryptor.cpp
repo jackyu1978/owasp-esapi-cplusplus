@@ -27,7 +27,7 @@ namespace esapi
 {
   std::string DefaultEncryptor::DefaultDigestAlgorithm()
   {
-    return "SHA-512";
+    return std::string("SHA-512");
   }
 
   unsigned int DefaultEncryptor::DefaultDigestIterations()
@@ -37,21 +37,21 @@ namespace esapi
 
   std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations) throw(EncryptionException)
   {      
-    boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance(DefaultDigestAlgorithm()));
-    const size_t size = md->getDigestLength();
+    MessageDigest md(DefaultDigestAlgorithm());
+    const size_t size = md.getDigestLength();
     SecureByteArray hash(size);
 
     // Initial updates
-    md->update((const byte*)salt.data(), salt.size());
-    md->update((const byte*)message.data(), message.size());    
+    md.update((const byte*)salt.data(), salt.size());
+    md.update((const byte*)message.data(), message.size());    
 
     // Fetch the hash (resets the object)
-    md->digest(&hash[0], hash.size(), 0, size);
+    md.digest(&hash[0], hash.size(), 0, size);
 
     for (unsigned int i = 0; i < iterations; i++)
     {
-      md->update(&hash[0], hash.size());
-      md->digest(&hash[0], hash.size(), 0, size);
+      md.update(&hash[0], hash.size());
+      md.digest(&hash[0], hash.size(), 0, size);
     }
 
     std::string encoded;
