@@ -27,9 +27,6 @@ using namespace boost::unit_test;
 #include <string>
 using std::string;
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
-
 #include "EsapiCommon.h"
 using esapi::SecureByteArray;
 
@@ -42,31 +39,18 @@ using esapi::EncryptionException;
 #include <crypto/MessageDigest.h>
 using esapi::MessageDigest;
 
-void VerifyMessageDigest();
-void VerifyArguments();
-void VerifyMD5();
+void* WorkerThreadProc(void* param);
+void DoWorkerThreadStuff();
 
-// Don't correct the spellin - Boost won't compile
-BOOST_AUTO_TEST_CASE( VerifyMessageDiges )
-{
-  BOOST_MESSAGE( "Verifying MessageDigest class" );
+BOOST_AUTO_TEST_SUITE( VerifyMessageDigest )
 
-  VerifyMessageDigest();
-}
-
-void VerifyMessageDigest()
-{
-  VerifyArguments();
-  VerifyMD5();
-}
-
-void VerifyArguments()
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 {
   bool success = false;
     
   try
     {    
-      boost::shared_ptr<MessageDigest> md1(MessageDigest::getInstance("Foo"));
+      MessageDigest md1(MessageDigest::getInstance("Foo"));
     }
   catch(InvalidArgumentException&)
     {
@@ -80,7 +64,7 @@ void VerifyArguments()
 
   /////////////////////////////////////////////////////////////////////////
 
-  boost::shared_ptr<MessageDigest> md2(MessageDigest::getInstance());
+  MessageDigest md2(MessageDigest::getInstance());
   success = (md2->getAlgorithm() == "SHA-256");
   BOOST_CHECK_MESSAGE(success, "Default generator " << md2->getAlgorithm() << " is unexpected");
 
@@ -89,8 +73,8 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md3(MessageDigest::getInstance("MD-5"));
-      md3->digest((byte*)nullptr, 0, 0, 0);
+      MessageDigest md3(MessageDigest::getInstance("MD-5"));
+      md3.digest((byte*)nullptr, 0, 0, 0);
     }
   catch(InvalidArgumentException&)
     {   
@@ -112,10 +96,10 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md4(MessageDigest::getInstance());
+      MessageDigest md4(MessageDigest::getInstance());
       const size_t sz = md4->getDigestLength();
       SecureByteArray buf(sz);
-      md4->digest(&buf[0], buf.size(), 0, sz-1);
+      md4.digest(&buf[0], buf.size(), 0, sz-1);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -132,10 +116,10 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md5(MessageDigest::getInstance());
+      MessageDigest md5(MessageDigest::getInstance());
       size_t ptr = ((size_t)-1) - 7;
       const size_t size = md5->getDigestLength();
-      md5->digest((byte*)ptr, size, 0, size);
+      md5.digest((byte*)ptr, size, 0, size);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -152,8 +136,8 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md6(MessageDigest::getInstance());
-      md6->update((byte*)nullptr, 0, 0, 0);
+      MessageDigest md6(MessageDigest::getInstance());
+      md6.update((byte*)nullptr, 0, 0, 0);
     }
   catch(InvalidArgumentException&)
     {   
@@ -170,9 +154,9 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md7(MessageDigest::getInstance());
-      volatile size_t ptr = ((size_t)-1) - 7;
-      md7->update((byte*)ptr, md7->getDigestLength(), 0, 4);
+      MessageDigest md7(MessageDigest::getInstance());
+      const size_t ptr = ((size_t)-1) - 7;
+      md7.update((byte*)ptr, md7->getDigestLength(), 0, 4);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -189,10 +173,10 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md8(MessageDigest::getInstance());
+      MessageDigest md8(MessageDigest::getInstance());
       const size_t sz = md8->getDigestLength();
       SecureByteArray buf(sz);
-      md8->digest(&buf[0], buf.size(), sz-1, 2*sz-1);
+      md8.digest(&buf[0], buf.size(), sz-1, 2*sz-1);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -209,10 +193,10 @@ void VerifyArguments()
   try
     {    
       success = false;
-      boost::shared_ptr<MessageDigest> md9(MessageDigest::getInstance());
+      MessageDigest md9(MessageDigest::getInstance());
       const size_t sz = md9->getDigestLength();
       SecureByteArray buf(sz);
-      md9->update(&buf[0], buf.size(), sz-1, 2*sz-1);
+      md9.update(&buf[0], buf.size(), sz-1, 2*sz-1);
     }
   catch(InvalidArgumentException& ex)
     {
@@ -226,7 +210,12 @@ void VerifyArguments()
 
 }
 
-void VerifyMD5()
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestThreads )
+{
+  DoWorkerThreadStuff();
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
 {
   // http://www.ietf.org/rfc/rfc1321.txt
         
@@ -243,16 +232,16 @@ void VerifyMD5()
     {
       //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
       success = false;
-      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md->getDigestLength();
+      const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
       const string msg("");
-      md->update((const byte*)msg.data(), msg.size());
+      md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
-      md->digest(&buf[0], buf.size(), 0, sz);
+      md.digest(&buf[0], buf.size(), 0, sz);
       success = (::memcmp(&buf[0], hash, 16) == 0);
     }
   catch(...)
@@ -267,16 +256,16 @@ void VerifyMD5()
     {
       //MD5 ("abc") = 900150983cd24fb0d6963f7d28e17f72
       success = false;
-      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md->getDigestLength();
+      const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
       const string msg("abc");
-      md->update((const byte*)msg.data(), msg.size());
+      md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0x90,0x01,0x50,0x98,0x3c,0xd2,0x4f,0xb0,0xd6,0x96,0x3f,0x7d,0x28,0xe1,0x7f,0x72};
-      md->digest(&buf[0], buf.size(), 0, sz);
+      md.digest(&buf[0], buf.size(), 0, sz);
       success = (::memcmp(&buf[0], hash, 16) == 0);
     }
   catch(...)
@@ -291,16 +280,16 @@ void VerifyMD5()
     {
       //MD5 ("message digest") = f96b697d7cb7938d525a2f31aaf161d0
       success = false;
-      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md->getDigestLength();
+      const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
       const string msg("message digest");
-      md->update((const byte*)msg.data(), msg.size());
+      md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xf9,0x6b,0x69,0x7d,0x7c,0xb7,0x93,0x8d,0x52,0x5a,0x2f,0x31,0xaa,0xf1,0x61,0xd0};
-      md->digest(&buf[0], buf.size(), 0, sz);
+      md.digest(&buf[0], buf.size(), 0, sz);
       success = (::memcmp(&buf[0], hash, 16) == 0);
     }
   catch(...)
@@ -315,16 +304,16 @@ void VerifyMD5()
     {
       //MD5 ("abcdefghijklmnopqrstuvwxyz") = c3fcd3d76192e4007dfb496cca67e13b
       success = false;
-      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md->getDigestLength();
+      const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
       const string msg("abcdefghijklmnopqrstuvwxyz");
-      md->update((const byte*)msg.data(), msg.size());
+      md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xc3,0xfc,0xd3,0xd7,0x61,0x92,0xe4,0x00,0x7d,0xfb,0x49,0x6c,0xca,0x67,0xe1,0x3b};
-      md->digest(&buf[0], buf.size(), 0, sz);
+      md.digest(&buf[0], buf.size(), 0, sz);
       success = (::memcmp(&buf[0], hash, 16) == 0);
     }
   catch(...)
@@ -339,16 +328,16 @@ void VerifyMD5()
     {
       //MD5 ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = d174ab98d277d9f5a5611c2c9f419d9f
       success = false;
-      boost::shared_ptr<MessageDigest> md(MessageDigest::getInstance("MD5"));
+      MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md->getDigestLength();
+      const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
       const string msg("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-      md->update((const byte*)msg.data(), msg.size());
+      md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xd1,0x74,0xab,0x98,0xd2,0x77,0xd9,0xf5,0xa5,0x61,0x1c,0x2c,0x9f,0x41,0x9d,0x9f};
-      md->digest(&buf[0], buf.size(), 0, sz);
+      md.digest(&buf[0], buf.size(), 0, sz);
       success = (::memcmp(&buf[0], hash, 16) == 0);
     }
   catch(...)
@@ -360,3 +349,69 @@ void VerifyMD5()
   /////////////////////////////////////////////////////////////////////////
 }
 
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA1 )
+{
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA224 )
+{
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA256 )
+{
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA384 )
+{
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestSHA512 )
+{
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigestWhirlpool )
+{
+}
+
+#if defined(WIN32) || defined(_WIN32) 
+void DoWorkerThreadStuff()
+{
+}
+#elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
+void DoWorkerThreadStuff()
+{
+  SecureRandom shared = SecureRandom::getInstance(std::string("HmacSHA256"));
+  pthread_t threads[THREAD_COUNT];
+
+  // *** Worker Threads ***
+  for(unsigned int i=0; i<THREAD_COUNT; i++)
+    {
+      Args* args = new Args(i, shared);
+      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)args);
+      if(0 != ret /*success*/)
+        {
+          if(args) delete args;
+          BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
+        }
+    }
+
+  for(unsigned int i=0; i<THREAD_COUNT; i++)
+    {
+      int ret = pthread_join(threads[i], nullptr);
+      if(0 != ret /*success*/)
+        {
+          BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );
+        }
+    }
+
+  BOOST_MESSAGE( "All threads completed successfully" );
+}
+#endif
+
+void* WorkerThreadProc(void* param)
+{
+
+  BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
+
+  return (void*)0;
+}

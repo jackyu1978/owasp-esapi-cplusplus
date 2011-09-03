@@ -34,6 +34,12 @@ using esapi::KeyGenerator;
 #include "crypto/SecretKey.h"
 using esapi::SecretKey;
 
+#include "crypto/MessageDigest.h"
+using esapi::MessageDigest;
+
+#include "EsapiCommon.h"
+using esapi::SecureByteArray;
+
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -48,6 +54,7 @@ using std::string;
 
 int main(int, char**)
 {
+#if 0
   byte scratch[32];
 
   RandomPool& pool = RandomPool::GetSharedInstance();
@@ -64,7 +71,6 @@ int main(int, char**)
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
 
-#if 0 
   KeyGenerator kg = KeyGenerator::getInstance("SHA-384");
   kg.init();
 
@@ -83,6 +89,31 @@ int main(int, char**)
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
 #endif
+
+  try
+    {
+      //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
+      bool success = false;
+      MessageDigest md(MessageDigest::getInstance("MD5"));
+
+      const size_t sz = md.getDigestLength();
+      SecureByteArray buf(sz);
+
+      const string msg("");
+      md.update((const byte*)msg.data(), msg.size());
+
+      const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
+      md.digest(&buf[0], buf.size(), 0, sz);
+      success = (::memcmp(&buf[0], hash, 16) == 0);
+
+      MessageDigest zzz;
+      MessageDigest xxx(md);
+      MessageDigest yyy = xxx;
+    }
+  catch(...)
+    {
+
+    }
 
   return 0;
 }

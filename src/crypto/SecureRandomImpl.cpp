@@ -14,7 +14,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/RandomPool.h"
-#include "crypto/SecureRandom.h"
+#include "crypto/SecureRandomImpl.h"
 #include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
 #include "util/ArrayZeroizer.h"

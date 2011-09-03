@@ -157,4 +157,3 @@ void* WorkerThreadProc(void* param)
 
   return (void*)0;
 }
-

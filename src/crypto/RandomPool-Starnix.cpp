@@ -102,7 +102,7 @@ namespace esapi
           timer.StartTimer();
 
           ret = read(fd, key+idx, req);
-          ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chumk from /dev/random");
+          ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chunk from /dev/random");
 
           // The return value determines number of bytes read
           rem -= ret;
@@ -132,7 +132,7 @@ namespace esapi
         if( !(fd > 0) ) break; /* Failed */
 
         int ret = read(fd, key+idx, rem);
-        ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chumk from /dev/urandom");
+        ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chunk from /dev/urandom");
         if( (unsigned int)ret != rem ) break; /* Failed */
 
         rem -= ret;

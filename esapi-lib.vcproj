@@ -348,6 +348,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\crypto\MessageDigestImpl.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\crypto\PlainText.cpp"
 					>
 				</File>
@@ -597,6 +601,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\crypto\MessageDigestImpl.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\crypto\PlainText.h"
 						>
 					</File>
@@ -610,6 +618,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\crypto\SecureRandom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\SecureRandomImpl.h"
 						>
 					</File>
 				</Filter>
