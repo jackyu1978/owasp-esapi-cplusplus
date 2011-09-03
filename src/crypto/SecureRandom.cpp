@@ -42,9 +42,10 @@ namespace esapi
    */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
   {
-    const std::string alg(normalizeAlgortihm(algorithm));
+    ASSERT( !algorithm.empty() );
+
+    const std::string alg(normalizeAlgortihm(algorithm));    
     MEMORY_BARRIER();
-    ASSERT( !alg.empty() );
 
     if(alg.empty())
       {
@@ -154,12 +155,12 @@ namespace esapi
    */
   byte* SecureRandom::generateSeed(unsigned int numBytes)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     throw std::runtime_error("Not implemented");
   }
@@ -169,12 +170,12 @@ namespace esapi
    */
   std::string SecureRandom::getAlgorithm() const
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->getAlgorithmImpl();
   }  
@@ -185,12 +186,12 @@ namespace esapi
    */
   unsigned int SecureRandom::getSecurityLevel() const
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve security level");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->getSecurityLevelImpl();
   }
@@ -200,12 +201,12 @@ namespace esapi
    */
   void SecureRandom::nextBytes(byte bytes[], size_t size)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to generate random bytes");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     m_impl->nextBytesImpl(bytes, size);
   }
@@ -215,6 +216,9 @@ namespace esapi
    */
   void SecureRandom::setSeed(const byte seed[], size_t size)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to seed the generator");
@@ -222,9 +226,7 @@ namespace esapi
     // No need to lock - RandomPool provides its own
     RandomPool::GetSharedInstance().Reseed();
 
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
-
+    // Reseed the SecureRandom object
     m_impl->setSeedImpl(seed, size);
   }
 
@@ -233,12 +235,12 @@ namespace esapi
    */
   void SecureRandom::setSeed(int seed)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to seed the generator");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
@@ -250,6 +252,8 @@ namespace esapi
    */
   std::string SecureRandom::normalizeAlgortihm(const std::string& algorithm)
   {
+    ASSERT(!algorithm.empty());
+
     std::string alg = algorithm, mode;
     std::string::size_type pos;
 
