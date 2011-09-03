@@ -45,10 +45,10 @@ BOOST_AUTO_TEST_CASE( test_try_catch )
     catch (const std::exception& ve)
     {
       ostringstream oss;
-      oss << "Failed to set context. Expected '" << umsg << "', ";
-      oss << "got '" << ve.what() << "'.";
+      oss << "Failed to pull exception message. Expected '" << umsg << "'";
+      oss << ", got '" << ve.what() << "'.";
 
-	  BOOST_CHECK_MESSAGE(ve.what() == umsg, oss.str());
+	  BOOST_CHECK_MESSAGE( ve.what() == umsg, oss.str() );
 	}
 
 	// BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
