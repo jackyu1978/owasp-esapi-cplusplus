@@ -124,11 +124,6 @@
 # define nullptr NULL
 #endif
 
-// Yet another ICPC workaround
-#if defined(ESAPI_CXX_ICC)
-# undef ESAPI_CPLUSPLUS_UNIQUE_PTR
-#endif
-
 // A debug assert which should be sprinkled liberally. This assert fires and then continues rather
 // than calling abort(). Useful when examining negative test cases from the command line.
 #if (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_STARNIX)) && !defined(ESAPI_NO_ASSERT)
