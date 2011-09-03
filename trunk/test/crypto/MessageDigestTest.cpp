@@ -409,6 +409,9 @@ void* WorkerThreadProc(void* param)
   byte digest[64];
   md.digest(digest, COUNTOF(digest), 0, md.getDigestLength());
 
+  // Bug blowup here!!!!
+  // md = MessageDigest::getInstance();
+
   BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
 
   return (void*)0;

@@ -76,7 +76,7 @@ namespace esapi
   MessageDigest& MessageDigest::operator=(const MessageDigest& rhs)
   {
     boost::shared_ptr<Mutex> tlock(m_lock);
-    ASSERT(tlock.get() != nullptr);
+    ESAPI_ASSERT2(tlock.get() != nullptr, "Object lock is null in assignment");
     MutexLock lock(*tlock.get());
 
     if(this != &rhs)
