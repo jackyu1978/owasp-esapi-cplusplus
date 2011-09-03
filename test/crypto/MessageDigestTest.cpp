@@ -44,6 +44,7 @@ using esapi::MessageDigest;
 static void* WorkerThreadProc(void* param);
 static void DoWorkerThreadStuff();
 static const unsigned int THREAD_COUNT = 64;
+static MessageDigest& SharedMessageDigest();
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 {
@@ -229,7 +230,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestThreads )
 {
-  // DoWorkerThreadStuff();
+  DoWorkerThreadStuff();
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
@@ -391,9 +392,24 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestWhirlpool )
 }
 */
 
+MessageDigest& SharedMessageDigest()
+{
+  static MessageDigest s_md;
+  return s_md;
+}
+
 void* WorkerThreadProc(void* param)
 {
-  // BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
+  byte bytes[1024];
+  MessageDigest& md = SharedMessageDigest();
+  
+  for(unsigned int i = 0; i < 1024; i++)
+    md.update(bytes, COUNTOF(bytes));
+
+  bytes digest[64];
+  md.digest(digest, COUNTOF(digest));
+
+  BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
 
   return (void*)0;
 }
