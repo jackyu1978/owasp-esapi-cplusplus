@@ -172,6 +172,7 @@ private:
 	 */
 	virtual std::string checkEmpty(const std::string &, const std::string &) throw (ValidationException);
 
+public:
 	virtual ~StringValidationRule() {};
 };
 }; // esapi namespace

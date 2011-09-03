@@ -320,8 +320,10 @@ void* WorkerThreadProc(void* param)
   sleep(0);
 #endif
 
+#if !defined(ESAPI_BUILD_RELEASE)
   const std::map<int,std::string>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
+#endif
 
   BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
 

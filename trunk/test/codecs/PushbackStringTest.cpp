@@ -24,6 +24,7 @@ using namespace boost::unit_test;
 
 using esapi::PushbackString;
 
+#if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 {
   PushbackString pbs("asdf");
@@ -35,6 +36,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
   pbs.input = "";
   BOOST_CHECK(pbs.hasNext() == false);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE( PushbackStringNext )
 {
@@ -106,6 +108,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextHex )
   BOOST_CHECK(next == 0);
 }
 
+#if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
 {
   PushbackString pbs("141");
@@ -118,6 +121,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
   next = pbs.nextOctal();
   BOOST_CHECK(next == 0);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE( PushbackStringTest )
 {

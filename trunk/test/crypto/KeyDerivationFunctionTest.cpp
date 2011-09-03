@@ -40,6 +40,7 @@ void VerifyKeyDerivationFunction7();
 void VerifyKeyDerivationFunction8();
 void VerifyKeyDerivationFunction9();
 
+#if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
 {
   BOOST_MESSAGE( "Verifying KeyDerivationFunction class" );
@@ -192,4 +193,4 @@ void VerifyKeyDerivationFunction9()
   if(!success)
     cerr << "VerifyKeyDerivationFunction9 failed" << endl;
 }
-
+#endif

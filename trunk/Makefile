@@ -259,7 +259,7 @@ all: $(STATIC_LIB) $(DYNAMIC_LIB)
 debug: test
 
 # `make release` is `make all`. OPT=O2, SYM=G1, ASSERTs are off.
-release: all
+release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
