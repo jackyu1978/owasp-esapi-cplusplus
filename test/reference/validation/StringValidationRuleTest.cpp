@@ -49,8 +49,9 @@ BOOST_AUTO_TEST_CASE( BoostRegexTest) {
 BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 
 	StringValidationRule validationRule("Alphabetic");
-	validationRule.validateInputAndCanonical = false;
+	validationRule.setValidateInputAndCanonical(false);
 
+#if !defined(ESAPI_BUILD_RELEASE)
 	BOOST_CHECK(validationRule.checkEmpty("", "asdf").compare("asdf")==0);
 
 	BOOST_CHECK(validationRule.checkLength("", "asdf").compare("asdf")==0);
@@ -58,6 +59,7 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 	BOOST_CHECK(validationRule.checkWhitelist("", "asdf").compare("asdf")==0);
 
 	BOOST_CHECK(validationRule.checkBlacklist("", "asdf").compare("asdf")==0);
+#endif
 
 	try {
 		BOOST_CHECK(validationRule.getValid("", "asdf").compare("asdf")==0);

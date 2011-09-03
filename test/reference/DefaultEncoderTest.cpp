@@ -42,6 +42,7 @@ using esapi::DefaultEncoder;
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
+#if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 {
 	esapi::DefaultEncoder de;
@@ -60,3 +61,4 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	BOOST_CHECK(de.encodeForLDAP("asd\\f").compare("asd\\5cf")==0);
 
 }
+#endif
