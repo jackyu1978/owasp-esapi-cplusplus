@@ -40,6 +40,7 @@ using esapi::EncryptionException;
 using esapi::MessageDigest;
 
 #include <pthread.h>
+#include <errno.h>
 
 static void* WorkerThreadProc(void* param);
 static void DoWorkerThreadStuff();
