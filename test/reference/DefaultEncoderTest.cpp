@@ -36,18 +36,22 @@ using std::ostringstream;
 #include "reference/DefaultEncoder.h"
 #include "codecs/Codec.h"
 #include "codecs/UnixCodec.h"
+using esapi::UnixCodec;
 using esapi::DefaultEncoder;
 
+#include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 {
 	esapi::DefaultEncoder de;
-	esapi::UnixCodec *uc = new esapi::UnixCodec;
+	shared_ptr<UnixCodec>uc1(new esapi::UnixCodec);
 
-	std::string encoded = de.encodeForOS(uc, "asdf<");
+	std::string encoded = de.encodeForOS(uc1.get(), "asdf<");
 	BOOST_CHECK(encoded.compare("asdf\\<") == 0);
 
-	BOOST_CHECK(de.encodeForOS(new esapi::UnixCodec, "sdf:ff").compare("sdf\\:ff")==0);
+	shared_ptr<UnixCodec>uc2(new esapi::UnixCodec);
+	BOOST_CHECK(de.encodeForOS(uc2.get(), "sdf:ff").compare("sdf\\:ff")==0);
 
 	encoded = de.encodeForBase64("asdf");
 	BOOST_CHECK(encoded.compare("YXNkZg==") == 0); //base64 value of `asdf`
