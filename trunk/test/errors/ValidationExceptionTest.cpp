@@ -10,6 +10,9 @@
 #include "errors/ValidationException.h"
 #include <exception>
 
+#include <sstream>
+using std::ostringstream;
+
 BOOST_AUTO_TEST_SUITE( test_suite_ValidationException )
 
 BOOST_AUTO_TEST_CASE( test_case_constructor )
@@ -22,26 +25,34 @@ BOOST_AUTO_TEST_CASE( test_case_setContext )
 	std::string context = "test context";
 	esapi::ValidationException exception("user message", "log message");
 	exception.setContext(context);
-    BOOST_REQUIRE( context == exception.getContext() );
+    const std::string& ctx = exception.getContext();
+
+    ostringstream oss;
+    oss << "Failed to set context. Expected '" << context << "', ";
+    oss << "got '" << ctx << "'.";
+
+    BOOST_REQUIRE_MESSAGE( context == ctx, oss.str() );
 }
 
 BOOST_AUTO_TEST_CASE( test_try_catch )
 {
-	/*try {
-		throw new esapi::ValidationException("user message", "log message");
+    std::string umsg("user message"), lmsg("log message");
+	try
+    {
+		throw esapi::ValidationException(umsg, lmsg);
 		BOOST_FAIL("Expected exception was not thrown");
-	} catch (std::exception& ve) {
-		BOOST_CHECK(ve.what()=="user message");
-	}*/
+	}
+    catch (const std::exception& ve)
+    {
+      ostringstream oss;
+      oss << "Failed to set context. Expected '" << umsg << "', ";
+      oss << "got '" << ve.what() << "'.";
 
-	try{
-		throw new std::exception;
-	} catch (std::exception& e) {
-		//do nothing;
+	  BOOST_CHECK_MESSAGE(ve.what() == umsg, oss.str());
 	}
 
-	//BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
-	//BOOST_CHECK_THROW( throw new esapi::ValidationException("user message", "log message"), std::exception );
+	// BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
+	// BOOST_CHECK_THROW( throw new esapi::ValidationException("user message", "log message"), std::exception );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
