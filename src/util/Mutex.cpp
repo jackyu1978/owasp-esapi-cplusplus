@@ -51,18 +51,21 @@ namespace esapi
 #endif
   }
 
-  LockPrimitive& Mutex::getMutex()
+  LockPrimitive* Mutex::getMutex()
   {
-    return m_primitive;
+    return &m_primitive;
   }
 
-  MutexLock::MutexLock(Mutex& mutex)
+  MutexLock::MutexLock(Mutex* mutex)
     : m_mutex(mutex)
   {
+    ASSERT(m_mutex);
+    if(!m_mutex) return;
+
 #if defined(ESAPI_OS_WINDOWS)
-    EnterCriticalSection(&m_mutex.getMutex());
+    EnterCriticalSection(m_mutex->getMutex());
 #elif defined(ESAPI_OS_STARNIX)
-    int ret = pthread_mutex_lock(&m_mutex.getMutex());
+    int ret = pthread_mutex_lock(m_mutex->getMutex());
     ASSERT(ret == 0);
     if(ret != 0)
       {
@@ -77,9 +80,9 @@ namespace esapi
   MutexLock::~MutexLock()
   {
 #if defined(ESAPI_OS_WINDOWS)
-    LeaveCriticalSection(&m_mutex.getMutex());
+    LeaveCriticalSection(m_mutex->getMutex());
 #elif defined(ESAPI_OS_STARNIX)
-    int ret = pthread_mutex_unlock(&m_mutex.getMutex());
+    int ret = pthread_mutex_unlock(m_mutex->getMutex());
     ASSERT(ret == 0);
     if(ret != 0)
       {

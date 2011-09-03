@@ -147,7 +147,7 @@ namespace esapi
     /**
      * Retrieves the object level lock
      */
-    ESAPI_PRIVATE inline Mutex& getObjectLock() const;
+    ESAPI_PRIVATE inline Mutex* getObjectLock() const;
 
   private:
 

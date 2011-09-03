@@ -115,7 +115,7 @@ namespace esapi
     * serves up a single static object. Before the first construction of the static
     * object, the lock is acquired.
     */
-    static Mutex& GetSharedLock();
+    static Mutex* GetSharedLock();
 
     /**
     * Keying status.

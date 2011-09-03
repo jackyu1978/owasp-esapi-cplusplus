@@ -261,10 +261,10 @@ namespace esapi
     return m_impl->digestImpl(buf, size, offset, len);
   }
 
-  Mutex& MessageDigest::getObjectLock() const
+  Mutex* MessageDigest::getObjectLock() const
   {
     ASSERT(m_lock.get() != nullptr);
-    return *m_lock.get();
+    return m_lock.get();
   }
 
   /**

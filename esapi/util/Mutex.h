@@ -35,7 +35,7 @@ namespace esapi
     explicit Mutex();
     virtual ~Mutex();
 
-    LockPrimitive& getMutex();
+    LockPrimitive* getMutex();
 
   private:
     LockPrimitive m_primitive;
@@ -44,11 +44,11 @@ namespace esapi
   class ESAPI_EXPORT MutexLock
   {
   public:
-    explicit MutexLock(Mutex& mutex);
+    explicit MutexLock(Mutex* mutex);
     virtual ~MutexLock();
 
   private:
-    Mutex& m_mutex;
+    Mutex* m_mutex;
 
   private:
     MutexLock& operator=(const MutexLock&);

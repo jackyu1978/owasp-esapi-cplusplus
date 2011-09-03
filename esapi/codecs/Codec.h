@@ -60,7 +60,7 @@ namespace esapi {
      *
      * @return the mutex used to lock the class.
      */
-    static esapi::Mutex& getClassMutex ();
+    static esapi::Mutex* getClassMutex ();
 
   public:
     /**
