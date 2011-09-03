@@ -162,10 +162,10 @@ char esapi::HTMLEntityCodec::getNamedEntity(PushbackString&) {
  * Retrieve the class wide intialization lock.
  * @return the mutex used to lock the class.
  */
-esapi::Mutex* esapi::HTMLEntityCodec::getClassMutex()
+esapi::Mutex& esapi::HTMLEntityCodec::getClassMutex()
 {
   static esapi::Mutex s_mutex;
-  return &s_mutex;
+  return s_mutex;
 }
 
 /**

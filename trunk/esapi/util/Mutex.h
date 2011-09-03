@@ -14,6 +14,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "util/NotCopyable.h"
 
 #if defined(ESAPI_OS_WINDOWS)
 # include <windows.h>
@@ -29,13 +30,13 @@ namespace esapi
 {
   class MutexLock;
 
-  class ESAPI_EXPORT Mutex
+  class ESAPI_EXPORT Mutex : private NotCopyable
   {
   public:
     explicit Mutex();
-    virtual ~Mutex();
+    ~Mutex();
 
-    LockPrimitive* getMutex();
+    LockPrimitive& getMutex();
 
   private:
     LockPrimitive m_primitive;
@@ -44,11 +45,11 @@ namespace esapi
   class ESAPI_EXPORT MutexLock
   {
   public:
-    explicit MutexLock(Mutex* mutex);
-    virtual ~MutexLock();
+    explicit MutexLock(Mutex& mutex);
+    ~MutexLock();
 
   private:
-    Mutex* m_mutex;
+    Mutex& m_mutex;
 
   private:
     MutexLock& operator=(const MutexLock&);

@@ -82,7 +82,7 @@ namespace esapi
     // release the new lock (not the old lock).
     //boost::shared_ptr<Mutex> tlock(m_lock);
     //ESAPI_ASSERT2(tlock.get() != nullptr, "Object lock is null in assignment");
-    //MutexLock lock(*tlock.get());
+    //MutexLock lock(tlock.get());
 
     if(this != &rhs)
     {
@@ -90,6 +90,7 @@ namespace esapi
       m_impl = rhs.m_impl;
     }
 
+    //ASSERT(tlock.get() != m_lock.get());
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
 
@@ -123,12 +124,12 @@ namespace esapi
   // Default implementation for derived classes which do nothing
   std::string MessageDigest::getAlgorithm() const
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->getAlgorithmImpl();
   }
@@ -138,12 +139,12 @@ namespace esapi
   */
   size_t MessageDigest::getDigestLength() const
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->getDigestLengthImpl();
   }
@@ -153,12 +154,12 @@ namespace esapi
   */
   void MessageDigest::reset()
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to reset");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->resetImpl();
   }
@@ -172,12 +173,12 @@ namespace esapi
   */
   void MessageDigest::update(byte input)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to update digest");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->updateImpl(input);
   }
@@ -193,12 +194,12 @@ namespace esapi
   */
   void MessageDigest::update(const byte input[], size_t size)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to update digest");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->updateImpl(input, size);
   }
@@ -218,12 +219,12 @@ namespace esapi
   void MessageDigest::update(const byte buf[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to update digest");
-
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
 
     return m_impl->updateImpl(buf, size, offset, len);
   }
@@ -251,20 +252,20 @@ namespace esapi
   size_t MessageDigest::digest(byte buf[], size_t size, size_t offset, size_t len)
     throw(InvalidArgumentException, EncryptionException)
   {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve digest");
 
-    // All forward facing gear which manipulates internal state acquires the object lock
-    MutexLock lock(getObjectLock());
-
     return m_impl->digestImpl(buf, size, offset, len);
   }
 
-  Mutex* MessageDigest::getObjectLock() const
+  Mutex& MessageDigest::getObjectLock() const
   {
     ASSERT(m_lock.get() != nullptr);
-    return m_lock.get();
+    return *m_lock.get();
   }
 
   /**

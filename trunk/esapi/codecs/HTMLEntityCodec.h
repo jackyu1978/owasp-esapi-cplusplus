@@ -101,7 +101,7 @@ namespace esapi {
     * Retrieve the class wide intialization lock.
     * @return the mutex used to lock the class.
     */
-    static Mutex* getClassMutex();
+    static Mutex& getClassMutex();
 
     /**
     * Build a unmodifiable Map from entity Character to Name.
