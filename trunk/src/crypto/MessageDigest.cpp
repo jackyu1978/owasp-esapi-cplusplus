@@ -75,9 +75,14 @@ namespace esapi
   */
   MessageDigest& MessageDigest::operator=(const MessageDigest& rhs)
   {
-    boost::shared_ptr<Mutex> tlock(m_lock);
-    ESAPI_ASSERT2(tlock.get() != nullptr, "Object lock is null in assignment");
-    MutexLock lock(*tlock.get());
+    // Need to think about this one.... We want to lock 'this' in case
+    // someone else is using it. However, MutexLock takes a reference
+    // to 'this' object's lock. After the assignment below, the lock
+    // has changed (it points to the new object lock). We subsequently
+    // release the new lock (not the old lock).
+    //boost::shared_ptr<Mutex> tlock(m_lock);
+    //ESAPI_ASSERT2(tlock.get() != nullptr, "Object lock is null in assignment");
+    //MutexLock lock(*tlock.get());
 
     if(this != &rhs)
     {
@@ -93,9 +98,10 @@ namespace esapi
 
   MessageDigest MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
   {
+    ASSERT(!algorithm.empty());
+
     const std::string alg(normalizeAlgortihm(algorithm));
     MEMORY_BARRIER();
-    ASSERT( !alg.empty() );
 
     if(alg.empty())
     {
