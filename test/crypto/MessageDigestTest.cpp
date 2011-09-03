@@ -406,8 +406,8 @@ void* WorkerThreadProc(void* param)
   for(unsigned int i = 0; i < 1024; i++)
     md.update(bytes, COUNTOF(bytes));
 
-  bytes digest[64];
-  md.digest(digest, COUNTOF(digest));
+  byte digest[64];
+  md.digest(digest, COUNTOF(digest), 0, md.getDigestLength());
 
   BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
 
