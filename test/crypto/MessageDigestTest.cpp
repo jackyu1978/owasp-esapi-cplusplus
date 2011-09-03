@@ -400,8 +400,8 @@ MessageDigest& SharedMessageDigest()
 
 void* WorkerThreadProc(void* param)
 {
-  byte bytes[1024];
   MessageDigest& md = SharedMessageDigest();
+  byte bytes[1024];
   
   for(unsigned int i = 0; i < 1024; i++)
     md.update(bytes, COUNTOF(bytes));
@@ -409,7 +409,6 @@ void* WorkerThreadProc(void* param)
   byte digest[64];
   md.digest(digest, COUNTOF(digest), 0, md.getDigestLength());
 
-  // Bug blowup here!!!!
   // md = MessageDigest::getInstance();
 
   BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );
