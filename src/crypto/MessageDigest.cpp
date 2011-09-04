@@ -36,7 +36,7 @@ namespace esapi
   * Creates a message digest with the specified algorithm name.
   */
   MessageDigest::MessageDigest(const std::string& algorithm)
-    throw(InvalidArgumentException)
+    throw(NoSuchAlgorithmException, EncryptionException)
     : m_lock(new Mutex), m_impl(MessageDigestImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
@@ -97,7 +97,7 @@ namespace esapi
     return *this;
   }
 
-  MessageDigest MessageDigest::getInstance(const std::string& algorithm) throw(InvalidArgumentException)
+  MessageDigest MessageDigest::getInstance(const std::string& algorithm) throw(NoSuchAlgorithmException)
   {
     ASSERT(!algorithm.empty());
 
@@ -108,7 +108,7 @@ namespace esapi
     {
       std::ostringstream oss;
       oss << "Algorithm \'" << algorithm << "\' is not supported.";
-      throw InvalidArgumentException(oss.str());
+      throw NoSuchAlgorithmException(oss.str());
     }
 
     MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);

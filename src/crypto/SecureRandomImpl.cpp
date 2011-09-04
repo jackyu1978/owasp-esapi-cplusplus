@@ -16,6 +16,10 @@
 #include "crypto/RandomPool.h"
 #include "crypto/SecureRandomImpl.h"
 #include "crypto/Crypto++Common.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
+
 #include "safeint/SafeInt3.hpp"
 #include "util/ArrayZeroizer.h"
 
@@ -237,7 +241,7 @@ namespace esapi
 
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported.";
-    throw EncryptionException(oss.str());
+    throw NoSuchAlgorithmException(oss.str());
   }
 
   /**
