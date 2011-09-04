@@ -216,7 +216,9 @@ RANLIB =	ranlib
 
 INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
 
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib
+# -Wl,-z,relro: Make the GOT read-only after starting
+# -Wl,-z,now: No lazy binding for PLT attacks
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib -Wl,-z,relro -Wl,-z,now
 LDLIBS +=	-lcryptopp -lboost_regex-mt
 LDHIDE +=	-Wl,--exclude-libs,ALL
 
