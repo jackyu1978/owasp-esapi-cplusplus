@@ -56,23 +56,93 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 
   try
     {    
-      MessageDigest md1("Foo");
-    }
-  catch(const NoSuchAlgorithmException&)
-    {
+      MessageDigest md00();
       success = true;
     }
-  catch(const InvalidArgumentException&)
+  catch(esapi::NoSuchAlgorithmException&)
+    {
+      cerr << "!!Caught NoSuchAlgorithmException" << endl;
+    }
+  catch(esapi::InvalidArgumentException&)
     {
       cerr << "!!Caught InvalidArgumentException" << endl;
     }
-  catch(const EncryptionException&)
+  catch(esapi::EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
-  catch(const std::runtime_error&)
+  catch(std::runtime_error&)
     {
       cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+
+  /////////////////////////////////////////////////////////////////////////
+
+  try
+    {    
+      MessageDigest md01 = MessageDigest::getInstance();
+      success = true;
+    }
+  catch(esapi::NoSuchAlgorithmException&)
+    {
+      cerr << "!!Caught NoSuchAlgorithmException" << endl;
+    }
+  catch(esapi::InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(esapi::EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  catch(std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+
+  /////////////////////////////////////////////////////////////////////////
+
+  try
+    {    
+      MessageDigest md1("Foo");
+    }
+  catch(esapi::NoSuchAlgorithmException&)
+    {
+      success = true;
+    }
+  catch(esapi::InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(esapi::EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  catch(std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
     }
   catch(...)
     {
@@ -86,21 +156,25 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1(MessageDigest::getInstance("Foo"));
     }
-  catch(const NoSuchAlgorithmException&)
+  catch(NoSuchAlgorithmException&)
     {
       success = true;
     }
-  catch(const InvalidArgumentException&)
+  catch(InvalidArgumentException&)
     {
       cerr << "!!Caught InvalidArgumentException" << endl;
     }
-  catch(const EncryptionException&)
+  catch(EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
-  catch(const std::runtime_error&)
+  catch(std::runtime_error&)
     {
       cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
     }
   catch(...)
     {
@@ -122,11 +196,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       MessageDigest md3(MessageDigest::getInstance("MD-5"));
       md3.digest((byte*)nullptr, 0, 0, 0);
     }
-  catch(const InvalidArgumentException&)
+  catch(InvalidArgumentException&)
     {   
       success = true;
     }
-  catch(const EncryptionException&)
+  catch(EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
@@ -185,11 +259,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       MessageDigest md6(MessageDigest::getInstance());
       md6.update((byte*)nullptr, 0, 0, 0);
     }
-  catch(const InvalidArgumentException&)
+  catch(InvalidArgumentException&)
     {   
       success = true;
     }
-  catch(const EncryptionException&)
+  catch(EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
