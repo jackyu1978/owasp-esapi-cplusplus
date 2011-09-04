@@ -88,7 +88,7 @@ endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 ifneq ($(GCC_COMPILER),0)
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wformat -Wformat-nonliteral -Wformat-security
+  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wformat=2 -Wformat-security
 #  Too much Boost noise
 #  CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
@@ -214,13 +214,12 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-INCLUDES =	-I. -I./esapi -I./deps -I/usr/local/include
+CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
 
 # -Wl,-z,relro: Make the GOT read-only after starting
 # -Wl,-z,now: No lazy binding for PLT attacks
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -L./lib -Wl,-z,relro -Wl,-z,now
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,--exclude-libs,ALL -Wl,-z,relro -Wl,-z,now
 LDLIBS +=	-lcryptopp -lboost_regex-mt
-LDHIDE +=	-Wl,--exclude-libs,ALL
 
 TESTLIBS +=	-lboost_unit_test_framework-mt
 
@@ -244,7 +243,7 @@ default: test
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
-	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) $(LDHIDE) -shared $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
 
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
@@ -263,8 +262,8 @@ debug: test
 release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
-test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
+test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
+	-$(CXX) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) -L./lib $(LDFLAGS) lib/$(DYNAMIC_LIB) $(LDLIBS) $(TESTLIBS)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -287,7 +286,7 @@ static: $(STATIC_LIB)
 dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -fpic -c $< -o $@
+	$(CXX) $(CXXFLAGS) -fpic -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
