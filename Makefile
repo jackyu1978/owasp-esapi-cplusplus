@@ -78,17 +78,19 @@ GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 
-# Would like -fvisibility=hidden, but intel's syntax is:
+# Would like -fvisibility=hidden, but Intel's syntax is:
 # int foo(int a) __attribute__ ((visibility ("default")));
-# MS and GCC allow the attribute at the beggingn of the declaraion.....
-# See http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
+# MS and GCC allow the attribute at the beginning of the declaraion, before the return type...
+# http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifneq ($(INTEL_COMPILER),0)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
+# http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifneq ($(GCC_COMPILER),0)
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wformat=2 -Wformat-security
+  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
+  CXXFLAGS += -Wformat=2 -Wformat-security
 #  Too much Boost noise
 #  CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
@@ -110,20 +112,21 @@ ifneq ($(GCC41_OR_LATER),0)
   endif  
 endif
 
-# -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
+# -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 ifneq ($(GCC43_OR_LATER),0)
   CXXFLAGS += -Wall -Wextra -Wno-type-limits -Wno-unused
 endif
 
-# For unique_ptr - see http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_440
-ifneq ($(GCC44_OR_LATER),0)
+# "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
+ifneq ($(GCC43_OR_LATER),0)
   CXXFLAGS += -std=c++0x
 endif
 
-# For nullptr - see http://gcc.gnu.org/projects/cxx0x.html
-#ifneq ($(GCC46_OR_LATER),0)
-#  CXXFLAGS += -std=c++0x // Included in 4.4
-#endif
+# http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
+# http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
+ifneq ($(GCC46_OR_LATER),0)
+  CXXFLAGS += -fmemory-model=c++0x
+endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifneq ($(IS_LINUX), 0)
