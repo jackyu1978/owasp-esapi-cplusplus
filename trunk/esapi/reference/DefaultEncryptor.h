@@ -37,6 +37,13 @@ namespace esapi
 
   public:
 
+	/**
+   * {@inheritDoc}
+   * 
+	 * Hashes the data using the specified algorithm and the Java MessageDigest class. This method
+	 * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
+	 * in order to help strengthen weak passwords.
+	 */
     virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations()) throw (EncryptionException);
 
     virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException)

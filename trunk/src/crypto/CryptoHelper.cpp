@@ -48,11 +48,10 @@ namespace esapi
     ASSERT( keyBits >= 56 );
     ASSERT( (keyBits % 8) == 0 );
 
-    // std::auto_ptr<KeyGenerator> kgen(KeyGenerator::getInstance(alg));
-    // kgen->init(keyBits);
+    KeyGenerator kgen(KeyGenerator::getInstance(alg));
+    kgen.init(keyBits);
 
-    // return kgen->generateKey();
-    return SecretKey();
+    return kgen.generateKey();
   }
 
   /**

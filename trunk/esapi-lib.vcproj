@@ -665,6 +665,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\errors\NoSuchAlgorithmException.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\errors\NullPointerException.h"
 						>
 					</File>

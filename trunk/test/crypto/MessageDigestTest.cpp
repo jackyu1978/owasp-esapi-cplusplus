@@ -30,13 +30,16 @@ using std::string;
 #include "EsapiCommon.h"
 using esapi::SecureByteArray;
 
-#include <errors/InvalidArgumentException.h>
+#include "errors/InvalidArgumentException.h"
 using esapi::InvalidArgumentException;
 
-#include <errors/EncryptionException.h>
+#include "errors/EncryptionException.h"
 using esapi::EncryptionException;
 
-#include <crypto/MessageDigest.h>
+#include "errors/NoSuchAlgorithmException.h"
+using esapi::NoSuchAlgorithmException;
+
+#include "crypto/MessageDigest.h"
 using esapi::MessageDigest;
 
 #include <pthread.h>
@@ -55,7 +58,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1("Foo");
     }
-  catch(InvalidArgumentException&)
+  catch(NoSuchAlgorithmException&)
     {
       success = true;
     }
@@ -71,7 +74,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1(MessageDigest::getInstance("Foo"));
     }
-  catch(InvalidArgumentException&)
+  catch(NoSuchAlgorithmException&)
     {
       success = true;
     }
@@ -410,6 +413,9 @@ void* WorkerThreadProc(void* param)
   byte digest[64];
   md.digest(digest, COUNTOF(digest), 0, md.getDigestLength());
 
+  // Lots of trouble here. The underlying C++ standard libraries and Boost
+  // make no guarantees this is valid in a multithreaded world. Despite
+  // sincere efforts, we have not been able to provide it trouble free.
   // md = MessageDigest::getInstance();
 
   BOOST_MESSAGE( "Thread " << (size_t)param << " completed" );

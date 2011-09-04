@@ -51,7 +51,7 @@ namespace esapi
       {
         std::ostringstream oss;
         oss << "Algorithm \'" << algorithm << "\' is not supported.";
-        throw InvalidArgumentException(oss.str());
+        throw NoSuchAlgorithmException(oss.str());
       }
     
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);

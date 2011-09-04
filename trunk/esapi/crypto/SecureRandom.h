@@ -20,6 +20,7 @@
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
 
 #include <string>
 #include <vector>
@@ -59,7 +60,7 @@ namespace esapi
     /**
      * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
      */
-    static SecureRandom getInstance(const std::string& algorithm);
+    static SecureRandom getInstance(const std::string& algorithm = DefaultAlgorithm());
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named

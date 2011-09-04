@@ -13,6 +13,7 @@
 #include "crypto/MessageDigestImpl.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
 
 #include "safeint/SafeInt3.hpp"
 
@@ -60,7 +61,7 @@ namespace esapi
     // We only have InvalidArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported";
-    throw InvalidArgumentException(oss.str());
+    throw NoSuchAlgorithmException(oss.str());
   }
 
   template <class HASH>

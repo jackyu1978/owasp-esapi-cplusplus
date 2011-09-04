@@ -14,6 +14,7 @@
 #include "util/Mutex.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
 #include <boost/shared_ptr.hpp>
 
 namespace esapi
@@ -34,13 +35,13 @@ namespace esapi
     * Returns a MessageDigest object that implements the specified digest algorithm.
     */
     static MessageDigest getInstance(const std::string& algorithm = DefaultAlgorithm())
-      throw(InvalidArgumentException);
+      throw(NoSuchAlgorithmException);
 
     /**
     * Creates a message digest with the specified algorithm name.
     */
     explicit MessageDigest(const std::string& algorithm = DefaultAlgorithm())
-      throw(InvalidArgumentException);
+      throw(NoSuchAlgorithmException, EncryptionException);
 
     /**
     * Copies a message digest.
