@@ -226,7 +226,7 @@ RANLIB =	ranlib
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,--exclude-libs,ALL -Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
 LDLIBS +=	-lcryptopp -lboost_regex-mt
 
-TESTLIBS +=	-lboost_unit_test_framework-mt
+TESTLIBS +=	-lpthread -lboost_unit_test_framework-mt
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
