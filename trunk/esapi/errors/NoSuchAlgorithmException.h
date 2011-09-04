@@ -32,12 +32,6 @@ namespace esapi {
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }
-    virtual ~NoSuchAlgorithmException() throw() { }
-
-    static std::string name()
-      {
-        return typeid(NoSuchAlgorithmException).name();
-      }
   };
 
   // static const NoSuchAlgorithmException dummy("unused");
