@@ -16,10 +16,12 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
+#include "EsapiCommon.h"
 #include "util/Mutex.h"
 #include "codecs/PushbackString.h"
+
+#include <vector>
+#include <string>
 
 namespace esapi {
   /**
@@ -38,7 +40,7 @@ namespace esapi {
 
   typedef std::vector<std::string> HexArray;
 
-  class Codec {
+  class ESAPI_EXPORT Codec {
 
   private:
 
@@ -53,14 +55,14 @@ namespace esapi {
      *
      * @return reference to the initialized array
      */
-    static const esapi::HexArray& getHexArray ();
+    ESAPI_PRIVATE static const esapi::HexArray& getHexArray ();
 
     /**
      * Retrieve the class wide intialization lock.
      *
      * @return the mutex used to lock the class.
      */
-    static esapi::Mutex& getClassMutex ();
+    ESAPI_PRIVATE static esapi::Mutex& getClassMutex ();
 
   public:
     /**
