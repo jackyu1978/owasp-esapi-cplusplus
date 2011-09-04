@@ -58,15 +58,15 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1("Foo");
     }
-  catch(const esapi::NoSuchAlgorithmException&)
+  catch(const NoSuchAlgorithmException&)
     {
       success = true;
     }
-  catch(const esapi::InvalidArgumentException&)
+  catch(const InvalidArgumentException&)
     {
       cerr << "!!Caught InvalidArgumentException" << endl;
     }
-  catch(const esapi::EncryptionException&)
+  catch(const EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
@@ -86,15 +86,15 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1(MessageDigest::getInstance("Foo"));
     }
-  catch(const esapi::NoSuchAlgorithmException&)
+  catch(const NoSuchAlgorithmException&)
     {
       success = true;
     }
-  catch(const esapi::InvalidArgumentException&)
+  catch(const InvalidArgumentException&)
     {
       cerr << "!!Caught InvalidArgumentException" << endl;
     }
-  catch(const esapi::EncryptionException&)
+  catch(const EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }

@@ -16,11 +16,14 @@
 // Used by Windows. For Linux, Boost::Test provides main() //
 /////////////////////////////////////////////////////////////
 
+#include "errors/InvalidArgumentException.h"
+using esapi::InvalidArgumentException;
+
 #include "errors/EncryptionException.h"
 using esapi::EncryptionException;
 
-#include "errors/InvalidArgumentException.h"
-using esapi::InvalidArgumentException;
+#include "errors/NoSuchAlgorithmException.h"
+using esapi::NoSuchAlgorithmException;
 
 #include "crypto/SecureRandom.h"
 using esapi::SecureRandom;
@@ -41,6 +44,7 @@ using esapi::MessageDigest;
 using esapi::SecureByteArray;
 
 #include <iostream>
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -88,7 +92,6 @@ int main(int, char**)
   key = kg.generateKey();
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
-#endif
 
   try
     {
@@ -113,6 +116,34 @@ int main(int, char**)
   catch(...)
     {
 
+    }
+#endif
+
+  try
+    {    
+      // MessageDigest md1("Foo");
+      SecureRandom sr(" Ba r ");
+    }
+  catch(NoSuchAlgorithmException& ex)
+    {
+      // success = true;
+      cout << "Caught " << ex.what() << endl;
+    }
+  catch(InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  catch(std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
     }
 
   return 0;
