@@ -134,6 +134,9 @@ ifneq ($(IS_LINUX), 0)
   LDLIBS += -lpthread
 endif
 
+# Add paths
+CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
+
 ROOTSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp
 
@@ -217,11 +220,9 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
-
 # -Wl,-z,relro: Make the GOT read-only after starting
 # -Wl,-z,now: No lazy binding for PLT attacks
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,--exclude-libs,ALL -Wl,-z,relro -Wl,-z,now
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,--exclude-libs,ALL -Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
 LDLIBS +=	-lcryptopp -lboost_regex-mt
 
 TESTLIBS +=	-lboost_unit_test_framework-mt
