@@ -128,7 +128,7 @@ namespace esapi {
      *
      * @return
      */
-    std::string remainder();
+    ESAPI_PRIVATE std::string remainder();
 
   };
 
