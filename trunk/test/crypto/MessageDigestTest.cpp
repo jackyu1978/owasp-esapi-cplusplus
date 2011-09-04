@@ -58,15 +58,27 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1("Foo");
     }
-  catch(NoSuchAlgorithmException&)
+  catch(const esapi::NoSuchAlgorithmException&)
     {
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const esapi::InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(const esapi::EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to catch InvalidArgumentException");
+  catch(const std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 
   /////////////////////////////////////////////////////////////////////////
     
@@ -74,15 +86,27 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {    
       MessageDigest md1(MessageDigest::getInstance("Foo"));
     }
-  catch(NoSuchAlgorithmException&)
+  catch(const esapi::NoSuchAlgorithmException&)
     {
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const esapi::InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(const esapi::EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to catch InvalidArgumentException");
+  catch(const std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 
   /////////////////////////////////////////////////////////////////////////
 
@@ -98,11 +122,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       MessageDigest md3(MessageDigest::getInstance("MD-5"));
       md3.digest((byte*)nullptr, 0, 0, 0);
     }
-  catch(InvalidArgumentException&)
+  catch(const InvalidArgumentException&)
     {   
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }
@@ -161,11 +185,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       MessageDigest md6(MessageDigest::getInstance());
       md6.update((byte*)nullptr, 0, 0, 0);
     }
-  catch(InvalidArgumentException&)
+  catch(const InvalidArgumentException&)
     {   
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const EncryptionException&)
     {
       cerr << "!!Caught EncryptionException" << endl;
     }

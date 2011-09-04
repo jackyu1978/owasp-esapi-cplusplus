@@ -108,7 +108,7 @@ namespace esapi
     {
       std::ostringstream oss;
       oss << "Algorithm \'" << algorithm << "\' is not supported.";
-      throw NoSuchAlgorithmException(oss.str());
+      throw esapi::NoSuchAlgorithmException(oss.str());
     }
 
     MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
@@ -269,9 +269,8 @@ namespace esapi
   }
 
   /**
-  * Normalizes the algorithm name. An empty string on input is interpreted as
-  * the default algortihm. If the algorithm is not found (ie, unsupported),
-  * return the empty string.
+  * Normalizes the algorithm name. If the name is unknown, normalizeAlgortihm
+  * returns a whitespace trimmed algorithm name.
   */
   std::string MessageDigest::normalizeAlgortihm(const std::string& algorithm)
   {
@@ -281,6 +280,9 @@ namespace esapi
     std::string::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
     if(it != alg.end())
       alg.erase(it, alg.end());
+
+    // Used to preserve case after trimming whitespace
+    std::string trimmed = alg;
 
     // Select default algorithm if empty
     if(alg.empty())
@@ -310,6 +312,6 @@ namespace esapi
     if(alg == "whirlpool")
       return "Whirlpool";
 
-    return "";
+    return trimmed;
   }
 }

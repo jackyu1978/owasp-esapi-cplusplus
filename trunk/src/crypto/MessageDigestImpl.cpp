@@ -61,7 +61,7 @@ namespace esapi
     // We only have InvalidArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported";
-    throw NoSuchAlgorithmException(oss.str());
+    throw esapi::NoSuchAlgorithmException(oss.str());
   }
 
   template <class HASH>
