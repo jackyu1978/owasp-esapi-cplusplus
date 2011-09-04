@@ -88,9 +88,9 @@ endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 ifneq ($(GCC_COMPILER),0)
+  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wformat -Wformat-nonliteral -Wformat-security
 #  Too much Boost noise
-#  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Weffc++ -Wno-non-virtual-dtor
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
+#  CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
 
 # http://gcc.gnu.org/wiki/Visibility
@@ -102,13 +102,12 @@ endif
 # http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
 # http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
 ifneq ($(GCC41_OR_LATER),0)
-  CXXFLAGS += -fstack-protector-all
-endif
-
-ifneq ($(GCC41_OR_LATER),0)
   ifeq ($(WANT_DEBUG),1)
     CXXFLAGS += -D_FORTIFY_SOURCE=2
-  endif
+    CXXFLAGS += -fstack-protector-all
+  else
+    CXXFLAGS += -fstack-protector
+  endif  
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, see http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
@@ -263,7 +262,7 @@ release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(DYNAMIC_LIB) $(TESTTARGET)
-	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) ${LIBOBJS} $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
+	-$(CXX) $(CXXFLAGS) -o $(TESTTARGET) $(TESTOBJS) $(LDFLAGS) $(LDLIBS) $(TESTLIBS) lib/$(DYNAMIC_LIB) 
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link

@@ -14,11 +14,9 @@
  * @created 2007
  */
 
-#ifndef _PushbackString_H_
-#define _PushbackString_H_
-
 #pragma once
 
+#include "EsapiCommon.h"
 #include <string>
 
 namespace esapi {
@@ -32,7 +30,7 @@ namespace esapi {
    * @since June 1, 2007
    * @see org.owasp.esapi.Encoder
    */
-  class PushbackString {
+  class ESAPI_EXPORT PushbackString {
 
   private:
     std::string input;
@@ -136,4 +134,3 @@ namespace esapi {
 
 }; /** esapi namespace */
 
-#endif /** _PushbackString_H_ */
