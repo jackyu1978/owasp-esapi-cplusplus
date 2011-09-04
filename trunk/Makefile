@@ -268,7 +268,7 @@ release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
-	-$(CXX) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) -L./lib $(LDFLAGS) lib/$(DYNAMIC_LIB) $(LDLIBS) $(TESTLIBS)
+	-$(CXX) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) lib/$(DYNAMIC_LIB) $(TESTLIBS)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -283,7 +283,7 @@ err error: $(ERROBJS)
 # Test compile reference sources, no final link
 ref reference: $(REFOBJS)
 
-# Test compile reference sources, no final link
+# Test compile utility sources, no final link
 util: $(UTILOBJS)
 
 static: $(STATIC_LIB)
