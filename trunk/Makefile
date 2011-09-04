@@ -75,6 +75,7 @@ GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-
 GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[4-9]|[5-9])")
 GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[5-9]|[5-9])")
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
+GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[7-9]|[5-9])")
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 
@@ -124,7 +125,7 @@ endif
 
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
-ifneq ($(GCC46_OR_LATER),0)
+ifneq ($(GCC47_OR_LATER),0)
   CXXFLAGS += -fmemory-model=c++0x
 endif
 
