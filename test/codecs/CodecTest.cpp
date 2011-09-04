@@ -36,13 +36,21 @@ BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
   BOOST_CHECK(codec.containsCharacter(' ',"asdf") == false);
   BOOST_CHECK(codec.containsCharacter('\0',"asdf") == false);
   BOOST_CHECK(codec.containsCharacter(0,"") == false);
-  BOOST_CHECK(codec.containsCharacter('a',nullptr));
 
   BOOST_CHECK(codec.containsCharacter('a',(char*)"asdf",4));
   BOOST_CHECK(codec.containsCharacter('f',(char*)"asdf",4));
   BOOST_CHECK(codec.containsCharacter('b',(char*)"asdf",4) == false);
   BOOST_CHECK(codec.containsCharacter(' ',(char*)"asdf",4) == false);
   BOOST_CHECK(codec.containsCharacter('\0',(char*)"asdf",4) == false);
+
+  const char charr[] = { 'a', 's', 'd', 'f' };
+  BOOST_CHECK(codec.containsCharacter('a',charr,COUNTOF(charr)) == true); 
+  BOOST_CHECK(codec.containsCharacter('s',charr,COUNTOF(charr)) == true); 
+  BOOST_CHECK(codec.containsCharacter('d',charr,COUNTOF(charr)) == true); 
+  BOOST_CHECK(codec.containsCharacter('f',charr,COUNTOF(charr)) == true);
+  BOOST_CHECK(codec.containsCharacter('g',charr,COUNTOF(charr)) == false);
+  BOOST_CHECK(codec.containsCharacter('a',NULL,COUNTOF(charr)) == false);
+  BOOST_CHECK(codec.containsCharacter('a',charr,0) == false);
   BOOST_CHECK(codec.containsCharacter(0,0,0) == false);
 }
 
