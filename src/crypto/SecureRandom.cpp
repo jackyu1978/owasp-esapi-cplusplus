@@ -262,6 +262,8 @@ namespace esapi
     if(it != alg.end())
       alg.erase(it, alg.end());
 
+    std::string trimmed = alg;
+
     // Select default algorithm if empty
     if(alg.empty())
       alg = DefaultAlgorithm();
@@ -448,6 +450,6 @@ namespace esapi
     if(alg == "hmacwhirlpool")
       return "HmacWhirlpool";
 
-    return "";
+    return trimmed;
   }
 } // esapi
