@@ -15,6 +15,7 @@
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
 
 namespace esapi
 {
@@ -50,7 +51,7 @@ namespace esapi
   protected:
 
     static MessageDigestImpl* createInstance(const std::string& algorithm)
-      throw(InvalidArgumentException);
+      throw(NoSuchAlgorithmException);
 
   private:
 

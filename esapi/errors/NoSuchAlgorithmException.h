@@ -14,6 +14,7 @@
 #include "errors/EnterpriseSecurityException.h"
 
 #include <stdexcept>
+#include <typeinfo>
 #include <string>
 
 // TODO: Finish Porting from Java
@@ -32,6 +33,11 @@ namespace esapi {
       {
       }
     virtual ~NoSuchAlgorithmException() throw() { }
+
+    static std::string name()
+      {
+        return typeid(NoSuchAlgorithmException).name();
+      }
   };
 
   // static const NoSuchAlgorithmException dummy("unused");

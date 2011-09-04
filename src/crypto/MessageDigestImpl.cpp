@@ -24,7 +24,7 @@
 
 namespace esapi
 {
-  MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm) throw(InvalidArgumentException)
+  MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm) throw(NoSuchAlgorithmException)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
