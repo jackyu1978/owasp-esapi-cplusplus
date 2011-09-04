@@ -29,11 +29,14 @@ BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
   Codec codec;
 
   BOOST_CHECK(codec.containsCharacter('a',"asdf"));
+  BOOST_CHECK(codec.containsCharacter('s',"asdf"));
+  BOOST_CHECK(codec.containsCharacter('d',"asdf"));
   BOOST_CHECK(codec.containsCharacter('f',"asdf"));
   BOOST_CHECK(codec.containsCharacter('b',"asdf") == false);
   BOOST_CHECK(codec.containsCharacter(' ',"asdf") == false);
   BOOST_CHECK(codec.containsCharacter('\0',"asdf") == false);
   BOOST_CHECK(codec.containsCharacter(0,"") == false);
+  BOOST_CHECK(codec.containsCharacter('a',nullptr));
 
   BOOST_CHECK(codec.containsCharacter('a',(char*)"asdf",4));
   BOOST_CHECK(codec.containsCharacter('f',(char*)"asdf",4));
