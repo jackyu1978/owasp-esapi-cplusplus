@@ -208,6 +208,28 @@ namespace esapi
   }
 
   /**
+    * Completes the hash computation by performing final operations such as padding. The digest
+    * is reset after this call is made. 
+   */
+   template <class HASH>
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl()
+   {
+     SecureByteArray out(HASH::DIGESTSIZE);
+
+    try
+      {
+        // TruncatedFinal returns the requested number of bytes and restarts the hash.
+        m_hash.TruncatedFinal(out.data(), out.size());
+      }
+    catch(CryptoPP::Exception& ex)
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
+
+     return out;
+   }
+
+  /**
    * Performs a final update on the digest using the specified array of bytes, then completes the
    * digest computation.
    */

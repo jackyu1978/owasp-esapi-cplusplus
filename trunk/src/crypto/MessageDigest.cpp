@@ -262,6 +262,22 @@ namespace esapi
   }
 
   /**
+  * Completes the hash computation by performing final operations such as padding. The digest
+  * is reset after this call is made. 
+  */
+  SecureByteArray MessageDigest::digest()
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->digestImpl();
+  }
+
+  /**
   * Performs a final update on the digest using the specified array of bytes, then completes the
   * digest computation.
   *
