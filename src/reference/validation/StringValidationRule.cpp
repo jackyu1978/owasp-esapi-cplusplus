@@ -47,7 +47,7 @@ esapi::StringValidationRule::StringValidationRule(const std::string &typeName, E
 	addWhitelistPattern(whitelistPattern);
 }
 
-std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) {
 	//ASSERT(encoder);
 	//if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
 
@@ -99,7 +99,7 @@ std::string esapi::StringValidationRule::getValid(const std::string &context, co
 	return data;
 }
 
-std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) {
 	ASSERT(&errorList);
 	if (&errorList==nullptr) throw new NullPointerException("errorList has null pointer");
 
@@ -116,7 +116,7 @@ std::string esapi::StringValidationRule::sanitize(const std::string &context, co
 	return whitelist( input, EncoderConstants::ALPHANUMERICS );
 }
 
-void esapi::StringValidationRule::addWhitelistPattern(const std::string & pattern) throw (esapi::IllegalArgumentException) {
+void esapi::StringValidationRule::addWhitelistPattern(const std::string & pattern) {
 	if (pattern.compare("")==0) {
 		throw new IllegalArgumentException("Pattern cannot be null");
 	}
@@ -124,7 +124,7 @@ void esapi::StringValidationRule::addWhitelistPattern(const std::string & patter
 	this->whitelistPatterns.insert(pattern);
 }
 
-void esapi::StringValidationRule::addBlacklistPattern(const std::string &pattern) throw (esapi::IllegalArgumentException) {
+void esapi::StringValidationRule::addBlacklistPattern(const std::string &pattern) {
 	if (pattern.compare("")==0) {
 		throw new IllegalArgumentException("Pattern cannot be null");
 	}
@@ -144,7 +144,7 @@ void esapi::StringValidationRule::setValidateInputAndCanonical(bool flag) {
 	this->validateInputAndCanonical = flag;
 }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) {
 	std::set<std::string>::iterator it;
 
 	if (!whitelistPatterns.empty()) {
@@ -163,11 +163,11 @@ std::string esapi::StringValidationRule::checkWhitelist(const std::string &conte
 	return input;
 }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input) {
 	return checkWhitelist(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) {
 	std::set<std::string>::iterator it;
 
 	if (!blacklistPatterns.empty()) {
@@ -187,11 +187,11 @@ std::string esapi::StringValidationRule::checkBlacklist(const std::string &conte
 
 }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) {
 	return checkBlacklist(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input, const std::string &orig) {
 	if (input.size() < minLength) {
 		std::stringstream userMessage;
 		std::stringstream logMessage;
@@ -211,11 +211,11 @@ std::string esapi::StringValidationRule::checkLength(const std::string &context,
 	return input;
 }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input) {
 	return checkLength(context, input, input);
 }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input, const std::string &orig) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input, const std::string &orig) {
 	if(!input.empty())
 		return input;
 	if(allowNull)
@@ -228,6 +228,6 @@ std::string esapi::StringValidationRule::checkEmpty(const std::string &context, 
 	throw new ValidationException(userMessage.str(), logMessage.str(), context );
 }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input) throw (esapi::ValidationException) {
+std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input) {
 	return checkEmpty(context, input, input);
 }
