@@ -28,6 +28,7 @@ namespace esapi
       typedef typename std::vector< T, zallocator<T> > SecureVector;
       typedef typename zallocator<T>::size_type size_type;
 
+      typedef typename SecureVector::value_type value_type;
       typedef typename SecureVector::pointer pointer;
       typedef typename SecureVector::const_pointer const_pointer;
 
