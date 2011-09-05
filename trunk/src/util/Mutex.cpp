@@ -20,6 +20,7 @@
 #include <stdexcept>
 
 #include <errno.h>
+#include <string.h>
 
 namespace esapi
 {
