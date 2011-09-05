@@ -41,6 +41,7 @@ namespace esapi
    * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
    */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
+    throw(EncryptionException)
   {
     ASSERT( !algorithm.empty() );
 
@@ -69,7 +70,8 @@ namespace esapi
    * random number algorithm if specified
    */
   SecureRandom::SecureRandom(const std::string& algorithm)
-    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))
+    throw(EncryptionException)
+    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))    
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -83,6 +85,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
    */
   SecureRandom::SecureRandom(const byte seed[], size_t size)
+    throw(EncryptionException)
     : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
   {
     ASSERT(m_lock.get() != nullptr);
@@ -96,6 +99,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
    */
   SecureRandom::SecureRandom(SecureRandomImpl* impl)
+    throw(EncryptionException)
     : m_lock(new Mutex), m_impl(impl)
   {
     ASSERT(m_lock.get() != nullptr);
@@ -154,6 +158,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   byte* SecureRandom::generateSeed(unsigned int numBytes)
+    throw(std::runtime_error, EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -169,6 +174,7 @@ namespace esapi
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   std::string SecureRandom::getAlgorithm() const
+    throw(EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -185,6 +191,7 @@ namespace esapi
    * by KeyGenerator to determine the appropriate key size for init.
    */
   unsigned int SecureRandom::getSecurityLevel() const
+    throw(EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -200,6 +207,7 @@ namespace esapi
    * Generates a user-specified number of random bytes.
    */
   void SecureRandom::nextBytes(byte bytes[], size_t size)
+    throw(EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -215,6 +223,7 @@ namespace esapi
    * Reseeds this random object.
    */
   void SecureRandom::setSeed(const byte seed[], size_t size)
+    throw(EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -234,6 +243,7 @@ namespace esapi
    * Reseeds this random object, using the bytes contained in the given long seed.
    */
   void SecureRandom::setSeed(int seed)
+    throw(EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -254,7 +264,7 @@ namespace esapi
   {
     ASSERT(!algorithm.empty());
 
-    std::string alg = algorithm, mode;
+    std::string alg(algorithm), mode;
     std::string::size_type pos;
 
     // Cut out whitespace
@@ -262,11 +272,7 @@ namespace esapi
     if(it != alg.end())
       alg.erase(it, alg.end());
 
-    std::string trimmed = alg;
-
-    // Select default algorithm if empty
-    if(alg.empty())
-      alg = DefaultAlgorithm();
+    std::string trimmed(alg);
 
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);

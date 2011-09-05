@@ -12,9 +12,16 @@
  *
  */
 
+#include "EsapiCommon.h"
+#include "errors/EncryptionException.h"
+#include "errors/NoSuchAlgorithmException.h"
+#include "errors/InvalidArgumentException.h"
+
+#include "<string>"
+
 namespace esapi
 {
-///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
   /////////////////////////// Secure Random Implmentation ///////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +41,7 @@ namespace esapi
      * Factory method to cough up an implementation.
      * Java offers a SecureRandom(byte[]), and this overload handles it.
      */
-    static SecureRandomImpl* createInstance(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
+    static SecureRandomImpl* createInstance(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0) throw (NoSuchAlgorithmException);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
