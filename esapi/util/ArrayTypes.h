@@ -13,7 +13,7 @@
 */
 
 #include "EsapiCommon.h"
-#include "util/zallocator.h"
+#include "util/zAllocator.h"
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
@@ -21,7 +21,7 @@
 namespace esapi
 {
   template <typename T>
-  class SecureArray
+  class ESAPI_EXPORT SecureArray
   {
     typedef typename std::vector< T, zallocator<T> > SecureVector;
     typedef typename zallocator<T>::size_type size_type;
@@ -40,13 +40,13 @@ namespace esapi
   public:
 
     // Construction
-    explicit SecureArray(size_type n, const T value = T());
+    explicit SecureArray(size_type n = 0, const T value = T());
 
     template <class InputIterator>
     SecureArray(InputIterator first, InputIterator last);
 
     // Destruction
-    ~SecureArray(){ }
+    ~SecureArray() { }
 
     // Iterators
     iterator begin();
@@ -111,6 +111,7 @@ namespace esapi
     boost::shared_ptr<SecureVector> m_vector;
   };
 
+  // Convenience
   typedef SecureArray<byte> SecureByteArray;
   typedef SecureArray<int> SecureIntArray;
 
