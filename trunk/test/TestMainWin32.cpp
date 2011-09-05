@@ -45,6 +45,9 @@ using esapi::MessageDigest;
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
+#include "util/SecureString.h"
+using esapi::SecureString;
+
 #include <iostream>
 using std::cerr;
 using std::cout;
@@ -60,6 +63,21 @@ using std::string;
 
 int main(int, char**)
 {
+
+  SecureByteArray a(10);
+  SecureByteArray b(20);
+
+  std::swap(a, b);
+
+  cout << a.size() << ":" << b.size() << endl;
+
+  SecureString c("Hello");
+  SecureString d("Cruel World");
+
+  std::swap(c, d);
+
+  cout << c.size() << ":" << d.size() << endl;
+
 #if 0
   byte scratch[32];
 
@@ -94,47 +112,48 @@ int main(int, char**)
   key = kg.generateKey();
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
-#endif
 
   try
-    {
-      //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
-      bool success = false;
-      MessageDigest md(MessageDigest::getInstance("MD5"));
+  {
+    //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
+    bool success = false;
+    MessageDigest md(MessageDigest::getInstance("MD5"));
 
-      const size_t sz = md.getDigestLength();
-      SecureByteArray buf(sz);
+    const size_t sz = md.getDigestLength();
+    SecureByteArray buf(sz);
 
-      const string msg("");
-      md.update((const byte*)msg.data(), msg.size());
+    const string msg("");
+    md.update((const byte*)msg.data(), msg.size());
 
-      const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
-      md.digest(buf.data(), buf.size(), 0, sz);
-      success = (::memcmp(buf.data(), hash, 16) == 0);
-      ASSERT(success);
+    const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
+    md.digest(buf.data(), buf.size(), 0, sz);
+    success = (::memcmp(buf.data(), hash, 16) == 0);
+    ASSERT(success);
 
-      /* ======================= */
+    /* ======================= */
 
-      MessageDigest zzz;
-      MessageDigest xxx(md);
-      MessageDigest yyy = xxx;
+    MessageDigest zzz;
+    MessageDigest xxx(md);
+    MessageDigest yyy = xxx;
 
-      /* ======================= */
+    /* ======================= */
 
-      MessageDigest md5 = MessageDigest::getInstance("MD5");
-      md5.update((const byte*)msg.data(), msg.size());
+    MessageDigest md5 = MessageDigest::getInstance("MD5");
+    md5.update((const byte*)msg.data(), msg.size());
 
-      SecureByteArray digest = md5.digest();
-      ASSERT(digest.size() == COUNTOF(hash));
+    SecureByteArray digest = md5.digest();
+    ASSERT(digest.size() == COUNTOF(hash));
 
-      success = (::memcmp(digest.data(), hash, 16) == 0);
-      ASSERT(success);
+    success = (::memcmp(digest.data(), hash, 16) == 0);
+    ASSERT(success);
 
-    }
+  }
   catch(...)
-    {
-      cerr << "Caught unknown exception" << endl;
-    }
+  {
+    cerr << "Caught unknown exception" << endl;
+  }
+
+#endif
 
   return 0;
 }
