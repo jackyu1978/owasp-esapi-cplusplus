@@ -278,7 +278,7 @@ namespace esapi
   void SecureArray<T>::insert(iterator pos, InputIterator first, InputIterator last)
   {
     ASSERT(m_vector.get());
-    m_vector->insert(first, last);
+    m_vector->insert(pos, first, last);
   }
 
   template <typename T>
