@@ -334,13 +334,6 @@ namespace esapi
     m_base.swap(str.m_base);
   }
 
-  void SecureString::swap(std::string& str)
-  {
-    SecureStringBase temp(str.data(), str.size());
-    m_base.swap(temp);
-    str = std::string(temp.data(), temp.size());
-  }
-
   // Forward find
   size_t SecureString::find(const SecureString& str, size_t pos) const
   {

@@ -124,7 +124,6 @@ namespace esapi
     const char* data() const;
 
     void swap(SecureString& str);
-    void swap(std::string& str);
 
     size_t find(const SecureString& str, size_t pos = 0) const;
     size_t find(const std::string& str, size_t pos = 0) const;
