@@ -122,3 +122,20 @@ namespace esapi
   typedef SecureArray<int> SecureIntArray;
 
 } // NAMESPACE
+
+// Effective C++, Item 25, pp 106-112
+namespace std
+{
+  template <typename SecureByteArray>
+  void swap(esapi::SecureByteArray& a, esapi::SecureByteArray& b)
+  {
+    a.swap(b);
+  }
+
+  template <typename SecureIntArray>
+  void swap(esapi::SecureIntArray& a, esapi::SecureIntArray& b)
+  {
+    a.swap(b);
+  }
+}
+

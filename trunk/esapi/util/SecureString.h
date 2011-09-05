@@ -183,8 +183,17 @@ namespace esapi
   private:
     SecureStringBase m_base;
   };
+} // NAMESPACE
+
+// Effective C++, Item 25, pp 106-112
+namespace std
+{
+  template <>
+  void swap(esapi::SecureString& a, esapi::SecureString& b)
+  {
+    a.swap(b);
+  }
 }
 
-// Believe it or not, yes we need to do it....
 bool operator==(const std::string& s, const esapi::SecureString& ss);
 bool operator==(const esapi::SecureString& ss, const std::string& s);
