@@ -523,7 +523,7 @@ namespace esapi
 
   int SecureString::compare(const std::string& str) const
   {
-    return m_base.compare(SecureStringBase(str.data(), str.size()));
+    return m_base.compare(0, str.size(), str.data());
   }
 
   int SecureString::compare(size_t pos, size_t n, const SecureString& str) const
@@ -562,15 +562,23 @@ namespace esapi
   }
 }
 
+// Effective C++, Item 25, pp 106-112
+namespace std
+{
+  template <>
+  void swap(esapi::SecureString& a, esapi::SecureString& b)
+  {
+    a.swap(b);
+  }
+}
+
 bool operator==(const std::string& s, const esapi::SecureString& ss)
 {
-  // Avoid creating the temporary. Are we shooting ourselves
-  // in the foot by not allowing CharTraits to work its magic?
-  // return (s.size() == ss.size()) && (0 == ::memcmp(s.data(), ss.data(), s.size()));
-  return ss.compare(s) == 0;
+  return ss.compare(0, s.size(), s.data()) == 0;
 }
 
 bool operator==(const esapi::SecureString& ss, const std::string& s)
 {  
-  return operator==(s, ss);
+  return ss.compare(0, s.size(), s.data()) == 0;
 }
+

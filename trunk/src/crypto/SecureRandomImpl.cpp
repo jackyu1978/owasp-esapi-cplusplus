@@ -362,7 +362,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  byte* HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
@@ -772,7 +772,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  byte* HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
@@ -1103,7 +1103,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  byte* BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
