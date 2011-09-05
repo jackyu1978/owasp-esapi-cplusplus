@@ -35,7 +35,7 @@ namespace esapi
     * Returns a MessageDigest object that implements the specified digest algorithm.
     */
     static MessageDigest getInstance(const std::string& algorithm = DefaultAlgorithm())
-      throw(NoSuchAlgorithmException);
+      throw(NoSuchAlgorithmException, EncryptionException);
 
     /**
     * Creates a message digest with the specified algorithm name.
