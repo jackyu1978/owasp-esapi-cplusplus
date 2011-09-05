@@ -131,6 +131,12 @@ namespace esapi
     virtual void update(const byte buf[], size_t size, size_t offset, size_t len);
 
     /**
+    * Completes the hash computation by performing final operations such as padding. The digest
+    * is reset after this call is made.   
+    */
+    virtual SecureByteArray digest();
+
+    /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
     * digest computation.
     *
