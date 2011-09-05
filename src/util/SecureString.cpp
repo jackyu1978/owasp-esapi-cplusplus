@@ -23,6 +23,9 @@ namespace esapi
   SecureString::SecureString(const char* s, size_t n)
     : m_base(s, n) { }
 
+  SecureString::SecureString(const byte* s, size_t n)
+    : m_base((const char*)s, n) { }
+
   SecureString::SecureString(const char* s)
     : m_base(s) { }
 
@@ -181,6 +184,13 @@ namespace esapi
     return *this;
   }
 
+  SecureString& SecureString::append(const byte* bin, size_t n)
+  {
+    m_base.append((const char*)bin, n);
+
+    return *this;
+  }
+
   SecureString& SecureString::append(size_t n, char c)
   {
     m_base.append(n, c);
@@ -213,6 +223,13 @@ namespace esapi
   SecureString& SecureString::assign(const char* str, size_t n)
   {
     m_base.assign(str, n);
+
+    return *this;
+  }
+
+  SecureString& SecureString::assign(const byte* bin, size_t n)
+  {
+    m_base.assign((const char*)bin, n);
 
     return *this;
   }
@@ -260,12 +277,20 @@ namespace esapi
     return *this;
   }
 
+  SecureString& SecureString::insert(size_t pos, const byte* b, size_t n)
+  {
+    m_base.insert(pos, (const char*)b, n);
+
+    return *this;
+  }
+
   SecureString& SecureString::insert(size_t pos, const char* s)
   {
     m_base.insert(pos, s);
 
     return *this;
   }
+
 
   bool SecureString::empty() const
   {
