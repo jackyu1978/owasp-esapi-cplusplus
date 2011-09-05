@@ -36,6 +36,9 @@ namespace esapi
     typedef zallocator<char>::size_type size_type;
     static const size_type npos = static_cast<size_type>(-1);
 
+    typedef SecureStringBase::value_type value_type; 
+    typedef SecureStringBase::pointer pointer; 
+    typedef SecureStringBase::const_pointer const_pointer; 
     typedef SecureStringBase::iterator iterator;
     typedef SecureStringBase::const_iterator const_iterator;
     typedef SecureStringBase::reverse_iterator reverse_iterator;
