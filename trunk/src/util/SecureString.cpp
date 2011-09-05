@@ -206,6 +206,11 @@ namespace esapi
     return *this;
   }
 
+  bool SecureString::empty() const
+  {
+    return m_base.empty();
+  }
+
   const char* SecureString::c_str() const
   {
     return m_base.c_str();

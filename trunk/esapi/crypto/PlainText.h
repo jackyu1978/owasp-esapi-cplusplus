@@ -15,12 +15,13 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "util/SecureString.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 
 namespace esapi
 {
-  typedef std::string PlainText;
+  typedef SecureString PlainText;
 
 }; // NAMESPACE esapi
