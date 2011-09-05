@@ -58,7 +58,7 @@ char esapi::HTMLEntityCodec::getNumericEntity(PushbackString&) {
   return 0;
 }
 
-char esapi::HTMLEntityCodec::parseNumber(PushbackString& input) {
+char esapi::HTMLEntityCodec::parseNumber(PushbackString& /*input*/) {
   /*
     StringBuilder sb = new StringBuilder();
     while( input.hasNext() ) {

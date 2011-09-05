@@ -16,6 +16,7 @@
 #include "crypto/SecretKey.h"
 #include "crypto/KeyGenerator.h"
 #include "crypto/CryptoHelper.h"
+#include "crypto/Crypto++Common.h"
 #include "crypto/KeyDerivationFunction.h"
 
 #include "safeint/SafeInt3.hpp"

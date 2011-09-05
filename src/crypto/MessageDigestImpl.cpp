@@ -266,4 +266,13 @@ namespace esapi
 
     return (size_t)req;
   }
+
+  // Explicit instantiations
+  template class MessageDigestTmpl<CryptoPP::Weak::MD5>;
+  template class MessageDigestTmpl<CryptoPP::SHA1>;
+  template class MessageDigestTmpl<CryptoPP::SHA224>;
+  template class MessageDigestTmpl<CryptoPP::SHA256>;
+  template class MessageDigestTmpl<CryptoPP::SHA384>;
+  template class MessageDigestTmpl<CryptoPP::SHA512>;
+  template class MessageDigestTmpl<CryptoPP::Whirlpool>;
 };
