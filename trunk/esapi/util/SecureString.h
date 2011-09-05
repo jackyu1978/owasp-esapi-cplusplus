@@ -49,6 +49,7 @@ namespace esapi
     SecureString(const char* s);
     explicit SecureString(const std::string&);
     SecureString(const char* s, size_t n);
+    SecureString(const byte* b, size_t n);
     SecureString(size_t n, char c);
 
     template<class InputIterator>
@@ -99,12 +100,14 @@ namespace esapi
     SecureString& append(const std::string& str);
     SecureString& append(const char* str);
     SecureString& append(const char* str, size_t n);
+    SecureString& append(const byte* bin, size_t n);
     SecureString& append(size_t n, char c);
 
     SecureString& assign(const SecureString& str);
     SecureString& assign(const std::string& str);
     SecureString& assign(const char* str);
     SecureString& assign(const char* str, size_t n);
+    SecureString& assign(const byte* bin, size_t n);
     SecureString& assign(size_t n, char c);
 
     SecureString& insert(size_t pos, const SecureString& str);
@@ -112,6 +115,7 @@ namespace esapi
     SecureString& insert(size_t pos1, const std::string& str, size_t pos2, size_t n);
     SecureString& insert(size_t pos1, const SecureString& str, size_t pos2, size_t n);
     SecureString& insert(size_t pos, const char* s, size_t n);
+    SecureString& insert(size_t pos, const byte* b, size_t n);
     SecureString& insert(size_t pos, const char* s);
 
     SecureString& erase(size_t pos = 0, size_t n = npos);
