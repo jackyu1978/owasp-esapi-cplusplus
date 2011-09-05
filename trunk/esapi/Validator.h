@@ -88,7 +88,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool) =0;
 
 		/**
 		 * Returns validated input as a String with optional canonicalization. Invalid input will generate a descriptive ValidationException,
@@ -112,7 +112,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) =0;
 
 		/**
 		 * Calls getValidInput with the supplied errorList to capture ValidationExceptions
@@ -152,7 +152,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool) =0;
 
 		/**
 		 * Calls getValidDate with the supplied errorList to capture ValidationExceptions
@@ -166,7 +166,7 @@ namespace esapi
 		//virtual bool isValidSafeHTML(String, String, int, bool, ValidationErrorList) =0;
 
 
-		//virtual String getValidSafeHTML(String, String, int, bool) =0 throw (ValidationException, IntrusionException);
+		//virtual String getValidSafeHTML(String, String, int, bool) =0;
 
 
 		//virtual String getValidSafeHTML(String, String, int, bool, ValidationErrorList) =0;
@@ -198,7 +198,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual std::string getValidCreditCard(const std::string &, const std::string &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidCreditCard(const std::string &, const std::string &, bool) =0;
 
 		/**
 		 * Calls getValidCreditCard with the supplied errorList to capture ValidationExceptions
@@ -234,7 +234,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual std::string getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool) =0;
 
 		/**
 		 * Calls getValidDirectoryPath with the supplied errorList to capture ValidationExceptions
@@ -278,7 +278,7 @@ namespace esapi
 	     * @throws ValidationException
 	     * @throws IntrusionException
 		 */
-		virtual std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) =0;
 
 		/**
 		 * Calls getValidFileName with the supplied errorList to capture ValidationExceptions
@@ -316,7 +316,7 @@ namespace esapi
 	     * @throws ValidationException
 	     * @throws IntrusionException
 		 */
-		virtual double getValidNumber(const std::string &, const std::string &, long, long, bool) throw (ValidationException, IntrusionException) =0;
+		virtual double getValidNumber(const std::string &, const std::string &, long, long, bool) =0;
 
 		/**
 		 * Calls getValidSafeHTML with the supplied errorList to capture ValidationExceptions
@@ -354,7 +354,7 @@ namespace esapi
 	     * @throws ValidationException
 	     * @throws IntrusionException
 		 */
-		virtual int getValidInteger(const std::string &, const std::string &, int, int, bool) throw (ValidationException, IntrusionException) =0;
+		virtual int getValidInteger(const std::string &, const std::string &, int, int, bool) =0;
 
 		/**
 		 * Calls getValidInteger with the supplied errorList to capture ValidationExceptions
@@ -392,7 +392,7 @@ namespace esapi
 	     * @throws ValidationException
 	     * @throws IntrusionException
 		 */
-		virtual double getValidDouble(const std::string &, const std::string &, double, double, bool) throw (ValidationException, IntrusionException) =0;
+		virtual double getValidDouble(const std::string &, const std::string &, double, double, bool) =0;
 
 		/**
 		 * Calls getValidDouble with the supplied errorList to capture ValidationExceptions
@@ -429,7 +429,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual char* getValidFileContent(const std::string &, char[], int, bool) throw (ValidationException, IntrusionException) =0;
+		virtual char* getValidFileContent(const std::string &, char[], int, bool) =0;
 
 		/**
 		 * Calls getValidFileContent with the supplied errorList to capture ValidationExceptions
@@ -467,7 +467,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool) throw (ValidationException, IntrusionException) =0;
+		virtual void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool) =0;
 
 		/**
 		 * Calls getValidFileUpload with the supplied errorList to capture ValidationExceptions
@@ -501,7 +501,7 @@ namespace esapi
 		 * @throws ValidationException
 		 * @throws IntrusionException
 		 */
-		virtual std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &) =0;
 
 		/**
 		 * Calls getValidListItem with the supplied errorList to capture ValidationExceptions
@@ -541,7 +541,7 @@ namespace esapi
 		 *
 		 *  @throws ValidationException
 		 */
-		virtual char* getValidPrintable(const std::string &, char[], int, bool) throw (ValidationException, IntrusionException) =0;
+		virtual char* getValidPrintable(const std::string &, char[], int, bool) =0;
 
 		/**
 		 * Calls getValidPrintable with the supplied errorList to capture ValidationExceptions
@@ -576,7 +576,7 @@ namespace esapi
 		 *
 		 *  @throws ValidationException
 		 */
-		virtual std::string getValidPrintable(const std::string &, const std::string &, int, bool) throw (ValidationException, IntrusionException) =0;
+		virtual std::string getValidPrintable(const std::string &, const std::string &, int, bool) =0;
 
 		/**
 		 * Calls getValidPrintable with the supplied errorList to capture ValidationExceptions

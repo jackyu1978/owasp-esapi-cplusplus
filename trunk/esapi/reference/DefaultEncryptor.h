@@ -43,23 +43,23 @@ namespace esapi
 	 * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
 	 * in order to help strengthen weak passwords.
 	 */
-    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations()) throw (EncryptionException);
+    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations());
 
-    virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException);
+    virtual CipherText encrypt(const PlainText& plainText);
 
-    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException);
+    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText);
 
-    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException)
+    virtual PlainText decrypt(const CipherText& cipherText)
     {
       return PlainText();
     }
 
-    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText) throw (EncryptionException)
+    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText)
     {
       return PlainText();
     }
 
-    virtual std::string sign(const std::string & message) throw (EncryptionException)
+    virtual std::string sign(const std::string & message)
     {
       return std::string();
     }
@@ -74,7 +74,7 @@ namespace esapi
       return std::string();
     }
 
-    virtual std::string unseal(const std::string &) throw (EncryptionException)
+    virtual std::string unseal(const std::string &)
     {
       return std::string();
     }

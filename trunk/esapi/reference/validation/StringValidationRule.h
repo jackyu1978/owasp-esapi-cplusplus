@@ -69,11 +69,11 @@ public:
 	 */
 	virtual std::string sanitize(const std::string &, const std::string &);
 
-	virtual void addWhitelistPattern(const std::string &) throw (IllegalArgumentException);
-	//virtual void addWhitelistPattern(Pattern) throw (IllegalArgumentException);
+	virtual void addWhitelistPattern(const std::string &);
+	//virtual void addWhitelistPattern(Pattern);
 
-	virtual void addBlacklistPattern(const std::string &) throw (IllegalArgumentException);
-	//virtual void addBlacklistPattern(Pattern) throw (IllegalArgumentException);
+	virtual void addBlacklistPattern(const std::string &);
+	//virtual void addBlacklistPattern(Pattern);
 
 	virtual void setMinimumLength(int);
 	virtual void setMaximumLength(int);

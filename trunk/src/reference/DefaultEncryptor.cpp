@@ -69,13 +69,13 @@ namespace esapi
     return encoded;
   }
 
-  CipherText DefaultEncryptor::encrypt(const PlainText& plainText) throw (EncryptionException)
+  CipherText DefaultEncryptor::encrypt(const PlainText& plainText)
   {
     SecretKey sk;
     return encrypt(sk, plainText);
   }
 
-  CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
+  CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText)
   {
     return CipherText();
   }

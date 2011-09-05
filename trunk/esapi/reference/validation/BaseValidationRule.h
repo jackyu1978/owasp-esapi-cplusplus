@@ -118,7 +118,7 @@ namespace esapi
 
 template <typename T>
 esapi::BaseValidationRule<T>::BaseValidationRule() {
-	throw new esapi::UnsupportedOperationException("BaseValidationRule<T> Should not be instantiated by default constructor.");
+	throw esapi::UnsupportedOperationException("BaseValidationRule<T> Should not be instantiated by default constructor.");
 }
 
 template <typename T>
@@ -156,12 +156,12 @@ void esapi::BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::assertValid( const std::string &context, const std::string &input ) throw (esapi::ValidationException) {
+void esapi::BaseValidationRule<T>::assertValid( const std::string &context, const std::string &input ) {
 		getValid( context, input, *(new ValidationErrorList));
 }
 
 template <typename T>
-T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (esapi::ValidationException) {
+T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );
