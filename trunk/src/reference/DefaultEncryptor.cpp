@@ -14,6 +14,7 @@
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
+#include "util/ArrayTypes.h"
 
 #include <string>
 #include <memory>
@@ -43,7 +44,7 @@ namespace esapi
 
     // Initial updates
     md.update((const byte*)salt.data(), salt.size());
-    md.update((const byte*)message.data(), message.size());    
+    md.update((const byte*)message.data(), message.size());
 
     // Fetch the hash (resets the object)
     md.digest(&hash[0], hash.size(), 0, size);

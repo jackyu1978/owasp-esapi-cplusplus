@@ -285,13 +285,3 @@ ESAPI_MS_NO_WARNING(4290)
 #else
 # define ESAPI_TEST_EXPORT
 #endif
-
-// Zeroizing allocator used with SecureByteArray and SecureIntArray
-// Need to include after the ESAPI_CPLUSPLUS_NULLPTR define.
-#include "util/zAllocator.h"
-
-namespace esapi {
-  // Value added typedefs. zallocator comes from util/zAllocator.h.
-  typedef std::vector< byte, esapi::zallocator<byte> > SecureByteArray;
-  typedef std::vector< int, esapi::zallocator<int> > SecureIntArray;
-}
