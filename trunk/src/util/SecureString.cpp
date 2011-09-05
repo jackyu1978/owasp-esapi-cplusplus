@@ -37,14 +37,14 @@ namespace esapi
     : m_base(begin, end) { }
 
   SecureString::SecureString(const SecureString& str)
-    : m_base(str.data(), str.size()) { }
+    : m_base(str.m_base) { }
 
   // Assignment
   SecureString& SecureString::operator=(const SecureString& str)
   {
     if(this != &str)
     {
-      m_base.assign(str.data(), str.size());
+      m_base.assign(str.m_base);
     }
 
     return *this;
@@ -71,7 +71,7 @@ namespace esapi
   // Append
   SecureString& SecureString::operator+=(const SecureString& str)
   {
-    m_base.append(str.data(), str.size());
+    m_base.append(str.m_base);
     return *this;
   }
 
@@ -96,7 +96,7 @@ namespace esapi
   // Append
   SecureString& SecureString::append(const SecureString& str)
   {
-    m_base.append(str.data(), str.size());
+    m_base.append(str.m_base);
     return *this;
   }
 
@@ -130,7 +130,7 @@ namespace esapi
   // Assign
   SecureString& SecureString::assign(const SecureString& str)
   {
-    m_base.assign(str.data(), str.size());
+    m_base.assign(str.m_base);
 
     return *this;
   }
@@ -166,7 +166,7 @@ namespace esapi
   // Insert
   SecureString& SecureString::insert(size_t pos, const SecureString& str)
   {
-    m_base.insert(pos, str.data(), str.size());
+    m_base.insert(pos, str.m_base);
 
     return *this;
   }
@@ -180,7 +180,7 @@ namespace esapi
 
   SecureString& SecureString::insert(size_t pos1, const SecureString& str, size_t pos2, size_t n)
   {
-    m_base.insert(pos1, SecureStringBase(str.data(), str.size()), pos2, n);
+    m_base.insert(pos1, str.m_base, pos2, n);
 
     return *this;
   }
@@ -234,9 +234,7 @@ namespace esapi
   // Swap
   void SecureString::swap(SecureString& str)
   {
-    SecureStringBase temp(str.data(), str.size());
-    m_base.swap(temp);
-    str = SecureString(temp.data(), temp.size());
+    m_base.swap(str.m_base);
   }
 
   void SecureString::swap(std::string& str)
@@ -249,7 +247,7 @@ namespace esapi
   // Forward find
   size_t SecureString::find(const SecureString& str, size_t pos) const
   {
-    return m_base.find(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.find(str.m_base, pos);
   }
 
   size_t SecureString::find(const std::string& str, size_t pos) const
@@ -275,7 +273,7 @@ namespace esapi
   // Reverse find
   size_t SecureString::rfind(const SecureString& str, size_t pos) const
   {
-    return m_base.rfind(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.rfind(str.m_base, pos);
   }
 
   size_t SecureString::rfind(const std::string& str, size_t pos) const
@@ -301,7 +299,7 @@ namespace esapi
   // find_first_of
   size_t SecureString::find_first_of(const SecureString& str, size_t pos) const
   {
-    return m_base.find_first_of(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.find_first_of(str.m_base, pos);
   }
 
   size_t SecureString::find_first_of(const std::string& str, size_t pos) const
@@ -327,7 +325,7 @@ namespace esapi
   // find_last_of
   size_t SecureString::find_last_of(const SecureString& str, size_t pos) const
   {
-    return m_base.find_last_of(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.find_last_of(str.m_base, pos);
   }
 
   size_t SecureString::find_last_of(const std::string& str, size_t pos) const
@@ -353,7 +351,7 @@ namespace esapi
   // find_first_not_of
   size_t SecureString::find_first_not_of(const SecureString& str, size_t pos) const
   {
-    return m_base.find_first_not_of(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.find_first_not_of(str.m_base, pos);
   }
 
   size_t SecureString::find_first_not_of(const std::string& str, size_t pos) const
@@ -379,7 +377,7 @@ namespace esapi
   // find_last_not_of
   size_t SecureString::find_last_not_of(const SecureString& str, size_t pos) const
   {
-    return m_base.find_last_not_of(SecureStringBase(str.data(), str.size()), pos);
+    return m_base.find_last_not_of(str.m_base, pos);
   }
 
   size_t SecureString::find_last_not_of(const std::string& str, size_t pos) const
@@ -405,7 +403,7 @@ namespace esapi
   // compare
   int SecureString::compare(const SecureString& str) const
   {
-    return m_base.compare(SecureStringBase(str.data(), str.size()));
+    return m_base.compare(str.m_base);
   }
 
   int SecureString::compare(const std::string& str) const
@@ -415,7 +413,7 @@ namespace esapi
 
   int SecureString::compare(size_t pos, size_t n, const SecureString& str) const
   {
-    return m_base.compare(pos, n, SecureStringBase(str.data(), str.size()));
+    return m_base.compare(pos, n, str.m_base);
   }
 
   int SecureString::compare(size_t pos, size_t n, const std::string& str) const
@@ -425,7 +423,7 @@ namespace esapi
 
   int SecureString::compare(size_t pos1, size_t n1, const SecureString& str, size_t pos2, size_t n2) const
   {
-    return m_base.compare(pos1, n1, SecureStringBase(str.data(), str.size()), pos2, n2);
+    return m_base.compare(pos1, n1, str.m_base, pos2, n2);
   }
 
   int SecureString::compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const
