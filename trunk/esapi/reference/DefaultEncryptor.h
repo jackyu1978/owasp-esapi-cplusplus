@@ -49,7 +49,10 @@ namespace esapi
 
     virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException);
 
-    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException);
+    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException)
+    {
+      return PlainText();
+    }
 
     virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText) throw (EncryptionException)
     {
