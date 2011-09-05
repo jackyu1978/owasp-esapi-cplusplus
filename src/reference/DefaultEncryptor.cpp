@@ -14,7 +14,7 @@
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
-#include "util/ArrayTypes.h"
+#include "util/SecureArray.h"
 
 #include <string>
 #include <memory>
@@ -36,7 +36,7 @@ namespace esapi
     return 1024;
   }
 
-  std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations) throw(EncryptionException)
+  std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations)
   {      
     MessageDigest md(DefaultDigestAlgorithm());
     const size_t size = md.getDigestLength();
@@ -47,19 +47,19 @@ namespace esapi
     md.update((const byte*)message.data(), message.size());
 
     // Fetch the hash (resets the object)
-    md.digest(&hash[0], hash.size(), 0, size);
+    md.digest(hash.data(), hash.size(), 0, size);
 
     for (unsigned int i = 0; i < iterations; i++)
     {
-      md.update(&hash[0], hash.size());
-      md.digest(&hash[0], hash.size(), 0, size);
+      md.update(hash.data(), hash.size());
+      md.digest(hash.data(), hash.size(), 0, size);
     }
 
     std::string encoded;
     try
     {
-      CryptoPP::ArraySource(&hash[0], hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
-          new CryptoPP::StringSink(encoded), false /* no line breaks */));
+      CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
+        new CryptoPP::StringSink(encoded), false /* no line breaks */));
     }
     catch(CryptoPP::Exception& ex)
     {
@@ -69,14 +69,14 @@ namespace esapi
     return encoded;
   }
 
-    CipherText DefaultEncryptor::encrypt(const PlainText& plainText) throw (EncryptionException)
-    {
-      SecretKey sk;
-      return encrypt(sk, plainText);
-    }
+  CipherText DefaultEncryptor::encrypt(const PlainText& plainText) throw (EncryptionException)
+  {
+    SecretKey sk;
+    return encrypt(sk, plainText);
+  }
 
-    CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
-    {
-      return CipherText();
-    }
+  CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
+  {
+    return CipherText();
+  }
 }

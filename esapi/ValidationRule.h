@@ -36,7 +36,7 @@ namespace esapi
 		 *             if any validation rules fail
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual T getValid(const std::string &, const std::string &) =0;
 
 		/**
 		 * Whether or not a valid valid can be null. getValid will throw an
@@ -67,13 +67,13 @@ namespace esapi
 		/**
 		 * Check if the input is valid, throw an Exception otherwise
 		 */
-		virtual void assertValid(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual void assertValid(const std::string &, const std::string &) =0;
 
 		/**
 		 * Get a validated value, add the errors to an existing error list
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &, ValidationErrorList &) throw (ValidationException) =0;
+		virtual T getValid(const std::string &, const std::string &, ValidationErrorList &) =0;
 
 		/**
 		 * Try to call get valid, then call sanitize, finally return a default value

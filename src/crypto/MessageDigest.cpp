@@ -35,8 +35,7 @@ namespace esapi
   /**
   * Creates a message digest with the specified algorithm name.
   */
-  MessageDigest::MessageDigest(const std::string& algorithm)
-    throw(NoSuchAlgorithmException, EncryptionException)
+  MessageDigest::MessageDigest(const std::string& algorithm)   
     : m_lock(new Mutex), m_impl(MessageDigestImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
@@ -97,8 +96,7 @@ namespace esapi
     return *this;
   }
 
-  MessageDigest MessageDigest::getInstance(const std::string& algorithm)
-    throw(EncryptionException, NoSuchAlgorithmException)
+  MessageDigest MessageDigest::getInstance(const std::string& algorithm)   
   {
     ASSERT(!algorithm.empty());
 
@@ -197,9 +195,29 @@ namespace esapi
   }
 
   /**
-  * Updates the digest using the specified array of bytes, starting at the specified offset.
+  * Updates the digest using the specified array of bytes.
   *
   * @param input the specified array.
+  *
+  * @throws throws an EncryptionException if the array or size is not valid
+  * or a cryptographic failure occurs.
+  */
+  void MessageDigest::update(const SecureByteArray& input)
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->updateImpl(input);
+  }
+
+  /**
+  * Updates the digest using the specified array of bytes, starting at the specified offset.
+  *
+  * @param buf the specified array.
   * @param size the size of the array.
   * @param offset the offset into the array.
   * @param len the length of data to digest.
@@ -208,8 +226,7 @@ namespace esapi
   * offset and len exceeds the array's bounds, or a cryptographic
   * failure occurs.
   */
-  void MessageDigest::update(const byte buf[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
+  void MessageDigest::update(const byte buf[], size_t size, size_t offset, size_t len)   
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -222,14 +239,64 @@ namespace esapi
   }
 
   /**
+  * Updates the digest using the specified array of bytes, starting at the specified offset.
+  *
+  * @param buf the specified array.
+  * @param offset the offset into the array.
+  * @param len the length of data to digest.
+  *
+  * @throws throws an EncryptionException if the array or size is not valid,
+  * offset and len exceeds the array's bounds, or a cryptographic
+  * failure occurs.
+  */
+  void MessageDigest::update(const SecureByteArray& buf, size_t offset, size_t len)   
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->updateImpl(buf, offset, len);
+  }
+
+  /**
   * Performs a final update on the digest using the specified array of bytes, then completes the
   * digest computation.
   *
-  * @param buf the output buffer for the computed digest.
-  * @param offset the offset into the output buffer to begin storing the digest.
-  * @param len the number of bytes within buf allotted for the digest.
+  * @param input the specified array.
+  * @param size the size of the array.
   */
-  // byte[] MessageDigest::digest(byte input[], size_t size);
+  SecureByteArray MessageDigest::digest(const byte input[], size_t size)
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->digestImpl(input, size);
+  }
+
+  /**
+  * Performs a final update on the digest using the specified array of bytes, then completes the
+  * digest computation.
+  *
+  * @param input the specified array.
+  */
+  SecureByteArray MessageDigest::digest(const SecureByteArray& input)
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->digestImpl(input);
+  }
 
   /**
   * Completes the hash computation by performing final operations such as padding.
@@ -242,7 +309,7 @@ namespace esapi
   * @return the number of digest bytes written to buf.
   */
   size_t MessageDigest::digest(byte buf[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
+   
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -252,6 +319,29 @@ namespace esapi
       throw EncryptionException("Failed to retrieve digest");
 
     return m_impl->digestImpl(buf, size, offset, len);
+  }
+
+  /**
+  * Completes the hash computation by performing final operations such as padding.
+  *
+  * @param buf the output buffer for the computed digest.
+  * @param size the size of the output buffer.
+  * @param offset offset into the output buffer to begin storing the digest.
+  * @param len number of bytes within buf allotted for the digest.
+  *
+  * @return the number of digest bytes written to buf.
+  */
+  size_t MessageDigest::digest(SecureByteArray& buf, size_t offset, size_t len)
+   
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to retrieve digest");
+
+    return m_impl->digestImpl(buf, offset, len);
   }
 
   Mutex& MessageDigest::getObjectLock() const

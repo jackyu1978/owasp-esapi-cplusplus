@@ -56,7 +56,7 @@ namespace esapi
 		BaseValidationRule (const std::string &, Encoder*);
 
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &) throw (ValidationException) =0;
+		virtual T getValid(const std::string &, const std::string &) =0;
 
 	    /**
 	     * {@inheritDoc}
@@ -81,13 +81,13 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void assertValid(const std::string &, const std::string &) throw (ValidationException);
+		virtual void assertValid(const std::string &, const std::string &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &, ValidationErrorList&) throw (ValidationException);
+		virtual T getValid(const std::string &, const std::string &, ValidationErrorList&);
 
 	    /**
 	     * {@inheritDoc}

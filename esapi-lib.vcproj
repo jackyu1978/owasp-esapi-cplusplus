@@ -464,11 +464,11 @@
 				Name="util"
 				>
 				<File
-					RelativePath=".\src\util\ArrayTypes.cpp"
+					RelativePath=".\src\util\Mutex.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\util\Mutex.cpp"
+					RelativePath=".\src\util\SecureArray.cpp"
 					>
 				</File>
 				<File
@@ -725,10 +725,6 @@
 					Name="util"
 					>
 					<File
-						RelativePath=".\esapi\util\ArrayTypes.h"
-						>
-					</File>
-					<File
 						RelativePath=".\esapi\util\ArrayZeroizer.h"
 						>
 					</File>
@@ -738,6 +734,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\util\NotCopyable.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\util\SecureArray.h"
 						>
 					</File>
 					<File

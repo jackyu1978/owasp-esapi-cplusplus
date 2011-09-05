@@ -125,9 +125,9 @@ namespace esapi {
      */
     static std::string getHexForNonAlphanumeric(char);
 
-    static std::string toOctal(char) ;
+    static std::string toOctal(char);
 
-    static std::string toHex(char) ;
+    static std::string toHex(char);
 
     /**
      * Utility to search a string for a specific char.

@@ -61,18 +61,18 @@ namespace esapi
     /**
      * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
      */
-    static SecureRandom getInstance(const std::string& algorithm = DefaultAlgorithm()) throw(EncryptionException, NoSuchAlgorithmException);
+    static SecureRandom getInstance(const std::string& algorithm = DefaultAlgorithm());
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm if specified
      */
-    explicit SecureRandom(const std::string& algorithm = DefaultAlgorithm()) throw(EncryptionException);
+    explicit SecureRandom(const std::string& algorithm = DefaultAlgorithm());
 
     /**
      * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
      */
-    explicit SecureRandom(const byte* seed, size_t size) throw(EncryptionException);
+    explicit SecureRandom(const byte* seed, size_t size);
 
     /**
      * Destroy this random number generator (RNG).
@@ -92,27 +92,27 @@ namespace esapi
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
      */
-    byte* generateSeed(unsigned int numBytes) throw(UnsupportedOperationException, EncryptionException);
+    byte* generateSeed(unsigned int numBytes);
 
     /**
      * Returns the name of the algorithm implemented by this SecureRandom object.
      */
-    std::string getAlgorithm() const throw(EncryptionException);
+    std::string getAlgorithm() const;
 
     /**
      * Generates a user-specified number of random bytes.
      */
-    void nextBytes(byte* bytes, size_t size) throw(EncryptionException);
+    void nextBytes(byte* bytes, size_t size);
 
     /**
      * Reseeds this random object.
      */
-    void setSeed(const byte seed[], size_t size) throw(EncryptionException);
+    void setSeed(const byte seed[], size_t size);
 
     /**
      * Reseeds this random object, using the bytes contained in the given long seed.
      */
-    void setSeed(int seed) throw(EncryptionException);
+    void setSeed(int seed);
 
   protected:
 
@@ -126,13 +126,13 @@ namespace esapi
     /**
      * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
      */
-    ESAPI_PRIVATE SecureRandom(SecureRandomImpl* impl) throw(EncryptionException);
+    ESAPI_PRIVATE SecureRandom(SecureRandomImpl* impl);
 
     /**
      * Returns the security level associated with the SecureRandom object. Used
      * by KeyGenerator to determine the appropriate key size for init.
      */
-    ESAPI_PRIVATE unsigned int getSecurityLevel() const throw(EncryptionException);
+    ESAPI_PRIVATE unsigned int getSecurityLevel() const;
 
     /**
      * Retrieves the object level lock

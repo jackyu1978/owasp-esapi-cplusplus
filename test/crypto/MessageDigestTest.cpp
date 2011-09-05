@@ -29,7 +29,7 @@ using std::string;
 
 #include "EsapiCommon.h"
 
-#include "util/ArrayTypes.h"
+#include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
 #include "errors/InvalidArgumentException.h"

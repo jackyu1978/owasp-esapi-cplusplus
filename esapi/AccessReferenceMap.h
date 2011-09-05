@@ -66,12 +66,11 @@ namespace esapi
 	public:
 		virtual Iterator iterator() =0;
 		virtual K getIndirectReference(T directReference) =0;
-		virtual T getDirectReference(K indirectReference) throw(AccessControlException) =0 ;
+		virtual T getDirectReference(K indirectReference) =0 ;
 		virtual K addDirectReference(T direct) =0;
-		virtual K removeDirectReference(T direct) throw(AccessControlException) =0;
+		virtual K removeDirectReference(T direct) =0;
     virtual void update(std::set<T>& directReferences) =0;
 
 		virtual ~AccessReferenceMap() {};
 	};
 };
-

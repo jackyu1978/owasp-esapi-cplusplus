@@ -57,12 +57,12 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	virtual std::string getValid(const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string getValid(const std::string &, const std::string &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) throw (ValidationException);
+	std::string getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList );
 
 	/**
 	 * {@inheritDoc}
@@ -98,7 +98,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkWhitelist(const std::string &, const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkWhitelist(const std::string &, const std::string &, const std::string &);
 
 	/**
 	 * checks input against whitelists.
@@ -107,7 +107,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkWhitelist(const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkWhitelist(const std::string &, const std::string &);
 
 	/**
 	 * checks input against blacklists.
@@ -119,7 +119,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkBlacklist(const std::string &, const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkBlacklist(const std::string &, const std::string &, const std::string &);
 
 	/**
 	 * checks input against blacklists.
@@ -128,7 +128,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkBlacklist(const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkBlacklist(const std::string &, const std::string &);
 
 	/**
 	 * checks input lengths
@@ -140,7 +140,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkLength(const std::string &, const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkLength(const std::string &, const std::string &, const std::string &);
 
 	/**
 	 * checks input lengths
@@ -149,7 +149,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkLength(const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkLength(const std::string &, const std::string &);
 
 	/**
 	 * checks input emptiness
@@ -161,7 +161,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkEmpty(const std::string &, const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkEmpty(const std::string &, const std::string &, const std::string &);
 
 	/**
 	 * checks input emptiness
@@ -170,7 +170,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual std::string checkEmpty(const std::string &, const std::string &) throw (ValidationException);
+	virtual std::string checkEmpty(const std::string &, const std::string &);
 
 public:
 	virtual ~StringValidationRule() {};
