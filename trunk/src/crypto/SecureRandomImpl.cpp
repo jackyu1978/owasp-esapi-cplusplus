@@ -19,6 +19,7 @@
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
+#include "errors/UnsupportedOperationException.h"
 
 #include "safeint/SafeInt3.hpp"
 #include "util/ArrayZeroizer.h"
@@ -368,7 +369,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("generateSeedImpl(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -773,7 +774,7 @@ namespace esapi
   template <class HASH, class DRBGINFO>
   byte* HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -1109,7 +1110,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -1144,8 +1145,7 @@ namespace esapi
     if( !(size <= MaxRequest) )
       throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
 
-
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 
   /**
@@ -1159,7 +1159,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 
   /**
@@ -1173,6 +1173,6 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 } // esapi
