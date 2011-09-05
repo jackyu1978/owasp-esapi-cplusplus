@@ -185,5 +185,12 @@ namespace esapi
   };
 } // NAMESPACE
 
+// Effective C++, Item 25, pp 106-112
+namespace std
+{
+  template <>
+  void swap(esapi::SecureString& a, esapi::SecureString& b);
+}
+
 bool operator==(const std::string& s, const esapi::SecureString& ss);
 bool operator==(const esapi::SecureString& ss, const std::string& s);
