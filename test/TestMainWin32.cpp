@@ -94,6 +94,7 @@ int main(int, char**)
   key = kg.generateKey();
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
+#endif
 
   try
     {
@@ -110,42 +111,29 @@ int main(int, char**)
       const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
+      ASSERT(success);
+
+      /* ======================= */
 
       MessageDigest zzz;
       MessageDigest xxx(md);
       MessageDigest yyy = xxx;
+
+      /* ======================= */
+
+      MessageDigest md5 = MessageDigest::getInstance("MD5");
+      md5.update((const byte*)msg.data(), msg.size());
+
+      SecureByteArray digest = md5.digest();
+      ASSERT(digest.size() == COUNTOF(hash));
+
+      success = (::memcmp(digest.data(), hash, 16) == 0);
+      ASSERT(success);
+
     }
   catch(...)
     {
-
-    }
-#endif
-
-  try
-    {    
-      // MessageDigest md1("Foo");
-      SecureRandom sr(" Ba r ");
-    }
-  catch(NoSuchAlgorithmException& ex)
-    {
-      // success = true;
-      cout << "Caught " << ex.what() << endl;
-    }
-  catch(InvalidArgumentException&)
-    {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch(...)
-    {
-      cerr << "!!Caught unknown exception" << endl;
+      cerr << "Caught unknown exception" << endl;
     }
 
   return 0;
