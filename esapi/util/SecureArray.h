@@ -123,19 +123,17 @@ namespace esapi
 
 } // NAMESPACE
 
-// Effective C++, Item 25, pp 106-112
-namespace std
+namespace esapi
 {
-  template <typename SecureByteArray>
-  void swap(esapi::SecureByteArray& a, esapi::SecureByteArray& b)
+  // Effective C++, Item 25, pp 106-112
+  static void swap(SecureByteArray& a, SecureByteArray& b)
   {
-    a.swap(b);
+    return a.swap(b);
   }
 
-  template <typename SecureIntArray>
-  void swap(esapi::SecureIntArray& a, esapi::SecureIntArray& b)
+  static void swap(SecureIntArray& a, SecureIntArray& b)
   {
-    a.swap(b);
+    return a.swap(b);
   }
 }
 

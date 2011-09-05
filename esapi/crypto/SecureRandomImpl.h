@@ -13,6 +13,7 @@
  */
 
 #include "EsapiCommon.h"
+#include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/NoSuchAlgorithmException.h"
 #include "errors/InvalidArgumentException.h"
@@ -52,7 +53,7 @@ namespace esapi
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
      */
-    virtual byte* generateSeedImpl(unsigned int numBytes) = 0;
+    virtual SecureByteArray generateSeedImpl(unsigned int numBytes) = 0;
 
     /**
      * Returns the name of the algorithm implemented by this SecureRandomImpl object.
@@ -120,7 +121,7 @@ namespace esapi
   protected:
     explicit BlockCipherImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~BlockCipherImpl() { };
-    virtual byte* generateSeedImpl(unsigned int numBytes);
+    virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
     virtual std::string getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);
@@ -151,7 +152,7 @@ namespace esapi
   protected:
     explicit HashImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~HashImpl() { };
-    virtual byte* generateSeedImpl(unsigned int numBytes);
+    virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
     virtual std::string getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);
@@ -192,7 +193,7 @@ namespace esapi
   protected:
     HmacImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~HmacImpl() { };
-    virtual byte* generateSeedImpl(unsigned int numBytes);
+    virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
     virtual std::string getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);

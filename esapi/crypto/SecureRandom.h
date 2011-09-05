@@ -16,6 +16,7 @@
 
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
+#include "util/SecureArray.h"
 #include "crypto/RandomPool.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
@@ -92,7 +93,7 @@ namespace esapi
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
      */
-    byte* generateSeed(unsigned int numBytes);
+    SecureByteArray generateSeed(unsigned int numBytes);
 
     /**
      * Returns the name of the algorithm implemented by this SecureRandom object.
