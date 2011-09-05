@@ -39,6 +39,62 @@ namespace esapi
   SecureString::SecureString(const SecureString& str)
     : m_base(str.m_base) { }
 
+  // Iterators
+  SecureString::iterator SecureString::begin()
+  {
+    return m_base.begin();
+  }
+
+  SecureString::const_iterator SecureString::begin() const
+  {
+    return m_base.begin();
+  }
+
+  SecureString::iterator SecureString::end()
+  {
+    return m_base.end();
+  }
+
+  SecureString::const_iterator SecureString::end() const
+  {
+    return m_base.end();
+  }
+
+  SecureString::reverse_iterator SecureString::rbegin()
+  {
+    return m_base.rbegin();
+  }
+
+  SecureString::const_reverse_iterator SecureString::rbegin() const
+  {
+    return m_base.rbegin();
+  }
+
+  SecureString::reverse_iterator SecureString::rend()
+  {
+    return m_base.rend();
+  }
+
+  SecureString::const_reverse_iterator SecureString::rend() const
+  {
+    return m_base.rend();
+  }
+
+  size_t SecureString::capacity() const
+  {
+    return m_base.capacity();
+  }
+
+  void SecureString::reserve(size_t cnt)
+  {
+    m_base.reserve(cnt);
+  }
+
+  void SecureString::clear()
+  {
+    m_base.clear();
+  }
+
   // Assignment
   SecureString& SecureString::operator=(const SecureString& str)
   {
@@ -229,6 +285,42 @@ namespace esapi
   SecureString::size_type SecureString::size() const
   {
     return m_base.size();
+  }
+
+  SecureString& SecureString::erase(size_t pos, size_t n)
+  {
+    m_base.erase(pos, n);
+    return *this;
+  }
+
+  SecureString::iterator SecureString::erase(iterator position)
+  {
+    return m_base.erase(position);
+  }
+
+  SecureString::iterator SecureString::erase(iterator first, iterator last)
+  {
+    return m_base.erase(first, last);
+  }
+
+  const char& SecureString::operator[] ( size_t pos ) const
+  {
+    return m_base.operator [](pos);
+  }
+
+  char& SecureString::operator[] ( size_t pos )
+  {
+    return m_base.operator [](pos);
+  }
+
+  const char& SecureString::at(size_t pos) const
+  {
+    return m_base.at(pos);
+  }
+
+  char& SecureString::at(size_t pos)
+  {
+    return m_base.at(pos);
   }
 
   // Swap
@@ -456,6 +548,6 @@ bool operator==(const std::string& s, const esapi::SecureString& ss)
 }
 
 bool operator==(const esapi::SecureString& ss, const std::string& s)
-{
+{  
   return operator==(s, ss);
 }

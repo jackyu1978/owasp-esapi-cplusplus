@@ -34,7 +34,12 @@ namespace esapi
 
     typedef std::basic_string< char, std::char_traits<char>, esapi::zallocator<char> > SecureStringBase;
     typedef zallocator<char>::size_type size_type;
-    enum { npos = (size_type)-1 };
+    static const size_type npos = static_cast<size_type>(-1);
+
+    typedef SecureStringBase::iterator iterator;
+    typedef SecureStringBase::const_iterator const_iterator;
+    typedef SecureStringBase::reverse_iterator reverse_iterator;
+    typedef SecureStringBase::const_reverse_iterator const_reverse_iterator;
 
     // Construction
     SecureString();
@@ -47,96 +52,126 @@ namespace esapi
     explicit SecureString(InputIterator begin, InputIterator end);
 
     // Destruction
-    virtual ~SecureString() { }
+    ~SecureString() { }
+
+    // Iterators
+    iterator begin();
+    const_iterator begin() const;
+
+    iterator end();
+    const_iterator end() const;
+
+    reverse_iterator rbegin();
+    const_reverse_iterator rbegin() const;
+
+    reverse_iterator rend();
+    const_reverse_iterator rend() const;
+
+    // Size and capacity
+    size_t capacity() const;
+    void reserve(size_t cnt = 0);
+
+    bool empty() const;
+    size_type length() const;
+    size_type size() const;
+
+    void clear();
 
     // Copy and assignment
     SecureString(const SecureString&);
 
-    virtual SecureString& operator=(const SecureString& str);
-    virtual SecureString& operator=(const std::string& str);
-    virtual SecureString& operator=(const char* str);
-    virtual SecureString& operator=(char c);
+    SecureString& operator=(const SecureString& str);
+    SecureString& operator=(const std::string& str);
+    SecureString& operator=(const char* str);
+    SecureString& operator=(char c);
 
-    virtual SecureString& operator+=(const SecureString& str);
-    virtual SecureString& operator+=(const std::string& str);
-    virtual SecureString& operator+=(const char* str);
-    virtual SecureString& operator+=(char c);
+    SecureString& operator+=(const SecureString& str);
+    SecureString& operator+=(const std::string& str);
+    SecureString& operator+=(const char* str);
+    SecureString& operator+=(char c);
 
-    virtual SecureString& append(const SecureString& str);
-    virtual SecureString& append(const std::string& str);
-    virtual SecureString& append(const char* str);
-    virtual SecureString& append(const char* str, size_t n);
-    virtual SecureString& append(size_t n, char c);
+    // Member functions
+    SecureString& append(const SecureString& str);
+    SecureString& append(const std::string& str);
+    SecureString& append(const char* str);
+    SecureString& append(const char* str, size_t n);
+    SecureString& append(size_t n, char c);
 
-    virtual SecureString& assign(const SecureString& str);
-    virtual SecureString& assign(const std::string& str);
-    virtual SecureString& assign(const char* str);
-    virtual SecureString& assign(const char* str, size_t n);
-    virtual SecureString& assign(size_t n, char c);
+    SecureString& assign(const SecureString& str);
+    SecureString& assign(const std::string& str);
+    SecureString& assign(const char* str);
+    SecureString& assign(const char* str, size_t n);
+    SecureString& assign(size_t n, char c);
 
-    virtual SecureString& insert(size_t pos, const SecureString& str);
-    virtual SecureString& insert(size_t pos, const std::string& str);
-    virtual SecureString& insert(size_t pos1, const std::string& str, size_t pos2, size_t n);
-    virtual SecureString& insert(size_t pos1, const SecureString& str, size_t pos2, size_t n);
-    virtual SecureString& insert(size_t pos, const char* s, size_t n);
-    virtual SecureString& insert(size_t pos, const char* s);
+    SecureString& insert(size_t pos, const SecureString& str);
+    SecureString& insert(size_t pos, const std::string& str);
+    SecureString& insert(size_t pos1, const std::string& str, size_t pos2, size_t n);
+    SecureString& insert(size_t pos1, const SecureString& str, size_t pos2, size_t n);
+    SecureString& insert(size_t pos, const char* s, size_t n);
+    SecureString& insert(size_t pos, const char* s);
 
-    virtual bool empty() const;
-    virtual const char* c_str() const;
-    virtual const char* data() const;
-    virtual size_type length() const;
-    virtual size_type size() const;
+    SecureString& erase(size_t pos = 0, size_t n = npos);
+    iterator erase(iterator position );
+    iterator erase(iterator first, iterator last);
 
-    virtual void swap(SecureString& str);
-    virtual void swap(std::string& str);
+    const char& operator[] ( size_t pos ) const;
+    char& operator[] ( size_t pos );
+    const char& at(size_t pos) const;
+    char& at(size_t pos);
 
-    virtual size_t find(const SecureString& str, size_t pos = 0) const;
-    virtual size_t find(const std::string& str, size_t pos = 0) const;
-    virtual size_t find(const char* s, size_t pos, size_t n) const;
-    virtual size_t find(const char* s, size_t pos = 0) const;
-    virtual size_t find(char c, size_t pos = 0) const;
+    const char* c_str() const;
+    const char* data() const;
 
-    virtual size_t rfind(const SecureString& str, size_t pos = npos) const;
-    virtual size_t rfind(const std::string& str, size_t pos = npos) const;
-    virtual size_t rfind(const char* s, size_t pos, size_t n) const;
-    virtual size_t rfind(const char* s, size_t pos = npos) const;
-    virtual size_t rfind(char c, size_t pos = npos) const;
+    void swap(SecureString& str);
+    void swap(std::string& str);
 
-    virtual size_t find_first_of(const SecureString& str, size_t pos = 0) const;
-    virtual size_t find_first_of(const std::string& str, size_t pos = 0) const;
-    virtual size_t find_first_of(const char* s, size_t pos, size_t n) const;
-    virtual size_t find_first_of(const char* s, size_t pos = 0) const;
-    virtual size_t find_first_of(char c, size_t pos = 0) const;
+    size_t find(const SecureString& str, size_t pos = 0) const;
+    size_t find(const std::string& str, size_t pos = 0) const;
+    size_t find(const char* s, size_t pos, size_t n) const;
+    size_t find(const char* s, size_t pos = 0) const;
+    size_t find(char c, size_t pos = 0) const;
 
-    virtual size_t find_last_of(const SecureString& str, size_t pos = npos) const;
-    virtual size_t find_last_of(const std::string& str, size_t pos = npos) const;
-    virtual size_t find_last_of(const char* s, size_t pos, size_t n) const;
-    virtual size_t find_last_of(const char* s, size_t pos = npos) const;
-    virtual size_t find_last_of(char c, size_t pos = npos) const;
+    size_t rfind(const SecureString& str, size_t pos = npos) const;
+    size_t rfind(const std::string& str, size_t pos = npos) const;
+    size_t rfind(const char* s, size_t pos, size_t n) const;
+    size_t rfind(const char* s, size_t pos = npos) const;
+    size_t rfind(char c, size_t pos = npos) const;
 
-    virtual size_t find_first_not_of(const SecureString& str, size_t pos = 0) const;
-    virtual size_t find_first_not_of(const std::string& str, size_t pos = 0) const;
-    virtual size_t find_first_not_of(const char* s, size_t pos, size_t n) const;
-    virtual size_t find_first_not_of(const char* s, size_t pos = 0) const;
-    virtual size_t find_first_not_of(char c, size_t pos = 0) const;
+    size_t find_first_of(const SecureString& str, size_t pos = 0) const;
+    size_t find_first_of(const std::string& str, size_t pos = 0) const;
+    size_t find_first_of(const char* s, size_t pos, size_t n) const;
+    size_t find_first_of(const char* s, size_t pos = 0) const;
+    size_t find_first_of(char c, size_t pos = 0) const;
 
-    virtual size_t find_last_not_of(const SecureString& str, size_t pos = npos) const;
-    virtual size_t find_last_not_of(const std::string& str, size_t pos = npos) const;
-    virtual size_t find_last_not_of(const char* s, size_t pos, size_t n) const;
-    virtual size_t find_last_not_of(const char* s, size_t pos = npos) const;
-    virtual size_t find_last_not_of(char c, size_t pos = npos) const;
+    size_t find_last_of(const SecureString& str, size_t pos = npos) const;
+    size_t find_last_of(const std::string& str, size_t pos = npos) const;
+    size_t find_last_of(const char* s, size_t pos, size_t n) const;
+    size_t find_last_of(const char* s, size_t pos = npos) const;
+    size_t find_last_of(char c, size_t pos = npos) const;
 
-    virtual int compare(const SecureString& str) const;
-    virtual int compare(size_t pos, size_t n, const SecureString& str) const;
-    virtual int compare(size_t pos1, size_t n1, const SecureString& str, size_t pos2, size_t n2) const;
+    size_t find_first_not_of(const SecureString& str, size_t pos = 0) const;
+    size_t find_first_not_of(const std::string& str, size_t pos = 0) const;
+    size_t find_first_not_of(const char* s, size_t pos, size_t n) const;
+    size_t find_first_not_of(const char* s, size_t pos = 0) const;
+    size_t find_first_not_of(char c, size_t pos = 0) const;
 
-    virtual int compare(const std::string& str) const;
-    virtual int compare(size_t pos, size_t n, const std::string& str) const;
-    virtual int compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const;
+    size_t find_last_not_of(const SecureString& str, size_t pos = npos) const;
+    size_t find_last_not_of(const std::string& str, size_t pos = npos) const;
+    size_t find_last_not_of(const char* s, size_t pos, size_t n) const;
+    size_t find_last_not_of(const char* s, size_t pos = npos) const;
+    size_t find_last_not_of(char c, size_t pos = npos) const;
 
-    virtual int compare(const char* s) const;
-    virtual int compare(size_t pos, size_t n, const char* s) const;
-    virtual int compare(size_t pos1, size_t n1, const char* s, size_t n2) const;
+    int compare(const SecureString& str) const;
+    int compare(size_t pos, size_t n, const SecureString& str) const;
+    int compare(size_t pos1, size_t n1, const SecureString& str, size_t pos2, size_t n2) const;
+
+    int compare(const std::string& str) const;
+    int compare(size_t pos, size_t n, const std::string& str) const;
+    int compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const;
+
+    int compare(const char* s) const;
+    int compare(size_t pos, size_t n, const char* s) const;
+    int compare(size_t pos1, size_t n1, const char* s, size_t n2) const;
 
   private:
     SecureStringBase m_base;
