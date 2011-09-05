@@ -102,15 +102,6 @@ namespace esapi
     ASSERT(!algorithm.empty());
 
     const std::string alg(normalizeAlgortihm(algorithm));
-    MEMORY_BARRIER();
-
-    if(alg.empty())
-    {
-      std::ostringstream oss;
-      oss << "Algorithm \'" << algorithm << "\' is not supported.";
-      throw esapi::NoSuchAlgorithmException(oss.str());
-    }
-
     MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
     MEMORY_BARRIER();
 
