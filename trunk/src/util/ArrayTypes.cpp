@@ -282,10 +282,26 @@ namespace esapi
   }
 
   template <typename T>
+  typename SecureArray<T>::iterator
+  SecureArray<T>::erase(iterator pos)
+  {
+    ASSERT(m_vector.get());
+    return m_vector->erase(pos);
+  }
+
+  template <typename T>
+  typename SecureArray<T>::iterator
+  SecureArray<T>::erase(iterator first, iterator last)
+  {
+    ASSERT(m_vector.get());
+    return m_vector->erase(first, last);
+  }
+
+  template <typename T>
   void SecureArray<T>::swap(SecureArray& sa)
   {
     ASSERT(m_vector.get());
-    m_vector->swap(*(sa.m_vector));
+    m_vector.swap(sa.m_vector);
   }
 
   template <typename T>
