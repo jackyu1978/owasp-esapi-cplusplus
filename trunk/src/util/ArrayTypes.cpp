@@ -1,16 +1,16 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #include "util/ArrayTypes.h"
 
@@ -35,7 +35,7 @@ namespace esapi
   // Iterators
   template <typename T>
   typename SecureArray<T>::iterator
-    SecureArray<T>::begin()
+  SecureArray<T>::begin()
   {
     ASSERT(m_vector.get());
     return m_vector->begin();
@@ -43,7 +43,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_iterator
-    SecureArray<T>::begin() const
+  SecureArray<T>::begin() const
   {
     ASSERT(m_vector.get());
     return m_vector->begin();
@@ -51,7 +51,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::iterator
-    SecureArray<T>::end()
+  SecureArray<T>::end()
   {
     ASSERT(m_vector.get());
     return m_vector->end();
@@ -59,7 +59,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_iterator
-    SecureArray<T>::end() const
+  SecureArray<T>::end() const
   {
     ASSERT(m_vector.get());
     return m_vector->end();
@@ -67,7 +67,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::reference
-    SecureArray<T>::front()
+  SecureArray<T>::front()
   {
     ASSERT(m_vector.get());
     return m_vector->front();
@@ -75,7 +75,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_reference
-    SecureArray<T>::front() const
+  SecureArray<T>::front() const
   {
     ASSERT(m_vector.get());
     return m_vector->front();
@@ -83,7 +83,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::reference
-    SecureArray<T>::back()
+  SecureArray<T>::back()
   {
     ASSERT(m_vector.get());
     return m_vector->back();
@@ -91,7 +91,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_reference
-    SecureArray<T>::back() const
+  SecureArray<T>::back() const
   {
     ASSERT(m_vector.get());
     return m_vector->back();
@@ -99,7 +99,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::reverse_iterator
-    SecureArray<T>::rbegin()
+  SecureArray<T>::rbegin()
   {
     ASSERT(m_vector.get());
     return m_vector->rbegin();
@@ -107,7 +107,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_reverse_iterator
-    SecureArray<T>::rbegin() const
+  SecureArray<T>::rbegin() const
   {
     ASSERT(m_vector.get());
     return m_vector->rbegin();
@@ -115,7 +115,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::reverse_iterator
-    SecureArray<T>::rend()
+  SecureArray<T>::rend()
   {
     ASSERT(m_vector.get());
     return m_vector->rend();
@@ -123,7 +123,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::const_reverse_iterator
-    SecureArray<T>::rend() const
+  SecureArray<T>::rend() const
   {
     ASSERT(m_vector.get());
     return m_vector->rend();
@@ -141,9 +141,9 @@ namespace esapi
   SecureArray<T>& SecureArray<T>::operator=(const SecureArray<T>& sa)
   {
     if(this != &sa)
-    {
-      m_vector = sa.m_vector;
-    }
+      {
+        m_vector = sa.m_vector;
+      }
     ASSERT(m_vector.get());
     return *this;
   }
@@ -151,7 +151,7 @@ namespace esapi
   // Size and capacity
   template <typename T>
   typename SecureArray<T>::size_type
-    SecureArray<T>::max_size() const
+  SecureArray<T>::max_size() const
   {
     ASSERT(m_vector.get());
     return m_vector->max_size();
@@ -180,7 +180,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::size_type
-    SecureArray<T>::size() const
+  SecureArray<T>::size() const
   {
     ASSERT(m_vector.get());
     return m_vector->size();
@@ -260,7 +260,7 @@ namespace esapi
 
   template <typename T>
   typename SecureArray<T>::iterator
-    SecureArray<T>::insert(iterator pos, const T& x)
+  SecureArray<T>::insert(iterator pos, const T& x)
   {
     ASSERT(m_vector.get());
     return m_vector->insert(pos, x);
