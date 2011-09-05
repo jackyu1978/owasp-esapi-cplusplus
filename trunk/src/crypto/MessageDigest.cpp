@@ -97,7 +97,8 @@ namespace esapi
     return *this;
   }
 
-  MessageDigest MessageDigest::getInstance(const std::string& algorithm) throw(NoSuchAlgorithmException)
+  MessageDigest MessageDigest::getInstance(const std::string& algorithm)
+    throw(EncryptionException, NoSuchAlgorithmException)
   {
     ASSERT(!algorithm.empty());
 

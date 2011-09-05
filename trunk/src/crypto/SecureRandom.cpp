@@ -41,7 +41,7 @@ namespace esapi
    * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
    */
   SecureRandom SecureRandom::getInstance(const std::string& algorithm)
-    throw(EncryptionException)
+    throw(EncryptionException, NoSuchAlgorithmException)
   {
     ASSERT( !algorithm.empty() );
 
