@@ -21,6 +21,7 @@
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
+#include "errors/UnsupportedOperationException.h"
 
 #include <string>
 #include <vector>
@@ -91,7 +92,7 @@ namespace esapi
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
      */
-    byte* generateSeed(unsigned int numBytes) throw(std::runtime_error, EncryptionException);
+    byte* generateSeed(unsigned int numBytes) throw(UnsupportedOperationException, EncryptionException);
 
     /**
      * Returns the name of the algorithm implemented by this SecureRandom object.

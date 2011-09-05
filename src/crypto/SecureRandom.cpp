@@ -149,7 +149,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   byte* SecureRandom::generateSeed(unsigned int numBytes)
-    throw(std::runtime_error, EncryptionException)
+    throw(UnsupportedOperationException, EncryptionException)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -158,7 +158,7 @@ namespace esapi
     if(m_impl.get() == nullptr)
       throw EncryptionException("Failed to retrieve algorithm name");
 
-    throw std::runtime_error("Not implemented");
+    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
