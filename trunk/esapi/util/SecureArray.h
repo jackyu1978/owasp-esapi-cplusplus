@@ -12,6 +12,8 @@
  *
  */
 
+#pragma once
+
 #include "EsapiCommon.h"
 #include "util/zAllocator.h"
 

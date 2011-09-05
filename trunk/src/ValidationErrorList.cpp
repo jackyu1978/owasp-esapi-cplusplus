@@ -29,7 +29,7 @@ std::list<esapi::ValidationException *> esapi::ValidationErrorList::errors(){
 	std::list<esapi::ValidationException *> errors;
 	std::map<std::string, esapi::ValidationException *>::iterator it;
 
-	for ( it = errorList.begin() ; it != errorList.end(); it++ )
+	for ( it = errorList.begin(); it != errorList.end(); it++ )
 		errors.push_back( (*it).second );
 
 	return errors;

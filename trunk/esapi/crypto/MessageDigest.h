@@ -12,9 +12,11 @@
 
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
+#include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
+
 #include <boost/shared_ptr.hpp>
 
 namespace esapi
@@ -34,14 +36,12 @@ namespace esapi
     /**
     * Returns a MessageDigest object that implements the specified digest algorithm.
     */
-    static MessageDigest getInstance(const std::string& algorithm = DefaultAlgorithm())
-      throw(NoSuchAlgorithmException, EncryptionException);
+    static MessageDigest getInstance(const std::string& algorithm = DefaultAlgorithm());
 
     /**
     * Creates a message digest with the specified algorithm name.
     */
-    explicit MessageDigest(const std::string& algorithm = DefaultAlgorithm())
-      throw(NoSuchAlgorithmException, EncryptionException);
+    explicit MessageDigest(const std::string& algorithm = DefaultAlgorithm());
 
     /**
     * Copies a message digest.
@@ -86,12 +86,35 @@ namespace esapi
     * Updates the digest using the specified array of bytes.
     *
     * @param input  the specified array.
+    *
+    * @throws       throws an EncryptionException if the array or size is not valid
+    *               or a cryptographic failure occurs.
+    */
+    virtual void update(const SecureByteArray& input);
+
+    /**
+    * Updates the digest using the specified array of bytes.
+    *
+    * @param input  the specified array.
     * @param size   the size fo the array.
     *
     * @throws       throws an EncryptionException if the array or size is not valid
     *               or a cryptographic failure occurs.
     */
     virtual void update(const byte input[], size_t size);
+
+    /**
+    * Updates the digest using the specified array of bytes, starting at the specified offset.
+    *
+    * @param input  the specified array.
+    * @param offset the offset into the array.
+    * @param len    the length of data to digest.
+    *
+    * @throws       throws an EncryptionException if the array or size is not valid,
+    *               offset and len exceeds the array's bounds, or a cryptographic
+    *               failure occurs.
+    */
+    virtual void update(const SecureByteArray& input, size_t offset, size_t len);
 
     /**
     * Updates the digest using the specified array of bytes, starting at the specified offset.
@@ -105,18 +128,36 @@ namespace esapi
     *               offset and len exceeds the array's bounds, or a cryptographic
     *               failure occurs.
     */
-    virtual void update(const byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException);
+    virtual void update(const byte buf[], size_t size, size_t offset, size_t len);
 
     /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
     * digest computation.
     *
-    * @param buf    the output buffer for the computed digest.
-    * @param offset the offset into the output buffer to begin storing the digest.
-    * @param len    the number of bytes within buf allotted for the digest.
+    * @param input  the specified array.
+    * @param size   the size of the array.
     */
-    // virtual byte[] digest(byte input[], size_t size);
+    virtual SecureByteArray digest(const SecureByteArray& input);
+
+    /**
+    * Performs a final update on the digest using the specified array of bytes, then completes the
+    * digest computation.
+    *
+    * @param input  the specified array.
+    * @param size   the size of the array.
+    */
+    virtual SecureByteArray digest(const byte input[], size_t size);
+
+    /**
+    * Completes the hash computation by performing final operations such as padding.
+    *
+    * @param buf    the output buffer for the computed digest.
+    * @param offset offset into the output buffer to begin storing the digest.
+    * @param len    number of bytes within buf allotted for the digest.
+    *
+    * @return       the number of digest bytes written to buf.
+    */
+    virtual size_t digest(SecureByteArray& buf, size_t offset, size_t len);
 
     /**
     * Completes the hash computation by performing final operations such as padding.
@@ -128,8 +169,7 @@ namespace esapi
     *
     * @return       the number of digest bytes written to buf.
     */
-    virtual size_t digest(byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException);
+    virtual size_t digest(byte buf[], size_t size, size_t offset, size_t len);
 
   protected:
 

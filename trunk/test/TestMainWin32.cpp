@@ -42,7 +42,7 @@ using esapi::SecretKey;
 #include "crypto/MessageDigest.h"
 using esapi::MessageDigest;
 
-#include "util/ArrayTypes.h"
+#include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
 #include <iostream>
@@ -108,8 +108,8 @@ int main(int, char**)
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
-      md.digest(&buf[0], buf.size(), 0, sz);
-      success = (::memcmp(&buf[0], hash, 16) == 0);
+      md.digest(buf.data(), buf.size(), 0, sz);
+      success = (::memcmp(buf.data(), hash, 16) == 0);
 
       MessageDigest zzz;
       MessageDigest xxx(md);

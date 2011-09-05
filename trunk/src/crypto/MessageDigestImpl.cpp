@@ -24,7 +24,7 @@
 
 namespace esapi
 {
-  MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm) throw(NoSuchAlgorithmException)
+  MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
@@ -75,8 +75,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  std::string MessageDigestTmpl<HASH>::getAlgorithmImpl() const
-    throw(EncryptionException)
+  std::string MessageDigestTmpl<HASH>::getAlgorithmImpl() const   
   {
     return MessageDigestImpl::getAlgorithmImpl();
   }
@@ -85,8 +84,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  size_t MessageDigestTmpl<HASH>::getDigestLengthImpl() const
-    throw(EncryptionException)
+  size_t MessageDigestTmpl<HASH>::getDigestLengthImpl() const   
   {
     size_t size;
 
@@ -106,8 +104,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::resetImpl()
-    throw(EncryptionException)
+  void MessageDigestTmpl<HASH>::resetImpl()   
   {
     try
       {
@@ -123,8 +120,7 @@ namespace esapi
    * Updates the digest using the specified byte.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(byte input)
-    throw(EncryptionException)
+  void MessageDigestTmpl<HASH>::updateImpl(byte input)   
   {
     m_hash.Update(&input, 1);
   }
@@ -133,8 +129,16 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size)
-    throw(InvalidArgumentException, EncryptionException)
+  void MessageDigestTmpl<HASH>::updateImpl(const SecureByteArray& input)   
+  {
+    updateImpl(input.data(), input.size());
+  }
+
+  /**
+   * Updates the digest using the specified array of bytes.
+   */
+  template <class HASH>
+  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size)   
   {
     //ASSERT(input);
     //ASSERT(size);
@@ -146,8 +150,16 @@ namespace esapi
    * Updates the digest using the specified array of bytes, starting at the specified offset.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
+  void MessageDigestTmpl<HASH>::updateImpl(const SecureByteArray& input, size_t offset, size_t len)   
+  {
+    return updateImpl(input.data(), input.size(), offset, len);
+  }
+
+  /**
+   * Updates the digest using the specified array of bytes, starting at the specified offset.
+   */
+  template <class HASH>
+  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size, size_t offset, size_t len)   
   {
     ASSERT(input);
     //ASSERT(size);
@@ -199,17 +211,63 @@ namespace esapi
    * Performs a final update on the digest using the specified array of bytes, then completes the
    * digest computation.
    */
-  // template <class HASH>
-  // byte[] MessageDigestTmpl<HASH>::digest(byte input[], size_t size)
-  // {
-  // }
+   template <class HASH>
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const SecureByteArray& input)
+   {
+     return digestImpl(input.data(), input.size());
+   }
+
+  /**
+   * Performs a final update on the digest using the specified array of bytes, then completes the
+   * digest computation.
+   */
+   template <class HASH>
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const byte input[], size_t size)
+   {
+     ASSERT(input);
+     ASSERT(size);
+
+     SecureByteArray out(HASH::DIGESTSIZE);
+
+    try
+      {
+        // Pointer wrap?
+        SafeInt<size_t> safe1((size_t)input);
+        safe1 += size;
+
+        // TruncatedFinal returns the requested number of bytes and restarts the hash.
+        m_hash.TruncatedFinal(out.data(), out.size());
+      }
+    catch(SafeIntException&)
+      {
+        throw EncryptionException("Integer overflow detected");
+      }
+    catch(CryptoPP::Exception& ex)
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
+
+     return out;
+   }
+
+  /**
+   * Completes the hash computation by performing final operations such as padding.
+   */
+  template <class HASH>
+  size_t MessageDigestTmpl<HASH>::digestImpl(SecureByteArray& buf, size_t offset, size_t len)
+   
+  {
+    ASSERT(buf.size());
+
+    return digestImpl(buf.data(), buf.size(), offset, len);
+  }
 
   /**
    * Completes the hash computation by performing final operations such as padding.
    */
   template <class HASH>
   size_t MessageDigestTmpl<HASH>::digestImpl(byte buf[], size_t size, size_t offset, size_t len)
-    throw(InvalidArgumentException, EncryptionException)
+   
   {
     ASSERT(buf);
     ASSERT(size);

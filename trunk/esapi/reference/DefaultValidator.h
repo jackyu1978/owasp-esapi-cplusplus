@@ -139,13 +139,13 @@ public:
 	 * @return The canonicalized user input.
 	 * @throws IntrusionException
 	 */
-	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool) throw (IntrusionException);
+	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool);
 
-	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, ValidationErrorList &);
 
-	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) throw (IntrusionException);
+	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool);
 
-	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, ValidationErrorList &);
 
 	/**
 	 * Validates data received from the browser and returns a safe version.
@@ -162,7 +162,7 @@ public:
 	 * @throws ValidationException
 	 * @throws IntrusionException
 	 */
-	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool) throw (ValidationException);
+	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool);
 
 	/**
 	 * Validates data received from the browser and returns a safe version. Only
@@ -178,7 +178,7 @@ public:
 	 * @throws ValidationException
 	 * @throws IntrusionException
 	 */
-	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) throw (ValidationException);
+	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool);
 
 	/**
 	 * Validates data received from the browser and returns a safe version. Only
@@ -194,7 +194,7 @@ public:
 	 * @return The canonicalized user input.
 	 * @throws IntrusionException
 	 */
-	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, ValidationErrorList&) throw (IntrusionException);
+	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, ValidationErrorList&);
 
 	/**
 	 * Validates data received from the browser and returns a safe version. Only
@@ -210,17 +210,17 @@ public:
 	 * @return The user input, may be canonicalized if canonicalize argument is true
 	 * @throws IntrusionException
 	 */
-	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, ValidationErrorList &) throw (IntrusionException);
+	std::string getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool) throw (IntrusionException);
+	bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool);
 
         /**
 	 * {@inheritDoc}
 	 */
-	bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -231,17 +231,17 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &) throw (IntrusionException);
+	char* getValidDate(const std::string &, const std::string &, const DateFormat &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidSafeHTML(const std::string &, const std::string &, int, bool) throw (IntrusionException);
+	bool isValidSafeHTML(const std::string &, const std::string &, int, bool);
 
    /**
 	 * {@inheritDoc}
 	 */
-	bool isValidSafeHTML(const std::string &, const std::string &, int, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidSafeHTML(const std::string &, const std::string &, int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -253,17 +253,17 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValidSafeHTML(const std::string &, const std::string &, int, bool, ValidationErrorList &) throw (IntrusionException);
+	std::string getValidSafeHTML(const std::string &, const std::string &, int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidCreditCard(const std::string &, const std::string &, bool) throw (IntrusionException);
+	bool isValidCreditCard(const std::string &, const std::string &, bool);
 
    /**
 	 * {@inheritDoc}
 	 */
-	bool isValidCreditCard(const std::string &, const std::string &, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidCreditCard(const std::string &, const std::string &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -273,7 +273,7 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValidCreditCard(const std::string &, const std::string &, bool, ValidationErrorList &) throw (IntrusionException);
+	std::string getValidCreditCard(const std::string &, const std::string &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -282,7 +282,7 @@ public:
 	 * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	 * path (/private/etc), not the symlink (/etc).</p>
 	 */
-	bool isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool) throw (IntrusionException);
+	bool isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool);
 
         /**
 	 * {@inheritDoc}
@@ -291,7 +291,7 @@ public:
 	 * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	 * path (/private/etc), not the symlink (/etc).</p>
 	 */
-	bool isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, ValidationErrorList &) throw (IntrusionException);
+	bool isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -301,118 +301,118 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, ValidationErrorList &) throw (IntrusionException) ;
+	std::string getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, ValidationErrorList &);
 
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileName(const std::string &, const std::string &, bool) throw (IntrusionException) ;
+	bool isValidFileName(const std::string &, const std::string &, bool);
 
     /**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileName(const std::string &, const std::string &, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidFileName(const std::string &, const std::string &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) throw (IntrusionException) ;
+	bool isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool);
 
     /**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) throw (ValidationException, IntrusionException) ;
+	std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, ValidationErrorList &) throw (IntrusionException) ;
+	std::string getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidNumber(const std::string &, const std::string &, long, long, bool) throw (IntrusionException) ;
+	bool isValidNumber(const std::string &, const std::string &, long, long, bool);
 
     /**
 	 * {@inheritDoc}
 	 */
-	bool isValidNumber(const std::string &, const std::string &, long, long, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidNumber(const std::string &, const std::string &, long, long, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	double getValidNumber(const std::string &, const std::string &, long, long, bool) throw (ValidationException, IntrusionException) ;
+	double getValidNumber(const std::string &, const std::string &, long, long, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	double getValidNumber(const std::string &, const std::string &, long, long, bool, ValidationErrorList &) throw (IntrusionException) ;
+	double getValidNumber(const std::string &, const std::string &, long, long, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidDouble(const std::string &, const std::string &, double, double, bool) throw (IntrusionException) ;
+	bool isValidDouble(const std::string &, const std::string &, double, double, bool);
 
     /**
 	 * {@inheritDoc}
 	 */
-	bool isValidDouble(const std::string &, const std::string &, double, double, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidDouble(const std::string &, const std::string &, double, double, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	double getValidDouble(const std::string &, const std::string &, double, double, bool) throw (ValidationException, IntrusionException) ;
+	double getValidDouble(const std::string &, const std::string &, double, double, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	double getValidDouble(const std::string &, const std::string &, double, double, bool, ValidationErrorList &) throw (IntrusionException) ;
+	double getValidDouble(const std::string &, const std::string &, double, double, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidInteger(const std::string &, const std::string &, int, int, bool) throw (IntrusionException) ;
+	bool isValidInteger(const std::string &, const std::string &, int, int, bool);
 
     /**
 	 * {@inheritDoc}
 	 */
-	bool isValidInteger(const std::string &, const std::string &, int, int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidInteger(const std::string &, const std::string &, int, int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	int getValidInteger(const std::string &, const std::string &, int, int, bool) throw (ValidationException, IntrusionException) ;
+	int getValidInteger(const std::string &, const std::string &, int, int, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	int getValidInteger(const std::string &, const std::string &, int, int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	int getValidInteger(const std::string &, const std::string &, int, int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileContent(const std::string &, char[], int, bool) throw (IntrusionException) ;
+	bool isValidFileContent(const std::string &, char[], int, bool);
 
         /**
 	 * {@inheritDoc}
 	 */
-	bool isValidFileContent(const std::string &, char[], int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidFileContent(const std::string &, char[], int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	char* getValidFileContent(const std::string &, char[], int, bool) throw (ValidationException, IntrusionException) ;
+	char* getValidFileContent(const std::string &, char[], int, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	char* getValidFileContent(const std::string &, char[], int, bool, ValidationErrorList &) throw (IntrusionException);
+	char* getValidFileContent(const std::string &, char[], int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
@@ -421,7 +421,7 @@ public:
 	 * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	 * path (/private/etc), not the symlink (/etc).</p>
      */
-	bool isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool) throw (IntrusionException) ;
+	bool isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool);
 
     /**
 	 * {@inheritDoc}
@@ -430,55 +430,55 @@ public:
 	 * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	 * path (/private/etc), not the symlink (/etc).</p>
      */
-	bool isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool, ValidationErrorList &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool) throw(ValidationException, IntrusionException) ;
+	void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool, ValidationErrorList &) throw (IntrusionException);
+	void assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool, ValidationErrorList &);
 
 	 /**
 	 * {@inheritDoc}
 	 *
 	 * Returns true if input is a valid list item.
 	 */
-	bool isValidListItem(const std::string &, const std::string &, const std::list<std::string> &) throw (IntrusionException);
+	bool isValidListItem(const std::string &, const std::string &, const std::list<std::string> &);
 
     /**
 	 * {@inheritDoc}
 	 *
 	 * Returns true if input is a valid list item.
 	 */
-	bool isValidListItem(const std::string &, const std::string &, const std::list<std::string> &, ValidationErrorList &) throw (IntrusionException);
+	bool isValidListItem(const std::string &, const std::string &, const std::list<std::string> &, ValidationErrorList &);
 
 	/**
 	 * Returns the list item that exactly matches the canonicalized input. Invalid or non-matching input
 	 * will generate a descriptive ValidationException, and input that is clearly an attack
 	 * will generate a descriptive IntrusionException.
 	 */
-	std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &) throw (ValidationException, IntrusionException) ;
+	std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &) throw (ValidationException, IntrusionException);
 
 	/**
 	 * ValidationErrorList variant of getValidListItem
      *
      * @param errors
      */
-	std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &, ValidationErrorList &) throw (IntrusionException) ;
+	std::string getValidListItem(const std::string &, const std::string &, const std::list<std::string> &, ValidationErrorList &);
 
 	 /**
 	 * {@inheritDoc}
      */
-	//bool isValidHTTPRequestParameterSet(const std::string &, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames) ;
+	//bool isValidHTTPRequestParameterSet(const std::string &, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames);
 
          /**
 	 * {@inheritDoc}
      */
-	//public boolean isValidHTTPRequestParameterSet(String context, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames, ValidationErrorList errors) ;
+	//public boolean isValidHTTPRequestParameterSet(String context, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames, ValidationErrorList errors);
 
 	/**
 	 * Validates that the parameters in the current request contain all required parameters and only optional ones in
@@ -503,7 +503,7 @@ public:
 	 * Checks that all bytes are valid ASCII characters (between 33 and 126
 	 * inclusive). This implementation does no decoding. http://en.wikipedia.org/wiki/ASCII.
 	 */
-	bool isValidPrintable(const std::string &, char[], int, bool) throw (IntrusionException) ;
+	bool isValidPrintable(const std::string &, char[], int, bool);
 
     /**
      * {@inheritDoc}
@@ -511,7 +511,7 @@ public:
 	 * Checks that all bytes are valid ASCII characters (between 33 and 126
 	 * inclusive). This implementation does no decoding. http://en.wikipedia.org/wiki/ASCII.
 	 */
-	bool isValidPrintable(const std::string &, char[], int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidPrintable(const std::string &, char[], int, bool, ValidationErrorList &);
 
 	/**
 	 * Returns canonicalized and validated printable characters as a byte array. Invalid input will generate a descriptive ValidationException, and input that is clearly an attack
@@ -526,7 +526,7 @@ public:
      *
      * @param errors
      */
-	char* getValidPrintable(const std::string &, char[], int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	char* getValidPrintable(const std::string &, char[], int, bool, ValidationErrorList &);
 
 
 	 /**
@@ -534,14 +534,14 @@ public:
 	 *
 	 * Returns true if input is valid printable ASCII characters (32-126).
 	 */
-	bool isValidPrintable(const std::string &, const std::string &, int, bool) throw (IntrusionException) ;
+	bool isValidPrintable(const std::string &, const std::string &, int, bool);
 
     /**
 	 * {@inheritDoc}
 	 *
 	 * Returns true if input is valid printable ASCII characters (32-126).
 	 */
-	bool isValidPrintable(const std::string &, const std::string &, int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	bool isValidPrintable(const std::string &, const std::string &, int, bool, ValidationErrorList &);
 
 	/**
 	 * Returns canonicalized and validated printable characters as a String. Invalid input will generate a descriptive ValidationException, and input that is clearly an attack
@@ -549,20 +549,20 @@ public:
      *
      * @throws IntrusionException
      */
-	std::string getValidPrintable(const std::string &, const std::string &, int, bool) throw (ValidationException, IntrusionException) ;
+	std::string getValidPrintable(const std::string &, const std::string &, int, bool) throw (ValidationException, IntrusionException);
 
 	/**
 	 * ValidationErrorList variant of getValidPrintable
      *
      * @param errors
      */
-	std::string getValidPrintable(const std::string &, const std::string &, int, bool, ValidationErrorList &) throw (IntrusionException) ;
+	std::string getValidPrintable(const std::string &, const std::string &, int, bool, ValidationErrorList &);
 
 
 	/**
 	 * Returns true if input is a valid redirect location.
 	 */
-	//bool isValidRedirectLocation(const std::string &, const std::string &, bool) throw (IntrusionException) ;
+	//bool isValidRedirectLocation(const std::string &, const std::string &, bool);
 
         /**
 	 * Returns true if input is a valid redirect location.
@@ -592,7 +592,7 @@ public:
      * @param in
      * @param max
      */
-	std::string safeReadLine(std::fstream &, int) throw (ValidationException) ;
+	std::string safeReadLine(std::fstream &, int);
 
 
 };

@@ -12,7 +12,7 @@
  *
  */
 
-#include "util/ArrayTypes.h"
+#include "util/SecureArray.h"
 
 namespace esapi
 {

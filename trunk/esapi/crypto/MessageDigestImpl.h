@@ -12,6 +12,7 @@
 
 #include "EsapiCommon.h"
 #include "util/NotCopyable.h"
+#include "util/SecureArray.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -22,7 +23,7 @@ namespace esapi
   // Non-parameterized class so the smart pointer can hold it.
   class ESAPI_PRIVATE MessageDigestImpl : private NotCopyable
   {
-    // SecureRandom needs access to createInstance()
+    // MessageDigest needs access to createInstance()
     friend class MessageDigest;
 
   public:
@@ -30,28 +31,33 @@ namespace esapi
     explicit MessageDigestImpl(const std::string& algorithm)
       : m_algorithm(algorithm) { }
 
-    virtual std::string getAlgorithmImpl() const throw(EncryptionException) { return m_algorithm; };
+    virtual std::string getAlgorithmImpl() const { return m_algorithm; };
 
-    virtual size_t getDigestLengthImpl() const throw(EncryptionException) = 0;
+    virtual size_t getDigestLengthImpl() const = 0;
 
-    virtual void resetImpl() throw(EncryptionException) = 0;
+    virtual void resetImpl() = 0;
 
-    virtual void updateImpl(byte input) throw(EncryptionException) = 0;
+    virtual void updateImpl(byte input) = 0;
 
-    virtual void updateImpl(const byte input[], size_t size) throw(InvalidArgumentException, EncryptionException) = 0;
+    virtual void updateImpl(const byte input[], size_t size) = 0;
 
-    virtual void updateImpl(const byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException) = 0;
+    virtual void updateImpl(const SecureByteArray& input) = 0;
 
-    // virtual byte[] digest(byte input[], size_t size);
+    virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len) = 0;
 
-    virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException) = 0;
+    virtual void updateImpl(const SecureByteArray& input, size_t offset, size_t len) = 0;
+
+    virtual SecureByteArray digestImpl(const byte input[], size_t size) = 0;
+
+    virtual SecureByteArray digestImpl(const SecureByteArray& input) = 0;
+
+    virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len) = 0;
+
+    virtual size_t digestImpl(SecureByteArray& buf, size_t offset, size_t len) = 0;
 
   protected:
 
-    static MessageDigestImpl* createInstance(const std::string& algorithm)
-      throw(NoSuchAlgorithmException);
+    static MessageDigestImpl* createInstance(const std::string& algorithm);
 
   private:
 
@@ -67,25 +73,29 @@ namespace esapi
 
     explicit MessageDigestTmpl(const std::string& algorithm);
 
-    virtual std::string getAlgorithmImpl() const  throw(EncryptionException);
+    virtual std::string getAlgorithmImpl() const ;
 
-    virtual size_t getDigestLengthImpl() const throw(EncryptionException);
+    virtual size_t getDigestLengthImpl() const;
 
-    virtual void resetImpl() throw(EncryptionException);
+    virtual void resetImpl();
 
-    virtual void updateImpl(byte input) throw(EncryptionException);
+    virtual void updateImpl(byte input);
 
-    virtual void updateImpl(const byte input[], size_t size)
-      throw(InvalidArgumentException, EncryptionException);
+    virtual void updateImpl(const byte input[], size_t size);
 
-    virtual void updateImpl(const byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException);
+    virtual void updateImpl(const SecureByteArray& input);
 
-    // virtual byte[] digest(byte input[], size_t size)
-    //   throw(InvalidArgumentException, EncryptionException);
+    virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len);
 
-    virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len)
-      throw(InvalidArgumentException, EncryptionException);
+    virtual void updateImpl(const SecureByteArray& input, size_t offset, size_t len);
+
+    virtual SecureByteArray digestImpl(const byte input[], size_t size);
+
+    virtual SecureByteArray digestImpl(const SecureByteArray& input);
+
+    virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len);
+
+    virtual size_t digestImpl(SecureByteArray& buf, size_t offset, size_t len);
 
   private:
 

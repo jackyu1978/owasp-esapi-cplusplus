@@ -43,8 +43,8 @@ namespace esapi
 	class Executor
 	{
 	public:
-		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params) throw(ExecutionException) = 0;
-		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params, std::fstream&, Codec&, bool, bool) throw(ExecutionException) = 0;
+		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params) = 0;
+		virtual ExecuteResult executeSystemCommand(const std::fstream& executable, const std::vector<std::string>& params, std::fstream&, Codec&, bool, bool) = 0;
 
 		virtual ~Executor() {};
 	};
