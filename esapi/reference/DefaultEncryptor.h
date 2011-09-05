@@ -10,8 +10,8 @@
 
 #pragma once
 
+#include "EsapiCommon.h"
 #include "Encryptor.h"
-
 #include "crypto/PlainText.h"
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
@@ -21,7 +21,6 @@
 #include "errors/InvalidArgumentException.h"
 
 #include <string>
-#include <cstdio>
 
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
@@ -46,20 +45,11 @@ namespace esapi
 	 */
     virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations()) throw (EncryptionException);
 
-    virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException)
-    {
-      return CipherText();
-    }
+    virtual CipherText encrypt(const PlainText& plainText) throw (EncryptionException);
 
-    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
-    {
-      return CipherText();
-    }
+    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException);
 
-    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException)
-    {
-      return PlainText();
-    }
+    virtual PlainText decrypt(const CipherText& cipherText) throw (EncryptionException);
 
     virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText) throw (EncryptionException)
     {

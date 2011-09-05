@@ -67,4 +67,15 @@ namespace esapi
 
     return encoded;
   }
+
+    CipherText DefaultEncryptor::encrypt(const PlainText& plainText) throw (EncryptionException)
+    {
+      SecretKey sk;
+      return encrypt(sk, plainText);
+    }
+
+    CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText) throw (EncryptionException)
+    {
+      return CipherText();
+    }
 }
