@@ -120,6 +120,7 @@ namespace esapi
    * Used by getInstance and most stack based SecureRandoms
    */
   SecureRandomImpl* SecureRandomImpl::createInstance(const std::string& algorithm, const byte* seed, size_t size)
+    throw (NoSuchAlgorithmException)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
@@ -266,8 +267,8 @@ namespace esapi
    * Convenience function to perform a cascading add modulo power2 base. In
    * essence the Power2 allows us to discard any high byte carries. It depends
    * on buffer1 being the correct size (ie, 1 bit fewer than the Power2,
-   * which it is for the hashes). It keeps us out of Crypto++ Integers and its
-   * associated warnings.
+   * which it is for the hashes). It keeps us out of Crypto++ Integers and
+   * their associated warnings.
    */
   static void inline CascadingAddModPower2(byte* buffer1, size_t size1, const byte* buffer2, size_t size2)
   {

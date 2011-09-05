@@ -274,7 +274,7 @@ namespace esapi
   */
   std::string MessageDigest::normalizeAlgortihm(const std::string& algorithm)
   {
-    std::string alg = algorithm;
+    std::string alg(algorithm);
 
     // Cut out whitespace
     std::string::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
@@ -282,11 +282,7 @@ namespace esapi
       alg.erase(it, alg.end());
 
     // Used to preserve case after trimming whitespace
-    std::string trimmed = alg;
-
-    // Select default algorithm if empty
-    if(alg.empty())
-      alg = DefaultAlgorithm();
+    std::string trimmed(alg);
 
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
