@@ -327,10 +327,12 @@ namespace esapi
 namespace std
 {
   // Effective C++, Item 25, pp 106-112
+  template<>
   void swap(esapi::SecureByteArray& a, esapi::SecureByteArray& b)
   {
     a.swap(b);
   }
+  template<>
   void swap(esapi::SecureIntArray& a, esapi::SecureIntArray& b)
   {
     a.swap(b);
