@@ -45,16 +45,7 @@ namespace esapi
   {
     ASSERT( !algorithm.empty() );
 
-    const std::string alg(normalizeAlgortihm(algorithm));    
-    MEMORY_BARRIER();
-
-    if(alg.empty())
-      {
-        std::ostringstream oss;
-        oss << "Algorithm \'" << algorithm << "\' is not supported.";
-        throw NoSuchAlgorithmException(oss.str());
-      }
-    
+    const std::string alg(normalizeAlgortihm(algorithm));
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
     MEMORY_BARRIER();
 
