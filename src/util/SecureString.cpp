@@ -79,6 +79,11 @@ namespace esapi
   {
     return m_base.rend();
   }
+  
+  SecureString::size_type SecureString::max_size() const
+  {
+    return m_base.max_size();
+  }
 
   size_t SecureString::capacity() const
   {

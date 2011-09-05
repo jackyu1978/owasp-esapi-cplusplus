@@ -503,7 +503,7 @@ std::string esapi::HTMLEntityCodec::encodeCharacter( const char* immune, size_t 
   // return std::string(1, c);
 }
 
-char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& input) const {
+char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& /*input*/) const {
   /*
     input.mark();
     Character first = input.next();

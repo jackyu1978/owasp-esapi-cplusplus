@@ -16,6 +16,8 @@
 // Used by Windows. For Linux, Boost::Test provides main() //
 /////////////////////////////////////////////////////////////
 
+#include "EsapiCommon.h"
+
 #include "errors/InvalidArgumentException.h"
 using esapi::InvalidArgumentException;
 
@@ -40,7 +42,7 @@ using esapi::SecretKey;
 #include "crypto/MessageDigest.h"
 using esapi::MessageDigest;
 
-#include "EsapiCommon.h"
+#include "util/ArrayTypes.h"
 using esapi::SecureByteArray;
 
 #include <iostream>

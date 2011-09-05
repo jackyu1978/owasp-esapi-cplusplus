@@ -68,6 +68,7 @@ namespace esapi
     const_reverse_iterator rend() const;
 
     // Size and capacity
+    size_type max_size() const;
     size_t capacity() const;
     void reserve(size_t cnt = 0);
 

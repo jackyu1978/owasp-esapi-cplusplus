@@ -173,7 +173,8 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/validation/BaseValidationRule.cpp \
 			src/reference/validation/StringValidationRule.cpp
 
-UTILSRCS =	src/util/SecureString.cpp \
+UTILSRCS =	src/util/ArrayTypes.cpp \
+			src/util/SecureString.cpp \
 			src/util/Mutex.cpp
 
 LIBSRCS =	$(ROOTSRCS) \

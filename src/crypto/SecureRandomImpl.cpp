@@ -362,7 +362,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  byte* HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
+  byte* HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
@@ -772,7 +772,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  byte* HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int numBytes)
+  byte* HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
@@ -1084,7 +1084,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG).
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* seed, size_t size)
+  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* /*seed*/, size_t /*size*/)
     : SecureRandomImpl(algorithm), m_v(), m_c(), m_rctr(1)
   {
   }
@@ -1103,7 +1103,7 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  byte* BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
+  byte* BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
@@ -1152,7 +1152,7 @@ namespace esapi
    * Reseeds this random object.
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(const byte seed[], size_t size)
+  void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(const byte /*seed*/[], size_t /*size*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
@@ -1166,7 +1166,7 @@ namespace esapi
    * Reseeds this random object, using the bytes contained in the given long seed.
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(int seed)
+  void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(int /*seed*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);

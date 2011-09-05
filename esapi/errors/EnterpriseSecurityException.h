@@ -46,8 +46,8 @@ namespace esapi {
 
       /** The logger. */
       //const Logger logger = ESAPI.getLogger("EnterpriseSecurityException");
-      // const std::string userMessage;
-      const std::string logMessage;
+      // std::string userMessage;
+      std::string logMessage;
 
     public:
 
