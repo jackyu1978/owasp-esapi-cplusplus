@@ -20,6 +20,7 @@
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
+#include <cryptopp/cryptlib.h>
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
 #include <cryptopp/sha.h>
@@ -36,8 +37,6 @@
 #include <cryptopp/whrlpool.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/secblock.h>
-
-#include <cryptopp/arc4.h>
 
 #if defined(_MSC_VER)
 # pragma warning( pop )

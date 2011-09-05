@@ -15,10 +15,10 @@
 #include "codecs/UnixCodec.h"
 #include "codecs/WindowsCodec.h"
 
+#include "crypto/Crypto++Common.h"
+
 #include "errors/NullPointerException.h"
 #include "errors/UnsupportedOperationException.h"
-
-#include <cryptopp/base64.h>
 
 esapi::Encoder* esapi::DefaultEncoder::singletonInstance = nullptr;
 //esapi::Logger* esapi::DefaultEncoder::logger = nullptr;

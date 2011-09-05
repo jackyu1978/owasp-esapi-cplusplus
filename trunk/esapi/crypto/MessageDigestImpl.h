@@ -91,14 +91,4 @@ namespace esapi
 
     HASH m_hash;
   };
-
-  // Force instantiations
-  static MessageDigestTmpl<CryptoPP::Weak::MD5> dummy1("MD5");
-  static MessageDigestTmpl<CryptoPP::SHA1> dummy2("SHA-1");
-  static MessageDigestTmpl<CryptoPP::SHA224> dummy3("SHA-224");
-  static MessageDigestTmpl<CryptoPP::SHA256> dummy4("SHA-256");
-  static MessageDigestTmpl<CryptoPP::SHA384> dummy5("SHA-384");
-  static MessageDigestTmpl<CryptoPP::SHA512> dummy6("SHA-512");
-  static MessageDigestTmpl<CryptoPP::Whirlpool> dummy7("Whirlpool");
-
 } // NAMESPACE
