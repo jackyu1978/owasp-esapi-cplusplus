@@ -101,6 +101,9 @@ namespace esapi
       template <class InputIterator>
         void insert(iterator pos, InputIterator first, InputIterator last);
 
+      iterator erase(iterator pos);
+      iterator erase(iterator first, iterator last);
+
       void swap(SecureArray& sa);
 
       void pop_back();
