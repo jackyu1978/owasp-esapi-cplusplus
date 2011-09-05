@@ -108,7 +108,7 @@ namespace esapi
     class BlockCipherImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -139,7 +139,7 @@ namespace esapi
     class HashImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -179,7 +179,7 @@ namespace esapi
     class HmacImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
