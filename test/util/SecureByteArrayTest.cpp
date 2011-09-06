@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_14N )
   bool success = false;
   try
   {
-    const byte* ptr = (const byte*)(size_t)-4;
+    const byte* ptr = (const byte*)0x00000004;
     SecureByteArray vv;
     vv.assign(ptr, vv.max_size()+1);
   }
@@ -247,9 +247,9 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_15N )
   bool success = false;
   try
   {
-    const byte* ptr = (const byte*)(size_t)-4;
-    SecureByteArray vv(4);
-    vv.assign(ptr, vv.max_size());
+    const byte* ptr = (const byte*)0x00000004;
+    SecureByteArray vv(16);
+    vv.assign(ptr, vv.max_size()-1);
   }
   catch(std::exception&)
   {
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_16N )
   bool success = false;
   try
   {
-    const byte* ptr = (const byte*)(size_t)-4;
+    const byte* ptr = (const byte*)0x00000004;
     SecureByteArray vv;
     vv.insert(vv.begin(), ptr, vv.max_size()+1);
   }
@@ -279,9 +279,9 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_17N )
   bool success = false;
   try
   {
-    const byte* ptr = (const byte*)(size_t)-4;
-    SecureByteArray vv(4);
-    vv.insert(vv.begin(), ptr, vv.max_size());
+    const byte* ptr = (const byte*)0x00000004;
+    SecureByteArray vv(16);
+    vv.insert(vv.begin(), ptr, vv.max_size()-1);
   }
   catch(std::exception&)
   {
