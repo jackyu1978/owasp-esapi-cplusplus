@@ -458,6 +458,10 @@
 						RelativePath=".\src\reference\validation\BaseValidationRule.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\src\reference\validation\StringValidationRule.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
