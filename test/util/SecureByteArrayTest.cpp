@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_11P )
     SecureByteArray vv(4);
     vv.assign(ptr, COUNTOF(ptr));
     success &= (vv.size() == 4);
-    success &= (::memcmp(vv.data(), ptr, 4));
+    success &= (::memcmp(vv.data(), ptr, 4) == 0);
   }
   catch(std::exception&)
   {

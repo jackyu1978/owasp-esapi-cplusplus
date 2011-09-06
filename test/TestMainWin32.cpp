@@ -64,19 +64,19 @@ using std::string;
 
 int main(int, char**)
 {
-
-  byte t1[] = { 1, 1, 1, 1, 1 };
-  SecureByteArray sa1(t1, COUNTOF(t1));
-  size_t s1 = sa1.size();
-
-  int t2[] = { 2, 2, 2, 2, 2 };
-  SecureIntArray sa2(t2, COUNTOF(t2));
-  size_t s2 = sa2.size();
-
-  const size_t sz = 5*sizeof(int);
-  int t3[sz+1];
-  SecureIntArray sa3((int*)((byte*)t3+2), sz);
-  size_t s3 = sa3.size();
+  bool success = true;
+  try
+  {
+    const byte ptr[] = { 2, 2, 2, 2 };
+    SecureByteArray vv(4);
+    vv.assign(ptr, COUNTOF(ptr));
+    success &= (vv.size() == 4);
+    success &= (::memcmp(vv.data(), ptr, 4) == 0);
+  }
+  catch(std::exception&)
+  {
+    success = false;
+  }
 
 #if 0
   SecureByteArray a(10);
