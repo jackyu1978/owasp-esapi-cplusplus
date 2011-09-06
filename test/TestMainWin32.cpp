@@ -64,6 +64,9 @@ using std::string;
 
 int main(int, char**)
 {
+  SecureIntArray ww(5);
+  // ww.insert(ww.begin(), ww.end(), ww.begin());
+
   bool success = false;
   try
   {

@@ -25,6 +25,8 @@ namespace esapi
   template <typename T>
   class ESAPI_EXPORT SecureArray
   {
+  public:
+
     typedef typename std::vector< T, zallocator<T> > SecureVector;
     typedef typename zallocator<T>::size_type size_type;
 
