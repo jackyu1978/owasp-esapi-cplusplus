@@ -71,9 +71,6 @@ namespace esapi
       throw std::bad_alloc();
 
     ASSERT(temp->size() == cnt);
-    if(temp->size() != cnt)
-      throw EncryptionException("Failed to copy the array");
-
     m_vector.swap(temp);
     ASSERT(nullptr != m_vector.get());
   }
@@ -103,7 +100,7 @@ namespace esapi
       si += sizeof(T);
     }
     catch(SafeIntException&) {
-      throw std::bad_alloc();
+      throw std::length_error("Bad input iterators");
     }
 
     boost::shared_ptr<SecureVector> temp(new SecureVector(first,last));
@@ -366,7 +363,7 @@ namespace esapi
       si += (size_t)ptr;
     }
     catch(SafeIntException&) {
-      throw std::bad_alloc();
+      throw std::length_error("Too many elements in the array");
     }
 
     ASSERT(m_vector.get());
@@ -380,6 +377,9 @@ namespace esapi
   {
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
+    if(!(first >= last))
+      throw std::length_error("Input iterators are not valid");
+
     // Not sure what the conatiner does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
@@ -399,14 +399,15 @@ namespace esapi
   template <typename T>
   void SecureArray<T>::insert(iterator pos, size_type n, const T& x)
   {
+    ESAPI_ASSERT2(n, "Insertion size is 0"); // Warning only
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     ESAPI_ASSERT2(n <= max_size() - size(), "Too many elements in the resulting array");
 
     // Test resulting size, throw on overflow
     SafeInt<size_t> si(n);
     try {   
-      n += size();
-      n *= sizeof(T);
+      si += size();
+      si *= sizeof(T);
     }
     catch(SafeIntException&) {
       throw std::bad_alloc();
@@ -465,7 +466,7 @@ namespace esapi
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
     if(!(first >= last))
-      throw std::bad_alloc();
+      throw std::length_error("Input iterators are not valid");
 
     // Not sure what the conatiner does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
