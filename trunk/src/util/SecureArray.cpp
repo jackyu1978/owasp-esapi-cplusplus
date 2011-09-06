@@ -56,8 +56,13 @@ namespace esapi
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
-    si *= sizeof(T);
-    si += (size_t)ptr;
+    try {
+      si *= sizeof(T);
+      si += (size_t)ptr;
+    }
+    catch(SafeIntException&) {
+      throw std::bad_alloc();
+    }
 
     const T* last = (const T*)(size_t)si;
     boost::shared_ptr<SecureVector> temp(new SecureVector(ptr /*first*/, last));
@@ -94,7 +99,12 @@ namespace esapi
 
     // Check for wrap
     SafeInt<size_t> si((size_t)last);
-    si += sizeof(T);
+    try {
+      si += sizeof(T);
+    }
+    catch(SafeIntException&) {
+      throw std::bad_alloc();
+    }
 
     boost::shared_ptr<SecureVector> temp(new SecureVector(first,last));
     ASSERT(temp.get());
@@ -351,8 +361,13 @@ namespace esapi
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
-    si *= sizeof(T);
-    si += (size_t)ptr;
+    try {
+      si *= sizeof(T);
+      si += (size_t)ptr;
+    }
+    catch(SafeIntException&) {
+      throw std::bad_alloc();
+    }
 
     ASSERT(m_vector.get());
     const T* last = (const T*)(size_t)si;
@@ -409,8 +424,13 @@ namespace esapi
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
-    si *= sizeof(T);
-    si += (size_t)ptr;
+    try {
+      si *= sizeof(T);
+      si += (size_t)ptr;
+    }
+    catch(SafeIntException&) {
+      throw std::bad_alloc();
+    }
 
     const T* last = (const T*)(size_t)si;
     ASSERT(m_vector.get());
