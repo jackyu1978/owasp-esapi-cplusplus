@@ -38,6 +38,8 @@ using std::ostringstream;
 #include <EsapiCommon.h>
 #include <util/zAllocator.h>
 using esapi::zallocator;
+
+#include <util/SecureArray.h>
 using esapi::SecureByteArray;
 using esapi::SecureIntArray;
 
