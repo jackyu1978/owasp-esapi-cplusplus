@@ -93,8 +93,7 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_6P )
   {
     const byte ptr[] = { 0xFF };
     SecureByteArray vv(ptr, 0);
-    success &= (vv.size() == 1);
-    success &= (::memcmp(vv.data(), ptr, 1) == 0);
+    success &= (vv.size() == 0);
   }
   catch(std::exception&)
   {

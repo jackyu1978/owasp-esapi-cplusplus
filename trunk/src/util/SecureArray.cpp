@@ -23,7 +23,7 @@ namespace esapi
   // Construction
   template <typename T>
   SecureArray<T>::SecureArray(size_type n, const T t)
-    : m_vector()
+    : m_vector(new SecureVector)
   {
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     // Allocator will throw below
@@ -39,7 +39,7 @@ namespace esapi
 
   template <typename T>
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
-    : m_vector()
+    : m_vector(new SecureVector)
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
@@ -76,7 +76,7 @@ namespace esapi
   template <typename T>
   template <class InputIterator>
   SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
-    : m_vector()
+    : m_vector(new SecureVector)
   {
     ASSERT(first);
     if(!first)

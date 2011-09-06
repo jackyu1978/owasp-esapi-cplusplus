@@ -93,8 +93,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_6P )
   {
     const int ptr[] = { 0xFFFFFFFF };
     SecureIntArray vv(ptr, 0);
-    success &= (vv.size() == 1);
-    success &= (::memcmp(vv.data(), ptr, 1) == 0);
+    success &= (vv.size() == 0);
   }
   catch(std::exception&)
   {
@@ -108,7 +107,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_7N )
   bool success = false;
   try
   {
-    const int* ptr = (const byte*)(size_t)-7;
+    const int* ptr = (const int*)(size_t)-7;
     SecureIntArray vv(ptr, 8);
   }
   catch(std::exception&)
@@ -123,7 +122,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_8N )
   bool success = false;
   try
   {
-    const int* ptr = (const byte*)(size_t)-7;
+    const int* ptr = (const int*)(size_t)-7;
     SecureIntArray vv;
     vv.assign(ptr, 8);
   }
@@ -139,7 +138,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9N )
   bool success = false;
   try
   {
-    const int* ptr = (const byte*)(size_t)-7;
+    const int* ptr = (const int*)(size_t)-7;
     SecureIntArray vv;
     vv.insert(vv.begin(), ptr, 8);
   }
@@ -155,7 +154,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10N )
   bool success = false;
   try
   {
-    const int* ptr = (const byte*)(size_t)-7;
+    const int* ptr = (const int*)(size_t)-7;
     SecureIntArray vv;
     vv.insert(vv.end(), ptr, 8);
   }

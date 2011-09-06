@@ -189,8 +189,8 @@ namespace esapi
 namespace std
 {
   template <>
-  void swap(esapi::SecureString& a, esapi::SecureString& b);
+  ESAPI_EXPORT void swap(esapi::SecureString& a, esapi::SecureString& b);
 }
 
-bool operator==(const std::string& s, const esapi::SecureString& ss);
-bool operator==(const esapi::SecureString& ss, const std::string& s);
+ESAPI_EXPORT bool operator==(const std::string& s, const esapi::SecureString& ss);
+ESAPI_EXPORT bool operator==(const esapi::SecureString& ss, const std::string& s);
