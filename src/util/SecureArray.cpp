@@ -25,7 +25,7 @@ namespace esapi
   SecureArray<T>::SecureArray(size_type n, const T t)
     : m_vector()
   {
-    ASSERT(n <= max_size());
+    ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     // Allocator will throw below
 
     boost::shared_ptr<SecureVector> temp(new SecureVector(n,t));
@@ -34,13 +34,14 @@ namespace esapi
       throw std::bad_alloc();
 
     m_vector.swap(temp);
+    ASSERT(nullptr != m_vector.get());
   }
 
   template <typename T>
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
     : m_vector()
   {
-    ASSERT(cnt <= max_size());
+    ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     // Allocator will throw below
 
     // Check for wrap
@@ -55,9 +56,10 @@ namespace esapi
 
     ASSERT(temp->size() == cnt);
     if(temp->size() != cnt)
-      throw EncryptionException("Failed to copy array");
+      throw EncryptionException("Failed to copy the array");
 
     m_vector.swap(temp);
+    ASSERT(nullptr != m_vector.get());
   }
 
   template <typename T>
@@ -70,10 +72,13 @@ namespace esapi
       throw InvalidArgumentException("Bad input iterators");
 
     // Not sure what the conatiner does here....
-    ASSERT(first % sizeof(T) == 0);
-    ASSERT(last % sizeof(T) == 0);
-    if((first % sizeof(T) != 0) || (first % sizeof(T) != 0))
+    ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
+    ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
+    if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
       throw InvalidArgumentException("InputIterator slices elements");
+
+    ESAPI_ASSERT2((last - first) / sizeof(T) <= max_size(), "Too many elements in the array");
+    // Allocator will throw below
 
     // Check for wrap
     SafeInt<size_t> si((size_t)last);
@@ -85,6 +90,7 @@ namespace esapi
       throw std::bad_alloc();
 
     m_vector.swap(temp);
+    ASSERT(nullptr != m_vector.get());
   }
 
   // Iterators
