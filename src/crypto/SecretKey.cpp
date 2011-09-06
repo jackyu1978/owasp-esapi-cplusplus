@@ -74,9 +74,9 @@ namespace esapi
     return m_secBlock.SizeInBytes();
   }
 
-  const byte* SecretKey::getEncoded() const
+  SecureByteArray SecretKey::getEncoded() const
   {
-    return BytePtr();
+    return SecureByteArray(m_secBlock.data(), m_secBlock.size());
   }
 
   // The return value is a bit confusing. If the key supports encoding, return
