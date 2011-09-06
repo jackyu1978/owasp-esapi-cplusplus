@@ -41,6 +41,16 @@ namespace esapi
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
     : m_vector()
   {
+    ESAPI_ASSERT2(ptr, "Array pointer is not valid");
+    if(!ptr)
+      throw InvalidArgumentException("Array pointer is not valid");
+
+    // Not sure what the conatiner does here....
+    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
+    //if((size_t)ptr % sizeof(T) != 0)
+    //  throw InvalidArgumentException("Pointer slices elements");
+
+    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     // Allocator will throw below
 
@@ -67,6 +77,10 @@ namespace esapi
   SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
     : m_vector()
   {
+    ASSERT(first);
+    if(!first)
+      throw InvalidArgumentException("Bad first input iterator");
+
     ASSERT(first >= last);
     if(!(first >= last))
       throw InvalidArgumentException("Bad input iterators");
@@ -74,8 +88,8 @@ namespace esapi
     // Not sure what the conatiner does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
-    if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
-      throw InvalidArgumentException("InputIterator slices elements");
+    //if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
+    //  throw InvalidArgumentException("InputIterator slices elements");
 
     ESAPI_ASSERT2((last - first) / sizeof(T) <= max_size(), "Too many elements in the array");
     // Allocator will throw below
