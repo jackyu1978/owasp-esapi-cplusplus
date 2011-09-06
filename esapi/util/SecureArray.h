@@ -97,12 +97,14 @@ namespace esapi
     T* data();
     const T* data() const;
 
+    void assign(size_type n, const T& u);
+    void assign(const T* ptr, size_t cnt);
     template <class InputIterator>
     void assign(InputIterator first, InputIterator last);
-    void assign(size_type n, const T& u);
 
     iterator insert(iterator pos, const T& x);
     void insert(iterator pos, size_type n, const T& x);
+    void insert(iterator pos, const T* ptr, size_t cnt);
     template <class InputIterator>
     void insert(iterator pos, InputIterator first, InputIterator last);
 

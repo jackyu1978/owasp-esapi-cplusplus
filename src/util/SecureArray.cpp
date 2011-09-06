@@ -42,24 +42,25 @@ namespace esapi
     : m_vector()
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
-    if(!ptr)
+    if(ptr == nullptr)
       throw InvalidArgumentException("Array pointer is not valid");
-
-    // Not sure what the conatiner does here....
-    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
-    //if((size_t)ptr % sizeof(T) != 0)
-    //  throw InvalidArgumentException("Pointer slices elements");
 
     ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     // Allocator will throw below
+
+    // Not sure what the conatiner does here...
+    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
+    //if((size_t)ptr % sizeof(T) != 0)
+    //  throw InvalidArgumentException("Pointer slices elements");
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
     si *= sizeof(T);
     si += (size_t)ptr;
 
-    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr, ptr+cnt*sizeof(T)));
+    const T* last = (const T*)(size_t)si;
+    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr /*first*/, last));
     ASSERT(temp.get());
     if(!temp.get())
       throw std::bad_alloc();
@@ -90,9 +91,6 @@ namespace esapi
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     //if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
     //  throw InvalidArgumentException("InputIterator slices elements");
-
-    ESAPI_ASSERT2((last - first) / sizeof(T) <= max_size(), "Too many elements in the array");
-    // Allocator will throw below
 
     // Check for wrap
     SafeInt<size_t> si((size_t)last);
@@ -327,18 +325,52 @@ namespace esapi
   }
 
   template <typename T>
-  template <class InputIterator>
-  void SecureArray<T>::assign(InputIterator first, InputIterator last)
+  void SecureArray<T>::assign(size_type n, const T& u)
   {
+    ASSERT(n <= max_size());
+
     ASSERT(m_vector.get());
-    return m_vector->assign(first, last);
+    m_vector->assign(n, u);
   }
 
   template <typename T>
-  void SecureArray<T>::assign(size_type n, const T& u)
+  void SecureArray<T>::assign(const T* ptr, size_t cnt)
   {
+    ESAPI_ASSERT2(ptr, "Array pointer is not valid");
+    if(ptr == nullptr)
+      throw InvalidArgumentException("Array pointer is not valid");
+
+    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
+    ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
+    // Allocator will throw below
+
+    // Not sure what the conatiner does here...
+    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
+    //if((size_t)ptr % sizeof(T) != 0)
+    //  throw InvalidArgumentException("Pointer slices elements");
+
+    // Check for wrap
+    SafeInt<size_t> si(cnt);
+    si *= sizeof(T);
+    si += (size_t)ptr;
+
     ASSERT(m_vector.get());
-    m_vector->assign(n, u);
+    const T* last = (const T*)(size_t)si;
+    m_vector->assign(ptr /*first*/, last);
+  }
+
+  template <typename T>
+  template <class InputIterator>
+  void SecureArray<T>::assign(InputIterator first, InputIterator last)
+  {
+    ESAPI_ASSERT2(first, "Bad first input iterator");
+    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
+    // Not sure what the conatiner does here....
+    ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
+    ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
+    
+    ASSERT(m_vector.get());
+    return m_vector->assign(first, last);
   }
 
   template <typename T>
@@ -352,14 +384,49 @@ namespace esapi
   template <typename T>
   void SecureArray<T>::insert(iterator pos, size_type n, const T& x)
   {
+    ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
+    ESAPI_ASSERT2(n + size() <= max_size(), "Too many elements in the resulting array");
+
     ASSERT(m_vector.get());
     m_vector->insert(pos, n, x);
+  }
+
+  template <typename T>
+  void SecureArray<T>::insert(iterator pos, const T* ptr, size_t cnt)
+  {
+    ESAPI_ASSERT2(ptr, "Array pointer is not valid");
+    if(ptr == nullptr)
+      throw InvalidArgumentException("Array pointer is not valid");
+
+    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
+    ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
+    ESAPI_ASSERT2(cnt + size() <= max_size(), "Too many elements in the resulting array");
+
+    // Not sure what the conatiner does here...
+    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
+    //if((size_t)ptr % sizeof(T) != 0)
+    //  throw InvalidArgumentException("Pointer slices elements");
+
+    // Check for wrap
+    SafeInt<size_t> si(cnt);
+    si *= sizeof(T);
+    si += (size_t)ptr;
+
+    const T* last = (const T*)(size_t)si;
+    ASSERT(m_vector.get());
+    m_vector->insert(pos, ptr /*first*/, last);
   }
 
   template <typename T>
   template <class InputIterator>
   void SecureArray<T>::insert(iterator pos, InputIterator first, InputIterator last)
   {
+    ESAPI_ASSERT2(first, "Bad first input iterator");
+    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
+    // Not sure what the conatiner does here....
+    ESAPI_ASSERT2(first % sizeof(T) == 0, "ESAPI_ASSERT2 first slices elements");
+    ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
+    
     ASSERT(m_vector.get());
     m_vector->insert(pos, first, last);
   }
@@ -376,6 +443,8 @@ namespace esapi
   typename SecureArray<T>::iterator
   SecureArray<T>::erase(iterator first, iterator last)
   {
+    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
+
     ASSERT(m_vector.get());
     return m_vector->erase(first, last);
   }
