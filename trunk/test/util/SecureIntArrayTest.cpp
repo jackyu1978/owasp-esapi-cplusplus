@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_7N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)(size_t)-7;
+    const int* ptr = (const int*)((size_t)0 - sizeof(int));
     SecureIntArray vv(ptr, 8);
   }
   catch(std::exception&)
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_8N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)(size_t)-7;
+    const int* ptr = (const int*)((size_t)0 - sizeof(int));
     SecureIntArray vv;
     vv.assign(ptr, 8);
   }
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)(size_t)-7;
+    const int* ptr = (const int*)((size_t)0 - sizeof(int));
     SecureIntArray vv;
     vv.insert(vv.begin(), ptr, 8);
   }
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)(size_t)-7;
+    const int* ptr = (const int*)((size_t)0 - sizeof(int));
     SecureIntArray vv;
     vv.insert(vv.end(), ptr, 8);
   }
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_14N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)0x00000004;
+    const int* ptr = (const int*)sizeof(int);
     SecureIntArray vv;
     vv.assign(ptr, vv.max_size()+1);
   }
@@ -247,23 +247,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_15N )
   bool success = false;
   try
   {
-    const int* ptr = (const int*)0x00000004;
-    SecureIntArray vv(16);
-    vv.assign(ptr, vv.max_size()-1);
-  }
-  catch(std::exception&)
-  {
-    success = true;
-  }
-  BOOST_CHECK_MESSAGE(success, "Failed to detect assignment wrap");
-}
-
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
-{
-  bool success = false;
-  try
-  {
-    const int* ptr = (const int*)0x00000004;
+    const int* ptr = (const int*)sizeof(int);
     SecureIntArray vv;
     vv.insert(vv.begin(), ptr, vv.max_size()+1);
   }
@@ -274,12 +258,12 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_17N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
 {
   bool success = false;
   try
   {
-    const int* ptr = (const int*)0x00000004;
+    const int* ptr = (const int*)sizeof(int);
     SecureIntArray vv(16);
     vv.insert(vv.begin(), ptr, vv.max_size()-1);
   }
