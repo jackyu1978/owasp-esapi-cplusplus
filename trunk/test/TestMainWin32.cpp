@@ -44,6 +44,7 @@ using esapi::MessageDigest;
 
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
+using esapi::SecureIntArray;
 
 #include "util/SecureString.h"
 using esapi::SecureString;
@@ -64,6 +65,20 @@ using std::string;
 int main(int, char**)
 {
 
+  byte t1[] = { 1, 1, 1, 1, 1 };
+  SecureByteArray sa1(t1, COUNTOF(t1));
+  size_t s1 = sa1.size();
+
+  int t2[] = { 2, 2, 2, 2, 2 };
+  SecureIntArray sa2(t2, COUNTOF(t2));
+  size_t s2 = sa2.size();
+
+  const size_t sz = 5*sizeof(int);
+  int t3[sz+1];
+  SecureIntArray sa3((int*)((byte*)t3+2), sz);
+  size_t s3 = sa3.size();
+
+#if 0
   SecureByteArray a(10);
   SecureByteArray b(20);
 
@@ -78,7 +93,6 @@ int main(int, char**)
 
   cout << c.size() << ":" << d.size() << endl;
 
-#if 0
   byte scratch[32];
 
   RandomPool& pool = RandomPool::GetSharedInstance();
@@ -152,7 +166,6 @@ int main(int, char**)
   {
     cerr << "Caught unknown exception" << endl;
   }
-
 #endif
 
   return 0;
