@@ -13,23 +13,78 @@
  */
 
 #include "util/SecureArray.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
+
+#include "safeint/SafeInt3.hpp"
 
 namespace esapi
 {
   // Construction
   template <typename T>
   SecureArray<T>::SecureArray(size_type n, const T t)
-    : m_vector(new SecureVector(n,t))
+    : m_vector()
   {
-    ASSERT(m_vector.get());
+    ASSERT(n <= max_size());
+    // Allocator will throw below
+
+    boost::shared_ptr<SecureVector> temp(new SecureVector(n,t));
+    ASSERT(temp.get());
+    if(!temp.get())
+      throw std::bad_alloc();
+
+    m_vector.swap(temp);
+  }
+
+  template <typename T>
+  SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
+    : m_vector()
+  {
+    ASSERT(cnt <= max_size());
+    // Allocator will throw below
+
+    // Check for wrap
+    SafeInt<size_t> si(cnt);
+    si *= sizeof(T);
+    si += (size_t)ptr;
+
+    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr, ptr+cnt*sizeof(T)));
+    ASSERT(temp.get());
+    if(!temp.get())
+      throw std::bad_alloc();
+
+    ASSERT(temp->size() == cnt);
+    if(temp->size() != cnt)
+      throw EncryptionException("Failed to copy array");
+
+    m_vector.swap(temp);
   }
 
   template <typename T>
   template <class InputIterator>
   SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
-    : m_vector(new SecureVector(first,last))
+    : m_vector()
   {
-    ASSERT(m_vector.get());
+    ASSERT(first >= last);
+    if(!(first >= last))
+      throw InvalidArgumentException("Bad input iterators");
+
+    // Not sure what the conatiner does here....
+    ASSERT(first % sizeof(T) == 0);
+    ASSERT(last % sizeof(T) == 0);
+    if((first % sizeof(T) != 0) || (first % sizeof(T) != 0))
+      throw InvalidArgumentException("InputIterator slices elements");
+
+    // Check for wrap
+    SafeInt<size_t> si((size_t)last);
+    si += sizeof(T);
+
+    boost::shared_ptr<SecureVector> temp(new SecureVector(first,last));
+    ASSERT(temp.get());
+    if(!temp.get())
+      throw std::bad_alloc();
+
+    m_vector.swap(temp);
   }
 
   // Iterators
@@ -181,6 +236,14 @@ namespace esapi
   template <typename T>
   typename SecureArray<T>::size_type
   SecureArray<T>::size() const
+  {
+    ASSERT(m_vector.get());
+    return m_vector->size();
+  }
+
+  template <typename T>
+  typename SecureArray<T>::size_type
+  SecureArray<T>::length() const
   {
     ASSERT(m_vector.get());
     return m_vector->size();

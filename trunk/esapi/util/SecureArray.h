@@ -44,6 +44,7 @@ namespace esapi
 
     // Construction
     explicit SecureArray(size_type n = 0, const T value = T());
+    explicit SecureArray(const T* ptr, size_t cnt);
 
     template <class InputIterator>
     SecureArray(InputIterator first, InputIterator last);
@@ -81,6 +82,7 @@ namespace esapi
 
     bool empty() const;
     size_type size() const;
+    size_type length() const;
     void resize(size_type sz, T c = T());
 
     void clear();
