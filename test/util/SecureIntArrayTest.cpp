@@ -94,6 +94,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_6P )
     const int ptr[] = { 0xFFFFFFFF };
     SecureIntArray vv(ptr, 0);
     success &= (vv.size() == 0);
+    success &= (vv.data() == nullptr);
   }
   catch(std::exception&)
   {
