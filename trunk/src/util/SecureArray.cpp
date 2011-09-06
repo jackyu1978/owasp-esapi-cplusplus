@@ -400,19 +400,17 @@ namespace esapi
   void SecureArray<T>::insert(iterator pos, size_type n, const T& x)
   {
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
+    ESAPI_ASSERT2(n <= max_size() - size(), "Too many elements in the resulting array");
 
-    // We can usually safely add size() and 'n' an test against max_size(), unless its a byte array
+    // Test resulting size, throw on overflow
     SafeInt<size_t> si(n);
-    try {      
+    try {   
       n += size();
+      n *= sizeof(T);
     }
     catch(SafeIntException&) {
       throw std::bad_alloc();
     }
-
-    ESAPI_ASSERT2(n + size() <= max_size(), "Too many elements in the resulting array");
-    if((size_t)si > max_size())
-      throw std::bad_alloc();
 
     ASSERT(m_vector.get());
     m_vector->insert(pos, n, x);
@@ -427,7 +425,7 @@ namespace esapi
 
     ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
-    ESAPI_ASSERT2(cnt + size() <= max_size(), "Too many elements in the resulting array");
+    ESAPI_ASSERT2(cnt <= max_size() - size(), "Too many elements in the resulting array");
 
     // Not sure what the conatiner does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
