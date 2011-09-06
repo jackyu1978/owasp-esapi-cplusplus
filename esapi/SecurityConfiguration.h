@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "util/SecureByteArray.h"
+
 #include <fstream>
 #include <list>
 #include <string>
@@ -59,11 +61,11 @@ namespace esapi
 		virtual bool getLenientDatesAccepted(void) =0;
 		virtual std::string getExecutorImplementation(void) =0;
 		virtual std::string getHTTPUtilitiesImplementation(void) =0;
-		virtual byte *getMasterKey(void) =0;
+		virtual SecureByteArray getMasterKey(void) =0;
 		virtual fstream getUploadDirectory(void) =0;
 		virtual fstream getUploadTempDirectory(void) =0;
 		virtual int getEncryptionKeyLength(void) =0;
-		virtual byte *getMasterSalt(void) =0;
+		virtual SecureByteArray getMasterSalt(void) =0;
 		virtual std::list<std::string> getAllowedExecutables(void) =0;
 		virtual std::list<std::string> getAllowedFileExtensions(void) =0;
 		virtual int getAllowedFileUploadSize(void) =0;
