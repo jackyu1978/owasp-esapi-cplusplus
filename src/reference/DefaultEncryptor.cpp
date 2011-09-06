@@ -77,6 +77,8 @@ namespace esapi
 
   CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText)
   {
+    size_t keyBits = secretKey.getEncoded().length();
+
     return CipherText();
   }
 }

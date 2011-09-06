@@ -17,6 +17,7 @@
 #include "EsapiCommon.h"
 #include "crypto/Key.h"
 #include "crypto/Crypto++Common.h"
+#include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 
@@ -54,10 +55,10 @@ namespace esapi
     virtual std::string getFormat() const;
 
     /**
-     * Returns the key in its primary encoding format, or nullptr
+     * Returns the key in its primary encoding format, or an empty array
      * if this key does not support encoding.
      */
-    virtual const byte* getEncoded() const;
+    virtual SecureByteArray getEncoded() const;
 
     // TODO: testing - remove me
     SecretKey() : m_algorithm(), m_secBlock(), m_format() { }

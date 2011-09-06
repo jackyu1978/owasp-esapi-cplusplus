@@ -15,6 +15,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
+#include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 
@@ -44,10 +45,10 @@ namespace esapi
     virtual std::string getFormat() const = 0;
 
     /**
-     * Returns the key in its primary encoding format, or nullptr
+     * Returns the key in its primary encoding format, or an empty array
      * if this key does not support encoding.
      */
-    virtual const byte* getEncoded() const = 0;
+    virtual SecureByteArray getEncoded() const = 0;
 
   protected:
     Key() { /* no public instantiations */ }
