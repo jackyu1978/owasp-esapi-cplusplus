@@ -64,18 +64,16 @@ using std::string;
 
 int main(int, char**)
 {
-  bool success = true;
+  bool success = false;
   try
   {
-    const byte ptr[] = { 2, 2, 2, 2 };
-    SecureByteArray vv(4);
-    vv.assign(ptr, COUNTOF(ptr));
-    success &= (vv.size() == 4);
-    success &= (::memcmp(vv.data(), ptr, 4) == 0);
+    const int* ptr = (const int*)(sizeof(int)*2);
+    SecureIntArray vv(2);
+    vv.insert(vv.end(), ptr, vv.max_size()-1);
   }
   catch(std::exception&)
   {
-    success = false;
+    success = true;
   }
 
 #if 0
