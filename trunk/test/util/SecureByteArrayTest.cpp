@@ -225,3 +225,67 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_13P )
   }
   BOOST_CHECK_MESSAGE(success, "Failed to insert array");
 }
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_14N )
+{
+  bool success = false;
+  try
+  {
+    const byte* ptr = (const byte*)(size_t)-4;
+    SecureByteArray vv;
+    vv.assign(ptr, vv.max_size()+1);
+  }
+  catch(std::exception&)
+  {
+    success = true;
+  }
+  BOOST_CHECK_MESSAGE(success, "Failed to detect assignment wrap");
+}
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_15N )
+{
+  bool success = false;
+  try
+  {
+    const byte* ptr = (const byte*)(size_t)-4;
+    SecureByteArray vv(4);
+    vv.assign(ptr, vv.max_size());
+  }
+  catch(std::exception&)
+  {
+    success = true;
+  }
+  BOOST_CHECK_MESSAGE(success, "Failed to detect assignment wrap");
+}
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_16N )
+{
+  bool success = false;
+  try
+  {
+    const byte* ptr = (const byte*)(size_t)-4;
+    SecureByteArray vv;
+    vv.insert(vv.begin(), ptr, vv.max_size()+1);
+  }
+  catch(std::exception&)
+  {
+    success = true;
+  }
+  BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
+}
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_17N )
+{
+  bool success = false;
+  try
+  {
+    const byte* ptr = (const byte*)(size_t)-4;
+    SecureByteArray vv(4);
+    vv.insert(vv.begin(), ptr, vv.max_size());
+  }
+  catch(std::exception&)
+  {
+    success = true;
+  }
+  BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
+}
