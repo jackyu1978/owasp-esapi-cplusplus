@@ -110,8 +110,8 @@ namespace esapi
 
   protected:
     // Hold overs from Crypto++ SecByteBlock.
-    ESAPI_PRIVATE size_t sizeInBytes() const;
-    ESAPI_PRIVATE const byte* BytePtr() const;
+    ESAPI_TEST_EXPORT size_t sizeInBytes() const;
+    ESAPI_TEST_EXPORT const byte* BytePtr() const;
 
   private:    
     std::string m_algorithm;            // Standard name for crypto algorithm

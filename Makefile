@@ -139,7 +139,8 @@ endif
 CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
 
 ROOTSRCS =	src/EncoderConstants.cpp \
-			src/ValidationErrorList.cpp
+			src/ValidationErrorList.cpp \
+			src/DummyConfiguration.cpp
 
 CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/PushbackString.cpp \
