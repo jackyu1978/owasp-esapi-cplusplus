@@ -215,6 +215,26 @@ namespace esapi
   }
 
   /**
+  * Updates the digest using the specified string.
+  *
+  * @param input the specified array.
+  *
+  * @throws throws an EncryptionException if the array or size is not valid
+  * or a cryptographic failure occurs.
+  */
+  void MessageDigest::update(const std::string& input)
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->updateImpl(input);
+  }
+
+  /**
   * Updates the digest using the specified array of bytes, starting at the specified offset.
   *
   * @param buf the specified array.
@@ -303,6 +323,24 @@ namespace esapi
   * @param input the specified array.
   */
   SecureByteArray MessageDigest::digest(const SecureByteArray& input)
+  {
+    // All forward facing gear which manipulates internal state acquires the object lock
+    MutexLock lock(getObjectLock());
+
+    ASSERT(m_impl.get() != nullptr);
+    if(m_impl.get() == nullptr)
+      throw EncryptionException("Failed to update digest");
+
+    return m_impl->digestImpl(input);
+  }
+
+  /**
+  * Performs a final update on the digest using the specified string, then completes the
+  * digest computation.
+  *
+  * @param input the specified array.
+  */
+  SecureByteArray MessageDigest::digest(const std::string& input)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());

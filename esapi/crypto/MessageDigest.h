@@ -93,6 +93,16 @@ namespace esapi
     virtual void update(const SecureByteArray& input);
 
     /**
+    * Updates the digest using the specified string.
+    *
+    * @param input  the specified string.
+    *
+    * @throws       throws an EncryptionException if the array or size is not valid
+    *               or a cryptographic failure occurs.
+    */
+    virtual void update(const std::string& input);
+
+    /**
     * Updates the digest using the specified array of bytes.
     *
     * @param input  the specified array.
@@ -144,6 +154,15 @@ namespace esapi
     * @param size   the size of the array.
     */
     virtual SecureByteArray digest(const SecureByteArray& input);
+
+    /**
+    * Performs a final update on the digest using the specified string, then completes the
+    * digest computation.
+    *
+    * @param input  the specified array.
+    * @param size   the size of the array.
+    */
+    virtual SecureByteArray digest(const std::string& input);
 
     /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
