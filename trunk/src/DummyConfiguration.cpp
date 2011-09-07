@@ -171,10 +171,9 @@ namespace esapi
     MEMORY_BARRIER();
     if(!init)
     {
+      cipherModes.push_back("EAX");
       cipherModes.push_back("CCM");
       cipherModes.push_back("GCM");
-      cipherModes.push_back("EAX");
-
       init = true;
     }
 
@@ -193,9 +192,8 @@ namespace esapi
     if(!init)
     {
       cipherModes.push_back("CBC");
-      cipherModes.push_back("OFB");
       cipherModes.push_back("CFB");
-
+      cipherModes.push_back("OFB");
       init = true;
     }
 

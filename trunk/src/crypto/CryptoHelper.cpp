@@ -118,14 +118,14 @@ namespace esapi
   bool CryptoHelper::isCombinedCipherMode(const std::string& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
-      if(cipherMode.empty())
-        throw InvalidArgumentException("Cipher mode is not valid");
+    if(cipherMode.empty())
+      throw InvalidArgumentException("Cipher mode is not valid");
         
-        DummyConfiguration config;
-          const StringList& cipherModes = config.getCombinedCipherModes();
-            
-            StringList::const_iterator it = std::find(cipherModes.begin(), cipherModes.end(), cipherMode);
-              return it != cipherModes.end(); 
+    DummyConfiguration config;
+    const StringList& cipherModes = config.getCombinedCipherModes();
+    
+    StringList::const_iterator it = std::find(cipherModes.begin(), cipherModes.end(), cipherMode);
+    return it != cipherModes.end();
   }
 
   /**
@@ -143,18 +143,18 @@ namespace esapi
   bool CryptoHelper::isAllowedCipherMode(const std::string& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
-      if(cipherMode.empty())
-        throw InvalidArgumentException("Cipher mode is not valid");
+    if(cipherMode.empty())
+      throw InvalidArgumentException("Cipher mode is not valid");
 
-      if ( isCombinedCipherMode(cipherMode) ) { 
-        return true; 
-          } 
+    if ( isCombinedCipherMode(cipherMode) ) { 
+      return true; 
+    } 
 
-      DummyConfiguration config;
-        const StringList& extraModes = config.getAdditionalAllowedCipherModes();
+    DummyConfiguration config;
+    const StringList& extraModes = config.getAdditionalAllowedCipherModes();
         
-          StringList::const_iterator it = std::find(extraModes.begin(), extraModes.end(), cipherMode);
-            return it != extraModes.end(); 
+    StringList::const_iterator it = std::find(extraModes.begin(), extraModes.end(), cipherMode);
+    return it != extraModes.end(); 
   }
 
   /**
@@ -222,7 +222,7 @@ namespace esapi
     ASSERT(size);
 
     if(!bytes)
-      throw std::invalid_argument("The array cannot be null or empty");
+      throw InvalidArgumentException("The array cannot be null or empty");
 
     if(!size)
       return;
@@ -275,10 +275,10 @@ namespace esapi
     ASSERT(destSize >= copySize);
 
     if(!src)
-      throw std::invalid_argument("Source array cannot be null");
+      throw InvalidArgumentException("Source array cannot be null");
 
     if(!dest)
-      throw std::invalid_argument("Destination array cannot be null");
+      throw InvalidArgumentException("Destination array cannot be null");
 
     // Will throw if ptr wraps. T* and size_t causing trouble on Linux
     SafeInt<size_t> ssi((size_t)src); ssi += srcSize;

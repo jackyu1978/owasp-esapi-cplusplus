@@ -13,6 +13,8 @@
  */
 
 #include "EsapiCommon.h"
+#include "crypto/CipherText.h"
+
 #include "safeint/SafeInt3.hpp"
 
 #include <sstream>
@@ -21,5 +23,22 @@
 
 namespace esapi
 {
+  CipherText::CipherText()
+    : m_text()
+  {
+  }
 
+  CipherText::~CipherText()
+  {
+  }
+
+  bool CipherText::empty() const
+  {
+    return m_text.empty();
+  }
+
+  std::string CipherText::getCipherMode() const
+  {
+    return "CBC";
+  }
 }

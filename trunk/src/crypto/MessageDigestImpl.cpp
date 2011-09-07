@@ -138,6 +138,15 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
+  void MessageDigestTmpl<HASH>::updateImpl(const std::string& input)   
+  {
+    updateImpl((const byte*)input.data(), input.size());
+  }
+
+  /**
+   * Updates the digest using the specified array of bytes.
+   */
+  template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size)   
   {
     //ASSERT(input);
@@ -237,6 +246,16 @@ namespace esapi
    SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const SecureByteArray& input)
    {
      return digestImpl(input.data(), input.size());
+   }
+
+  /**
+   * Performs a final update on the digest using the specified string, then completes the
+   * digest computation.
+   */
+   template <class HASH>
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const std::string& input)
+   {
+     return digestImpl((const byte*)input.data(), input.size());
    }
 
   /**
