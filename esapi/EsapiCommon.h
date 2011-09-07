@@ -94,6 +94,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <list>
+#include <map>
 
 // Windows defines a min that clashes with std::min. We also need
 // Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
@@ -285,3 +287,8 @@ ESAPI_MS_NO_WARNING(4290)
 #else
 # define ESAPI_TEST_EXPORT
 #endif
+
+typedef std::string String;
+typedef std::vector<std::string> StringArray;
+typedef std::list<std::string> StringList;
+// typedef std::map<std::string> StringMap;

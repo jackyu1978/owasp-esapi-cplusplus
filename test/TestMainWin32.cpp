@@ -36,6 +36,12 @@ using esapi::RandomPool;
 #include "crypto/KeyGenerator.h"
 using esapi::KeyGenerator;
 
+#include "crypto/PlainText.h"
+using esapi::PlainText;
+
+#include "crypto/CipherText.h"
+using esapi::CipherText;
+
 #include "crypto/SecretKey.h"
 using esapi::SecretKey;
 
@@ -48,6 +54,12 @@ using esapi::SecureIntArray;
 
 #include "util/SecureString.h"
 using esapi::SecureString;
+
+#include "DummyConfiguration.h"
+using esapi::DummyConfiguration;
+
+#include "reference/DefaultEncryptor.h"
+using esapi::DefaultEncryptor;
 
 #include <iostream>
 using std::cerr;
@@ -64,20 +76,13 @@ using std::string;
 
 int main(int, char**)
 {
-  SecureIntArray ww(5);
-  // ww.insert(ww.begin(), ww.end(), ww.begin());
+  DummyConfiguration config;
+  std::string name = config.getApplicationName();
 
-  bool success = false;
-  try
-  {
-    const int* ptr = (const int*)(sizeof(int)*2);
-    SecureIntArray vv(2);
-    vv.insert(vv.end(), ptr, vv.max_size()-1);
-  }
-  catch(std::exception&)
-  {
-    success = true;
-  }
+  DefaultEncryptor encryptor;
+
+  PlainText plain = "Now is the time for all good men to come to the aide of their country.";
+  CipherText cipher = encryptor.encrypt(plain);
 
 #if 0
   SecureByteArray a(10);

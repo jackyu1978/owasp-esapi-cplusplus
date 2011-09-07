@@ -1,3 +1,12 @@
+/**
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*/
 
 #include "EsapiCommon.h"
 #include "DummyConfiguration.h"
@@ -10,17 +19,17 @@ namespace esapi
     WCHAR wname[MAX_PATH*2];
     DWORD size = COUNTOF(wname);
     if((size = GetModuleFileName(NULL, wname, size)) >= COUNTOF(wname))
-      return "Unknown";;
+      return "Unknown";
 
     CHAR name[MAX_PATH*2];
     size = WideCharToMultiByte(CP_UTF8, 0, wname, size, name, COUNTOF(name), NULL, NULL);
     if(size >= COUNTOF(name))
-      return "Unknown";;
+      return "Unknown";
 
     return std::string(name, size);
 #endif
 
-    return "Unknown";;
+    return "Unknown";
   }
   std::string DummyConfiguration::getLogImplementation()
   {
@@ -28,11 +37,11 @@ namespace esapi
   }
   std::string DummyConfiguration::getAuthenticationImplementation()
   {
-    return "Unknown";
+    return "SRP";
   }
   std::string DummyConfiguration::getEncoderImplementation()
   {
-    return "Unknown";
+    return "Base64";
   }
   std::string DummyConfiguration::getAccessControlImplementation()
   {
@@ -91,18 +100,18 @@ namespace esapi
   }
   SecureByteArray DummyConfiguration::getMasterSalt()
   {
-    const byte iv[16] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+    const byte salt[16] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
       0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
 
-    return SecureByteArray(iv, COUNTOF(iv));
+    return SecureByteArray(salt, COUNTOF(salt));
   }
-  std::list<std::string> DummyConfiguration::getAllowedExecutables()
+  StringList DummyConfiguration::getAllowedExecutables()
   {
-    return std::list<std::string>();
+    return StringList();
   }
-  std::list<std::string> DummyConfiguration::getAllowedFileExtensions()
+  StringList DummyConfiguration::getAllowedFileExtensions()
   {
-    return std::list<std::string>();
+    return StringList();
   }
   int DummyConfiguration::getAllowedFileUploadSize()
   {
@@ -122,7 +131,7 @@ namespace esapi
   }
   std::string DummyConfiguration::getCipherTransformation()
   {
-    return "AES/CBC";
+    return "AES/CBC/PKCS5";
   }
   std::string DummyConfiguration::setCipherTransformation(const std::string &)
   {
@@ -142,20 +151,58 @@ namespace esapi
   }
   std::string DummyConfiguration::getIVType()
   {
-    return "Unpredictable";
+    return "Unique";
   }
-  std::string DummyConfiguration::getFixedIV()
+  SecureByteArray DummyConfiguration::getFixedIV()
   {
-    return "00000000000000000000000000000000";
+    const byte iv[16] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
+      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
+
+    return SecureByteArray(iv, COUNTOF(iv));
   }
-  std::list<std::string> DummyConfiguration::getCombinedCipherModes()
+
+  const StringList& DummyConfiguration::getCombinedCipherModes()
   {
-    return std::list<std::string>();
+    MutexLock lock(getClassLock());
+
+    static bool init = false;
+    static StringList cipherModes;
+
+    MEMORY_BARRIER();
+    if(!init)
+    {
+      cipherModes.push_back("CCM");
+      cipherModes.push_back("GCM");
+      cipherModes.push_back("EAX");
+
+      init = true;
+    }
+
+    MEMORY_BARRIER();
+    return cipherModes;
   }
-  std::list<std::string> DummyConfiguration::getAdditionalAllowedCipherModes()
+
+  const StringList& DummyConfiguration::getAdditionalAllowedCipherModes()
   {
-    return std::list<std::string>();
+    MutexLock lock(getClassLock());
+
+    static bool init = false;
+    static StringList cipherModes;
+
+    MEMORY_BARRIER();
+    if(!init)
+    {
+      cipherModes.push_back("CBC");
+      cipherModes.push_back("OFB");
+      cipherModes.push_back("CFB");
+
+      init = true;
+    }
+
+    MEMORY_BARRIER();
+    return cipherModes;
   }
+
   std::string DummyConfiguration::getHashAlgorithm()
   {
     return "SHA-256";
@@ -180,9 +227,9 @@ namespace esapi
   {
     return false;
   }
-  std::list<std::string> DummyConfiguration::getDefaultCanonicalizationCodecs()
+  StringList DummyConfiguration::getDefaultCanonicalizationCodecs()
   {
-    return std::list<std::string>();
+    return StringList();
   }
   std::string DummyConfiguration::getDigitalSignatureAlgorithm()
   {
@@ -200,7 +247,7 @@ namespace esapi
   {
     return 5;
   }
-  int getMaxOldPasswordHashes()
+  int DummyConfiguration::getMaxOldPasswordHashes()
   {
     return -1;
   }
@@ -210,7 +257,7 @@ namespace esapi
   }
   Threshold DummyConfiguration::getQuota(const std::string &)
   {
-    return Threshold("", 0, 0, std::list<std::string>());
+    return Threshold("", 0, 0, StringList());
   }
   std::string DummyConfiguration::getResourceFile(const std::string &)
   {
@@ -290,5 +337,11 @@ namespace esapi
   std::string DummyConfiguration::getWorkingDirectory()
   {
     return "Unknown";
+  }
+
+  Mutex& DummyConfiguration::getClassLock()
+  {
+    static Mutex s_mutex;
+    return s_mutex;
   }
 }

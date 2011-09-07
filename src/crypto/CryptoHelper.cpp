@@ -18,11 +18,12 @@
 #include "crypto/CryptoHelper.h"
 #include "crypto/Crypto++Common.h"
 #include "crypto/KeyDerivationFunction.h"
+#include "errors/EncryptionException.h"
+#include "errors/InvalidArgumentException.h"
+
+#include "DummyConfiguration.h"
 
 #include "safeint/SafeInt3.hpp"
-
-#include <memory>
-#include <stdexcept>
 
 /**
  * This class implements functionality similar to Java's CryptoHelper for consistency
@@ -94,7 +95,7 @@ namespace esapi
   SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
   {
     // Shamelessly ripped from KeyDerivationFunction.cpp
-    ASSERT( keyDerivationKey.sizeInBytes()  > 0 );
+    ASSERT( keyDerivationKey.getEncoded().length()  > 0 );
     ASSERT( keyBits >= 56 );
     ASSERT( (keyBits % 8) == 0 );
     ASSERT( purpose == "authenticity" || purpose == "encryption" );
@@ -116,10 +117,15 @@ namespace esapi
    */
   bool CryptoHelper::isCombinedCipherMode(const std::string& cipherMode)
   {
-    ASSERT(!cipherMode.empty());
+    ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
+    if(cipherMode.empty())
+      throw InvalidArgumentException("Cipher mode is not valid");
 
-    ASSERT(0);
-    return false;
+    DummyConfiguration config;
+    const StringList& cipherModes = config.getCombinedCipherModes();
+    
+    StringList::const_iterator it = std::find(cipherModes.begin(), cipherModes.end(), cipherMode);
+    return it != cipherModes.end(); 
   }
 
   /**
@@ -136,10 +142,19 @@ namespace esapi
    */
   bool CryptoHelper::isAllowedCipherMode(const std::string& cipherMode)
   {
-    ASSERT(!cipherMode.empty());
+    ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
+    if(cipherMode.empty())
+      throw InvalidArgumentException("Cipher mode is not valid");
 
-    ASSERT(0);
-    return false;
+    if ( isCombinedCipherMode(cipherMode) ) { 
+      return true; 
+    } 
+
+    DummyConfiguration config;
+    const StringList& extraModes = config.getAdditionalAllowedCipherModes();
+
+    StringList::const_iterator it = std::find(extraModes.begin(), extraModes.end(), cipherMode);
+    return it != extraModes.end(); 
   }
 
   /**
@@ -186,7 +201,7 @@ namespace esapi
    */
   bool CryptoHelper::isCipherTextMACvalid(const SecretKey& secretKey, const CipherText& cipherText)
   {
-    ASSERT(secretKey.sizeInBytes() > 0);
+    ASSERT(secretKey.getEncoded().length() > 0);
     ASSERT(!cipherText.empty());
 
     ASSERT(0);

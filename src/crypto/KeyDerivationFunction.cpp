@@ -47,7 +47,7 @@ namespace esapi
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
-    ASSERT( keyDerivationKey.sizeInBytes()  > 0 );
+    ASSERT( keyDerivationKey.getEncoded().length() > 0 );
     ASSERT( keySize >= 56 );
     ASSERT( (keySize % 8) == 0 );
     ASSERT( !purpose.empty());

@@ -14,18 +14,21 @@
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
+#include "crypto/CryptoHelper.h"
 #include "util/SecureArray.h"
 
-#include <string>
-#include <memory>
+#include "DummyConfiguration.h"
 
-#include <boost/shared_ptr.hpp>
+#include <string>
 
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
 
 namespace esapi
 {
+  // Private to this module (for now)
+  static void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts);
+
   std::string DefaultEncryptor::DefaultDigestAlgorithm()
   {
     return std::string("SHA-512");
@@ -71,14 +74,53 @@ namespace esapi
 
   CipherText DefaultEncryptor::encrypt(const PlainText& plainText)
   {
-    SecretKey sk;
-    return encrypt(sk, plainText);
+    DummyConfiguration config;
+    SecretKey key("Unknown", config.getMasterKey());
+
+    return encrypt(key, plainText);
   }
 
   CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText)
   {
-    size_t keyBits = secretKey.getEncoded().length();
+    DummyConfiguration config;
+
+    std::vector<std::string> parts;
+    std::string xform = config.getCipherTransformation();    
+    split(xform, "\\/:", parts);
+    ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + xform);
+    if(parts.size() != 3)
+      throw EncryptionException("Malformed cipher transformation: " + xform);
+
+    const std::string mode = parts[1];
+    bool allowed = CryptoHelper::isAllowedCipherMode(mode);
+
+    ESAPI_ASSERT2(allowed, std::string("Cipher mode '") + mode + "' is not allowed");
+    if( !allowed )
+      throw EncryptionException(std::string("Cipher mode '") + mode + "' is not allowed");    
+
+    //Cipher encrypter = Cipher.getInstance(xform);
+    //String cipherAlg = encrypter.getAlgorithm();
+    //int keyLen = config.getEncryptionKeyLength();
+
+    bool overwrite = config.overwritePlainText();
+    size_t keyBits = secretKey.getEncoded().length() * 8;
 
     return CipherText();
+  }
+
+  void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts)
+  {
+    std::string s(str);
+    std::string::size_type pos = 0;
+
+    while( (pos = s.find_first_of(delim)) != std::string::npos )
+    {
+      parts.push_back(s.substr(0, pos));
+      s.erase(0, pos+1);
+    }
+
+    // Catch any tail bytes
+    if( !s.empty() )
+      parts.push_back(s);
   }
 }

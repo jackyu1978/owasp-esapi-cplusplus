@@ -73,8 +73,8 @@ namespace esapi
     virtual std::string getUploadTempDirectory() =0;
     virtual int getEncryptionKeyLength() =0;
     virtual SecureByteArray getMasterSalt() =0;
-    virtual std::list<std::string> getAllowedExecutables() =0;
-    virtual std::list<std::string> getAllowedFileExtensions() =0;
+    virtual StringList getAllowedExecutables() =0;
+    virtual StringList getAllowedFileExtensions() =0;
     virtual int getAllowedFileUploadSize() =0;
     virtual std::string getPasswordParameterName() =0;
     virtual std::string getUsernameParameterName() =0;
@@ -85,16 +85,16 @@ namespace esapi
     virtual bool useMACforCipherText() =0;
     virtual bool overwritePlainText() =0;
     virtual std::string getIVType() =0;
-    virtual std::string getFixedIV() =0;
-    virtual std::list<std::string> getCombinedCipherModes() =0;
-    virtual std::list<std::string> getAdditionalAllowedCipherModes() =0;
+    virtual SecureByteArray getFixedIV() =0;
+    virtual const StringList& getCombinedCipherModes() =0;
+    virtual const StringList& getAdditionalAllowedCipherModes() =0;
     virtual std::string getHashAlgorithm() =0;
     virtual int getHashIterations() =0;
     virtual std::string getKDFPseudoRandomFunction() =0;
     virtual std::string getCharacterEncoding() =0;
     virtual bool getAllowMultipleEncoding() =0;
     virtual bool getAllowMixedEncoding() =0;
-    virtual std::list<std::string> getDefaultCanonicalizationCodecs() =0;
+    virtual StringList getDefaultCanonicalizationCodecs() =0;
     virtual std::string getDigitalSignatureAlgorithm() =0;
     virtual int getDigitalSignatureKeyLength() =0;
     virtual std::string getRandomAlgorithm() =0;
@@ -151,7 +151,7 @@ namespace esapi
     * The list of actions to take if the threshold is met. It is expected that this is a list of std::strings, but
     * your implementation could have this be a list of any type of 'actions' you wish to define.
     */
-    std::list<std::string> actions;
+    StringList actions;
 
     /**
     * Constructs a threshold that is composed of its name, its threshold count, the time window for
@@ -163,7 +163,7 @@ namespace esapi
     * trigger this threshold.
     * @param actions The list of actions to take if the threshold is met.
     */
-    Threshold(const std::string & name, int count, long interval, std::list<std::string> actions)
+    Threshold(const std::string & name, int count, long interval, StringList actions)
     {
       this->name = name;
       this->count = count;
