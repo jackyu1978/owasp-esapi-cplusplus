@@ -11,6 +11,7 @@
 #pragma once
 
 #include "SecurityConfiguration.h"
+#include "util/Mutex.h"
 
 namespace esapi
 {
@@ -35,8 +36,8 @@ namespace esapi
     virtual std::string getUploadTempDirectory();
     virtual int getEncryptionKeyLength();
     virtual SecureByteArray getMasterSalt();
-    virtual std::list<std::string> getAllowedExecutables();
-    virtual std::list<std::string> getAllowedFileExtensions();
+    virtual StringList getAllowedExecutables();
+    virtual StringList getAllowedFileExtensions();
     virtual int getAllowedFileUploadSize();
     virtual std::string getPasswordParameterName();
     virtual std::string getUsernameParameterName();
@@ -47,16 +48,16 @@ namespace esapi
     virtual bool useMACforCipherText();
     virtual bool overwritePlainText();
     virtual std::string getIVType();
-    virtual std::string getFixedIV();
-    virtual std::list<std::string> getCombinedCipherModes();
-    virtual std::list<std::string> getAdditionalAllowedCipherModes();
+    virtual SecureByteArray getFixedIV();
+    virtual const StringList& getCombinedCipherModes();
+    virtual const StringList& getAdditionalAllowedCipherModes();
     virtual std::string getHashAlgorithm();
     virtual int getHashIterations();
     virtual std::string getKDFPseudoRandomFunction();
     virtual std::string getCharacterEncoding();
     virtual bool getAllowMultipleEncoding();
     virtual bool getAllowMixedEncoding();
-    virtual std::list<std::string> getDefaultCanonicalizationCodecs();
+    virtual StringList getDefaultCanonicalizationCodecs();
     virtual std::string getDigitalSignatureAlgorithm();
     virtual int getDigitalSignatureKeyLength();
     virtual std::string getRandomAlgorithm();
@@ -86,5 +87,8 @@ namespace esapi
     virtual std::string getWorkingDirectory();
 
     virtual ~DummyConfiguration() {};
+
+  private:
+    static Mutex& getClassLock();
   };
 };
