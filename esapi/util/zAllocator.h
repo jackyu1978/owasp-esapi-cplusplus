@@ -25,6 +25,10 @@
 //   GCC mailing list (its easy to get off topic, use sparingly)
 // For problems with _Alloc_hider, see http://gcc.gnu.org/ml/gcc-help/2011-08/msg00199.html.
 
+#if defined(ESAPI_CXX_MSVC)
+# pragma warning(disable:4100)
+#endif
+
 namespace esapi
 {
   template<typename T>
