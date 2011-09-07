@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #pragma once
 
@@ -36,13 +36,13 @@ namespace esapi
 
   public:
 
-	/**
-   * {@inheritDoc}
-   * 
-	 * Hashes the data using the specified algorithm and the Java MessageDigest class. This method
-	 * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
-	 * in order to help strengthen weak passwords.
-	 */
+    /**
+     * {@inheritDoc}
+     * 
+     * Hashes the data using the specified algorithm and the Java MessageDigest class. This method
+     * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
+     * in order to help strengthen weak passwords.
+     */
     virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations());
 
     virtual CipherText encrypt(const PlainText& plainText);
@@ -60,9 +60,9 @@ namespace esapi
     }
 
     virtual std::string sign(const std::string & message)
-    {
-      return std::string();
-    }
+      {
+        return std::string();
+      }
 
     virtual bool verifySignature(const std::string &, const std::string &)
     {
@@ -70,14 +70,14 @@ namespace esapi
     }
 
     virtual std::string seal(const std::string &, long) throw (IntegrityException)
-    {
-      return std::string();
-    }
+      {
+        return std::string();
+      }
 
     virtual std::string unseal(const std::string &)
-    {
-      return std::string();
-    }
+      {
+        return std::string();
+      }
 
     virtual bool verifySeal(const std::string &)
     {
@@ -94,10 +94,8 @@ namespace esapi
       return 0;
     }
 
-    // CTORs and DTORs are very important for MS DLLs
   public:
-    DefaultEncryptor() { }  
+    explicit DefaultEncryptor() { }
     virtual ~DefaultEncryptor() { }
-
   };
 } // NAMESPACE

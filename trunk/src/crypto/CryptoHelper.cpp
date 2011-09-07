@@ -118,14 +118,14 @@ namespace esapi
   bool CryptoHelper::isCombinedCipherMode(const std::string& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
-    if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
-
-    DummyConfiguration config;
-    const StringList& cipherModes = config.getCombinedCipherModes();
-    
-    StringList::const_iterator it = std::find(cipherModes.begin(), cipherModes.end(), cipherMode);
-    return it != cipherModes.end(); 
+      if(cipherMode.empty())
+        throw InvalidArgumentException("Cipher mode is not valid");
+        
+        DummyConfiguration config;
+          const StringList& cipherModes = config.getCombinedCipherModes();
+            
+            StringList::const_iterator it = std::find(cipherModes.begin(), cipherModes.end(), cipherMode);
+              return it != cipherModes.end(); 
   }
 
   /**
@@ -143,18 +143,18 @@ namespace esapi
   bool CryptoHelper::isAllowedCipherMode(const std::string& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
-    if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
+      if(cipherMode.empty())
+        throw InvalidArgumentException("Cipher mode is not valid");
 
-    if ( isCombinedCipherMode(cipherMode) ) { 
-      return true; 
-    } 
+      if ( isCombinedCipherMode(cipherMode) ) { 
+        return true; 
+          } 
 
-    DummyConfiguration config;
-    const StringList& extraModes = config.getAdditionalAllowedCipherModes();
-
-    StringList::const_iterator it = std::find(extraModes.begin(), extraModes.end(), cipherMode);
-    return it != extraModes.end(); 
+      DummyConfiguration config;
+        const StringList& extraModes = config.getAdditionalAllowedCipherModes();
+        
+          StringList::const_iterator it = std::find(extraModes.begin(), extraModes.end(), cipherMode);
+            return it != extraModes.end(); 
   }
 
   /**
