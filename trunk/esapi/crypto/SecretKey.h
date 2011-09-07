@@ -60,6 +60,13 @@ namespace esapi
      */
     virtual SecureByteArray getEncoded() const;
 
+    /**
+     * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
+     * tagged ESAPI_PRIVATE, but the test files need it.
+     */
+    SecretKey(const std::string& alg, const SecureByteArray& bytes, const std::string& format = "RAW");
+
+
     // TODO: testing - remove me
     SecretKey() : m_algorithm(), m_secBlock(), m_format() { }
 
@@ -73,12 +80,12 @@ namespace esapi
      * specified by algorithm. This should be hidden and tagged ESAPI_PRIVATE,
      * but the test files need it.
      */
-    SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
     /**
      * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
      * tagged ESAPI_PRIVATE, but the test files need it.
      */
-    SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
 
   public:
     /**
@@ -97,12 +104,13 @@ namespace esapi
     SecretKey& operator=(const SecretKey& rhs);
 
     /**
-     * Returns the size of a SecretKey in bytes
+     * Assign a SecretKey
      */
-    size_t sizeInBytes() const;
+    SecretKey& operator=(const SecureByteArray& rhs);
 
   protected:
     // Hold overs from Crypto++ SecByteBlock.
+    ESAPI_PRIVATE size_t sizeInBytes() const;
     ESAPI_PRIVATE const byte* BytePtr() const;
 
   private:    

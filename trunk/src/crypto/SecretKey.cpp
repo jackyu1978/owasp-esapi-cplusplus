@@ -45,6 +45,16 @@ namespace esapi
     ASSERT( !m_format.empty() );
   }
 
+  SecretKey::SecretKey(const std::string& alg,
+    const SecureByteArray& bytes,
+    const std::string& format)
+    : m_algorithm(alg), m_secBlock(bytes.data(), bytes.size()), m_format(format)
+  {
+    ASSERT( !m_algorithm.empty() );
+    ASSERT( m_secBlock.size() );
+    ASSERT( !m_format.empty() );
+  }
+
   SecretKey::~SecretKey()
   {
   }
@@ -67,6 +77,18 @@ namespace esapi
     }
 
     return *this;
+  }
+
+  /**
+   * Assign a SecretKey
+   */
+  SecretKey& SecretKey::operator=(const SecureByteArray& rhs)
+  {
+      m_algorithm = "Unknown";
+      m_secBlock = CryptoPP::SecByteBlock(rhs.data(), rhs.size());
+      m_format = "RAW";
+
+      return *this;
   }
 
   size_t SecretKey::sizeInBytes() const
