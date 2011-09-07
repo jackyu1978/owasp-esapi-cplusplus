@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #include "reference/DefaultEncryptor.h"
 
@@ -53,21 +53,21 @@ namespace esapi
     md.digest(hash.data(), hash.size(), 0, size);
 
     for (unsigned int i = 0; i < iterations; i++)
-    {
-      md.update(hash.data(), hash.size());
-      md.digest(hash.data(), hash.size(), 0, size);
-    }
+      {
+        md.update(hash.data(), hash.size());
+        md.digest(hash.data(), hash.size(), 0, size);
+      }
 
     std::string encoded;
     try
-    {
-      CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
-        new CryptoPP::StringSink(encoded), false /* no line breaks */));
-    }
+      {
+        CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
+            new CryptoPP::StringSink(encoded), false /* no line breaks */));
+      }
     catch(CryptoPP::Exception& ex)
-    {
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
-    }
+      {
+        throw EncryptionException(std::string("Internal error: ") + ex.what());
+      }
 
     return encoded;
   }
@@ -87,6 +87,7 @@ namespace esapi
     std::vector<std::string> parts;
     std::string xform = config.getCipherTransformation();    
     split(xform, "\\/:", parts);
+
     ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + xform);
     if(parts.size() != 3)
       throw EncryptionException("Malformed cipher transformation: " + xform);
@@ -114,10 +115,10 @@ namespace esapi
     std::string::size_type pos = 0;
 
     while( (pos = s.find_first_of(delim)) != std::string::npos )
-    {
-      parts.push_back(s.substr(0, pos));
-      s.erase(0, pos+1);
-    }
+      {
+        parts.push_back(s.substr(0, pos));
+        s.erase(0, pos+1);
+      }
 
     // Catch any tail bytes
     if( !s.empty() )
