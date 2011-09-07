@@ -289,6 +289,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\src\DummyConfiguration.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\EncoderConstants.cpp"
 				>
 			</File>
@@ -520,6 +524,10 @@
 			>
 			<File
 				RelativePath=".\esapi\AccessReferenceMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\esapi\DummyConfiguration.h"
 				>
 			</File>
 			<File
