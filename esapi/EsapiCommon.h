@@ -115,7 +115,7 @@
 // We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
 // For Microsoft, nullptr is available in Visual Studio 2010 and
 // above (version 1600), so we test for something earlier. For GCC, its
-// 4.6 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
+// 4.3 and above with -std=c++0x. Stroustrup gives us nullptr_t in the
 // latest draft. C++0X, see http://www2.research.att.com/~bs/C++0xFAQ.html
 // and http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2431.pdf
 // For nullptr - see see http://gcc.gnu.org/projects/cxx0x.html.
@@ -244,6 +244,8 @@ ESAPI_MS_NO_WARNING(4251)
 ESAPI_MS_NO_WARNING(4275)
 // Knock out the MS Warning about CXX ignoring exception lists
 ESAPI_MS_NO_WARNING(4290)
+// Remove warnings about unused functions
+ESAPI_MS_NO_WARNING(4505)
 
 #if defined(ESAPI_CXX_MSVC)
 # if defined ESAPI_MS_DLL_EXPORTS
