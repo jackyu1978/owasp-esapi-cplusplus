@@ -16,10 +16,12 @@
 
 #if defined(_MSC_VER)
 # pragma warning( push, 2 )
+# pragma warning( disable: 4505 )
 #endif
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
+#include <cryptopp/misc.h>
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/aes.h>
 #include <cryptopp/des.h>
