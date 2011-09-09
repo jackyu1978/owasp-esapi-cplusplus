@@ -83,12 +83,12 @@ IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 # Try and pick up SunStudio on Solaris. For whatever reason SunStudio is using CXX=g++
 # (from the environment?), which is blowing up on OpenSolaris. If its not picked up
 # automatically, invoke make with CC: `make test CXX=CC`
-ifeq ($(SUN_COMPILER),0)
+ifneq ($(SUN_COMPILER),0)
   CXX = CC
 endif
 
 # On Linux, use g++ if CXX is not specified
-ifneq ($(CXX),0)
+ifeq ($strip $(CXX)),)
   ifneq ($(IS_LINUX),0)
     CXX = g++
   endif
