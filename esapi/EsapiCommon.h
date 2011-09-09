@@ -51,6 +51,8 @@
 # define ESAPI_OS_APPLE 1
 #elif defined(__linux__) || defined(__linux)
 # define ESAPI_OS_LINUX 1
+#elif defined(__sun) || defined(__SunOS)
+# define ESAPI_OS_SUN
 #elif defined(__unux__) || defined(__unux)
 # define ESAPI_OS_UNIX 1
 #endif
@@ -67,6 +69,8 @@
 # define ESAPI_CXX_ICC 1
 #elif defined(__COMO__) || defined(__COMO_VERSION__)
 # define ESAPI_CXX_COMO 1
+#elif defined(__SUNPRO_C)
+# define ESAPI_CXX_SUN 1
 #elif defined(__GNUC__)
 # define ESAPI_CXX_GCC 1
 #endif
