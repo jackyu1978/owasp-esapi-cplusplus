@@ -262,7 +262,7 @@ default: test
 
 # Clear unneeded implicit rules
 .SUFFIXES:
-.SUFFIXES: .c .cpp .o
+.SUFFIXES: .c .cc .cpp .o
 
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
