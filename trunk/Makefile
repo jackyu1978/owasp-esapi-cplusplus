@@ -9,11 +9,11 @@
 # Copyright (c) 2011 - The OWASP Foundation
 
 # Comeau C++ Compiler
-# CXX =		como
+# CXX = como
 # Intel ICC
-# CXX =		icpc
+# CXX = icpc
 # GNU C++ Compiler
-CXX =		g++
+# CXX =	g++
 
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
@@ -68,6 +68,7 @@ UNAME = uname
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
+SUN_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "solaris")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[1-9]|[5-9])")
@@ -78,6 +79,20 @@ GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-
 GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[7-9]|[5-9])")
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
+
+# Try and pick up SunStudio on Solaris. For whatever reason SunStudio is using CXX=g++
+# (from the environment?), which is blowing up on OpenSolaris. If its not picked up
+# automatically, invoke make with CC: `make test CXX=CC`
+ifeq ($(SUN_COMPILER),0)
+  CXX = CC
+endif
+
+# On Linux, use g++ if CXX is not specified
+ifeq ($(CXX),)
+  ifeq ($(IS_LINUX),0)
+    CXX = g++
+  endif
+endif
 
 # Would like -fvisibility=hidden, but Intel's syntax is:
 # int foo(int a) __attribute__ ((visibility ("default")));
