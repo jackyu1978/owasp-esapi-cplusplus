@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #include "EsapiCommon.h"
 #include "DummyConfiguration.h"
@@ -82,7 +82,7 @@ namespace esapi
   SecureByteArray DummyConfiguration::getMasterKey()
   {
     const byte key[16] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-      0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+                           0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
     return SecureByteArray(key, COUNTOF(key));
   }
@@ -101,7 +101,7 @@ namespace esapi
   SecureByteArray DummyConfiguration::getMasterSalt()
   {
     const byte salt[16] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
+                            0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
 
     return SecureByteArray(salt, COUNTOF(salt));
   }
@@ -156,7 +156,7 @@ namespace esapi
   SecureByteArray DummyConfiguration::getFixedIV()
   {
     const byte iv[16] = { 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-      0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
+                          0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 };
 
     return SecureByteArray(iv, COUNTOF(iv));
   }
@@ -170,12 +170,12 @@ namespace esapi
 
     MEMORY_BARRIER();
     if(!init)
-    {
-      cipherModes.push_back("EAX");
-      cipherModes.push_back("CCM");
-      cipherModes.push_back("GCM");
-      init = true;
-    }
+      {
+        cipherModes.push_back("EAX");
+        cipherModes.push_back("CCM");
+        cipherModes.push_back("GCM");
+        init = true;
+      }
 
     MEMORY_BARRIER();
     return cipherModes;
@@ -190,12 +190,12 @@ namespace esapi
 
     MEMORY_BARRIER();
     if(!init)
-    {
-      cipherModes.push_back("CBC");
-      cipherModes.push_back("CFB");
-      cipherModes.push_back("OFB");
-      init = true;
-    }
+      {
+        cipherModes.push_back("CBC");
+        cipherModes.push_back("CFB");
+        cipherModes.push_back("OFB");
+        init = true;
+      }
 
     MEMORY_BARRIER();
     return cipherModes;
