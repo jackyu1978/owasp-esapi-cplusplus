@@ -68,7 +68,7 @@ UNAME = uname
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -c "\(ICC\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
-SUN_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "solaris")
+SUN_COMPILER = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "solaris")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[1-9]|[5-9])")
@@ -83,7 +83,7 @@ IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 # Try and pick up SunStudio on Solaris. For whatever reason SunStudio is using CXX=g++
 # (from the environment?), which is blowing up on OpenSolaris. If its not picked up
 # automatically, invoke make with CC: `make test CXX=CC`
-ifneq ($(SUN_COMPILER),0)
+ifeq ($(SUN_COMPILER),0)
   CXX = CC
 endif
 
