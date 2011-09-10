@@ -68,7 +68,7 @@ UNAME = uname
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "\(icc\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
-SUN_COMPILER = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
+SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c "cc: sun")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[1-9]|[5-9])")
@@ -78,19 +78,20 @@ GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[5-9]|[5-
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
 GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[7-9]|[5-9])")
 
+IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
 
-# On Linux, use g++ if CXX is not specified
+# Fall back to g++ if CXX is not specified
 ifeq ($strip $(CXX)),)
-  ifneq ($(IS_LINUX),0)
-    CXX = g++
-  endif
+  CXX = g++
 endif
 
-# Try and pick up SunStudio on Solaris. For whatever reason SunStudio is using CXX=g++
-# (from the environment?), which is blowing up on OpenSolaris. If its not picked up
-# automatically, invoke make with CC: `make test CXX=CC`
-ifneq ($(SUN_COMPILER),0)
+# Try and pick up SunStudio on Solaris. For whatever reason OpenSolaris is using CXX=g++
+# (from the environment?), which is blowing up on OpenSolaris with a 'g++: command not found'.
+# Failure is a mystery, as it appears gcc/g++ installed correctly. So we force 'CC' from
+# Sun Studio, see http://opensolaris.org/jive/thread.jspa?messageID=523996.
+# If Solaris is not picked up automatically, invoke make with CC: `make test CXX=CC`
+ifneq ($(IS_SOLARIS),0)
   CXX = CC
 endif
 
