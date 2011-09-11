@@ -52,13 +52,15 @@
 #elif defined(__linux__) || defined(__linux)
 # define ESAPI_OS_LINUX 1
 #elif defined(__sun) || defined(__SunOS)
-# define ESAPI_OS_SUN
+# define ESAPI_OS_SUN 1
+#elif defined(__FreeBSD__)
+# define ESAPI_OS_FREEBSD 1
 #elif defined(__unux__) || defined(__unux)
 # define ESAPI_OS_UNIX 1
 #endif
 
 // Collect all the *nix's
-#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE)
+#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_FREEBSD)
 # define ESAPI_OS_STARNIX 1
 #endif
 
