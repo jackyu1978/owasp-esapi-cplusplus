@@ -395,3 +395,4 @@ std::string esapi::DefaultEncoder::decodeFromBase64(const std::string & input) {
 
   return decoded;
 }
+

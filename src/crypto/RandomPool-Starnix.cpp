@@ -67,6 +67,7 @@ namespace esapi
 
     size_t rem /*remaining*/ = ksize;
     size_t idx = 0;
+    int ret  = 0;
 
     // First try the random pool
     {
@@ -86,7 +87,7 @@ namespace esapi
           struct rand_pool_info info;
 
           // No need for SU to read entropy counts. Its not in the man pages - inspect <linux/random.h>
-          int ret = ioctl(fd, RNDGETENTCNT, &info);
+          ret = ioctl(fd, RNDGETENTCNT, &info);
           ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
 
           if(ret != 0) break; /* Failed */
@@ -176,3 +177,4 @@ namespace esapi
     return true;
   }
 }
+

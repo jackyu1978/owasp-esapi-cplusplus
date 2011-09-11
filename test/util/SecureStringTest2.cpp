@@ -213,3 +213,4 @@ void VerifyReverseFind()
   BOOST_CHECK_MESSAGE(success, "Failed to rfind SecureString");
 }
 
+

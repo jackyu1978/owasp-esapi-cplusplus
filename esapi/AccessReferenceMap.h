@@ -74,3 +74,5 @@ namespace esapi
 		virtual ~AccessReferenceMap() {};
 	};
 };
+
+

@@ -343,3 +343,4 @@ namespace esapi
     return s_mutex;
   }
 }
+

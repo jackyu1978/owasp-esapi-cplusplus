@@ -273,3 +273,4 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
   }
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
+

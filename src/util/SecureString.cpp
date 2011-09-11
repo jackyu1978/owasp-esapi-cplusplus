@@ -589,3 +589,4 @@ bool operator==(const esapi::SecureString& ss, const std::string& s)
   return ss.compare(0, s.size(), s.data()) == 0;
 }
 
+

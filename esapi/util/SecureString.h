@@ -194,3 +194,4 @@ namespace std
 
 ESAPI_EXPORT bool operator==(const std::string& s, const esapi::SecureString& ss);
 ESAPI_EXPORT bool operator==(const esapi::SecureString& ss, const std::string& s);
+

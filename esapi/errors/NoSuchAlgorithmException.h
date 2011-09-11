@@ -37,3 +37,4 @@ namespace esapi {
   // static const NoSuchAlgorithmException dummy("unused");
 
 } // NAMESPACE
+

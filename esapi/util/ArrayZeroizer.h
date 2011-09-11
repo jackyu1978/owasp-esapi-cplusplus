@@ -51,3 +51,4 @@ namespace esapi
   typedef ArrayZeroizer<byte> ByteArrayZeroizer;
   typedef ArrayZeroizer<int> IntArrayZeroizer;
 }
+

@@ -150,3 +150,4 @@ namespace esapi {
     char decodeCharacter( PushbackString& str ) const;
   };
 }; // esapi namespace
+

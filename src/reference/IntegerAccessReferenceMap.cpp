@@ -23,3 +23,4 @@
 std::string esapi::IntegerAccessReferenceMap::getUniqueReference() {
 	return "" + count++;  // returns a string version of the counter
 }
+

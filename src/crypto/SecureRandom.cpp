@@ -450,3 +450,4 @@ namespace esapi
     return trimmed;
   }
 } // esapi
+

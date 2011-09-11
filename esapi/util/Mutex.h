@@ -55,3 +55,4 @@ namespace esapi
     MutexLock& operator=(const MutexLock&);
   };
 }
+

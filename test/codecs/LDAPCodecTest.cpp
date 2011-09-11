@@ -139,3 +139,4 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
     BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }
 }
+

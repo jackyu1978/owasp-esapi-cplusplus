@@ -37,11 +37,9 @@ using std::ostringstream;
 #include "codecs/HTMLEntityCodec.h"
 using esapi::HTMLEntityCodec;
 
-// Some worker thread stuff
+static const unsigned int THREAD_COUNT = 64;
 static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
-
-static const unsigned int THREAD_COUNT = 64;
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_1P)
 {
@@ -278,11 +276,15 @@ BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_13P )
   DoWorkerThreadStuff();
 }
 
+// Some worker thread stuff
 #if defined(WIN32) || defined(_WIN32) 
 void DoWorkerThreadStuff()
 {
 }
-#elif defined(__linux) || defined(__linux__) || defined(__APPLE__)
+void* WorkerThreadProc(void* param)
+{
+}
+#elif defined(ESAPI_OS_STARNIX)
 void DoWorkerThreadStuff()
 {
   pthread_t threads[THREAD_COUNT];
@@ -316,7 +318,7 @@ void* WorkerThreadProc(void* param)
   // interleave thread creation and execution
 #if defined(WIN32) || defined(_WIN32)
   Sleep(0);
-#elif defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+#elif defined(ESAPI_OS_STARNIX)
   sleep(0);
 #endif
 
@@ -329,4 +331,5 @@ void* WorkerThreadProc(void* param)
 
   return (void*)0;
 }
+
 

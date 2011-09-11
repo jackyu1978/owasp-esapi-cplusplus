@@ -375,3 +375,4 @@ namespace esapi
   template class MessageDigestTmpl<CryptoPP::SHA512>;
   template class MessageDigestTmpl<CryptoPP::Whirlpool>;
 };
+

@@ -68,3 +68,4 @@ char esapi::LDAPCodec::decodeCharacter(PushbackString& input) const {
 	char second = input.next();
 	return second;
 }
+
