@@ -22,6 +22,10 @@ $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 > su -
 # yum install cryptopp cryptopp-devel</pre>
 
+<pre># FreeBSD
+> su -
+# pkg_add -r cryptopp</pre>
+
 == Boost ==
 
 <pre># Debian and friends
