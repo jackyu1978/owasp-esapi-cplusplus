@@ -132,3 +132,4 @@ namespace esapi
     volatile void* zallocator<T>::g_dummy = nullptr;
 
 } // esapi
+

@@ -48,3 +48,4 @@ bool esapi::ValidationErrorList::isEmpty() const{
 size_t esapi::ValidationErrorList::size() const{
 	return errorList.size();
 }
+

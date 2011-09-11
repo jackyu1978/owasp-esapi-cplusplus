@@ -692,3 +692,4 @@ void VerifySecureIntArray()
   BOOST_CHECK_MESSAGE(success, "Failed equal array test");
 }
 
+

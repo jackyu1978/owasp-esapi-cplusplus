@@ -195,3 +195,4 @@ bool esapi::Codec::containsCharacter(char c, const char array[], size_t length) 
 
   return false;
 }
+

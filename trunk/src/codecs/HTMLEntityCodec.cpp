@@ -540,3 +540,4 @@ char esapi::HTMLEntityCodec::decodeCharacter(PushbackString& /*input*/) const {
   */
   return 0;
 }
+

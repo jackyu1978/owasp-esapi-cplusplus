@@ -99,3 +99,4 @@ namespace esapi
     virtual ~DefaultEncryptor() { }
   };
 } // NAMESPACE
+

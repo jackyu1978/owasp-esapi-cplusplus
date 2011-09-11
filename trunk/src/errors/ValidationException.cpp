@@ -30,3 +30,4 @@ std::string esapi::ValidationException::getContext() {
 void esapi::ValidationException::setContext(const std::string &newContext) {
 	this->context = newContext;
 }
+

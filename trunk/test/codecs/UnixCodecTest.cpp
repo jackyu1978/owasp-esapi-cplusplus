@@ -45,3 +45,4 @@ BOOST_AUTO_TEST_CASE( UnixCodecTestCase )
 	BOOST_CHECK_MESSAGE(uc.encodeCharacter("",0,'<').compare("\\<")==0, "=" << uc.encodeCharacter("",0,'<'));
 	BOOST_CHECK(uc.encodeCharacter("",0,'\\').compare("\\\\")==0);
 }
+

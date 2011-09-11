@@ -196,3 +196,4 @@ void VerifyAssignment()
   BOOST_CHECK_MESSAGE(success, "Failed to assign SecureString");
 }
 
+

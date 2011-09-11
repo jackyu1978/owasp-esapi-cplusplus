@@ -29,3 +29,4 @@ namespace esapi
     NotCopyable& operator=(const NotCopyable&);
   };
 }
+

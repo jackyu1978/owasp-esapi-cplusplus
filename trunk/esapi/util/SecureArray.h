@@ -137,3 +137,4 @@ namespace std
   template<>
   void swap(esapi::SecureIntArray& a, esapi::SecureIntArray& b);
 }
+

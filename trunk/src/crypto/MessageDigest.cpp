@@ -447,3 +447,4 @@ namespace esapi
     return trimmed;
   }
 }
+

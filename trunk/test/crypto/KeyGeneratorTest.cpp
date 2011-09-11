@@ -711,4 +711,3 @@ void VerifyHmacWhirlpoolKeyGenerator()
       VerifyKeyGeneration(kg, bytes);
     }
 }
-

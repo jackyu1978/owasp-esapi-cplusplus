@@ -39,3 +39,4 @@ std::string esapi::EnterpriseSecurityException::getLogMessage() const
 {
 	return this->logMessage;
 }
+

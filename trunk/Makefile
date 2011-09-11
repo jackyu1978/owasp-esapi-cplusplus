@@ -108,6 +108,7 @@ endif
 ifneq ($(GCC_COMPILER),0)
   CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
   CXXFLAGS += -Wformat=2 -Wformat-security
+  CXXFLAGS += -Wno-unused
 #  Too much Boost noise
 #  CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
@@ -130,12 +131,9 @@ ifneq ($(GCC41_OR_LATER),0)
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
-ifneq ($(GCC43_OR_LATER),0)
-  CXXFLAGS += -Wall -Wextra -Wno-type-limits -Wno-unused
-endif
-
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifneq ($(GCC43_OR_LATER),0)
+  CXXFLAGS += -Wall -Wextra -Wno-type-limits
   CXXFLAGS += -std=c++0x
 endif
 
@@ -243,8 +241,12 @@ RANLIB =	ranlib
 
 # -Wl,-z,relro: Make the GOT read-only after starting
 # -Wl,-z,now: No lazy binding for PLT attacks
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,--exclude-libs,ALL -Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
 LDLIBS +=	-lcryptopp -lboost_regex-mt
+
+ifneq ($(GCC43_OR_LATER),0)
+  LDFLAGS +=	-Wl,--exclude-libs,ALL
+endif
 
 TESTLIBS +=	-lpthread -lboost_unit_test_framework-mt
 

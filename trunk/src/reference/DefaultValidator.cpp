@@ -364,3 +364,4 @@ std::string esapi::DefaultValidator::getValidPrintable(const std::string &, cons
 std::string esapi::DefaultValidator::safeReadLine(std::fstream &, int) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
+

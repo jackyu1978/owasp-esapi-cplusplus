@@ -91,3 +91,4 @@ BOOST_AUTO_TEST_CASE( CodecGetHexForNonAlphanumeric )
 
 	BOOST_CHECK(atoi(codec.getHexForNonAlphanumeric('a').c_str()) == 0);
 }
+

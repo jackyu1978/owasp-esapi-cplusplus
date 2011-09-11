@@ -94,3 +94,5 @@ namespace esapi
 		virtual ~ValidationRule() {};
 	};
 };
+
+

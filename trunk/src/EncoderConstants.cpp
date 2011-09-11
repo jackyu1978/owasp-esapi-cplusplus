@@ -44,3 +44,4 @@ const std::set<char> esapi::EncoderConstants::PASSWORD_DIGITS (esapi::EncoderCon
 
 const char esapi::EncoderConstants::CHAR_PASSWORD_LETTERS[] = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 const std::set<char> esapi::EncoderConstants::PASSWORD_LETTERS (esapi::EncoderConstants::CHAR_PASSWORD_LETTERS, esapi::EncoderConstants::CHAR_PASSWORD_LETTERS+( sizeof(esapi::EncoderConstants::CHAR_PASSWORD_LETTERS)/sizeof(char) ) );
+

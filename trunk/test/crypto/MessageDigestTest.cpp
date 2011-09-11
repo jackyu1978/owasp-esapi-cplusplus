@@ -554,4 +554,3 @@ void DoWorkerThreadStuff()
   BOOST_MESSAGE( "All threads completed successfully" );
 }
 #endif
-

@@ -180,3 +180,4 @@ public:
 	std::string decodeFromBase64(const std::string &);
 };
 }; // esapi namespace
+

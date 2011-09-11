@@ -41,3 +41,5 @@ namespace esapi
 		virtual ~EncryptedProperties() {};
 	};
 };
+
+

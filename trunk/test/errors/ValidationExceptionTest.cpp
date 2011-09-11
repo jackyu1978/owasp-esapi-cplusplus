@@ -56,3 +56,4 @@ BOOST_AUTO_TEST_CASE( test_try_catch )
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+

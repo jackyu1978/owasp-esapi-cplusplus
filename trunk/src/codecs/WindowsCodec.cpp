@@ -49,3 +49,4 @@ char esapi::WindowsCodec::decodeCharacter( PushbackString& input) const {
 	char second = input.next();
 	return second;
 }
+
