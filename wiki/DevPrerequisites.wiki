@@ -31,6 +31,10 @@ $ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-tes
 > su -
 # yum install boost-devel</pre>
 
+<pre># FreeBSD
+> su -
+# pkg_add -r boost-libs</pre>
+
 == Grepping Package ==
 
 Searching packages can be performed as follows (using boost as an example).
