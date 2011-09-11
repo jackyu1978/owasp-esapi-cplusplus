@@ -241,12 +241,18 @@ RANLIB =	ranlib
 
 # -Wl,-z,relro: Make the GOT read-only after starting
 # -Wl,-z,now: No lazy binding for PLT attacks
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib -Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
-LDLIBS +=	-lcryptopp -lboost_regex-mt
+LDFLAGS +=	-L/usr/local/lib -L/usr/lib
+
+# One or more of these might need to come in on a later version of GCC
+ifneq ($(GCC42_OR_LATER),0)
+  LDFLAGS +=	-Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
+endif
 
 ifneq ($(GCC43_OR_LATER),0)
   LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
+
+LDLIBS +=	-lcryptopp -lboost_regex-mt
 
 TESTLIBS +=	-lpthread -lboost_unit_test_framework-mt
 
