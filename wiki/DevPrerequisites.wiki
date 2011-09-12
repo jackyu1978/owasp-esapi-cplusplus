@@ -3,9 +3,9 @@
 
 = Introduction =
 
-The following lists some commands to get the prerequisites on the system. It assumes GCC/G++, binutils, make, and other friends are already installed. Non-GNU system will need gmake, If using FreeBSD, issue 'pkg_add -r gmake', while OpenaBSD should enter 'pkg_add gmake'.
+The following lists some commands to get the prerequisites on the system. It assumes GCC/G++, binutils, make, and other friends are already installed. Non-GNU system will need gmake, If using FreeBSD, issue 'pkg_add -r gmake', while OpenBSD should enter 'pkg_add gmake'.
 
-ESAPI uses LeBlanc's SafeInt, Crypto++, and Boost's base installation, regex, and test.
+ESAPI uses LeBlanc's SafeInt, Crypto++, and Boost's base installation, regex, and test sub-projects.
 
 == SafeInt ==
 
@@ -24,7 +24,7 @@ $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 > su -
 # pkg_add -r cryptopp</pre>
 
-OpenBSD does not offer Crypto++. It must be installed from sources. See the Crypto++ website at http://www.cryptopp.com/; and http://www.cryptopp.com/wiki/Linux.
+OpenBSD does not offer Crypto++. It must be installed from sources. See the Crypto++ website at http://www.cryptopp.com/; and http://www.cryptopp.com/wiki/Linux. The Linux page will take you through building Crypto++ using the makefile.
 
 == Boost ==
 
@@ -56,6 +56,8 @@ $ apt-cache pkgnames | grep -i boost</pre>
 == Win32 ==
 A version of ESAPI for Windows x86/x64 is available via a Visual Studio 2008 solution file. The file should convert to VS2005 by modifying the solution and project file's headers (its just XML, change the version number). In addition, the project should convert to VS2010 without trouble.
 
-The Win32 version does not build the self tests due to problems linking against Boost::Test. However, a static version of the ESAPI library will build.
+The Win32 version of ESAPI will build a static version of the library. The Win32 version does not build the self tests due to problems linking against Boost::Test.
 
-The Win32 version of ESAPI is also dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory '''containing''' Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should '''include''' the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
+The Win32 version of ESAPI is also dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++.
+
+For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
