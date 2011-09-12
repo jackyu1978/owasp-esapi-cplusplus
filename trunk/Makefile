@@ -65,18 +65,19 @@ EGREP = egrep
 
 UNAME = uname
 
-GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version")
+GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version")
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "\(icc\)")
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
 SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c "cc: sun")
 
-GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[0-9]|[5-9])")
-GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[1-9]|[5-9])")
-GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[3-9]|[5-9])")
-GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[4-9]|[5-9])")
-GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[5-9]|[5-9])")
-GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[6-9]|[5-9])")
-GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -c "^gcc version (4.[7-9]|[5-9])")
+GCC34_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (3.[4-9]|[4-9])")
+GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[0-9]|[5-9])")
+GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[1-9]|[5-9])")
+GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[3-9]|[5-9])")
+GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[4-9]|[5-9])")
+GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[5-9]|[5-9])")
+GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[6-9]|[5-9])")
+GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[7-9]|[5-9])")
 
 IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
@@ -133,7 +134,7 @@ endif
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifneq ($(GCC43_OR_LATER),0)
-  CXXFLAGS += -Wall -Wextra -Wno-type-limits
+  CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
   CXXFLAGS += -std=c++0x
 endif
 
@@ -243,9 +244,13 @@ RANLIB =	ranlib
 # -Wl,-z,now: No lazy binding for PLT attacks
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# One or more of these might need to come in on a later version of GCC.
-# From Daniel and Andrew, we know GCC 3.4 does not fly.
-ifneq ($(GCC40_OR_LATER),0)
+# Examining the Binutils change logs:
+#  -z,relro, 2004-06-15 (ChangeLog_2004)
+#  -z,now, 2004-05-11 (ChangeLog_2004)
+#  -z,nodlopen, ???
+# According to http://gcc.gnu.org/releases.html, this puts
+#  the linker switches at 3.4.1 or 3.4.3/3.4.4
+ifneq ($(GCC34_OR_LATER),0)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
 endif
 
