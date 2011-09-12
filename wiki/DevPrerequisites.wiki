@@ -7,6 +7,8 @@ Some commands to get the prerequisites on the system. It assumes GCC/G++, binuti
 
 ESAPI uses Boost's base installation, regex, and test.
 
+In addition, non-GNU system will need gmake, If using FreeBSD, issue 'pkg_add -r gmake', while OpenaBSD should enter 'pkg_add gmake'.
+
 = Details =
 
 == SafeInt ==
@@ -26,6 +28,8 @@ $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
 > su -
 # pkg_add -r cryptopp</pre>
 
+OpenBSD does not offer Crypto++. It must be installed from sources. See the Crypto++ website at http://www.cryptopp.com/; and http://www.cryptopp.com/wiki/Linux.
+
 == Boost ==
 
 <pre># Debian and friends
@@ -38,6 +42,10 @@ $ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-tes
 <pre># FreeBSD
 > su -
 # pkg_add -r boost-libs</pre>
+
+<pre># OpenBSD
+> su -
+# pkg_add boost</pre>
 
 == Grepping Package ==
 
