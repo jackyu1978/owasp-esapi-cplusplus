@@ -243,11 +243,13 @@ RANLIB =	ranlib
 # -Wl,-z,now: No lazy binding for PLT attacks
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# One or more of these might need to come in on a later version of GCC
-ifneq ($(GCC42_OR_LATER),0)
+# One or more of these might need to come in on a later version of GCC.
+# From Daniel and Andrew, we know GCC 3.4 does not fly.
+ifneq ($(GCC40_OR_LATER),0)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
 endif
 
+# Failed on GCC 4.2, try GCC 4.3
 ifneq ($(GCC43_OR_LATER),0)
   LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
