@@ -263,14 +263,14 @@ ifeq ($(GNU_LD210_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
-ifneq ($(GNU_LD212_OR_LATER),0)
+ifeq ($(GNU_LD212_OR_LATER),1)
   # OpenBSD and FreeBSD use Binutils 2.15, but ld does not accept --exclude-libs???
   ifeq ($(IS_BSD),0) 
     LDFLAGS +=	-Wl,--exclude-libs,ALL
   endif
 endif
 
-ifneq ($(GNU_LD215_OR_LATER),0)
+ifeq ($(GNU_LD215_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
 endif
 
