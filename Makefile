@@ -15,6 +15,13 @@
 # GNU C++ Compiler
 # CXX =	g++
 
+# Default rule for `make`
+default: test
+
+# Clear unneeded implicit rules
+.SUFFIXES:
+.SUFFIXES: .c .cc .cpp .cxx .o
+
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
 
@@ -72,6 +79,7 @@ SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
+GCC42_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[2-9]|[5-9])')
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[3-9]|[5-9])')
 GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[4-9]|[5-9])')
 GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[5-9]|[5-9])')
@@ -262,6 +270,7 @@ ifeq ($(GNU_LD210_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
+# Reduce the size of the export table
 ifeq ($(GNU_LD212_OR_LATER),1)
   # OpenBSD and FreeBSD use Binutils 2.15, but ld does not accept --exclude-libs???
   ifeq ($(IS_BSD),0) 
@@ -269,6 +278,7 @@ ifeq ($(GNU_LD212_OR_LATER),1)
   endif
 endif
 
+# Linker hardening
 ifeq ($(GNU_LD215_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
 endif
@@ -286,13 +296,6 @@ TESTTARGET = test/run_esapi_tests
 #   ARFLAGS = -static -o
 #   CXX = c++
 # endif
-
-# Default rule for `make`
-default: test
-
-# Clear unneeded implicit rules
-.SUFFIXES:
-.SUFFIXES: .c .cc .cpp .o
 
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
