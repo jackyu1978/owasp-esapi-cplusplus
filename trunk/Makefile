@@ -65,19 +65,19 @@ EGREP = egrep
 
 UNAME = uname
 
-GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version")
-INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "\(icc\)")
-COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "comeau")
-SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c "cc: sun")
+GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
+INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
+COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c 'comeau')
+SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
 
-GCC34_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (3.[4-9]|[4-9])")
-GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[0-9]|[5-9])")
-GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[1-9]|[5-9])")
-GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[3-9]|[5-9])")
-GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[4-9]|[5-9])")
-GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[5-9]|[5-9])")
-GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[6-9]|[5-9])")
-GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[7-9]|[5-9])")
+GCC34_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (3\.[4-9]|[4-9])')
+GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
+GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
+GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[3-9]|[5-9])')
+GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[4-9]|[5-9])')
+GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[5-9]|[5-9])')
+GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[6-9]|[5-9])')
+GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[7-9]|[5-9])')
 
 # -z nodlopen: Do not allow an attacker to dlopen us
 # --exclude-libs: keep other library symbols (which we depend upon) from being exported (by us)
@@ -86,17 +86,17 @@ GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[7-9]|
 
 # For -nodlopen, which appeared around 2000 (Binutils 2.10).
 # http://sourceware.org/ml/binutils/2011-09/msg00049.html
-GNU_LD210_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[0-9]|2.[2-9])")
+GNU_LD210_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[0-9]|2\.[2-9])')
 # For --exclude-libs, which appeared around 4/2002 (Binutils 2.12) (see the ld/ChangeLog-0203in BinUtils).
 # http://ftp.gnu.org/gnu/binutils/
-GNU_LD212_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[2-9]|2.[2-9])")
+GNU_LD212_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[2-9]|2\.[2-9])')
 # For -relro and -now, which appeared around 6/2004 (Binutils 2.15) (see the ld/ChangeLog-2004 in BinUtils).
 # From a FreeBSD  system: GNU ld version 2.15 [FreeBSD] 2004-05-23
-GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[5-9]|2.[2-9])")
+GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-9]|2\.[2-9])')
 
-IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
-IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
-IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "(openbsd|freebsd)")
+IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
+IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
+IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd)')
 
 # Fall back to g++ if CXX is not specified
 ifeq ($strip $(CXX)),)
@@ -259,7 +259,7 @@ RANLIB =	ranlib
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
 # Linker hardening
-ifneq ($(GNU_LD210_OR_LATER),0)
+ifeq ($(GNU_LD210_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
@@ -270,7 +270,7 @@ ifneq ($(GNU_LD212_OR_LATER),0)
   endif
 endif
 
-ifneq ($(GNU_LD215_OR_LATER ),0)
+ifneq ($(GNU_LD215_OR_LATER),0)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
 endif
 
