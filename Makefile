@@ -70,7 +70,6 @@ INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c 'comeau')
 SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
 
-GCC34_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (3\.[4-9]|[4-9])')
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
 GCC43_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[3-9]|[5-9])')
@@ -108,7 +107,7 @@ endif
 # Failure is a mystery, as it appears gcc/g++ installed correctly. So we force 'CC' from
 # Sun Studio, see http://opensolaris.org/jive/thread.jspa?messageID=523996.
 # If Solaris is not picked up automatically, invoke make with CC: `make test CXX=CC`
-ifneq ($(IS_SOLARIS),0)
+ifeq ($(IS_SOLARIS),1)
   CXX = CC
 endif
 
@@ -116,13 +115,13 @@ endif
 # int foo(int a) __attribute__ ((visibility ("default")));
 # MS and GCC allow the attribute at the beginning of the declaraion, before the return type...
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
-ifneq ($(INTEL_COMPILER),0)
+ifeq ($(INTEL_COMPILER),1)
   CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
-ifneq ($(GCC_COMPILER),0)
+ifeq ($(GCC_COMPILER),1)
   CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
   CXXFLAGS += -Wformat=2 -Wformat-security
   CXXFLAGS += -Wno-unused
@@ -132,13 +131,13 @@ endif
 
 # http://gcc.gnu.org/wiki/Visibility
 # http://people.redhat.com/drepper/dsohowto.pdf
-ifneq ($(GCC40_OR_LATER),0)
+ifeq ($(GCC40_OR_LATER),1)
   CXXFLAGS += -fvisibility=hidden
 endif
 
 # http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
 # http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
-ifneq ($(GCC41_OR_LATER),0)
+ifeq ($(GCC41_OR_LATER),1)
   ifeq ($(WANT_DEBUG),1)
     CXXFLAGS += -D_FORTIFY_SOURCE=2
     CXXFLAGS += -fstack-protector-all
@@ -149,19 +148,19 @@ endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
-ifneq ($(GCC43_OR_LATER),0)
+ifeq ($(GCC43_OR_LATER),1)
   CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
   CXXFLAGS += -std=c++0x
 endif
 
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
-ifneq ($(GCC47_OR_LATER),0)
+ifeq ($(GCC47_OR_LATER),1)
   CXXFLAGS += -fmemory-model=c++0x
 endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
-ifneq ($(IS_LINUX), 0)
+ifeq ($(IS_LINUX),1)
   CXXFLAGS += -D_REENTRANT
   LDLIBS += -lpthread
 endif
