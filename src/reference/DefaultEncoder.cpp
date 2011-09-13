@@ -105,7 +105,7 @@ std::string esapi::DefaultEncoder::canonicalize( const std::string & input, bool
   return canonicalize(input, strict, strict);
 }
 
-std::string esapi::DefaultEncoder::canonicalize( const std::string & /*input*/, bool restrictMultiple, bool restrictMixed) {
+std::string esapi::DefaultEncoder::canonicalize( const std::string & /*input*/, bool /*restrictMultiple*/, bool /*restrictMixed*/) {
   /*
   if ( input == null ) {
   return null;
@@ -228,7 +228,7 @@ std::string esapi::DefaultEncoder::encodeForVBScript(const std::string & /*input
   throw new UnsupportedOperationException("This operation has not yet been implemented.");
 }
 
-std::string esapi::DefaultEncoder::encodeForSQL(const Codec &codec, const std::string & /*input*/) {
+std::string esapi::DefaultEncoder::encodeForSQL(const Codec& /*codec*/, const std::string & /*input*/) {
   /*
   if( input == null ) {
   return null;
