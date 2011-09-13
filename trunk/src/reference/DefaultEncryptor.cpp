@@ -10,6 +10,7 @@
 
 #include "reference/DefaultEncryptor.h"
 
+#include "crypto/Cipher.h"
 #include "crypto/PlainText.h"
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
@@ -61,7 +62,8 @@ namespace esapi
     std::string encoded;
     try
       {
-        CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */, new CryptoPP::Base64Encoder(
+        CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */,
+          new CryptoPP::Base64Encoder(
             new CryptoPP::StringSink(encoded), false /* no line breaks */));
       }
     catch(CryptoPP::Exception& ex)
@@ -99,8 +101,8 @@ namespace esapi
     if( !allowed )
       throw EncryptionException(std::string("Cipher mode '") + mode + "' is not allowed");    
 
-    //Cipher encrypter = Cipher.getInstance(xform);
-    //String cipherAlg = encrypter.getAlgorithm();
+    Cipher encrypter = Cipher::getInstance(xform);
+    String cipherAlg = encrypter.getAlgorithm();
     //int keyLen = config.getEncryptionKeyLength();
 
     bool overwrite = config.overwritePlainText();
