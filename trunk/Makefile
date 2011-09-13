@@ -79,8 +79,24 @@ GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[5-9]|
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[6-9]|[5-9])")
 GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c "^gcc version (4.[7-9]|[5-9])")
 
-IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
+# -z nodlopen: Do not allow an attacker to dlopen us
+# --exclude-libs: keep other library symbols (which we depend upon) from being exported (by us)
+# -z relro: Make the GOT read-only after starting to mitigate overwrite attacks
+# -z now: No lazy binding to mitigate PLT attacks
+
+# For -nodlopen, which appeared around 2000 (Binutils 2.10).
+# http://sourceware.org/ml/binutils/2011-09/msg00049.html
+GNU_LD210_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[0-9]|2.[2-9])")
+# For --exclude-libs, which appeared around 4/2002 (Binutils 2.12) (see the ld/ChangeLog-0203in BinUtils).
+# http://ftp.gnu.org/gnu/binutils/
+GNU_LD212_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[2-9]|2.[2-9])")
+# For -relro and -now, which appeared around 6/2004 (Binutils 2.15) (see the ld/ChangeLog-2004 in BinUtils).
+# From a FreeBSD  system: GNU ld version 2.15 [FreeBSD] 2004-05-23
+GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c "^gnu ld version (2.1[5-9]|2.[2-9])")
+
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "linux")
+IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c "solaris")
+IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c "(openbsd|freebsd)")
 
 # Fall back to g++ if CXX is not specified
 ifeq ($strip $(CXX)),)
@@ -240,23 +256,22 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-# -Wl,-z,relro: Make the GOT read-only after starting
-# -Wl,-z,now: No lazy binding for PLT attacks
 LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# Examining the Binutils change logs:
-#  -z,relro, 2004-06-15 (ChangeLog_2004)
-#  -z,now, 2004-05-11 (ChangeLog_2004)
-#  -z,nodlopen, ???
-# According to http://gcc.gnu.org/releases.html, this puts
-#  the linker switches at 3.4.1 or 3.4.3/3.4.4
-ifneq ($(GCC34_OR_LATER),0)
-  LDFLAGS +=	-Wl,-z,relro -Wl,-z,now -Wl,-z,nodlopen
+# Linker hardening
+ifneq ($(GNU_LD210_OR_LATER),0)
+  LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
-# Failed on GCC 4.2, try GCC 4.3
-ifneq ($(GCC43_OR_LATER),0)
-  LDFLAGS +=	-Wl,--exclude-libs,ALL
+ifneq ($(GNU_LD212_OR_LATER),0)
+  # OpenBSD and FreeBSD use Binutils 2.15, but ld does not accept --exclude-libs???
+  ifeq ($(IS_BSD),0) 
+    LDFLAGS +=	-Wl,--exclude-libs,ALL
+  endif
+endif
+
+ifneq ($(GNU_LD215_OR_LATER ),0)
+  LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
 endif
 
 LDLIBS +=	-lcryptopp -lboost_regex-mt
