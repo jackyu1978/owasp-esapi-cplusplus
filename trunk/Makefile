@@ -94,12 +94,11 @@ GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[7-9]
 # For -nodlopen, which appeared around 2000 (Binutils 2.10).
 # http://sourceware.org/ml/binutils/2011-09/msg00049.html
 GNU_LD210_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[0-9]|2\.[2-9])')
-# For --exclude-libs, which appeared around 4/2002 (Binutils 2.12) (see the ld/ChangeLog-0203in BinUtils).
-# http://ftp.gnu.org/gnu/binutils/
-GNU_LD212_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[2-9]|2\.[2-9])')
 # For -relro and -now, which appeared around 6/2004 (Binutils 2.15) (see the ld/ChangeLog-2004 in BinUtils).
-# From a FreeBSD  system: GNU ld version 2.15 [FreeBSD] 2004-05-23
 GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-9]|2\.[2-9])')
+# For --exclude-libs, which appeared around 4/2002, but was ELF'd in 10/2005 
+# http://sourceware.org/ml/binutils/2011-09/msg00064.html
+GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-9]|2\.[2-9])')
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
 IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
@@ -270,17 +269,14 @@ ifeq ($(GNU_LD210_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
-# Reduce the size of the export table
-ifeq ($(GNU_LD212_OR_LATER),1)
-  # OpenBSD and FreeBSD use Binutils 2.15, but ld does not accept --exclude-libs???
-  ifeq ($(IS_BSD),0) 
-    LDFLAGS +=	-Wl,--exclude-libs,ALL
-  endif
-endif
-
 # Linker hardening
 ifeq ($(GNU_LD215_OR_LATER),1)
   LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
+endif
+
+# Reduce the size of the export table
+ifeq ($(GNU_LD216_OR_LATER),1)
+  LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
 LDLIBS +=	-lcryptopp -lboost_regex-mt
