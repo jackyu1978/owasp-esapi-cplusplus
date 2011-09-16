@@ -49,17 +49,17 @@ namespace esapi
 
     virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText);
 
-    virtual PlainText decrypt(const CipherText& cipherText)
+    virtual PlainText decrypt(const CipherText& /*cipherText*/)
     {
       return PlainText();
     }
 
-    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& cipherText)
+    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& /*cipherText*/)
     {
       return PlainText();
     }
 
-    virtual std::string sign(const std::string & message)
+    virtual std::string sign(const std::string & /*message*/)
       {
         return std::string();
       }
@@ -84,7 +84,7 @@ namespace esapi
       return false;
     }
 
-    virtual long getRelativeTimeStamp(long timeStamp)
+    virtual long getRelativeTimeStamp(long /*timeStamp*/)
     {
       return 0;
     }

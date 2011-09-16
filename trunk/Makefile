@@ -20,7 +20,7 @@ default: test
 
 # Clear unneeded implicit rules
 .SUFFIXES:
-.SUFFIXES: .c .cc .cpp .cxx .o
+.SUFFIXES: .c .cpp .cxx .o .h .hpp
 
 # Note: we use both $CPPFLAGS and $CXXFLAGS for recipes which include $CXX.
 # See http://www.gnu.org/s/hello/manual/make/Catalogue-of-Rules.html.
@@ -342,7 +342,7 @@ static: $(STATIC_LIB)
 dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
+	$(CXX) -c -fpic $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
