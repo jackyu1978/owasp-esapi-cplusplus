@@ -54,22 +54,22 @@ endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
-  CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  override CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
-  CXXFLAGS += -DNDEBUG=1 -g -O2
+  override CXXFLAGS += -DNDEBUG=1 -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
-  CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
+  override CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
 # the bit pattern is negated, but the type remains the same. So a positive
 # integer is never transformed into a negative integer as expected. It morphs
 # into a bigger or smaller unsigned integer.
-CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
+override CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 EGREP = egrep
 
@@ -126,57 +126,57 @@ endif
 # MS and GCC allow the attribute at the beginning of the declaraion, before the return type...
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifeq ($(INTEL_COMPILER),1)
-  CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
+  override CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM)
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
-  CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
-  CXXFLAGS += -Wformat=2 -Wformat-security
-  CXXFLAGS += -Wno-unused
+  override CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
+  override CXXFLAGS += -Wformat=2 -Wformat-security
+  override CXXFLAGS += -Wno-unused
 #  Too much Boost noise
-#  CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
+#  override CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
 
 # http://gcc.gnu.org/wiki/Visibility
 # http://people.redhat.com/drepper/dsohowto.pdf
 ifeq ($(GCC40_OR_LATER),1)
-  CXXFLAGS += -fvisibility=hidden
+  override CXXFLAGS += -fvisibility=hidden
 endif
 
 # http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
 # http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
 ifeq ($(GCC41_OR_LATER),1)
   ifeq ($(WANT_DEBUG),1)
-    CXXFLAGS += -D_FORTIFY_SOURCE=2
-    CXXFLAGS += -fstack-protector-all
+    override CXXFLAGS += -D_FORTIFY_SOURCE=2
+    override CXXFLAGS += -fstack-protector-all
   else
-    CXXFLAGS += -fstack-protector
+    override CXXFLAGS += -fstack-protector
   endif  
 endif
 
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifeq ($(GCC43_OR_LATER),1)
-  CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
-  CXXFLAGS += -std=c++0x
+  override CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
+  override CXXFLAGS += -std=c++0x
 endif
 
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
 ifeq ($(GCC47_OR_LATER),1)
-  CXXFLAGS += -fmemory-model=c++0x
+  override CXXFLAGS += -fmemory-model=c++0x
 endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifeq ($(IS_LINUX),1)
-  CXXFLAGS += -D_REENTRANT
+  override CXXFLAGS += -D_REENTRANT
   LDLIBS += -lpthread
 endif
 
 # Add paths
-CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
+override CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
 
 ROOTSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp \
@@ -265,21 +265,21 @@ AR =		ar
 ARFLAGS = 	-rcs
 RANLIB =	ranlib
 
-LDFLAGS +=	-L/usr/local/lib -L/usr/lib
+override LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
-  LDFLAGS +=	-Wl,-z,nodlopen
+  override LDFLAGS +=	-Wl,-z,nodlopen
 endif
 
 # Linker hardening
 ifeq ($(GNU_LD215_OR_LATER),1)
-  LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
+  override LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
 endif
 
 # Reduce the size of the export table
 ifeq ($(GNU_LD216_OR_LATER),1)
-  LDFLAGS +=	-Wl,--exclude-libs,ALL
+  override LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
 LDLIBS +=	-lcryptopp -lboost_regex-mt
