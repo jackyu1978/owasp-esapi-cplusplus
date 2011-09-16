@@ -274,6 +274,7 @@ void VerifySecureByteArray()
       success = false;
       SecureByteArray vv;
       byte p = vv.at(0);
+      ((void)p);
     }
   catch(std::exception&)
     {
@@ -496,6 +497,7 @@ void VerifySecureIntArray()
       success = false;
       SecureIntArray vv;
       byte p = vv.at(0);
+      ((void)p);
     }
   catch(std::exception&)
     {
