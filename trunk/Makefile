@@ -22,6 +22,9 @@ default: test
 .SUFFIXES:
 .SUFFIXES: .c .cc .cpp .cxx .o
 
+# Note: we use both $CPPFLAGS and $CXXFLAGS for recipes which include $CXX.
+# See http://www.gnu.org/s/hello/manual/make/Catalogue-of-Rules.html.
+
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
 
@@ -296,7 +299,7 @@ TESTTARGET = test/run_esapi_tests
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
-	$(CXX) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o lib/$@ $(LIBOBJS) $(LDFLAGS) -shared $(LDLIBS)
 
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
@@ -316,7 +319,7 @@ release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
-	-$(CXX) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) lib/$(DYNAMIC_LIB) $(TESTLIBS)
+	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) lib/$(DYNAMIC_LIB) $(TESTLIBS)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -339,7 +342,7 @@ static: $(STATIC_LIB)
 dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) -fpic -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
