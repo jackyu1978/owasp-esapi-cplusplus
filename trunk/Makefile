@@ -282,9 +282,9 @@ ifeq ($(GNU_LD216_OR_LATER),1)
   override LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
-LDLIBS +=	-lcryptopp -lboost_regex-mt
+LDLIBS +=	-lcryptopp -lboost_regex
 
-TESTLIBS +=	-lpthread -lboost_unit_test_framework-mt
+TESTLIBS +=	-lpthread -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
@@ -319,7 +319,7 @@ release: all test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
-	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) lib/$(DYNAMIC_LIB) $(TESTLIBS)
+	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib lib/$(DYNAMIC_LIB) $(TESTLIBS)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -342,7 +342,7 @@ static: $(STATIC_LIB)
 dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
-	$(CXX) -c -fpic $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -fpic $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
