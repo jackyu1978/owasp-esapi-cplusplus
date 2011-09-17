@@ -72,8 +72,9 @@ endif
 override CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 EGREP = egrep
-
 UNAME = uname
+
+IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|amd64|x86_64")
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
@@ -269,12 +270,19 @@ override LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
-  override LDFLAGS +=	-Wl,-z,nodlopen
+  override LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodldump
 endif
 
 # Linker hardening
 ifeq ($(GNU_LD215_OR_LATER),1)
   override LDFLAGS +=	-Wl,-z,relro -Wl,-z,now
+endif
+
+# Add -PIE to x86 executables (missing on HPPA, ARM, and others)
+ifeq ($(GNU_LD216_OR_LATER),1)
+  ifneq ($(IS_X86_OR_X64),0)
+    EXE_ASLR = -fpie
+  endif
 endif
 
 # Reduce the size of the export table
@@ -312,14 +320,14 @@ all: $(STATIC_LIB) $(DYNAMIC_LIB)
 # covered under the default rule above
 
 # `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
-debug: test
+debug: $(DYNAMIC_LIB) test
 
 # `make release` is `make all`. OPT=O2, SYM=G1, ASSERTs are off.
-release: all test
+release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
-	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fPIE -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib lib/$(DYNAMIC_LIB) $(TESTLIBS)
+	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib $(TESTLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -342,7 +350,7 @@ static: $(STATIC_LIB)
 dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -fpic $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TESTTARGET): ;
@@ -350,3 +358,4 @@ $(TESTTARGET): ;
 .PHONY: clean
 clean:
 	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM *.core
+
