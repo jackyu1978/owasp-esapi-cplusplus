@@ -36,14 +36,17 @@ ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
 endif
 
-RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
-ifneq ($(RELEASE_GOALS),)
-  WANT_RELEASE := 1
-endif
-
 TEST_GOALS = $(filter $(MAKECMDGOALS), test)
 ifneq ($(TEST_GOALS),)
+  WANT_DEBUG := 0
   WANT_TEST := 1
+endif
+
+RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
+ifneq ($(RELEASE_GOALS),)
+  WANT_DEBUG := 0
+  WANT_TEST := 0
+  WANT_RELEASE := 1
 endif
 
 # If nothing is specified, default to Test. This catch all is why
@@ -75,6 +78,7 @@ EGREP = egrep
 UNAME = uname
 
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
+IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
@@ -106,7 +110,7 @@ GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-
 
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
 IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
-IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd)')
+IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
 
 # Fall back to g++ if CXX is not specified
 ifeq ($strip $(CXX)),)
@@ -122,9 +126,9 @@ ifeq ($(IS_SOLARIS),1)
   CXX = CC
 endif
 
-# Would like -fvisibility=hidden, but Intel's syntax is:
+# Would like -fvisibility=hidden for ICC, but Intel's syntax hinders hidden by default:
 # int foo(int a) __attribute__ ((visibility ("default")));
-# MS and GCC allow the attribute at the beginning of the declaraion, before the return type...
+# MS and GCC allow the attribute at the beginning of the declaraion, ICC does not...
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifeq ($(INTEL_COMPILER),1)
   override CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
