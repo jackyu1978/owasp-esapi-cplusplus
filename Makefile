@@ -74,7 +74,7 @@ override CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 EGREP = egrep
 UNAME = uname
 
-IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|amd64|x86_64")
+IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
@@ -326,7 +326,7 @@ debug: $(DYNAMIC_LIB) test
 release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
-test check: $(TESTOBJS) $(TESTTARGET) $(DYNAMIC_LIB)
+test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
 	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib $(TESTLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
 
