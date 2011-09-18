@@ -79,7 +79,7 @@
  * @since August 15, 2008
  */
 namespace esapi {
-	class ValidationErrorList {
+	class ESAPI_EXPORT ValidationErrorList {
 
 	private:
 		/**
