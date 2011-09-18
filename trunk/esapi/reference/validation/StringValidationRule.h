@@ -36,7 +36,7 @@ namespace esapi
  *
  * http://en.wikipedia.org/wiki/Whitelist
  */
-class StringValidationRule : public BaseValidationRule<std::string>
+class ESAPI_EXPORT StringValidationRule : public BaseValidationRule<std::string>
 {
 protected:
 	std::set<std::string> whitelistPatterns;
@@ -44,7 +44,6 @@ protected:
 	size_t minLength /*= 0*/;
 	size_t maxLength /*= INT_MAX*/;
 	bool validateInputAndCanonical /*= true*/;
-
 
 public:
 
