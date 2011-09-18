@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction1 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction1 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction1 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction2 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction2 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction3 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction3 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction4 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction4 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction5 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction5 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction6 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction6 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 
   // TODO: remove this test if there is no minimum keyDerivationKey size
   success = true;
-  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction7 failed" );
+  BOOST_CHECK_MESSAGE( success, "VerifyKeyDerivationFunction7 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
       success = true;
     }
 
-  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction8 failed" );
+  BOOST_CHECK_MESSAGE( success, "VerifyKeyDerivationFunction8 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
@@ -159,6 +159,6 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
       success = true;
     }
 
-  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction9 failed" );
+  BOOST_CHECK_MESSAGE( success, "VerifyKeyDerivationFunction9 failed" );
 }
 #endif

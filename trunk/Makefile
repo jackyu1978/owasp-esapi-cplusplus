@@ -331,7 +331,7 @@ release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
-	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib $(TESTLIBS) lib/$(DYNAMIC_LIB)
+	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib -L/usr/local/lib $(TESTLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
