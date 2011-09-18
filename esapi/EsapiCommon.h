@@ -292,7 +292,7 @@ ESAPI_MS_NO_WARNING(4505)
 
 // Some stuff needs to be exported for testing. For example,
 // RandomPool is meant to be used only by secure random.
-#if !defined(ESAPI_BUILD_RELEASE)
+#if !defined(ESAPI_BUILD_RELEASE) && !defined(ESAPI_MS_DLL_EXPORTS)
 # define ESAPI_TEST_EXPORT ESAPI_EXPORT
 #else
 # define ESAPI_TEST_EXPORT

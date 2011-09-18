@@ -337,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\DummyConfiguration.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\EncoderConstants.cpp"
 				>
 			</File>
@@ -365,6 +369,10 @@
 				</File>
 				<File
 					RelativePath=".\src\crypto\MessageDigest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\crypto\MessageDigestImpl.cpp"
 					>
 				</File>
 				<File
@@ -448,10 +456,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\src\codecs\Trie.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\src\codecs\UnixCodec.cpp"
 					>
 				</File>
@@ -506,6 +510,10 @@
 						RelativePath=".\src\reference\validation\BaseValidationRule.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\src\reference\validation\StringValidationRule.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -513,6 +521,10 @@
 				>
 				<File
 					RelativePath=".\src\util\Mutex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\util\SecureArray.cpp"
 					>
 				</File>
 				<File
@@ -528,6 +540,10 @@
 			>
 			<File
 				RelativePath=".\esapi\AccessReferenceMap.h"
+				>
+			</File>
+			<File
+				RelativePath=".\esapi\DummyConfiguration.h"
 				>
 			</File>
 			<File
@@ -621,6 +637,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\esapi\crypto\MessageDigestImpl.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\crypto\PlainText.h"
 						>
 					</File>
@@ -634,6 +654,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\crypto\SecureRandom.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\SecureRandomImpl.h"
 						>
 					</File>
 				</Filter>
@@ -673,11 +697,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath=".\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
@@ -710,6 +734,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\errors\InvalidArgumentException.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\errors\NoSuchAlgorithmException.h"
 						>
 					</File>
 					<File
@@ -774,6 +802,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\util\NotCopyable.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\util\SecureArray.h"
 						>
 					</File>
 					<File
