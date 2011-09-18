@@ -30,113 +30,84 @@ using std::string;
 using esapi::KeyDerivationFunction;
 using esapi::SecretKey;
 
-void VerifyKeyDerivationFunction1();
-void VerifyKeyDerivationFunction2();
-void VerifyKeyDerivationFunction3();
-void VerifyKeyDerivationFunction4();
-void VerifyKeyDerivationFunction5();
-void VerifyKeyDerivationFunction6();
-void VerifyKeyDerivationFunction7();
-void VerifyKeyDerivationFunction8();
-void VerifyKeyDerivationFunction9();
-
 #if !defined(ESAPI_BUILD_RELEASE)
-BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
-{
-  BOOST_MESSAGE( "Verifying KeyDerivationFunction class" );
+//BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
+//{
+//  BOOST_MESSAGE( "Verifying KeyDerivationFunction class" );
+//
+//  VerifyKeyDerivationFunction1();
+//  VerifyKeyDerivationFunction2();
+//  VerifyKeyDerivationFunction3();
+//  VerifyKeyDerivationFunction4();
+//  VerifyKeyDerivationFunction5();
+//  VerifyKeyDerivationFunction6();
+//  VerifyKeyDerivationFunction7();
+//  VerifyKeyDerivationFunction8();
+//  VerifyKeyDerivationFunction9();
+//  //BOOST_REQUIRE( 1 == 1 );
+//}
 
-  VerifyKeyDerivationFunction1();
-  VerifyKeyDerivationFunction2();
-  VerifyKeyDerivationFunction3();
-  VerifyKeyDerivationFunction4();
-  VerifyKeyDerivationFunction5();
-  VerifyKeyDerivationFunction6();
-  VerifyKeyDerivationFunction7();
-  VerifyKeyDerivationFunction8();
-  VerifyKeyDerivationFunction9();
-  //BOOST_REQUIRE( 1 == 1 );
-}
-
-void VerifyKeyDerivationFunction()
-{
-  VerifyKeyDerivationFunction1();
-  VerifyKeyDerivationFunction2();
-  VerifyKeyDerivationFunction3();
-  VerifyKeyDerivationFunction4();
-  VerifyKeyDerivationFunction5();
-  VerifyKeyDerivationFunction6();
-  VerifyKeyDerivationFunction7();
-  VerifyKeyDerivationFunction8();
-  VerifyKeyDerivationFunction9();
-}
-
-void VerifyKeyDerivationFunction1()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction1 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  if(d.sizeInBytes() != 16)
-    cerr << "VerifyKeyDerivationFunction1 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction1 failed" );
 }
 
-void VerifyKeyDerivationFunction2()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  if(d.sizeInBytes() != 16)
-    cerr << "VerifyKeyDerivationFunction1 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction2 failed" );
 }
 
-void VerifyKeyDerivationFunction3()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  if(d.sizeInBytes() != 7)
-    cerr << "VerifyKeyDerivationFunction3 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction3 failed" );
 }
 
-void VerifyKeyDerivationFunction4()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  if(d.sizeInBytes() != 7)
-    cerr << "VerifyKeyDerivationFunction4 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction4 failed" );
 }
 
-void VerifyKeyDerivationFunction5()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  if(d.sizeInBytes() != 64)
-    cerr << "VerifyKeyDerivationFunction5 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction5 failed" );
 }
 
-void VerifyKeyDerivationFunction6()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  if(d.sizeInBytes() != 64)
-    cerr << "VerifyKeyDerivationFunction6 failed" << endl;
+  BOOST_CHECH_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction6 failed" );
 }
 
-void VerifyKeyDerivationFunction7()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 {
   SecretKey k("SHA-512", 0);
   std::string p("encryption");
@@ -153,11 +124,10 @@ void VerifyKeyDerivationFunction7()
 
   // TODO: remove this test if there is no minimum keyDerivationKey size
   success = true;
-  if(!success)
-    cerr << "VerifyKeyDerivationFunction7 failed" << endl;
+  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction7 failed" );
 }
 
-void VerifyKeyDerivationFunction8()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
 {
   SecretKey k("SHA-512", 32);
   std::string p("encryption");
@@ -172,11 +142,10 @@ void VerifyKeyDerivationFunction8()
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyKeyDerivationFunction8 failed" << endl;
+  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction8 failed" );
 }
 
-void VerifyKeyDerivationFunction9()
+BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
 {
   SecretKey k("SHA-512", 32);
   bool success = false;
@@ -190,7 +159,6 @@ void VerifyKeyDerivationFunction9()
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyKeyDerivationFunction9 failed" << endl;
+  BOOST_CHECH_MESSAGE( success, "VerifyKeyDerivationFunction9 failed" );
 }
 #endif
