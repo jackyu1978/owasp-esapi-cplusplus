@@ -33,88 +33,58 @@ using std::string;
 using esapi::CryptoHelper;
 using esapi::SecretKey;
 
-// Success = 0, failed = non-0
-int VerifyCryptoHelper70();
-int VerifyCryptoHelper71();
-int VerifyCryptoHelper72();
+//BOOST_AUTO_TEST_CASE( VerifyCryptoHelper )
+//{
+//  BOOST_MESSAGE( "Verifying CryptoHelper class" );
+//
+//   generateSecretKey
+//
+//   computeDerivedKey tested in KeyDerivationFuntiontest.cpp
+//
+//   isCombinedCipherMode
+//
+//   isAllowedCipherMode
+//
+//   isMACRequired
+//
+//   isCipherTextMACvalid
+//
+//   overwrite 1
+//  VerifyCryptoHelper70();
+//  VerifyCryptoHelper71();
+//  VerifyCryptoHelper72();
+//
+//  // overwrite 2
+//  VerifyCryptoHelper80();
+//  VerifyCryptoHelper81();
+//  VerifyCryptoHelper82();
+//
+//  // copyByteArray
+//  VerifyCryptoHelper90();
+//  VerifyCryptoHelper91();
+//  VerifyCryptoHelper92();
+//  VerifyCryptoHelper93();
+//  VerifyCryptoHelper94();
+//  VerifyCryptoHelper95();
+//  VerifyCryptoHelper96();
+//  VerifyCryptoHelper97();
+//  VerifyCryptoHelper98();
+//
+//  // arrayCompare
+//  VerifyCryptoHelper100();
+//  VerifyCryptoHelper101();
+//  VerifyCryptoHelper102();
+//  VerifyCryptoHelper103();
+//  VerifyCryptoHelper104();
+//  VerifyCryptoHelper105();
+//  VerifyCryptoHelper106();
+//  VerifyCryptoHelper107();
+//  VerifyCryptoHelper108();
+//  VerifyCryptoHelper109();
+//  //BOOST_REQUIRE( 1 == 1 );
+//}
 
-int VerifyCryptoHelper80();
-int VerifyCryptoHelper81();
-int VerifyCryptoHelper82();
-
-int VerifyCryptoHelper90();
-int VerifyCryptoHelper91();
-int VerifyCryptoHelper92();
-int VerifyCryptoHelper93();
-int VerifyCryptoHelper94();
-int VerifyCryptoHelper95();
-int VerifyCryptoHelper96();
-int VerifyCryptoHelper97();
-int VerifyCryptoHelper98();
-
-int VerifyCryptoHelper100();
-int VerifyCryptoHelper101();
-int VerifyCryptoHelper102();
-int VerifyCryptoHelper103();
-int VerifyCryptoHelper104();
-int VerifyCryptoHelper105();
-int VerifyCryptoHelper106();
-int VerifyCryptoHelper107();
-int VerifyCryptoHelper108();
-int VerifyCryptoHelper109();
-
-BOOST_AUTO_TEST_CASE( VerifyCryptoHelper )
-{
-  BOOST_MESSAGE( "Verifying CryptoHelper class" );
-
-  // generateSecretKey
-
-  // computeDerivedKey tested in KeyDerivationFuntiontest.cpp
-
-  // isCombinedCipherMode
-
-  // isAllowedCipherMode
-
-  // isMACRequired
-
-  // isCipherTextMACvalid
-
-  // overwrite 1
-  VerifyCryptoHelper70();
-  VerifyCryptoHelper71();
-  VerifyCryptoHelper72();
-
-  // overwrite 2
-  VerifyCryptoHelper80();
-  VerifyCryptoHelper81();
-  VerifyCryptoHelper82();
-
-  // copyByteArray
-  VerifyCryptoHelper90();
-  VerifyCryptoHelper91();
-  VerifyCryptoHelper92();
-  VerifyCryptoHelper93();
-  VerifyCryptoHelper94();
-  VerifyCryptoHelper95();
-  VerifyCryptoHelper96();
-  VerifyCryptoHelper97();
-  VerifyCryptoHelper98();
-
-  // arrayCompare
-  VerifyCryptoHelper100();
-  VerifyCryptoHelper101();
-  VerifyCryptoHelper102();
-  VerifyCryptoHelper103();
-  VerifyCryptoHelper104();
-  VerifyCryptoHelper105();
-  VerifyCryptoHelper106();
-  VerifyCryptoHelper107();
-  VerifyCryptoHelper108();
-  VerifyCryptoHelper109();
-  //BOOST_REQUIRE( 1 == 1 );
-}
-
-int VerifyCryptoHelper70()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper70 )
 {
   bool success = false;
 
@@ -141,7 +111,7 @@ int VerifyCryptoHelper70()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper71()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper71 )
 {
   bool success = false;
 
@@ -160,7 +130,7 @@ int VerifyCryptoHelper71()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper72()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper72 )
 {
   bool success = false;
 
@@ -181,7 +151,7 @@ int VerifyCryptoHelper72()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper80()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper80 )
 {
   bool success = false;
 
@@ -208,7 +178,7 @@ int VerifyCryptoHelper80()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper81()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper81 )
 {
   bool success = false;
 
@@ -227,7 +197,7 @@ int VerifyCryptoHelper81()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper82()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper82 )
 {
   bool success = false;
 
@@ -248,7 +218,7 @@ int VerifyCryptoHelper82()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper90()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper90 )
 {
   bool success = false;
 
@@ -272,7 +242,7 @@ int VerifyCryptoHelper90()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper91()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper91 )
 {
   bool success = false;
 
@@ -304,7 +274,7 @@ int VerifyCryptoHelper91()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper92()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper92 )
 {
   bool success = false;
 
@@ -326,7 +296,7 @@ int VerifyCryptoHelper92()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper93()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper93 )
 {
   bool success = false;
 
@@ -348,7 +318,7 @@ int VerifyCryptoHelper93()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper94()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper94 )
 {
   bool success = false;
 
@@ -370,7 +340,7 @@ int VerifyCryptoHelper94()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper95()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper95 )
 {
   bool success = false;
 
@@ -392,7 +362,7 @@ int VerifyCryptoHelper95()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper96()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper96 )
 {
   bool success = false;
 
@@ -414,7 +384,7 @@ int VerifyCryptoHelper96()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper97()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper97 )
 {
   bool success = false;
 
@@ -436,7 +406,7 @@ int VerifyCryptoHelper97()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper98()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper98()
 {
   bool success = false;
 
@@ -458,7 +428,7 @@ int VerifyCryptoHelper98()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper100()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper100 )
 {
   bool success = false;
 
@@ -480,7 +450,7 @@ int VerifyCryptoHelper100()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper101()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper101 )
 {
   bool success = false;
 
@@ -502,7 +472,7 @@ int VerifyCryptoHelper101()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper102()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper102 )
 {
   bool success = false;
 
@@ -524,7 +494,7 @@ int VerifyCryptoHelper102()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper103()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper103 )
 {
   bool success = false;
 
@@ -546,7 +516,7 @@ int VerifyCryptoHelper103()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper104()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper104 )
 {
   bool success = false;
 
@@ -568,7 +538,7 @@ int VerifyCryptoHelper104()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper105()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper105 )
 {
   bool success = false;
 
@@ -590,7 +560,7 @@ int VerifyCryptoHelper105()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper106()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper106 )
 {
   bool success = false;
 
@@ -612,7 +582,7 @@ int VerifyCryptoHelper106()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper107()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper107 )
 {
   bool success = false;
 
@@ -634,7 +604,7 @@ int VerifyCryptoHelper107()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper108()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper108()
 {
   bool success = false;
 
@@ -656,7 +626,7 @@ int VerifyCryptoHelper108()
   return success ? 0 : 1;
 }
 
-int VerifyCryptoHelper109()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper109 )
 {
   bool success = false;
 
@@ -677,4 +647,3 @@ int VerifyCryptoHelper109()
 
   return success ? 0 : 1;
 }
-
