@@ -68,7 +68,7 @@ using esapi::SecretKey;
 //  VerifyCryptoHelper95();
 //  VerifyCryptoHelper96();
 //  VerifyCryptoHelper97();
-//  VerifyCryptoHelper98();
+//  VerifyCryptoHelper98 );
 //
 //  // arrayCompare
 //  VerifyCryptoHelper100();
@@ -79,7 +79,7 @@ using esapi::SecretKey;
 //  VerifyCryptoHelper105();
 //  VerifyCryptoHelper106();
 //  VerifyCryptoHelper107();
-//  VerifyCryptoHelper108();
+//  VerifyCryptoHelper108 );
 //  VerifyCryptoHelper109();
 //  //BOOST_REQUIRE( 1 == 1 );
 //}
@@ -105,10 +105,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper70 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper70 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper70 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper71 )
@@ -124,10 +121,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper71 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper71 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper71 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper72 )
@@ -145,10 +139,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper72 )
     {               
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper72 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper72 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper80 )
@@ -172,10 +163,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper80 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper80 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper80 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper81 )
@@ -191,10 +179,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper81 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper81 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper81 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper82 )
@@ -212,10 +197,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper82 )
     {               
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper82 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper82 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper90 )
@@ -236,10 +218,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper90 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper90 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper90 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper91 )
@@ -268,10 +247,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper91 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper91 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper91 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper92 )
@@ -290,10 +266,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper92 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper92 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper92 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper93 )
@@ -312,10 +285,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper93 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper93 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper93 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper94 )
@@ -334,10 +304,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper94 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper94 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper94 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper95 )
@@ -356,10 +323,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper95 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper95 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper95 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper96 )
@@ -378,10 +342,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper96 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper96 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper96 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper97 )
@@ -400,13 +361,10 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper97 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper97 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper97 failed" );
 }
 
-BOOST_AUTO_TEST_CASE( VerifyCryptoHelper98()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper98 )
 {
   bool success = false;
 
@@ -422,10 +380,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper98()
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper98 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper98 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper100 )
@@ -444,10 +399,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper100 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper100 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper100 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper101 )
@@ -466,10 +418,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper101 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper101 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper101 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper102 )
@@ -488,10 +437,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper102 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper102 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper102 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper103 )
@@ -510,10 +456,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper103 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper103 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper103 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper104 )
@@ -532,10 +475,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper104 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper104 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper104 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper105 )
@@ -554,10 +494,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper105 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper105 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper105 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper106 )
@@ -576,10 +513,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper106 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper106 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper106 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper107 )
@@ -598,13 +532,10 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper107 )
     {
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper107 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper107 failed" );
 }
 
-BOOST_AUTO_TEST_CASE( VerifyCryptoHelper108()
+BOOST_AUTO_TEST_CASE( VerifyCryptoHelper108 )
 {
   bool success = false;
 
@@ -620,10 +551,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper108()
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper108 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper108 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyCryptoHelper109 )
@@ -642,8 +570,5 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper109 )
       success = true;
     }
 
-  if(!success)
-    cerr << "VerifyCryptoHelper109 failed" << endl;
-
-  return success ? 0 : 1;
+  BOOST_CHECK_MESSAGE( success, "VerifyCryptoHelper109 failed" );
 }
