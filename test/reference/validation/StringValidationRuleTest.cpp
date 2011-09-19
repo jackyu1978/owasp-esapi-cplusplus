@@ -34,10 +34,6 @@ using std::stringstream;
 using std::istringstream;
 using std::ostringstream;
 
-#include "reference/validation/StringValidationRule.h"
-#include "errors/ValidationException.h"
-using namespace esapi;
-
 #include <sstream>
 using std::stringstream;
 using std::istringstream;
