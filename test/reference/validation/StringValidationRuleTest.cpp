@@ -29,8 +29,6 @@ using std::string;
 #include <set>
 #include <exception>
 
-#include <boost/regex.hpp>
-
 #include <sstream>
 using std::stringstream;
 using std::istringstream;
@@ -39,6 +37,22 @@ using std::ostringstream;
 #include "reference/validation/StringValidationRule.h"
 #include "errors/ValidationException.h"
 using namespace esapi;
+
+#include <sstream>
+using std::stringstream;
+using std::istringstream;
+using std::ostringstream;
+
+#include <boost/regex.hpp>
+
+#include "reference/validation/StringValidationRule.h"
+#include "errors/ValidationException.h"
+using esapi::StringValidationRule;
+using esapi::ValidationException;
+
+
+// ABI Compatibility problem
+#if !defined(_GLIBCXX_DEBUG)
 
 BOOST_AUTO_TEST_CASE( BoostRegexTest) {
 	const boost::regex re("^[a-zA-Z]*");
@@ -210,3 +224,5 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestAllowNull) {
 	Assert.assertTrue(validationRule.isAllowNull());
 	Assert.assertTrue(validationRule.isValid("", null));
 }*/
+
+#endif // !defined(_GLIBCXX_DEBUG)
