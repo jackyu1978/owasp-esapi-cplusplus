@@ -49,10 +49,11 @@ ifneq ($(RELEASE_GOALS),)
   WANT_RELEASE := 1
 endif
 
-# If nothing is specified, default to Test. This catch all is why
-# CXXFLAGS are not set above in the MAKECMDGOALS tests.
-ifeq ($(MAKECMDGOALS),)
-  WANT_TEST := 1
+# If nothing is specified, default to Test.
+ifeq ($(WANT_DEBUG),0)
+  ifeq ($(WANT_RELEASE),0)
+    WANT_TEST := 1
+  endif
 endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
@@ -181,7 +182,7 @@ ifeq ($(IS_LINUX),1)
 endif
 
 # Add paths
-override CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include
+override CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
 
 ROOTSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp \
@@ -294,9 +295,9 @@ ifeq ($(GNU_LD216_OR_LATER),1)
   override LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
-LDLIBS +=	-lcryptopp -lboost_regex
-
-TESTLIBS +=	-lpthread -lboost_unit_test_framework
+LDLIBS 		+= -lcryptopp -lboost_regex
+TESTFLAGS	+= -L/usr/local/lib -L/usr/lib
+TESTLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TESTTARGET = test/run_esapi_tests
@@ -319,9 +320,8 @@ $(STATIC_LIB): $(LIBOBJS)
 
 # `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)
-
-# `make` builds the DSO and runs the tests. OPT=O2, SYM=G1, ASSERTs are off.
-# covered under the default rule above
+static: $(STATIC_LIB)
+dynamic: $(DYNAMIC_LIB)
 
 # `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
 debug: $(DYNAMIC_LIB) test
@@ -331,7 +331,7 @@ release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
-	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) -L/usr/local/lib -L/usr/lib $(TESTLIBS) lib/$(DYNAMIC_LIB)
+	-$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) $(TESTFLAGS) $(TESTLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
 
 # Test compile codec sources, no final link
@@ -348,10 +348,6 @@ ref reference: $(REFOBJS)
 
 # Test compile utility sources, no final link
 util: $(UTILOBJS)
-
-static: $(STATIC_LIB)
-
-dynamic: $(DYNAMIC_LIB)
 
 .cpp.o:
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
