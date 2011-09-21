@@ -31,17 +31,17 @@ namespace esapi
     /**
     * Returns the default message digest, currently defined as SHA-256.
     */
-    static std::string DefaultAlgorithm();
+    static String DefaultAlgorithm();
 
     /**
     * Returns a MessageDigest object that implements the specified digest algorithm.
     */
-    static MessageDigest getInstance(const std::string& algorithm = DefaultAlgorithm());
+    static MessageDigest getInstance(const String& algorithm = DefaultAlgorithm());
 
     /**
     * Creates a message digest with the specified algorithm name.
     */
-    explicit MessageDigest(const std::string& algorithm = DefaultAlgorithm());
+    explicit MessageDigest(const String& algorithm = DefaultAlgorithm());
 
     /**
     * Copies a message digest.
@@ -61,7 +61,7 @@ namespace esapi
     /**
     * Returns a string that identifies the algorithm, independent of implementation details.
     */    
-    std::string getAlgorithm() const;
+    String getAlgorithm() const;
 
     /**
     * Returns the length of the digest in bytes.
@@ -100,7 +100,7 @@ namespace esapi
     * @throws       throws an EncryptionException if the array or size is not valid
     *               or a cryptographic failure occurs.
     */
-    virtual void update(const std::string& input);
+    virtual void update(const String& input);
 
     /**
     * Updates the digest using the specified array of bytes.
@@ -162,7 +162,7 @@ namespace esapi
     * @param input  the specified array.
     * @param size   the size of the array.
     */
-    virtual SecureByteArray digest(const std::string& input);
+    virtual SecureByteArray digest(const String& input);
 
     /**
     * Performs a final update on the digest using the specified array of bytes, then completes the
@@ -203,7 +203,7 @@ namespace esapi
     * the default algortihm. If the algorithm is not found (ie, unsupported),
     * return the empty string.
     */
-    static std::string normalizeAlgortihm(const std::string& algorithm);
+    static String normalizeAlgortihm(const String& algorithm);
 
     /**
     * Creates a MessageDigest from an implmentation. Used by getInstance(...).

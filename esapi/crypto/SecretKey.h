@@ -43,7 +43,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual std::string getAlgorithm() const;
+    virtual String getAlgorithm() const;
 
     /**
      * Returns the name of the primary encoding format of this key, or
@@ -52,7 +52,7 @@ namespace esapi
      * data format, if an ASN.1 specification for this key exists. When no
      * encoding exists, a reference to the string "RAW" should be returned.
      */
-    virtual std::string getFormat() const;
+    virtual String getFormat() const;
 
     /**
      * Returns the key in its primary encoding format, or an empty array
@@ -64,7 +64,7 @@ namespace esapi
      * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
      * tagged ESAPI_PRIVATE, but the test files need it.
      */
-    SecretKey(const std::string& alg, const SecureByteArray& bytes, const std::string& format = "RAW");
+    SecretKey(const String& alg, const SecureByteArray& bytes, const String& format = "RAW");
 
 
     // TODO: testing - remove me
@@ -80,12 +80,12 @@ namespace esapi
      * specified by algorithm. This should be hidden and tagged ESAPI_PRIVATE,
      * but the test files need it.
      */
-    ESAPI_TEST_EXPORT SecretKey(const std::string& alg, const size_t sizeInBytes, const std::string& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const String& alg, const size_t sizeInBytes, const String& format = "RAW");
     /**
      * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
      * tagged ESAPI_PRIVATE, but the test files need it.
      */
-    ESAPI_TEST_EXPORT SecretKey(const std::string& alg, const CryptoPP::SecByteBlock& bytes, const std::string& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const String& alg, const CryptoPP::SecByteBlock& bytes, const String& format = "RAW");
 
   public:
     /**
@@ -114,9 +114,9 @@ namespace esapi
     ESAPI_TEST_EXPORT const byte* BytePtr() const;
 
   private:    
-    std::string m_algorithm;            // Standard name for crypto algorithm
+    String m_algorithm;            // Standard name for crypto algorithm
     CryptoPP::SecByteBlock m_secBlock;    // The actual secret key
-    std::string m_format;               // Encoding format
+    String m_format;               // Encoding format
   };
 
   ESAPI_EXPORT bool operator==(const SecretKey& lhs, const SecretKey& rhs);

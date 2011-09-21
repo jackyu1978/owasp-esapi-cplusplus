@@ -47,7 +47,7 @@ namespace esapi
   template<class T>
   volatile void* ArrayZeroizer<T>::g_dummy = nullptr;
 
-  typedef ArrayZeroizer<char> CharArrayZeroizer;
+  typedef ArrayZeroizer<Char> CharArrayZeroizer;
   typedef ArrayZeroizer<byte> ByteArrayZeroizer;
   typedef ArrayZeroizer<int> IntArrayZeroizer;
 }

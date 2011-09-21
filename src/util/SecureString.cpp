@@ -20,19 +20,19 @@ namespace esapi
   SecureString::SecureString()
     : m_base("") { }
 
-  SecureString::SecureString(const char* s, size_t n)
+  SecureString::SecureString(const Char* s, size_t n)
     : m_base(s, n) { ASSERT(s); ASSERT(n); }
 
   SecureString::SecureString(const byte* s, size_t n)
-    : m_base((const char*)s, n) { ASSERT(s); ASSERT(n); }
+    : m_base((const Char*)s, n) { ASSERT(s); ASSERT(n); }
 
-  SecureString::SecureString(const char* s)
+  SecureString::SecureString(const Char* s)
     : m_base(s) { ASSERT(s); }
 
-  SecureString::SecureString(size_t n, char c)
+  SecureString::SecureString(size_t n, Char c)
     : m_base(n, c) { ASSERT(n); }
 
-  SecureString::SecureString(const std::string& str)
+  SecureString::SecureString(const String& str)
     : m_base(str.data(), str.size()) { }
 
   template<class InputIterator>
@@ -114,20 +114,20 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::operator=(const std::string& str)
+  SecureString& SecureString::operator=(const String& str)
   {
     m_base.assign(str.data(), str.size());
     return *this;
   }
 
-  SecureString& SecureString::operator=(const char* str)
+  SecureString& SecureString::operator=(const Char* str)
   {
     ASSERT(str);
     m_base.assign(str);
     return *this;
   }
 
-  SecureString& SecureString::operator=(char c)
+  SecureString& SecureString::operator=(Char c)
   {
     m_base.assign(1, c);
     return *this;
@@ -140,20 +140,20 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::operator+=(const std::string& str)
+  SecureString& SecureString::operator+=(const String& str)
   {
     m_base.append(str.data(), str.size());
     return *this;
   }
 
-  SecureString& SecureString::operator+=(const char* str)
+  SecureString& SecureString::operator+=(const Char* str)
   {
     ASSERT(str);
     m_base.append(str);
     return *this;
   }
 
-  SecureString& SecureString::operator+=(char c)
+  SecureString& SecureString::operator+=(Char c)
   {
     m_base.append(1, c);
     return *this;
@@ -166,20 +166,20 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::append(const std::string& str)
+  SecureString& SecureString::append(const String& str)
   {
     m_base.append(str.data(), str.size());
     return *this;
   }
 
-  SecureString& SecureString::append(const char* str)
+  SecureString& SecureString::append(const Char* str)
   {
     ASSERT(str);
     m_base.append(str);
     return *this;
   }
 
-  SecureString& SecureString::append(const char* str, size_t n)
+  SecureString& SecureString::append(const Char* str, size_t n)
   {
     ASSERT(str); ASSERT(n);
     m_base.append(str, n);
@@ -189,11 +189,11 @@ namespace esapi
   SecureString& SecureString::append(const byte* bin, size_t n)
   {
     ASSERT(bin); ASSERT(n);
-    m_base.append((const char*)bin, n);
+    m_base.append((const Char*)bin, n);
     return *this;
   }
 
-  SecureString& SecureString::append(size_t n, char c)
+  SecureString& SecureString::append(size_t n, Char c)
   {
     m_base.append(n, c);
     return *this;
@@ -206,20 +206,20 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::assign(const std::string& str)
+  SecureString& SecureString::assign(const String& str)
   {
     m_base.assign(str.data(), str.size());
     return *this;
   }
 
-  SecureString& SecureString::assign(const char* str)
+  SecureString& SecureString::assign(const Char* str)
   {
     ASSERT(str);
     m_base.assign(str);
     return *this;
   }
 
-  SecureString& SecureString::assign(const char* str, size_t n)
+  SecureString& SecureString::assign(const Char* str, size_t n)
   {
     ASSERT(str); ASSERT(n);
     m_base.assign(str, n);
@@ -229,11 +229,11 @@ namespace esapi
   SecureString& SecureString::assign(const byte* bin, size_t n)
   {
     ASSERT(bin); ASSERT(n);
-    m_base.assign((const char*)bin, n);
+    m_base.assign((const Char*)bin, n);
     return *this;
   }
 
-  SecureString& SecureString::assign(size_t n, char c)
+  SecureString& SecureString::assign(size_t n, Char c)
   {
     m_base.assign(n, c);
     return *this;
@@ -246,7 +246,7 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::insert(size_t pos, const std::string& str)
+  SecureString& SecureString::insert(size_t pos, const String& str)
   {
     m_base.insert(pos, str.data(), str.size());
     return *this;
@@ -258,13 +258,13 @@ namespace esapi
     return *this;
   }
 
-  SecureString& SecureString::insert(size_t pos1, const std::string& str, size_t pos2, size_t n)
+  SecureString& SecureString::insert(size_t pos1, const String& str, size_t pos2, size_t n)
   {
     m_base.insert(pos1, SecureStringBase(str.data(), str.size()), pos2, n);
     return *this;
   }
 
-  SecureString& SecureString::insert(size_t pos, const char* s, size_t n)
+  SecureString& SecureString::insert(size_t pos, const Char* s, size_t n)
   {
     ASSERT(s); ASSERT(n);
     m_base.insert(pos, s, n);
@@ -274,11 +274,11 @@ namespace esapi
   SecureString& SecureString::insert(size_t pos, const byte* b, size_t n)
   {
     ASSERT(b); ASSERT(n);
-    m_base.insert(pos, (const char*)b, n);
+    m_base.insert(pos, (const Char*)b, n);
     return *this;
   }
 
-  SecureString& SecureString::insert(size_t pos, const char* s)
+  SecureString& SecureString::insert(size_t pos, const Char* s)
   {
     ASSERT(s);
     m_base.insert(pos, s);
@@ -291,12 +291,12 @@ namespace esapi
     return m_base.empty();
   }
 
-  const char* SecureString::c_str() const
+  const Char* SecureString::c_str() const
   {
     return m_base.c_str();
   }
 
-  const char* SecureString::data() const
+  const Char* SecureString::data() const
   {
     return m_base.data();
   }
@@ -327,22 +327,22 @@ namespace esapi
     return m_base.erase(first, last);
   }
 
-  const char& SecureString::operator[] ( size_t pos ) const
+  const Char& SecureString::operator[] ( size_t pos ) const
   {
     return m_base.operator [](pos);
   }
 
-  char& SecureString::operator[] ( size_t pos )
+  Char& SecureString::operator[] ( size_t pos )
   {
     return m_base.operator [](pos);
   }
 
-  const char& SecureString::at(size_t pos) const
+  const Char& SecureString::at(size_t pos) const
   {
     return m_base.at(pos);
   }
 
-  char& SecureString::at(size_t pos)
+  Char& SecureString::at(size_t pos)
   {
     return m_base.at(pos);
   }
@@ -359,24 +359,24 @@ namespace esapi
     return m_base.find(str.m_base, pos);
   }
 
-  size_t SecureString::find(const std::string& str, size_t pos) const
+  size_t SecureString::find(const String& str, size_t pos) const
   {
     return m_base.find(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::find(const char* s, size_t pos, size_t n) const
+  size_t SecureString::find(const Char* s, size_t pos, size_t n) const
   {
     ASSERT(s); ASSERT(n);
     return m_base.find(s, pos, n);
   }
 
-  size_t SecureString::find(const char* s, size_t pos) const
+  size_t SecureString::find(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.find(s, pos);
   }
 
-  size_t SecureString::find(char c, size_t pos) const
+  size_t SecureString::find(Char c, size_t pos) const
   {
     return m_base.find(c, pos);
   }
@@ -387,24 +387,24 @@ namespace esapi
     return m_base.rfind(str.m_base, pos);
   }
 
-  size_t SecureString::rfind(const std::string& str, size_t pos) const
+  size_t SecureString::rfind(const String& str, size_t pos) const
   {
     return m_base.rfind(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::rfind(const char* s, size_t pos, size_t n) const
+  size_t SecureString::rfind(const Char* s, size_t pos, size_t n) const
   {
     ASSERT(s); ASSERT(n);
     return m_base.rfind(s, pos, n);
   }
 
-  size_t SecureString::rfind(const char* s, size_t pos) const
+  size_t SecureString::rfind(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.rfind(s, pos);
   }
 
-  size_t SecureString::rfind(char c, size_t pos) const
+  size_t SecureString::rfind(Char c, size_t pos) const
   {
     return m_base.rfind(c, pos);
   }
@@ -415,24 +415,24 @@ namespace esapi
     return m_base.find_first_of(str.m_base, pos);
   }
 
-  size_t SecureString::find_first_of(const std::string& str, size_t pos) const
+  size_t SecureString::find_first_of(const String& str, size_t pos) const
   {
     return m_base.find_first_of(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::find_first_of(const char* s, size_t pos, size_t n) const
+  size_t SecureString::find_first_of(const Char* s, size_t pos, size_t n) const
   {
     ASSERT(s); ASSERT(n);
     return m_base.find_first_of(s, pos, n);
   }
 
-  size_t SecureString::find_first_of(const char* s, size_t pos) const
+  size_t SecureString::find_first_of(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.find_first_of(s, pos);
   }
 
-  size_t SecureString::find_first_of(char c, size_t pos) const
+  size_t SecureString::find_first_of(Char c, size_t pos) const
   {
     return m_base.find_first_of(c, pos);
   }
@@ -443,23 +443,23 @@ namespace esapi
     return m_base.find_last_of(str.m_base, pos);
   }
 
-  size_t SecureString::find_last_of(const std::string& str, size_t pos) const
+  size_t SecureString::find_last_of(const String& str, size_t pos) const
   {
     return m_base.find_last_of(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::find_last_of(const char* s, size_t pos, size_t n) const
+  size_t SecureString::find_last_of(const Char* s, size_t pos, size_t n) const
   {
     return m_base.find_last_of(s, pos, n);
   }
 
-  size_t SecureString::find_last_of(const char* s, size_t pos) const
+  size_t SecureString::find_last_of(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.find_last_of(s, pos);
   }
 
-  size_t SecureString::find_last_of(char c, size_t pos) const
+  size_t SecureString::find_last_of(Char c, size_t pos) const
   {
     return m_base.find_last_of(c, pos);
   }
@@ -470,24 +470,24 @@ namespace esapi
     return m_base.find_first_not_of(str.m_base, pos);
   }
 
-  size_t SecureString::find_first_not_of(const std::string& str, size_t pos) const
+  size_t SecureString::find_first_not_of(const String& str, size_t pos) const
   {
     return m_base.find_first_not_of(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::find_first_not_of(const char* s, size_t pos, size_t n) const
+  size_t SecureString::find_first_not_of(const Char* s, size_t pos, size_t n) const
   {
     ASSERT(s); ASSERT(n);
     return m_base.find_first_not_of(s, pos, n);
   }
 
-  size_t SecureString::find_first_not_of(const char* s, size_t pos) const
+  size_t SecureString::find_first_not_of(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.find_first_not_of(s, pos);
   }
 
-  size_t SecureString::find_first_not_of(char c, size_t pos) const
+  size_t SecureString::find_first_not_of(Char c, size_t pos) const
   {
     return m_base.find_first_not_of(c, pos);
   }
@@ -498,23 +498,23 @@ namespace esapi
     return m_base.find_last_not_of(str.m_base, pos);
   }
 
-  size_t SecureString::find_last_not_of(const std::string& str, size_t pos) const
+  size_t SecureString::find_last_not_of(const String& str, size_t pos) const
   {
     return m_base.find_last_not_of(SecureStringBase(str.data(), str.size()), pos);
   }
 
-  size_t SecureString::find_last_not_of(const char* s, size_t pos, size_t n) const
+  size_t SecureString::find_last_not_of(const Char* s, size_t pos, size_t n) const
   {
     return m_base.find_last_not_of(s, pos, n);
   }
 
-  size_t SecureString::find_last_not_of(const char* s, size_t pos) const
+  size_t SecureString::find_last_not_of(const Char* s, size_t pos) const
   {
     ASSERT(s);
     return m_base.find_last_not_of(s, pos);
   }
 
-  size_t SecureString::find_last_not_of(char c, size_t pos) const
+  size_t SecureString::find_last_not_of(Char c, size_t pos) const
   {
     return m_base.find_last_not_of(c, pos);
   }
@@ -525,7 +525,7 @@ namespace esapi
     return m_base.compare(str.m_base);
   }
 
-  int SecureString::compare(const std::string& str) const
+  int SecureString::compare(const String& str) const
   {
     return m_base.compare(0, str.size(), str.data());
   }
@@ -535,7 +535,7 @@ namespace esapi
     return m_base.compare(pos, n, str.m_base);
   }
 
-  int SecureString::compare(size_t pos, size_t n, const std::string& str) const
+  int SecureString::compare(size_t pos, size_t n, const String& str) const
   {
     return m_base.compare(pos, n, SecureStringBase(str.data(), str.size()));
   }
@@ -545,29 +545,40 @@ namespace esapi
     return m_base.compare(pos1, n1, str.m_base, pos2, n2);
   }
 
-  int SecureString::compare(size_t pos1, size_t n1, const std::string& str, size_t pos2, size_t n2) const
+  int SecureString::compare(size_t pos1, size_t n1, const String& str, size_t pos2, size_t n2) const
   {
     return m_base.compare(pos1, n1, SecureStringBase(str.data(), str.size()), pos2, n2);
   }
 
-  int SecureString::compare(const char* s) const
+  int SecureString::compare(const Char* s) const
   {
     ASSERT(s);
     return m_base.compare(s);
   }
 
-  int SecureString::compare(size_t pos, size_t n, const char* s) const
+  int SecureString::compare(size_t pos, size_t n, const Char* s) const
   {
     ASSERT(s);
     return m_base.compare(pos, n, s);
   }
 
-  int SecureString::compare(size_t pos1, size_t n1, const char* s, size_t n2) const
+  int SecureString::compare(size_t pos1, size_t n1, const Char* s, size_t n2) const
   {
     ASSERT(s);
     return m_base.compare(pos1, n1, s, n2);
   }
-}
+
+  bool operator==(const String& s, const esapi::SecureString& ss)
+  {
+    return ss.compare(0, s.size(), s.data()) == 0;
+  }
+
+  bool operator==(const esapi::SecureString& ss, const String& s)
+  {  
+    return ss.compare(0, s.size(), s.data()) == 0;
+  }
+
+} // esapi
 
 // Effective C++, Item 25, pp 106-112
 namespace std
@@ -578,15 +589,3 @@ namespace std
     a.swap(b);
   }
 }
-
-bool operator==(const std::string& s, const esapi::SecureString& ss)
-{
-  return ss.compare(0, s.size(), s.data()) == 0;
-}
-
-bool operator==(const esapi::SecureString& ss, const std::string& s)
-{  
-  return ss.compare(0, s.size(), s.data()) == 0;
-}
-
-

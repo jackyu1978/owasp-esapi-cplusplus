@@ -110,37 +110,37 @@ namespace esapi
 
     virtual void setLevel(int) =0;
     virtual int getESAPILevel(void) =0;
-    virtual void fatal(EventType, const std::string &) =0;
-    virtual void fatal(EventType, const std::string &, Throwable) =0;
+    virtual void fatal(EventType, const String &) =0;
+    virtual void fatal(EventType, const String &, Throwable) =0;
     virtual bool isFatalEnabled() =0;
-    virtual void error(EventType, const std::string &) =0;
-    virtual void error(EventType, const std::string &, Throwable) =0;
+    virtual void error(EventType, const String &) =0;
+    virtual void error(EventType, const String &, Throwable) =0;
     virtual bool isErrorEnabled() =0;
-    virtual void warning(EventType, const std::string &) =0;
-    virtual void warning(EventType, const std::string &, Throwable) =0;
+    virtual void warning(EventType, const String &) =0;
+    virtual void warning(EventType, const String &, Throwable) =0;
     virtual bool isWarningEnabled() =0;
-    virtual void info(EventType, const std::string &) =0;
-    virtual void info(EventType, const std::string &, Throwable) =0;
+    virtual void info(EventType, const String &) =0;
+    virtual void info(EventType, const String &, Throwable) =0;
     virtual bool isInfoEnabled() =0;
-    virtual void debug(EventType, const std::string &) =0;
-    virtual void debug(EventType, const std::string &, Throwable) =0;
+    virtual void debug(EventType, const String &) =0;
+    virtual void debug(EventType, const String &, Throwable) =0;
     virtual bool isDebugEnabled() =0;
-    virtual void trace(EventType, const std::string &) =0;
-    virtual void trace(EventType, const std::string &, Throwable) =0;
+    virtual void trace(EventType, const String &) =0;
+    virtual void trace(EventType, const String &, Throwable) =0;
     virtual bool isTraceEnabled() =0;
-    virtual void always(EventType, const std::string &) =0;
-    virtual void always(EventType, const std::string &, Throwable) =0;
+    virtual void always(EventType, const String &) =0;
+    virtual void always(EventType, const String &, Throwable) =0;
 
     virtual ~Logger() {};
   };
 
   class EventType {
 
-    std::string type;
+    String type;
     Boolean success = null;
 
   public:
-    EventType (const std::string & name, Boolean newSuccess)
+    EventType (const String & name, Boolean newSuccess)
     {
       this.type = name;
       this.success = newSuccess;
@@ -155,7 +155,7 @@ namespace esapi
     * Convert the {@code EventType} to a string.
     * @return The event type name.
     */
-    std::string toString()
+    String toString()
     {
       return this.type;
     }

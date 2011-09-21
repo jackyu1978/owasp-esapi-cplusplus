@@ -21,9 +21,7 @@
 #include "codecs/PushbackString.h"
 
 #include <vector>
-#include <string>
 
-namespace esapi {
   /**
    * The Codec interface defines a set of methods for encoding and decoding application level encoding schemes,
    * such as HTML entity encoding and percent encoding (aka URL encoding). Codecs are used in output encoding
@@ -38,15 +36,15 @@ namespace esapi {
    * @see org.owasp.esapi.Encoder
    */
 
-  typedef std::vector<std::string> HexArray;
+namespace esapi {
 
   class ESAPI_EXPORT Codec {
 
   private:
 
     /**template <>
-      std::string* initHexArray(){
-      std::string foo[256] = {"bar", "bar", "bar"};
+      String* initHexArray(){
+      String foo[256] = {"bar", "bar", "bar"};
       return foo;
       }*/
 
@@ -55,14 +53,14 @@ namespace esapi {
      *
      * @return reference to the initialized array
      */
-    ESAPI_PRIVATE static const esapi::HexArray& getHexArray ();
+    ESAPI_PRIVATE static const StringArray& getHexArray ();
 
     /**
      * Retrieve the class wide intialization lock.
      *
      * @return the mutex used to lock the class.
      */
-    ESAPI_PRIVATE static esapi::Mutex& getClassMutex ();
+    ESAPI_PRIVATE static Mutex& getClassMutex ();
 
   public:
     /**
@@ -83,7 +81,7 @@ namespace esapi {
      * 		the String to encode
      * @return the encoded String
      */
-    virtual std::string encode(const char immune[], size_t length, const std::string&) const;
+    virtual String encode(const Char immune[], size_t length, const String&) const;
 
     /**
      * Default implementation that should be overridden in specific codecs.
@@ -94,7 +92,7 @@ namespace esapi {
      * @return
      * 		the encoded Character
      */
-    virtual std::string encodeCharacter(const char immune[], size_t length, char c) const;
+    virtual String encodeCharacter(const Char immune[], size_t length, Char c) const;
 
     /**
      * Decode a String that was encoded using the encode method in this Class
@@ -104,7 +102,7 @@ namespace esapi {
      * @return
      *		the decoded String
      */
-    virtual std::string decode(const std::string&) const;
+    virtual String decode(const String&) const;
 
     /**
      * Returns the decoded version of the next character from the input string and advances the
@@ -115,7 +113,7 @@ namespace esapi {
      *
      * @return the decoded Character
      */
-    virtual char decodeCharacter(PushbackString&) const;
+    virtual Char decodeCharacter(PushbackString&) const;
 
     /**
      * Lookup the hex value of any character that is not alphanumeric.
@@ -123,30 +121,30 @@ namespace esapi {
      * @return, return null if alphanumeric or the character code
      * 	in hex.
      */
-    static std::string getHexForNonAlphanumeric(char);
+    static String getHexForNonAlphanumeric(Char);
 
-    static std::string toOctal(char);
+    static String toOctal(Char);
 
-    static std::string toHex(char);
+    static String toHex(Char);
 
     /**
-     * Utility to search a string for a specific char.
+     * Utility to search a string for a specific Char.
      *
      * @param c
      * @param s
      * @return true if character c is found, false otherwise
      */
-    bool containsCharacter(char a, const std::string& s) const;
+    bool containsCharacter(Char a, const String& s) const;
 
     /**
-     * Utility to search a character array for a specific char.
+     * Utility to search a character array for a specific Char.
      *
      * @param c character to search for in array
      * @param array array of characters
      * @param length length of array
      * @return true if character c is found, false otherwise
      */
-    bool containsCharacter(char c, const char array[], size_t length) const;
+    bool containsCharacter(Char c, const Char array[], size_t length) const;
 
   };
 

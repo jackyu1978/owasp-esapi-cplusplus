@@ -46,8 +46,8 @@ namespace esapi {
 
       /** The logger. */
       //const Logger logger = ESAPI.getLogger("EnterpriseSecurityException");
-      // std::string userMessage;
-      std::string logMessage;
+      // String userMessage;
+      String logMessage;
 
     public:
 
@@ -65,7 +65,7 @@ namespace esapi {
        * @param logMessage
        *                        the message logged
        */
-      EnterpriseSecurityException(const std::string& userMessage, const std::string& logMessage);
+      EnterpriseSecurityException(const String& userMessage, const String& logMessage);
 
       /**
        * Returns message meant for display to users
@@ -75,8 +75,8 @@ namespace esapi {
        *
        * @return a String containing a message that is safe to display to users
        */
-      virtual std::string getUserMessage() const;
-      virtual const char* what() const throw();
+      virtual String getUserMessage() const;
+      virtual const Char* what() const throw();
 
       /**
        * Returns a message that is safe to display in logs, but may contain
@@ -86,7 +86,7 @@ namespace esapi {
        * @return a String containing a message that is safe to display in logs,
        * but probably not to users as it may contain sensitive information.
        */
-      virtual std::string getLogMessage() const;
+      virtual String getLogMessage() const;
 
       virtual ~EnterpriseSecurityException() throw() { };
     };

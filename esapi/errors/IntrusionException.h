@@ -22,7 +22,7 @@ namespace esapi
   class ESAPI_EXPORT IntrusionException : public EnterpriseSecurityException
   {
   public:
-    explicit IntrusionException(const std::string &message)
+    explicit IntrusionException(const String &message)
       : EnterpriseSecurityException(message, message)
     {
     }

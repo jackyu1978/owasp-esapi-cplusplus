@@ -19,9 +19,9 @@
 
 namespace esapi
 {
-  SecretKey::SecretKey(const std::string& alg,
+  SecretKey::SecretKey(const String& alg,
     const size_t sizeInBytes,
-    const std::string& format)
+    const String& format)
     : m_algorithm(alg), m_secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -35,9 +35,9 @@ namespace esapi
     }
   }
 
-  SecretKey::SecretKey(const std::string& alg,
+  SecretKey::SecretKey(const String& alg,
     const CryptoPP::SecByteBlock& bytes,
-    const std::string& format)
+    const String& format)
     : m_algorithm(alg), m_secBlock(bytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -45,9 +45,9 @@ namespace esapi
     ASSERT( !m_format.empty() );
   }
 
-  SecretKey::SecretKey(const std::string& alg,
+  SecretKey::SecretKey(const String& alg,
     const SecureByteArray& bytes,
-    const std::string& format)
+    const String& format)
     : m_algorithm(alg), m_secBlock(bytes.data(), bytes.size()), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -104,14 +104,14 @@ namespace esapi
   // The return value is a bit confusing. If the key supports encoding, return
   // the ASN.1 name for the method, otherwise retun the empty string. If the
   // key does *not* support encoding, return "RAW".
-  std::string SecretKey::getFormat() const
+  String SecretKey::getFormat() const
   {
     ASSERT( !m_format.empty() );
 
     return m_format;
   }
 
-  std::string SecretKey::getAlgorithm() const
+  String SecretKey::getAlgorithm() const
   {
     return m_algorithm;
   }
@@ -128,7 +128,7 @@ namespace esapi
   {
     // Using an insecure 'hex' string (it does not zeroize). We could switch to a
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
-    std::string hex;
+    String hex;
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
       new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
       );

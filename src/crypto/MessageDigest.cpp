@@ -27,15 +27,15 @@ namespace esapi
   // Forward declaration
   template <typename HASH> class MessageDigestTmpl;
 
-  std::string MessageDigest::DefaultAlgorithm()
+  String MessageDigest::DefaultAlgorithm()
   {
-    return std::string("SHA-256");
+    return String("SHA-256");
   }
 
   /**
   * Creates a message digest with the specified algorithm name.
   */
-  MessageDigest::MessageDigest(const std::string& algorithm)   
+  MessageDigest::MessageDigest(const String& algorithm)   
     : m_lock(new Mutex), m_impl(MessageDigestImpl::createInstance(normalizeAlgortihm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
@@ -96,11 +96,11 @@ namespace esapi
     return *this;
   }
 
-  MessageDigest MessageDigest::getInstance(const std::string& algorithm)   
+  MessageDigest MessageDigest::getInstance(const String& algorithm)   
   {
     ASSERT(!algorithm.empty());
 
-    const std::string alg(normalizeAlgortihm(algorithm));
+    const String alg(normalizeAlgortihm(algorithm));
     MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
     MEMORY_BARRIER();
 
@@ -112,7 +112,7 @@ namespace esapi
   }
 
   // Default implementation for derived classes which do nothing
-  std::string MessageDigest::getAlgorithm() const
+  String MessageDigest::getAlgorithm() const
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -222,7 +222,7 @@ namespace esapi
   * @throws throws an EncryptionException if the array or size is not valid
   * or a cryptographic failure occurs.
   */
-  void MessageDigest::update(const std::string& input)
+  void MessageDigest::update(const String& input)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -340,7 +340,7 @@ namespace esapi
   *
   * @param input the specified array.
   */
-  SecureByteArray MessageDigest::digest(const std::string& input)
+  SecureByteArray MessageDigest::digest(const String& input)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -408,17 +408,17 @@ namespace esapi
   * Normalizes the algorithm name. If the name is unknown, normalizeAlgortihm
   * returns a whitespace trimmed algorithm name.
   */
-  std::string MessageDigest::normalizeAlgortihm(const std::string& algorithm)
+  String MessageDigest::normalizeAlgortihm(const String& algorithm)
   {
-    std::string alg(algorithm);
+    String alg(algorithm);
 
     // Cut out whitespace
-    std::string::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
+    String::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
     if(it != alg.end())
       alg.erase(it, alg.end());
 
     // Used to preserve case after trimming whitespace
-    std::string trimmed(alg);
+    String trimmed(alg);
 
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);

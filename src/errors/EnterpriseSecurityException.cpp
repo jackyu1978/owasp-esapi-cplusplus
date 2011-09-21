@@ -14,9 +14,12 @@
  * @created 2007
  */
 
+#include "EsapiCommon.h"
 #include "errors/EnterpriseSecurityException.h"
 
-esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::string &userMessage, const std::string &newLogMessage )
+namespace esapi
+{
+EnterpriseSecurityException::EnterpriseSecurityException(const String &userMessage, const String &newLogMessage )
   : std::runtime_error( userMessage.c_str() ), logMessage( newLogMessage )
 {
 	/**
@@ -25,18 +28,19 @@ esapi::EnterpriseSecurityException::EnterpriseSecurityException(const std::strin
     }*/
 }
 
-std::string esapi::EnterpriseSecurityException::getUserMessage() const
+String EnterpriseSecurityException::getUserMessage() const
 {
 	return std::runtime_error::what();
 }
 
-const char* esapi::EnterpriseSecurityException::what() const throw()
+const Char* EnterpriseSecurityException::what() const throw()
 {
 	return std::runtime_error::what();
 }
 
-std::string esapi::EnterpriseSecurityException::getLogMessage() const
+String EnterpriseSecurityException::getLogMessage() const
 {
 	return this->logMessage;
 }
 
+} // esapi

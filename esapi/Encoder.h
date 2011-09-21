@@ -68,7 +68,7 @@ public:
 	 * @param input the text to canonicalize
 	 * @return a String containing the canonicalized text
 	 */
-	virtual std::string canonicalize(const std::string &) =0;
+	virtual String canonicalize(const String &) =0;
 
 	/**
 	 * This method is the equivalent to calling <pre>Encoder.canonicalize(input, strict, strict);</pre>
@@ -83,7 +83,7 @@ public:
 	 *
 	 * @return a String containing the canonicalized text
 	 */
-	virtual std::string canonicalize(const std::string &, bool) =0;
+	virtual String canonicalize(const String &, bool) =0;
 
 	/**
 	 * Canonicalization is simply the operation of reducing a possibly encoded
@@ -161,7 +161,7 @@ public:
 	 *
 	 * @return a String containing the canonicalized text
 	 */
-	virtual std::string canonicalize(const std::string &, bool, bool) =0;
+	virtual String canonicalize(const String &, bool, bool) =0;
 
 	/**
 	 * Encode data for use in Cascading Style Sheets (CSS) content.
@@ -173,7 +173,7 @@ public:
 	 *
 	 * @return input encoded for CSS
 	 */
-	virtual std::string encodeForCSS(const std::string &) =0;
+	virtual String encodeForCSS(const String &) =0;
 
 	/**
 	 * Encode data for use in HTML using HTML entity encoding
@@ -191,14 +191,14 @@ public:
 	 *
 	 * @return input encoded for HTML
 	 */
-	virtual std::string encodeForHTML(const std::string &) =0;
+	virtual String encodeForHTML(const String &) =0;
 
 	/**
      * Decodes HTML entities.
      * @param input the <code>String</code> to decode
      * @return the newly decoded <code>String</code>
      */
-	virtual std::string decodeForHTML(const std::string &) =0;
+	virtual String decodeForHTML(const String &) =0;
 
 	/**
 	 * Encode data for use in HTML attributes.
@@ -208,7 +208,7 @@ public:
 	 *
 	 * @return input encoded for use as an HTML attribute
 	 */
-	virtual std::string encodeForHTMLAttribute(const std::string &) =0;
+	virtual String encodeForHTMLAttribute(const String &) =0;
 
 
     /**
@@ -230,7 +230,7 @@ public:
      *
      * @return input encoded for use in JavaScript
      */
-	virtual std::string encodeForJavaScript(const std::string &) =0;
+	virtual String encodeForJavaScript(const String &) =0;
 
 	/**
 	 * Encode data for insertion inside a data value in a Visual Basic script. Putting user data directly
@@ -244,7 +244,7 @@ public:
 	 *
 	 * @return input encoded for use in VBScript
 	 */
-	virtual std::string encodeForVBScript(const std::string &) =0;
+	virtual String encodeForVBScript(const String &) =0;
 
 
 	/**
@@ -272,7 +272,7 @@ public:
 	 *
 	 * @return input encoded for use in SQL
 	 */
-	virtual std::string encodeForSQL(const Codec &, const std::string &) =0;
+	virtual String encodeForSQL(const Codec &, const String &) =0;
 
     /**
      * Encode for an operating system command shell according to the selected codec (appropriate codecs include the WindowsCodec and UnixCodec).
@@ -292,7 +292,7 @@ public:
      *
      * @return input encoded for use in command shell
      */
-	virtual std::string encodeForOS(const Codec *, const std::string &) =0;
+	virtual String encodeForOS(const Codec *, const String &) =0;
 
 	/**
 	 * Encode data for use in LDAP queries.
@@ -302,7 +302,7 @@ public:
 	 *
 	 * @return input encoded for use in LDAP
 	 */
-	virtual std::string encodeForLDAP(const std::string &) =0;
+	virtual String encodeForLDAP(const String &) =0;
 
 	/**
 	 * Encode data for use in an LDAP distinguished name.
@@ -312,7 +312,7 @@ public:
 	 *
 	 *  @return input encoded for use in an LDAP distinguished name
 	 */
-	virtual std::string encodeForDN(const std::string &) =0;
+	virtual String encodeForDN(const String &) =0;
 
 	/**
 	 * Encode data for use in an XPath query.
@@ -338,7 +338,7 @@ public:
 	 * @return
 	 * 		input encoded for use in XPath
 	 */
-	virtual std::string encodeForXPath(const std::string &) =0;
+	virtual String encodeForXPath(const String &) =0;
 
 	/**
 	 * Encode data for use in an XML element. The implementation should follow the <a
@@ -358,7 +358,7 @@ public:
 	 * @return
 	 *			input encoded for use in XML
 	 */
-	virtual std::string encodeForXML(const std::string &) =0;
+	virtual String encodeForXML(const String &) =0;
 
 	/**
 	 * Encode data for use in an XML attribute. The implementation should follow
@@ -378,7 +378,7 @@ public:
 	 * @return
 	 * 			input encoded for use in an XML attribute
 	 */
-	virtual std::string encodeForXMLAttribute(const std::string &) =0;
+	virtual String encodeForXMLAttribute(const String &) =0;
 
 	/**
 	 * Encode for use in a URL. This method performs <a
@@ -396,7 +396,7 @@ public:
 	 * @throws EncodingException
 	 * 		if encoding fails
 	 */
-	virtual std::string encodeForURL(const std::string &) throw (EncodingException) =0;
+	virtual String encodeForURL(const String &) throw (EncodingException) =0;
 
 	/**
 	 * Decode from URL. Implementations should first canonicalize and
@@ -412,7 +412,7 @@ public:
 	 * @throws EncodingException
 	 * 		if decoding fails
 	 */
-	virtual std::string decodeFromURL(const std::string &) throw (EncodingException) =0;
+	virtual String decodeFromURL(const String &) throw (EncodingException) =0;
 
 	/**
 	 * Encode for Base64.
@@ -424,7 +424,7 @@ public:
 	 *
 	 * @return input encoded for Base64
 	 */
-	virtual std::string encodeForBase64(const std::string &, bool) =0;
+	virtual String encodeForBase64(const String &, bool) =0;
 
 	/**
 	 * Decode data encoded with BASE-64 encoding.
@@ -437,7 +437,7 @@ public:
 	 *
 	 * @throws IOException
 	 */
-	virtual std::string decodeFromBase64(const std::string &) =0;
+	virtual String decodeFromBase64(const String &) =0;
 
 };
 

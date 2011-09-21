@@ -32,11 +32,11 @@ namespace esapi
 	class EncryptedProperties
 	{
 	public:
-		virtual std::string getProperty(const std::string &) =0 throw EncryptionException;
-		virtual std::string setProperty(const std::string &, const std::string &) =0 throw EncryptionException;
-		virtual std::set<std::string> keySet() =0;
+		virtual String getProperty(const String &) =0 throw EncryptionException;
+		virtual String setProperty(const String &, const String &) =0 throw EncryptionException;
+		virtual std::set<String> keySet() =0;
 		virtual void load(InputStream) =0 throw IOException;
-		virtual void store(OutputStream, const std::string &) =0 throw IOException;
+		virtual void store(OutputStream, const String &) =0 throw IOException;
 
 		virtual ~EncryptedProperties() {};
 	};

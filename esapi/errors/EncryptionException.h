@@ -23,11 +23,11 @@ namespace esapi {
 class ESAPI_EXPORT EncryptionException : public EnterpriseSecurityException
 {
 public:
-	explicit EncryptionException(const std::string &message)
+	explicit EncryptionException(const String &message)
     : EnterpriseSecurityException(message, message)
   {
   }
-  	explicit EncryptionException(const std::string &userMessage, const std::string &logMessage)
+  	explicit EncryptionException(const String &userMessage, const String &logMessage)
     : EnterpriseSecurityException(userMessage, logMessage)
   {
   }

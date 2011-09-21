@@ -56,128 +56,128 @@ private:
 	 *  Character sets that define characters (in addition to alphanumerics) that are
 	 * immune from encoding in various formats
 	 */
-	static const char IMMUNE_HTML [];
-	static const char IMMUNE_HTMLATTR [];
-	static const char IMMUNE_CSS [];
-	static const char IMMUNE_JAVASCRIPT [];
-	static const char IMMUNE_VBSCRIPT [];
-	static const char IMMUNE_XML [];
-	static const char IMMUNE_SQL [];
-	static const char IMMUNE_OS [];
-	static const char IMMUNE_XMLATTR [];
-	static const char IMMUNE_XPATH [];
+	static const Char IMMUNE_HTML [];
+	static const Char IMMUNE_HTMLATTR [];
+	static const Char IMMUNE_CSS [];
+	static const Char IMMUNE_JAVASCRIPT [];
+	static const Char IMMUNE_VBSCRIPT [];
+	static const Char IMMUNE_XML [];
+	static const Char IMMUNE_SQL [];
+	static const Char IMMUNE_OS [];
+	static const Char IMMUNE_XMLATTR [];
+	static const Char IMMUNE_XPATH [];
 
 	DefaultEncoder();
 
 public:
 	static const Encoder& getInstance();
 
-	DefaultEncoder( std::set<std::string> );
+	DefaultEncoder( std::set<String> );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string canonicalize( const std::string & );
+	String canonicalize( const String & );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string canonicalize( const std::string & , bool);
+	String canonicalize( const String & , bool);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string canonicalize( const std::string & , bool, bool );
+	String canonicalize( const String & , bool, bool );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForHTML(const std::string &);
+	String encodeForHTML(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string decodeForHTML(const std::string &);
+	String decodeForHTML(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForHTMLAttribute(const std::string &);
+	String encodeForHTMLAttribute(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForCSS(const std::string &);
+	String encodeForCSS(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForJavaScript(const std::string &);
+	String encodeForJavaScript(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForVBScript(const std::string &);
+	String encodeForVBScript(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForSQL(const Codec&, const std::string &);
+	String encodeForSQL(const Codec&, const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForOS(const Codec*, const std::string &);
+	String encodeForOS(const Codec*, const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForLDAP(const std::string &);
+	String encodeForLDAP(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForDN(const std::string &);
+	String encodeForDN(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForXPath(const std::string &);
+	String encodeForXPath(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForXML(const std::string &);
+	String encodeForXML(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForXMLAttribute(const std::string &);
+	String encodeForXMLAttribute(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForURL(const std::string &) throw (EncodingException);
+	String encodeForURL(const String &) throw (EncodingException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string decodeFromURL(const std::string &) throw (EncodingException);
+	String decodeFromURL(const String &) throw (EncodingException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string encodeForBase64(const std::string &, bool);
+	String encodeForBase64(const String &, bool);
 
 	/*
-	 * For simplicity of calling encodeForBase64(const std::string &, bool);
+	 * For simplicity of calling encodeForBase64(const String &, bool);
 	 */
-	std::string encodeForBase64(const std::string &);
+	String encodeForBase64(const String &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	std::string decodeFromBase64(const std::string &);
+	String decodeFromBase64(const String &);
 };
 }; // esapi namespace
 

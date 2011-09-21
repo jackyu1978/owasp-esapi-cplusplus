@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE( VerifySecureString1 )
   VerifyAssignment();
 }
 
-static const char* THE_STRING = "Goodbye, secret";
+static const Char* THE_STRING = "Goodbye, secret";
 static const size_t THE_LENGTH = 15;
 
 void VerifyConstruction()
@@ -83,7 +83,7 @@ void VerifyConstruction()
     {
       success = false;
 
-      std::string s(THE_STRING);
+      String s(THE_STRING);
       SecureString ss(s);
       success = (0 == ::memcmp(ss.c_str(), s.c_str(), ss.length()));
     }
@@ -170,7 +170,7 @@ void VerifyAssignment()
     {
       success = false;
 
-      std::string s = THE_STRING;
+      String s = THE_STRING;
       SecureString ss;
       ss = s;
       success = (0 == ::memcmp(ss.c_str(), s.c_str(), THE_LENGTH));

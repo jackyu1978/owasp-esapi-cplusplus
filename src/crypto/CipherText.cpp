@@ -37,7 +37,7 @@ namespace esapi
     return m_text.empty();
   }
 
-  std::string CipherText::getCipherMode() const
+  String CipherText::getCipherMode() const
   {
     return "CBC";
   }

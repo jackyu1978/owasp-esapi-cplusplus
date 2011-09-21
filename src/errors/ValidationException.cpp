@@ -14,20 +14,23 @@
  * @created 2007
  */
 
+#include "EsapiCommon.h"
 #include "errors/ValidationException.h"
 #include "errors/EnterpriseSecurityException.h"
-#include <string>
 
-esapi::ValidationException::ValidationException(const std::string &userMessage, const std::string &logMessage, const std::string &msgContext)
+namespace esapi
+{
+ValidationException::ValidationException(const String &userMessage, const String &logMessage, const String &msgContext)
   : EnterpriseSecurityException(userMessage, logMessage), context(msgContext)
 {
 }
 
-std::string esapi::ValidationException::getContext() {
+String ValidationException::getContext() {
 	return this->context;
 }
 
-void esapi::ValidationException::setContext(const std::string &newContext) {
+void ValidationException::setContext(const String &newContext) {
 	this->context = newContext;
 }
 
+} // esapi

@@ -24,7 +24,7 @@ using namespace boost::unit_test;
 #include "EsapiCommon.h"
 
 #include <string>
-using std::string;
+using String;
 
 #include <crypto/SecretKey.h>
 using esapi::SecretKey;

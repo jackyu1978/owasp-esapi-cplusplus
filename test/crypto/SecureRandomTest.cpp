@@ -25,10 +25,10 @@ using std::cerr;
 using std::endl;
 
 #include <string>
-using std::string;
+using String;
 
 #include <sstream>
-using std::stringstream;
+using Stringstream;
 using std::istringstream;
 using std::ostringstream;
 
@@ -66,7 +66,7 @@ void DoWorkerThreadStuff()
 #elif defined(ESAPI_OS_STARNIX)
 void DoWorkerThreadStuff()
 {
-  SecureRandom shared = SecureRandom::getInstance(std::string("HmacSHA256"));
+  SecureRandom shared = SecureRandom::getInstance(String("HmacSHA256"));
   pthread_t threads[THREAD_COUNT];
 
   // *** Worker Threads ***

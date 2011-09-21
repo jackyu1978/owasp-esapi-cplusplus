@@ -11,7 +11,7 @@ namespace esapi
 	{
 	protected:
 
-		virtual std::string getUniqueReference() =0;
+		virtual String getUniqueReference() =0;
 
 	private:
 		virtual ~RandomAccessReferenceMap() {};

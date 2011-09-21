@@ -24,11 +24,11 @@ namespace esapi {
   class ESAPI_EXPORT NoSuchAlgorithmException : public EnterpriseSecurityException
   {
   public:
-    explicit NoSuchAlgorithmException(const std::string &message)
+    explicit NoSuchAlgorithmException(const String &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit NoSuchAlgorithmException(const std::string &userMessage, const std::string &logMessage)
+    explicit NoSuchAlgorithmException(const String &userMessage, const String &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

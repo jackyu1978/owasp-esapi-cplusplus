@@ -24,210 +24,213 @@
 #define BOOST_REGEX_DYN_LINK
 #include <boost/regex.hpp>
 
-esapi::StringValidationRule::StringValidationRule(const std::string & typeName)
-	: BaseValidationRule<std::string>(typeName), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
+namespace esapi
 {
-	//setEncoder( ESAPI.encoder() );
-	setTypeName( typeName );
-}
+  StringValidationRule::StringValidationRule(const String & typeName)
+	  : BaseValidationRule<String>(typeName), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
+  {
+	  //setEncoder( ESAPI.encoder() );
+	  setTypeName( typeName );
+  }
 
-esapi::StringValidationRule::StringValidationRule(const std::string & typeName, Encoder* encoder)
-	: BaseValidationRule<std::string>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
-{
-	ASSERT(encoder);
-	if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
+  StringValidationRule::StringValidationRule(const String & typeName, Encoder* encoder)
+	  : BaseValidationRule<String>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
+  {
+	  ASSERT(encoder);
+	  if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
 
-	setEncoder( encoder );
-	setTypeName( typeName );
-}
+	  setEncoder( encoder );
+	  setTypeName( typeName );
+  }
 
-esapi::StringValidationRule::StringValidationRule(const std::string &typeName, Encoder* encoder, const std::string & whitelistPattern)
-	: BaseValidationRule<std::string>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
-{
-	addWhitelistPattern(whitelistPattern);
-}
+  StringValidationRule::StringValidationRule(const String &typeName, Encoder* encoder, const String & whitelistPattern)
+	  : BaseValidationRule<String>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
+  {
+	  addWhitelistPattern(whitelistPattern);
+  }
 
-std::string esapi::StringValidationRule::getValid(const std::string &context, const std::string &input) {
-	//ASSERT(encoder);
-	//if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
+  String StringValidationRule::getValid(const String &context, const String &input) {
+	  //ASSERT(encoder);
+	  //if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
 
-	std::string data = "";
+	  String data = "";
 
-	// checks on input itself
+	  // checks on input itself
 
-	// check for empty/null
-	if(checkEmpty(context, input).compare("")==0)
-		return "";
+	  // check for empty/null
+	  if(checkEmpty(context, input).compare("")==0)
+		  return "";
 
-	if (validateInputAndCanonical)
-	{
-		//first validate pre-canonicalized data
+	  if (validateInputAndCanonical)
+	  {
+		  //first validate pre-canonicalized data
 
-		// check length
-		checkLength(context, input);
+		  // check length
+		  checkLength(context, input);
 
-		// check whitelist patterns
-		checkWhitelist(context, input);
+		  // check whitelist patterns
+		  checkWhitelist(context, input);
 
-		// check blacklist patterns
-		checkBlacklist(context, input);
+		  // check blacklist patterns
+		  checkBlacklist(context, input);
 
-		// canonicalize
-		//data = encoder->canonicalize( input );
-		data = input; // HACK! TODO: remove after locater class works.
+		  // canonicalize
+		  //data = encoder->canonicalize( input );
+		  data = input; // HACK! TODO: remove after locater class works.
 
-	} else {
+	  } else {
 
-		//skip canonicalization
-		data = input;
-	}
+		  //skip canonicalization
+		  data = input;
+	  }
 
-	// check for empty/null
-	if(checkEmpty(context, data, input).compare("")==0)
-		return "";
+	  // check for empty/null
+	  if(checkEmpty(context, data, input).compare("")==0)
+		  return "";
 
-	// check length
-	checkLength(context, data, input);
+	  // check length
+	  checkLength(context, data, input);
 
-	// check whitelist patterns
-	checkWhitelist(context, data, input);
+	  // check whitelist patterns
+	  checkWhitelist(context, data, input);
 
-	// check blacklist patterns
-	checkBlacklist(context, data, input);
+	  // check blacklist patterns
+	  checkBlacklist(context, data, input);
 
-	// validation passed
-	return data;
-}
+	  // validation passed
+	  return data;
+  }
 
-std::string esapi::StringValidationRule::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) {
-	ASSERT(&errorList);
-	if (&errorList==nullptr) throw new NullPointerException("errorList has null pointer");
+  String StringValidationRule::getValid( const String &context, const String &input, ValidationErrorList &errorList ) {
+	  ASSERT(&errorList);
+	  if (&errorList==nullptr) throw new NullPointerException("errorList has null pointer");
 
-	std::string valid;
-	try {
-		valid = this->getValid( context, input );
-	} catch (ValidationException &e) {
-		errorList.addError(context, &e);
-	}
-	return valid;
-}
+	  String valid;
+	  try {
+		  valid = this->getValid( context, input );
+	  } catch (ValidationException &e) {
+		  errorList.addError(context, &e);
+	  }
+	  return valid;
+  }
 
-std::string esapi::StringValidationRule::sanitize(const std::string &context, const std::string &input) {
-	return whitelist( input, EncoderConstants::ALPHANUMERICS );
-}
+  String StringValidationRule::sanitize(const String &context, const String &input) {
+	  return whitelist( input, EncoderConstants::ALPHANUMERICS );
+  }
 
-void esapi::StringValidationRule::addWhitelistPattern(const std::string & pattern) {
-	if (pattern.compare("")==0) {
-		throw new IllegalArgumentException("Pattern cannot be null");
-	}
+  void StringValidationRule::addWhitelistPattern(const String & pattern) {
+	  if (pattern.compare("")==0) {
+		  throw new IllegalArgumentException("Pattern cannot be null");
+	  }
 
-	this->whitelistPatterns.insert(pattern);
-}
+	  this->whitelistPatterns.insert(pattern);
+  }
 
-void esapi::StringValidationRule::addBlacklistPattern(const std::string &pattern) {
-	if (pattern.compare("")==0) {
-		throw new IllegalArgumentException("Pattern cannot be null");
-	}
+  void StringValidationRule::addBlacklistPattern(const String &pattern) {
+	  if (pattern.compare("")==0) {
+		  throw new IllegalArgumentException("Pattern cannot be null");
+	  }
 
-	this->blacklistPatterns.insert(pattern);
-}
+	  this->blacklistPatterns.insert(pattern);
+  }
 
-void esapi::StringValidationRule::setMinimumLength(int length) {
-	this->minLength = length;
-}
+  void StringValidationRule::setMinimumLength(int length) {
+	  this->minLength = length;
+  }
 
-void esapi::StringValidationRule::setMaximumLength(int length) {
-	this->maxLength = length;
-}
+  void StringValidationRule::setMaximumLength(int length) {
+	  this->maxLength = length;
+  }
 
-void esapi::StringValidationRule::setValidateInputAndCanonical(bool flag) {
-	this->validateInputAndCanonical = flag;
-}
+  void StringValidationRule::setValidateInputAndCanonical(bool flag) {
+	  this->validateInputAndCanonical = flag;
+  }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input, const std::string &orig) {
-	std::set<std::string>::iterator it;
+  String StringValidationRule::checkWhitelist(const String &context, const String &input, const String &orig) {
+	  std::set<String>::iterator it;
 
-	if (!whitelistPatterns.empty()) {
-		for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
-			const boost::regex re(*it);
-			if(!boost::regex_match(input,re)) {
-				std::stringstream userMessage;
-				std::stringstream logMessage;
-				userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
-				logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-				throw new ValidationException( userMessage.str(), logMessage.str(), context );
-			}
-		}
-	}
+	  if (!whitelistPatterns.empty()) {
+		  for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
+			  const boost::regex re(*it);
+			  if(!boost::regex_match(input,re)) {
+				  Stringstream userMessage;
+				  Stringstream logMessage;
+				  userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
+				  logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			  }
+		  }
+	  }
 
-	return input;
-}
+	  return input;
+  }
 
-std::string esapi::StringValidationRule::checkWhitelist(const std::string &context, const std::string &input) {
-	return checkWhitelist(context, input, input);
-}
+  String StringValidationRule::checkWhitelist(const String &context, const String &input) {
+	  return checkWhitelist(context, input, input);
+  }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input, const std::string &orig) {
-	std::set<std::string>::iterator it;
+  String StringValidationRule::checkBlacklist(const String &context, const String &input, const String &orig) {
+	  std::set<String>::iterator it;
 
-	if (!blacklistPatterns.empty()) {
-		for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
-			const boost::regex re(*it);
-			if(!boost::regex_match(input,re)) {
-				std::stringstream userMessage;
-				std::stringstream logMessage;
-				userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
-				logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-				throw new ValidationException( userMessage.str(), logMessage.str(), context );
-			}
-		}
-	}
+	  if (!blacklistPatterns.empty()) {
+		  for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
+			  const boost::regex re(*it);
+			  if(!boost::regex_match(input,re)) {
+				  Stringstream userMessage;
+				  Stringstream logMessage;
+				  userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
+				  logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			  }
+		  }
+	  }
 
-	return input;
+	  return input;
 
-}
+  }
 
-std::string esapi::StringValidationRule::checkBlacklist(const std::string &context, const std::string &input) {
-	return checkBlacklist(context, input, input);
-}
+  String StringValidationRule::checkBlacklist(const String &context, const String &input) {
+	  return checkBlacklist(context, input, input);
+  }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input, const std::string &orig) {
-	if (input.size() < minLength) {
-		std::stringstream userMessage;
-		std::stringstream logMessage;
-		userMessage << context << ": Invalid input. The minimum length of " << minLength << " characters was not met.";
-		logMessage << "Input does not meet the minimum length of " << minLength << " by " << (minLength - input.size()) << " characters: context=" << context << ", type=" << getTypeName() << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-		throw new ValidationException( userMessage.str(), logMessage.str(), context );
-	}
+  String StringValidationRule::checkLength(const String &context, const String &input, const String &orig) {
+	  if (input.size() < minLength) {
+		  Stringstream userMessage;
+		  Stringstream logMessage;
+		  userMessage << context << ": Invalid input. The minimum length of " << minLength << " characters was not met.";
+		  logMessage << "Input does not meet the minimum length of " << minLength << " by " << (minLength - input.size()) << " characters: context=" << context << ", type=" << getTypeName() << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+	  }
 
-	if (input.size() > maxLength) {
-		std::stringstream userMessage;
-		std::stringstream logMessage;
-		userMessage << context << ": Invalid input. The maximum length of " << maxLength << " characters was exceeded.";
-		logMessage << "Input exceeds maximum allowed length of " << maxLength << " by " << (input.size()-maxLength) << " characters: context=" << context << ", type=" << getTypeName() << ", orig=" << orig <<", input=" << input;
-		throw new ValidationException( userMessage.str(), logMessage.str(), context );
-	}
+	  if (input.size() > maxLength) {
+		  Stringstream userMessage;
+		  Stringstream logMessage;
+		  userMessage << context << ": Invalid input. The maximum length of " << maxLength << " characters was exceeded.";
+		  logMessage << "Input exceeds maximum allowed length of " << maxLength << " by " << (input.size()-maxLength) << " characters: context=" << context << ", type=" << getTypeName() << ", orig=" << orig <<", input=" << input;
+		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+	  }
 
-	return input;
-}
+	  return input;
+  }
 
-std::string esapi::StringValidationRule::checkLength(const std::string &context, const std::string &input) {
-	return checkLength(context, input, input);
-}
+  String StringValidationRule::checkLength(const String &context, const String &input) {
+	  return checkLength(context, input, input);
+  }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input, const std::string &orig) {
-	if(!input.empty())
-		return input;
-	if(allowNull)
-		return "";
+  String StringValidationRule::checkEmpty(const String &context, const String &input, const String &orig) {
+	  if(!input.empty())
+		  return input;
+	  if(allowNull)
+		  return "";
 
-	std::stringstream userMessage;
-	std::stringstream logMessage;
-	userMessage << context + ": Input required.";
-	logMessage << "Input required: context=" << context << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-	throw new ValidationException(userMessage.str(), logMessage.str(), context );
-}
+	  Stringstream userMessage;
+	  Stringstream logMessage;
+	  userMessage << context + ": Input required.";
+	  logMessage << "Input required: context=" << context << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+	  throw new ValidationException(userMessage.str(), logMessage.str(), context );
+  }
 
-std::string esapi::StringValidationRule::checkEmpty(const std::string &context, const std::string &input) {
-	return checkEmpty(context, input, input);
-}
+  String StringValidationRule::checkEmpty(const String &context, const String &input) {
+	  return checkEmpty(context, input, input);
+  }
+} //esapi

@@ -33,7 +33,7 @@ namespace esapi
     /**
      * Returns the standard algorithm name for this key.
      */
-    virtual std::string getAlgorithm() const = 0;
+    virtual String getAlgorithm() const = 0;
 
     /**
      * Returns the name of the primary encoding format of this key, or
@@ -42,7 +42,7 @@ namespace esapi
      * data format, if an ASN.1 specification for this key exists. When no
      * encoding exists, a reference to the string "RAW" should be returned.
      */
-    virtual std::string getFormat() const = 0;
+    virtual String getFormat() const = 0;
 
     /**
      * Returns the key in its primary encoding format, or an empty array

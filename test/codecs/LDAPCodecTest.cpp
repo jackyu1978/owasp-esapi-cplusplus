@@ -26,7 +26,7 @@ using esapi::LDAPCodec;
 
 #include <string>
 #include <sstream>
-using std::string;
+using String;
 using std::ostringstream;
 
 #define HEX(x) std::hex << std::setw(x) << std::setfill('0')
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_4N)
   // Negative test
   LDAPCodec codec;
 
-  const char* nil = NULL;
+  const Char* nil = NULL;
   string encoded = codec.encodeCharacter(nil, 0, 'A');
   BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
 {
   // Negative test
   LDAPCodec codec;
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
   string encoded = codec.encodeCharacter(immune, 0, 'A');
   BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
@@ -77,8 +77,8 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
 {
   // Negative test
   LDAPCodec codec;
-  const char immune[] = { (char)0xFF };
-  string encoded = codec.encodeCharacter((char*)NULL, COUNTOF(immune), 'A');
+  const Char immune[] = { (Char)0xFF };
+  string encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
   BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
 
@@ -86,12 +86,12 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
 {
   // Positive test
   LDAPCodec codec;
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)c);
-    BOOST_CHECK_MESSAGE((encoded == string(1, (char)c)), "Failed to encode character");
+    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
+    BOOST_CHECK_MESSAGE((encoded == string(1, (Char)c)), "Failed to encode character");
   }
 }
 
@@ -102,19 +102,19 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
 
   struct KnownAnswer
   {
-    char c;
+    Char c;
     string str;
   };
 
   const KnownAnswer tests[] = {
-    { (char)'\\', "\\5c" },
-    { (char)'*', "\\2a" },
-    { (char)'(', "\\28" },
-    { (char)')', "\\29" },
-    { (char)'\0', "\\00" },
+    { (Char)'\\', "\\5c" },
+    { (Char)'*', "\\2a" },
+    { (Char)'(', "\\28" },
+    { (Char)')', "\\29" },
+    { (Char)'\0', "\\00" },
   };
 
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
 {
   // Positive test
   LDAPCodec codec;
-  const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
+  const Char special[] = { (Char)0x28, (Char)0x29, (Char)0x2a, (Char)0x5c, (Char)0x00 };
 
   for( unsigned int i = 0; i < COUNTOF(special); i++ )
   {

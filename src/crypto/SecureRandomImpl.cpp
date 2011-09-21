@@ -120,7 +120,7 @@ namespace esapi
    * Factory method to cough up an implementation.
    * Used by getInstance and most stack based SecureRandoms
    */
-  SecureRandomImpl* SecureRandomImpl::createInstance(const std::string& algorithm, const byte* seed, size_t size)
+  SecureRandomImpl* SecureRandomImpl::createInstance(const String& algorithm, const byte* seed, size_t size)
     throw (NoSuchAlgorithmException)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
@@ -250,7 +250,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the named
    * random number algorithm.
    */
-  SecureRandomImpl::SecureRandomImpl(const std::string& algorithm, const byte*, size_t)
+  SecureRandomImpl::SecureRandomImpl(const String& algorithm, const byte*, size_t)
     : m_catastrophic(false), m_algorithm(algorithm)
   {
   }
@@ -258,7 +258,7 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandomImpl object.
    */
-  std::string SecureRandomImpl::getAlgorithmImpl() const
+  String SecureRandomImpl::getAlgorithmImpl() const
   {
     ASSERT( !m_algorithm.empty() );
     return m_algorithm;
@@ -313,7 +313,7 @@ namespace esapi
    * Create a SecureRandom implementation based on a hash
    */
   template <class HASH, class DRBGINFO>
-  HashImpl<HASH, DRBGINFO>::HashImpl(const std::string& algorithm, const byte* seed, size_t ssize)
+  HashImpl<HASH, DRBGINFO>::HashImpl(const String& algorithm, const byte* seed, size_t ssize)
     : SecureRandomImpl(algorithm), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
     // seed and size are thinly veiled as "Personalization", and it is optional.
@@ -344,7 +344,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -376,7 +376,7 @@ namespace esapi
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class HASH, class DRBGINFO>
-  std::string HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
+  String HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
   {
     // Don't throw the catastrophic error here. The user might need the name of the generator.
 
@@ -421,7 +421,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -450,7 +450,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -475,7 +475,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -505,7 +505,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -567,7 +567,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -620,7 +620,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -668,7 +668,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -712,7 +712,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -724,7 +724,7 @@ namespace esapi
    * Create a SecureRandom implementation based on a block cipher
    */
   template <class HASH, class DRBGINFO>
-  HmacImpl<HASH, DRBGINFO>::HmacImpl(const std::string& algorithm, const byte* seed, size_t ssize)
+  HmacImpl<HASH, DRBGINFO>::HmacImpl(const String& algorithm, const byte* seed, size_t ssize)
     : SecureRandomImpl(algorithm), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
   {
     // seed and size are optional. If size is non-zero, seed must be valid
@@ -754,7 +754,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -781,7 +781,7 @@ namespace esapi
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class HASH, class DRBGINFO>
-  std::string HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
+  String HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomImpl::getAlgorithmImpl();
   }
@@ -824,7 +824,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -853,7 +853,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -878,7 +878,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       } }
 
   template <class HASH, class DRBGINFO>
@@ -903,7 +903,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -964,7 +964,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -1038,7 +1038,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -1072,7 +1072,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -1084,7 +1084,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG).
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const std::string& algorithm, const byte* /*seed*/, size_t /*size*/)
+  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const String& algorithm, const byte* /*seed*/, size_t /*size*/)
     : SecureRandomImpl(algorithm), m_v(), m_c(), m_rctr(1)
   {
   }
@@ -1117,7 +1117,7 @@ namespace esapi
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
-  std::string BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
+  String BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomImpl::getAlgorithmImpl();
   }

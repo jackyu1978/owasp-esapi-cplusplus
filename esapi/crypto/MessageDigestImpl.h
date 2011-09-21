@@ -28,10 +28,10 @@ namespace esapi
 
   public:
 
-    explicit MessageDigestImpl(const std::string& algorithm)
+    explicit MessageDigestImpl(const String& algorithm)
       : m_algorithm(algorithm) { }
 
-    virtual std::string getAlgorithmImpl() const { return m_algorithm; };
+    virtual String getAlgorithmImpl() const { return m_algorithm; };
 
     virtual size_t getDigestLengthImpl() const = 0;
 
@@ -43,7 +43,7 @@ namespace esapi
 
     virtual void updateImpl(const SecureByteArray& input) = 0;
 
-    virtual void updateImpl(const std::string& input) = 0;
+    virtual void updateImpl(const String& input) = 0;
 
     virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len) = 0;
 
@@ -55,7 +55,7 @@ namespace esapi
 
     virtual SecureByteArray digestImpl(const SecureByteArray& input) = 0;
 
-    virtual SecureByteArray digestImpl(const std::string& input) = 0;
+    virtual SecureByteArray digestImpl(const String& input) = 0;
 
     virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len) = 0;
 
@@ -63,12 +63,12 @@ namespace esapi
 
   protected:
 
-    static MessageDigestImpl* createInstance(const std::string& algorithm);
+    static MessageDigestImpl* createInstance(const String& algorithm);
 
   private:
 
     // Crypto++ does not always implement AglortihmName()
-    std::string m_algorithm;
+    String m_algorithm;
   };
 
   // Parameterized class we actually want.
@@ -77,9 +77,9 @@ namespace esapi
   {
   public:
 
-    explicit MessageDigestTmpl(const std::string& algorithm);
+    explicit MessageDigestTmpl(const String& algorithm);
 
-    virtual std::string getAlgorithmImpl() const ;
+    virtual String getAlgorithmImpl() const ;
 
     virtual size_t getDigestLengthImpl() const;
 
@@ -91,7 +91,7 @@ namespace esapi
 
     virtual void updateImpl(const SecureByteArray& input);
 
-    virtual void updateImpl(const std::string& input);
+    virtual void updateImpl(const String& input);
 
     virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len);
 
@@ -103,7 +103,7 @@ namespace esapi
 
     virtual SecureByteArray digestImpl(const SecureByteArray& input);
 
-    virtual SecureByteArray digestImpl(const std::string& input);
+    virtual SecureByteArray digestImpl(const String& input);
 
     virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len);
 

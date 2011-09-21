@@ -14,12 +14,10 @@
  * @created 2007
  */
 
+#include "EsapiCommon.h"
 #include "codecs/PushbackString.h"
 #include "codecs/Codec.h"
 
-#include <string>
-
-namespace esapi {
 /**
  * Implementation of the Codec interface for '^' encoding from Windows command shell.
  *
@@ -29,30 +27,31 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
-class WindowsCodec : public Codec {
+namespace esapi
+{
+  class WindowsCodec : public Codec
+  {
+  public:
+	  /**
+	   * {@inheritDoc}
+	   *
+	   * Returns Windows shell encoded character (which is ^)
+       *
+       * @param immune
+       */
+	  String encodeCharacter( const Char[], size_t, Char) const;
 
-public:
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns Windows shell encoded character (which is ^)
-     *
-     * @param immune
-     */
-	std::string encodeCharacter( const char[], size_t, char) const;
 
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns the decoded version of the character starting at index, or
-	 * null if no decoding is possible.
-	 * <p>
-	 * Formats all are legal both upper/lower case:
-	 *   ^x - all special characters
-	 */
-	char decodeCharacter( esapi::PushbackString& ) const;
-
-};
+	  /**
+	   * {@inheritDoc}
+	   *
+	   * Returns the decoded version of the character starting at index, or
+	   * null if no decoding is possible.
+	   * <p>
+	   * Formats all are legal both upper/lower case:
+	   *   ^x - all special characters
+	   */
+	  Char decodeCharacter( esapi::PushbackString& ) const;
+  };
 }; // esapi namespace
 

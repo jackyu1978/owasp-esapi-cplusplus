@@ -57,18 +57,18 @@ namespace esapi
      * The default secure random number generator (RNG) algorithm. Currently returns
      * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
      */
-    static std::string DefaultAlgorithm();
+    static String DefaultAlgorithm();
 
     /**
      * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
      */
-    static SecureRandom getInstance(const std::string& algorithm = DefaultAlgorithm());
+    static SecureRandom getInstance(const String& algorithm = DefaultAlgorithm());
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm if specified
      */
-    explicit SecureRandom(const std::string& algorithm = DefaultAlgorithm());
+    explicit SecureRandom(const String& algorithm = DefaultAlgorithm());
 
     /**
      * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
@@ -98,7 +98,7 @@ namespace esapi
     /**
      * Returns the name of the algorithm implemented by this SecureRandom object.
      */
-    std::string getAlgorithm() const;
+    String getAlgorithm() const;
 
     /**
      * Generates a user-specified number of random bytes.
@@ -122,7 +122,7 @@ namespace esapi
      * the default algortihm. If the algorithm is not found (ie, unsupported),
      * the empty string is returned.
      */
-    static std::string normalizeAlgortihm(const std::string& algorithm);
+    static String normalizeAlgortihm(const String& algorithm);
 
     /**
      * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.

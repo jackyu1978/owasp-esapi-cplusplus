@@ -25,10 +25,10 @@ using std::cerr;
 using std::endl;
 
 #include <string>
-using std::string;
+using String;
 
 #include <sstream>
-using std::stringstream;
+using Stringstream;
 using std::istringstream;
 using std::ostringstream;
 
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4N)
   // Negative test
   HTMLEntityCodec codec;
 
-  const char* nil = NULL;
+  const Char* nil = NULL;
   string encoded = codec.encodeCharacter(nil, 0, 'A');
 }
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
 {
   // Negative test
   HTMLEntityCodec codec;
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
   string encoded = codec.encodeCharacter(immune, 0, 'A');
   BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
@@ -83,8 +83,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
 {
   // Negative test
   HTMLEntityCodec codec;
-  const char immune[] = { (char)0xFF };
-  string encoded = codec.encodeCharacter((char*)NULL, COUNTOF(immune), 'A');
+  const Char immune[] = { (Char)0xFF };
+  string encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
   BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
 }
 
@@ -92,42 +92,42 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
 {
   // Positive test
   HTMLEntityCodec codec;
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (char)c);
-    BOOST_CHECK_MESSAGE((encoded == string(1, (char)c)), "Failed to encode character");
+    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
+    BOOST_CHECK_MESSAGE((encoded == string(1, (Char)c)), "Failed to encode character");
   }
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 {
-  // Positive test - uses the overload which takes a 'char' character
+  // Positive test - uses the overload which takes a 'Char' character
   HTMLEntityCodec codec;
 
   struct KnownAnswer
   {
-    char c;
+    Char c;
     string str;
   };
 
-  // First and last 4 from entity table (below char)
+  // First and last 4 from entity table (below Char)
   const KnownAnswer tests[] = {
-    { (char)34, "&quot;" },
-    { (char)38, "&amp;" },
-    { (char)60, "&lt;" },
-    { (char)62, "&gt;" },
+    { (Char)34, "&quot;" },
+    { (Char)38, "&amp;" },
+    { (Char)60, "&lt;" },
+    { (Char)62, "&gt;" },
 
-    { (char)252, "&uuml;" },
-    { (char)253, "&yacute;" },
-    { (char)254, "&thorn;" },
-    { (char)255, "&yuml;" }
+    { (Char)252, "&uuml;" },
+    { (Char)253, "&yacute;" },
+    { (Char)254, "&thorn;" },
+    { (Char)255, "&yuml;" }
   };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(NULL, 0, (char)tests[i].c);
+    const string encoded = codec.encodeCharacter(NULL, 0, (Char)tests[i].c);
     const string expected = tests[i].str;
 
     ostringstream oss;
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
     { 9830, "&diams;" }
   };
 
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
     { 8482, "&trade;" },
   };
 
-  const char immune[] = { (char)0xFF };
+  const Char immune[] = { (Char)0xFF };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
@@ -253,7 +253,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
 {
   // Positive test
   //HTMLEntityCodec codec;
-  //const char special[] = { (char)0x28, (char)0x29, (char)0x2a, (char)0x5c, (char)0x00 };
+  //const Char special[] = { (Char)0x28, (Char)0x29, (Char)0x2a, (Char)0x5c, (Char)0x00 };
 
   //for( unsigned int i = 0; i < COUNTOF(special); i++ )
   //{
@@ -323,7 +323,7 @@ void* WorkerThreadProc(void* param)
 #endif
 
 #if !defined(ESAPI_BUILD_RELEASE)
-  const std::map<int,std::string>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
+  const std::map<int,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
 #endif
 

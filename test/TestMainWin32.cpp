@@ -17,6 +17,7 @@
 /////////////////////////////////////////////////////////////
 
 #include "EsapiCommon.h"
+using esapi::String;
 
 #include "errors/InvalidArgumentException.h"
 using esapi::InvalidArgumentException;
@@ -72,12 +73,11 @@ using std::string;
 #include <cstddef>
 #include <memory>
 #include <string>
-using std::string;
 
 int main(int, char**)
 {
   DummyConfiguration config;
-  std::string name = config.getApplicationName();
+  String name = config.getApplicationName();
 
   DefaultEncryptor encryptor;
 

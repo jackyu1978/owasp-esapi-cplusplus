@@ -44,7 +44,7 @@ namespace esapi
    * @param keyBits    The key size, in bits.
    * @return           A random {@code SecretKey} is returned.
    */
-  SecretKey CryptoHelper::generateSecretKey(const std::string& alg, unsigned int keyBits)
+  SecretKey CryptoHelper::generateSecretKey(const String& alg, unsigned int keyBits)
   {
     ASSERT( !alg.empty() );
     ASSERT( keyBits >= 56 );
@@ -92,7 +92,7 @@ namespace esapi
    * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
    *                ESAPI release 2.1 so if you are using this, please change your code.
    */
-  SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const std::string& purpose)
+  SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const String& purpose)
   {
     // Shamelessly ripped from KeyDerivationFunction.cpp
     ASSERT( keyDerivationKey.getEncoded().length()  > 0 );
@@ -115,7 +115,7 @@ namespace esapi
    *             otherwise false.
    * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
    */
-  bool CryptoHelper::isCombinedCipherMode(const std::string& cipherMode)
+  bool CryptoHelper::isCombinedCipherMode(const String& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
@@ -140,7 +140,7 @@ namespace esapi
    * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
    * @see org.owasp.esapi.SecurityConfiguration#getAdditionalAllowedCipherModes()
    */
-  bool CryptoHelper::isAllowedCipherMode(const std::string& cipherMode)
+  bool CryptoHelper::isAllowedCipherMode(const String& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())

@@ -24,7 +24,7 @@
 
 namespace esapi
 {
-  MessageDigestImpl* MessageDigestImpl::createInstance(const std::string& algorithm)
+  MessageDigestImpl* MessageDigestImpl::createInstance(const String& algorithm)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
@@ -61,11 +61,11 @@ namespace esapi
     // We only have InvalidArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported";
-    throw esapi::NoSuchAlgorithmException(oss.str());
+    throw NoSuchAlgorithmException(oss.str());
   }
 
   template <class HASH>
-  MessageDigestTmpl<HASH>::MessageDigestTmpl(const std::string& algorithm)
+  MessageDigestTmpl<HASH>::MessageDigestTmpl(const String& algorithm)
     : MessageDigestImpl(algorithm), m_hash()
   {
     ASSERT( !algorithm.empty() );
@@ -75,7 +75,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  std::string MessageDigestTmpl<HASH>::getAlgorithmImpl() const   
+  String MessageDigestTmpl<HASH>::getAlgorithmImpl() const   
   {
     return MessageDigestImpl::getAlgorithmImpl();
   }
@@ -94,7 +94,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
 
     return size;
@@ -112,7 +112,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -138,7 +138,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const std::string& input)   
+  void MessageDigestTmpl<HASH>::updateImpl(const String& input)   
   {
     updateImpl((const byte*)input.data(), input.size());
   }
@@ -212,7 +212,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
   }
 
@@ -232,7 +232,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
 
      return out;
@@ -253,7 +253,7 @@ namespace esapi
    * digest computation.
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const std::string& input)
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const String& input)
    {
      return digestImpl((const byte*)input.data(), input.size());
    }
@@ -285,7 +285,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
 
      return out;
@@ -360,7 +360,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
 
     return (size_t)req;

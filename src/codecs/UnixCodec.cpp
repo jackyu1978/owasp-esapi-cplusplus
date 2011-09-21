@@ -8,45 +8,46 @@
 * Copyright (c) 2011 - The OWASP Foundation
 */
 
-#include <string>
-
+#include "EsapiCommon.h"
 #include "codecs/UnixCodec.h"
 #include "codecs/Codec.h"
 #include "EsapiCommon.h"
 
-std::string esapi::UnixCodec::encodeCharacter( const char immune[], size_t length, char c) const {
-	ASSERT (c != 0);
+namespace esapi
+{
+  String UnixCodec::encodeCharacter( const Char immune[], size_t length, Char c) const {
+	  ASSERT (c != 0);
 
-	// check for immune characters
-	for (unsigned int i=0; i<length; i++) {
-		if (immune[i] == c)
-			return (std::string)""+c;
-	}
+	  // check for immune characters
+	  for (unsigned int i=0; i<length; i++) {
+		  if (immune[i] == c)
+			  return (String)""+c;
+	  }
 
-	// check for alphanumeric characters
-	std::string hex = esapi::Codec::getHexForNonAlphanumeric( c );
-	if ( hex.compare("") == 0 ) {
-		return (std::string)""+c;
-	}
+	  // check for alphanumeric characters
+	  String hex = Codec::getHexForNonAlphanumeric( c );
+	  if ( hex.compare("") == 0 ) {
+		  return (String)""+c;
+	  }
 
-    return (std::string)"\\"+c;
-}
+      return (String)"\\"+c;
+  }
 
-char esapi::UnixCodec::decodeCharacter( PushbackString& input) const {
-	input.mark();
-	char first = input.next();
-	if ( first == 0 ) {
-		input.reset();
-		return '\0';
-	}
+  Char UnixCodec::decodeCharacter( PushbackString& input) const {
+	  input.mark();
+	  Char first = input.next();
+	  if ( first == 0 ) {
+		  input.reset();
+		  return '\0';
+	  }
 
-	// if this is not an encoded character, return null
-	if ( first != '\\' ) {
-		input.reset();
-		return '\0';
-	}
+	  // if this is not an encoded character, return null
+	  if ( first != '\\' ) {
+		  input.reset();
+		  return '\0';
+	  }
 
-	char second = input.next();
-	return second;
-}
-
+	  Char second = input.next();
+	  return second;
+  }
+} // esapi

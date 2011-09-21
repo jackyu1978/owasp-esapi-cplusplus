@@ -9,6 +9,7 @@
  *
  * @author Kevin Wall, kevin.w.wall@gmail.com
  * @author Jeffrey Walton, noloader@gmail.com
+ * @author Daniel Amodio, dan.amodio@aspectsecurity.com
  *
  */
 
@@ -20,8 +21,6 @@
 #include "crypto/SecretKey.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
-
-#include <string>
 
 /**
  * This class implements functionality similar to Java's CryptoHelper for consistency
@@ -47,7 +46,7 @@ namespace esapi
      *                              requested algorithm with requested size. Typically this is caused by
      *                              specifying an unavailable algorithm or invalid key size.
      */
-    static esapi::SecretKey generateSecretKey(const std::string& alg, unsigned int keySize);
+    static SecretKey generateSecretKey(const String& alg, unsigned int keySize);
 
     /**
      * The method is ESAPI's Key Derivation Function (KDF) that computes a
@@ -95,7 +94,7 @@ namespace esapi
      * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
      *                         ESAPI release 2.1 so if you are using this, please change your code.
      */
-    esapi::SecretKey computeDerivedKey(const esapi::SecretKey keyDerivationKey, unsigned int keySize, const std::string& purpose);
+    SecretKey computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const String& purpose);
 
     /**
      * Return true if specified cipher mode is one of those specified in the
@@ -109,7 +108,7 @@ namespace esapi
      *            otherwise false.
      * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
      */
-    static bool isCombinedCipherMode(const std::string& cipherMode);
+    static bool isCombinedCipherMode(const String& cipherMode);
 
     /**
      * Return true if specified cipher mode is one that may be used for
@@ -123,7 +122,7 @@ namespace esapi
      * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
      * @see org.owasp.esapi.SecurityConfiguration#getAdditionalAllowedCipherModes()
      */
-    static bool isAllowedCipherMode(const std::string& cipherMode);
+    static bool isAllowedCipherMode(const String& cipherMode);
 
     /**
      * Check to see if a Message Authentication Code (MAC) is required
@@ -143,7 +142,7 @@ namespace esapi
      *              it requires a MAC.
      * @returns     True if a MAC is required, false if it is not required.
      */
-    static bool isMACRequired(const esapi::CipherText& cipherText);
+    static bool isMACRequired(const CipherText& cipherText);
 
     /**
      * If a Message Authentication Code (MAC) is required for the specified
@@ -161,7 +160,7 @@ namespace esapi
      *          {@code SecretKey} or a MAC is not required. False is returned
      *          otherwise.
      */
-    static bool isCipherTextMACvalid(const esapi::SecretKey& secretKey, const esapi::CipherText& cipherText);
+    static bool isCipherTextMACvalid(const SecretKey& secretKey, const CipherText& cipherText);
 
     /**
      * Overwrite a byte array with a specified byte. This is frequently done

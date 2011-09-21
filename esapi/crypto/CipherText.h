@@ -29,7 +29,7 @@ namespace esapi
     virtual ~CipherText();
 
     bool empty() const;
-    std::string getCipherMode() const;
+    String getCipherMode() const;
   
   private:
     SecureString m_text;

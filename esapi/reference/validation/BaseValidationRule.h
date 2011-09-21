@@ -1,11 +1,26 @@
-#ifndef _BaseValidationRule_h_
-#define _BaseValidationRule_h_
+/**
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * The ESAPI is published by OWASP under the BSD license. You should read and accept the
+ * LICENSE before you use, modify, and/or redistribute this software.
+ *
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @created 2011
+ */
 
+#pragma once
+
+#include "EsapiCommon.h"
 #include "Encoder.h"
 #include "ValidationRule.h"
 #include "errors/UnsupportedOperationException.h"
 
-#include <string>
 #include <set>
 #include <boost/shared_ptr.hpp>
 
@@ -41,10 +56,10 @@ namespace esapi
 		 * @return a parsed version of the input or a default value.
 		 */
 		//template <typename T>
-		virtual T sanitize(const std::string &, const std::string &) = 0;
+		virtual T sanitize(const String &, const String &) = 0;
 
 	private:
-		std::string typeName;
+		String typeName;
 
 
 	public:
@@ -52,11 +67,11 @@ namespace esapi
 		 * @throws UnsupportedOperationException - Should not be instanciated like this.
 		 */
 		BaseValidationRule ();
-		BaseValidationRule (const std::string &);
-		BaseValidationRule (const std::string &, Encoder*);
+		BaseValidationRule (const String &);
+		BaseValidationRule (const String &, Encoder*);
 
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &) =0;
+		virtual T getValid(const String &, const String &) =0;
 
 	    /**
 	     * {@inheritDoc}
@@ -66,12 +81,12 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual std::string getTypeName();
+		virtual String getTypeName();
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setTypeName(const std::string &);
+		virtual void setTypeName(const String &);
 
 	    /**
 	     * {@inheritDoc}
@@ -81,28 +96,28 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void assertValid(const std::string &, const std::string &);
+		virtual void assertValid(const String &, const String &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &, ValidationErrorList&);
+		virtual T getValid(const String &, const String &, ValidationErrorList&);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual T getSafe(const std::string &, const std::string &);
+		virtual T getSafe(const String &, const String &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual bool isValid(const std::string &, const std::string &);
+		virtual bool isValid(const String &, const String &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual std::string whitelist(const std::string &, const std::set<char> &);
+		virtual String whitelist(const String &, const std::set<Char> &);
 
 		virtual bool isAllowNull();
 
@@ -112,17 +127,16 @@ namespace esapi
 
 		virtual ~BaseValidationRule() {};
 	};
-};
 
 // Template functions have to be declared in the same file
 
 template <typename T>
-esapi::BaseValidationRule<T>::BaseValidationRule() {
-	throw esapi::UnsupportedOperationException("BaseValidationRule<T> Should not be instantiated by default constructor.");
+BaseValidationRule<T>::BaseValidationRule() {
+	throw UnsupportedOperationException("BaseValidationRule<T> Should not be instantiated by default constructor.");
 }
 
 template <typename T>
-esapi::BaseValidationRule<T>::BaseValidationRule (const std::string &newTypeName)
+BaseValidationRule<T>::BaseValidationRule (const String &newTypeName)
   : allowNull(false), encoder(), typeName(newTypeName)
 {
 	// get encoder singleton
@@ -130,38 +144,38 @@ esapi::BaseValidationRule<T>::BaseValidationRule (const std::string &newTypeName
 }
 
 template <typename T>
-esapi::BaseValidationRule<T>::BaseValidationRule (const std::string &newTypeName, Encoder* newEncoder)
+BaseValidationRule<T>::BaseValidationRule (const String &newTypeName, Encoder* newEncoder)
   : allowNull(false), encoder(newEncoder), typeName(newTypeName)
 {
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::setAllowNull( bool flag ) {
+void BaseValidationRule<T>::setAllowNull( bool flag ) {
 	allowNull = flag;
 }
 
 template <typename T>
-std::string esapi::BaseValidationRule<T>::getTypeName() {
+String BaseValidationRule<T>::getTypeName() {
 	return this->typeName;
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::setTypeName( const std::string &newTypeName ) {
+void BaseValidationRule<T>::setTypeName( const String &newTypeName ) {
 	this->typeName = newTypeName;
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
+void BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
 		this->encoder = boost::shared_ptr<Encoder>(newEncoder);
 }
 
 template <typename T>
-void esapi::BaseValidationRule<T>::assertValid( const std::string &context, const std::string &input ) {
+void BaseValidationRule<T>::assertValid( const String &context, const String &input ) {
 		getValid( context, input, *(new ValidationErrorList));
 }
 
 template <typename T>
-T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std::string &input, ValidationErrorList &errorList ) {
+T BaseValidationRule<T>::getValid( const String &context, const String &input, ValidationErrorList &errorList ) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );
@@ -172,7 +186,7 @@ T esapi::BaseValidationRule<T>::getValid( const std::string &context, const std:
 }
 
 template <typename T>
-T esapi::BaseValidationRule<T>::getSafe( const std::string &context, const std::string &input ) {
+T BaseValidationRule<T>::getSafe( const String &context, const String &input ) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );
@@ -183,7 +197,7 @@ T esapi::BaseValidationRule<T>::getSafe( const std::string &context, const std::
 }
 
 template <typename T>
-bool esapi::BaseValidationRule<T>::isValid( const std::string &context, const std::string &input ) {
+bool BaseValidationRule<T>::isValid( const String &context, const String &input ) {
 		bool valid = false;
 		try {
 			this->getValid( context, input );
@@ -195,12 +209,12 @@ bool esapi::BaseValidationRule<T>::isValid( const std::string &context, const st
 		return valid;
 }
 
-//std::string esapi::BaseValidationRule::whitelist( const std::string &input, char whitelist[]) {
-//	std::string stripped = "";
-//	int whitelistSize = sizeof(whitelist) / sizeof(char);
+//String BaseValidationRule::whitelist( const String &input, Char whitelist[]) {
+//	String stripped = "";
+//	int whitelistSize = sizeof(whitelist) / sizeof(Char);
 //
 //	for (unsigned int i = 0; i < input.length(); i++) {
-//		char c = input[i];
+//		Char c = input[i];
 //
 //		for (int n = 0; n < whitelistSize; n++) {
 //			if (whitelist[n] == c){
@@ -219,11 +233,11 @@ bool esapi::BaseValidationRule<T>::isValid( const std::string &context, const st
  * @return input stripped of all chars that aren't in the whitelist
  */
 template <typename T>
-std::string esapi::BaseValidationRule<T>::whitelist( const std::string &input, const std::set<char> &whitelist) {
-	std::string stripped = "";
+String BaseValidationRule<T>::whitelist( const String &input, const std::set<Char> &whitelist) {
+	String stripped = "";
 
 	for (unsigned int i = 0; i < input.length(); i++) {
-		char c = input[i];
+		Char c = input[i];
 		if (whitelist.find(c) != whitelist.end()) {
 			stripped += c;
 		}
@@ -233,14 +247,13 @@ std::string esapi::BaseValidationRule<T>::whitelist( const std::string &input, c
 }
 
 template <typename T>
-bool esapi::BaseValidationRule<T>::isAllowNull() {
+bool BaseValidationRule<T>::isAllowNull() {
 	return allowNull;
 }
 
 template <typename T>
-const esapi::Encoder* esapi::BaseValidationRule<T>::getEncoder() {
+const Encoder* BaseValidationRule<T>::getEncoder() {
 	return this->encoder.get();
 }
 
-
-#endif /** _BaseValidationRule_h_ */
+} // esapi

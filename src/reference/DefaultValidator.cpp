@@ -17,6 +17,7 @@
  * @created 2007
  */
 
+#include "EsapiCommon.h"
 #include "Validator.h"
 #include "Encoder.h"
 #include "ValidationRule.h"
@@ -25,26 +26,27 @@
 
 #include "errors/UnsupportedOperationException.h"
 
+namespace esapi
+{
+Validator* DefaultValidator::instance = nullptr;
 
-esapi::Validator* esapi::DefaultValidator::instance = nullptr;
+//std::map<String, ValidationRule> DefaultValidator::rules;
 
-//std::map<std::string, esapi::ValidationRule> esapi::DefaultValidator::rules;
+//Encoder* DefaultValidator::encoder = nullptr;
 
-//esapi::Encoder* esapi::DefaultValidator::encoder = nullptr;
-
-esapi::Validator* esapi::DefaultValidator::fileValidator = nullptr;
+Validator* DefaultValidator::fileValidator = nullptr;
 
 
-bool esapi::DefaultValidator::isEmpty(const std::string &) const {
+bool DefaultValidator::isEmpty(const String &) const {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-bool esapi::DefaultValidator::isEmpty(char[]) const {
+bool DefaultValidator::isEmpty(Char[]) const {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-esapi::Validator* esapi::DefaultValidator::getInstance() {
+Validator* DefaultValidator::getInstance() {
 	/*
          if ( instance == null ) {
             synchronized ( Validator.class ) {
@@ -58,7 +60,7 @@ esapi::Validator* esapi::DefaultValidator::getInstance() {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-void esapi::DefaultValidator::initFileValidator() {
+void DefaultValidator::initFileValidator() {
 	/*std::list<String> list = new ArrayList<String>();
 	list.add( "HTMLEntityCodec" );
 	list.add( "PercentCodec" );
@@ -67,7 +69,7 @@ void esapi::DefaultValidator::initFileValidator() {
 }
 
 
-esapi::DefaultValidator::DefaultValidator()
+DefaultValidator::DefaultValidator()
 	: rules(), encoder()
 {
 	//this.encoder = ESAPI.encoder();
@@ -76,41 +78,41 @@ esapi::DefaultValidator::DefaultValidator()
 }
 
 
-esapi::DefaultValidator::DefaultValidator(esapi::Encoder* encoder)
+DefaultValidator::DefaultValidator(Encoder* encoder)
 	: rules(), encoder(encoder)
 {
 	initFileValidator();
 }
 
 // must override to get rid of pointer member warning
-esapi::DefaultValidator::DefaultValidator(const esapi::DefaultValidator& other)
+DefaultValidator::DefaultValidator(const DefaultValidator& other)
 	: rules(other.rules), encoder(other.encoder)
 {
 	initFileValidator();
 }
 
 
-void esapi::DefaultValidator::addRule( const esapi::ValidationRule<void*> & ) {
+void DefaultValidator::addRule( const ValidationRule<void*> & ) {
 	//rules.put( rule.getTypeName(), rule );
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-esapi::ValidationRule<void*>& esapi::DefaultValidator::getRule( const std::string & ) {
+ValidationRule<void*>& DefaultValidator::getRule( const String & ) {
 	//return rules.get( name );
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string &input, const std::string &type, int maxLength, bool allowNull) {
+bool DefaultValidator::isValidInput(const String & context, const String &input, const String &type, int maxLength, bool allowNull) {
 	return isValidInput(context, input, type, maxLength, allowNull, true);
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string &input, const std::string &type, int maxLength, bool allowNull, esapi::ValidationErrorList &errors) {
+bool DefaultValidator::isValidInput(const String & context, const String &input, const String &type, int maxLength, bool allowNull, ValidationErrorList &errors) {
 	return isValidInput(context, input, type, maxLength, allowNull, true, errors);
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string &context, const std::string &input, const std::string &type, int maxLength, bool allowNull, bool canonicalize) {
+bool DefaultValidator::isValidInput(const String &context, const String &input, const String &type, int maxLength, bool allowNull, bool canonicalize) {
 	try {
 		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
 		return true;
@@ -119,249 +121,250 @@ bool esapi::DefaultValidator::isValidInput(const std::string &context, const std
 	}
 }
 
-bool esapi::DefaultValidator::isValidInput(const std::string & context, const std::string & input, const std::string &type, int maxLength, bool allowNull, bool canonicalize, esapi::ValidationErrorList &errors) {
+bool DefaultValidator::isValidInput(const String & context, const String & input, const String &type, int maxLength, bool allowNull, bool canonicalize, ValidationErrorList &errors) {
 	try {
 		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
 		return true;
-	} catch( esapi::ValidationException& e ) {
+	} catch( ValidationException& e ) {
 		errors.addError( context, &e );
 		return false;
 	}
 }
 
-std::string esapi::DefaultValidator::getValidInput(const std::string &, const std::string &, const std::string &, int, bool) {
+String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool) {
+String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidInput(const std::string &, const std::string &, const std::string &, int, bool, esapi::ValidationErrorList&) {
+String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, ValidationErrorList&) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidInput(const std::string &, const std::string &, const std::string &, int, bool, bool, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDate(const std::string &, const std::string &, const DateFormat &, bool) {
+bool DefaultValidator::isValidDate(const String &, const String &, const DateFormat &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDate(const std::string &, const std::string &, const DateFormat &, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidDate(const std::string &, const std::string &, const DateFormat &, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+Char* DefaultValidator::getValidDate(const String &, const String &, const DateFormat &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidDate(const std::string &, const std::string &, const DateFormat &, bool, esapi::ValidationErrorList &) {
+Char* DefaultValidator::getValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidSafeHTML(const std::string &, const std::string &, int, bool) {
+bool DefaultValidator::isValidSafeHTML(const String &, const String &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidSafeHTML(const std::string &, const std::string &, int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidSafeHTML( const std::string &, const std::string &, int, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidSafeHTML( const String &, const String &, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidSafeHTML(const std::string &, const std::string &, int, bool, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidCreditCard(const std::string &, const std::string &, bool) {
+bool DefaultValidator::isValidCreditCard(const String &, const String &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidCreditCard(const std::string &, const std::string &, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidCreditCard(const String &, const String &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidCreditCard(const std::string &, const std::string &, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidCreditCard(const String &, const String &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidCreditCard(const std::string &, const std::string &, bool, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidCreditCard(const String &, const String &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool) {
+bool DefaultValidator::isValidDirectoryPath(const String &, const String &, std::fstream &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidDirectoryPath(const String &, const String &, std::fstream &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidDirectoryPath(const std::string &, const std::string &, std::fstream &, bool, esapi::ValidationErrorList &)  {
+String DefaultValidator::getValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &)  {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileName(const std::string &, const std::string &, bool) {
+bool DefaultValidator::isValidFileName(const String &, const String &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileName(const std::string &, const std::string &, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidFileName(const String &, const String &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) {
+bool DefaultValidator::isValidFileName(const String &, const String &, const std::list<String> &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidFileName(const String &, const String &, const std::list<String> &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidFileName(const std::string &, const std::string &, const std::list<std::string> &, bool, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidNumber(const std::string &, const std::string &, long, long, bool) {
+bool DefaultValidator::isValidNumber(const String &, const String &, long, long, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidNumber(const std::string &, const std::string &, long, long, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double esapi::DefaultValidator::getValidNumber(const std::string &, const std::string &, long, long, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+double DefaultValidator::getValidNumber(const String &, const String &, long, long, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double esapi::DefaultValidator::getValidNumber(const std::string &, const std::string &, long, long, bool, esapi::ValidationErrorList &) {
+double DefaultValidator::getValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDouble(const std::string &, const std::string &, double, double, bool) {
+bool DefaultValidator::isValidDouble(const String &, const String &, double, double, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidDouble(const std::string &, const std::string &, double, double, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double esapi::DefaultValidator::getValidDouble(const std::string &, const std::string &, double, double, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+double DefaultValidator::getValidDouble(const String &, const String &, double, double, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double esapi::DefaultValidator::getValidDouble(const std::string &, const std::string &, double, double, bool, esapi::ValidationErrorList &) {
+double DefaultValidator::getValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidInteger(const std::string &, const std::string &, int, int, bool) {
+bool DefaultValidator::isValidInteger(const String &, const String &, int, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidInteger(const std::string &, const std::string &, int, int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-int esapi::DefaultValidator::getValidInteger(const std::string &, const std::string &, int, int, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+int DefaultValidator::getValidInteger(const String &, const String &, int, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-int esapi::DefaultValidator::getValidInteger(const std::string &, const std::string &, int, int, bool, esapi::ValidationErrorList &) {
+int DefaultValidator::getValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileContent(const std::string &, char[], int, bool) {
+bool DefaultValidator::isValidFileContent(const String &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileContent(const std::string &, char[], int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidFileContent(const String &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidFileContent(const std::string &, char[], int, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+Char* DefaultValidator::getValidFileContent(const String &, Char[], int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidFileContent(const std::string &, char[], int, bool, esapi::ValidationErrorList &) {
+Char* DefaultValidator::getValidFileContent(const String &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool) {
+bool DefaultValidator::isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-void esapi::DefaultValidator::assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool) {
+void DefaultValidator::assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-void esapi::DefaultValidator::assertValidFileUpload(const std::string &, const std::string &, const std::string &, std::fstream &, char[], int, const std::list<std::string> &, bool, esapi::ValidationErrorList &) {
+void DefaultValidator::assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidListItem(const std::string &, const std::string &, const std::list<std::string> &) {
+bool DefaultValidator::isValidListItem(const String &, const String &, const std::list<String> &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidListItem(const std::string &, const std::string &, const std::list<std::string> &, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidListItem(const std::string &, const std::string &, const std::list<std::string> &) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidListItem(const String &, const String &, const std::list<String> &) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidListItem(const std::string &, const std::string &, const std::list<std::string> &, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidPrintable(const std::string &, char[], int, bool) {
+bool DefaultValidator::isValidPrintable(const String &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidPrintable(const std::string &, char[], int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidPrintable(const String &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidPrintable(const std::string &, char[], int, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+Char* DefaultValidator::getValidPrintable(const String &, Char[], int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-char* esapi::DefaultValidator::getValidPrintable(const std::string &, char[], int, bool, esapi::ValidationErrorList &) {
+Char* DefaultValidator::getValidPrintable(const String &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidPrintable(const std::string &, const std::string &, int, bool) {
+bool DefaultValidator::isValidPrintable(const String &, const String &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool esapi::DefaultValidator::isValidPrintable(const std::string &, const std::string &, int, bool, esapi::ValidationErrorList &) {
+bool DefaultValidator::isValidPrintable(const String &, const String &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidPrintable(const std::string &, const std::string &, int, bool) throw (esapi::ValidationException, esapi::IntrusionException) {
+String DefaultValidator::getValidPrintable(const String &, const String &, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::getValidPrintable(const std::string &, const std::string &, int, bool, esapi::ValidationErrorList &) {
+String DefaultValidator::getValidPrintable(const String &, const String &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-std::string esapi::DefaultValidator::safeReadLine(std::fstream &, int) {
+String DefaultValidator::safeReadLine(std::fstream &, int) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
+} // espai
