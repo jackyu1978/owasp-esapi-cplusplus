@@ -35,10 +35,10 @@
  *
  * <PRE>
  * ValidationErrorList() errorList = new ValidationErrorList();.
- * String name  = getValidInput("Name", form.getName(), "SomeESAPIRegExName1", 255, false, errorList);
- * String address = getValidInput("Address", form.getAddress(), "SomeESAPIRegExName2", 255, false, errorList);
- * Integer weight = getValidInteger("Weight", form.getWeight(), 1, 1000000000, false, errorList);
- * Integer sortOrder = getValidInteger("Sort Order", form.getSortOrder(), -100000, +100000, false, errorList);
+ * String name  = getValidInput(L"Name", form.getName(), "SomeESAPIRegExName1", 255, false, errorList);
+ * String address = getValidInput(L"Address", form.getAddress(), "SomeESAPIRegExName2", 255, false, errorList);
+ * Integer weight = getValidInteger(L"Weight", form.getWeight(), 1, 1000000000, false, errorList);
+ * Integer sortOrder = getValidInteger(L"Sort Order", form.getSortOrder(), -100000, +100000, false, errorList);
  * request.setAttribute( "ERROR_LIST", errorList );
  * </PRE>
  *
@@ -50,7 +50,7 @@
  *     HttpServletRequest request = ESAPI.httpUtilities().getCurrentRequest();
  *     ValidationErrorList errors = new ValidationErrorList();
  *     if (request.getAttribute(Constants.ERROR_LIST) != null) {
- *        errors = (ValidationErrorList)request.getAttribute("ERROR_LIST");
+ *        errors = (ValidationErrorList)request.getAttribute(L"ERROR_LIST");
  *     }
  * 	   return errors;
  * }
@@ -72,7 +72,7 @@
  * And even check if a specific UI component is in error via calls like:
  *
  * <PRE>
- * ValidationException e = errorList.getError("Name");
+ * ValidationException e = errorList.getError(L"Name");
  * </PRE>
  *
  * @author Jim Manico (jim@manico.net) <a href="http://www.manico.net">Manico.net</a>

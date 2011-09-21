@@ -98,7 +98,7 @@ namespace esapi
     ASSERT( keyDerivationKey.getEncoded().length()  > 0 );
     ASSERT( keyBits >= 56 );
     ASSERT( (keyBits % 8) == 0 );
-    ASSERT( purpose == "authenticity" || purpose == "encryption" );
+    ASSERT( purpose == L"authenticity" || purpose == L"encryption" );
 
     return KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keyBits, purpose);
   }
@@ -119,7 +119,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
+      throw InvalidArgumentException(L"Cipher mode is not valid");
         
     DummyConfiguration config;
     const StringList& cipherModes = config.getCombinedCipherModes();
@@ -144,7 +144,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
+      throw InvalidArgumentException(L"Cipher mode is not valid");
 
     if ( isCombinedCipherMode(cipherMode) ) { 
       return true; 
@@ -222,7 +222,7 @@ namespace esapi
     ASSERT(size);
 
     if(!bytes)
-      throw InvalidArgumentException("The array cannot be null or empty");
+      throw InvalidArgumentException(L"The array cannot be null or empty");
 
     if(!size)
       return;
@@ -252,7 +252,7 @@ namespace esapi
     ASSERT(size);
 
     // The called overload tests for ptr wrap
-    overwrite(bytes, size, '*');
+    overwrite(bytes, size, L'*');
   }
 
   // These provide for a bit more type safety when copying bytes around.
@@ -275,10 +275,10 @@ namespace esapi
     ASSERT(destSize >= copySize);
 
     if(!src)
-      throw InvalidArgumentException("Source array cannot be null");
+      throw InvalidArgumentException(L"Source array cannot be null");
 
     if(!dest)
-      throw InvalidArgumentException("Destination array cannot be null");
+      throw InvalidArgumentException(L"Destination array cannot be null");
 
     // Will throw if ptr wraps. T* and size_t causing trouble on Linux
     SafeInt<size_t> ssi((size_t)src); ssi += srcSize;

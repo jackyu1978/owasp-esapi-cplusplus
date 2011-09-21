@@ -33,7 +33,7 @@ using std::list;
 using std::equal;
 
 #include <sstream>
-using std::ostringstream;
+using StringStream;
 
 #include <EsapiCommon.h>
 #include <util/zAllocator.h>

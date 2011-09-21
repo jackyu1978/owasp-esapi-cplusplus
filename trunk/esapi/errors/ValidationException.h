@@ -19,11 +19,8 @@
 #include "EsapiCommon.h"
 #include "errors/EnterpriseSecurityException.h"
 
-#include <stdexcept>
-#include <string>
-
-namespace esapi {
-
+namespace esapi
+{
   /**
    * A ValidationException should be thrown to indicate that the data provided by
    * the user or from some other external source does not match the validation
@@ -50,6 +47,9 @@ namespace esapi {
      *                        the message logged
      */
   ValidationException(const String &userMessage, const String &logMessage)
+    : EnterpriseSecurityException(userMessage, logMessage), context() { }
+
+  ValidationException(const NarrowString &userMessage, const NarrowString &logMessage)
     : EnterpriseSecurityException(userMessage, logMessage), context() { }
 
     /**
@@ -79,9 +79,6 @@ namespace esapi {
      */
     void setContext(const String &);
 
-    virtual ~ValidationException() throw() {};
+    virtual ~ValidationException() {};
   };
-
 };
-
-

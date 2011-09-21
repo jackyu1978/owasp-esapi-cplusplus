@@ -37,7 +37,7 @@ namespace esapi
 	  : BaseValidationRule<String>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
   {
 	  ASSERT(encoder);
-	  if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
+	  if (encoder==nullptr) throw new NullPointerException(L"encoder has null pointer");
 
 	  setEncoder( encoder );
 	  setTypeName( typeName );
@@ -51,15 +51,15 @@ namespace esapi
 
   String StringValidationRule::getValid(const String &context, const String &input) {
 	  //ASSERT(encoder);
-	  //if (encoder==nullptr) throw new NullPointerException("encoder has null pointer");
+	  //if (encoder==nullptr) throw new NullPointerException(L"encoder has null pointer");
 
 	  String data = "";
 
 	  // checks on input itself
 
 	  // check for empty/null
-	  if(checkEmpty(context, input).compare("")==0)
-		  return "";
+	  if(checkEmpty(context, input).compare(L"")==0)
+		  return L"";
 
 	  if (validateInputAndCanonical)
 	  {
@@ -85,8 +85,8 @@ namespace esapi
 	  }
 
 	  // check for empty/null
-	  if(checkEmpty(context, data, input).compare("")==0)
-		  return "";
+	  if(checkEmpty(context, data, input).compare(L"")==0)
+		  return L"";
 
 	  // check length
 	  checkLength(context, data, input);
@@ -103,7 +103,7 @@ namespace esapi
 
   String StringValidationRule::getValid( const String &context, const String &input, ValidationErrorList &errorList ) {
 	  ASSERT(&errorList);
-	  if (&errorList==nullptr) throw new NullPointerException("errorList has null pointer");
+	  if (&errorList==nullptr) throw new NullPointerException(L"errorList has null pointer");
 
 	  String valid;
 	  try {
@@ -119,16 +119,16 @@ namespace esapi
   }
 
   void StringValidationRule::addWhitelistPattern(const String & pattern) {
-	  if (pattern.compare("")==0) {
-		  throw new IllegalArgumentException("Pattern cannot be null");
+	  if (pattern.compare(L"")==0) {
+		  throw new IllegalArgumentException(L"Pattern cannot be null");
 	  }
 
 	  this->whitelistPatterns.insert(pattern);
   }
 
   void StringValidationRule::addBlacklistPattern(const String &pattern) {
-	  if (pattern.compare("")==0) {
-		  throw new IllegalArgumentException("Pattern cannot be null");
+	  if (pattern.compare(L"")==0) {
+		  throw new IllegalArgumentException(L"Pattern cannot be null");
 	  }
 
 	  this->blacklistPatterns.insert(pattern);
@@ -156,7 +156,7 @@ namespace esapi
 				  StringStream userMessage;
 				  StringStream logMessage;
 				  userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
-				  logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				  logMessage << "Invalid input: context=" << context << ", type(L" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 			  }
 		  }
@@ -179,7 +179,7 @@ namespace esapi
 				  StringStream userMessage;
 				  StringStream logMessage;
 				  userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
-				  logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+				  logMessage << "Dangerous input: context=" << context << ", type(L" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 			  }
 		  }
@@ -221,7 +221,7 @@ namespace esapi
 	  if(!input.empty())
 		  return input;
 	  if(allowNull)
-		  return "";
+		  return L"";
 
 	  StringStream userMessage;
 	  StringStream logMessage;

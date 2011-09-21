@@ -17,10 +17,7 @@
 #include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
 
-#include <string>
-#include <sstream>
 #include <algorithm>
-#include <stdexcept>
 
 /**
  * This class implements functionality similar to Java's SecureRandom for consistency
@@ -34,7 +31,7 @@ namespace esapi
    */
   String SecureRandom::DefaultAlgorithm()
   {
-    return String("SHA-256");
+    return String(L"SHA-256");
   }
 
   /**
@@ -51,7 +48,7 @@ namespace esapi
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
+      throw EncryptionException(L"Failed to create SecureRandom");
 
     return SecureRandom(impl);
   }
@@ -69,7 +66,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
+      throw EncryptionException(L"Failed to create SecureRandom");
   }
 
   /**
@@ -83,7 +80,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
+      throw EncryptionException(L"Failed to create SecureRandom");
   }
 
   /**
@@ -97,7 +94,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
+      throw EncryptionException(L"Failed to create SecureRandom");
   }
 
   /**
@@ -156,7 +153,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
+      throw EncryptionException(L"Failed to retrieve algorithm name");
 
     return m_impl->generateSeedImpl(numBytes);
   }
@@ -172,7 +169,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
+      throw EncryptionException(L"Failed to retrieve algorithm name");
 
     return m_impl->getAlgorithmImpl();
   }  
@@ -189,7 +186,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve security level");
+      throw EncryptionException(L"Failed to retrieve security level");
 
     return m_impl->getSecurityLevelImpl();
   }
@@ -205,7 +202,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to generate random bytes");
+      throw EncryptionException(L"Failed to generate random bytes");
 
     m_impl->nextBytesImpl(bytes, size);
   }
@@ -221,7 +218,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
+      throw EncryptionException(L"Failed to seed the generator");
 
     // No need to lock - RandomPool provides its own
     RandomPool::GetSharedInstance().Reseed();
@@ -241,7 +238,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
+      throw EncryptionException(L"Failed to seed the generator");
 
     m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
@@ -269,183 +266,183 @@ namespace esapi
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
     // Normalize the slashes (we expect forward slashes, not back slashes)
-    while(String::npos != (pos = alg.find('\\')))
-      alg.replace(pos, 1, "/");
+    while(String::npos != (pos = alg.find(L'\\')))
+      alg.replace(pos, 1, L"/");
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
-    if(String::npos != (pos = alg.find('/')))
+    if(String::npos != (pos = alg.find(L'/')))
       {
         mode = alg.substr(pos+1);
         alg.erase(pos);
       }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
-    if(String::npos != (pos = mode.find('/')))
+    if(String::npos != (pos = mode.find(L'/')))
       mode.erase(pos);
 
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
     ////////////////////////////////// Block Ciphers //////////////////////////////////
 
-    if(alg == "aes" && mode == "")
-      return "AES";
+    if(alg == L"aes" && mode.empty())
+      return L"AES";
 
-    if(alg == "aes" && mode == "cfb")
-      return "AES/CFB";
+    if(alg == L"aes" && mode == L"cfb")
+      return L"AES/CFB";
 
-    if(alg == "aes" && mode == "ofb")
-      return "AES/OFB";
+    if(alg == L"aes" && mode == L"ofb")
+      return L"AES/OFB";
 
-    if(alg == "aes" && mode == "ctr")
-      return "AES/CTR";
+    if(alg == L"aes" && mode == L"ctr")
+      return L"AES/CTR";
 
-    if((alg == "aes128" || alg == "aes-128") && mode == "")
-      return "AES128";
+    if((alg == L"aes128" || alg == L"aes-128") && mode == L"")
+      return L"AES128";
 
-    if((alg == "aes128" || alg == "aes-128") && mode == "cfb")
-      return "AES128/CFB";
+    if((alg == L"aes128" || alg == L"aes-128") && mode == L"cfb")
+      return L"AES128/CFB";
 
-    if((alg == "aes128" || alg == "aes-128") && mode == "ofb")
-      return "AES128/OFB";
+    if((alg == L"aes128" || alg == L"aes-128") && mode == L"ofb")
+      return L"AES128/OFB";
 
-    if((alg == "aes128" || alg == "aes-128") && mode == "ctr")
-      return "AES128/CTR";
+    if((alg == L"aes128" || alg == L"aes-128") && mode == L"ctr")
+      return L"AES128/CTR";
 
-    if((alg == "aes192" || alg == "aes-192") && mode == "")
-      return "AES192";
+    if((alg == L"aes192" || alg == L"aes-192") && mode == L"")
+      return L"AES192";
 
-    if((alg == "aes192" || alg == "aes-192") && mode == "cfb")
-      return "AES192/CFB";
+    if((alg == L"aes192" || alg == L"aes-192") && mode == L"cfb")
+      return L"AES192/CFB";
 
-    if((alg == "aes192" || alg == "aes-192") && mode == "ofb")
-      return "AES192/OFB";
+    if((alg == L"aes192" || alg == L"aes-192") && mode == L"ofb")
+      return L"AES192/OFB";
 
-    if((alg == "aes192" || alg == "aes-192") && mode == "ctr")
-      return "AES192/CTR";
+    if((alg == L"aes192" || alg == L"aes-192") && mode == L"ctr")
+      return L"AES192/CTR";
 
-    if((alg == "aes256" || alg == "aes-256") && mode == "")
-      return "AES256";
+    if((alg == L"aes256" || alg == L"aes-256") && mode == L"")
+      return L"AES256";
 
-    if((alg == "aes256" || alg == "aes-256") && mode == "cfb")
-      return "AES256/CFB";
+    if((alg == L"aes256" || alg == L"aes-256") && mode == L"cfb")
+      return L"AES256/CFB";
 
-    if((alg == "aes256" || alg == "aes-256") && mode == "ofb")
-      return "AES256/OFB";
+    if((alg == L"aes256" || alg == L"aes-256") && mode == L"ofb")
+      return L"AES256/OFB";
 
-    if((alg == "aes256" || alg == "aes-256") && mode == "ctr")
-      return "AES256/CTR";
+    if((alg == L"aes256" || alg == L"aes-256") && mode == L"ctr")
+      return L"AES256/CTR";
 
-    if(alg == "camellia" && mode == "")
-      return "Camellia";
+    if(alg == L"camellia" && mode == L"")
+      return L"Camellia";
 
-    if(alg == "camellia" && mode == "cfb")
-      return "Camellia/CFB";
+    if(alg == L"camellia" && mode == L"cfb")
+      return L"Camellia/CFB";
 
-    if(alg == "camellia" && mode == "ofb")
-      return "Camellia/OFB";
+    if(alg == L"camellia" && mode == L"ofb")
+      return L"Camellia/OFB";
 
-    if(alg == "camellia" && mode == "ctr")
-      return "Camellia/CTR";
+    if(alg == L"camellia" && mode == L"ctr")
+      return L"Camellia/CTR";
 
-    if(alg == "camellia128" && mode == "")
-      return "Camellia128";
+    if(alg == L"camellia128" && mode == L"")
+      return L"Camellia128";
 
-    if((alg == "camellia128" || alg == "camellia-128") && mode == "cfb")
-      return "Camellia128/CFB";
+    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"cfb")
+      return L"Camellia128/CFB";
 
-    if((alg == "camellia128" || alg == "camellia-128") && mode == "ofb")
-      return "Camellia128/OFB";
+    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"ofb")
+      return L"Camellia128/OFB";
 
-    if((alg == "camellia128" || alg == "camellia-128") && mode == "ctr")
-      return "Camellia128/CTR";
+    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"ctr")
+      return L"Camellia128/CTR";
 
-    if(alg == "camellia192" && mode == "")
-      return "Camellia192";
+    if(alg == L"camellia192" && mode == L"")
+      return L"Camellia192";
 
-    if((alg == "camellia192" || alg == "camellia-192") && mode == "cfb")
-      return "Camellia192/CFB";
+    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"cfb")
+      return L"Camellia192/CFB";
 
-    if((alg == "camellia192" || alg == "camellia-192") && mode == "ofb")
-      return "Camellia192/OFB";
+    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"ofb")
+      return L"Camellia192/OFB";
 
-    if((alg == "camellia192" || alg == "camellia-192") && mode == "ctr")
-      return "Camellia192/CTR";
+    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"ctr")
+      return L"Camellia192/CTR";
 
-    if(alg == "camellia256" && mode == "")
-      return "Camellia256";
+    if(alg == L"camellia256" && mode == L"")
+      return L"Camellia256";
 
-    if((alg == "camellia256" || alg == "camellia-256") && mode == "cfb")
-      return "Camellia256/CFB";
+    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"cfb")
+      return L"Camellia256/CFB";
 
-    if((alg == "camellia256" || alg == "camellia-256") && mode == "ofb")
-      return "Camellia256/OFB";
+    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"ofb")
+      return L"Camellia256/OFB";
 
-    if((alg == "camellia256" || alg == "camellia-256") && mode == "ctr")
-      return "Camellia256/CTR";
+    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"ctr")
+      return L"Camellia256/CTR";
 
-    if(alg == "blowfish" && mode == "")
-      return "Blowfish";
+    if(alg == L"blowfish" && mode == L"")
+      return L"Blowfish";
 
-    if(alg == "blowfish" && mode == "cfb")
-      return "Blowfish/CFB";
+    if(alg == L"blowfish" && mode == L"cfb")
+      return L"Blowfish/CFB";
 
-    if(alg == "blowfish" && mode == "ofb")
-      return "Blowfish/OFB";
+    if(alg == L"blowfish" && mode == L"ofb")
+      return L"Blowfish/OFB";
 
-    if(alg == "blowfish" && mode == "ctr")
-      return "Blowfish/CTR";
+    if(alg == L"blowfish" && mode == L"ctr")
+      return L"Blowfish/CTR";
 
-    if((alg == "desede" || alg == "desede112" || alg == "desede-112") && mode == "")
-      return "DES_ede";
+    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"")
+      return L"DES_ede";
 
-    if((alg == "desede" || alg == "desede112" || alg == "desede-112") && mode == "cfb")
-      return "DES_ede/CFB";
+    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"cfb")
+      return L"DES_ede/CFB";
 
-    if((alg == "desede" || alg == "desede112" || alg == "desede-112") && mode == "ofb")
-      return "DES_ede/OFB";
+    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"ofb")
+      return L"DES_ede/OFB";
 
-    if((alg == "desede" || alg == "desede112" || alg == "desede-112") && mode == "ctr")
-      return "DES_ede/CTR";
+    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"ctr")
+      return L"DES_ede/CTR";
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
-    if(alg == "sha-1" || alg == "sha1" || alg == "sha")
-      return "SHA-1";
+    if(alg == L"sha-1" || alg == L"sha1" || alg == L"sha")
+      return L"SHA-1";
 
-    if(alg == "sha-224" || alg == "sha224")
-      return "SHA-224";
+    if(alg == L"sha-224" || alg == L"sha224")
+      return L"SHA-224";
 
-    if(alg == "sha-256" || alg == "sha256")
-      return "SHA-256";
+    if(alg == L"sha-256" || alg == L"sha256")
+      return L"SHA-256";
 
-    if(alg == "sha-384" || alg == "sha384")
-      return "SHA-384";
+    if(alg == L"sha-384" || alg == L"sha384")
+      return L"SHA-384";
 
-    if(alg == "sha-512" || alg == "sha512")
-      return "SHA-512";
+    if(alg == L"sha-512" || alg == L"sha512")
+      return L"SHA-512";
 
-    if(alg == "whirlpool")
-      return "Whirlpool";
+    if(alg == L"whirlpool")
+      return L"Whirlpool";
 
     ////////////////////////////////// HMACs //////////////////////////////////
 
-    if(alg == "hmacsha-1" || alg == "hmacsha1" || alg == "hmacsha")
-      return "HmacSHA1";
+    if(alg == L"hmacsha-1" || alg == L"hmacsha1" || alg == L"hmacsha")
+      return L"HmacSHA1";
 
-    if(alg == "hmacsha-224" || alg == "hmacsha224")
-      return "HmacSHA224";
+    if(alg == L"hmacsha-224" || alg == L"hmacsha224")
+      return L"HmacSHA224";
 
-    if(alg == "hmacsha-256" || alg == "hmacsha256")
-      return "HmacSHA256";
+    if(alg == L"hmacsha-256" || alg == L"hmacsha256")
+      return L"HmacSHA256";
 
-    if(alg == "hmacsha-384" || alg == "hmacsha384")
-      return "HmacSHA384";
+    if(alg == L"hmacsha-384" || alg == L"hmacsha384")
+      return L"HmacSHA384";
 
-    if(alg == "hmacsha-512" || alg == "hmacsha512")
-      return "HmacSHA512";
+    if(alg == L"hmacsha-512" || alg == L"hmacsha512")
+      return L"HmacSHA512";
 
-    if(alg == "hmacwhirlpool")
-      return "HmacWhirlpool";
+    if(alg == L"hmacwhirlpool")
+      return L"HmacWhirlpool";
 
     return trimmed;
   }

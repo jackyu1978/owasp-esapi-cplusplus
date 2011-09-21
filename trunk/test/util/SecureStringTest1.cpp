@@ -120,7 +120,7 @@ void VerifyConstruction()
     {
       success = false;
 
-      SecureString ss(1, 'A');
+      SecureString ss(1, L'A');
       success = (0 == ::memcmp(ss.c_str(), "A", 1));
     }
   catch(...)
@@ -182,7 +182,7 @@ void VerifyAssignment()
       success = false;
 
       SecureString ss;
-      ss = 'A';
+      ss = L'A';
       success = (0 == ::memcmp(ss.c_str(), "A", 1));
     }
   catch(...)

@@ -26,13 +26,13 @@ BOOST_AUTO_TEST_SUITE( test_suite_ValidationException )
 
 BOOST_AUTO_TEST_CASE( test_case_constructor )
 {
-  ValidationException exception("user message", "log message");
+  ValidationException exception(L"user message", "log message");
 }
 
 BOOST_AUTO_TEST_CASE( test_case_setContext )
 {
   String context = "test context";
-  ValidationException exception("user message", "log message");
+  ValidationException exception(L"user message", "log message");
   exception.setContext(context);
   const String& ctx = exception.getContext();
 
@@ -45,11 +45,11 @@ BOOST_AUTO_TEST_CASE( test_case_setContext )
 
 BOOST_AUTO_TEST_CASE( test_try_catch )
 {
-  String umsg("user message"), lmsg("log message");
+  String umsg(L"user message"), lmsg(L"log message");
   try
     {
       throw ValidationException(umsg, lmsg);
-      BOOST_FAIL("Expected exception was not thrown");
+      BOOST_FAIL(L"Expected exception was not thrown");
     }
   catch (const std::exception& ve)
     {
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( test_try_catch )
     }
 
   // BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
-  // BOOST_CHECK_THROW( throw new ValidationException("user message", "log message"), std::exception );
+  // BOOST_CHECK_THROW( throw new ValidationException(L"user message", "log message"), std::exception );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

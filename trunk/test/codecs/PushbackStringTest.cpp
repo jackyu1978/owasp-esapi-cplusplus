@@ -26,10 +26,10 @@ using esapi::PushbackString;
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
   BOOST_CHECK(pbs.index() == 0);
-  BOOST_CHECK(pbs.input.compare("asdf") == 0);
+  BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
   BOOST_CHECK(pbs.hasNext());
 
   pbs.input = "";
@@ -39,27 +39,27 @@ BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 
 BOOST_AUTO_TEST_CASE( PushbackStringNext )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
   Char next = pbs.next();
 
-  BOOST_CHECK_MESSAGE(next == 'a', "On string 'asdf' next() returned '" << next << "'");
+  BOOST_CHECK_MESSAGE(next == L'a', "On string 'asdf' next() returned '" << next << "'");
   BOOST_CHECK(next != 0);
 
-  pbs.pushback('x');
+  pbs.pushback(L'x');
   next = pbs.next();
   BOOST_CHECK(next != 0);
-  BOOST_CHECK(next != 'a');
-  BOOST_CHECK(next == 'x');
+  BOOST_CHECK(next != L'a');
+  BOOST_CHECK(next == L'x');
 
   next = pbs.next();
-  BOOST_CHECK(next == 's');
+  BOOST_CHECK(next == L's');
 
   next = pbs.next();
-  BOOST_CHECK(next == 'd');
+  BOOST_CHECK(next == L'd');
 
   next = pbs.next();
-  BOOST_CHECK(next == 'f');
+  BOOST_CHECK(next == L'f');
 
   next = pbs.next();
   BOOST_CHECK(next == 0);
@@ -71,34 +71,34 @@ BOOST_AUTO_TEST_CASE( PushbackStringNext )
 
 BOOST_AUTO_TEST_CASE( PushbackStringIsHexDigit )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
-  BOOST_CHECK(pbs.isHexDigit('a'));
-  BOOST_CHECK(pbs.isHexDigit('f'));
-  BOOST_CHECK(pbs.isHexDigit('3'));
-  BOOST_CHECK(pbs.isHexDigit('E'));
-  BOOST_CHECK(!pbs.isHexDigit('l'));
-  BOOST_CHECK(!pbs.isHexDigit('P'));
-  BOOST_CHECK(!pbs.isHexDigit('#'));
+  BOOST_CHECK(pbs.isHexDigit(L'a'));
+  BOOST_CHECK(pbs.isHexDigit(L'f'));
+  BOOST_CHECK(pbs.isHexDigit(L'3'));
+  BOOST_CHECK(pbs.isHexDigit(L'E'));
+  BOOST_CHECK(!pbs.isHexDigit(L'l'));
+  BOOST_CHECK(!pbs.isHexDigit(L'P'));
+  BOOST_CHECK(!pbs.isHexDigit(L'#'));
 }
 
 BOOST_AUTO_TEST_CASE( PushbackStringIsOctalDigit )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
-  BOOST_CHECK(pbs.isOctalDigit('1'));
-  BOOST_CHECK(pbs.isOctalDigit('7'));
-  BOOST_CHECK(!pbs.isOctalDigit('9'));
-  BOOST_CHECK(!pbs.isOctalDigit('b'));
+  BOOST_CHECK(pbs.isOctalDigit(L'1'));
+  BOOST_CHECK(pbs.isOctalDigit(L'7'));
+  BOOST_CHECK(!pbs.isOctalDigit(L'9'));
+  BOOST_CHECK(!pbs.isOctalDigit(L'b'));
 }
 
 BOOST_AUTO_TEST_CASE( PushbackStringNextHex )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
   Char next = pbs.nextHex();
   BOOST_CHECK(next == 0x61);
-  BOOST_CHECK(next == 'a');
+  BOOST_CHECK(next == L'a');
   BOOST_CHECK(next != 0);
 
   next = pbs.nextHex();
@@ -110,10 +110,10 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextHex )
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
 {
-  PushbackString pbs("141");
+  PushbackString pbs(L"141");
 
   Char next = pbs.nextOctal();
-  BOOST_CHECK_MESSAGE(next == '1', "nextOctal() on 'asdf' returned '" << next << "'");
+  BOOST_CHECK_MESSAGE(next == L'1', "nextOctal() on 'asdf' returned '" << next << "'");
   BOOST_CHECK(next != 0);
 
   pbs.input = "9999";
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
 
 BOOST_AUTO_TEST_CASE( PushbackStringTest )
 {
-  PushbackString pbs("asdf");
+  PushbackString pbs(L"asdf");
 
   BOOST_CHECK(true);
 }

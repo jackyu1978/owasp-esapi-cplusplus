@@ -19,65 +19,60 @@ namespace esapi
     WCHAR wname[MAX_PATH*2];
     DWORD size = COUNTOF(wname);
     if((size = GetModuleFileName(NULL, wname, size)) >= COUNTOF(wname))
-      return "Unknown";
+      return L"Unknown";
 
-    CHAR name[MAX_PATH*2];
-    size = WideCharToMultiByte(CP_UTF8, 0, wname, size, name, COUNTOF(name), NULL, NULL);
-    if(size >= COUNTOF(name))
-      return "Unknown";
-
-    return String(name, size);
+    return String(wname, size);
 #endif
 
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getLogImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getAuthenticationImplementation()
   {
-    return "SRP";
+    return L"SRP";
   }
   String DummyConfiguration::getEncoderImplementation()
   {
-    return "Base64";
+    return L"Base64";
   }
   String DummyConfiguration::getAccessControlImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getIntrusionDetectionImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getRandomizerImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getEncryptionImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getValidationImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   Pattern DummyConfiguration::getValidationPattern(const String &)
   {
-    return "Unknown";
+    return L"Unknown";
   }
   bool DummyConfiguration::getLenientDatesAccepted()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getExecutorImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getHTTPUtilitiesImplementation()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   SecureByteArray DummyConfiguration::getMasterKey()
   {
@@ -88,11 +83,11 @@ namespace esapi
   }
   String DummyConfiguration::getUploadDirectory()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getUploadTempDirectory()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   int DummyConfiguration::getEncryptionKeyLength()
   {
@@ -119,27 +114,27 @@ namespace esapi
   }
   String DummyConfiguration::getPasswordParameterName()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getUsernameParameterName()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getEncryptionAlgorithm()
   {
-    return "AES/CBC";
+    return L"AES/CBC";
   }
   String DummyConfiguration::getCipherTransformation()
   {
-    return "AES/CBC/PKCS5";
+    return L"AES/CBC/PKCS5";
   }
   String DummyConfiguration::setCipherTransformation(const String &)
   {
-    return "AES/CBC";
+    return L"AES/CBC";
   }
   String DummyConfiguration::getPreferredJCEProvider()
   {
-    return "SunJCE";
+    return L"SunJCE";
   }
   bool DummyConfiguration::useMACforCipherText()
   {
@@ -151,7 +146,7 @@ namespace esapi
   }
   String DummyConfiguration::getIVType()
   {
-    return "Unique";
+    return L"Unique";
   }
   SecureByteArray DummyConfiguration::getFixedIV()
   {
@@ -171,9 +166,9 @@ namespace esapi
     MEMORY_BARRIER();
     if(!init)
       {
-        cipherModes.push_back("EAX");
-        cipherModes.push_back("CCM");
-        cipherModes.push_back("GCM");
+        cipherModes.push_back(L"EAX");
+        cipherModes.push_back(L"CCM");
+        cipherModes.push_back(L"GCM");
         init = true;
       }
 
@@ -191,9 +186,9 @@ namespace esapi
     MEMORY_BARRIER();
     if(!init)
       {
-        cipherModes.push_back("CBC");
-        cipherModes.push_back("CFB");
-        cipherModes.push_back("OFB");
+        cipherModes.push_back(L"CBC");
+        cipherModes.push_back(L"CFB");
+        cipherModes.push_back(L"OFB");
         init = true;
       }
 
@@ -203,7 +198,7 @@ namespace esapi
 
   String DummyConfiguration::getHashAlgorithm()
   {
-    return "SHA-256";
+    return L"SHA-256";
   }
   int DummyConfiguration::getHashIterations()
   {
@@ -211,11 +206,11 @@ namespace esapi
   }
   String DummyConfiguration::getKDFPseudoRandomFunction()
   {
-    return "SHA-256";
+    return L"SHA-256";
   }
   String DummyConfiguration::getCharacterEncoding()
   {
-    return "UTF-8";
+    return L"UTF-8";
   }
   bool DummyConfiguration::getAllowMultipleEncoding()
   {
@@ -231,7 +226,7 @@ namespace esapi
   }
   String DummyConfiguration::getDigitalSignatureAlgorithm()
   {
-    return "DSA";
+    return L"DSA";
   }
   int DummyConfiguration::getDigitalSignatureKeyLength()
   {
@@ -239,7 +234,7 @@ namespace esapi
   }
   String DummyConfiguration::getRandomAlgorithm()
   {
-    return "SHA-256";
+    return L"SHA-256";
   }
   int DummyConfiguration::getAllowedLoginAttempts()
   {
@@ -255,11 +250,11 @@ namespace esapi
   }
   Threshold DummyConfiguration::getQuota(const String &)
   {
-    return Threshold("", 0, 0, StringList());
+    return Threshold(L"", 0, 0, StringList());
   }
   String DummyConfiguration::getResourceFile(const String &)
   {
-    return "Unknown";
+    return L"Unknown";
   }
   bool DummyConfiguration::getForceHttpOnlySession()
   {
@@ -283,18 +278,18 @@ namespace esapi
   }
   InputStream DummyConfiguration::getResourceStream(const String &)
   {
-    return "Unknown";
+    return L"Unknown";
   }
   void DummyConfiguration::setResourceDirectory(const String &)
   {
   }
   String DummyConfiguration::getResponseContentType()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getHttpSessionIdName()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   long DummyConfiguration::getRememberTokenDuration()
   {
@@ -314,11 +309,11 @@ namespace esapi
   }
   String DummyConfiguration::getLogApplicationName()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   String DummyConfiguration::getLogServerIP()
   {
-    return "127.0.0.1";
+    return L"127.0.0.1";
   }
   int DummyConfiguration::getLogLevel()
   {
@@ -326,7 +321,7 @@ namespace esapi
   }
   String DummyConfiguration::getLogFileName()
   {
-    return "Unknown";
+    return L"Unknown";
   }
   int DummyConfiguration::getMaxLogFileSize()
   {
@@ -334,7 +329,7 @@ namespace esapi
   }
   String DummyConfiguration::getWorkingDirectory()
   {
-    return "Unknown";
+    return L"Unknown";
   }
 
   Mutex& DummyConfiguration::getClassLock()

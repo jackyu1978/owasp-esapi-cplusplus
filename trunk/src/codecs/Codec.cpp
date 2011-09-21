@@ -22,8 +22,8 @@
 #include <sstream>
 #include <iomanip>
 
-#define HEX(x) std::hex << std::setw(x) << std::setfill('0')
-#define OCT(x) std::octal << std::setw(x) << std::setfill('0')
+#define HEX(x) std::hex << std::setw(x) << std::setfill(L'0')
+#define OCT(x) std::octal << std::setw(x) << std::setfill(L'0')
 
 /**
 * Precomputed size of the internal hex array.
@@ -63,7 +63,7 @@ namespace esapi
         if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
           ta[c] = String();
         } else {
-          std::ostringstream str;
+          StringStream str;
           // str << HEX(2) << int(0xFF & c);
           str << std::hex << c;
           ta[c] = str.str();
@@ -161,7 +161,7 @@ namespace esapi
   String Codec::toOctal(Char c) {
     ASSERT(c != 0);
 
-    std::ostringstream str;
+    StringStream str;
     // str << OCT(3) << int(0xFF & c);
     str << std::oct << c;
     return str.str();
@@ -170,7 +170,7 @@ namespace esapi
   String Codec::toHex(Char c) {
     ASSERT(c != 0);
 
-    std::ostringstream str;
+    StringStream str;
     // str << HEX(2) << int(0xFF & c);
     str << std::hex << c;
     return str.str();

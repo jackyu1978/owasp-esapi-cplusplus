@@ -16,11 +16,10 @@
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/CryptoHelper.h"
+#include "util/TextConvert.h"
 #include "util/SecureArray.h"
 
 #include "DummyConfiguration.h"
-
-#include <string>
 
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
@@ -32,7 +31,7 @@ namespace esapi
 
   String DefaultEncryptor::DefaultDigestAlgorithm()
   {
-    return String("SHA-512");
+    return String(L"SHA-512");
   }
 
   unsigned int DefaultEncryptor::DefaultDigestIterations()
@@ -59,7 +58,7 @@ namespace esapi
         md.digest(hash.data(), hash.size(), 0, size);
       }
 
-    String encoded;
+    std::string encoded;
     try
       {
         CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */,
@@ -68,16 +67,16 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
 
-    return encoded;
+    return TextConvert::NarrowToWide(encoded);
   }
 
   CipherText DefaultEncryptor::encrypt(const PlainText& plainText)
   {
     DummyConfiguration config;
-    SecretKey key("Unknown", config.getMasterKey());
+    SecretKey key(L"Unknown", config.getMasterKey());
 
     return encrypt(key, plainText);
   }
@@ -88,18 +87,18 @@ namespace esapi
 
     std::vector<String> parts;
     String xform = config.getCipherTransformation();    
-    split(xform, "\\/:", parts);
+    split(xform, L"\\/:", parts);
 
     ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + xform);
     if(parts.size() != 3)
-      throw EncryptionException("Malformed cipher transformation: " + xform);
+      throw EncryptionException(L"Malformed cipher transformation: " + xform);
 
     const String mode = parts[1];
     bool allowed = CryptoHelper::isAllowedCipherMode(mode);
 
-    ESAPI_ASSERT2(allowed, String("Cipher mode '") + mode + "' is not allowed");
+    ESAPI_ASSERT2(allowed, String(L"Cipher mode '") + mode + L"' is not allowed");
     if( !allowed )
-      throw EncryptionException(String("Cipher mode '") + mode + "' is not allowed");    
+      throw EncryptionException(String(L"Cipher mode '") + mode + L"' is not allowed");    
 
     // Cipher encrypter = Cipher::getInstance(xform);
     // String cipherAlg = encrypter.getAlgorithm();

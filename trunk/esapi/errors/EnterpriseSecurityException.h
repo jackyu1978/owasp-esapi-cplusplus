@@ -17,12 +17,7 @@
 #pragma once
 
 #include "EsapiCommon.h"
-
 #include <exception>
-#include <stdexcept>
-#include <string>
-
-namespace esapi {
 
   /**
    * EnterpriseSecurityException is the base class for all security related exceptions. You should pass in the root cause
@@ -40,14 +35,16 @@ namespace esapi {
    * <P>
    * @author Jeff Williams (jeff.williams@aspectsecurity.com)
    */
-  class ESAPI_EXPORT EnterpriseSecurityException : public std::runtime_error
+namespace esapi
+{
+  class ESAPI_EXPORT EnterpriseSecurityException : public std::exception
     {
     protected:
 
       /** The logger. */
-      //const Logger logger = ESAPI.getLogger("EnterpriseSecurityException");
-      // String userMessage;
-      String logMessage;
+      //const Logger logger = ESAPI.getLogger(L"EnterpriseSecurityException");
+      NarrowString userMessage;
+      NarrowString logMessage;
 
     public:
 
@@ -65,7 +62,23 @@ namespace esapi {
        * @param logMessage
        *                        the message logged
        */
-      EnterpriseSecurityException(const String& userMessage, const String& logMessage);
+      explicit EnterpriseSecurityException(const String& userMessage, const String& logMessage);
+
+      /**
+       * Creates a new instance of EnterpriseSecurityException. This exception is automatically logged, so that simply by
+       * using this API, applications will generate an extensive security log. In addition, this exception is
+       * automatically registered with the IntrusionDetector, so that quotas can be checked.
+       *
+       * It should be noted that messages that are intended to be displayed to the user should be safe for display. In
+       * other words, don't pass in unsanitized data here. Also could hold true for the logging message depending on the
+       * context of the exception.
+       *
+       * @param userMessage
+       *                        the message displayed to the user
+       * @param logMessage
+       *                        the message logged
+       */
+      EnterpriseSecurityException(const NarrowString& userMessage, const NarrowString& logMessage);
 
       /**
        * Returns message meant for display to users
@@ -75,8 +88,7 @@ namespace esapi {
        *
        * @return a String containing a message that is safe to display to users
        */
-      virtual String getUserMessage() const;
-      virtual const Char* what() const throw();
+      virtual String getUserMessage() const;      
 
       /**
        * Returns a message that is safe to display in logs, but may contain
@@ -88,9 +100,8 @@ namespace esapi {
        */
       virtual String getLogMessage() const;
 
-      virtual ~EnterpriseSecurityException() throw() { };
+      virtual ~EnterpriseSecurityException() { };
+
+      virtual const char* what() const;
     };
-
 };
-
-

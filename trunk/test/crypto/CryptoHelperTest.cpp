@@ -91,11 +91,11 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper70 )
   std::memset(b1, 0xFF, sizeof(b1));
 
   byte b2[16];
-  std::memset(b2, 'A', sizeof(b2));       
+  std::memset(b2, L'A', sizeof(b2));       
 
   try
     {
-      CryptoHelper::overwrite(b1, sizeof(b1), 'A');
+      CryptoHelper::overwrite(b1, sizeof(b1), L'A');
       int result = std::memcmp(b1, b2, sizeof(b1));
 
       success = (result == 0);
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper71 )
 
   try
     {
-      CryptoHelper::overwrite(nullptr, 16, 'A');
+      CryptoHelper::overwrite(nullptr, 16, L'A');
     }
   catch(...)
     {
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper72 )
 
   try
     {
-      CryptoHelper::overwrite(b1, 0, 'A');
+      CryptoHelper::overwrite(b1, 0, L'A');
       success = true;
     }
   catch(...)
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper80 )
   std::memset(b1, 0xFF, sizeof(b1));
 
   byte b2[16];
-  std::memset(b2, '*', sizeof(b2));       
+  std::memset(b2, L'*', sizeof(b2));       
 
   try
     {
@@ -225,8 +225,8 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper91 )
   bool success = false;
 
   byte b1[16], b2[16];
-  std::memset(b1, 'A', sizeof(b1));
-  std::memset(b2, 'Z', sizeof(b2));
+  std::memset(b1, L'A', sizeof(b1));
+  std::memset(b2, L'Z', sizeof(b2));
 
   try
     {
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_CASE( VerifyCryptoHelper91 )
 
       result |= std::memcmp(b1, b2, 8);
 
-      byte aa[8] = { 'A','A','A','A','A','A','A','A' };
+      byte aa[8] = { L'A','A','A','A','A','A','A','A' };
       result |= std::memcmp(b1+8, aa, 8);
 
       success = (result == 0);

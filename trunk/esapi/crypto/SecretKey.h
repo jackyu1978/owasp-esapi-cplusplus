@@ -64,7 +64,7 @@ namespace esapi
      * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
      * tagged ESAPI_PRIVATE, but the test files need it.
      */
-    SecretKey(const String& alg, const SecureByteArray& bytes, const String& format = "RAW");
+    SecretKey(const String& alg, const SecureByteArray& bytes, const String& format = L"RAW");
 
 
     // TODO: testing - remove me
@@ -80,12 +80,12 @@ namespace esapi
      * specified by algorithm. This should be hidden and tagged ESAPI_PRIVATE,
      * but the test files need it.
      */
-    ESAPI_TEST_EXPORT SecretKey(const String& alg, const size_t sizeInBytes, const String& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const String& alg, const size_t sizeInBytes, const String& format = L"RAW");
     /**
      * Create a SecretKey from a Crypto++ SecByteBlock. This should be hidden and 
      * tagged ESAPI_PRIVATE, but the test files need it.
      */
-    ESAPI_TEST_EXPORT SecretKey(const String& alg, const CryptoPP::SecByteBlock& bytes, const String& format = "RAW");
+    ESAPI_TEST_EXPORT SecretKey(const String& alg, const CryptoPP::SecByteBlock& bytes, const String& format = L"RAW");
 
   public:
     /**

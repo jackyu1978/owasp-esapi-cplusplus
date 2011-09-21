@@ -29,20 +29,20 @@ namespace esapi
       }
 
       switch (c) {
-      case '\\':
-              return "\\5c";
+      case L'\\':
+              return L"\\5c";
               break;
-      case '*':
-              return "\\2a";
+      case L'*':
+              return L"\\2a";
               break;
-      case '(':
-              return "\\28";
+      case L'(L':
+              return L"\\28";
               break;
-      case ')':
-			  return "\\29";
+      case L')':
+			  return L"\\29";
               break;
-      case '\0':
-              return "\\00";
+      case L'\0':
+              return L"\\00";
               break;
       default:
               return String(1, c);
@@ -56,13 +56,13 @@ namespace esapi
 	  Char first = input.next();
 	  if ( first == 0 ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  // if this is not an encoded character, return null
-	  if ( first != '\\' ) {
+	  if ( first != L'\\' ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  Char second = input.next();

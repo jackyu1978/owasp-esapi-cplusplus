@@ -13,6 +13,7 @@
 */
 
 #include "crypto/RandomPool.h"
+#include "util/TextConvert.h"
 #include "util/ArrayZeroizer.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -50,7 +51,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to initialize the random pool");
+      throw EncryptionException(L"Failed to initialize the random pool");
   }
 
   /**
@@ -73,7 +74,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to reseed the random pool");
+      throw EncryptionException(L"Failed to reseed the random pool");
   }
 
   /**
@@ -109,7 +110,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(String("Internal error: ") + ex.what());
+      throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
     }
 
     return m_keyed;
@@ -145,10 +146,10 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("The buffer or size is not valid");
+      throw InvalidArgumentException(L"The buffer or size is not valid");
 
     if(!m_keyed)
-      throw EncryptionException("Failed to generate a block in the random pool (1)");
+      throw EncryptionException(L"Failed to generate a block in the random pool (1)");
 
     try
     {
@@ -156,7 +157,7 @@ namespace esapi
       ByteArrayZeroizer z1(data, sizeof(data));
 
       if(!GetTimeData(data, sizeof(data)))
-        throw EncryptionException("Failed to generate a block in the random pool (2)");
+        throw EncryptionException(L"Failed to generate a block in the random pool (2)");
 
       size_t idx = 0;
       while(size)
@@ -173,7 +174,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(String("Internal error: ") + ex.what());
+      throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
     }
   }
 }

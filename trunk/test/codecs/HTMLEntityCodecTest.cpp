@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4N)
   HTMLEntityCodec codec;
 
   const Char* nil = NULL;
-  String encoded = codec.encodeCharacter(nil, 0, 'A');
+  String encoded = codec.encodeCharacter(nil, 0, L'A');
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
@@ -70,8 +70,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
   // Negative test
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter(immune, 0, 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
+  String encoded = codec.encodeCharacter(immune, 0, L'A');
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
@@ -79,8 +79,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
   // Negative test
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
+  String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), L'A');
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
 
-  for( unsigned int c = 'A'; c <= 'Z'; c++)
+  for( unsigned int c = L'A'; c <= L'Z'; c++)
   {
     String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
     BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");

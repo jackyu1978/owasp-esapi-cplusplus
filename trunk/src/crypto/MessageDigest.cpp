@@ -29,7 +29,7 @@ namespace esapi
 
   String MessageDigest::DefaultAlgorithm()
   {
-    return String("SHA-256");
+    return String(L"SHA-256");
   }
 
   /**
@@ -43,7 +43,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create MessageDigest");
+      throw EncryptionException(L"Failed to create MessageDigest");
   }
 
   /**
@@ -56,7 +56,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create MessageDigest");
+      throw EncryptionException(L"Failed to create MessageDigest");
   }
 
   /**
@@ -106,7 +106,7 @@ namespace esapi
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
-      throw EncryptionException("Failed to create MessageDigest");
+      throw EncryptionException(L"Failed to create MessageDigest");
 
     return MessageDigest(impl);
   }
@@ -119,7 +119,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
+      throw EncryptionException(L"Failed to retrieve algorithm name");
 
     return m_impl->getAlgorithmImpl();
   }
@@ -134,7 +134,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
+      throw EncryptionException(L"Failed to retrieve algorithm name");
 
     return m_impl->getDigestLengthImpl();
   }
@@ -149,7 +149,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to reset");
+      throw EncryptionException(L"Failed to reset");
 
     return m_impl->resetImpl();
   }
@@ -168,7 +168,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(input);
   }
@@ -189,7 +189,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(input, size);
   }
@@ -209,7 +209,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(input);
   }
@@ -229,7 +229,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(input);
   }
@@ -253,7 +253,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(buf, size, offset, len);
   }
@@ -276,7 +276,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->updateImpl(buf, offset, len);
   }
@@ -292,7 +292,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->digestImpl();
   }
@@ -311,7 +311,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->digestImpl(input, size);
   }
@@ -329,7 +329,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->digestImpl(input);
   }
@@ -347,7 +347,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
+      throw EncryptionException(L"Failed to update digest");
 
     return m_impl->digestImpl(input);
   }
@@ -370,7 +370,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve digest");
+      throw EncryptionException(L"Failed to retrieve digest");
 
     return m_impl->digestImpl(buf, size, offset, len);
   }
@@ -393,7 +393,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve digest");
+      throw EncryptionException(L"Failed to retrieve digest");
 
     return m_impl->digestImpl(buf, offset, len);
   }
@@ -423,26 +423,26 @@ namespace esapi
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
-    if(alg == "md5" || alg == "md-5")
-      return "MD5";
+    if(alg == L"md5" || alg == L"md-5")
+      return L"MD5";
 
-    if(alg == "sha-1" || alg == "sha1" || alg == "sha")
-      return "SHA-1";
+    if(alg == L"sha-1" || alg == L"sha1" || alg == L"sha")
+      return L"SHA-1";
 
-    if(alg == "sha-224" || alg == "sha224")
-      return "SHA-224";
+    if(alg == L"sha-224" || alg == L"sha224")
+      return L"SHA-224";
 
-    if(alg == "sha-256" || alg == "sha256")
-      return "SHA-256";
+    if(alg == L"sha-256" || alg == L"sha256")
+      return L"SHA-256";
 
-    if(alg == "sha-384" || alg == "sha384")
-      return "SHA-384";
+    if(alg == L"sha-384" || alg == L"sha384")
+      return L"SHA-384";
 
-    if(alg == "sha-512" || alg == "sha512")
-      return "SHA-512";
+    if(alg == L"sha-512" || alg == L"sha512")
+      return L"SHA-512";
 
-    if(alg == "whirlpool")
-      return "Whirlpool";
+    if(alg == L"whirlpool")
+      return L"Whirlpool";
 
     return trimmed;
   }

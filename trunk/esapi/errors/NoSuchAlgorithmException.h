@@ -34,7 +34,7 @@ namespace esapi {
       }
   };
 
-  // static const NoSuchAlgorithmException dummy("unused");
+  // static const NoSuchAlgorithmException dummy(L"unused");
 
 } // NAMESPACE
 

@@ -51,27 +51,27 @@ namespace esapi
     ASSERT( keySize >= 56 );
     ASSERT( (keySize % 8) == 0 );
     ASSERT( !purpose.empty());
-    ASSERT( purpose == "authenticity" || purpose == "encryption" );
+    ASSERT( purpose == L"authenticity" || purpose == L"encryption" );
 
     if(!(keySize >= 56))
       {
-        std::ostringstream oss;
-        oss << "KeyDerivationFunction: key has size of " << keySize << ", which is less than minimum of 56-bits.";
-        throw std::invalid_argument(oss.str());
+        StringStream oss;
+        oss << L"KeyDerivationFunction: key has size of " << keySize << L", which is less than minimum of 56-bits.";
+        throw InvalidArgumentException(oss.str());
       }
 
     if(!((keySize % 8) == 0))
       {
-        std::ostringstream oss;
-        oss << "KeyDerivationFunction: key size (" << keySize << ") must be a even multiple of 8-bits.";
-        throw std::invalid_argument(oss.str());
+        StringStream oss;
+        oss << L"KeyDerivationFunction: key size (L" << keySize << L") must be a even multiple of 8-bits.";
+        throw InvalidArgumentException(oss.str());
       }
 
     if(purpose.empty())
       {
-        std::ostringstream oss;
-        oss << "Purpose \'" << purpose << "\' is null, empty, or not valid. Purpose should be either \'authenticity\' or \'encryption\'.";
-        throw std::invalid_argument(oss.str());
+        StringStream oss;
+        oss << L"Purpose \'" << purpose << L"\' is null, empty, or not valid. Purpose should be either \'authenticity\' or \'encryption\'.";
+        throw InvalidArgumentException(oss.str());
       }
 
     keySize = calcKeySize( keySize );
@@ -82,10 +82,10 @@ namespace esapi
       byte[] label;              // Same purpose as NIST SP 800-108's "label" in section 5.1.
       byte[] context;            // See setContext() for details.
       try {
-      label = purpose.getBytes("UTF-8");
-      context = context_.getBytes("UTF-8");
+      label = purpose.getBytes(L"UTF-8");
+      context = context_.getBytes(L"UTF-8");
       } catch (UnsupportedEncodingException e) {
-      throw new EncryptionException("Encryption failure (internal encoding error: UTF-8)",
+      throw new EncryptionException(L"Encryption failure (internal encoding error: UTF-8)",
       "UTF-8 encoding is NOT supported as a standard byte encoding: " + e.getMessage(), e);
       }
     */
@@ -110,7 +110,7 @@ namespace esapi
       Mac mac = null;
 
       try {
-      mac = Mac.getInstance("HmacSHA1");
+      mac = Mac.getInstance(L"HmacSHA1");
       mac.init(sk);
       } catch( InvalidKeyException ex ) {
       logger.error(Logger.SECURITY_FAILURE, "Created HmacSHA1 Mac but SecretKey sk has alg " + sk.getAlgorithm(), ex);
@@ -179,7 +179,7 @@ namespace esapi
     // Don't leave remnants of the partial key in memory. (Note: we could
     // not do this if tmpKey were declared in the do-while loop.
     for ( int i = 0; i < tmpKey.length; i++ ) {
-    tmpKey[i] = '\0';
+    tmpKey[i] = L'\0';
     }
     tmpKey = null;  // Make it immediately eligible for GC.
     */
@@ -215,7 +215,7 @@ namespace esapi
     // Convert it back into a SecretKey of the appropriate type.
     // return new SecretKeySpec(derivedKey, keyDerivationKey.getAlgorithm());
 
-    return SecretKey("HMACSha1", derived);
+    return SecretKey(L"HMACSha1", derived);
   }
 
   /**
@@ -240,7 +240,7 @@ namespace esapi
     return prf;
     }
     }
-    throw new IllegalArgumentException("Algorithm name " + prfAlgName +
+    throw new IllegalArgumentException(L"Algorithm name " + prfAlgName +
     " not a valid PRF algorithm name for the ESAPI KDF.");
     }
     
@@ -250,7 +250,7 @@ namespace esapi
     return prf;
     }
     }
-    throw new IllegalArgumentException("No KDF PRF algorithm found for value name " + selection);    
+    throw new IllegalArgumentException(L"No KDF PRF algorithm found for value name " + selection);    
     }
   */
 
