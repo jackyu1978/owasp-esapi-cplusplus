@@ -43,7 +43,7 @@
 
 namespace esapi
 {
-  SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const std::string& purpose)
+  SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const String& purpose)
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
@@ -91,8 +91,8 @@ namespace esapi
     */
 
     // Consistency with Java implementation. This class needs to wire-up a context.
-    const std::string& label = purpose;
-    const std::string context;
+    const String& label = purpose;
+    const String context;
 
     // Note that keyDerivationKey is going to be some SecretKey like an AES or
     // DESede key, but not an HmacSHA1 key. That means it is not likely

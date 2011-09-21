@@ -33,12 +33,12 @@ namespace esapi {
   class ESAPI_EXPORT PushbackString {
 
   private:
-    std::string input;
+    String input;
 
     // Conceptually, `marking` a PushbackString does not change the string.
     // Hence the use of mutable, so mark() can change `varTemp` and `varMark`.
-    char varPushback;
-    mutable char varTemp;
+    Char varPushback;
+    mutable Char varTemp;
     size_t varIndex;
     mutable size_t varMark;
 
@@ -47,13 +47,13 @@ namespace esapi {
      *
      * @param input
      */
-    PushbackString(const std::string&);
+    PushbackString(const String&);
 
     /**
      *
      * @param c
      */
-    void pushback( char );
+    void pushback( Char );
 
     /**
      * Get the current index of the PushbackString. Typically used in error messages.
@@ -70,48 +70,48 @@ namespace esapi {
 
     /**
      *
-     * @return char
+     * @return Char
      */
-    char next();
+    Char next();
 
     /**
      *
-     * @return char
+     * @return Char
      */
-    char nextHex();
+    Char nextHex();
 
     /**
      *
-     * @return char
+     * @return Char
      */
-    char nextOctal();
+    Char nextOctal();
 
     /**
      * Returns true if the parameter character is a hexidecimal digit 0 through 9, a through f, or A through F.
      * @param c
      * @return
      */
-    static bool isHexDigit( char );
+    static bool isHexDigit( Char );
 
     /**
      * Returns true if the parameter character is an octal digit 0 through 7.
      * @param c
      * @return
      */
-    static bool isOctalDigit( char );
+    static bool isOctalDigit( Char );
 
     /**
      * Return the next character without affecting the current index.
      * @return
      */
-    char peek() const;
+    Char peek() const;
 
     /**
      * Test to see if the next character is a particular value without affecting the current index.
      * @param c
      * @return
      */
-    bool peek( char ) const;
+    bool peek( Char ) const;
 
     /**
      *
@@ -128,7 +128,7 @@ namespace esapi {
      *
      * @return
      */
-    ESAPI_PRIVATE std::string remainder();
+    ESAPI_PRIVATE String remainder();
 
   };
 

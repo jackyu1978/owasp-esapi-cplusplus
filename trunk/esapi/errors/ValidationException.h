@@ -38,7 +38,7 @@ namespace esapi {
 
   private:
     /** The UI reference that caused this ValidationException */
-    std::string context;
+    String context;
 
   public:
     /**
@@ -49,7 +49,7 @@ namespace esapi {
      * @param logMessage
      *                        the message logged
      */
-  ValidationException(const std::string &userMessage, const std::string &logMessage)
+  ValidationException(const String &userMessage, const String &logMessage)
     : EnterpriseSecurityException(userMessage, logMessage), context() { }
 
     /**
@@ -62,14 +62,14 @@ namespace esapi {
      * @param context
      *            the source that caused this exception
      */
-    ValidationException(const std::string &, const std::string &, const std::string &);
+    ValidationException(const String &, const String &, const String &);
 
     /**
      * Returns the UI reference that caused this ValidationException
      *
      * @return context, the source that caused the exception, stored as a string
      */
-    std::string getContext();
+    String getContext();
 
     /**
      * Set's the UI reference that caused this ValidationException
@@ -77,7 +77,7 @@ namespace esapi {
      * @param context
      *                      the context to set, passed as a String
      */
-    void setContext(const std::string &);
+    void setContext(const String &);
 
     virtual ~ValidationException() throw() {};
   };

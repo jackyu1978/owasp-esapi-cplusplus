@@ -49,79 +49,79 @@ namespace esapi
   // Forawrd declaration
   class Threshold;
 
-  typedef std::string Pattern;
-  typedef std::string InputStream;
+  typedef String Pattern;
+  typedef String InputStream;
 
   class SecurityConfiguration
   {
   public:
-    virtual std::string getApplicationName() =0;
-    virtual std::string getLogImplementation() =0;
-    virtual std::string getAuthenticationImplementation() =0;
-    virtual std::string getEncoderImplementation() =0;
-    virtual std::string getAccessControlImplementation() =0;
-    virtual std::string getIntrusionDetectionImplementation() =0;
-    virtual std::string getRandomizerImplementation() =0;
-    virtual std::string getEncryptionImplementation() =0;
-    virtual std::string getValidationImplementation() =0;
-    virtual Pattern getValidationPattern(const std::string &) =0;
+    virtual String getApplicationName() =0;
+    virtual String getLogImplementation() =0;
+    virtual String getAuthenticationImplementation() =0;
+    virtual String getEncoderImplementation() =0;
+    virtual String getAccessControlImplementation() =0;
+    virtual String getIntrusionDetectionImplementation() =0;
+    virtual String getRandomizerImplementation() =0;
+    virtual String getEncryptionImplementation() =0;
+    virtual String getValidationImplementation() =0;
+    virtual Pattern getValidationPattern(const String &) =0;
     virtual bool getLenientDatesAccepted() =0;
-    virtual std::string getExecutorImplementation() =0;
-    virtual std::string getHTTPUtilitiesImplementation() =0;
+    virtual String getExecutorImplementation() =0;
+    virtual String getHTTPUtilitiesImplementation() =0;
     virtual SecureByteArray getMasterKey() =0;
-    virtual std::string getUploadDirectory() =0;
-    virtual std::string getUploadTempDirectory() =0;
+    virtual String getUploadDirectory() =0;
+    virtual String getUploadTempDirectory() =0;
     virtual int getEncryptionKeyLength() =0;
     virtual SecureByteArray getMasterSalt() =0;
     virtual StringList getAllowedExecutables() =0;
     virtual StringList getAllowedFileExtensions() =0;
     virtual int getAllowedFileUploadSize() =0;
-    virtual std::string getPasswordParameterName() =0;
-    virtual std::string getUsernameParameterName() =0;
-    virtual std::string getEncryptionAlgorithm() =0;
-    virtual std::string getCipherTransformation() =0;
-    virtual std::string setCipherTransformation(const std::string &) =0;
-    virtual std::string getPreferredJCEProvider() =0;
+    virtual String getPasswordParameterName() =0;
+    virtual String getUsernameParameterName() =0;
+    virtual String getEncryptionAlgorithm() =0;
+    virtual String getCipherTransformation() =0;
+    virtual String setCipherTransformation(const String &) =0;
+    virtual String getPreferredJCEProvider() =0;
     virtual bool useMACforCipherText() =0;
     virtual bool overwritePlainText() =0;
-    virtual std::string getIVType() =0;
+    virtual String getIVType() =0;
     virtual SecureByteArray getFixedIV() =0;
     virtual const StringList& getCombinedCipherModes() =0;
     virtual const StringList& getAdditionalAllowedCipherModes() =0;
-    virtual std::string getHashAlgorithm() =0;
+    virtual String getHashAlgorithm() =0;
     virtual int getHashIterations() =0;
-    virtual std::string getKDFPseudoRandomFunction() =0;
-    virtual std::string getCharacterEncoding() =0;
+    virtual String getKDFPseudoRandomFunction() =0;
+    virtual String getCharacterEncoding() =0;
     virtual bool getAllowMultipleEncoding() =0;
     virtual bool getAllowMixedEncoding() =0;
     virtual StringList getDefaultCanonicalizationCodecs() =0;
-    virtual std::string getDigitalSignatureAlgorithm() =0;
+    virtual String getDigitalSignatureAlgorithm() =0;
     virtual int getDigitalSignatureKeyLength() =0;
-    virtual std::string getRandomAlgorithm() =0;
+    virtual String getRandomAlgorithm() =0;
     virtual int getAllowedLoginAttempts() =0;
     virtual int getMaxOldPasswordHashes() =0;
     virtual bool getDisableIntrusionDetection() =0;
-    virtual Threshold getQuota(const std::string &) =0;
-    virtual std::string getResourceFile(const std::string &) =0;
+    virtual Threshold getQuota(const String &) =0;
+    virtual String getResourceFile(const String &) =0;
     virtual bool getForceHttpOnlySession() =0;
     virtual bool getForceSecureSession() =0;
     virtual bool getForceHttpOnlyCookies() =0;
     virtual bool getForceSecureCookies() =0;
     virtual int getMaxHttpHeaderSize() =0;
-    virtual InputStream getResourceStream(const std::string &) =0;
-    virtual void setResourceDirectory(const std::string &) =0;
-    virtual std::string getResponseContentType() =0;
-    virtual std::string getHttpSessionIdName() =0;
+    virtual InputStream getResourceStream(const String &) =0;
+    virtual void setResourceDirectory(const String &) =0;
+    virtual String getResponseContentType() =0;
+    virtual String getHttpSessionIdName() =0;
     virtual long getRememberTokenDuration() =0;
     virtual int getSessionIdleTimeoutLength() =0;
     virtual int getSessionAbsoluteTimeoutLength() =0;
     virtual bool getLogEncodingRequired() =0;
-    virtual std::string getLogApplicationName() =0;
-    virtual std::string getLogServerIP() =0;
+    virtual String getLogApplicationName() =0;
+    virtual String getLogServerIP() =0;
     virtual int getLogLevel() =0;
-    virtual std::string getLogFileName() =0;
+    virtual String getLogFileName() =0;
     virtual int getMaxLogFileSize() =0;
-    virtual std::string getWorkingDirectory() =0;
+    virtual String getWorkingDirectory() =0;
 
     virtual ~SecurityConfiguration() {};
   };
@@ -136,7 +136,7 @@ namespace esapi
   {
   public:
     /** The name of this threshold. */
-    std::string name;
+    String name;
 
     /** The count at which this threshold is triggered. */
     int count;
@@ -148,7 +148,7 @@ namespace esapi
     long interval;
 
     /**
-    * The list of actions to take if the threshold is met. It is expected that this is a list of std::strings, but
+    * The list of actions to take if the threshold is met. It is expected that this is a list of Strings, but
     * your implementation could have this be a list of any type of 'actions' you wish to define.
     */
     StringList actions;
@@ -163,7 +163,7 @@ namespace esapi
     * trigger this threshold.
     * @param actions The list of actions to take if the threshold is met.
     */
-    Threshold(const std::string & name, int count, long interval, StringList actions)
+    Threshold(const String & name, int count, long interval, StringList actions)
     {
       this->name = name;
       this->count = count;

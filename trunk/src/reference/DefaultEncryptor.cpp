@@ -28,11 +28,11 @@
 namespace esapi
 {
   // Private to this module (for now)
-  static void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts);
+  static void split(const String& str, const String& delim, std::vector<String>& parts);
 
-  std::string DefaultEncryptor::DefaultDigestAlgorithm()
+  String DefaultEncryptor::DefaultDigestAlgorithm()
   {
-    return std::string("SHA-512");
+    return String("SHA-512");
   }
 
   unsigned int DefaultEncryptor::DefaultDigestIterations()
@@ -40,7 +40,7 @@ namespace esapi
     return 1024;
   }
 
-  std::string DefaultEncryptor::hash(const std::string &message, const std::string &salt, unsigned int iterations)
+  String DefaultEncryptor::hash(const String &message, const String &salt, unsigned int iterations)
   {      
     MessageDigest md(DefaultDigestAlgorithm());
     const size_t size = md.getDigestLength();
@@ -59,7 +59,7 @@ namespace esapi
         md.digest(hash.data(), hash.size(), 0, size);
       }
 
-    std::string encoded;
+    String encoded;
     try
       {
         CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */,
@@ -68,7 +68,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(std::string("Internal error: ") + ex.what());
+        throw EncryptionException(String("Internal error: ") + ex.what());
       }
 
     return encoded;
@@ -86,20 +86,20 @@ namespace esapi
   {
     DummyConfiguration config;
 
-    std::vector<std::string> parts;
-    std::string xform = config.getCipherTransformation();    
+    std::vector<String> parts;
+    String xform = config.getCipherTransformation();    
     split(xform, "\\/:", parts);
 
     ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + xform);
     if(parts.size() != 3)
       throw EncryptionException("Malformed cipher transformation: " + xform);
 
-    const std::string mode = parts[1];
+    const String mode = parts[1];
     bool allowed = CryptoHelper::isAllowedCipherMode(mode);
 
-    ESAPI_ASSERT2(allowed, std::string("Cipher mode '") + mode + "' is not allowed");
+    ESAPI_ASSERT2(allowed, String("Cipher mode '") + mode + "' is not allowed");
     if( !allowed )
-      throw EncryptionException(std::string("Cipher mode '") + mode + "' is not allowed");    
+      throw EncryptionException(String("Cipher mode '") + mode + "' is not allowed");    
 
     // Cipher encrypter = Cipher::getInstance(xform);
     // String cipherAlg = encrypter.getAlgorithm();
@@ -111,12 +111,12 @@ namespace esapi
     return CipherText();
   }
 
-  void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts)
+  void split(const String& str, const String& delim, std::vector<String>& parts)
   {
-    std::string s(str);
-    std::string::size_type pos = 0;
+    String s(str);
+    String::size_type pos = 0;
 
-    while( (pos = s.find_first_of(delim)) != std::string::npos )
+    while( (pos = s.find_first_of(delim)) != String::npos )
       {
         parts.push_back(s.substr(0, pos));
         s.erase(0, pos+1);

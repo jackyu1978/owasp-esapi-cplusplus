@@ -29,71 +29,71 @@ public:
 	/**
 	 * !$*-.=?@_
 	 */
-	static const char CHAR_PASSWORD_SPECIALS [];
-	static const std::set<char> PASSWORD_SPECIALS;
+	static const Char CHAR_PASSWORD_SPECIALS [];
+	static const std::set<Char> PASSWORD_SPECIALS;
 
 
 	/**
 	 * a-b
 	 */
-	static const char CHAR_LOWERS[];
-	static const std::set<char> LOWERS;
+	static const Char CHAR_LOWERS[];
+	static const std::set<Char> LOWERS;
 
 	/**
 	 * A-Z
 	 */
-	static const char CHAR_UPPERS[];
-	static const std::set<char> UPPERS;
+	static const Char CHAR_UPPERS[];
+	static const std::set<Char> UPPERS;
 
 	/**
 	 * 0-9
 	 */
-	static const char CHAR_DIGITS[];
-	static const std::set<char> DIGITS;
+	static const Char CHAR_DIGITS[];
+	static const std::set<Char> DIGITS;
 
 	/**
 	 * !$*+-.=?@^_|~
 	 */
-	static const char CHAR_SPECIALS[];
-	static const std::set<char> SPECIALS;
+	static const Char CHAR_SPECIALS[];
+	static const std::set<Char> SPECIALS;
 
 	/**
 	 * CHAR_LOWERS union CHAR_UPPERS
 	 */
-	static const char CHAR_LETTERS[];
-	static const std::set<char> LETTERS;
+	static const Char CHAR_LETTERS[];
+	static const std::set<Char> LETTERS;
 
 	/**
 	 * CHAR_LETTERS union CHAR_DIGITS
 	 */
-	static const char CHAR_ALPHANUMERICS[];
-	static const std::set<char> ALPHANUMERICS;
+	static const Char CHAR_ALPHANUMERICS[];
+	static const std::set<Char> ALPHANUMERICS;
 
 	/**
 	 * Password character set, is alphanumerics (without l, i, I, o, O, and 0)
 	 * selected specials like + (bad for URL encoding, | is like i and 1,
 	 * etc...)
 	 */
-	static const char CHAR_PASSWORD_LOWERS[];
-	static const std::set<char> PASSWORD_LOWERS;
+	static const Char CHAR_PASSWORD_LOWERS[];
+	static const std::set<Char> PASSWORD_LOWERS;
 
 	/**
 	 *
 	 */
-	static const char CHAR_PASSWORD_UPPERS[];
-	static const std::set<char> PASSWORD_UPPERS;
+	static const Char CHAR_PASSWORD_UPPERS[];
+	static const std::set<Char> PASSWORD_UPPERS;
 
 	/**
 	 * 2-9
 	 */
-	static const char CHAR_PASSWORD_DIGITS[];
-	static const std::set<char> PASSWORD_DIGITS;
+	static const Char CHAR_PASSWORD_DIGITS[];
+	static const std::set<Char> PASSWORD_DIGITS;
 
 	/**
 	 * CHAR_PASSWORD_LOWERS union CHAR_PASSWORD_UPPERS
 	 */
-	static const char CHAR_PASSWORD_LETTERS[];
-	static const std::set<char> PASSWORD_LETTERS;
+	static const Char CHAR_PASSWORD_LETTERS[];
+	static const std::set<Char> PASSWORD_LETTERS;
 
 private:
 	EncoderConstants() {

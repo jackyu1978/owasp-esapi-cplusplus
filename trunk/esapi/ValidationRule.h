@@ -36,7 +36,7 @@ namespace esapi
 		 *             if any validation rules fail
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &) =0;
+		virtual T getValid(const String &, const String &) =0;
 
 		/**
 		 * Whether or not a valid valid can be null. getValid will throw an
@@ -52,12 +52,12 @@ namespace esapi
 		 * Programmatically supplied name for the validator
 		 * @return a name, describing the validator
 		 */
-		virtual std::string getTypeName() =0;
+		virtual String getTypeName() =0;
 
 		/**
 		 * @param typeName a name, describing the validator
 		 */
-		virtual void setTypeName(const std::string &) =0;
+		virtual void setTypeName(const String &) =0;
 
 		/**
 		 * @param encoder the encoder to use
@@ -67,29 +67,29 @@ namespace esapi
 		/**
 		 * Check if the input is valid, throw an Exception otherwise
 		 */
-		virtual void assertValid(const std::string &, const std::string &) =0;
+		virtual void assertValid(const String &, const String &) =0;
 
 		/**
 		 * Get a validated value, add the errors to an existing error list
 		 */
 		//template <typename T>
-		virtual T getValid(const std::string &, const std::string &, ValidationErrorList &) =0;
+		virtual T getValid(const String &, const String &, ValidationErrorList &) =0;
 
 		/**
 		 * Try to call get valid, then call sanitize, finally return a default value
 		 */
 		//template <typename T>
-		virtual T getSafe(const std::string &, const std::string &) =0;
+		virtual T getSafe(const String &, const String &) =0;
 
 		/**
 		 * @return true if the input passes validation
 		 */
-		virtual bool isValid(const std::string &, const std::string &) =0;
+		virtual bool isValid(const String &, const String &) =0;
 
 		/**
 		 * String the input of all chars contained in the list
 		 */
-		virtual std::string whitelist(const std::string &, const std::set<char> &) =0;
+		virtual String whitelist(const String &, const std::set<Char> &) =0;
 
 		virtual ~ValidationRule() {};
 	};

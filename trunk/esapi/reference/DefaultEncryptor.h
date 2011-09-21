@@ -31,7 +31,7 @@ namespace esapi
   {
   public:
 
-    static std::string DefaultDigestAlgorithm();
+    static String DefaultDigestAlgorithm();
     static unsigned int DefaultDigestIterations();
 
   public:
@@ -43,7 +43,7 @@ namespace esapi
      * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
      * in order to help strengthen weak passwords.
      */
-    virtual std::string hash(const std::string &plaintext, const std::string &salt, unsigned int iterations = DefaultDigestIterations());
+    virtual String hash(const String &plaintext, const String &salt, unsigned int iterations = DefaultDigestIterations());
 
     virtual CipherText encrypt(const PlainText& plainText);
 
@@ -59,27 +59,27 @@ namespace esapi
       return PlainText();
     }
 
-    virtual std::string sign(const std::string & /*message*/)
+    virtual String sign(const String & /*message*/)
       {
-        return std::string();
+        return String();
       }
 
-    virtual bool verifySignature(const std::string &, const std::string &)
+    virtual bool verifySignature(const String &, const String &)
     {
       return false;
     }
 
-    virtual std::string seal(const std::string &, long) throw (IntegrityException)
+    virtual String seal(const String &, long) throw (IntegrityException)
       {
-        return std::string();
+        return String();
       }
 
-    virtual std::string unseal(const std::string &)
+    virtual String unseal(const String &)
       {
-        return std::string();
+        return String();
       }
 
-    virtual bool verifySeal(const std::string &)
+    virtual bool verifySeal(const String &)
     {
       return false;
     }

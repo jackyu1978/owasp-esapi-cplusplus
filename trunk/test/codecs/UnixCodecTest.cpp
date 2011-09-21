@@ -23,13 +23,13 @@ using std::cerr;
 using std::endl;
 
 #include <string>
-using std::string;
+using String;
 
 #include <map>
 #include <set>
 
 #include <sstream>
-using std::stringstream;
+using Stringstream;
 using std::istringstream;
 using std::ostringstream;
 

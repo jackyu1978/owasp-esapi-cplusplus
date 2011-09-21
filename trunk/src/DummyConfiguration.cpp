@@ -13,7 +13,7 @@
 
 namespace esapi
 {
-  std::string DummyConfiguration::getApplicationName()
+  String DummyConfiguration::getApplicationName()
   {
 #if defined(ESAPI_OS_WINDOWS)
     WCHAR wname[MAX_PATH*2];
@@ -26,44 +26,44 @@ namespace esapi
     if(size >= COUNTOF(name))
       return "Unknown";
 
-    return std::string(name, size);
+    return String(name, size);
 #endif
 
     return "Unknown";
   }
-  std::string DummyConfiguration::getLogImplementation()
+  String DummyConfiguration::getLogImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getAuthenticationImplementation()
+  String DummyConfiguration::getAuthenticationImplementation()
   {
     return "SRP";
   }
-  std::string DummyConfiguration::getEncoderImplementation()
+  String DummyConfiguration::getEncoderImplementation()
   {
     return "Base64";
   }
-  std::string DummyConfiguration::getAccessControlImplementation()
+  String DummyConfiguration::getAccessControlImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getIntrusionDetectionImplementation()
+  String DummyConfiguration::getIntrusionDetectionImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getRandomizerImplementation()
+  String DummyConfiguration::getRandomizerImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getEncryptionImplementation()
+  String DummyConfiguration::getEncryptionImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getValidationImplementation()
+  String DummyConfiguration::getValidationImplementation()
   {
     return "Unknown";
   }
-  Pattern DummyConfiguration::getValidationPattern(const std::string &)
+  Pattern DummyConfiguration::getValidationPattern(const String &)
   {
     return "Unknown";
   }
@@ -71,11 +71,11 @@ namespace esapi
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getExecutorImplementation()
+  String DummyConfiguration::getExecutorImplementation()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getHTTPUtilitiesImplementation()
+  String DummyConfiguration::getHTTPUtilitiesImplementation()
   {
     return "Unknown";
   }
@@ -86,11 +86,11 @@ namespace esapi
 
     return SecureByteArray(key, COUNTOF(key));
   }
-  std::string DummyConfiguration::getUploadDirectory()
+  String DummyConfiguration::getUploadDirectory()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getUploadTempDirectory()
+  String DummyConfiguration::getUploadTempDirectory()
   {
     return "Unknown";
   }
@@ -117,27 +117,27 @@ namespace esapi
   {
     return 1024 * 1024;
   }
-  std::string DummyConfiguration::getPasswordParameterName()
+  String DummyConfiguration::getPasswordParameterName()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getUsernameParameterName()
+  String DummyConfiguration::getUsernameParameterName()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getEncryptionAlgorithm()
+  String DummyConfiguration::getEncryptionAlgorithm()
   {
     return "AES/CBC";
   }
-  std::string DummyConfiguration::getCipherTransformation()
+  String DummyConfiguration::getCipherTransformation()
   {
     return "AES/CBC/PKCS5";
   }
-  std::string DummyConfiguration::setCipherTransformation(const std::string &)
+  String DummyConfiguration::setCipherTransformation(const String &)
   {
     return "AES/CBC";
   }
-  std::string DummyConfiguration::getPreferredJCEProvider()
+  String DummyConfiguration::getPreferredJCEProvider()
   {
     return "SunJCE";
   }
@@ -149,7 +149,7 @@ namespace esapi
   {
     return true;
   }
-  std::string DummyConfiguration::getIVType()
+  String DummyConfiguration::getIVType()
   {
     return "Unique";
   }
@@ -201,7 +201,7 @@ namespace esapi
     return cipherModes;
   }
 
-  std::string DummyConfiguration::getHashAlgorithm()
+  String DummyConfiguration::getHashAlgorithm()
   {
     return "SHA-256";
   }
@@ -209,11 +209,11 @@ namespace esapi
   {
     return 1024;
   }
-  std::string DummyConfiguration::getKDFPseudoRandomFunction()
+  String DummyConfiguration::getKDFPseudoRandomFunction()
   {
     return "SHA-256";
   }
-  std::string DummyConfiguration::getCharacterEncoding()
+  String DummyConfiguration::getCharacterEncoding()
   {
     return "UTF-8";
   }
@@ -229,7 +229,7 @@ namespace esapi
   {
     return StringList();
   }
-  std::string DummyConfiguration::getDigitalSignatureAlgorithm()
+  String DummyConfiguration::getDigitalSignatureAlgorithm()
   {
     return "DSA";
   }
@@ -237,7 +237,7 @@ namespace esapi
   {
     return 2048;
   }
-  std::string DummyConfiguration::getRandomAlgorithm()
+  String DummyConfiguration::getRandomAlgorithm()
   {
     return "SHA-256";
   }
@@ -253,11 +253,11 @@ namespace esapi
   {
     return true;
   }
-  Threshold DummyConfiguration::getQuota(const std::string &)
+  Threshold DummyConfiguration::getQuota(const String &)
   {
     return Threshold("", 0, 0, StringList());
   }
-  std::string DummyConfiguration::getResourceFile(const std::string &)
+  String DummyConfiguration::getResourceFile(const String &)
   {
     return "Unknown";
   }
@@ -281,18 +281,18 @@ namespace esapi
   {
     return 1024 * 6;
   }
-  InputStream DummyConfiguration::getResourceStream(const std::string &)
+  InputStream DummyConfiguration::getResourceStream(const String &)
   {
     return "Unknown";
   }
-  void DummyConfiguration::setResourceDirectory(const std::string &)
+  void DummyConfiguration::setResourceDirectory(const String &)
   {
   }
-  std::string DummyConfiguration::getResponseContentType()
+  String DummyConfiguration::getResponseContentType()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getHttpSessionIdName()
+  String DummyConfiguration::getHttpSessionIdName()
   {
     return "Unknown";
   }
@@ -312,11 +312,11 @@ namespace esapi
   {
     return true;
   }
-  std::string DummyConfiguration::getLogApplicationName()
+  String DummyConfiguration::getLogApplicationName()
   {
     return "Unknown";
   }
-  std::string DummyConfiguration::getLogServerIP()
+  String DummyConfiguration::getLogServerIP()
   {
     return "127.0.0.1";
   }
@@ -324,7 +324,7 @@ namespace esapi
   {
     return 3;
   }
-  std::string DummyConfiguration::getLogFileName()
+  String DummyConfiguration::getLogFileName()
   {
     return "Unknown";
   }
@@ -332,7 +332,7 @@ namespace esapi
   {
     return 1024*1024;
   }
-  std::string DummyConfiguration::getWorkingDirectory()
+  String DummyConfiguration::getWorkingDirectory()
   {
     return "Unknown";
   }

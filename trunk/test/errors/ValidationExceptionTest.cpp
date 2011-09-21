@@ -22,10 +22,10 @@ BOOST_AUTO_TEST_CASE( test_case_constructor )
 
 BOOST_AUTO_TEST_CASE( test_case_setContext )
 {
-  std::string context = "test context";
+  String context = "test context";
   esapi::ValidationException exception("user message", "log message");
   exception.setContext(context);
-  const std::string& ctx = exception.getContext();
+  const String& ctx = exception.getContext();
 
   ostringstream oss;
   oss << "Failed to set context. Expected '" << context << "', ";
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE( test_case_setContext )
 
 BOOST_AUTO_TEST_CASE( test_try_catch )
 {
-  std::string umsg("user message"), lmsg("log message");
+  String umsg("user message"), lmsg("log message");
   try
     {
       throw esapi::ValidationException(umsg, lmsg);

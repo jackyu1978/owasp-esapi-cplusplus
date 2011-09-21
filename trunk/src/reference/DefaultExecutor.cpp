@@ -28,12 +28,12 @@ namespace esapi
 {
   class ESAPI_EXPORT DefaultExecutor
   {
-    virtual ExecuteResult executeSystemCommand(const std::fstream& /*executable*/, const std::vector<std::string>& /*params*/)
+    virtual ExecuteResult executeSystemCommand(const std::fstream& /*executable*/, const std::vector<String>& /*params*/)
     {
       return 1;
     }
 
-    virtual ExecuteResult executeSystemCommand(const std::fstream& /*executable*/, const std::vector<std::string>& /*params*/, std::fstream /*workingDir*/, Codec /*codec*/, bool /*logParams*/, bool /*redirectErrorStream*/)
+    virtual ExecuteResult executeSystemCommand(const std::fstream& /*executable*/, const std::vector<String>& /*params*/, std::fstream /*workingDir*/, Codec /*codec*/, bool /*logParams*/, bool /*redirectErrorStream*/)
     {
       return 1;
     }

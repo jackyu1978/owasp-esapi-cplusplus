@@ -24,7 +24,7 @@ using namespace boost::unit_test;
 #endif
 
 #include <string>
-using std::string;
+using String;
 
 #include <reference/DefaultEncryptor.h>
 using esapi::DefaultEncryptor;
@@ -117,7 +117,7 @@ void VerifyHash2()
   byte p[] = { 213,75,186,206,204,235,120,11 };
   byte s[] = { 242,153,45,232,101,16,15,224 };
 
-  string password((char*)p, sizeof(p)), salt((char*)s, sizeof(s)), encoded;
+  string password((Char*)p, sizeof(p)), salt((Char*)s, sizeof(s)), encoded;
   bool success = false;
 
   try

@@ -16,11 +16,19 @@
  * @created 2007
  */
 
-#include <string>
-
+#include "EsapiCommon.h"
 #include "reference/IntegerAccessReferenceMap.h"
 
-std::string esapi::IntegerAccessReferenceMap::getUniqueReference() {
-	return "" + count++;  // returns a string version of the counter
-}
+namespace esapi
+{
+  String IntegerAccessReferenceMap::getUniqueReference()
+  {
+    // Race condition below
+    ASSERT(0);
 
+    StringStream ss;
+    ss << count++;
+
+	  return ss.str();
+  }
+} // esapi

@@ -29,7 +29,7 @@ using namespace boost::unit_test;
 #include <cstddef>
 #include <memory>
 #include <string>
-using std::string;
+using String;
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;

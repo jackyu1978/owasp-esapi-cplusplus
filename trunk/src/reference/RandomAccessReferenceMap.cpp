@@ -16,18 +16,20 @@
  * @created 2007
  */
 
-#include <string>
-
+#include "EsapiCommon.h"
 #include "reference/RandomAccessReferenceMap.h"
 
-std::string esapi::RandomAccessReferenceMap::getUniqueReference() {
-	std::string candidate;
+namespace esapi
+{
+  String RandomAccessReferenceMap::getUniqueReference()
+  {
+	  String candidate;
     do
     {      
       //  candidate = ESAPI.randomizer().getRandomString(6, EncoderConstants.CHAR_ALPHANUMERICS);
     }
     while (/*itod.keySet().contains(candidate)*/ false );
+
     return candidate;
-}
-
-
+  }
+} // esapi

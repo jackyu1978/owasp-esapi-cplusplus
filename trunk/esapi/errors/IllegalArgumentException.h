@@ -23,11 +23,11 @@ namespace esapi {
 class ESAPI_EXPORT IllegalArgumentException : public EnterpriseSecurityException
 {
 public:
-	explicit IllegalArgumentException(const std::string &message)
+	explicit IllegalArgumentException(const String &message)
     : EnterpriseSecurityException(message, message)
   {
   }
-  	explicit IllegalArgumentException(const std::string &userMessage, const std::string &logMessage)
+  	explicit IllegalArgumentException(const String &userMessage, const String &logMessage)
     : EnterpriseSecurityException(userMessage, logMessage)
   {
   }

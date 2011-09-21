@@ -18,34 +18,36 @@
 
 #include "ValidationErrorList.h"
 
-void esapi::ValidationErrorList::addError(const std::string &context, esapi::ValidationException *vex) {
-	if ( context.compare("") ) throw( "Context for cannot be null: " + vex->getLogMessage() );
-	//if ( vex == NULL ) throw( "Context (" + context + ") cannot be null" );
-	if (getError(context) != NULL) throw ("Context (" + context + ") already exists, must be unique");
-	this->errorList.insert( std::pair<std::string, ValidationException *>(context, vex) );
-}
+namespace esapi
+{
+  void ValidationErrorList::addError(const String &context, ValidationException *vex) {
+	  if ( context.compare("") ) throw( "Context for cannot be null: " + vex->getLogMessage() );
+	  //if ( vex == NULL ) throw( "Context (" + context + ") cannot be null" );
+	  if (getError(context) != NULL) throw ("Context (" + context + ") already exists, must be unique");
+	  this->errorList.insert( std::pair<String, ValidationException *>(context, vex) );
+  }
 
-std::list<esapi::ValidationException *> esapi::ValidationErrorList::errors(){
-	std::list<esapi::ValidationException *> errors;
-	std::map<std::string, esapi::ValidationException *>::iterator it;
+  std::list<ValidationException *> ValidationErrorList::errors(){
+	  std::list<ValidationException *> errors;
+	  std::map<String, ValidationException *>::iterator it;
 
-	for ( it = errorList.begin(); it != errorList.end(); it++ )
-		errors.push_back( (*it).second );
+	  for ( it = errorList.begin(); it != errorList.end(); it++ )
+		  errors.push_back( (*it).second );
 
-	return errors;
-}
+	  return errors;
+  }
 
-esapi::ValidationException *esapi::ValidationErrorList::getError(const std::string &context){
-	if (context.compare("")) return NULL;
-	//esapi::ValidationException *foo = new esapi::ValidationException("foo","bar");
-	return errorList.find(context)->second;
-}
+  ValidationException *ValidationErrorList::getError(const String &context){
+	  if (context.compare("")) return NULL;
+	  //ValidationException *foo = new ValidationException("foo","bar");
+	  return errorList.find(context)->second;
+  }
 
-bool esapi::ValidationErrorList::isEmpty() const{
-	return errorList.empty();
-}
+  bool ValidationErrorList::isEmpty() const{
+	  return errorList.empty();
+  }
 
-size_t esapi::ValidationErrorList::size() const{
-	return errorList.size();
-}
-
+  size_t ValidationErrorList::size() const{
+	  return errorList.size();
+  }
+} // esapi

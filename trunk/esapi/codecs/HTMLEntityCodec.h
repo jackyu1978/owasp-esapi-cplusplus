@@ -24,7 +24,6 @@
 #include "codecs/PushbackString.h"
 #include "codecs/Codec.h"
 
-namespace esapi {
   /**
   * Implementation of the Codec interface for HTML entity encoding.
   *
@@ -34,15 +33,16 @@ namespace esapi {
   * @since June 1, 2007
   * @see org.owasp.esapi.Encoder
   */
-  class ESAPI_EXPORT HTMLEntityCodec : public esapi::Codec {
+namespace esapi {
+  class ESAPI_EXPORT HTMLEntityCodec : public Codec {
 
-    typedef std::map<int, std::string> EntityMap;
-    typedef std::map<int, std::string>::const_iterator EntityMapIterator;
+    typedef std::map<int, String> EntityMap;
+    typedef std::map<int, String>::const_iterator EntityMapIterator;
 
   private:
     static unsigned int REPLACEMENT_CHAR();
-    static const std::string& REPLACEMENT_HEX();
-    static const std::string& REPLACEMENT_STR();
+    static const String& REPLACEMENT_HEX();
+    static const String& REPLACEMENT_STR();
 
     /**
     * getNumericEntry checks input to see if it is a numeric entity
@@ -53,7 +53,7 @@ namespace esapi {
     * @return
     * 			null if input is null, the character of input after decoding
     */
-    char getNumericEntity( PushbackString& );
+    Char getNumericEntity( PushbackString& );
 
     /**
     * Parse a decimal number, such as those from JavaScript's String.fromCharCode(value)
@@ -64,7 +64,7 @@ namespace esapi {
     * 			character representation of this decimal value, e.g. A
     * @throws NumberFormatException
     */
-    char parseNumber( PushbackString& );
+    Char parseNumber( PushbackString& );
 
     /**
     * Parse a hex encoded entity
@@ -75,7 +75,7 @@ namespace esapi {
     * 			A single character from the string
     * @throws NumberFormatException
     */
-    char parseHex( PushbackString& );
+    Char parseHex( PushbackString& );
 
     /**
     *
@@ -95,7 +95,7 @@ namespace esapi {
     * @return
     * 		Returns the decoded version of the character starting at index, or null if no decoding is possible.
     */
-    char getNamedEntity( PushbackString& str );
+    Char getNamedEntity( PushbackString& str );
 
     /**
     * Retrieve the class wide intialization lock.
@@ -126,7 +126,7 @@ namespace esapi {
     * Encodes a Character for safe use in an HTML entity field.
     * @param immune
     */
-    std::string encodeCharacter( const char* immune, size_t length, char ch ) const;
+    String encodeCharacter( const Char* immune, size_t length, Char ch ) const;
 
     /**
     * {@inheritDoc}
@@ -134,7 +134,7 @@ namespace esapi {
     * Encodes a Character for safe use in an HTML entity field.
     * @param immune
     */
-    std::string encodeCharacter( const char* immune, size_t length, int ch ) const;
+    String encodeCharacter( const Char* immune, size_t length, int ch ) const;
 
     /**
     * {@inheritDoc}
@@ -147,7 +147,7 @@ namespace esapi {
     *   &#xhhhh;
     *   &name;
     */
-    char decodeCharacter( PushbackString& str ) const;
+    Char decodeCharacter( PushbackString& str ) const;
   };
 }; // esapi namespace
 

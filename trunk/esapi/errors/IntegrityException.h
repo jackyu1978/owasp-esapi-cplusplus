@@ -23,7 +23,7 @@ namespace esapi {
 class ESAPI_EXPORT IntegrityException : public EnterpriseSecurityException
 {
 public:
-	explicit IntegrityException(const std::string &message)
+	explicit IntegrityException(const String &message)
     : EnterpriseSecurityException(message, message)
   {
   }

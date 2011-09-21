@@ -50,10 +50,10 @@ BOOST_AUTO_TEST_CASE( VerifySecureString2 )
   VerifyReverseFind();
 }
 
-static const char* THE_STRING1 = "Goodbye, secret";
-static const char* THE_STRING2 = "Foo Bar Bah";
-static const char* THE_STRING3 = "Goodbye, secretFoo Bar Bah";
-static const char* THE_STRING4 = "Goodbye, secretA";
+static const Char* THE_STRING1 = "Goodbye, secret";
+static const Char* THE_STRING2 = "Foo Bar Bah";
+static const Char* THE_STRING3 = "Goodbye, secretFoo Bar Bah";
+static const Char* THE_STRING4 = "Goodbye, secretA";
 
 void VerifyAppend()
 {
@@ -79,7 +79,7 @@ void VerifyAppend()
       success = false;
 
       SecureString ss1 = THE_STRING1;
-      std::string ss2 = THE_STRING2;
+      String ss2 = THE_STRING2;
       ss1 += ss2;
       success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, ::strlen(THE_STRING3)));
     }
@@ -124,7 +124,7 @@ void VerifyInsert()
 
   try
     {
-      std::string s1 = THE_STRING1;
+      String s1 = THE_STRING1;
       SecureString ss1 = THE_STRING1;
 
       s1.insert(4, THE_STRING1);
@@ -145,8 +145,8 @@ void VerifyForwardFind()
 
   try
     {
-      std::string s1 = THE_STRING1;
-      std::string::size_type sp = s1.find("s");
+      String s1 = THE_STRING1;
+      String::size_type sp = s1.find("s");
 
       SecureString ss1 = THE_STRING1;
       SecureString::size_type ssp = s1.find("s");
@@ -161,8 +161,8 @@ void VerifyForwardFind()
 
   try
     {
-      std::string s1 = THE_STRING1;
-      std::string::size_type sp = s1.find("z");
+      String s1 = THE_STRING1;
+      String::size_type sp = s1.find("z");
 
       SecureString ss1 = THE_STRING1;
       SecureString::size_type ssp = s1.find("z");
@@ -182,8 +182,8 @@ void VerifyReverseFind()
 
   try
     {
-      std::string s1 = THE_STRING1;
-      std::string::size_type sp = s1.rfind("s");
+      String s1 = THE_STRING1;
+      String::size_type sp = s1.rfind("s");
 
       SecureString ss1 = THE_STRING1;
       SecureString::size_type ssp = s1.rfind("s");
@@ -198,8 +198,8 @@ void VerifyReverseFind()
 
   try
     {
-      std::string s1 = THE_STRING1;
-      std::string::size_type sp = s1.rfind("z");
+      String s1 = THE_STRING1;
+      String::size_type sp = s1.rfind("z");
 
       SecureString ss1 = THE_STRING1;
       SecureString::size_type ssp = s1.rfind("z");

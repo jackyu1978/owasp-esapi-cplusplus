@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNext )
 {
   PushbackString pbs("asdf");
 
-  char next = pbs.next();
+  Char next = pbs.next();
 
   BOOST_CHECK_MESSAGE(next == 'a', "On string 'asdf' next() returned '" << next << "'");
   BOOST_CHECK(next != 0);
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextHex )
 {
   PushbackString pbs("asdf");
 
-  char next = pbs.nextHex();
+  Char next = pbs.nextHex();
   BOOST_CHECK(next == 0x61);
   BOOST_CHECK(next == 'a');
   BOOST_CHECK(next != 0);
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
 {
   PushbackString pbs("141");
 
-  char next = pbs.nextOctal();
+  Char next = pbs.nextOctal();
   BOOST_CHECK_MESSAGE(next == '1', "nextOctal() on 'asdf' returned '" << next << "'");
   BOOST_CHECK(next != 0);
 

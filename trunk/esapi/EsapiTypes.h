@@ -23,6 +23,7 @@ namespace esapi
 
   typedef char Char;
   typedef std::string String;
+  typedef std::stringstream StringStream;
 
   typedef std::vector<String> StringArray;
   typedef std::list<String> StringList;

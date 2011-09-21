@@ -23,7 +23,7 @@ namespace esapi {
 class ESAPI_EXPORT AccessControlException : public EnterpriseSecurityException
 {
 public:
-	explicit AccessControlException(const std::string &message)
+	explicit AccessControlException(const String &message)
     : EnterpriseSecurityException(message, message)
   {
   }

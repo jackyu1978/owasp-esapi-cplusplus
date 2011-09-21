@@ -36,163 +36,165 @@ static const size_t ARR_SIZE = 256;
 // http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
 //
 
-const esapi::HexArray& esapi::Codec::getHexArray ()
+namespace esapi
 {
-  MutexLock lock(getClassMutex());
-
-  static volatile bool init = false;
-  static boost::shared_ptr<HexArray> hexArr;
-
-  MEMORY_BARRIER();
-  if(!init)
+  const StringArray& Codec::getHexArray ()
   {
-    boost::shared_ptr<HexArray> temp(new HexArray);
-    ASSERT(temp);
-    if(nullptr == temp.get())
-      throw std::bad_alloc();
+    MutexLock lock(getClassMutex());
 
-    // Convenience
-    HexArray& ta = *temp.get();
-
-    // Save on reallocations
-    ta.resize(ARR_SIZE);
-
-    for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
-      if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
-        ta[c] = std::string();
-      } else {
-        std::ostringstream str;
-        // str << HEX(2) << int(0xFF & c);
-        str << std::hex << c;
-        ta[c] = str.str();
-      }
-    }
-
-    hexArr.swap(temp);
-    init = true;
+    static volatile bool init = false;
+    static boost::shared_ptr<StringArray> hexArr;
 
     MEMORY_BARRIER();
+    if(!init)
+    {
+      boost::shared_ptr<StringArray> temp(new StringArray);
+      ASSERT(temp);
+      if(nullptr == temp.get())
+        throw std::bad_alloc();
 
-    } // !init
+      // Convenience
+      StringArray& ta = *temp.get();
 
-  return *hexArr.get();
-}
+      // Save on reallocations
+      ta.resize(ARR_SIZE);
 
-/**
-* Retrieve the class wide intialization lock.
-*
-* @return the mutex used to lock the class.
-*/
-esapi::Mutex& esapi::Codec::getClassMutex ()
-{
-  static esapi::Mutex s_mutex;
-  return s_mutex;
-}
+      for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
+        if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
+          ta[c] = String();
+        } else {
+          std::ostringstream str;
+          // str << HEX(2) << int(0xFF & c);
+          str << std::hex << c;
+          ta[c] = str.str();
+        }
+      }
 
-std::string esapi::Codec::encode(const char immune[], size_t length, const std::string& input) const
-{
-  ASSERT(immune);
-  ASSERT(length);
-  ASSERT(!input.empty());
+      hexArr.swap(temp);
+      init = true;
 
-  if(!immune)
-    return std::string();
+      MEMORY_BARRIER();
 
-  std::string sb;
-  sb.reserve(input.size());
+      } // !init
 
-  for (size_t i = 0; i < input.length(); i++) {
-    char c = input[i];
-    sb.append(encodeCharacter(immune, length, c));
+    return *hexArr.get();
   }
 
-  return sb;
-}
+  /**
+  * Retrieve the class wide intialization lock.
+  *
+  * @return the mutex used to lock the class.
+  */
+  Mutex& Codec::getClassMutex ()
+  {
+    static Mutex s_mutex;
+    return s_mutex;
+  }
 
-std::string esapi::Codec::encodeCharacter(const char immune[], size_t length, char c) const{
-  ASSERT(immune);
-  ASSERT(length);
-  ASSERT(c != 0);
+  String Codec::encode(const Char immune[], size_t length, const String& input) const
+  {
+    ASSERT(immune);
+    ASSERT(length);
+    ASSERT(!input.empty());
 
-  return std::string(1, c);
-}
+    if(!immune)
+      return String();
 
-std::string esapi::Codec::decode(const std::string& input) const{
-  ASSERT(!input.empty());
+    String sb;
+    sb.reserve(input.size());
 
-  std::string sb;
-  sb.reserve(input.size());
-
-  esapi::PushbackString pbs(input);
-  while (pbs.hasNext()) {
-    char c = decodeCharacter(pbs);
-    if (c != 0) {
-      sb+=c;
-    } else {
-      sb+=pbs.next();
+    for (size_t i = 0; i < input.length(); i++) {
+      Char c = input[i];
+      sb.append(encodeCharacter(immune, length, c));
     }
+
+    return sb;
   }
-  return sb;
-}
 
-char esapi::Codec::decodeCharacter(PushbackString& input) const{
-  // This method needs to reset input under certain conditions,
-  // which it is not doing. See the comments in the header file.
-  ASSERT(0);
-  ASSERT(input.hasNext());
+  String Codec::encodeCharacter(const Char immune[], size_t length, Char c) const{
+    ASSERT(immune);
+    ASSERT(length);
+    ASSERT(c != 0);
 
-  return input.next();
-}
+    return String(1, c);
+  }
 
-std::string esapi::Codec::getHexForNonAlphanumeric(char c) {
-  ASSERT(c != 0);
+  String Codec::decode(const String& input) const{
+    ASSERT(!input.empty());
 
-  const HexArray& hex = getHexArray();
+    String sb;
+    sb.reserve(input.size());
 
-  int i = (int)c;
-  if(i < (int)ARR_SIZE)
-    return hex.at(i);
+    PushbackString pbs(input);
+    while (pbs.hasNext()) {
+      Char c = decodeCharacter(pbs);
+      if (c != 0) {
+        sb+=c;
+      } else {
+        sb+=pbs.next();
+      }
+    }
+    return sb;
+  }
 
-  return toHex((char)i);
-}
+  Char Codec::decodeCharacter(PushbackString& input) const{
+    // This method needs to reset input under certain conditions,
+    // which it is not doing. See the comments in the header file.
+    ASSERT(0);
+    ASSERT(input.hasNext());
 
-std::string esapi::Codec::toOctal(char c) {
-  ASSERT(c != 0);
+    return input.next();
+  }
 
-  std::ostringstream str;
-  // str << OCT(3) << int(0xFF & c);
-  str << std::oct << c;
-  return str.str();
-}
+  String Codec::getHexForNonAlphanumeric(Char c) {
+    ASSERT(c != 0);
 
-std::string esapi::Codec::toHex(char c) {
-  ASSERT(c != 0);
+    const StringArray& hex = getHexArray();
 
-  std::ostringstream str;
-  // str << HEX(2) << int(0xFF & c);
-  str << std::hex << c;
-  return str.str();
-}
+    int i = (int)c;
+    if(i < (int)ARR_SIZE)
+      return hex.at(i);
 
-bool esapi::Codec::containsCharacter(char c, const std::string& s) const{
-  ASSERT(c != 0);
-  ASSERT(!s.empty());
+    return toHex((Char)i);
+  }
 
-  return s.find(c, 0) != std::string::npos;
-}
+  String Codec::toOctal(Char c) {
+    ASSERT(c != 0);
 
-bool esapi::Codec::containsCharacter(char c, const char array[], size_t length) const{
-  ASSERT(c != 0);
-  ASSERT(array);
-  ASSERT(length);
+    std::ostringstream str;
+    // str << OCT(3) << int(0xFF & c);
+    str << std::oct << c;
+    return str.str();
+  }
 
-  if(!array)
+  String Codec::toHex(Char c) {
+    ASSERT(c != 0);
+
+    std::ostringstream str;
+    // str << HEX(2) << int(0xFF & c);
+    str << std::hex << c;
+    return str.str();
+  }
+
+  bool Codec::containsCharacter(Char c, const String& s) const{
+    ASSERT(c != 0);
+    ASSERT(!s.empty());
+
+    return s.find(c, 0) != String::npos;
+  }
+
+  bool Codec::containsCharacter(Char c, const Char array[], size_t length) const{
+    ASSERT(c != 0);
+    ASSERT(array);
+    ASSERT(length);
+
+    if(!array)
+      return false;
+
+    for (size_t ch=0; ch < length; ch++) {
+      if (c == array[ch]) return true;
+    }
+
     return false;
-
-  for (size_t ch=0; ch < length; ch++) {
-    if (c == array[ch]) return true;
   }
-
-  return false;
-}
-
+} //espai

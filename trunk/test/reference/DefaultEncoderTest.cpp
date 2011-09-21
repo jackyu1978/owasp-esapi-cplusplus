@@ -23,13 +23,13 @@ using std::cerr;
 using std::endl;
 
 #include <string>
-using std::string;
+using String;
 
 #include <map>
 #include <set>
 
 #include <sstream>
-using std::stringstream;
+using Stringstream;
 using std::istringstream;
 using std::ostringstream;
 
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	esapi::DefaultEncoder de;
 	shared_ptr<UnixCodec>uc1(new esapi::UnixCodec);
 
-	std::string encoded = de.encodeForOS(uc1.get(), "asdf<");
+	String encoded = de.encodeForOS(uc1.get(), "asdf<");
 	BOOST_CHECK(encoded.compare("asdf\\<") == 0);
 
 	shared_ptr<UnixCodec>uc2(new esapi::UnixCodec);

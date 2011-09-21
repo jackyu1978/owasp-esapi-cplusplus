@@ -32,20 +32,20 @@ namespace esapi
    * The default secure random number generator (RNG) algorithm. Currently returns
    * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
    */
-  std::string SecureRandom::DefaultAlgorithm()
+  String SecureRandom::DefaultAlgorithm()
   {
-    return std::string("SHA-256");
+    return String("SHA-256");
   }
 
   /**
    * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
    */
-  SecureRandom SecureRandom::getInstance(const std::string& algorithm)
+  SecureRandom SecureRandom::getInstance(const String& algorithm)
    
   {
     ASSERT( !algorithm.empty() );
 
-    const std::string alg(normalizeAlgortihm(algorithm));
+    const String alg(normalizeAlgortihm(algorithm));
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
     MEMORY_BARRIER();
 
@@ -60,7 +60,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the named
    * random number algorithm if specified
    */
-  SecureRandom::SecureRandom(const std::string& algorithm)
+  SecureRandom::SecureRandom(const String& algorithm)
    
     : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))    
   {
@@ -164,7 +164,7 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
-  std::string SecureRandom::getAlgorithm() const
+  String SecureRandom::getAlgorithm() const
    
   {
     // All forward facing gear which manipulates internal state acquires the object lock
@@ -251,36 +251,36 @@ namespace esapi
    * the default algortihm. If the algorithm is not found (ie, unsupported),
    * return the empty string.
    */
-  std::string SecureRandom::normalizeAlgortihm(const std::string& algorithm)
+  String SecureRandom::normalizeAlgortihm(const String& algorithm)
   {
     ASSERT(!algorithm.empty());
 
-    std::string alg(algorithm), mode;
-    std::string::size_type pos;
+    String alg(algorithm), mode;
+    String::size_type pos;
 
     // Cut out whitespace
-    std::string::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
+    String::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
     if(it != alg.end())
       alg.erase(it, alg.end());
 
-    std::string trimmed(alg);
+    String trimmed(alg);
 
     // Normalize the case
     std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
 
     // Normalize the slashes (we expect forward slashes, not back slashes)
-    while(std::string::npos != (pos = alg.find('\\')))
+    while(String::npos != (pos = alg.find('\\')))
       alg.replace(pos, 1, "/");
 
     // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
-    if(std::string::npos != (pos = alg.find('/')))
+    if(String::npos != (pos = alg.find('/')))
       {
         mode = alg.substr(pos+1);
         alg.erase(pos);
       }
 
     // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
-    if(std::string::npos != (pos = mode.find('/')))
+    if(String::npos != (pos = mode.find('/')))
       mode.erase(pos);
 
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html

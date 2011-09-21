@@ -109,7 +109,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
+      throw EncryptionException(String("Internal error: ") + ex.what());
     }
 
     return m_keyed;
@@ -173,7 +173,7 @@ namespace esapi
     }
     catch(CryptoPP::Exception& ex)
     {
-      throw EncryptionException(std::string("Internal error: ") + ex.what());
+      throw EncryptionException(String("Internal error: ") + ex.what());
     }
   }
 }

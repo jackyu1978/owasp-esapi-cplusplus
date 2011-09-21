@@ -42,13 +42,13 @@ namespace esapi
      * Factory method to cough up an implementation.
      * Java offers a SecureRandom(byte[]), and this overload handles it.
      */
-    static SecureRandomImpl* createInstance(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0) throw (NoSuchAlgorithmException);
+    static SecureRandomImpl* createInstance(const String& algorithm, const byte* seed = nullptr, size_t size = 0) throw (NoSuchAlgorithmException);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm.
      */
-    explicit SecureRandomImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
+    explicit SecureRandomImpl(const String& algorithm, const byte* seed = nullptr, size_t size = 0);
 
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
@@ -58,7 +58,7 @@ namespace esapi
     /**
      * Returns the name of the algorithm implemented by this SecureRandomImpl object.
      */
-    virtual std::string getAlgorithmImpl() const;
+    virtual String getAlgorithmImpl() const;
 
     /**
      * Returns the security level associated with the SecureRandom object. Used
@@ -94,7 +94,7 @@ namespace esapi
     /**
      * The standard algorithm name.
      */
-    std::string m_algorithm;
+    String m_algorithm;
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ namespace esapi
     class BlockCipherImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -119,10 +119,10 @@ namespace esapi
     enum { MaxReseed = (1 << 12), MaxRequest = (1 << 16) };
 
   protected:
-    explicit BlockCipherImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
+    explicit BlockCipherImpl(const String& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~BlockCipherImpl() { };
     virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
-    virtual std::string getAlgorithmImpl() const;
+    virtual String getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);
     virtual void setSeedImpl(const byte seed[], size_t size);
@@ -140,7 +140,7 @@ namespace esapi
     class HashImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -150,10 +150,10 @@ namespace esapi
     enum { MaxReseed = (1 << 12), MaxRequest = (1 << 16) };
 
   protected:
-    explicit HashImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
+    explicit HashImpl(const String& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~HashImpl() { };
     virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
-    virtual std::string getAlgorithmImpl() const;
+    virtual String getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);
     virtual void setSeedImpl(const byte seed[], size_t size);
@@ -180,7 +180,7 @@ namespace esapi
     class HmacImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const std::string&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -191,10 +191,10 @@ namespace esapi
     enum { MaxReseed = (1 << 12), MaxRequest = (1 << 16) };
 
   protected:
-    HmacImpl(const std::string& algorithm, const byte* seed = nullptr, size_t size = 0);
+    HmacImpl(const String& algorithm, const byte* seed = nullptr, size_t size = 0);
     virtual ~HmacImpl() { };
     virtual SecureByteArray generateSeedImpl(unsigned int numBytes);
-    virtual std::string getAlgorithmImpl() const;
+    virtual String getAlgorithmImpl() const;
     virtual unsigned int getSecurityLevelImpl() const;
     virtual void nextBytesImpl(byte bytes[], size_t size);
     virtual void setSeedImpl(const byte seed[], size_t size);

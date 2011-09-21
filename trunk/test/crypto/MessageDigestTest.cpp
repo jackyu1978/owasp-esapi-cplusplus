@@ -25,7 +25,7 @@ using namespace boost::unit_test;
 #include <cstddef>
 #include <memory>
 #include <string>
-using std::string;
+using String;
 
 #include "EsapiCommon.h"
 

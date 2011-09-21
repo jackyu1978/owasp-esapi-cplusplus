@@ -36,7 +36,7 @@ namespace esapi
   /**
   * Creates a KeyGenerator object.
   */
-  KeyGenerator::KeyGenerator(const std::string& algorithmName)
+  KeyGenerator::KeyGenerator(const String& algorithmName)
     : m_random(SecureRandom::getInstance(algorithmName)), m_keyBytes((unsigned)InvalidKeyBytes)
   {
   }
@@ -66,7 +66,7 @@ namespace esapi
   /**
   * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
   */
-  KeyGenerator KeyGenerator::getInstance(const std::string& algorithm)
+  KeyGenerator KeyGenerator::getInstance(const String& algorithm)
   {
     ASSERT( !algorithm.empty() );
     return KeyGenerator(algorithm);
@@ -77,7 +77,7 @@ namespace esapi
   * with DefaultKeySize(). SP800-90 offers the mappings of security bits to generators
   * Table 2 (p.34) and Table 3 (p. 46) and SP800-57.
   */
-  std::string KeyGenerator::DefaultAlgorithm()
+  String KeyGenerator::DefaultAlgorithm()
   {
     return "SHA-256";
   }
@@ -159,7 +159,7 @@ namespace esapi
   /**
   * Returns the algorithm name of this KeyGenerator object.
   */
-  std::string KeyGenerator::getAlgorithm() const
+  String KeyGenerator::getAlgorithm() const
   {
     return m_random.getAlgorithm();
   }

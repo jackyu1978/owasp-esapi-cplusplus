@@ -23,7 +23,7 @@ namespace esapi {
 class ESAPI_EXPORT EncodingException : public EnterpriseSecurityException
 {
 public:
-	explicit EncodingException(const std::string &message)
+	explicit EncodingException(const String &message)
     : EnterpriseSecurityException(message, message)
   {
   }

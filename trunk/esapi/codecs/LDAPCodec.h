@@ -19,7 +19,6 @@
 #include "codecs/PushbackString.h"
 #include "codecs/Codec.h"
 
-namespace esapi {
 /**
  * Implementation of the Codec interface for encoding for LDAP
  *
@@ -29,7 +28,8 @@ namespace esapi {
  * @since June 1, 2007
  * @see org.owasp.esapi.Encoder
  */
-class ESAPI_EXPORT LDAPCodec : public esapi::Codec {
+namespace esapi {
+class ESAPI_EXPORT LDAPCodec : public Codec {
 
 public:
 	/**
@@ -37,14 +37,14 @@ public:
      *
      * @param immune
      */
-	std::string encodeCharacter( const char[], size_t , char ) const;
+	String encodeCharacter( const Char[], size_t , Char ) const;
 
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 */
-	char decodeCharacter( PushbackString& ) const;
+	Char decodeCharacter( PushbackString& ) const;
 
 };
 }; // esapi namespace

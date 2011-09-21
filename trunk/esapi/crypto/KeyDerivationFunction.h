@@ -87,7 +87,7 @@ namespace esapi
      * be a common encoding supported by all Java implementations. Support
      * for it is usually in rt.jar.)
      */
-    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const std::string& purpose);
+    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose);
 
     /**
      * Check if specified algorithm name is a valid PRF that can be used.

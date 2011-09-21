@@ -86,8 +86,8 @@ namespace esapi {
 		 * Error list of ValidationException's
 		 */
 		//private HashMap<String, ValidationException> errorList = new HashMap<String, ValidationException>();
-		//std::hash_map<const std::string, ValidationException*, hash<const string>, eqstr> errorList;
-		std::map<std::string, ValidationException *> errorList;
+		//std::hash_map<const String, ValidationException*, hash<const string>, eqstr> errorList;
+		std::map<String, ValidationException *> errorList;
 
 	public:
 		ValidationErrorList() : errorList() {};
@@ -101,7 +101,7 @@ namespace esapi {
 		 * @param context Unique named context for this {@code ValidationErrorList}.
 		 * @param vex	A {@code ValidationException}.
 		 */
-		virtual void addError(const std::string &, ValidationException *);
+		virtual void addError(const String &, ValidationException *);
 
 
 		/**
@@ -117,7 +117,7 @@ namespace esapi {
 		 * @param context unique name for each error
 		 * @return ValidationException or null for given context
 		 */
-		virtual ValidationException *getError(const std::string &);
+		virtual ValidationException *getError(const String &);
 
 		/**
 		 * Returns true if no error are present.
