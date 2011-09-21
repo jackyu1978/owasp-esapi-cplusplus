@@ -18,12 +18,21 @@
 
 namespace esapi
 {
-  //typedef wchar_t Char;
-  //typedef std::wstring String;
+  typedef wchar_t Char;
+  typedef std::wstring String;
+  typedef std::wstringstream StringStream;
 
-  typedef char Char;
-  typedef std::string String;
-  typedef std::stringstream StringStream;
+  typedef wchar_t WideChar;
+  typedef std::wstring WideString;
+  typedef std::wstringstream WideStringStream;
+
+  typedef char NarrowChar;
+  typedef std::string NarrowString;
+  typedef std::stringstream NarrowStringStream;
+
+  //typedef char Char;
+  //typedef std::string String;
+  //typedef std::stringstream StringStream;
 
   typedef std::vector<String> StringArray;
   typedef std::list<String> StringList;
