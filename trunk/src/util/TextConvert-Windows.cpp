@@ -24,7 +24,7 @@
 
 namespace esapi
 {
-  inline UINT CopePageToWindowsCodePage(TextConvert::CodePage cp)
+  inline UINT CodePageToWindowsCodePage(TextConvert::CodePage cp)
   {
     UINT cpage = cp;
     switch(cp)
@@ -44,7 +44,7 @@ namespace esapi
     ASSERT( !str.empty() );
     if(str.empty()) return String();
 
-    const UINT cpage = CopePageToWindowsCodePage(cp);
+    const UINT cpage = CodePageToWindowsCodePage(cp);
     static const DWORD dwFlags = MB_ERR_INVALID_CHARS;
 
     DWORD dwReq = MultiByteToWideChar(cpage, dwFlags, str.data(), str.size(), NULL, 0);
@@ -75,7 +75,7 @@ namespace esapi
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return SecureByteArray();
 
-    const UINT cpage = CopePageToWindowsCodePage(cp);
+    const UINT cpage = CodePageToWindowsCodePage(cp);
     static const DWORD dwFlags = WC_ERR_INVALID_CHARS | WC_NO_BEST_FIT_CHARS;
 
     DWORD dwReq = WideCharToMultiByte(cpage, dwFlags, wstr.data(), wstr.size(), NULL, 0, NULL, NULL);
@@ -92,3 +92,4 @@ namespace esapi
     return arr;
   }
 }
+

@@ -30,9 +30,7 @@ using esapi::WideString;
 using esapi::TextConvert;
 
 static const WideString wide = L"\u9aa8";
-
-static const char chars[] = { (char)0xe9, (char)0xaa, (char)0xa8, 0x00 };
-static const NarrowString narrow(chars);
+static const NarrowString narrow("\xe9\xaa\xa8");
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_1P )
 {
