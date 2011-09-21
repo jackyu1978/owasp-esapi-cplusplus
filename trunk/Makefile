@@ -254,6 +254,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/util/SecureIntArrayTest.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp \
+			test/util/TextConvertTest.cpp \
 			test/reference/validation/StringValidationRuleTest.cpp
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
