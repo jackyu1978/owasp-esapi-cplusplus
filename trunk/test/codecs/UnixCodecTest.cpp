@@ -29,7 +29,7 @@ using String;
 #include <set>
 
 #include <sstream>
-using Stringstream;
+using StringStream;
 using std::istringstream;
 using std::ostringstream;
 

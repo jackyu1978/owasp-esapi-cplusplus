@@ -28,7 +28,7 @@ using std::endl;
 using String;
 
 #include <sstream>
-using Stringstream;
+using StringStream;
 using std::istringstream;
 using std::ostringstream;
 
