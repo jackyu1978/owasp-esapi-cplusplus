@@ -20,30 +20,17 @@
 
 #include <locale>
 #include <sstream>
+#include <functional>
 #include <algorithm>
 
 namespace esapi
 {
-  inline std::string CodePageToLocale(TextConvert::CodePage cp)
-  {
-    std::string loc;
-    switch(cp)
-    {
-    case TextConvert::CodePageDefault: loc = ""; break;
-    case TextConvert::CodePageUTF7: loc = "UTF-7"; break;
-    case TextConvert::CodePageUTF8: loc = "UTF-8"; break;
-    default:
-      ASSERT(0);
-    }
-
-    return loc;
-  }
-
   String TextConvert::NarrowToWide(const NarrowString& str, CodePage cp)
   {
     ASSERT( !str.empty() );
     if(str.empty()) return String();
 
+/*
     typedef std::codecvt_byname<wchar_t, char, std::mbstate_t> Cvt;
     static const std::locale utf16 (std::locale ("C"), new Cvt ("UTF-16")); 
 
@@ -54,6 +41,20 @@ namespace esapi
     oss << iss.rdbuf();
 
     return oss.str();
+*/
+
+/*
+    const std::ctype<wchar_t>& conv(std::use_facet<std::ctype<wchar_t> >(std::locale()));
+
+    WideString wide;
+    wide.reserve(str.length());
+
+    std::transform(str.begin(), str.end(), std::back_inserter(wide),
+        std::bind1st(std::mem_fun(&std::ctype<wchar_t>::widen), &conv));
+    
+    return wide;
+*/
+    return String();
   }
 
   NarrowString TextConvert::WideToNarrow(const String& wstr, CodePage cp)

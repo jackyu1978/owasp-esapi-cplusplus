@@ -56,7 +56,16 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_3P )
   WideString w(wide);
   NarrowString n = TextConvert::WideToNarrow(w);
 
-  BOOST_CHECK_MESSAGE(n == narrow, "Failed the Chinese Bone Test (1)");
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < narrow.length(); ii++)
+    oss << " " << std::hex << int(0xFF & narrow[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < n.length(); ii++)
+    oss << " " << std::hex << int(0xFF & n[ii]);
+
+  BOOST_CHECK_MESSAGE(n == narrow, "Failed the Chinese Bone Test (1). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
@@ -65,6 +74,15 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
   NarrowString n(narrow);
   WideString w = TextConvert::NarrowToWide(n);
 
-  BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2)");
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < wide.length(); ii++)
+    oss << " " << std::hex << int(0xFFFF & wide[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < w.length(); ii++)
+    oss << " " << std::hex << int(0xFF & w[ii]);
+
+  BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2). " + oss.str());
 }
 
