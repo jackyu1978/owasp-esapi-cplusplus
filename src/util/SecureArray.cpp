@@ -518,8 +518,13 @@ namespace esapi
   }
 
   // Explicit instantiation
+  template class SecureArray<char>;
   template class SecureArray<byte>;
+  template class SecureArray<wchar_t>;
   template class SecureArray<int>;
+  template class SecureArray<unsigned int>;
+  template class SecureArray<long long>;
+  template class SecureArray<unsigned long long>;
 
 } // NAMESPACE
 
