@@ -298,9 +298,5 @@ ESAPI_MS_NO_WARNING(4505)
 # define ESAPI_TEST_EXPORT
 #endif
 
-typedef std::string String;
-typedef std::vector<std::string> StringArray;
-typedef std::list<std::string> StringList;
-// typedef std::map<std::string> StringMap;
-
-
+// Defines the Char, String and typees such as Array
+#include "EsapiTypes.h"

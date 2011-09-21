@@ -551,6 +551,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\esapi\EsapiTypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\esapi\Executor.h"
 				>
 			</File>

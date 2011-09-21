@@ -567,6 +567,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\esapi\EsapiTypes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\esapi\Executor.h"
 				>
 			</File>
@@ -697,11 +701,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath=".\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
