@@ -153,8 +153,8 @@ namespace esapi
 		  for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
 			  const boost::regex re(*it);
 			  if(!boost::regex_match(input,re)) {
-				  Stringstream userMessage;
-				  Stringstream logMessage;
+				  StringStream userMessage;
+				  StringStream logMessage;
 				  userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
 				  logMessage << "Invalid input: context=" << context << ", type(" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
@@ -176,8 +176,8 @@ namespace esapi
 		  for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
 			  const boost::regex re(*it);
 			  if(!boost::regex_match(input,re)) {
-				  Stringstream userMessage;
-				  Stringstream logMessage;
+				  StringStream userMessage;
+				  StringStream logMessage;
 				  userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
 				  logMessage << "Dangerous input: context=" << context << ", type(" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
@@ -195,16 +195,16 @@ namespace esapi
 
   String StringValidationRule::checkLength(const String &context, const String &input, const String &orig) {
 	  if (input.size() < minLength) {
-		  Stringstream userMessage;
-		  Stringstream logMessage;
+		  StringStream userMessage;
+		  StringStream logMessage;
 		  userMessage << context << ": Invalid input. The minimum length of " << minLength << " characters was not met.";
 		  logMessage << "Input does not meet the minimum length of " << minLength << " by " << (minLength - input.size()) << " characters: context=" << context << ", type=" << getTypeName() << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 	  }
 
 	  if (input.size() > maxLength) {
-		  Stringstream userMessage;
-		  Stringstream logMessage;
+		  StringStream userMessage;
+		  StringStream logMessage;
 		  userMessage << context << ": Invalid input. The maximum length of " << maxLength << " characters was exceeded.";
 		  logMessage << "Input exceeds maximum allowed length of " << maxLength << " by " << (input.size()-maxLength) << " characters: context=" << context << ", type=" << getTypeName() << ", orig=" << orig <<", input=" << input;
 		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
@@ -223,8 +223,8 @@ namespace esapi
 	  if(allowNull)
 		  return "";
 
-	  Stringstream userMessage;
-	  Stringstream logMessage;
+	  StringStream userMessage;
+	  StringStream logMessage;
 	  userMessage << context + ": Input required.";
 	  logMessage << "Input required: context=" << context << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
 	  throw new ValidationException(userMessage.str(), logMessage.str(), context );
