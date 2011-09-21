@@ -21,16 +21,16 @@ namespace esapi
 	  // check for immune characters
 	  for (unsigned int i=0; i<length; i++) {
 		  if (immune[i] == c)
-			  return (String)""+c;
+			  return String(1,c);
 	  }
 
 	  // check for alphanumeric characters
 	  String hex = Codec::getHexForNonAlphanumeric( c );
-	  if ( hex.compare("") == 0 ) {
-		  return (String)""+c;
+	  if ( hex.empty() ) {
+		  return String(1,c);
 	  }
 
-      return (String)"\\"+c;
+    return String(L"\\")+c;
   }
 
   Char UnixCodec::decodeCharacter( PushbackString& input) const {
@@ -38,13 +38,13 @@ namespace esapi
 	  Char first = input.next();
 	  if ( first == 0 ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  // if this is not an encoded character, return null
-	  if ( first != '\\' ) {
+	  if ( first != L'\\' ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  Char second = input.next();

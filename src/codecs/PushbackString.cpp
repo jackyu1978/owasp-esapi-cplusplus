@@ -36,7 +36,7 @@ namespace esapi
 
   bool PushbackString::hasNext() const{
     if ( this->varPushback != 0 ) return true;
-    if ( this->input.compare("") == 0 ) return false;
+    if ( this->input.compare(L"") == 0 ) return false;
     if ( this->input.length() == 0 ) return false;
     if ( this->varIndex >= this->input.length() ) return false;
     return true;
@@ -48,7 +48,7 @@ namespace esapi
       this->varPushback = 0;
       return save;
     }
-    if ( this->input.compare("") == 0) return 0;
+    if ( this->input.compare(L"") == 0) return 0;
     if ( this->input.length() == 0 ) return 0;
     if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -75,7 +75,7 @@ namespace esapi
 
     if ( c == 0 ) return false;
     int ch = c;
-    return (ch >= '0' && ch <= '9' ) || (ch >= 'a' && ch <= 'f' ) || (ch >= 'A' && ch <= 'F' );
+    return (ch >= L'0' && ch <= L'9' ) || (ch >= L'a' && ch <= L'f' ) || (ch >= L'A' && ch <= L'F' );
   }
 
   bool PushbackString::isOctalDigit( Char c ) {
@@ -83,12 +83,12 @@ namespace esapi
 
     if ( c == 0 ) return false;
     int ch = c;
-    return ch >= '0' && ch <= '7';
+    return ch >= L'0' && ch <= L'7';
   }
 
   Char PushbackString::peek() const{
     if ( this->varPushback != 0 ) return this->varPushback;
-    if ( this->input.compare("") == 0) return 0;
+    if ( this->input.compare(L"") == 0) return 0;
     if ( this->input.length() == 0 ) return 0;
     if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -100,7 +100,7 @@ namespace esapi
     ASSERT(c != 0);
 
     if ( this->varPushback != 0 && this->varPushback == c ) return true;
-    if ( this->input.compare("") == 0) return false;
+    if ( this->input.compare(L"") == 0) return false;
     if ( this->input.length() == 0 ) return false;
     if ( this->varIndex >= this->input.length() ) return false;
 

@@ -132,7 +132,7 @@ namespace esapi
 
 template <typename T>
 BaseValidationRule<T>::BaseValidationRule() {
-	throw UnsupportedOperationException("BaseValidationRule<T> Should not be instantiated by default constructor.");
+	throw UnsupportedOperationException(L"BaseValidationRule<T> Should not be instantiated by default constructor.");
 }
 
 template <typename T>

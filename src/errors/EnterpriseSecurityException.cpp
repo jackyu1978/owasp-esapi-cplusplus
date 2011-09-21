@@ -15,32 +15,40 @@
  */
 
 #include "EsapiCommon.h"
+#include "util/TextConvert.h"
 #include "errors/EnterpriseSecurityException.h"
 
 namespace esapi
 {
-EnterpriseSecurityException::EnterpriseSecurityException(const String &userMessage, const String &newLogMessage )
-  : std::runtime_error( userMessage.c_str() ), logMessage( newLogMessage )
-{
-	/**
-    if (!ESAPI.securityConfiguration().getDisableIntrusionDetection()) {
-    	ESAPI.intrusionDetector().addException(this);
-    }*/
-}
+  EnterpriseSecurityException::EnterpriseSecurityException(const String &userMessage, const String &newLogMessage )
+        : userMessage(TextConvert::WideToNarrow(userMessage)), logMessage(TextConvert::WideToNarrow(newLogMessage))
+  {
+	  /**
+      if (!ESAPI.securityConfiguration().getDisableIntrusionDetection()) {
+    	  ESAPI.intrusionDetector().addException(this);
+      }*/
+  }
 
-String EnterpriseSecurityException::getUserMessage() const
-{
-	return std::runtime_error::what();
-}
+  EnterpriseSecurityException::EnterpriseSecurityException(const NarrowString& userMessage, const NarrowString& logMessage)
+    : userMessage(userMessage), logMessage(logMessage)
+  {    
+  }
 
-const Char* EnterpriseSecurityException::what() const throw()
-{
-	return std::runtime_error::what();
-}
+  String EnterpriseSecurityException::getUserMessage() const
+  {
+    ASSERT( !userMessage.empty() );
+    return TextConvert::NarrowToWide(userMessage);
+  }
 
-String EnterpriseSecurityException::getLogMessage() const
-{
-	return this->logMessage;
-}
+  const char* EnterpriseSecurityException::what() const
+  {
+    ASSERT( !userMessage.empty() );
+    return userMessage.c_str();
+  }
 
+  String EnterpriseSecurityException::getLogMessage() const
+  {
+    ASSERT( !logMessage.empty() );
+	  return TextConvert::NarrowToWide(logMessage);
+  }
 } // esapi

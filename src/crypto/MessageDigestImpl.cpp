@@ -11,16 +11,14 @@
 #include "EsapiCommon.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/MessageDigestImpl.h"
+#include "util/TextConvert.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
 #include "safeint/SafeInt3.hpp"
 
-#include <string>
-#include <sstream>
 #include <algorithm>
-#include <stdexcept>
 
 namespace esapi
 {
@@ -29,37 +27,37 @@ namespace esapi
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
 #if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
-    if(algorithm == "MD5")
+    if(algorithm == L"MD5")
       return new MessageDigestTmpl<CryptoPP::Weak::MD5>(algorithm);
 #endif
 
-    if(algorithm == "SHA-1")
+    if(algorithm == L"SHA-1")
       return new MessageDigestTmpl<CryptoPP::SHA1>(algorithm);
 
-    if(algorithm == "SHA-224")
+    if(algorithm == L"SHA-224")
       return new MessageDigestTmpl<CryptoPP::SHA224>(algorithm);
 
-    if(algorithm == "SHA-256")
+    if(algorithm == L"SHA-256")
       return new MessageDigestTmpl<CryptoPP::SHA256>(algorithm);
 
-    if(algorithm == "SHA-384")
+    if(algorithm == L"SHA-384")
       return new MessageDigestTmpl<CryptoPP::SHA384>(algorithm);
 
-    if(algorithm == "SHA-512")
+    if(algorithm == L"SHA-512")
       return new MessageDigestTmpl<CryptoPP::SHA512>(algorithm);
 
-    if(algorithm == "Whirlpool")
+    if(algorithm == L"Whirlpool")
       return new MessageDigestTmpl<CryptoPP::Whirlpool>(algorithm);
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
     // This Java program will throw a NoSuchAlgorithmException
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("Foo");
+    // MessageDigest md = MessageDigest.getInstance(L"Foo");
     // md.update(scratch);
 
     // We only have InvalidArgumentException and EncryptionException
-    std::ostringstream oss;
+    StringStream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported";
     throw NoSuchAlgorithmException(oss.str());
   }
@@ -94,7 +92,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
 
     return size;
@@ -112,7 +110,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -175,21 +173,21 @@ namespace esapi
 
     // This Java program will throw a NullPointerException
     // byte[] scratch = null;
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // md.update(scratch);
 
     // This Java program is OK
     // byte[] scratch = new byte[0];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // md.update(scratch);
 
     // NOT: if(!input || !size)
     if(!input)
-      throw InvalidArgumentException("The input array or size is not valid");
+      throw InvalidArgumentException(L"The input array or size is not valid");
 
     // This Java program will throw an IllegalArgumentException
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // md.update(scratch, 1, 16);
 
     try
@@ -202,17 +200,17 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+          throw InvalidArgumentException(L"The buffer is too small for the specified offset and length");
 
         m_hash.Update(input+offset, len);
       }
     catch(SafeIntException&)
       {
-        throw EncryptionException("Integer overflow detected");
+        throw EncryptionException(L"Integer overflow detected");
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -232,7 +230,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
 
      return out;
@@ -281,11 +279,11 @@ namespace esapi
       }
     catch(SafeIntException&)
       {
-        throw EncryptionException("Integer overflow detected");
+        throw EncryptionException(L"Integer overflow detected");
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
 
      return out;
@@ -314,25 +312,25 @@ namespace esapi
     ASSERT(size);
 
     // This Java program will throw an IllegalArgumentException
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // int size = md.digest(null, 0, 0);
 
     if(!buf || !size)
-      throw InvalidArgumentException("The buffer array or size is not valid");
+      throw InvalidArgumentException(L"The buffer array or size is not valid");
 
     // This Java program will throw an DigestException
     // byte[] scratch = new byte[1];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // int size = md.digest(scratch, 0, 0);
 
     // And so will this one
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance("MD5");
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // int ret = md.digest(scratch, 0, 15);
 
     if(size < (size_t)m_hash.DigestSize() || len < (size_t)m_hash.DigestSize())
       {
-        std::ostringstream oss;
+        StringStream oss;
         oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithmImpl();
         throw InvalidArgumentException(oss.str());
       }
@@ -349,18 +347,18 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+          throw InvalidArgumentException(L"The buffer is too small for the specified offset and length");
 
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
         m_hash.TruncatedFinal(buf+offset, req);
       }
     catch(SafeIntException&)
       {
-        throw EncryptionException("Integer overflow detected");
+        throw EncryptionException(L"Integer overflow detected");
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
 
     return (size_t)req;

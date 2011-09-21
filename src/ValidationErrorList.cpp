@@ -17,13 +17,22 @@
  */
 
 #include "ValidationErrorList.h"
+#include "errors/InvalidArgumentException.h"
 
 namespace esapi
 {
   void ValidationErrorList::addError(const String &context, ValidationException *vex) {
-	  if ( context.compare("") ) throw( "Context for cannot be null: " + vex->getLogMessage() );
-	  //if ( vex == NULL ) throw( "Context (" + context + ") cannot be null" );
-	  if (getError(context) != NULL) throw ("Context (" + context + ") already exists, must be unique");
+    if ( context.empty() ) {
+      // throw( "Context for cannot be null: " + vex->getLogMessage() );
+      throw InvalidArgumentException(L"Context for cannot be null");
+    }
+
+	  //if ( vex == NULL ) throw( "Context (L" + context + ") cannot be null" );
+    if (getError(context) != NULL) {
+      // throw (L"Context (L" + context + ") already exists, must be unique");
+      throw InvalidArgumentException(L"Context must be unique");
+    }
+
 	  this->errorList.insert( std::pair<String, ValidationException *>(context, vex) );
   }
 
@@ -38,8 +47,8 @@ namespace esapi
   }
 
   ValidationException *ValidationErrorList::getError(const String &context){
-	  if (context.compare("")) return NULL;
-	  //ValidationException *foo = new ValidationException("foo","bar");
+	  if (context.compare(L"")) return NULL;
+	  //ValidationException *foo = new ValidationException(L"foo",L"bar");
 	  return errorList.find(context)->second;
   }
 

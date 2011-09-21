@@ -35,9 +35,9 @@ using esapi::UnixCodec;
 BOOST_AUTO_TEST_CASE( UnixCodecTestCase )
 {
 	esapi::UnixCodec uc;
-	BOOST_CHECK_MESSAGE(uc.encodeCharacter("",0,'a').compare("a")==0, "uc.encodeCharacter(\"\",0,'a') ==" << uc.encodeCharacter("",0,'a'));
-	BOOST_CHECK_MESSAGE(uc.encodeCharacter("a",1,'a').compare("a")==0, "uc.encodeCharacter(\"a\",1,'a') ==" << uc.encodeCharacter("a",1,'a'));
-	BOOST_CHECK_MESSAGE(uc.encodeCharacter("",0,'<').compare("\\<")==0, "=" << uc.encodeCharacter("",0,'<'));
-	BOOST_CHECK(uc.encodeCharacter("",0,'\\').compare("\\\\")==0);
+	BOOST_CHECK_MESSAGE(uc.encodeCharacter(L"",0,'a').compare(L"a")==0, "uc.encodeCharacter(\"\",0,'a') ==" << uc.encodeCharacter(L"",0,'a'));
+	BOOST_CHECK_MESSAGE(uc.encodeCharacter(L"a",1,'a').compare(L"a")==0, "uc.encodeCharacter(\"a\",1,'a') ==" << uc.encodeCharacter(L"a",1,'a'));
+	BOOST_CHECK_MESSAGE(uc.encodeCharacter(L"",0,'<').compare(L"\\<")==0, "=" << uc.encodeCharacter(L"",0,'<'));
+	BOOST_CHECK(uc.encodeCharacter(L"",0,'\\').compare(L"\\\\")==0);
 }
 

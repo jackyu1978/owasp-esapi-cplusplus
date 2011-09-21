@@ -25,25 +25,25 @@ namespace esapi
 
 	  // check for alphanumeric characters
 	  String hex = Codec::getHexForNonAlphanumeric( c );
-	  if ( hex.compare("") == '\0' ) {
+	  if ( hex.empty() ) {
 		  return String(1, c);
 	  }
 
-	  return (String)"^" + c;
+	  return String(L"^") + c;
   }
 
   Char WindowsCodec::decodeCharacter( PushbackString& input) const {
 	  input.mark();
 	  Char first = input.next();
-	  if ( first == '\0' ) {
+	  if ( first == L'\0' ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  // if this is not an encoded character, return null
-	  if ( first != '^' ) {
+	  if ( first != L'^' ) {
 		  input.reset();
-		  return '\0';
+		  return L'\0';
 	  }
 
 	  Char second = input.next();

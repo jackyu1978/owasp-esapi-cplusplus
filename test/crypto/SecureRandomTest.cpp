@@ -60,7 +60,7 @@ void DoWorkerThreadStuff()
 #elif defined(ESAPI_OS_STARNIX)
 void DoWorkerThreadStuff()
 {
-  SecureRandom shared = SecureRandom::getInstance(String("HmacSHA256"));
+  SecureRandom shared = SecureRandom::getInstance(String(L"HmacSHA256"));
   pthread_t threads[THREAD_COUNT];
 
   // *** Worker Threads ***
@@ -114,7 +114,7 @@ void* WorkerThreadProc(void* param)
 
   prng1.nextBytes(random, sizeof(random));
 
-  SecureRandom prng2 = SecureRandom::getInstance("SHA-256");
+  SecureRandom prng2 = SecureRandom::getInstance(L"SHA-256");
   prng2.nextBytes(random, sizeof(random));
 
   for (unsigned int i = 0; i < 64; i++)
@@ -133,7 +133,7 @@ void* WorkerThreadProc(void* param)
 
   BOOST_CHECK(prng1.getAlgorithm() == prng3.getAlgorithm());
 
-  SecureRandom prng4 = SecureRandom::getInstance("SHA-512");
+  SecureRandom prng4 = SecureRandom::getInstance(L"SHA-512");
   for (unsigned int i = 0; i < 64; i++)
   {
     prng4.setSeed(random, 128);

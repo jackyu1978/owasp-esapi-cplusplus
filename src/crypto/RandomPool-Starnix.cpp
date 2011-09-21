@@ -50,7 +50,7 @@ namespace esapi
   static __inline__ unsigned long long rdtsc(void)
   {
     unsigned hi, lo;
-    __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
+    __asm__ __volatile__ (L"rdtsc" : "=a"(lo), "=d"(hi));
     return ((((unsigned long long)hi) << 32) | (unsigned long long)lo);
   }
 #endif
@@ -73,7 +73,7 @@ namespace esapi
     {
       do
       {
-        int fd = open("/dev/random", O_RDONLY);
+        int fd = open(L"/dev/random", O_RDONLY);
         AutoFileDesc z1(fd);
 
         ESAPI_ASSERT2(fd > 0, "Failed to open /dev/random");
@@ -126,7 +126,7 @@ namespace esapi
     {
       do
       {
-        int fd = open("/dev/urandom", O_RDONLY);
+        int fd = open(L"/dev/urandom", O_RDONLY);
         AutoFileDesc z1(fd);
 
         ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");

@@ -13,6 +13,8 @@
  */
 
 #include "EsapiCommon.h"
+#include "util/TextConvert.h"
+#include "util/ArrayZeroizer.h"
 #include "crypto/RandomPool.h"
 #include "crypto/SecureRandomImpl.h"
 #include "crypto/Crypto++Common.h"
@@ -22,18 +24,14 @@
 #include "errors/UnsupportedOperationException.h"
 
 #include "safeint/SafeInt3.hpp"
-#include "util/ArrayZeroizer.h"
 
-#include <string>
-#include <sstream>
 #include <algorithm>
-#include <stdexcept>
 
 /**
  * This class implements functionality similar to Java's SecureRandom for consistency
  * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html.
  *
- * SP800-90, 'Recommendation for Random Number Generation Using Deterministic
+ * SP800-90, L'Recommendation for Random Number Generation Using Deterministic
  * Random Bit Generators'. SP800-90 algorithms are used for Hash, Hmac, and
  * Block Ciphers. For Block ciphers, SP800-90 specifies CTR mode. The counter
  * is a special case of an IV with [possibly] a nonce and monotomically
@@ -64,7 +62,7 @@
  * relationship with entropy below). The personalization string is more unique
  * data such as device UUID, host name, user name, or public key (per Section 8.6.7).
  * The personalization string is known by other names in other documents and standards,
- * such as a 'purpose', 'label', and 'context info'. Per 8.6.7, its OK to forego a
+ * such as a 'purpose', L'label', and 'context info'. Per 8.6.7, its OK to forego a
  * Personalization String.
  *
  * When instantiating a generator, we *must* have entropy. If we don't have entropy,
@@ -127,121 +125,121 @@ namespace esapi
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
-    if(algorithm == "SHA-1")
+    if(algorithm == L"SHA-1")
       return new HashImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-224")
+    if(algorithm == L"SHA-224")
       return new HashImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-256")
+    if(algorithm == L"SHA-256")
       return new HashImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-384")
+    if(algorithm == L"SHA-384")
       return new HashImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-512")
+    if(algorithm == L"SHA-512")
       return new HashImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "Whirlpool")
+    if(algorithm == L"Whirlpool")
       return new HashImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Block Ciphers //////////////////////////////////
 
-    if(algorithm == "AES" || algorithm == "AES128")
+    if(algorithm == L"AES" || algorithm == L"AES128")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/CFB" || algorithm == "AES128/CFB")
+    if(algorithm == L"AES/CFB" || algorithm == L"AES128/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/OFB" || algorithm == "AES128/OFB")
+    if(algorithm == L"AES/OFB" || algorithm == L"AES128/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/CTR" || algorithm == "AES128/CTR")
+    if(algorithm == L"AES/CTR" || algorithm == L"AES128/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192")
+    if(algorithm == L"AES192")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/CFB")
+    if(algorithm == L"AES192/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/OFB")
+    if(algorithm == L"AES192/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/CTR")
+    if(algorithm == L"AES192/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256")
+    if(algorithm == L"AES256")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/CFB")
+    if(algorithm == L"AES256/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/OFB")
+    if(algorithm == L"AES256/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/CTR")
+    if(algorithm == L"AES256/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia" || algorithm == "Camellia128")
+    if(algorithm == L"Camellia" || algorithm == L"Camellia128")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia/CFB" || algorithm == "Camellia128/CFB")
+    if(algorithm == L"Camellia/CFB" || algorithm == L"Camellia128/CFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia/OFB" || algorithm == "Camellia128/OFB")
+    if(algorithm == L"Camellia/OFB" || algorithm == L"Camellia128/OFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia/CTR" || algorithm == "Camellia128/CTR")
+    if(algorithm == L"Camellia/CTR" || algorithm == L"Camellia128/CTR")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish" || algorithm == "Blowfish128")
+    if(algorithm == L"Blowfish" || algorithm == L"Blowfish128")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/CFB" || algorithm == "Blowfish128/CFB")
+    if(algorithm == L"Blowfish/CFB" || algorithm == L"Blowfish128/CFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/OFB" || algorithm == "Blowfish128/OFB")
+    if(algorithm == L"Blowfish/OFB" || algorithm == L"Blowfish128/OFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/CTR" || algorithm == "Blowfish128/CTR")
+    if(algorithm == L"Blowfish/CTR" || algorithm == L"Blowfish128/CTR")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede" || algorithm == "DES_ede112")
+    if(algorithm == L"DES_ede" || algorithm == L"DES_ede112")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/CFB" || algorithm == "DES_ede112/CFB")
+    if(algorithm == L"DES_ede/CFB" || algorithm == L"DES_ede112/CFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/OFB" || algorithm == "DES_ede112/OFB")
+    if(algorithm == L"DES_ede/OFB" || algorithm == L"DES_ede112/OFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/CTR" || algorithm == "DES_ede112/CTR")
+    if(algorithm == L"DES_ede/CTR" || algorithm == L"DES_ede112/CTR")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Hmacs //////////////////////////////////
 
-    if(algorithm == "HmacSHA1")
+    if(algorithm == L"HmacSHA1")
       return new HmacImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA224")
+    if(algorithm == L"HmacSHA224")
       return new HmacImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA256")
+    if(algorithm == L"HmacSHA256")
       return new HmacImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA384")
+    if(algorithm == L"HmacSHA384")
       return new HmacImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA512")
+    if(algorithm == L"HmacSHA512")
       return new HmacImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacWhirlpool")
+    if(algorithm == L"HmacWhirlpool")
       return new HmacImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
-    std::ostringstream oss;
+    StringStream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported.";
     throw NoSuchAlgorithmException(oss.str());
   }
@@ -320,7 +318,7 @@ namespace esapi
     // If size is non-zero, seed must be valid.
     ASSERT( (!seed && !ssize) || (seed && ssize) );
     if(!seed && ssize)
-      throw InvalidArgumentException("The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"The seed buffer or size is not valid");
 
     try
       {
@@ -344,7 +342,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -367,9 +365,9 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("generateSeedImpl(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException(L"generateSeedImpl(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -396,19 +394,19 @@ namespace esapi
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -421,7 +419,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -437,11 +435,11 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     ASSERT(seed && size);
     if(!seed || !size)
-      throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -450,7 +448,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -466,7 +464,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     try
       {
@@ -475,7 +473,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -490,7 +488,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException("Unable to instatiate hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to instatiate hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -505,7 +503,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -567,7 +565,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -592,7 +590,7 @@ namespace esapi
 
     ASSERT(hash && hsize);
     if( !hash || !hsize )
-      throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -620,7 +618,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -636,11 +634,11 @@ namespace esapi
 
     ASSERT(data && dsize);
     if(!data || !dsize)
-      throw InvalidArgumentException("Unable to derive hash. The data buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to derive hash. The data buffer or size is not valid");
 
     ASSERT(hash && hsize);
     if(!hash || !hsize)
-      throw InvalidArgumentException("Unable to derive hash. The hash buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to derive hash. The hash buffer or size is not valid");
 
     static const unsigned int seedBits = SeedBits;
     byte counter = 1;
@@ -668,7 +666,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -680,7 +678,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException("Unable to reseed hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to reseed hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -712,7 +710,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -730,7 +728,7 @@ namespace esapi
     // seed and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!seed && !ssize) || (seed && ssize) );
     if(!seed && ssize)
-      throw InvalidArgumentException("The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"The seed buffer or size is not valid");
 
     try
       {
@@ -754,7 +752,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -774,7 +772,7 @@ namespace esapi
   template <class HASH, class DRBGINFO>
   SecureByteArray HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
-    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException(L"generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -799,19 +797,19 @@ namespace esapi
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -824,7 +822,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -840,11 +838,11 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     ASSERT(seed && size);
     if(!seed || !size)
-      throw InvalidArgumentException("Unable to reseed the hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to reseed the hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -853,7 +851,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -869,7 +867,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     try
       {
@@ -878,7 +876,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       } }
 
   template <class HASH, class DRBGINFO>
@@ -889,7 +887,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException("Unable to instatiate hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to instatiate hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -903,7 +901,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -916,7 +914,7 @@ namespace esapi
     // data and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!data && !dsize) || (data && dsize) );
     if(!data && dsize)
-      throw InvalidArgumentException("The data buffer or size is not valid");
+      throw InvalidArgumentException(L"The data buffer or size is not valid");
 
     try
       {
@@ -964,7 +962,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -980,21 +978,21 @@ namespace esapi
 
     ASSERT(hash && hsize);
     if( !hash || !hsize )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The hash buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The hash buffer or size is not valid");
 
     /////////////////////////////////////////////////////////
     // Sanity check, Step 1
     /////////////////////////////////////////////////////////
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. A reseed is required.");
 
     /////////////////////////////////////////////////////////
     // Sanity check, Table 2
     /////////////////////////////////////////////////////////
     ASSERT(hsize <= MaxRequest);
     if( !(hsize <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     /////////////////////////////////////////////////////////
     // We don't accept additional input, Steps 2 & 3 omitted
@@ -1038,7 +1036,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -1050,7 +1048,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException("Unable to reseed hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException(L"Unable to reseed hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -1072,7 +1070,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String("Internal error: ") + ex.what());
+        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
       }
   }
 
@@ -1108,9 +1106,9 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException(L"generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -1131,21 +1129,21 @@ namespace esapi
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. A reseed is required.");
+      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
 
-    throw UnsupportedOperationException("Not implemented");
+    throw UnsupportedOperationException(L"Not implemented");
   }
 
   /**
@@ -1157,9 +1155,9 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("Not implemented");
+    throw UnsupportedOperationException(L"Not implemented");
   }
 
   /**
@@ -1171,9 +1169,9 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException("A catastrophic error was previously encountered");
+      throw EncryptionException(L"A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("Not implemented");
+    throw UnsupportedOperationException(L"Not implemented");
   }
 } // esapi
 

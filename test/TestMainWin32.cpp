@@ -81,7 +81,7 @@ int main(int, char**)
 
   DefaultEncryptor encryptor;
 
-  PlainText plain = "Now is the time for all good men to come to the aide of their country.";
+  PlainText plain = L"Now is the time for all good men to come to the aide of their country.";
   CipherText cipher = encryptor.encrypt(plain);
 
 #if 0
@@ -92,8 +92,8 @@ int main(int, char**)
 
   cout << a.size() << ":" << b.size() << endl;
 
-  SecureString c("Hello");
-  SecureString d("Cruel World");
+  SecureString c(L"Hello");
+  SecureString d(L"Cruel World");
 
   std::swap(c, d);
 
@@ -107,15 +107,15 @@ int main(int, char**)
   pool.Reseed();
   pool.GenerateBlock(scratch, sizeof(scratch));
 
-  SecureRandom prng = SecureRandom::getInstance("SHA1");
+  SecureRandom prng = SecureRandom::getInstance(L"SHA1");
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
 
-  prng = SecureRandom::getInstance("HmacSHA1");
+  prng = SecureRandom::getInstance(L"HmacSHA1");
   prng.nextBytes(scratch, sizeof(scratch));
   prng.setSeed(scratch, sizeof(scratch));
 
-  KeyGenerator kg = KeyGenerator::getInstance("SHA-384");
+  KeyGenerator kg = KeyGenerator::getInstance(L"SHA-384");
   kg.init();
 
   cout << "Generator: " << kg.getAlgorithm() << endl;
@@ -124,7 +124,7 @@ int main(int, char**)
   cout << "Key: " << key.getAlgorithm() << endl;
   cout << "Key size: " << key.sizeInBytes() << endl;
 
-  kg = KeyGenerator::getInstance("SHA-512");
+  kg = KeyGenerator::getInstance(L"SHA-512");
   kg.init(384);
 
   cout << "Generator: " << kg.getAlgorithm() << endl;
@@ -135,14 +135,14 @@ int main(int, char**)
 
   try
   {
-    //MD5 ("") = d41d8cd98f00b204e9800998ecf8427e
+    //MD5 (L"") = d41d8cd98f00b204e9800998ecf8427e
     bool success = false;
-    MessageDigest md(MessageDigest::getInstance("MD5"));
+    MessageDigest md(MessageDigest::getInstance(L"MD5"));
 
     const size_t sz = md.getDigestLength();
     SecureByteArray buf(sz);
 
-    const string msg("");
+    const string msg(L"");
     md.update((const byte*)msg.data(), msg.size());
 
     const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
@@ -158,7 +158,7 @@ int main(int, char**)
 
     /* ======================= */
 
-    MessageDigest md5 = MessageDigest::getInstance("MD5");
+    MessageDigest md5 = MessageDigest::getInstance(L"MD5");
     md5.update((const byte*)msg.data(), msg.size());
 
     SecureByteArray digest = md5.digest();

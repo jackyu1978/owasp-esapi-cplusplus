@@ -97,15 +97,15 @@ void VerifyHash1()
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
+      BOOST_ERROR(L"Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(L"Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unknown exception");
+      BOOST_ERROR(L"Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
@@ -132,15 +132,15 @@ void VerifyHash2()
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
+      BOOST_ERROR(L"Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(L"Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unknown exception");
+      BOOST_ERROR(L"Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
@@ -163,15 +163,15 @@ void VerifyHash3()
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
+      BOOST_ERROR(L"Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(L"Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unknown exception");
+      BOOST_ERROR(L"Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
@@ -194,15 +194,15 @@ void VerifyHash4()
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
+      BOOST_ERROR(L"Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(L"Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unknown exception");
+      BOOST_ERROR(L"Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
@@ -225,15 +225,15 @@ void VerifyHash5()
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
+      BOOST_ERROR(L"Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(L"Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unknown exception");
+      BOOST_ERROR(L"Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);

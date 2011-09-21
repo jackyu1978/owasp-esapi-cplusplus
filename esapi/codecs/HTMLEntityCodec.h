@@ -40,7 +40,7 @@ namespace esapi {
     typedef std::map<int, String>::const_iterator EntityMapIterator;
 
   private:
-    static unsigned int REPLACEMENT_CHAR();
+    static Char REPLACEMENT_CHAR();
     static const String& REPLACEMENT_HEX();
     static const String& REPLACEMENT_STR();
 
@@ -127,14 +127,6 @@ namespace esapi {
     * @param immune
     */
     String encodeCharacter( const Char* immune, size_t length, Char ch ) const;
-
-    /**
-    * {@inheritDoc}
-    *
-    * Encodes a Character for safe use in an HTML entity field.
-    * @param immune
-    */
-    String encodeCharacter( const Char* immune, size_t length, int ch ) const;
 
     /**
     * {@inheritDoc}

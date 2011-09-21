@@ -101,7 +101,7 @@ void VerifyAppend()
       success = false;
 
       SecureString ss1 = THE_STRING1;
-      ss1 += 'A';
+      ss1 += L'A';
       success = (0 == ::memcmp(ss1.c_str(), THE_STRING4, ::strlen(THE_STRING4)));
     }
   catch(...)
@@ -139,10 +139,10 @@ void VerifyForwardFind()
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.find("s");
+      String::size_type sp = s1.find(L"s");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.find("s");
+      SecureString::size_type ssp = s1.find(L"s");
 
       success = (sp == ssp);
     }
@@ -155,10 +155,10 @@ void VerifyForwardFind()
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.find("z");
+      String::size_type sp = s1.find(L"z");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.find("z");
+      SecureString::size_type ssp = s1.find(L"z");
 
       success = (sp == ssp);
     }
@@ -176,10 +176,10 @@ void VerifyReverseFind()
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.rfind("s");
+      String::size_type sp = s1.rfind(L"s");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.rfind("s");
+      SecureString::size_type ssp = s1.rfind(L"s");
 
       success = (sp == ssp);
     }
@@ -192,10 +192,10 @@ void VerifyReverseFind()
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.rfind("z");
+      String::size_type sp = s1.rfind(L"z");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.rfind("z");
+      SecureString::size_type ssp = s1.rfind(L"z");
 
       success = (sp == ssp);
     }

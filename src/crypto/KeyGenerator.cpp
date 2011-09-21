@@ -79,7 +79,7 @@ namespace esapi
   */
   String KeyGenerator::DefaultAlgorithm()
   {
-    return "SHA-256";
+    return L"SHA-256";
   }
 
   /**
@@ -109,7 +109,7 @@ namespace esapi
     }
     catch(SafeIntException&)
     {
-      throw EncryptionException("The key size provided is not valid");
+      throw EncryptionException(L"The key size provided is not valid");
     }
 
     // SecureRandom stashes away the SecurityLevel in bytes (not
@@ -136,7 +136,7 @@ namespace esapi
     }
     catch(SafeIntException&)
     {
-      throw EncryptionException("The key size provided is not valid");
+      throw EncryptionException(L"The key size provided is not valid");
     }
 
     m_random = random;
@@ -171,7 +171,7 @@ namespace esapi
   {
     ASSERT(m_keyBytes != (unsigned int)InvalidKeyBytes);
     if(m_keyBytes == (unsigned int)InvalidKeyBytes)
-      throw EncryptionException("The key size is not valid");
+      throw EncryptionException(L"The key size is not valid");
 
     // SecureRandom stashes away the SecurityLevel in bytes (not
     // the customary bits). Here, we should not be generating

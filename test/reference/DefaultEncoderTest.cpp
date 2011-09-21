@@ -43,16 +43,16 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	shared_ptr<UnixCodec>uc1(new esapi::UnixCodec);
 
 	String encoded = de.encodeForOS(uc1.get(), "asdf<");
-	BOOST_CHECK(encoded.compare("asdf\\<") == 0);
+	BOOST_CHECK(encoded.compare(L"asdf\\<") == 0);
 
 	shared_ptr<UnixCodec>uc2(new esapi::UnixCodec);
-	BOOST_CHECK(de.encodeForOS(uc2.get(), "sdf:ff").compare("sdf\\:ff")==0);
+	BOOST_CHECK(de.encodeForOS(uc2.get(), "sdf:ff").compare(L"sdf\\:ff")==0);
 
-	encoded = de.encodeForBase64("asdf");
-	BOOST_CHECK(encoded.compare("YXNkZg==") == 0); //base64 value of `asdf`
-	BOOST_CHECK(de.decodeFromBase64(encoded).compare("asdf")==0);
+	encoded = de.encodeForBase64(L"asdf");
+	BOOST_CHECK(encoded.compare(L"YXNkZg==") == 0); //base64 value of `asdf`
+	BOOST_CHECK(de.decodeFromBase64(encoded).compare(L"asdf")==0);
 
-	BOOST_CHECK(de.encodeForLDAP("asd\\f").compare("asd\\5cf")==0);
+	BOOST_CHECK(de.encodeForLDAP(L"asd\\f").compare(L"asd\\5cf")==0);
 
 }
 #endif

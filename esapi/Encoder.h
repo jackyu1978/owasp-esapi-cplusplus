@@ -106,7 +106,7 @@ public:
      * <p>
      * Using canonicalize is simple. The default is just...
      * <pre>
-     *     String clean = ESAPI.encoder().canonicalize( request.getParameter("input"));
+     *     String clean = ESAPI.encoder().canonicalize( request.getParameter(L"input"));
      * </pre>
      * You need to decode untrusted data so that it's safe for ANY downstream interpreter or decoder. For
      * example, if your data goes into a Windows command shell, then into a database, and then to a browser,
@@ -147,7 +147,7 @@ public:
      * warning messages in the log about each multiple encoding and mixed encoding received.
      * <pre>
      *     // disabling strict mode to allow mixed encoding
-     *     String url = ESAPI.encoder().canonicalize( request.getParameter("url"), false, false);
+     *     String url = ESAPI.encoder().canonicalize( request.getParameter(L"url"), false, false);
      * </pre>
 	 *
 	 * @see <a href="http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4">W3C specifications</a>
@@ -222,7 +222,7 @@ public:
      * For example:
      *
      *  <script>
-     *  window.setInterval('<%= EVEN IF YOU ENCODE UNTRUSTED DATA YOU ARE XSSED HERE %>');
+     *  window.setInterval(L'<%= EVEN IF YOU ENCODE UNTRUSTED DATA YOU ARE XSSED HERE %>');
      *  </script>
      *
      * @param input
@@ -280,10 +280,10 @@ public:
      * Please note the following recommendations before choosing to use this method:
      *
      * 1)      It is strongly recommended that applications avoid making direct OS system calls if possible as such calls are not portable, and they are potentially unsafe. Please use language provided features if at all possible, rather than native OS calls to implement the desired feature.
-     * 2)      If an OS call cannot be avoided, then it is recommended that the program to be invoked be invoked directly (e.g., System.exec("nameofcommand" + "parameterstocommand");) as this avoids the use of the command shell. The "parameterstocommand" should of course be validated before passing them to the OS command.
+     * 2)      If an OS call cannot be avoided, then it is recommended that the program to be invoked be invoked directly (e.g., System.exec(L"nameofcommand" + "parameterstocommand");) as this avoids the use of the command shell. The "parameterstocommand" should of course be validated before passing them to the OS command.
      * 3)      If you must use this method, then we recommend validating all user supplied input passed to the command shell as well, in addition to using this method in order to make the command shell invocation safe.
      *
-     * An example use of this method would be: System.exec("dir " + ESAPI.encodeForOS(WindowsCodec, "parameter(s)tocommandwithuserinput");
+     * An example use of this method would be: System.exec(L"dir " + ESAPI.encodeForOS(WindowsCodec, "parameter(s)tocommandwithuserinput");
      *
      * @param codec
      *      a Codec that declares which operating system 'input' is being encoded for (ie. Windows, Unix, etc.)

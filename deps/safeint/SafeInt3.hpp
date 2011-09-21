@@ -10,7 +10,7 @@ This license governs use of the accompanying software. If you use the software, 
 If you do not accept the license, do not use the software.
 
 Definitions
-The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning here 
+The terms "reproduce,L" "reproduction,L" "derivative works,L" and "distribution" have the same meaning here 
 as under U.S. copyright law. A "contribution" is the original software, or any additions or changes to 
 the software. A "contributor" is any person that distributes its contribution under this license. 
 "Licensed patents" are a contributor's patent claims that read directly on its contribution.
@@ -366,7 +366,7 @@ throw YourException( YourSafeIntDivideByZeroError );
 *  char c = -1;
 *  
 *  if(c == l)
-*    printf("Why is -1 equal to 4 billion???\n");
+*    printf(L"Why is -1 equal to 4 billion???\n");
 *  
 *  The problem here is that c gets cast to an int, now has a value of 0xffffffff, and then gets 
 *  cast again to an unsigned int, losing the true value. This behavior is despite the fact that
@@ -374,9 +374,9 @@ throw YourException( YourSafeIntDivideByZeroError );
 *  answer:
 *  
 *  if((__int64)c == (__int64)l))
-*    printf("Why is -1 equal to 4 billion???\n");
+*    printf(L"Why is -1 equal to 4 billion???\n");
 *  else
-*    printf("Why doesn't the compiler upcast to 64-bits when needed?\n");
+*    printf(L"Why doesn't the compiler upcast to 64-bits when needed?\n");
 *  
 *  Note that combinations with smaller integers won't display the problem - if you 
 *  changed "unsigned int" above to "unsigned short", you'd get the right answer.

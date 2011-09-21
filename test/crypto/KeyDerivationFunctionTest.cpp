@@ -48,8 +48,8 @@ using esapi::SecretKey;
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction1 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("encryption");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction1 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("authenticity");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
@@ -68,8 +68,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("encryption");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
@@ -78,8 +78,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("authenticity");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
@@ -88,8 +88,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("encryption");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
@@ -98,8 +98,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("authenticity");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
@@ -108,8 +108,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 {
-  SecretKey k("SHA-512", 0);
-  String p("encryption");
+  SecretKey k(L"SHA-512", 0);
+  String p(L"encryption");
   bool success = false;
 
   try
@@ -128,8 +128,8 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
 {
-  SecretKey k("SHA-512", 32);
-  String p("encryption");
+  SecretKey k(L"SHA-512", 32);
+  String p(L"encryption");
   bool success = false;
 
   try
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
 {
-  SecretKey k("SHA-512", 32);
+  SecretKey k(L"SHA-512", 32);
   bool success = false;
 
   try
