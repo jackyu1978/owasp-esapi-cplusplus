@@ -12,29 +12,21 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
-#include <iostream>
-using std::dec;
-using std::hex;
-using std::cout;
-using std::cerr;
-using std::endl;
-
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
-#include "EsapiCommon.h"
+#include <iostream>
+using std::cout;
+using std::cerr;
+using std::endl;
 
-// nullptr
-#include <cstddef>
-#include <memory>
-#include <string>
-using String;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
-
-#include "EsapiCommon.h"
 
 #include <crypto/Key.h>
 #include <crypto/SecretKey.h>
@@ -156,7 +148,7 @@ void VerifyAesKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying AES" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -243,7 +235,7 @@ void VerifyCamelliaKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying Camellia" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -330,7 +322,7 @@ void VerifyDesEdeKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying DES EDE" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -417,7 +409,7 @@ void VerifyBlowfishKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying Blowfish" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -504,7 +496,7 @@ void VerifyShaKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying SHA" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -591,7 +583,7 @@ void VerifyWhirlpoolKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying Whirlpool" );
 
-  string alg = "Whirlpool";
+  String alg = "Whirlpool";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -610,7 +602,7 @@ void VerifyHmacShaKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying HMAC-SHA" );
 
-  string alg;
+  String alg;
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -697,7 +689,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying HMAC-Whirlpool" );
 
-  string alg = "HmacWhirlpool";
+  String alg = "HmacWhirlpool";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {

@@ -15,23 +15,17 @@
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
-#include "EsapiCommon.h"
-
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#include <string>
-using String;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
 
 #include <map>
 #include <set>
-
-#include <sstream>
-using StringStream;
-using std::istringstream;
-using std::ostringstream;
 
 #include "reference/DefaultEncoder.h"
 #include "codecs/Codec.h"

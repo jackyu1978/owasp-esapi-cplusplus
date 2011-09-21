@@ -17,11 +17,10 @@
 using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
-#include <codecs/PushbackString.h>
+using esapi::Char;
+using esapi::String;
 
-#include <string>
-
-
+#include "codecs/PushbackString.h"
 using esapi::PushbackString;
 
 #if !defined(ESAPI_BUILD_RELEASE)

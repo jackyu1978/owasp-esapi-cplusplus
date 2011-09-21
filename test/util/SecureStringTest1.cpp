@@ -11,23 +11,19 @@
  * @author Jeffrey Walton, noloader@gmail.com
  */
 
-#if !defined(ESAPI_OS_WINDOWS)
-# define BOOST_TEST_DYN_LINK
-# include <boost/test/unit_test.hpp>
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
-#endif
 
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#include <algorithm>
-using std::equal;
-
-#include <string>
-using std::char_traits;
-using std::basic_string;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
+using esapi::StringStream;
 
 #include <sstream>
 using std::ostream;

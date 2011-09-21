@@ -17,20 +17,14 @@
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
-#include "EsapiCommon.h"
-
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#include <string>
-using String;
-
-#include <sstream>
-using StringStream;
-using std::istringstream;
-using std::ostringstream;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
 
 #include <errno.h>
 

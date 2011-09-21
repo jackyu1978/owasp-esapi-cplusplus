@@ -17,12 +17,14 @@
 using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
-#include <codecs/Codec.h>
+using esapi::Char;
+using esapi::String;
+
+#include "codecs/Codec.h"
+using esapi::Codec;
 
 #include <string>
 #include <sstream>
-
-using esapi::Codec;
 
 BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
 {
