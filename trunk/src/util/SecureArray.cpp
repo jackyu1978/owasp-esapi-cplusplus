@@ -363,7 +363,7 @@ namespace esapi
       si += (size_t)ptr;
     }
     catch(SafeIntException&) {
-      throw std::length_error(L"Too many elements in the array");
+      throw std::length_error("Too many elements in the array");
     }
 
     ASSERT(m_vector.get());

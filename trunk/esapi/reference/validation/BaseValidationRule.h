@@ -234,7 +234,7 @@ bool BaseValidationRule<T>::isValid( const String &context, const String &input 
  */
 template <typename T>
 String BaseValidationRule<T>::whitelist( const String &input, const std::set<Char> &whitelist) {
-	String stripped = "";
+	String stripped = L"";
 
 	for (unsigned int i = 0; i < input.length(); i++) {
 		Char c = input[i];

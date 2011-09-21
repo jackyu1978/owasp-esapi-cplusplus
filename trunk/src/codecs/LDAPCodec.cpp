@@ -35,7 +35,7 @@ namespace esapi
       case L'*':
               return L"\\2a";
               break;
-      case L'(L':
+      case L'(':
               return L"\\28";
               break;
       case L')':

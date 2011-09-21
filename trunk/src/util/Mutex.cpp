@@ -33,9 +33,9 @@ namespace esapi
     ASSERT(ret == 0);
     if(ret != 0)
       {
-        StringStream oss;
+        std::ostringstream oss;
         oss << "Failed to initialize mutex, error = " << ret << " ";
-        oss << "(L" << strerror(ret) << ").";
+        oss << "(" << strerror(ret) << ").";
         throw std::runtime_error(oss.str());
       }
 #endif
@@ -67,7 +67,7 @@ namespace esapi
     ASSERT(ret == 0);
     if(ret != 0)
       {
-        StringStream oss;
+        std::ostringstream oss;
         oss << "Failed to acquire mutex, error = " << ret << " ";
         oss << "(L" << strerror(ret) << ").";
         throw std::runtime_error(oss.str());
@@ -84,7 +84,7 @@ namespace esapi
     ASSERT(ret == 0);
     if(ret != 0)
       {
-        StringStream oss;
+        std::ostringstream oss;
         oss << "Failed to release mutex, error = " << ret << " ";
         oss << "(L" << strerror(ret) << ").";
         throw std::runtime_error(oss.str());

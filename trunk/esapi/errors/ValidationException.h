@@ -79,6 +79,6 @@ namespace esapi
      */
     void setContext(const String &);
 
-    virtual ~ValidationException() {};
+    virtual ~ValidationException() throw() {};
   };
 };

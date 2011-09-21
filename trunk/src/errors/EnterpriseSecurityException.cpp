@@ -40,7 +40,7 @@ namespace esapi
     return TextConvert::NarrowToWide(userMessage);
   }
 
-  const char* EnterpriseSecurityException::what() const
+  const char* EnterpriseSecurityException::what() const throw()
   {
     ASSERT( !userMessage.empty() );
     return userMessage.c_str();
@@ -52,3 +52,4 @@ namespace esapi
 	  return TextConvert::NarrowToWide(logMessage);
   }
 } // esapi
+

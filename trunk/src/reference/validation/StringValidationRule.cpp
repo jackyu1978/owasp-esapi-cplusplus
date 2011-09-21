@@ -13,6 +13,7 @@
  */
 
 #include "reference/validation/StringValidationRule.h"
+#include "util/TextConvert.h"
 #include "errors/UnsupportedOperationException.h"
 #include "errors/NullPointerException.h"
 #include "errors/ValidationException.h"
@@ -53,7 +54,7 @@ namespace esapi
 	  //ASSERT(encoder);
 	  //if (encoder==nullptr) throw new NullPointerException(L"encoder has null pointer");
 
-	  String data = "";
+	  String data = L"";
 
 	  // checks on input itself
 
@@ -146,19 +147,27 @@ namespace esapi
 	  this->validateInputAndCanonical = flag;
   }
 
-  String StringValidationRule::checkWhitelist(const String &context, const String &input, const String &orig) {
-	  std::set<String>::iterator it;
+  String StringValidationRule::checkWhitelist(const String &context, const String &input, const String &orig)
+  {
+      NarrowString ninput = TextConvert::WideToNarrow(input);
+	  std::set<String>::iterator it = whitelistPatterns.begin();
 
-	  if (!whitelistPatterns.empty()) {
-		  for (it=whitelistPatterns.begin(); it!= whitelistPatterns.end(); it++) {
-			  const boost::regex re(*it);
-			  if(!boost::regex_match(input,re)) {
-				  StringStream userMessage;
-				  StringStream logMessage;
-				  userMessage << context << ": Invalid input. Please conform to regex " << *it << " with a maximum length of " + maxLength;
-				  logMessage << "Invalid input: context=" << context << ", type(L" << getTypeName() << ")=" << *it << ", input=" << input << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
-			  }
+	  for (; it!= whitelistPatterns.end(); it++) {
+          const NarrowString npattern(TextConvert::WideToNarrow(*it));
+		  const boost::regex nre(npattern);
+
+		  if(!boost::regex_match(ninput,nre)) {
+			  StringStream userMessage;			  
+			  userMessage << context << L": Invalid input. Please conform to regex '";
+              userMessage << *it << L"' with a maximum length of ";
+              userMessage << maxLength;
+
+              StringStream logMessage;
+			  logMessage << L"Invalid input: context=" << context << L", type (" << getTypeName();
+              logMessage << L") =" << *it << L", input=" << input;
+              logMessage << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
+
+			  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 		  }
 	  }
 
@@ -169,19 +178,22 @@ namespace esapi
 	  return checkWhitelist(context, input, input);
   }
 
-  String StringValidationRule::checkBlacklist(const String &context, const String &input, const String &orig) {
-	  std::set<String>::iterator it;
+  String StringValidationRule::checkBlacklist(const String &context, const String &input, const String &orig)
+  {
+      NarrowString ninput = TextConvert::WideToNarrow(input);
+	  std::set<String>::iterator it = blacklistPatterns.begin();
 
-	  if (!blacklistPatterns.empty()) {
-		  for (it=blacklistPatterns.begin(); it!= blacklistPatterns.end(); it++) {
-			  const boost::regex re(*it);
-			  if(!boost::regex_match(input,re)) {
-				  StringStream userMessage;
-				  StringStream logMessage;
-				  userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
-				  logMessage << "Dangerous input: context=" << context << ", type(L" + getTypeName() + ")=" + *it + ", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
-				  throw new ValidationException( userMessage.str(), logMessage.str(), context );
-			  }
+	  for (; it!= blacklistPatterns.end(); it++)
+      {
+          const NarrowString npattern(TextConvert::WideToNarrow(*it));
+		  const boost::regex nre(npattern);
+
+		  if(!boost::regex_match(ninput,nre)) {
+			  StringStream userMessage;
+			  StringStream logMessage;
+			  userMessage << context << L": Invalid input. Dangerous input matching " << *it + L" detected.";
+			  logMessage << L"Dangerous input: context=" << context << L", type(L" + getTypeName() + L")=" + *it + L", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
+			  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 		  }
 	  }
 
@@ -197,16 +209,16 @@ namespace esapi
 	  if (input.size() < minLength) {
 		  StringStream userMessage;
 		  StringStream logMessage;
-		  userMessage << context << ": Invalid input. The minimum length of " << minLength << " characters was not met.";
-		  logMessage << "Input does not meet the minimum length of " << minLength << " by " << (minLength - input.size()) << " characters: context=" << context << ", type=" << getTypeName() << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+		  userMessage << context << L": Invalid input. The minimum length of " << minLength << L" characters was not met.";
+		  logMessage << L"Input does not meet the minimum length of " << minLength << L" by " << (minLength - input.size()) << L" characters: context=" << context << L", type=" << getTypeName() << L"), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
 		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 	  }
 
 	  if (input.size() > maxLength) {
 		  StringStream userMessage;
 		  StringStream logMessage;
-		  userMessage << context << ": Invalid input. The maximum length of " << maxLength << " characters was exceeded.";
-		  logMessage << "Input exceeds maximum allowed length of " << maxLength << " by " << (input.size()-maxLength) << " characters: context=" << context << ", type=" << getTypeName() << ", orig=" << orig <<", input=" << input;
+		  userMessage << context << L": Invalid input. The maximum length of " << maxLength << L" characters was exceeded.";
+		  logMessage << L"Input exceeds maximum allowed length of " << maxLength << L" by " << (input.size()-maxLength) << L" characters: context=" << context << L", type=" << getTypeName() << L", orig=" << orig <<", input=" << input;
 		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
 	  }
 
@@ -225,8 +237,8 @@ namespace esapi
 
 	  StringStream userMessage;
 	  StringStream logMessage;
-	  userMessage << context + ": Input required.";
-	  logMessage << "Input required: context=" << context << "), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? "" : ", orig=" + orig);
+	  userMessage << context + L": Input required.";
+	  logMessage << L"Input required: context=" << context << L", input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
 	  throw new ValidationException(userMessage.str(), logMessage.str(), context );
   }
 

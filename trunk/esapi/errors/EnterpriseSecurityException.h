@@ -100,8 +100,8 @@ namespace esapi
        */
       virtual String getLogMessage() const;
 
-      virtual ~EnterpriseSecurityException() { };
+      virtual ~EnterpriseSecurityException() throw() { };
 
-      virtual const char* what() const;
+      virtual const char* what() const throw();
     };
 };
