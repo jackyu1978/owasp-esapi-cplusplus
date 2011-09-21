@@ -31,7 +31,7 @@ STATIC_LIB =	libesapi-c++.a
 # Try and pick up on targets/goals.
 # See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html for mixing and matching Debug/Release/Test from goals.
 
-DEBUG_GOALS = $(filter $(MAKECMDGOALS), debug crypto codec codecs err errors ref reference)
+DEBUG_GOALS = $(filter $(MAKECMDGOALS), debug)
 ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
 endif
@@ -42,7 +42,7 @@ ifneq ($(TEST_GOALS),)
   WANT_TEST := 1
 endif
 
-RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB))
+RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB) crypto codec codecs err errors ref reference)
 ifneq ($(RELEASE_GOALS),)
   WANT_DEBUG := 0
   WANT_TEST := 0
@@ -220,9 +220,10 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/validation/BaseValidationRule.cpp \
 			src/reference/validation/StringValidationRule.cpp
 
-UTILSRCS =	src/util/SecureArray.cpp \
+UTILSRCS =	src/util/Mutex.cpp \
+			src/util/SecureArray.cpp \
 			src/util/SecureString.cpp \
-			src/util/Mutex.cpp
+			src/util/TextConvert-Starnix.cpp
 
 LIBSRCS =	$(ROOTSRCS) \
 			$(CODECSRCS) \
@@ -357,5 +358,5 @@ $(TESTTARGET): ;
 
 .PHONY: clean
 clean:
-	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM *.core
+	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM core *.core
 

@@ -35,12 +35,8 @@ using esapi::EncryptionException;
 #include <errors/InvalidArgumentException.h>
 using esapi::InvalidArgumentException;
 
-void VerifyHash();
-void VerifyHash1();
-void VerifyHash2();
-void VerifyHash3();
-void VerifyHash4();
-void VerifyHash5();
+#include "util/TextConvert.h"
+using esapi::TextConvert;
 
 void VerifyEncrypt1();
 void VerifyEncrypt2();
@@ -59,7 +55,6 @@ BOOST_AUTO_TEST_CASE( VerifyDefaultEncryptor )
 {
   BOOST_MESSAGE( "Verifying DefaultEncryptor class" );
 
-  VerifyHash();
   // VerifyEncrypt1();
   // VerifyEncrypt2();
   // VerifyDecrypt1();
@@ -71,19 +66,10 @@ BOOST_AUTO_TEST_CASE( VerifyDefaultEncryptor )
   // VerifyVerifySeal();
 }
 
-void VerifyHash()
-{
-  VerifyHash1();
-  VerifyHash2();
-  VerifyHash3();
-  VerifyHash4();
-  VerifyHash5();
-}
-
-void VerifyHash1()
+BOOST_AUTO_TEST_CASE( VerifyHash1 )
 {
   // String data
-  String password = "password", salt = "salt", encoded;
+  String password = L"password", salt = L"salt", encoded;
   bool success = false;
 
   try
@@ -91,7 +77,7 @@ void VerifyHash1()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const String expected = "KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
+      const String expected = L"KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
       success = (encoded == expected);
 
     }
@@ -108,10 +94,10 @@ void VerifyHash1()
       BOOST_ERROR(L"Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
-void VerifyHash2()
+BOOST_AUTO_TEST_CASE( VerifyHash2 )
 {
   // Random binary data
   byte p[] = { 213,75,186,206,204,235,120,11 };
@@ -125,7 +111,7 @@ void VerifyHash2()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const String expected = "dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
+      const String expected = L"dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
 
       success = (encoded == expected);
 
@@ -143,13 +129,13 @@ void VerifyHash2()
       BOOST_ERROR(L"Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
-void VerifyHash3()
+BOOST_AUTO_TEST_CASE( VerifyHash3 )
 {
   // String data
-  String password = "", salt = "", encoded;
+  String password = L"", salt = L"", encoded;
   bool success = false;
 
   try
@@ -157,7 +143,7 @@ void VerifyHash3()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const String expected = "0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
+      const String expected = L"0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
       success = (encoded == expected);
 
     }
@@ -174,13 +160,13 @@ void VerifyHash3()
       BOOST_ERROR(L"Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
-void VerifyHash4()
+BOOST_AUTO_TEST_CASE( VerifyHash4 )
 {
   // String data
-  String password = "password", salt = "", encoded;
+  String password = L"password", salt = L"", encoded;
   bool success = false;
 
   try
@@ -188,7 +174,7 @@ void VerifyHash4()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const String expected = "l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
+      const String expected = L"l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
       success = (encoded == expected);
 
     }
@@ -205,13 +191,13 @@ void VerifyHash4()
       BOOST_ERROR(L"Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
-void VerifyHash5()
+BOOST_AUTO_TEST_CASE( VerifyHash5 )
 {
   // String data
-  String password = "", salt = "salt", encoded;
+  String password = L"", salt = L"salt", encoded;
   bool success = false;
 
   try
@@ -219,7 +205,7 @@ void VerifyHash5()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const String expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
+      const String expected = L"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
       success = (encoded == expected);
 
     }
@@ -236,6 +222,6 @@ void VerifyHash5()
       BOOST_ERROR(L"Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << encoded);
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 

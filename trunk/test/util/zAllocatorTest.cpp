@@ -32,10 +32,11 @@ using std::list;
 #include <algorithm>
 using std::equal;
 
-#include <sstream>
-using StringStream;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
+using esapi::StringStream;
 
-#include <EsapiCommon.h>
 #include <util/zAllocator.h>
 using esapi::zallocator;
 
@@ -43,11 +44,8 @@ using esapi::zallocator;
 using esapi::SecureByteArray;
 using esapi::SecureIntArray;
 
-void VerifyAllocationWrap();
-void VerifyListAllocation();
-
-void VerifySecureByteArray();
-void VerifySecureIntArray();
+#include "util/TextConvert.h"
+using esapi::TextConvert;
 
 class Useless
 {
@@ -59,17 +57,7 @@ private:
   byte unused[4096];
 };
 
-BOOST_AUTO_TEST_CASE( VerifyAllocator )
-{
-  BOOST_MESSAGE( "Verifying zAllocator class" );
-
-  VerifyAllocationWrap();
-  VerifyListAllocation();
-  VerifySecureByteArray();
-  VerifySecureIntArray();
-}
-
-void VerifyAllocationWrap()
+BOOST_AUTO_TEST_CASE( VerifyAllocationWrap )
 {
   bool success = false;
 
@@ -92,7 +80,7 @@ void VerifyAllocationWrap()
         
 }
 
-void VerifyListAllocation()
+BOOST_AUTO_TEST_CASE( VerifyListAllocation )
 {
   bool success = false;
   try
@@ -250,7 +238,7 @@ void VerifyListAllocation()
   BOOST_CHECK_MESSAGE(success, "Failed to compare lists");
 }
 
-void VerifySecureByteArray()
+BOOST_AUTO_TEST_CASE( VerifySecureByteArray )
 {
   bool success = false;
 
@@ -469,7 +457,7 @@ void VerifySecureByteArray()
 
 }
 
-void VerifySecureIntArray()
+BOOST_AUTO_TEST_CASE( VerifySecureIntArray )
 {
   bool success = false;
 

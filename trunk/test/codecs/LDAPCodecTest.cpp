@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_4N)
 
   const Char* nil = NULL;
   String encoded = codec.encodeCharacter(nil, 0, L'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), L"Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
   LDAPCodec codec;
   const Char immune[] = { (Char)0xFF };
   String encoded = codec.encodeCharacter(immune, 0, L'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), L"Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
   LDAPCodec codec;
   const Char immune[] = { (Char)0xFF };
   String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), L'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), L"Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
   for( unsigned int c = L'A'; c <= L'Z'; c++)
   {
     String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
-    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), L"Failed to encode character");
   }
 }
 
@@ -107,11 +107,11 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
   };
 
   const KnownAnswer tests[] = {
-    { (Char)'\\', "\\5c" },
-    { (Char)'*', "\\2a" },
-    { (Char)'(L', "\\28" },
-    { (Char)')', "\\29" },
-    { (Char)'\0', "\\00" },
+    { (Char)'\\', L"\\5c" },
+    { (Char)'*', L"\\2a" },
+    { (Char)'(', L"\\28" },
+    { (Char)')', L"\\29" },
+    { (Char)'\0', L"\\00" },
   };
 
   const Char immune[] = { (Char)0xFF };
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
     const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
     const String expected = tests[i].str;
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == expected), L"Failed to encode character");
   }
 }
 
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
     const String encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
     const String expected(1, special[i]);
 
-    BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == expected), L"Failed to encode character");
   }
 }
 

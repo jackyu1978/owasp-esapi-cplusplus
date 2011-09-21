@@ -35,6 +35,9 @@ using esapi::Key;
 using esapi::SecretKey;
 using esapi::KeyGenerator;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
+
 static const unsigned int KEY_SIZES[] = { 1, 7, 8, 9, 63, 64, 65, 80, 112, 128, 192, 256, 384, 512 };
 
 // Block ciphers
@@ -152,7 +155,7 @@ void VerifyAesKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "aes";
+  alg = L"aes";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -162,13 +165,13 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
     
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "aes/CBC";
+  alg = L"aes/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -178,13 +181,13 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "aes\\cfb";
+  alg = L"aes\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -194,13 +197,13 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "aes/OFB";
+  alg = L"aes/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -210,13 +213,13 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "aes/OFB/PKCS5";
+  alg = L"aes/OFB/PKCS5";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -226,7 +229,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -239,7 +242,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "CameLLia";
+  alg = L"CameLLia";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -249,13 +252,13 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "CameLLia/CBC";
+  alg = L"CameLLia/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -265,13 +268,13 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "CameLLia\\cfb";
+  alg = L"CameLLia\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -281,13 +284,13 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "CameLLia/OFB";
+  alg = L"CameLLia/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -297,13 +300,13 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "CameLLia/OFB/  PKCS5   ";
+  alg = L"CameLLia/OFB/  PKCS5   ";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -313,7 +316,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -326,7 +329,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "DeSEdE";
+  alg = L"DeSEdE";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -336,13 +339,13 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "DeSEdE/CBC";
+  alg = L"DeSEdE/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -352,13 +355,13 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "DeSEdE\\cfb";
+  alg = L"DeSEdE\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -368,13 +371,13 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "DeSEdE/OFB";
+  alg = L"DeSEdE/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -384,13 +387,13 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "DeSEdE/OFB\\PKCS 7";
+  alg = L"DeSEdE/OFB\\PKCS 7";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -400,7 +403,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -413,7 +416,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "BlowFISH";
+  alg = L"BlowFISH";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -423,13 +426,13 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "BlowFISH/CBC";
+  alg = L"BlowFISH/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -439,13 +442,13 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "BlowFISH\\cfb";
+  alg = L"BlowFISH\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -455,13 +458,13 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "BlowFISH/OFB";
+  alg = L"BlowFISH/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -471,13 +474,13 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "BlowFISH/OFB//Zero";
+  alg = L"BlowFISH/OFB//Zero";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -487,7 +490,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -500,7 +503,7 @@ void VerifyShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "SHA1";
+  alg = L"SHA1";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -510,13 +513,13 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "SHA224";
+  alg = L"SHA224";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -526,13 +529,13 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "SHA256";
+  alg = L"SHA256";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -542,13 +545,13 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "SHA384";
+  alg = L"SHA384";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -558,13 +561,13 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "SHA512";
+  alg = L"SHA512";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -574,7 +577,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -583,7 +586,7 @@ void VerifyWhirlpoolKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying Whirlpool" );
 
-  String alg = "Whirlpool";
+  String alg = L"Whirlpool";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -593,7 +596,7 @@ void VerifyWhirlpoolKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -606,7 +609,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "HmacSHA1";
+  alg = L"HmacSHA1";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -616,13 +619,13 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "HmacSHA224";
+  alg = L"HmacSHA224";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -632,13 +635,13 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "HmacSHA256";
+  alg = L"HmacSHA256";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -648,13 +651,13 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "HmacSHA384";
+  alg = L"HmacSHA384";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -664,13 +667,13 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = "HmacSHA512";
+  alg = L"HmacSHA512";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -680,7 +683,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -689,7 +692,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
 {
   BOOST_MESSAGE( " Verifying HMAC-Whirlpool" );
 
-  String alg = "HmacWhirlpool";
+  String alg = L"HmacWhirlpool";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -699,7 +702,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (L" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (L" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }

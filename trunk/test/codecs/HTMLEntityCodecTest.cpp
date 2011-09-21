@@ -32,6 +32,9 @@ using std::endl;
 #include "codecs/HTMLEntityCodec.h"
 using esapi::HTMLEntityCodec;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
+
 static const unsigned int THREAD_COUNT = 64;
 static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
@@ -71,7 +74,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
   String encoded = codec.encodeCharacter(immune, 0, L'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), L"Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
@@ -80,7 +83,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
   String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), L'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), "Failed to encode character");
+  BOOST_CHECK_MESSAGE(encoded == String(1, L'A'), L"Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
@@ -92,7 +95,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
   for( unsigned int c = L'A'; c <= L'Z'; c++)
   {
     String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
-    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");
+    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), L"Failed to encode character");
   }
 }
 
@@ -109,15 +112,15 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 
   // First and last 4 from entity table (below Char)
   const KnownAnswer tests[] = {
-    { (Char)34, "&quot;" },
-    { (Char)38, "&amp;" },
-    { (Char)60, "&lt;" },
-    { (Char)62, "&gt;" },
+    { (Char)34, L"&quot;" },
+    { (Char)38, L"&amp;" },
+    { (Char)60, L"&lt;" },
+    { (Char)62, L"&gt;" },
 
-    { (Char)252, "&uuml;" },
-    { (Char)253, "&yacute;" },
-    { (Char)254, "&thorn;" },
-    { (Char)255, "&yuml;" }
+    { (Char)252, L"&uuml;" },
+    { (Char)253, L"&yacute;" },
+    { (Char)254, L"&thorn;" },
+    { (Char)255, L"&yuml;" }
   };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
@@ -126,11 +129,11 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
     const String expected = tests[i].str;
 
     StringStream oss;
-    oss << "Failed to encode character. Expected ";
-    oss << "'" << expected << "', got ";
-    oss << "'" << encoded << "'";
+    oss << L"Failed to encode character. Expected ";
+    oss << L"'" << expected << L"', got ";
+    oss << L"'" << encoded << L"'";
 
-    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
+    BOOST_CHECK_MESSAGE((encoded == expected), TextConvert::WideToNarrow(oss.str()));
   }
 }
 
@@ -147,20 +150,20 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
 
   // First, middle, and last 4 from entity table
   const KnownAnswer tests[] = {
-    { 34, "&quot;" },
-    { 38, "&amp;" },
-    { 60, "&lt;" },
-    { 62, "&gt;" },
+    { 34, L"&quot;" },
+    { 38, L"&amp;" },
+    { 60, L"&lt;" },
+    { 62, L"&gt;" },
 
-    { 929, "&Rho;" },
-    { 931, "&Sigma;" },
-    { 932, "&Tau;" },
-    { 933, "&Upsilon;" },
+    { 929, L"&Rho;" },
+    { 931, L"&Sigma;" },
+    { 932, L"&Tau;" },
+    { 933, L"&Upsilon;" },
 
-    { 9824, "&spades;" },
-    { 9827, "&clubs;" },
-    { 9829, "&hearts;" },
-    { 9830, "&diams;" }
+    { 9824, L"&spades;" },
+    { 9827, L"&clubs;" },
+    { 9829, L"&hearts;" },
+    { 9830, L"&diams;" }
   };
 
   const Char immune[] = { (Char)0xFF };
@@ -171,11 +174,11 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
     const String expected = tests[i].str;
 
     StringStream oss;
-    oss << "Failed to encode character. Expected ";
-    oss << "'" << expected << "', got ";
-    oss << "'" << encoded << "'";
+    oss << L"Failed to encode character. Expected ";
+    oss << L"'" << expected << L"', got ";
+    oss << L"'" << encoded << L"'";
 
-    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
+    BOOST_CHECK_MESSAGE((encoded == expected), TextConvert::WideToNarrow(oss.str()));
   }
 }
 
@@ -192,8 +195,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
 
   // For companies like Apple, which has far too many lawyers
   const KnownAnswer tests[] = {    
-    { 169, "&copy;" },
-    { 8482, "&trade;" },
+    { 169, L"&copy;" },
+    { 8482, L"&trade;" },
   };
 
   const Char immune[] = { (Char)0xFF };
@@ -204,11 +207,11 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
     const String expected = tests[i].str;
 
     StringStream oss;
-    oss << "Failed to encode character. Expected ";
-    oss << "'" << expected << "', got ";
-    oss << "'" << encoded << "'";
+    oss << L"Failed to encode character. Expected ";
+    oss << L"'" << expected << L"', got ";
+    oss << L"'" << encoded << L"'";
 
-    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
+    BOOST_CHECK_MESSAGE((encoded == expected), TextConvert::WideToNarrow(oss.str()));
   }
 }
 
@@ -224,10 +227,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
   };
 
   const KnownAnswer tests[] = {    
-    { 0xAAA, "&#x0aaa;" },
-    { 0xAAAA, "&#xaaaa;" },
-    { 0xCCC, "&#x0ccc;" },
-    { 0xCCCC, "&#xcccc;" },
+    { 0xAAA, L"&#x0aaa;" },
+    { 0xAAAA, L"&#xaaaa;" },
+    { 0xCCC, L"&#x0ccc;" },
+    { 0xCCCC, L"&#xcccc;" },
   };
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
@@ -236,11 +239,11 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
     const String expected = tests[i].str;
 
     StringStream oss;
-    oss << "Failed to encode character. Expected ";
-    oss << "'" << expected << "', got ";
-    oss << "'" << encoded << "'";
+    oss << L"Failed to encode character. Expected ";
+    oss << L"'" << expected << L"', got ";
+    oss << L"'" << encoded << L"'";
 
-    BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
+    BOOST_CHECK_MESSAGE((encoded == expected), TextConvert::WideToNarrow(oss.str()));
   }
 }
 
@@ -256,17 +259,17 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
   //  const String expected(1, special[i]);
 
   //  StringStream oss;
-  //  oss << "Failed to encode character. Expected ";
-  //  oss << "'" << expected << "', got ";
-  //  oss << "'" << encoded << "'";
+  //  oss << L"Failed to encode character. Expected ";
+  //  oss << L"'" << expected << L"', got ";
+  //  oss << L"'" << encoded << L"'";
 
-  //  BOOST_CHECK_MESSAGE((encoded == expected), oss.str());
+  //  BOOST_CHECK_MESSAGE((encoded == expected), TextConvert::WideToNarrow(oss.str()));
   //}
 }
 
 BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_13P )
 {
-  BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << " threads" );
+  BOOST_MESSAGE( "Verifying HTMLEntityCodec with " << THREAD_COUNT << L" threads" );
 
   DoWorkerThreadStuff();
 }
@@ -290,7 +293,7 @@ void DoWorkerThreadStuff()
       int ret = pthread_create(&threads[i], NULL, WorkerThreadProc, (void*)i);
       if(0 != ret /*success*/)
         {
-          BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
+          BOOST_ERROR( "pthread_create failed (thread " << i << L"): " << strerror(errno) );
         }
     }
 
@@ -299,7 +302,7 @@ void DoWorkerThreadStuff()
       int ret = pthread_join(threads[i], NULL);
       if(0 != ret /*success*/)
         {
-          BOOST_ERROR( "pthread_join failed (thread " << i << "): " << strerror(errno) );
+          BOOST_ERROR( "pthread_join failed (thread " << i << L"): " << strerror(errno) );
         }
     }
 
@@ -318,11 +321,11 @@ void* WorkerThreadProc(void* param)
 #endif
 
 #if !defined(ESAPI_BUILD_RELEASE)
-  const std::map<int,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
+  const std::map<Char,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
 #endif
 
-  BOOST_MESSAGE( " Thread " << (size_t)param << " completed" );
+  BOOST_MESSAGE( " Thread " << (size_t)param << L" completed" );
 
   return (void*)0;
 }
