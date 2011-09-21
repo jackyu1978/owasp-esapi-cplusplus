@@ -135,7 +135,8 @@ ifeq ($(INTEL_COMPILER),1)
   override CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
-# GCC is usually a signed char, but not always (cf, ARM)
+# GCC is usually a signed char, but not always (cf, ARM). We'd also like to cut the UTF-16 problem
+# off at the pass, but it looks like we need to re-complile a bunch of stuff when using -fshort-wchar.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
   override CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
