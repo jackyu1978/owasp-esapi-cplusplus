@@ -25,7 +25,10 @@ namespace esapi
     ASSERT( !str.empty() );
     if(str.empty()) return String();
 
-    return String();
+    String wide;
+    wide.assign(str.begin(), str.end());
+
+    return wide;
   }
 
   NarrowString TextConvert::WideToNarrow(const String& wstr, CodePage cp)
@@ -33,7 +36,10 @@ namespace esapi
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();
 
-    return NarrowString();
+    NarrowString narrow;
+    narrow.assign(str.begin(), str.end());
+
+    return narrow;
   }
 
   SecureByteArray TextConvert::GetBytes(const String& wstr, CodePage cp)
