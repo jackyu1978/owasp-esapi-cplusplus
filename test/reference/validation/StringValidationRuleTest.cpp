@@ -23,6 +23,7 @@ using std::endl;
 #include "EsapiCommon.h"
 using esapi::Char;
 using esapi::String;
+using esapi::NarrowString;
 
 #include <map>
 #include <set>
@@ -34,6 +35,8 @@ using esapi::String;
 using esapi::StringValidationRule;
 using esapi::ValidationException;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
 
 // ABI Compatibility problem
 #if !defined(_GLIBCXX_DEBUG)
@@ -46,32 +49,33 @@ BOOST_AUTO_TEST_CASE( BoostRegexTest) {
 
 BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 
-	StringValidationRule validationRule("Alphabetic");
+	StringValidationRule validationRule(L"Alphabetic");
 	validationRule.setValidateInputAndCanonical(false);
 
 #if !defined(ESAPI_BUILD_RELEASE)
-	BOOST_CHECK(validationRule.checkEmpty("", "asdf").compare("asdf")==0);
+	BOOST_CHECK(validationRule.checkEmpty(L"", L"asdf").compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkLength("", "asdf").compare("asdf")==0);
+	BOOST_CHECK(validationRule.checkLength(L"", L"asdf").compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkWhitelist("", "asdf").compare("asdf")==0);
+	BOOST_CHECK(validationRule.checkWhitelist(L"", L"asdf").compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkBlacklist("", "asdf").compare("asdf")==0);
+	BOOST_CHECK(validationRule.checkBlacklist(L"", L"asdf").compare(L"asdf")==0);
 #endif
 
 	try {
-		BOOST_CHECK(validationRule.getValid("", "asdf").compare("asdf")==0);
+		BOOST_CHECK(validationRule.getValid(L"", L"asdf").compare(L"asdf")==0);
 	} catch(ValidationException& ve) {
-		BOOST_FAIL("Exception should not have been thrown: " + ve.getLogMessage());
+        NarrowString msg = TextConvert::WideToNarrow(L"Exception should not have been thrown: " + ve.getLogMessage());
+		BOOST_FAIL(msg);
 	}
 
 
-	validationRule.addWhitelistPattern("^[a-zA-Z]*");
+	validationRule.addWhitelistPattern(L"^[a-zA-Z]*");
 
 	/*
 	try {
-		validationRule.getValid("", "Magnum44");
-		BOOST_FAIL("Expected Exception not thrown");
+		validationRule.getValid(L"", L"Magnum44");
+		BOOST_FAIL(L"Expected Exception not thrown");
 	}
 	catch (ValidationException& ve) {
 		BOOST_CHECK(!ve.getContext().empty()); // should not be empty
@@ -79,22 +83,23 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 
 
 	try {
-		BOOST_CHECK(validationRule.getValid("", "MagnumPI").compare("MagnumPI")==0);
+		BOOST_CHECK(validationRule.getValid(L"", L"MagnumPI").compare(L"MagnumPI")==0);
 	} catch(ValidationException& ve) {
-		BOOST_FAIL("Exception should not have been thrown: " + ve.getLogMessage());
+        NarrowString msg = TextConvert::WideToNarrow(L"Exception should not have been thrown: " + ve.getLogMessage());
+		BOOST_FAIL(msg);
 	}
 
 }
 /*
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 
-	StringValidationRule validationRule = new StringValidationRule("");
+	StringValidationRule validationRule = new StringValidationRule(L"");
 
 	//null white list patterns throw IllegalArgumentException
 	try {
 		String pattern = null;
 		validationRule.addWhitelistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -103,7 +108,7 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 	try {
 		java.util.regex.Pattern pattern = null;
 		validationRule.addWhitelistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -113,7 +118,7 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 	try {
 		String pattern = "_][0}[";
 		validationRule.addWhitelistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -121,37 +126,37 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelist){
-	StringValidationRule validationRule = new StringValidationRule("");
+	StringValidationRule validationRule = new StringValidationRule(L"");
 
 	char[] whitelistArray = new char[] {'a', 'b', 'c'};
-	Assert.assertEquals("abc", validationRule.whitelist("12345abcdef", whitelistArray));
+	Assert.assertEquals(L"abc", validationRule.whitelist(L"12345abcdef", whitelistArray));
 }
 
 BOOST_AUTO_TEST_CASE( StringValidationRuleTestBlacklistPattern) {
 
-	StringValidationRule validationRule = new StringValidationRule("NoAngleBrackets");
+	StringValidationRule validationRule = new StringValidationRule(L"NoAngleBrackets");
 
-	Assert.assertEquals("beg <script> end", validationRule.getValid("", "beg <script> end"));
-	validationRule.addBlacklistPattern("^.*(<|>).*");
+	Assert.assertEquals(L"beg <script> end", validationRule.getValid(L"", L"beg <script> end"));
+	validationRule.addBlacklistPattern(L"^.*(<|>).*");
 	try {
-		validationRule.getValid("", "beg <script> end");
-		Assert.fail("Expected Exception not thrown");
+		validationRule.getValid(L"", L"beg <script> end");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (ValidationException ve) {
 		Assert.assertNotNull(ve.getMessage());
 	}
-	Assert.assertEquals("beg script end", validationRule.getValid("", "beg script end"));
+	Assert.assertEquals(L"beg script end", validationRule.getValid(L"", L"beg script end"));
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 
-	StringValidationRule validationRule = new StringValidationRule("");
+	StringValidationRule validationRule = new StringValidationRule(L"");
 
 	//null black list patterns throw IllegalArgumentException
 	try {
 		String pattern = null;
 		validationRule.addBlacklistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -160,7 +165,7 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 	try {
 		java.util.regex.Pattern pattern = null;
 		validationRule.addBlacklistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -170,7 +175,7 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 	try {
 		String pattern = "_][0}[";
 		validationRule.addBlacklistPattern(pattern);
-		Assert.fail("Expected Exception not thrown");
+		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
@@ -179,34 +184,34 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestCheckLengths) {
 
-	StringValidationRule validationRule = new StringValidationRule("Max12_Min2");
+	StringValidationRule validationRule = new StringValidationRule(L"Max12_Min2");
 	validationRule.setMinimumLength(2);
 	validationRule.setMaximumLength(12);
 
-	Assert.assertTrue(validationRule.isValid("", "12"));
-	Assert.assertTrue(validationRule.isValid("", "123456"));
-	Assert.assertTrue(validationRule.isValid("", "ABCDEFGHIJKL"));
+	Assert.assertTrue(validationRule.isValid(L"", L"12"));
+	Assert.assertTrue(validationRule.isValid(L"", L"123456"));
+	Assert.assertTrue(validationRule.isValid(L"", L"ABCDEFGHIJKL"));
 
-	Assert.assertFalse(validationRule.isValid("", "1"));
-	Assert.assertFalse(validationRule.isValid("", "ABCDEFGHIJKLM"));
+	Assert.assertFalse(validationRule.isValid(L"", L"1"));
+	Assert.assertFalse(validationRule.isValid(L"", L"ABCDEFGHIJKLM"));
 
 	ValidationErrorList errorList = new ValidationErrorList();
-	Assert.assertEquals("1234567890", validationRule.getValid("", "1234567890", errorList));
+	Assert.assertEquals(L"1234567890", validationRule.getValid(L"", L"1234567890", errorList));
 	Assert.assertEquals(0, errorList.size());
-	Assert.assertEquals(null, validationRule.getValid("", "123456789012345", errorList));
+	Assert.assertEquals(null, validationRule.getValid(L"", L"123456789012345", errorList));
 	Assert.assertEquals(1, errorList.size());
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestAllowNull) {
 
-	StringValidationRule validationRule = new StringValidationRule("");
+	StringValidationRule validationRule = new StringValidationRule(L"");
 
 	Assert.assertFalse(validationRule.isAllowNull());
-	Assert.assertFalse(validationRule.isValid("", null));
+	Assert.assertFalse(validationRule.isValid(L"", null));
 
 	validationRule.setAllowNull(true);
 	Assert.assertTrue(validationRule.isAllowNull());
-	Assert.assertTrue(validationRule.isValid("", null));
+	Assert.assertTrue(validationRule.isValid(L"", null));
 }*/
 
 #endif // !defined(_GLIBCXX_DEBUG)

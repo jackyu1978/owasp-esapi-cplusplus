@@ -20,7 +20,7 @@
 
 namespace esapi
 {
-  class TextConvert : private NotCopyable
+  class ESAPI_EXPORT TextConvert : private NotCopyable
   {
   public:
     enum CodePage { CodePageDefault = -1, CodePageUTF7 = -7, CodePageUTF8 = -8 };

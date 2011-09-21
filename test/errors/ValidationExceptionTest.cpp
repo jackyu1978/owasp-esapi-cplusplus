@@ -19,28 +19,36 @@ using esapi::Char;
 using esapi::String;
 using esapi::StringStream;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
+
 #include "errors/ValidationException.h"
 using esapi::ValidationException;
 
 BOOST_AUTO_TEST_SUITE( test_suite_ValidationException )
 
-BOOST_AUTO_TEST_CASE( test_case_constructor )
+BOOST_AUTO_TEST_CASE( test_case_constructor_1 )
 {
-  ValidationException exception(L"user message", "log message");
+  ValidationException exception("user message", "log message");
+}
+
+BOOST_AUTO_TEST_CASE( test_case_constructor_2 )
+{
+  ValidationException exception(L"user message", L"log message");
 }
 
 BOOST_AUTO_TEST_CASE( test_case_setContext )
 {
-  String context = "test context";
-  ValidationException exception(L"user message", "log message");
+  String context = L"test context";
+  ValidationException exception(L"user message", L"log message");
   exception.setContext(context);
   const String& ctx = exception.getContext();
 
   StringStream oss;
-  oss << "Failed to set context. Expected '" << context << "', ";
-  oss << "got '" << ctx << "'.";
+  oss << L"Failed to set context. Expected '" << context << L"', ";
+  oss << L"got '" << ctx << L"'.";
 
-  BOOST_REQUIRE_MESSAGE( context == ctx, oss.str() );
+  BOOST_REQUIRE_MESSAGE( context == ctx, TextConvert::WideToNarrow(oss.str()) );
 }
 
 BOOST_AUTO_TEST_CASE( test_try_catch )
@@ -49,19 +57,19 @@ BOOST_AUTO_TEST_CASE( test_try_catch )
   try
     {
       throw ValidationException(umsg, lmsg);
-      BOOST_FAIL(L"Expected exception was not thrown");
+      BOOST_FAIL("Expected exception was not thrown");
     }
   catch (const std::exception& ve)
     {
       StringStream oss;
-      oss << "Failed to pull exception message. Expected '" << umsg << "'";
-      oss << ", got '" << ve.what() << "'.";
+      oss << L"Failed to pull exception message. Expected '" << umsg << L"'";
+      oss << L", got '" << ve.what() << L"'.";
 
-      BOOST_CHECK_MESSAGE( ve.what() == umsg, oss.str() );
+      BOOST_CHECK_MESSAGE( TextConvert::NarrowToWide(ve.what()) == umsg, TextConvert::WideToNarrow(oss.str()) );
     }
 
   // BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
-  // BOOST_CHECK_THROW( throw new ValidationException(L"user message", "log message"), std::exception );
+  // BOOST_CHECK_THROW( throw new ValidationException(L"user message", L"log message"), std::exception );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

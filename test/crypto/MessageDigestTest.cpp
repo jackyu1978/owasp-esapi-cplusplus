@@ -40,6 +40,9 @@ using esapi::NoSuchAlgorithmException;
 #include "crypto/MessageDigest.h"
 using esapi::MessageDigest;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
+
 #include <pthread.h>
 #include <errno.h>
 
@@ -183,8 +186,8 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
   /////////////////////////////////////////////////////////////////////////
 
   MessageDigest md2(MessageDigest::getInstance());
-  success = (md2.getAlgorithm() == "SHA-256");
-  BOOST_CHECK_MESSAGE(success, "Default generator " << md2.getAlgorithm() << " is unexpected");
+  success = (md2.getAlgorithm() == L"SHA-256");
+  BOOST_CHECK_MESSAGE(success, "Default generator " << TextConvert::WideToNarrow(md2.getAlgorithm()) << " is unexpected");
 
   /////////////////////////////////////////////////////////////////////////
 

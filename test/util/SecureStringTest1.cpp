@@ -31,21 +31,10 @@ using std::ostream;
 #include <util/SecureString.h>
 using esapi::SecureString;
 
-void VerifyConstruction();
-void VerifyAssignment();
-
-BOOST_AUTO_TEST_CASE( VerifySecureString1 )
-{
-  BOOST_MESSAGE( "Verifying SecureString class (Construction, Copy and Assignment)" );
-
-  VerifyConstruction();
-  VerifyAssignment();
-}
-
-static const Char* THE_STRING = "Goodbye, secret";
+static const Char THE_STRING[] = L"Goodbye, secret";
 static const size_t THE_LENGTH = 15;
 
-void VerifyConstruction()
+BOOST_AUTO_TEST_CASE( VerifyConstruction )
 {
   bool success = false;
 
@@ -60,7 +49,7 @@ void VerifyConstruction()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to construct SecureString");
 
   try
     {
@@ -73,7 +62,7 @@ void VerifyConstruction()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to construct SecureString");
 
   try
     {
@@ -87,7 +76,7 @@ void VerifyConstruction()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to construct SecureString");
 
   try
     {
@@ -100,7 +89,7 @@ void VerifyConstruction()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to construct SecureString");
 
   try
     {
@@ -114,24 +103,24 @@ void VerifyConstruction()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to copy construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to copy construct SecureString");
 
   try
     {
       success = false;
 
       SecureString ss(1, L'A');
-      success = (0 == ::memcmp(ss.c_str(), "A", 1));
+      success = (0 == ::memcmp(ss.c_str(), L"A", 1));
     }
   catch(...)
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to construct SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to construct SecureString");
 
 }
 
-void VerifyAssignment()
+BOOST_AUTO_TEST_CASE( VerifyAssignment )
 {
   bool success = false;
 
@@ -146,7 +135,7 @@ void VerifyAssignment()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to assign SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to assign SecureString");
 
   try
     {
@@ -160,7 +149,7 @@ void VerifyAssignment()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to assign SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to assign SecureString");
 
   try
     {
@@ -175,7 +164,7 @@ void VerifyAssignment()
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to assign SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to assign SecureString");
 
   try
     {
@@ -183,13 +172,13 @@ void VerifyAssignment()
 
       SecureString ss;
       ss = L'A';
-      success = (0 == ::memcmp(ss.c_str(), "A", 1));
+      success = (0 == ::memcmp(ss.c_str(), L"A", 1));
     }
   catch(...)
     {
       cerr << "Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to assign SecureString");
+  BOOST_CHECK_MESSAGE(success, L"Failed to assign SecureString");
 }
 
 

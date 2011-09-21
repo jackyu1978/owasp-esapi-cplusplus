@@ -28,27 +28,12 @@ using esapi::StringStream;
 #include <util/SecureString.h>
 using esapi::SecureString;
 
-void VerifyAppend();
-void VerifyInsert();
-void VerifyForwardFind();
-void VerifyReverseFind();
+static const Char THE_STRING1[] = L"Goodbye, secret";
+static const Char THE_STRING2[] = L"Foo Bar Bah";
+static const Char THE_STRING3[] = L"Goodbye, secretFoo Bar Bah";
+static const Char THE_STRING4[] = L"Goodbye, secretA";
 
-BOOST_AUTO_TEST_CASE( VerifySecureString2 )
-{
-  BOOST_MESSAGE( "Verifying SecureString class (The Rest)" );
-
-  VerifyAppend();
-  VerifyInsert();
-  VerifyForwardFind();
-  VerifyReverseFind();
-}
-
-static const Char* THE_STRING1 = "Goodbye, secret";
-static const Char* THE_STRING2 = "Foo Bar Bah";
-static const Char* THE_STRING3 = "Goodbye, secretFoo Bar Bah";
-static const Char* THE_STRING4 = "Goodbye, secretA";
-
-void VerifyAppend()
+BOOST_AUTO_TEST_CASE( VerifyAppend )
 {
   bool success = false;
 
@@ -59,7 +44,7 @@ void VerifyAppend()
       SecureString ss1 = THE_STRING1;
       SecureString ss2 = THE_STRING2;
       ss1 += ss2;
-      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, ::strlen(THE_STRING3)));
+      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, COUNTOF(THE_STRING3)));
     }
   catch(...)
     {
@@ -74,7 +59,7 @@ void VerifyAppend()
       SecureString ss1 = THE_STRING1;
       String ss2 = THE_STRING2;
       ss1 += ss2;
-      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, ::strlen(THE_STRING3)));
+      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, COUNTOF(THE_STRING3)));
     }
   catch(...)
     {
@@ -88,7 +73,7 @@ void VerifyAppend()
 
       SecureString ss1 = THE_STRING1;
       ss1 += THE_STRING2;
-      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, ::strlen(THE_STRING3)));
+      success = (0 == ::memcmp(ss1.c_str(), THE_STRING3, COUNTOF(THE_STRING3)));
     }
   catch(...)
     {
@@ -102,7 +87,7 @@ void VerifyAppend()
 
       SecureString ss1 = THE_STRING1;
       ss1 += L'A';
-      success = (0 == ::memcmp(ss1.c_str(), THE_STRING4, ::strlen(THE_STRING4)));
+      success = (0 == ::memcmp(ss1.c_str(), THE_STRING4, COUNTOF(THE_STRING4)));
     }
   catch(...)
     {
@@ -111,7 +96,7 @@ void VerifyAppend()
   BOOST_CHECK_MESSAGE(success, "Failed to append SecureString");
 }
 
-void VerifyInsert()
+BOOST_AUTO_TEST_CASE( VerifyInsert )
 {
   bool success = false;
 
@@ -132,7 +117,7 @@ void VerifyInsert()
   BOOST_CHECK_MESSAGE(success, "Failed to insert SecureString");
 }
 
-void VerifyForwardFind()
+BOOST_AUTO_TEST_CASE( VerifyForwardFind )
 {
   bool success = false;
 
@@ -169,7 +154,7 @@ void VerifyForwardFind()
   BOOST_CHECK_MESSAGE(success, "Failed to find SecureString");
 }
 
-void VerifyReverseFind()
+BOOST_AUTO_TEST_CASE( VerifyReverseFind )
 {
   bool success = false;
 
