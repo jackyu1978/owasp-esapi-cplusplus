@@ -141,7 +141,7 @@
 #  define ESAPI_ASSERT1(exp) {                                    \
     if(!(exp)) {                                                  \
       std::ostringstream oss;                                     \
-      oss << "Assertion failed: " << (char*)(__FILE__) << "(L"     \
+      oss << "Assertion failed: " << (char*)(__FILE__) << "("     \
           << (int)__LINE__ << "): " << (char*)(__func__)          \
           << std::endl;                                           \
       std::cerr << oss.str();                                     \
@@ -151,7 +151,7 @@
 #  define ESAPI_ASSERT2(exp, msg) {                               \
     if(!(exp)) {                                                  \
       std::ostringstream oss;                                     \
-      oss << "Assertion failed: " << (char*)(__FILE__) << "(L"     \
+      oss << "Assertion failed: " << (char*)(__FILE__) << "("     \
           << (int)__LINE__ << "): " << (char*)(__func__)          \
           << ": \"" << (msg) << "\"" << std::endl;                \
       std::cerr << oss.str();                                     \
@@ -271,8 +271,8 @@ ESAPI_MS_NO_WARNING(4505)
 # define ESAPI_PRIVATE
 #elif defined(ESAPI_CXX_GCC)
 # if (__GNUC__ >= 4)
-#  define ESAPI_EXPORT __attribute__ ((visibility (L"default")))
-#  define ESAPI_PRIVATE  __attribute__ ((visibility (L"hidden")))
+#  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
+#  define ESAPI_PRIVATE  __attribute__ ((visibility ("hidden")))
 # else
 #  define ESAPI_EXPORT
 #  define ESAPI_PRIVATE
@@ -285,7 +285,7 @@ ESAPI_MS_NO_WARNING(4505)
 #elif defined(ESAPI_CXX_ICC)
 # define MEMORY_BARRIER() __memory_barrier()
 #elif defined(ESAPI_CXX_GCC)
-# define MEMORY_BARRIER() __asm__ __volatile__ (L"" ::: "memory")
+# define MEMORY_BARRIER() __asm__ __volatile__ ("" ::: "memory")
 #else
 # error "Unknown compiler"
 #endif
