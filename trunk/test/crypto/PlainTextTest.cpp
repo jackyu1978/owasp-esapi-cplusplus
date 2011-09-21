@@ -12,19 +12,18 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
+
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
-
 #include "EsapiCommon.h"
-
-#include <string>
-using String;
+using esapi::Char;
+using esapi::String;
 
 #include <crypto/PlainText.h>
 using esapi::PlainText;

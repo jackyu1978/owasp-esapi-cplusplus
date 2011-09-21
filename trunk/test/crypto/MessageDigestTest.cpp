@@ -12,22 +12,18 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
+
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
-
-// nullptr
-#include <cstddef>
-#include <memory>
-#include <string>
-using String;
-
 #include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
 
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
@@ -359,7 +355,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
       const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
-      const string msg("");
+      const String msg("");
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
@@ -383,7 +379,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
       const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
-      const string msg("abc");
+      const String msg("abc");
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0x90,0x01,0x50,0x98,0x3c,0xd2,0x4f,0xb0,0xd6,0x96,0x3f,0x7d,0x28,0xe1,0x7f,0x72};
@@ -407,7 +403,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
       const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
-      const string msg("message digest");
+      const String msg("message digest");
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xf9,0x6b,0x69,0x7d,0x7c,0xb7,0x93,0x8d,0x52,0x5a,0x2f,0x31,0xaa,0xf1,0x61,0xd0};
@@ -431,7 +427,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
       const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
-      const string msg("abcdefghijklmnopqrstuvwxyz");
+      const String msg("abcdefghijklmnopqrstuvwxyz");
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xc3,0xfc,0xd3,0xd7,0x61,0x92,0xe4,0x00,0x7d,0xfb,0x49,0x6c,0xca,0x67,0xe1,0x3b};
@@ -455,7 +451,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
       const size_t sz = md.getDigestLength();
       SecureByteArray buf(sz);
 
-      const string msg("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+      const String msg("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
       md.update((const byte*)msg.data(), msg.size());
 
       const byte hash[16] = {0xd1,0x74,0xab,0x98,0xd2,0x77,0xd9,0xf5,0xa5,0x61,0x1c,0x2c,0x9f,0x41,0x9d,0x9f};

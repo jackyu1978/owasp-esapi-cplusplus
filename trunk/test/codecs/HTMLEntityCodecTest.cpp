@@ -18,19 +18,14 @@
 using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
+using esapi::StringStream;
 
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
-
-#include <string>
-using String;
-
-#include <sstream>
-using StringStream;
-using std::istringstream;
-using std::ostringstream;
 
 #include <errno.h>
 
@@ -67,7 +62,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4N)
   HTMLEntityCodec codec;
 
   const Char* nil = NULL;
-  string encoded = codec.encodeCharacter(nil, 0, 'A');
+  String encoded = codec.encodeCharacter(nil, 0, 'A');
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
@@ -75,8 +70,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
   // Negative test
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
-  string encoded = codec.encodeCharacter(immune, 0, 'A');
-  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
+  String encoded = codec.encodeCharacter(immune, 0, 'A');
+  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
@@ -84,8 +79,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
   // Negative test
   HTMLEntityCodec codec;
   const Char immune[] = { (Char)0xFF };
-  string encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
-  BOOST_CHECK_MESSAGE(encoded == string(1, 'A'), "Failed to encode character");
+  String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
+  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
@@ -96,8 +91,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    string encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
-    BOOST_CHECK_MESSAGE((encoded == string(1, (Char)c)), "Failed to encode character");
+    String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
+    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");
   }
 }
 
@@ -109,7 +104,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
   struct KnownAnswer
   {
     Char c;
-    string str;
+    String str;
   };
 
   // First and last 4 from entity table (below Char)
@@ -127,10 +122,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(NULL, 0, (Char)tests[i].c);
-    const string expected = tests[i].str;
+    const String encoded = codec.encodeCharacter(NULL, 0, (Char)tests[i].c);
+    const String expected = tests[i].str;
 
-    ostringstream oss;
+    StringStream oss;
     oss << "Failed to encode character. Expected ";
     oss << "'" << expected << "', got ";
     oss << "'" << encoded << "'";
@@ -147,7 +142,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
   struct KnownAnswer
   {
     int c;
-    string str;
+    String str;
   };
 
   // First, middle, and last 4 from entity table
@@ -172,10 +167,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
-    const string expected = tests[i].str;
+    const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const String expected = tests[i].str;
 
-    ostringstream oss;
+    StringStream oss;
     oss << "Failed to encode character. Expected ";
     oss << "'" << expected << "', got ";
     oss << "'" << encoded << "'";
@@ -192,7 +187,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
   struct KnownAnswer
   {
     int c;
-    string str;
+    String str;
   };
 
   // For companies like Apple, which has far too many lawyers
@@ -205,10 +200,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
-    const string expected = tests[i].str;
+    const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
+    const String expected = tests[i].str;
 
-    ostringstream oss;
+    StringStream oss;
     oss << "Failed to encode character. Expected ";
     oss << "'" << expected << "', got ";
     oss << "'" << encoded << "'";
@@ -225,7 +220,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
   struct KnownAnswer
   {
     int c;
-    string str;
+    String str;
   };
 
   const KnownAnswer tests[] = {    
@@ -237,10 +232,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const string encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
-    const string expected = tests[i].str;
+    const String encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
+    const String expected = tests[i].str;
 
-    ostringstream oss;
+    StringStream oss;
     oss << "Failed to encode character. Expected ";
     oss << "'" << expected << "', got ";
     oss << "'" << encoded << "'";
@@ -257,10 +252,10 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
 
   //for( unsigned int i = 0; i < COUNTOF(special); i++ )
   //{
-  //  const string encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
-  //  const string expected(1, special[i]);
+  //  const String encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
+  //  const String expected(1, special[i]);
 
-  //  ostringstream oss;
+  //  StringStream oss;
   //  oss << "Failed to encode character. Expected ";
   //  oss << "'" << expected << "', got ";
   //  oss << "'" << encoded << "'";

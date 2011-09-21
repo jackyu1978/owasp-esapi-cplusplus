@@ -15,30 +15,18 @@
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
-#include "EsapiCommon.h"
-
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#include <string>
-using std::string;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
 
 #include <map>
 #include <set>
 #include <exception>
-
-#include <sstream>
-using std::stringstream;
-using std::istringstream;
-using std::ostringstream;
-
-#include <sstream>
-using std::stringstream;
-using std::istringstream;
-using std::ostringstream;
-
 #include <boost/regex.hpp>
 
 #include "reference/validation/StringValidationRule.h"

@@ -12,19 +12,19 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+using namespace boost::unit_test;
+
 #include <iostream>
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#if !defined(ESAPI_OS_WINDOWS)
-# define BOOST_TEST_DYN_LINK
-# include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
-#endif
-
-#include <string>
-using String;
+#include "EsapiCommon.h"
+using esapi::Char;
+using esapi::String;
+using esapi::StringStream;
 
 #include <reference/DefaultEncryptor.h>
 using esapi::DefaultEncryptor;
@@ -83,7 +83,7 @@ void VerifyHash()
 void VerifyHash1()
 {
   // String data
-  string password = "password", salt = "salt", encoded;
+  String password = "password", salt = "salt", encoded;
   bool success = false;
 
   try
@@ -91,7 +91,7 @@ void VerifyHash1()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const string expected = "KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
+      const String expected = "KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
       success = (encoded == expected);
 
     }
@@ -117,7 +117,7 @@ void VerifyHash2()
   byte p[] = { 213,75,186,206,204,235,120,11 };
   byte s[] = { 242,153,45,232,101,16,15,224 };
 
-  string password((Char*)p, sizeof(p)), salt((Char*)s, sizeof(s)), encoded;
+  String password((Char*)p, sizeof(p)), salt((Char*)s, sizeof(s)), encoded;
   bool success = false;
 
   try
@@ -125,7 +125,7 @@ void VerifyHash2()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const string expected = "dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
+      const String expected = "dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
 
       success = (encoded == expected);
 
@@ -149,7 +149,7 @@ void VerifyHash2()
 void VerifyHash3()
 {
   // String data
-  string password = "", salt = "", encoded;
+  String password = "", salt = "", encoded;
   bool success = false;
 
   try
@@ -157,7 +157,7 @@ void VerifyHash3()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const string expected = "0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
+      const String expected = "0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
       success = (encoded == expected);
 
     }
@@ -180,7 +180,7 @@ void VerifyHash3()
 void VerifyHash4()
 {
   // String data
-  string password = "password", salt = "", encoded;
+  String password = "password", salt = "", encoded;
   bool success = false;
 
   try
@@ -188,7 +188,7 @@ void VerifyHash4()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const string expected = "l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
+      const String expected = "l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
       success = (encoded == expected);
 
     }
@@ -211,7 +211,7 @@ void VerifyHash4()
 void VerifyHash5()
 {
   // String data
-  string password = "", salt = "salt", encoded;
+  String password = "", salt = "salt", encoded;
   bool success = false;
 
   try
@@ -219,7 +219,7 @@ void VerifyHash5()
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
 
-      const string expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
+      const String expected = "v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
       success = (encoded == expected);
 
     }
