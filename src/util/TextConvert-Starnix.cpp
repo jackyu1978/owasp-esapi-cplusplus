@@ -24,7 +24,12 @@
 
 namespace esapi
 {
-  String TextConvert::NarrowToWide(const NarrowString& str, CodePage cp)
+  /**
+   * Convert a narrow character string to a wide character string. Encoding specifies
+   * the encoding of the narrow string. If the string is from the current locale, use
+   * EncodingDefault. If the narrow string is UTF-8, use EncodingNarrow.
+   */
+  String TextConvert::NarrowToWide(const NarrowString& str, const Encoding& enc)
   {
     ASSERT( !str.empty() );
     if(str.empty()) return String();
@@ -44,7 +49,7 @@ namespace esapi
     return wstr;
   }
 
-  NarrowString TextConvert::WideToNarrow(const String& wstr, CodePage cp)
+  NarrowString TextConvert::WideToNarrow(const String& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();
@@ -64,7 +69,7 @@ namespace esapi
     return nstr;
   }
 
-  SecureByteArray TextConvert::GetBytes(const String& wstr, CodePage cp)
+  SecureByteArray TextConvert::GetBytes(const String& wstr, const Encoding& enc)
   {
     return SecureByteArray();
   }
