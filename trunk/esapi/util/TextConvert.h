@@ -20,21 +20,34 @@
 
 namespace esapi
 {
+  typedef NarrowString Encoding;
+  static const Encoding EncodingDefault = "";
+  static const Encoding EncodingNarrow = "UTF-8";
+
+#if defined(ESAPI_OS_WINDOWS)
+  static const Encoding EncodingWide = "UTF-16";
+#else
+  static const Encoding EncodingWide = "UTF-32";
+#endif
+
   class ESAPI_EXPORT TextConvert : private NotCopyable
   {
   public:
-    enum CodePage { CodePageDefault = -1, CodePageUTF7 = -7, CodePageUTF8 = -8 };
     /**
-    * Convert a narrow character string to a wide character string
+    * Convert a narrow character string to a wide character string. Encoding specifies
+    * the encoding of the narrow string. If the string is from the current locale, use
+    * EncodingDefault. If the narrow string is UTF-8, use EncodingNarrow.
     */
-    static String NarrowToWide(const NarrowString& str, CodePage cp = CodePageDefault);
+    static String NarrowToWide(const NarrowString& str, const Encoding& enc = EncodingDefault);
     /**
-    * Convert a wide character string to a narrow character string
+    * Convert a wide character string to a narrow character string. Encoding specifies
+    * the encoding of the resulting narrow string. If the current locale is desired,
+    * use EncodingDefault. If UTF-8 is desired, use EncodingNarrow.
     */
-    static NarrowString WideToNarrow(const String& wstr, CodePage cp = CodePageDefault);
+    static NarrowString WideToNarrow(const String& wstr, const Encoding& enc = EncodingDefault);
     /**
-    * Convert a wide character string to a byte array
+    * Convert a wide character string into a byte array using the specified encoding.
     */
-    static SecureByteArray GetBytes(const String& wstr, CodePage cp = CodePageUTF8);
+    static SecureByteArray GetBytes(const String& wstr, const Encoding& enc = EncodingNarrow);
   };
 }
