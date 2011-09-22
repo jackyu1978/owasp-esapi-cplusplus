@@ -18,10 +18,9 @@
 #include "util/TextConvert.h"
 #include "errors/InvalidArgumentException.h"
 
-#include <locale>
-#include <sstream>
-#include <functional>
-#include <algorithm>
+#if defined(ESAPI_OS_STARNIX)
+# include "utfcpp/utf8.h"
+#endif
 
 namespace esapi
 {
@@ -30,31 +29,19 @@ namespace esapi
     ASSERT( !str.empty() );
     if(str.empty()) return String();
 
-/*
-    typedef std::codecvt_byname<wchar_t, char, std::mbstate_t> Cvt;
-    static const std::locale utf16 (std::locale ("C"), new Cvt ("UTF-16")); 
+    WideString wstr;
+    wstr.reserve(str.length());
 
-    std::istringstream iss(str);
-    std::wostringstream oss;
+    try
+    {
+      utf8::utf8to32(str.begin(), str.end(), back_inserter(wstr));
+    }
+    catch(const utf8::exception&)
+    {
+      throw InvalidArgumentException(L"TextConvert::NarrowToWide failed");
+    }
 
-    oss.imbue(utf16);
-    oss << iss.rdbuf();
-
-    return oss.str();
-*/
-
-/*
-    const std::ctype<wchar_t>& conv(std::use_facet<std::ctype<wchar_t> >(std::locale()));
-
-    WideString wide;
-    wide.reserve(str.length());
-
-    std::transform(str.begin(), str.end(), std::back_inserter(wide),
-        std::bind1st(std::mem_fun(&std::ctype<wchar_t>::widen), &conv));
-    
-    return wide;
-*/
-    return String();
+    return wstr;
   }
 
   NarrowString TextConvert::WideToNarrow(const String& wstr, CodePage cp)
@@ -62,10 +49,19 @@ namespace esapi
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();
 
-    NarrowString narrow;
-    narrow.assign(wstr.begin(), wstr.end());
+    NarrowString nstr;
+    nstr.reserve(wstr.length());
 
-    return narrow;
+    try
+    {
+      utf8::utf32to8(wstr.begin(), wstr.end(), back_inserter(nstr));
+    }
+    catch(const utf8::exception&)
+    {
+      throw InvalidArgumentException(L"TextConvert::WideToNarrow failed");
+    }
+
+    return nstr;
   }
 
   SecureByteArray TextConvert::GetBytes(const String& wstr, CodePage cp)
