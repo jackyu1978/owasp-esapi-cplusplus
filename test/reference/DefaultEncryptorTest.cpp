@@ -83,15 +83,15 @@ BOOST_AUTO_TEST_CASE( VerifyHash1 )
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR(L"Caught InvalidArgumentException");
+      BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR(L"Caught EncryptionException");
+      BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR(L"Caught unknown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
@@ -118,15 +118,15 @@ BOOST_AUTO_TEST_CASE( VerifyHash2 )
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR(L"Caught InvalidArgumentException");
+      BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR(L"Caught EncryptionException");
+      BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR(L"Caught unknown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
@@ -149,15 +149,15 @@ BOOST_AUTO_TEST_CASE( VerifyHash3 )
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR(L"Caught InvalidArgumentException");
+      BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR(L"Caught EncryptionException");
+      BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR(L"Caught unknown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
@@ -180,15 +180,15 @@ BOOST_AUTO_TEST_CASE( VerifyHash4 )
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR(L"Caught InvalidArgumentException");
+      BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR(L"Caught EncryptionException");
+      BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR(L"Caught unknown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
@@ -211,15 +211,15 @@ BOOST_AUTO_TEST_CASE( VerifyHash5 )
     }
   catch(InvalidArgumentException&)
     {
-      BOOST_ERROR(L"Caught InvalidArgumentException");
+      BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      BOOST_ERROR(L"Caught EncryptionException");
+      BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      BOOST_ERROR(L"Caught unknown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
