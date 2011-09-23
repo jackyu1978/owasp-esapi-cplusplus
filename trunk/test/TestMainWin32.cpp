@@ -99,15 +99,15 @@ int main(int, char**)
     }
   catch(InvalidArgumentException&)
     {
-      //BOOST_ERROR(L"Caught InvalidArgumentException");
+      //BOOST_ERROR("Caught InvalidArgumentException");
     }
   catch(EncryptionException&)
     {
-      //BOOST_ERROR(L"Caught EncryptionException");
+      //BOOST_ERROR("Caught EncryptionException");
     }
   catch(...)
     {
-      //BOOST_ERROR(L"Caught unknown exception");
+      //BOOST_ERROR("Caught unknown exception");
     }
 
 #if 0
