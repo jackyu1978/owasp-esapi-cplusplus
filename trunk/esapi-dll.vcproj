@@ -352,6 +352,10 @@
 				Name="crypto"
 				>
 				<File
+					RelativePath=".\src\crypto\CipherSpec.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\crypto\CipherText.cpp"
 					>
 				</File>
@@ -613,6 +617,10 @@
 					Name="crypto"
 					>
 					<File
+						RelativePath=".\esapi\crypto\CipherSpec.h"
+						>
+					</File>
+					<File
 						RelativePath=".\esapi\crypto\CipherText.h"
 						>
 					</File>
@@ -701,11 +709,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath=".\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
