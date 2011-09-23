@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 	try {
 		BOOST_CHECK(validationRule.getValid(L"", L"asdf").compare(L"asdf")==0);
 	} catch(ValidationException& ve) {
-        NarrowString msg = TextConvert::WideToNarrow(L"Exception should not have been thrown: " + ve.getLogMessage());
+        NarrowString msg = NarrowString("Exception should not have been thrown: ") + ve.getLogMessage();
 		BOOST_FAIL(msg);
 	}
 
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 	try {
 		BOOST_CHECK(validationRule.getValid(L"", L"MagnumPI").compare(L"MagnumPI")==0);
 	} catch(ValidationException& ve) {
-        NarrowString msg = TextConvert::WideToNarrow(L"Exception should not have been thrown: " + ve.getLogMessage());
+        NarrowString msg = NarrowString("Exception should not have been thrown: ") + ve.getLogMessage();
 		BOOST_FAIL(msg);
 	}
 

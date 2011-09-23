@@ -49,6 +49,14 @@ namespace esapi
     return wstr;
   }
 
+  /**
+  * Convert a wide character string to a UTF-8 character string. Used by exception classes.
+  */
+  NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
+  {
+    return NarrowString("Not yet implemented");
+  }
+
   NarrowString TextConvert::WideToNarrow(const String& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );

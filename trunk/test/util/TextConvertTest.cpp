@@ -26,6 +26,9 @@ using esapi::String;
 using esapi::NarrowString;
 using esapi::WideString;
 
+#include <errors/InvalidArgumentException.h>
+using esapi::InvalidArgumentException;
+
 #include <util/TextConvert.h>
 using esapi::TextConvert;
 
@@ -148,7 +151,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_8N )
   {
     // Han character for 'bone'
     WideString w(wide);
-    NarrowString n = TextConvert::NarrowToWide(w, "Junk");
+    NarrowString n = TextConvert::WideToNarrow(w, "Junk");
   }
   catch(const InvalidArgumentException&)
   {
