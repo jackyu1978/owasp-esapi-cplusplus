@@ -224,4 +224,3 @@ BOOST_AUTO_TEST_CASE( VerifyHash5 )
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
-
