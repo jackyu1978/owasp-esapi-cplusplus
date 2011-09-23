@@ -17,7 +17,6 @@
 #include "errors/IllegalArgumentException.h"
 #include "util/SecureArray.h"
 #include <algorithm>
-#include <sstream>
 
 namespace esapi
 {
@@ -68,7 +67,7 @@ setBlockSize(16);
 setIV(iv);
 }
 
-CipherSpec::CipherSpec(const SecureByteArray &iv)
+CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist.
 {
 //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
 //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
@@ -200,15 +199,17 @@ else
 return strStm.str();
 }
 
-/*
-bool CipherSpec::equals(CipherSpec obj) //:Commented out because in HashTrie.cpp, there's a line saying NullSafe isn't implemented yet.
+bool CipherSpec::equals(CipherSpec obj) //:In HashTrie.cpp, there's a line saying NullSafe isn't implemented yet, which breaks this function a bit.
 {
+/*
 if(NullSafe.equals(this->cipher_xform_, obj.cipher_xform_)
    && this->keySize == obj.keySize
    && this->blockSize == obj.blockSize
    && CryptoHelper.arrayCompare(this->iv_, obj.iv_))
    return true;
 return false;
-}
 */
-};
+return 1;
+}
+
+} // NAMESPACE esapi
