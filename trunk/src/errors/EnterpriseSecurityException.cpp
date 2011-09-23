@@ -20,8 +20,8 @@
 
 namespace esapi
 {
-  EnterpriseSecurityException::EnterpriseSecurityException(const String &userMessage, const String &newLogMessage )
-        : userMessage(TextConvert::WideToNarrow(userMessage)), logMessage(TextConvert::WideToNarrow(newLogMessage))
+  EnterpriseSecurityException::EnterpriseSecurityException(const NarrowString &userMessage, const NarrowString &newLogMessage )
+        : userMessage(userMessage), logMessage(newLogMessage)
   {
 	  /**
       if (!ESAPI.securityConfiguration().getDisableIntrusionDetection()) {
@@ -29,15 +29,15 @@ namespace esapi
       }*/
   }
 
-  EnterpriseSecurityException::EnterpriseSecurityException(const NarrowString& userMessage, const NarrowString& logMessage)
-    : userMessage(userMessage), logMessage(logMessage)
+  EnterpriseSecurityException::EnterpriseSecurityException(const WideString& userMessage, const WideString& logMessage)
+    : userMessage(TextConvert::WideToNarrowNoThrow(userMessage)), logMessage(TextConvert::WideToNarrowNoThrow(logMessage))
   {    
   }
 
-  String EnterpriseSecurityException::getUserMessage() const
+  NarrowString EnterpriseSecurityException::getUserMessage() const
   {
     ASSERT( !userMessage.empty() );
-    return TextConvert::NarrowToWide(userMessage);
+    return userMessage;
   }
 
   const char* EnterpriseSecurityException::what() const throw()
@@ -46,10 +46,10 @@ namespace esapi
     return userMessage.c_str();
   }
 
-  String EnterpriseSecurityException::getLogMessage() const
+  NarrowString EnterpriseSecurityException::getLogMessage() const
   {
     ASSERT( !logMessage.empty() );
-	  return TextConvert::NarrowToWide(logMessage);
+	  return logMessage;
   }
 } // esapi
 

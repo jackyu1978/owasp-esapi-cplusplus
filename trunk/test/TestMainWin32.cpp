@@ -18,6 +18,8 @@
 
 #include "EsapiCommon.h"
 using esapi::String;
+using esapi::NarrowString;
+using esapi::WideString;
 
 #include "errors/InvalidArgumentException.h"
 using esapi::InvalidArgumentException;
@@ -62,6 +64,9 @@ using esapi::DummyConfiguration;
 #include "reference/DefaultEncryptor.h"
 using esapi::DefaultEncryptor;
 
+#include <util/TextConvert.h>
+using esapi::TextConvert;
+
 #include <iostream>
 using std::cerr;
 using std::cout;
@@ -74,8 +79,39 @@ using std::string;
 #include <memory>
 #include <string>
 
+static const WideString wide = L"\u9aa8";
+static const NarrowString narrow("\xe9\xaa\xa8");
+
 int main(int, char**)
 {
+  // Han character for 'bone'
+  NarrowString n1(narrow);
+  WideString w1 = TextConvert::NarrowToWide(n1);
+
+  // Han character for 'bone'
+  WideString w2(wide);
+  NarrowString n2 = TextConvert::WideToNarrow(w2, "UTF-8");
+
+  // Han character for 'bone'
+  WideString w3(wide);
+  NarrowString n3 = TextConvert::WideToNarrow(w3, "utf-8");
+
+  try
+  {
+    // Han character for 'bone'
+    WideString w4(wide);
+    NarrowString n4 = TextConvert::WideToNarrow(w4, "Junk");
+  }
+  catch(const InvalidArgumentException& ex)
+  {
+    cerr << ex.what() << endl;
+  }
+
+  // Han character for 'bone'
+  WideString w5(wide);
+  NarrowString n5 = TextConvert::WideToNarrow(w5, "65001");
+
+  /*
   DummyConfiguration config;
   String name = config.getApplicationName();
 
@@ -83,6 +119,7 @@ int main(int, char**)
 
   PlainText plain = L"Now is the time for all good men to come to the aide of their country.";
   CipherText cipher = encryptor.encrypt(plain);
+  */
 
 #if 0
   SecureByteArray a(10);

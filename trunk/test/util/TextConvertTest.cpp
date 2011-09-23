@@ -86,3 +86,74 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
   BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2). " + oss.str());
 }
 
+BOOST_AUTO_TEST_CASE( TextConvertTest_5P )
+{
+  // Han character for 'bone'
+  NarrowString n(narrow);
+  WideString w = TextConvert::NarrowToWide(n, "UTF-8");
+
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < wide.length(); ii++)
+    oss << " " << std::hex << int(0xFFFF & wide[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < w.length(); ii++)
+    oss << " " << std::hex << int(0xFF & w[ii]);
+
+  BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
+{
+  // Han character for 'bone'
+  WideString w(wide);
+  NarrowString n = TextConvert::WideToNarrow(w, "UTF-8");
+
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < narrow.length(); ii++)
+    oss << " " << std::hex << int(0xFF & narrow[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < n.length(); ii++)
+    oss << " " << std::hex << int(0xFF & n[ii]);
+
+  BOOST_CHECK_MESSAGE(n == narrow, "Failed the Chinese Bone Test (1). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_7N )
+{
+  bool success = false;
+
+  try
+  {
+    // Han character for 'bone'
+    NarrowString n(narrow);
+    WideString w = TextConvert::NarrowToWide(n, "Junk");
+  }
+  catch(const InvalidArgumentException&)
+  {
+    success = true;
+  }
+
+  BOOST_CHECK_MESSAGE(success, "Failed to detect bad encoding request");
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_8N )
+{
+  bool success = false;
+
+  try
+  {
+    // Han character for 'bone'
+    WideString w(wide);
+    NarrowString n = TextConvert::NarrowToWide(w, "Junk");
+  }
+  catch(const InvalidArgumentException&)
+  {
+    success = true;
+  }
+
+  BOOST_CHECK_MESSAGE(success, "Failed to detect bad encoding request");
+}
