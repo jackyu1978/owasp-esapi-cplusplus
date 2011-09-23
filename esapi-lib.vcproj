@@ -332,6 +332,10 @@
 				Name="crypto"
 				>
 				<File
+					RelativePath=".\src\crypto\CipherSpec.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\crypto\CipherText.cpp"
 					>
 				</File>
@@ -664,6 +668,10 @@
 				<Filter
 					Name="crypto"
 					>
+					<File
+						RelativePath=".\esapi\crypto\CipherSpec.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\crypto\CipherText.h"
 						>
