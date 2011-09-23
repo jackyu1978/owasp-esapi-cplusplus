@@ -84,6 +84,33 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 
 int main(int, char**)
 {
+  // String data
+  String password = L"", salt = L"salt", encoded;
+  bool success = false;
+
+  try
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
+
+      const String expected = L"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
+      success = (encoded == expected);
+
+    }
+  catch(InvalidArgumentException&)
+    {
+      //BOOST_ERROR(L"Caught InvalidArgumentException");
+    }
+  catch(EncryptionException&)
+    {
+      //BOOST_ERROR(L"Caught EncryptionException");
+    }
+  catch(...)
+    {
+      //BOOST_ERROR(L"Caught unknown exception");
+    }
+
+#if 0
   // Han character for 'bone'
   NarrowString n1(narrow);
   WideString w1 = TextConvert::NarrowToWide(n1);
@@ -110,6 +137,7 @@ int main(int, char**)
   // Han character for 'bone'
   WideString w5(wide);
   NarrowString n5 = TextConvert::WideToNarrow(w5, "65001");
+#endif
 
   /*
   DummyConfiguration config;

@@ -45,12 +45,17 @@ namespace esapi
     const size_t size = md.getDigestLength();
     SecureByteArray hash(size);
 
-    SecureByteArray ma = TextConvert::GetBytes(message, "UTF-8");
-    SecureByteArray sa = TextConvert::GetBytes(salt, "UTF-8");
+    if( !salt.empty() )
+    {
+      SecureByteArray sa = TextConvert::GetBytes(salt, "UTF-8");
+      md.update(sa.data(), sa.size());
+    }    
 
-    // Initial updates
-    md.update(sa.data(), sa.size());
-    md.update(ma.data(), ma.size());
+    if( !message.empty() )
+    {
+      SecureByteArray ma = TextConvert::GetBytes(message, "UTF-8");
+      md.update(ma.data(), ma.size());
+    }
 
     // Fetch the hash (resets the object)
     md.digest(hash.data(), hash.size(), 0, size);
