@@ -95,7 +95,6 @@ int main(int, char**)
 
       const String expected = L"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
       success = (encoded == expected);
-
     }
   catch(InvalidArgumentException&)
     {
@@ -139,7 +138,7 @@ int main(int, char**)
   NarrowString n5 = TextConvert::WideToNarrow(w5, "65001");
 #endif
 
-  /*
+#if 0
   DummyConfiguration config;
   String name = config.getApplicationName();
 
@@ -147,7 +146,7 @@ int main(int, char**)
 
   PlainText plain = L"Now is the time for all good men to come to the aide of their country.";
   CipherText cipher = encryptor.encrypt(plain);
-  */
+#endif
 
 #if 0
   SecureByteArray a(10);
