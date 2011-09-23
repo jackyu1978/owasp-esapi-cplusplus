@@ -17,13 +17,12 @@
 #include "crypto/PlainText.h"
 #include "util/SecureArray.h"
 #include "errors/EncodingException.h"
-#include <string>
 #include <algorithm>
 
 namespace esapi
 {
 
-PlainText::PlainText(std::string str) //:See catch statement below.
+PlainText::PlainText(String str) //:See catch statement below.
 {
      /*
      try
@@ -31,7 +30,7 @@ PlainText::PlainText(std::string str) //:See catch statement below.
      ESAPI_ASSERT2(!str.empty(), "String for PlainText cannot be null or empty.");
      //rawBytes = toUTF8(str); //:Convert to UTF-8
      }
-     catch() //:Not sure what should be the catch parameters. "UnsupportedEncodingException e" gaves errors.
+     catch()   //:Not sure what should be the catch parameters. "UnsupportedEncodingException e" gave errors.
      {
      //logger.error(Logger.EVENT_FAILURE, "plaintext(String) CTOR failed: Can't find UTF-8 byte-encoding!", UnsupportedEncodingException);
      throw EncodingException(L"Can't find UTF-8 byte encoding!");
@@ -49,12 +48,12 @@ PlainText::PlainText()
 {
 }
 
-std::string PlainText::toString() //:Commented out for same reason as constructor.
+String PlainText::toString() //:Commented out for same reason as first constructor.
 {
      /*
      try
      {
-     std::string result;
+     String result;
      //result = toUni(rawBytes); //:Convert to Unicode
      return result;
      }
@@ -64,7 +63,7 @@ std::string PlainText::toString() //:Commented out for same reason as constructo
      throw EncodingException(L"Can't find UTF-8 byte encoding!");//, UnsupportedEncodingException);
      }
      */
-return "";
+return L"";
 }
 
 esapi::SecureByteArray PlainText::asBytes()
@@ -89,4 +88,4 @@ void PlainText::overwrite()
 rawBytes.clear();
 }
 
-}
+} // NAMESPACE esapi
