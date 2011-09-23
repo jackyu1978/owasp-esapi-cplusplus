@@ -62,7 +62,7 @@ namespace esapi
        * @param logMessage
        *                        the message logged
        */
-      explicit EnterpriseSecurityException(const String& userMessage, const String& logMessage);
+      explicit EnterpriseSecurityException(const NarrowString& userMessage, const NarrowString& logMessage);
 
       /**
        * Creates a new instance of EnterpriseSecurityException. This exception is automatically logged, so that simply by
@@ -78,7 +78,7 @@ namespace esapi
        * @param logMessage
        *                        the message logged
        */
-      EnterpriseSecurityException(const NarrowString& userMessage, const NarrowString& logMessage);
+      EnterpriseSecurityException(const WideString& userMessage, const WideString& logMessage);
 
       /**
        * Returns message meant for display to users
@@ -86,19 +86,19 @@ namespace esapi
        * Note that if you are unsure of what set this message, it would probably
        * be a good idea to encode this message before displaying it to the end user.
        *
-       * @return a String containing a message that is safe to display to users
+       * @return a NarrowString containing a message that is safe to display to users
        */
-      virtual String getUserMessage() const;      
+      virtual NarrowString getUserMessage() const;      
 
       /**
        * Returns a message that is safe to display in logs, but may contain
        * sensitive information and therefore probably should not be displayed to
        * users.
        *
-       * @return a String containing a message that is safe to display in logs,
+       * @return a NarrowString containing a message that is safe to display in logs,
        * but probably not to users as it may contain sensitive information.
        */
-      virtual String getLogMessage() const;
+      virtual NarrowString getLogMessage() const;
 
       virtual ~EnterpriseSecurityException() throw() { };
 

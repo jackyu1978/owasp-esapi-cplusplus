@@ -27,6 +27,19 @@ public:
     : EnterpriseSecurityException(message, message)
   {
   }
+	explicit AccessControlException(const String &userMessage, const String &logMessage)
+    : EnterpriseSecurityException(userMessage, logMessage)
+  {
+  }
+
+	explicit AccessControlException(const NarrowString &message)
+    : EnterpriseSecurityException(message, message)
+  {
+  }
+	explicit AccessControlException(const NarrowString &userMessage, const NarrowString &logMessage)
+    : EnterpriseSecurityException(userMessage, logMessage)
+  {
+  }
 };
 
 } // NAMESPACE

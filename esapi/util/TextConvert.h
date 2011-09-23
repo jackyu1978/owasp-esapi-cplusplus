@@ -21,14 +21,6 @@
 namespace esapi
 {
   typedef NarrowString Encoding;
-  static const Encoding EncodingDefault = "";
-  static const Encoding EncodingNarrow = "UTF-8";
-
-#if defined(ESAPI_OS_WINDOWS)
-  static const Encoding EncodingWide = "UTF-16";
-#else
-  static const Encoding EncodingWide = "UTF-32";
-#endif
 
   class ESAPI_EXPORT TextConvert : private NotCopyable
   {
@@ -38,16 +30,20 @@ namespace esapi
     * the encoding of the narrow string. If the string is from the current locale, use
     * EncodingDefault. If the narrow string is UTF-8, use EncodingNarrow.
     */
-    static String NarrowToWide(const NarrowString& str, const Encoding& enc = EncodingDefault);
+    static String NarrowToWide(const NarrowString& str, const Encoding& encoding = "UTF-8");
     /**
     * Convert a wide character string to a narrow character string. Encoding specifies
     * the encoding of the resulting narrow string. If the current locale is desired,
     * use EncodingDefault. If UTF-8 is desired, use EncodingNarrow.
     */
-    static NarrowString WideToNarrow(const String& wstr, const Encoding& enc = EncodingDefault);
+    static NarrowString WideToNarrow(const String& wstr, const Encoding& encoding = "UTF-8");
+    /**
+    * Convert a wide character string to a UTF-8 character string. Used by exception classes.
+    */
+    static NarrowString WideToNarrowNoThrow(const String& wstr);
     /**
     * Convert a wide character string into a byte array using the specified encoding.
     */
-    static SecureByteArray GetBytes(const String& wstr, const Encoding& enc = EncodingNarrow);
+    static SecureByteArray GetBytes(const String& wstr, const Encoding& encoding = "UTF-8");
   };
 }
