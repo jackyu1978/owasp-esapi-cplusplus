@@ -483,9 +483,11 @@ namespace esapi
 
     // check if there's a defined entity
     const EntityMap& map = getCharacterToEntityMap();
-    EntityMapIterator it = map.find(c);
-    if(map.end() != it)
+    if(0 != map.count(c))
+    {
+      EntityMapIterator it = map.find(c);
       return String(L"&") + it->second + String(L";");
+    }
 
     // Hack ahead!!! Need to cut in ESAPI logic
     if(c < 256 && ::isalnum(c))
@@ -493,7 +495,7 @@ namespace esapi
 
     // return the hex entity as suggested in the spec
     StringStream oss;
-    oss << HEX(4) << c;
+    oss << HEX(4) << int(0xFFFF & c);
     return String(L"&#x") + oss.str() + String(L";");
 
     // return String(1, c);
