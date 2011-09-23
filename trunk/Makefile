@@ -197,6 +197,7 @@ CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/LDAPCodec.cpp 
 
 CRYPTOSRCS = src/crypto/PlainText.cpp \
+			src/crypto/CipherSpec.cpp \
 			src/crypto/CipherText.cpp \
 			src/crypto/SecretKey.cpp \
 			src/crypto/SecureRandom.cpp \
@@ -240,6 +241,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/LDAPCodecTest.cpp \
 			test/codecs/UnixCodecTest.cpp \
 			test/crypto/PlainTextTest.cpp \
+			test/crypto/CipherSpecTest.cpp \
 			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
 			test/crypto/SecureRandomTest.cpp \

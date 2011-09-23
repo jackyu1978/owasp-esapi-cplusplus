@@ -9,6 +9,7 @@
  *
  * @author Kevin Wall, kevin.w.wall@gmail.com
  * @author Jeffrey Walton, noloader@gmail.com
+ * @author Andrew Durkin, atdurkin@gmail.com
  *
  */
 
@@ -16,12 +17,27 @@
 
 #include "EsapiCommon.h"
 #include "util/SecureString.h"
-#include "crypto/Crypto++Common.h"
-#include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "util/SecureArray.h"
+//#include "Logger.h"
+#include <string>
 
 namespace esapi
 {
-  typedef SecureString PlainText;
 
-}; // NAMESPACE esapi
+class ESAPI_EXPORT PlainText
+{
+private:
+//     const Logger logger = esapi.getLogger("PlainText");
+     esapi::SecureByteArray rawBytes;
+public:
+     PlainText();
+     explicit PlainText(std::string str);
+     explicit PlainText(const esapi::SecureByteArray &b);
+     std::string toString();
+     esapi::SecureByteArray asBytes();
+     bool equals(PlainText obj);
+     int length();
+     void overwrite();
+};
+
+} // NAMESPACE esapi
