@@ -45,9 +45,12 @@ namespace esapi
     const size_t size = md.getDigestLength();
     SecureByteArray hash(size);
 
+    SecureByteArray ma = TextConvert::GetBytes(message, "UTF-8");
+    SecureByteArray sa = TextConvert::GetBytes(salt, "UTF-8");
+
     // Initial updates
-    md.update((const byte*)salt.data(), salt.size());
-    md.update((const byte*)message.data(), message.size());
+    md.update(sa.data(), sa.size());
+    md.update(ma.data(), ma.size());
 
     // Fetch the hash (resets the object)
     md.digest(hash.data(), hash.size(), 0, size);
@@ -58,7 +61,7 @@ namespace esapi
         md.digest(hash.data(), hash.size(), 0, size);
       }
 
-    std::string encoded;
+    NarrowString encoded;
     try
       {
         CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */,

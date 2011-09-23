@@ -16,6 +16,8 @@
 #include "crypto/KeyDerivationFunction.h"
 #include "crypto/Crypto++Common.h"
 #include "crypto/SecretKey.h"
+#include "util/SecureArray.h"
+#include "util/TextConvert.h"
 
 #include "safeint/SafeInt3.hpp"
 
@@ -43,6 +45,8 @@
 
 namespace esapi
 {
+  // Keep behavior consistent with the existing Java implementation
+  // http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/crypto/KeyDerivationFunction.java
   SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const String& purpose)
   {
     // We would choose a larger minimum key size, but we want to be
@@ -191,6 +195,10 @@ namespace esapi
     unsigned int ctr = 1;
     size_t idx = 0;
 
+    // Our string classes do not have a getBytes() method
+    SecureByteArray la = TextConvert::GetBytes(label, "UTF-8");
+    SecureByteArray ca = TextConvert::GetBytes(context, "UTF-8");
+
     while(keySize)
       {
         const unsigned int req = std::min((unsigned int)CryptoPP::SHA1::DIGESTSIZE, keySize);
@@ -200,9 +208,9 @@ namespace esapi
         CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.sizeInBytes());
 
         hmac.Update(i, sizeof(i));
-        hmac.Update((const byte*)label.data(), label.size());
+        hmac.Update(la.data(), la.size());
         hmac.Update(&nil, sizeof(nil));
-        hmac.Update((const byte*)context.data(), context.size());
+        hmac.Update(ca.data(), ca.size());
 
         // Though we continually call TruncatedFinal, we are retrieving a
         // full block except for possibly the last block

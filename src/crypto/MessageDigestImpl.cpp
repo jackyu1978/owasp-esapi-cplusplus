@@ -11,6 +11,7 @@
 #include "EsapiCommon.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/MessageDigestImpl.h"
+#include "util/SecureArray.h"
 #include "util/TextConvert.h"
 #include "errors/EncryptionException.h"
 #include "errors/InvalidArgumentException.h"
@@ -138,7 +139,9 @@ namespace esapi
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const String& input)   
   {
-    updateImpl((const byte*)input.data(), input.size());
+    // Our String classes do not have a getBytes() method.
+    SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
+    updateImpl(sa.data(), sa.size());
   }
 
   /**
@@ -253,7 +256,9 @@ namespace esapi
    template <class HASH>
    SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const String& input)
    {
-     return digestImpl((const byte*)input.data(), input.size());
+     // Our String classes do not have a getBytes() method.
+     SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
+     return digestImpl(sa.data(), sa.size());
    }
 
   /**

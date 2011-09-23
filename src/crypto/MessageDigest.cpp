@@ -217,7 +217,8 @@ namespace esapi
   /**
   * Updates the digest using the specified string.
   *
-  * @param input the specified array.
+  * @param input the specified String. Internally, the String is converted
+  * to a byte array using TextConvert::GetBytes with a UTF-8 encoding.
   *
   * @throws throws an EncryptionException if the array or size is not valid
   * or a cryptographic failure occurs.
@@ -336,7 +337,8 @@ namespace esapi
 
   /**
   * Performs a final update on the digest using the specified string, then completes the
-  * digest computation.
+  * digest computation. Internally, the String is converted to a byte
+  * array using TextConvert::GetBytes with a UTF-8 encoding.
   *
   * @param input the specified array.
   */
