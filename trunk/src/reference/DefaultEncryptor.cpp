@@ -118,7 +118,7 @@ namespace esapi
     return CipherText();
   }
 
-  void split(const String& str, const String& delim, std::vector<String>& parts)
+  void split(const String& str, const String& delim, StringArray& parts)
   {
     String s(str);
     String::size_type pos = 0;

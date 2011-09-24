@@ -43,7 +43,7 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException(L"Array pointer is not valid");
+      throw InvalidArgumentException("Array pointer is not valid");
 
     ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
@@ -52,7 +52,7 @@ namespace esapi
     // Not sure what the conatiner does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
     //if((size_t)ptr % sizeof(T) != 0)
-    //  throw InvalidArgumentException(L"Pointer slices elements");
+    //  throw InvalidArgumentException("Pointer slices elements");
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
@@ -82,17 +82,17 @@ namespace esapi
   {
     ASSERT(first);
     if(!first)
-      throw InvalidArgumentException(L"Bad first input iterator");
+      throw InvalidArgumentException("Bad first input iterator");
 
     ASSERT(first >= last);
     if(!(first >= last))
-      throw InvalidArgumentException(L"Bad input iterators");
+      throw InvalidArgumentException("Bad input iterators");
 
     // Not sure what the conatiner does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     //if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
-    //  throw InvalidArgumentException(L"InputIterator slices elements");
+    //  throw InvalidArgumentException("InputIterator slices elements");
 
     // Check for wrap
     SafeInt<size_t> si((size_t)last);
@@ -345,7 +345,7 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException(L"Array pointer is not valid");
+      throw InvalidArgumentException("Array pointer is not valid");
 
     ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
@@ -354,7 +354,7 @@ namespace esapi
     // Not sure what the conatiner does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
     //if((size_t)ptr % sizeof(T) != 0)
-    //  throw InvalidArgumentException(L"Pointer slices elements");
+    //  throw InvalidArgumentException("Pointer slices elements");
 
     // Check for wrap
     SafeInt<size_t> si(cnt);
@@ -422,7 +422,7 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException(L"Array pointer is not valid");
+      throw InvalidArgumentException("Array pointer is not valid");
 
     ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
@@ -431,7 +431,7 @@ namespace esapi
     // Not sure what the conatiner does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
     //if((size_t)ptr % sizeof(T) != 0)
-    //  throw InvalidArgumentException(L"Pointer slices elements");
+    //  throw InvalidArgumentException("Pointer slices elements");
 
     // Check for wrap on the pointer
     SafeInt<size_t> si(cnt);
@@ -472,7 +472,7 @@ namespace esapi
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     //if((size_t)first % sizeof(T) != 0 || (size_t)last % sizeof(T) != 0)
-    //  throw InvalidArgumentException(L"Pointer slices elements");
+    //  throw InvalidArgumentException("Pointer slices elements");
     
     ASSERT(m_vector.get());
     m_vector->insert(pos, first, last);

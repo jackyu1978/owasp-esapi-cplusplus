@@ -85,6 +85,35 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 int main(int, char**)
 {
   // String data
+  String password = L"password", salt = L"salt", encoded;
+  bool success = false;
+
+  try
+    {
+      DefaultEncryptor encryptor;
+      encoded = encryptor.hash(password, salt);
+
+      const String expected = L"KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
+      success = (encoded == expected);
+
+    }
+  catch(InvalidArgumentException&)
+    {
+      //BOOST_ERROR("Caught InvalidArgumentException");
+    }
+  catch(EncryptionException&)
+    {
+      //BOOST_ERROR("Caught EncryptionException");
+    }
+  catch(...)
+    {
+      //BOOST_ERROR("Caught unknown exception");
+    }
+
+  //BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
+
+#if 0
+  // String data
   String password = L"", salt = L"salt", encoded;
   bool success = false;
 
@@ -108,6 +137,7 @@ int main(int, char**)
     {
       //BOOST_ERROR("Caught unknown exception");
     }
+#endif
 
 #if 0
   // Han character for 'bone'

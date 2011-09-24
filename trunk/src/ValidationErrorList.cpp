@@ -24,13 +24,13 @@ namespace esapi
   void ValidationErrorList::addError(const String &context, ValidationException *vex) {
     if ( context.empty() ) {
       // throw( "Context for cannot be null: " + vex->getLogMessage() );
-      throw InvalidArgumentException(L"Context for cannot be null");
+      throw InvalidArgumentException("Context for cannot be null");
     }
 
 	  //if ( vex == NULL ) throw( "Context (L" + context + ") cannot be null" );
     if (getError(context) != NULL) {
       // throw (L"Context (L" + context + ") already exists, must be unique");
-      throw InvalidArgumentException(L"Context must be unique");
+      throw InvalidArgumentException("Context must be unique");
     }
 
 	  this->errorList.insert( std::pair<String, ValidationException *>(context, vex) );

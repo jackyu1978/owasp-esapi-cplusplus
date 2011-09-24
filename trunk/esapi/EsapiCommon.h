@@ -298,5 +298,8 @@ ESAPI_MS_NO_WARNING(4505)
 # define ESAPI_TEST_EXPORT
 #endif
 
+#define UNUSED_PARAMETER(x) ((void)x)
+#define UNUSED_VARIABLE(x) ((void)x)
+
 // Defines the Char, String and typees such as Array
 #include "EsapiTypes.h"

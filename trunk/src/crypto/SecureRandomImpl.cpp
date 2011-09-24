@@ -318,7 +318,7 @@ namespace esapi
     // If size is non-zero, seed must be valid.
     ASSERT( (!seed && !ssize) || (seed && ssize) );
     if(!seed && ssize)
-      throw InvalidArgumentException(L"The seed buffer or size is not valid");
+      throw InvalidArgumentException("The seed buffer or size is not valid");
 
     try
       {
@@ -398,15 +398,15 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -439,7 +439,7 @@ namespace esapi
 
     ASSERT(seed && size);
     if(!seed || !size)
-      throw InvalidArgumentException(L"Unable to reseed the hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -488,7 +488,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException(L"Unable to instatiate hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to instatiate hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -590,7 +590,7 @@ namespace esapi
 
     ASSERT(hash && hsize);
     if( !hash || !hsize )
-      throw InvalidArgumentException(L"Unable to reseed the hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to reseed the hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -634,11 +634,11 @@ namespace esapi
 
     ASSERT(data && dsize);
     if(!data || !dsize)
-      throw InvalidArgumentException(L"Unable to derive hash. The data buffer or size is not valid");
+      throw InvalidArgumentException("Unable to derive hash. The data buffer or size is not valid");
 
     ASSERT(hash && hsize);
     if(!hash || !hsize)
-      throw InvalidArgumentException(L"Unable to derive hash. The hash buffer or size is not valid");
+      throw InvalidArgumentException("Unable to derive hash. The hash buffer or size is not valid");
 
     static const unsigned int seedBits = SeedBits;
     byte counter = 1;
@@ -678,7 +678,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException(L"Unable to reseed hash drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to reseed hash drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -728,7 +728,7 @@ namespace esapi
     // seed and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!seed && !ssize) || (seed && ssize) );
     if(!seed && ssize)
-      throw InvalidArgumentException(L"The seed buffer or size is not valid");
+      throw InvalidArgumentException("The seed buffer or size is not valid");
 
     try
       {
@@ -801,15 +801,15 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     try
       {
@@ -842,7 +842,7 @@ namespace esapi
 
     ASSERT(seed && size);
     if(!seed || !size)
-      throw InvalidArgumentException(L"Unable to reseed the hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to reseed the hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -887,7 +887,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException(L"Unable to instatiate hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to instatiate hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -914,7 +914,7 @@ namespace esapi
     // data and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!data && !dsize) || (data && dsize) );
     if(!data && dsize)
-      throw InvalidArgumentException(L"The data buffer or size is not valid");
+      throw InvalidArgumentException("The data buffer or size is not valid");
 
     try
       {
@@ -978,21 +978,21 @@ namespace esapi
 
     ASSERT(hash && hsize);
     if( !hash || !hsize )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The hash buffer or size is not valid");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The hash buffer or size is not valid");
 
     /////////////////////////////////////////////////////////
     // Sanity check, Step 1
     /////////////////////////////////////////////////////////
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
 
     /////////////////////////////////////////////////////////
     // Sanity check, Table 2
     /////////////////////////////////////////////////////////
     ASSERT(hsize <= MaxRequest);
     if( !(hsize <= MaxRequest) )
-      throw InvalidArgumentException(L"Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     /////////////////////////////////////////////////////////
     // We don't accept additional input, Steps 2 & 3 omitted
@@ -1048,7 +1048,7 @@ namespace esapi
 
     ASSERT(seed && ssize);
     if(!seed || !ssize)
-      throw InvalidArgumentException(L"Unable to reseed hmac drbg. The seed buffer or size is not valid");
+      throw InvalidArgumentException("Unable to reseed hmac drbg. The seed buffer or size is not valid");
 
     try
       {
@@ -1133,15 +1133,15 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. A reseed is required.");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException(L"Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
 
     throw UnsupportedOperationException(L"Not implemented");
   }

@@ -186,7 +186,7 @@ namespace esapi
 
     // NOT: if(!input || !size)
     if(!input)
-      throw InvalidArgumentException(L"The input array or size is not valid");
+      throw InvalidArgumentException("The input array or size is not valid");
 
     // This Java program will throw an IllegalArgumentException
     // byte[] scratch = new byte[16];
@@ -203,7 +203,7 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException(L"The buffer is too small for the specified offset and length");
+          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
 
         m_hash.Update(input+offset, len);
       }
@@ -321,7 +321,7 @@ namespace esapi
     // int size = md.digest(null, 0, 0);
 
     if(!buf || !size)
-      throw InvalidArgumentException(L"The buffer array or size is not valid");
+      throw InvalidArgumentException("The buffer array or size is not valid");
 
     // This Java program will throw an DigestException
     // byte[] scratch = new byte[1];
@@ -352,7 +352,7 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException(L"The buffer is too small for the specified offset and length");
+          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
 
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
         m_hash.TruncatedFinal(buf+offset, req);

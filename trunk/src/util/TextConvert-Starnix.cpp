@@ -64,7 +64,7 @@ namespace esapi
     // Check for overflow on the reserve performed below
     WideString temp;
     if(str.length() > temp.max_size())
-      throw InvalidArgumentException(L"TextConvert::NarrowToWide failed (1). The output buffer would overflow");
+      throw InvalidArgumentException("TextConvert::NarrowToWide failed (1). The output buffer would overflow");
 
     //  Reserve it
     temp.reserve(str.length());
@@ -74,7 +74,7 @@ namespace esapi
 
     ASSERT(cd != (iconv_t)-1);
     if(cd == (iconv_t)-1)
-      throw InvalidArgumentException(L"TextConvert::NarrowToWide failed (2). The conversion descriptor is not valid");
+      throw InvalidArgumentException("TextConvert::NarrowToWide failed (2). The conversion descriptor is not valid");
     
     wchar_t out[4096 / WCHAR_T_SIZE];
     ArrayZeroizer<wchar_t> cleanup2(out, COUNTOF(out));
@@ -164,7 +164,7 @@ namespace esapi
     // Check for overflow on the reserve performed below
     NarrowString temp;
     if(wstr.length() > temp.max_size())
-      throw InvalidArgumentException(L"TextConvert::WideToNarrow failed (1). The output buffer would overflow");
+      throw InvalidArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
 
     //  Reserve it
     temp.reserve(wstr.length());
@@ -174,7 +174,7 @@ namespace esapi
 
     ASSERT(cd != (iconv_t)-1);
     if(cd == (iconv_t)-1)
-      throw InvalidArgumentException(L"TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
+      throw InvalidArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
     
     char out[4096];
     ArrayZeroizer<char> cleanup2(out, COUNTOF(out));
