@@ -16,6 +16,7 @@
 using namespace boost::unit_test;
 
 #include <iostream>
+#include <iomanip>
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -32,6 +33,8 @@ using esapi::InvalidArgumentException;
 #include <util/TextConvert.h>
 using esapi::TextConvert;
 
+#define HEX(x) std::hex << std::setw(x) << std::setfill('0')
+
 static const WideString wide = L"\u9aa8";
 static const NarrowString narrow("\xe9\xaa\xa8");
 
@@ -39,18 +42,36 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_1P )
 {
   WideString w(1, L'a');
   NarrowString n = TextConvert::WideToNarrow(w);
+  NarrowString e(1, 'a');
 
-  char expected = 'a';
-  BOOST_CHECK_MESSAGE(0 == ::memcmp(n.data(), &expected, sizeof(char)), "Failed to down convert letter 'a'");
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < n.length(); ii++)
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
+
+  BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_2P )
 {
   NarrowString n(1, 'a');
   WideString w = TextConvert::NarrowToWide(n);
+  WideString e(1, L'a');
 
-  wchar_t expected = L'a';
-  BOOST_CHECK_MESSAGE(0 == ::memcmp(w.data(), &expected, sizeof(wchar_t)), "Failed to up convert letter 'a'");
+  std::ostringstream oss;
+  oss << "Expected";
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < w.length(); ii++)
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
+
+  BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_3P )
@@ -58,17 +79,18 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_3P )
   // Han character for 'bone'
   WideString w(wide);
   NarrowString n = TextConvert::WideToNarrow(w);
+  NarrowString e(narrow);
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < narrow.length(); ii++)
-    oss << " " << std::hex << int(0xFF & narrow[ii]);
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
   for(size_t ii = 0; ii < n.length(); ii++)
-    oss << " " << std::hex << int(0xFF & n[ii]);
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
 
-  BOOST_CHECK_MESSAGE(n == narrow, "Failed the Chinese Bone Test (1). " + oss.str());
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (1). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
@@ -76,17 +98,18 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
   // Han character for 'bone'
   NarrowString n(narrow);
   WideString w = TextConvert::NarrowToWide(n);
+  WideString e(wide);
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < wide.length(); ii++)
-    oss << " " << std::hex << int(0xFFFF & wide[ii]);
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
   for(size_t ii = 0; ii < w.length(); ii++)
-    oss << " " << std::hex << int(0xFF & w[ii]);
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
-  BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2). " + oss.str());
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (2). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_5P )
@@ -94,17 +117,18 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_5P )
   // Han character for 'bone'
   NarrowString n(narrow);
   WideString w = TextConvert::NarrowToWide(n, "UTF-8");
+  WideString e(wide);
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < wide.length(); ii++)
-    oss << " " << std::hex << int(0xFFFF & wide[ii]);
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
   for(size_t ii = 0; ii < w.length(); ii++)
-    oss << " " << std::hex << int(0xFF & w[ii]);
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
-  BOOST_CHECK_MESSAGE(w == wide, "Failed the Chinese Bone Test (2). " + oss.str());
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (2). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
@@ -112,17 +136,18 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
   // Han character for 'bone'
   WideString w(wide);
   NarrowString n = TextConvert::WideToNarrow(w, "UTF-8");
+  NarrowString e(narrow);
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < narrow.length(); ii++)
-    oss << " " << std::hex << int(0xFF & narrow[ii]);
+  for(size_t ii = 0; ii < e.length(); ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
   for(size_t ii = 0; ii < n.length(); ii++)
-    oss << " " << std::hex << int(0xFF & n[ii]);
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
 
-  BOOST_CHECK_MESSAGE(n == narrow, "Failed the Chinese Bone Test (1). " + oss.str());
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (1). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_7N )
@@ -160,3 +185,178 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_8N )
 
   BOOST_CHECK_MESSAGE(success, "Failed to detect bad encoding request");
 }
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_9P )
+{
+  // Han character for 'bone'
+  NarrowString n;
+  WideString e;
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    n += narrow;
+    e += wide;
+  }
+
+  WideString w = TextConvert::NarrowToWide(n);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (1, 0, repeat). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_10P )
+{
+  // Han character for 'bone'
+  WideString w;
+  NarrowString e;
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    w += wide;
+    e += narrow;
+  }
+
+  NarrowString n = TextConvert::WideToNarrow(w);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (2, 0, repeat). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_11P )
+{
+  // Han character for 'bone'
+  NarrowString n("a");
+  WideString e(L"a");
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    n += narrow;
+    e += wide;
+  }
+
+  WideString w = TextConvert::NarrowToWide(n);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (1, 0, repeat). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_12P )
+{
+  // Han character for 'bone'
+  WideString w(L"a");
+  NarrowString e("a");
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    w += wide;
+    e += narrow;
+  }
+
+  NarrowString n = TextConvert::WideToNarrow(w);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (2, 0, repeat). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_13P )
+{
+  // Han character for 'bone'
+  NarrowString n("aa");
+  WideString e(L"aa");
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    n += narrow;
+    e += wide;
+  }
+
+  WideString w = TextConvert::NarrowToWide(n);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(4) << int(0xFFFF & w[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (1, 0, repeat). " + oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_14P )
+{
+  // Han character for 'bone'
+  WideString w(L"aa");
+  NarrowString e("aa");
+  for( unsigned int jj = 0; jj < 4096; jj++)
+  {
+    w += wide;
+    e += narrow;
+  }
+
+  NarrowString n = TextConvert::WideToNarrow(w);
+
+  std::ostringstream oss;
+  size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
+
+  oss << "Expected";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & n[ii]);
+  oss << ", ...";
+
+  oss << ", got ";
+  for(size_t ii = 0; ii < kk; ii++)
+    oss << " " << HEX(2) << int(0xFF & e[ii]);
+  oss << ", ...";
+
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (2, 0, repeat). " + oss.str());
+}
+

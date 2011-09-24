@@ -521,6 +521,8 @@ namespace esapi
   template class SecureArray<char>;
   template class SecureArray<byte>;
   template class SecureArray<wchar_t>;
+  template class SecureArray<short>;
+  template class SecureArray<unsigned short>;
   template class SecureArray<int>;
   template class SecureArray<unsigned int>;
   template class SecureArray<long long>;
