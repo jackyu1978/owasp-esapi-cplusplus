@@ -42,7 +42,7 @@ public:
      String toString(); //:Converts object to UTF-8 encoded {@code String}.
      esapi::SecureByteArray asBytes(); //:Converts object to a byte array.
      bool equals(PlainText obj);
-     int length();
+     size_t length();
      void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
 };
 
