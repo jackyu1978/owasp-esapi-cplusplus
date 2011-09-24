@@ -30,20 +30,20 @@
 namespace esapi
 {
 
-class ESAPI_EXPORT PlainText
-{
-private:
-//     const Logger logger = esapi.getLogger("PlainText");  //:Logger not implemented yet.
-     esapi::SecureByteArray rawBytes; //:Plaintext stored as byte array.
-public:
-     PlainText();
-     explicit PlainText(String str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
-     explicit PlainText(const esapi::SecureByteArray &b); //:Constructs a PlainText object from a byte array.
-     String toString(); //:Converts object to UTF-8 encoded {@code String}.
-     esapi::SecureByteArray asBytes(); //:Converts object to a byte array.
-     bool equals(PlainText obj);
-     size_t length();
-     void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
-};
+  class ESAPI_EXPORT PlainText
+  {
+  private:
+    //     const Logger logger = esapi.getLogger("PlainText");  //:Logger not implemented yet.
+    esapi::SecureByteArray rawBytes; //:Plaintext stored as byte array.
+  public:
+    PlainText();
+    explicit PlainText(String str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
+    explicit PlainText(const esapi::SecureByteArray &b); //:Constructs a PlainText object from a byte array.
+    String toString(); //:Converts object to UTF-8 encoded {@code String}.
+    esapi::SecureByteArray asBytes(); //:Converts object to a byte array.
+    bool equals(PlainText obj);
+    size_t length();
+    void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
+  };
 
 } // NAMESPACE esapi

@@ -97,6 +97,7 @@ BOOST_AUTO_TEST_CASE( VerifyHash1 )
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
+#if 0
 BOOST_AUTO_TEST_CASE( VerifyHash2 )
 {
   // Random binary data
@@ -224,3 +225,4 @@ BOOST_AUTO_TEST_CASE( VerifyHash5 )
 
   BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 }
+#endif
