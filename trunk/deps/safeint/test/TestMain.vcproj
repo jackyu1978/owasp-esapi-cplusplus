@@ -45,6 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/analyze"
 				Optimization="0"
+				AdditionalIncludeDirectories="../."
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,6 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../."
 				PreprocessorDefinitions="WIN64;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
