@@ -146,7 +146,7 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException(L"The buffer or size is not valid");
+      throw InvalidArgumentException("The buffer or size is not valid");
 
     if(!m_keyed)
       throw EncryptionException(L"Failed to generate a block in the random pool (1)");

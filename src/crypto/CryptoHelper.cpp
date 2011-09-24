@@ -119,7 +119,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException(L"Cipher mode is not valid");
+      throw InvalidArgumentException("Cipher mode is not valid");
         
     DummyConfiguration config;
     const StringList& cipherModes = config.getCombinedCipherModes();
@@ -144,7 +144,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException(L"Cipher mode is not valid");
+      throw InvalidArgumentException("Cipher mode is not valid");
 
     if ( isCombinedCipherMode(cipherMode) ) { 
       return true; 
@@ -222,7 +222,7 @@ namespace esapi
     ASSERT(size);
 
     if(!bytes)
-      throw InvalidArgumentException(L"The array cannot be null or empty");
+      throw InvalidArgumentException("The array cannot be null or empty");
 
     if(!size)
       return;
@@ -275,10 +275,10 @@ namespace esapi
     ASSERT(destSize >= copySize);
 
     if(!src)
-      throw InvalidArgumentException(L"Source array cannot be null");
+      throw InvalidArgumentException("Source array cannot be null");
 
     if(!dest)
-      throw InvalidArgumentException(L"Destination array cannot be null");
+      throw InvalidArgumentException("Destination array cannot be null");
 
     // Will throw if ptr wraps. T* and size_t causing trouble on Linux
     SafeInt<size_t> ssi((size_t)src); ssi += srcSize;

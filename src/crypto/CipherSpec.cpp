@@ -21,7 +21,7 @@
 namespace esapi
 {
 
-void split(const String &str, const String& delim, std::vector<String>& parts) //:This function is private to DefaultEncryptor.cpp.
+void split(const String &str, const String& delim, StringArray& parts) //:This function is private to DefaultEncryptor.cpp.
   {                                                                                      //:That should probably change but I don't know where is best to put it.
     String s(str);                                                                       //:This class needs the function so a copy was put here temporarily.
     String::size_type pos = 0;
@@ -93,7 +93,7 @@ if(cipherXForm.empty())
    throw new IllegalArgumentException(L"Cipher transformation may not be null or empty string (after trimming whitespace).");
 std::vector<String> parts;
 esapi::split(cipherXForm, L"/", parts);
-int numParts = parts.size();
+size_t numParts = parts.size();
 ESAPI_ASSERT2(fromCipher ? true : (numParts == 3), "Malformed cipherXform (" + cipherXForm + "); must have form: \"alg/mode/paddingscheme\"");
      if(fromCipher && numParts != 3)
      {
