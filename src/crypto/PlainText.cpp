@@ -78,7 +78,7 @@ if(toString() == obj.toString())
 return false;
 }
 
-int PlainText::length()
+size_t PlainText::length()
 {
 return rawBytes.length();
 }
