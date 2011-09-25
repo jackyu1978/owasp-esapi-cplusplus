@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_5P )
   for(size_t ii = 0; ii < n.length(); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
-  BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
+  BOOST_CHECK_MESSAGE(n == e, "Failed to down convert 'aa'. " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
   for(size_t ii = 0; ii < w.length(); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
-  BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
+  BOOST_CHECK_MESSAGE(w == e, "Failed to up convert 'aa'. " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_7P )
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_9P )
   for(size_t ii = 0; ii < w.length(); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
-  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (2). " + oss.str());
+  BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (3). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_10P )
@@ -219,7 +219,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_10P )
   for(size_t ii = 0; ii < n.length(); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
-  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (1). " + oss.str());
+  BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (4). " + oss.str());
 }
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_11N )
