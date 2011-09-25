@@ -41,18 +41,40 @@ BOOST_AUTO_TEST_CASE( SecureByteArrayTest_1P )
   SecureByteArray vv;
 }
 
-BOOST_AUTO_TEST_CASE( SecureByteArrayTest_2P )
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_2AP )
 {
   // Copy
   SecureByteArray vv;
   SecureByteArray ww(vv);
+
+  BOOST_CHECK_MESSAGE(ww.size() == 0, "Failed to copy SecureByteArray");
 }
 
-BOOST_AUTO_TEST_CASE( SecureByteArrayTest_3P )
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_2BP )
+{
+  // Copy
+  SecureByteArray vv(10);
+  SecureByteArray ww(vv);
+
+  BOOST_CHECK_MESSAGE(ww.size() == 10, "Failed to copy SecureByteArray");
+}
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_3AP )
 {
   // Assignment
   SecureByteArray vv;
   SecureByteArray ww = vv;
+
+  BOOST_CHECK_MESSAGE(ww.size() == 0, "Failed to copy SecureByteArray");
+}
+
+BOOST_AUTO_TEST_CASE( SecureByteArrayTest_3BP )
+{
+  // Assignment
+  SecureByteArray vv(10);
+  SecureByteArray ww = vv;
+
+  BOOST_CHECK_MESSAGE(ww.size() == 10, "Failed to copy SecureByteArray");
 }
 
 BOOST_AUTO_TEST_CASE( SecureByteArrayTest_4N )
