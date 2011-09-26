@@ -260,6 +260,60 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_12N )
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_13P )
 {
+  static const unsigned int repeat = 4096+1024;
+  WideString w(repeat, L'a');
+  NarrowString e(repeat, 'a');
+
+  try
+    {
+      NarrowString n = TextConvert::WideToNarrow(w);
+
+      std::ostringstream oss;
+      oss << "Expected";
+      for(size_t ii = 0; ii < e.length(); ii++)
+        oss << " " << HEX(2) << int(0xFF & e[ii]);
+
+      oss << ", got ";
+      for(size_t ii = 0; ii < n.length(); ii++)
+        oss << " " << HEX(2) << int(0xFF & n[ii]);
+
+      BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_14P )
+{
+  static const unsigned int repeat = 4096+1024;
+  NarrowString n(repeat, 'a');
+  WideString e(repeat, L'a');
+
+  try
+    {
+      WideString w = TextConvert::NarrowToWide(n);
+
+      std::ostringstream oss;
+      oss << "Expected";
+      for(size_t ii = 0; ii < e.length(); ii++)
+        oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+
+      oss << ", got ";
+      for(size_t ii = 0; ii < w.length(); ii++)
+        oss << " " << HEX(4) << int(0xFFFF & w[ii]);
+
+      BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+}
+
+BOOST_AUTO_TEST_CASE( TextConvertTest_15P )
+{
   // Han character for 'bone'
   NarrowString n;
   WideString e;
@@ -294,7 +348,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_13P )
     }
 }
 
-BOOST_AUTO_TEST_CASE( TextConvertTest_14P )
+BOOST_AUTO_TEST_CASE( TextConvertTest_16P )
 {
   // Han character for 'bone'
   WideString w;
@@ -330,7 +384,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_14P )
     }
 }
 
-BOOST_AUTO_TEST_CASE( TextConvertTest_15P )
+BOOST_AUTO_TEST_CASE( TextConvertTest_17P )
 {
   // Han character for 'bone'
   NarrowString n("a");
@@ -366,7 +420,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_15P )
     }
 }
 
-BOOST_AUTO_TEST_CASE( TextConvertTest_16P )
+BOOST_AUTO_TEST_CASE( TextConvertTest_18P )
 {
   // Han character for 'bone'
   WideString w(L"a");
@@ -402,7 +456,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_16P )
     }
 }
 
-BOOST_AUTO_TEST_CASE( TextConvertTest_17P )
+BOOST_AUTO_TEST_CASE( TextConvertTest_19P )
 {
   // Han character for 'bone'
   NarrowString n("aa");
@@ -438,7 +492,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_17P )
     }
 }
 
-BOOST_AUTO_TEST_CASE( TextConvertTest_18P )
+BOOST_AUTO_TEST_CASE( TextConvertTest_20P )
 {
   // Han character for 'bone'
   WideString w(L"aa");
