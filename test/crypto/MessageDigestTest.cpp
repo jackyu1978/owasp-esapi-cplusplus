@@ -459,7 +459,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_1P )
       SecureByteArray buf(sz);
 
       const String msg(L"");
-      md.update((const byte*)msg.data(), msg.size());
+      md.update(msg);
 
       const byte hash[16] = {0xd4,0x1d,0x8c,0xd9,0x8f,0x00,0xb2,0x04,0xe9,0x80,0x09,0x98,0xec,0xf8,0x42,0x7e};
       md.digest(buf.data(), buf.size(), 0, sz);
@@ -469,7 +469,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_1P )
     {
 
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (1)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (1)");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_2P )
@@ -496,7 +496,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_2P )
     {
 
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (2)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (2)");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_3P )
@@ -523,7 +523,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_3P )
     {
 
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (3)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (3)");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_4P )
@@ -550,7 +550,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_4P )
     {
 
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (4)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (4)");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_5P )
@@ -577,8 +577,7 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_5P )
     {
 
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (4)");
-
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (5)");
 }
 
 /*
