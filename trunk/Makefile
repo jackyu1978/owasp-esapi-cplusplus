@@ -8,6 +8,9 @@
 #
 # Copyright (c) 2011 - The OWASP Foundation
 
+# Note: we use both $CPPFLAGS and $CXXFLAGS for recipes which include $CXX.
+# See http://www.gnu.org/s/hello/manual/make/Catalogue-of-Rules.html.
+
 # Comeau C++ Compiler
 # CXX = como
 # Intel ICC
@@ -20,10 +23,18 @@ default: test
 
 # Clear unneeded implicit rules
 .SUFFIXES:
-.SUFFIXES: .c .cpp .cxx .o .h .hpp
+.SUFFIXES: .c .cc .cpp .cxx .o .h .hpp
 
-# Note: we use both $CPPFLAGS and $CXXFLAGS for recipes which include $CXX.
-# See http://www.gnu.org/s/hello/manual/make/Catalogue-of-Rules.html.
+# Override on the command line as you see fit, eg `make install CP=~/my-cool-cp`.
+# Otherwise, we take defaults form paths in the environment.
+AR = ar
+CP = cp
+RM = rm
+EGREP = egrep
+UNAME = uname
+MKDIR = mkdir
+RANLIB = ranlib
+INSTALL = install
 
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
@@ -58,7 +69,9 @@ endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
-  override CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+# Whoops, ABI compatibility issues with pre-built DSOs
+#  override CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  override CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
@@ -74,9 +87,6 @@ endif
 # integer is never transformed into a negative integer as expected. It morphs
 # into a bigger or smaller unsigned integer.
 override CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
-
-EGREP = egrep
-UNAME = uname
 
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
 IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
@@ -114,7 +124,7 @@ IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
 IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
 
 # Fall back to g++ if CXX is not specified
-ifeq ($strip $(CXX)),)
+ifeq (($strip $(CXX)),)
   CXX = g++
 endif
 
@@ -189,6 +199,28 @@ endif
 
 # Add paths
 override CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
+
+# Default prefix for make install and uninstall. The names and default values are taken from
+# Stallman's GNU Make, Chapter 14, Section 4, Variables for Installation Directories
+ifeq ($(prefix),)
+prefix = /usr/local
+endif
+
+ifeq ($(exec_prefix),)
+  exec_prefix = $(prefix)
+endif
+
+ifeq ($(bindir),)
+  bindir = $(exec_prefix)/bin
+endif
+
+ifeq ($(libdir),)
+  libdir = $(exec_prefix)/lib
+endif
+
+ifeq ($(includedir),)
+  includedir = $(prefix)/include
+endif
 
 ROOTSRCS =	src/EncoderConstants.cpp \
 			src/ValidationErrorList.cpp \
@@ -277,9 +309,7 @@ LIBOBJS =		$(LIBSRCS:.cpp=.o)
 TESTOBJS =		$(TESTSRCS:.cpp=.o)
 
 # OpenBSD needs the dash in ARFLAGS
-AR =		ar
 ARFLAGS = 	-rcs
-RANLIB =	ranlib
 
 override LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
@@ -319,6 +349,11 @@ TESTTARGET = test/run_esapi_tests
 #   CXX = c++
 # endif
 
+# `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
+all: $(STATIC_LIB) $(DYNAMIC_LIB)
+static: $(STATIC_LIB)
+dynamic: $(DYNAMIC_LIB)
+
 # If you are missing libcrypto++ or libcryptopp, see
 # https://code.google.com/p/owasp-esapi-cplusplus/wiki/DevPrerequisites
 $(DYNAMIC_LIB):	$(LIBOBJS)
@@ -327,11 +362,6 @@ $(DYNAMIC_LIB):	$(LIBOBJS)
 $(STATIC_LIB): $(LIBOBJS)
 	$(AR) $(ARFLAGS) lib/$@ $(LIBOBJS)
 	$(RANLIB) lib/$@
-
-# `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
-all: $(STATIC_LIB) $(DYNAMIC_LIB)
-static: $(STATIC_LIB)
-dynamic: $(DYNAMIC_LIB)
 
 # `make debug` builds the DSO and runs the tests. OPT=O0, SYM=G3, ASSERTs are on.
 debug: $(DYNAMIC_LIB) test
@@ -343,6 +373,24 @@ release: $(DYNAMIC_LIB) test
 test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) $(TESTLDFLAGS) $(TESTLDLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
+
+directories:
+	-$(MKDIR) -p $(includedir)/esapi/codecs
+	-$(MKDIR) -p $(includedir)/esapi/crypto
+	-$(MKDIR) -p $(includedir)/esapi/errors
+	-$(MKDIR) -p $(includedir)/esapi/reference
+	-$(MKDIR) -p $(includedir)/esapi/util
+	-$(MKDIR) -p $(includedir)/esapi/reference/validation
+
+install: directories
+	$(CP) -r esapi/* $(includedir)/esapi
+	-$(CP) lib/$(STATIC_LIB) $(libdir)/$(STATIC_LIB)
+	-$(CP) lib/$(DYNAMIC_LIB) $(libdir)/$(DYNAMIC_LIB)
+
+uninstall:
+	-$(RM) -rf $(includedir)/esapi
+	-$(RM) -f $(libdir)/$(STATIC_LIB)
+	-$(RM) -f $(libdir)/$(DYNAMIC_LIB)
 
 # Test compile codec sources, no final link
 codec codecs: $(CODECOBJS)
