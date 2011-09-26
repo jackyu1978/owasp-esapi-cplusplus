@@ -67,7 +67,9 @@ by default, ESAPI does not include {{{-fwrapv}}} (see http://www.airs.com/blog/a
 Note that ESAPI will not override you project settings by discarding what you specify. But the project *will* 'tack on' its own flags and switches via 'override'. For example, the following instructs the GNU tools use hidden visibility by default (see http://people.redhat.com/drepper/dsohowto.pdf):
 
   {{{ifeq ($(GCC40_OR_LATER),1)}}}
+
     {{{  override CXXFLAGS += -fvisibility=hidden}}}
+
   {{{endif}}}
 
 If you don't want ESAPI tacking on flags and settings, {{{s/override//g}}}.
@@ -77,7 +79,9 @@ If you don't want ESAPI tacking on flags and settings, {{{s/override//g}}}.
 To pick up any libraries and packages that might be installed in place of a distribution's standard (and sometimes outdated) package, the makefile will use local paths before standard paths. For example,
 
   {{{CXXFLAGS += -I. -I./esapi -I./deps -I/usr/local/include -I/usr/include}}}
+
   {{{...}}}
+
   {{{LDFLAGS += -L/usr/local/lib -L/usr/lib}}}
   
 = Examples =
