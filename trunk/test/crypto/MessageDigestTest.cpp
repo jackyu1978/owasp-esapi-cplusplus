@@ -51,7 +51,7 @@ static void DoWorkerThreadStuff();
 static const unsigned int THREAD_COUNT = 64;
 static MessageDigest& SharedMessageDigest();
 
-BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_1P )
 {
   bool success = false;
 
@@ -84,9 +84,12 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {
       cerr << "!!Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+  BOOST_CHECK_MESSAGE(success, "Failed to create digest");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_2P )
+{
+  bool success = false;
 
   try
     {    
@@ -117,9 +120,49 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     {
       cerr << "!!Caught unknown exception" << endl;
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+  BOOST_CHECK_MESSAGE(success, "Failed to create digest");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+#if 0
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_3N )
+{
+  bool success = false;
+
+  try
+    {    
+      MessageDigest md1("Foo");
+    }
+  catch(esapi::NoSuchAlgorithmException&)
+    {
+      success = true;
+    }
+  catch(esapi::InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(esapi::EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  catch(std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+}
+#endif
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_4N )
+{
+  bool success = false;
 
   try
     {    
@@ -150,8 +193,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       cerr << "!!Caught unknown exception" << endl;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_5N )
+{
+  bool success = false;
     
   try
     {    
@@ -182,18 +228,60 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       cerr << "!!Caught unknown exception" << endl;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+#if 0
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_6N )
+{
+  bool success = false;
+    
+  try
+    {    
+      MessageDigest md1(MessageDigest::getInstance("Foo"));
+    }
+  catch(NoSuchAlgorithmException&)
+    {
+      success = true;
+    }
+  catch(InvalidArgumentException&)
+    {
+      cerr << "!!Caught InvalidArgumentException" << endl;
+    }
+  catch(EncryptionException&)
+    {
+      cerr << "!!Caught EncryptionException" << endl;
+    }
+  catch(std::runtime_error&)
+    {
+      cerr << "!!Caught runtime_error" << endl;
+    }
+  catch (std::exception&)
+    {
+      cerr << "!!Caught exception" << endl;
+    }
+  catch(...)
+    {
+      cerr << "!!Caught unknown exception" << endl;
+    }
+  BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
+}
+#endif
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_7P )
+{
+  bool success = false;
 
   MessageDigest md2(MessageDigest::getInstance());
   success = (md2.getAlgorithm() == L"SHA-256");
   BOOST_CHECK_MESSAGE(success, "Default generator " << TextConvert::WideToNarrow(md2.getAlgorithm()) << " is unexpected");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_8N )
+{
+  bool success = false;
 
   try
-    {    
-      success = false;
+    {
       MessageDigest md3(MessageDigest::getInstance(L"MD-5"));
       md3.digest((byte*)nullptr, 0, 0, 0);
     }
@@ -207,7 +295,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (digest)");
 
-  /////////////////////////////////////////////////////////////////////////
+}
+
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_9N )
+{
+  bool success = false;
 
   // This throws a DigestException in Java 
   // byte[] scratch = new byte[16];
@@ -216,7 +308,6 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
 
   try
     {    
-      success = false;
       MessageDigest md4(MessageDigest::getInstance());
       const size_t sz = md4.getDigestLength();
       SecureByteArray buf(sz);
@@ -231,12 +322,14 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       cerr << "!!Caught EncryptionException" << endl;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on under-sized buffer (digest)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_10N )
+{
+  bool success = false;
 
   try
-    {    
-      success = false;
+    {
       MessageDigest md5(MessageDigest::getInstance());
       size_t ptr = ((size_t)-1) - 7;
       const size_t size = md5.getDigestLength();
@@ -251,8 +344,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       success = true;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (digest)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_11N )
+{
+  bool success = false;
 
   try
     {    
@@ -269,8 +365,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       cerr << "!!Caught EncryptionException" << endl;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (update)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_12N )
+{
+  bool success = false;
 
   try
     {    
@@ -288,8 +387,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       success = true;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (update)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_13N )
+{
+  bool success = false;
 
   try
     {    
@@ -308,8 +410,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestArguments )
       cerr << "!!Caught EncryptionException" << endl;
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (digest)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMessageDigest_14N )
+{
+  bool success = false;
 
   try
     {    
@@ -336,17 +441,12 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestThreads )
   DoWorkerThreadStuff();
 }
 
-BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
-{
-  // http://www.ietf.org/rfc/rfc1321.txt
-        
-  //MD5 (L"a") = 0cc175b9c0f1b6a831c399e269772661
-  //MD5 (L"abc") = 900150983cd24fb0d6963f7d28e17f72
-  //MD5 (L"message digest") = f96b697d7cb7938d525a2f31aaf161d0
-  //MD5 (L"abcdefghijklmnopqrstuvwxyz") = c3fcd3d76192e4007dfb496cca67e13b
-  //MD5 (L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = d174ab98d277d9f5a5611c2c9f419d9f
-  //MD5 (L"12345678901234567890123456789012345678901234567890123456789012345678901234567890") = 57edf4a22be3c955ac49da2e2107b67a
+////////////////////////////////////////////////////////////////
+// MD5 test vectors: // http://www.ietf.org/rfc/rfc1321.txt    
+////////////////////////////////////////////////////////////////
 
+BOOST_AUTO_TEST_CASE( VerifyMD5_1P )
+{    
   bool success = false;
 
   try
@@ -370,8 +470,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
 
     }
   BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (1)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMD5_2P )
+{    
+  bool success = false;
 
   try
     {
@@ -394,8 +497,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
 
     }
   BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (2)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMD5_3P )
+{    
+  bool success = false;
 
   try
     {
@@ -418,8 +524,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
 
     }
   BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (3)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMD5_4P )
+{    
+  bool success = false;
 
   try
     {
@@ -442,8 +551,11 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigestMD5 )
 
     }
   BOOST_CHECK_MESSAGE(success, "Failed to calculate hash (4)");
+}
 
-  /////////////////////////////////////////////////////////////////////////
+BOOST_AUTO_TEST_CASE( VerifyMD5_5P )
+{    
+  bool success = false;
 
   try
     {
