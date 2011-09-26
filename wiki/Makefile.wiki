@@ -58,19 +58,17 @@ For targets, the makefile understands:
 
 ESAPI has chosen its flags and warnings carefully. However, if you would like an addition flag present, specifiy it on the command line:
 
-{{{make CXXFLAGS=-DMyCoolDefine}}}
+  {{{make CXXFLAGS=-DMyCoolDefine}}}
 
 by default, ESAPI does not include {{{-fwrapv}}} (see http://www.airs.com/blog/archives/120). To include the flag:
 
-{{{make CXXFLAGS=-fwrapv}}}
+  {{{make CXXFLAGS=-fwrapv}}}
 
 Note that ESAPI will not override you project settings by discarding what you specify. But the project *will* 'tack on' its own flags and switches via 'override'. For example, the following instructs the GNU tools use hidden visibility by default (see http://people.redhat.com/drepper/dsohowto.pdf):
 
-{{{ifeq ($(GCC40_OR_LATER),1)}}}
-
-{{{  override CXXFLAGS += -fvisibility=hidden}}}
-
-{{{endif}}}
+  {{{ifeq ($(GCC40_OR_LATER),1)}}}
+    {{{  override CXXFLAGS += -fvisibility=hidden}}}
+  {{{endif}}}
 
 If you don't want ESAPI tacking on flags and settings, {{{s/override//g}}}.
 
