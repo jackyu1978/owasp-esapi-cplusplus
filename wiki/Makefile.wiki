@@ -6,7 +6,7 @@ The ESAPI C++ project offers a traditional makefile for building and installing 
 
 = Dependencies =
 
-The library has external dependencies, and the topic is covered at [DevPrerequisites]. While the prerequisites pages includes information on installing dependent developer and debug packages, debug packages are not needed to build and install the library. That is, rather than installing libboost and libboost-devel, and libboost-debug, you will only need libboost and libboost-devel.
+The library has external dependencies, and the topic is covered at [DevPrerequisites]. While the prerequisites pages includes information on installing developer and debug packages, debug packages are not needed to build and install the ESAPI library. That is, rather than installing libboost, libboost-devel, and libboost-debug, you will only need libboost and libboost-devel (libboost-devel provides necessary header files).
 
 = Build and Targets =
 
@@ -24,7 +24,7 @@ When invoking make with a debug, ie, {{{make debug}}}, {{{CXXFLAGS}}} will be mo
 
 {{{make release}}} causes CXXFLAGS to include {{{-DNDEBUG=1 -g -O2}}}. These are tradition Release build flags. ASSERTS are off.
 
-{{{make test}}} is a combination of debug and release: {{{-DESAPI -NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public}}}. Test turns off ASSERT so the negative self tests do not clutter output.
+{{{make test}}} is a combination of debug and release: {{{-DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public}}}. The test build turns off ASSERT so the negative self tests do not clutter output.
 
 == Targets ==
 
