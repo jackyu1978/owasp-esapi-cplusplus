@@ -118,12 +118,12 @@ To build and install a configuration with both the static and dynamic libraries 
   
   {{{sudo make install prefix=/usr}}}  
   
-To build and install a release configuration of the libraries, using {{{/usr/local/foo/bar}}} as the installation root (ie, installs into {{{/usr/local/foo/bar/include}}} and {{{/usr/local/foo/bar/lib}}}):
-  {{{make release all prefix=/usr/local/foo/bar}}}
+To build and install a release configuration of the libraries, using {{{/usr/local/foo/bar}}} as the installation root (ie, install into {{{/usr/local/foo/bar/include}}} and {{{/usr/local/foo/bar/lib}}}):
+  {{{make release all}}}
   
-  {{{sudo make install}}}
+  {{{sudo make install prefix=/usr/local/foo/bar}}}
   
 To build and install a release configuration of the libraries, using {{{/usr/local/foo/bar}}} as the installation root and {{{/usr/local/foo/bar/lib64}}}
-  {{{make release all prefix=/usr/local/foo/bar libdir=/usr/local/foo/bar/lib64}}}
+  {{{make release all}}}
   
-  {{{sudo make install}}}
+  {{{sudo make install prefix=/usr/local/foo/bar libdir=/usr/local/foo/bar/lib64}}}
