@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_1P )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to create digest");
 }
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_2P )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to create digest");
 }
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_3N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_4N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_5N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_6N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_8N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (digest)");
 
@@ -247,7 +247,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_9N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on under-sized buffer (digest)");
 }
@@ -273,7 +273,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_10N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (digest)");
 }
@@ -295,7 +295,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_11N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (update)");
 }
@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_12N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (update)");
 }
@@ -348,7 +348,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_13N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (digest)");
 }
@@ -375,7 +375,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_14N )
     }
   catch(...)
     {
-      BOOST_ERROR("Caught unkown exception");
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (update)");
 }
