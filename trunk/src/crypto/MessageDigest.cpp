@@ -223,7 +223,7 @@ namespace esapi
   * @throws throws an EncryptionException if the array or size is not valid
   * or a cryptographic failure occurs.
   */
-  void MessageDigest::update(const String& input)
+  void MessageDigest::update(const String& str)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -232,7 +232,7 @@ namespace esapi
     if(m_impl.get() == nullptr)
       throw EncryptionException(L"Failed to update digest");
 
-    return m_impl->updateImpl(input);
+    return m_impl->updateImpl(str);
   }
 
   /**
@@ -270,7 +270,7 @@ namespace esapi
   * offset and len exceeds the array's bounds, or a cryptographic
   * failure occurs.
   */
-  void MessageDigest::update(const SecureByteArray& buf, size_t offset, size_t len)   
+  void MessageDigest::update(const SecureByteArray& sa, size_t offset, size_t len)   
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -279,7 +279,7 @@ namespace esapi
     if(m_impl.get() == nullptr)
       throw EncryptionException(L"Failed to update digest");
 
-    return m_impl->updateImpl(buf, offset, len);
+    return m_impl->updateImpl(sa, offset, len);
   }
 
   /**

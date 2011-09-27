@@ -224,7 +224,7 @@ namespace esapi
       }
 
       // Skip the BOM if present
-      if(first && out[0] == 0xFE && out[1] == 0xFF)
+      if(first && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
       {
         const size_t ccb = outbytes - outlen - 2;
         const char* next = &out[2];
@@ -238,9 +238,10 @@ namespace esapi
         const char* first = out;
         const char* last = (char*)((char*)out + ccb);
         temp.append(first, last);
-      }
-      first = false;
+      }      
     }
+
+    first = false;
 
     NarrowString nstr;
     nstr.swap(temp);
@@ -250,6 +251,92 @@ namespace esapi
 
   SecureByteArray TextConvert::GetBytes(const String& wstr, const Encoding& enc)
   {
-    return SecureByteArray();
+    ASSERT( !wstr.empty() );
+    if(wstr.empty()) return SecureByteArray();    
+
+    // Check for overflow on the reserve performed below
+    SecureByteArray temp;
+    if(wstr.length() > temp.max_size())
+      throw InvalidArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
+
+    //  Reserve it
+    temp.reserve(wstr.length());
+
+    iconv_t cd = iconv_open (enc.c_str(), "UTF-32");
+    AutoConvDesc cleanup1(cd);
+
+    ASSERT(cd != (iconv_t)-1);
+    if(cd == (iconv_t)-1)
+      throw InvalidArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
+    
+    char out[4096];
+    ArrayZeroizer<char> cleanup2(out, COUNTOF(out));
+    const size_t outbytes = sizeof(out);
+
+    // libiconv manages inptr and inlen for each iteration
+    char* inptr = (char*)&wstr[0];
+    size_t inlen = wstr.length() * WCHAR_T_SIZE;
+
+    bool first = true;
+    while(inlen != 0)
+    {
+      char* outptr = (char*)&out[0];
+      size_t outlen = outbytes;
+
+      size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+      int err = errno;
+
+      // An invalid multibyte sequence is encountered in the input.
+      ASSERT(nonconv != (size_t)-1);
+      if(nonconv == (size_t)-1 && err == EILSEQ)
+      {
+        std::ostringstream oss;
+        oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
+        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+        throw InvalidArgumentException(oss.str());
+      }
+      
+      // An invalid multibyte sequence is encountered in the input.
+      ASSERT(nonconv != (size_t)-1);
+      if(nonconv == (size_t)-1 && err == EINVAL)
+      {
+        std::ostringstream oss;
+        oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
+        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+        throw InvalidArgumentException(oss.str());
+      }
+      
+      // Failed to convert all input characters
+      ASSERT(nonconv == 0);
+      if(nonconv != 0)
+      {
+        std::ostringstream oss;
+        oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
+        oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+        throw InvalidArgumentException(oss.str());
+      }
+
+      // Skip the BOM if present
+      if(first && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+      {
+        const size_t ccb = outbytes - outlen - 2;
+        const byte* next = (byte*)&out[2];
+        const byte* first = next;
+        temp.insert(temp.end(), first, ccb);
+      }
+      else
+      {
+        const size_t ccb = outbytes - outlen;
+        const byte* first = (byte*)out;
+        temp.insert(temp.end(), first, ccb);
+      }      
+    }
+
+    first = false;
+
+    SecureByteArray sba;
+    sba.swap(temp);
+
+    return sba;
   }
 }

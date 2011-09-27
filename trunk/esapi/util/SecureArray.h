@@ -119,7 +119,6 @@ namespace esapi
     void push_back(const T& x);
 
   private:
-
     boost::shared_ptr<SecureVector> m_vector;
   };
 
