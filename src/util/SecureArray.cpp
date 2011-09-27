@@ -321,14 +321,14 @@ namespace esapi
   template <typename T>
   T* SecureArray<T>::data()
   {
-    return (m_vector->size() ? &(m_vector->operator[](0)) : nullptr);
+    return (m_vector->size() != 0 ? &(m_vector->operator[](0)) : nullptr);
   }
 
   // Value added
   template <typename T>
   const T* SecureArray<T>::data() const
   {
-    return (m_vector->size() ? &(m_vector->operator[](0)) : nullptr);
+    return (m_vector->size() != 0 ? &(m_vector->operator[](0)) : nullptr);
   }
 
   template <typename T>
