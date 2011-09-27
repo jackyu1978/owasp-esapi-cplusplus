@@ -99,16 +99,16 @@ namespace esapi
     T* data();
     const T* data() const;
 
-    void assign(size_type n, const T& u);
-    void assign(const T* ptr, size_t cnt);
+    void assign(size_type n, const T& u) GCC_NO_OPTIMIZE;
+    void assign(const T* ptr, size_t cnt) GCC_NO_OPTIMIZE;
     template <class InputIterator>
-    void assign(InputIterator first, InputIterator last);
+    void assign(InputIterator first, InputIterator last) GCC_NO_OPTIMIZE;
 
-    iterator insert(iterator pos, const T& x);
-    void insert(iterator pos, size_type n, const T& x);
-    void insert(iterator pos, const T* ptr, size_t cnt);
+    iterator insert(iterator pos, const T& x) GCC_NO_OPTIMIZE;
+    void insert(iterator pos, size_type n, const T& x) GCC_NO_OPTIMIZE;
+    void insert(iterator pos, const T* ptr, size_t cnt) GCC_NO_OPTIMIZE;
     template <class InputIterator>
-    void insert(iterator pos, InputIterator first, InputIterator last);
+    void insert(iterator pos, InputIterator first, InputIterator last) GCC_NO_OPTIMIZE;
 
     iterator erase(iterator pos);
     iterator erase(iterator first, iterator last);
@@ -121,6 +121,11 @@ namespace esapi
   private:
 
     boost::shared_ptr<SecureVector> m_vector;
+
+  public:
+
+    // Tame the GCC optimizer
+    volatile void* m_tamer;
   };
 
   // Convenience
