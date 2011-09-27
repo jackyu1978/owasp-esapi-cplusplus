@@ -20,13 +20,26 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT IntegrityException : public EnterpriseSecurityException
-{
-public:
-	explicit IntegrityException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT IntegrityException : public EnterpriseSecurityException
   {
-  }
-};
+  public:
+    explicit IntegrityException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit IntegrityException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit IntegrityException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit IntegrityException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE

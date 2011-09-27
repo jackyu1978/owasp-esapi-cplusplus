@@ -20,18 +20,27 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT UnsupportedOperationException : public EnterpriseSecurityException
-{
-public:
-	explicit UnsupportedOperationException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT UnsupportedOperationException : public EnterpriseSecurityException
   {
-  }
-  	explicit UnsupportedOperationException(const String &userMessage, const String &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage)
-  {
-  }
-};
+  public:
+    explicit UnsupportedOperationException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit UnsupportedOperationException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit UnsupportedOperationException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit UnsupportedOperationException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 }; // NAMESPACE
 

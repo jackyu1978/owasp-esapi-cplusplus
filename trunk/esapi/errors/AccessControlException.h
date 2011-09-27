@@ -20,26 +20,26 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT AccessControlException : public EnterpriseSecurityException
-{
-public:
-	explicit AccessControlException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT AccessControlException : public EnterpriseSecurityException
   {
-  }
-	explicit AccessControlException(const String &userMessage, const String &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage)
-  {
-  }
+  public:
+    explicit AccessControlException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit AccessControlException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
 
-	explicit AccessControlException(const NarrowString &message)
-    : EnterpriseSecurityException(message, message)
-  {
-  }
-	explicit AccessControlException(const NarrowString &userMessage, const NarrowString &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage)
-  {
-  }
-};
+    explicit AccessControlException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit AccessControlException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE
