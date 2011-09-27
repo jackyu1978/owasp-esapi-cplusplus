@@ -43,7 +43,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to create MessageDigest");
+      throw EncryptionException("Failed to create MessageDigest");
   }
 
   /**
@@ -56,7 +56,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to create MessageDigest");
+      throw EncryptionException("Failed to create MessageDigest");
   }
 
   /**
@@ -106,7 +106,7 @@ namespace esapi
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
-      throw EncryptionException(L"Failed to create MessageDigest");
+      throw EncryptionException("Failed to create MessageDigest");
 
     return MessageDigest(impl);
   }
@@ -119,7 +119,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve algorithm name");
+      throw EncryptionException("Failed to retrieve algorithm name");
 
     return m_impl->getAlgorithmImpl();
   }
@@ -134,7 +134,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve algorithm name");
+      throw EncryptionException("Failed to retrieve algorithm name");
 
     return m_impl->getDigestLengthImpl();
   }
@@ -149,7 +149,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to reset");
+      throw EncryptionException("Failed to reset");
 
     return m_impl->resetImpl();
   }
@@ -168,7 +168,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(input);
   }
@@ -189,7 +189,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(input, size);
   }
@@ -209,7 +209,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(input);
   }
@@ -230,7 +230,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(str);
   }
@@ -254,7 +254,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(buf, size, offset, len);
   }
@@ -277,7 +277,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->updateImpl(sa, offset, len);
   }
@@ -293,7 +293,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->digestImpl();
   }
@@ -312,7 +312,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->digestImpl(input, size);
   }
@@ -330,7 +330,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->digestImpl(input);
   }
@@ -349,7 +349,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to update digest");
+      throw EncryptionException("Failed to update digest");
 
     return m_impl->digestImpl(input);
   }
@@ -372,7 +372,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve digest");
+      throw EncryptionException("Failed to retrieve digest");
 
     return m_impl->digestImpl(buf, size, offset, len);
   }
@@ -395,7 +395,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve digest");
+      throw EncryptionException("Failed to retrieve digest");
 
     return m_impl->digestImpl(buf, offset, len);
   }

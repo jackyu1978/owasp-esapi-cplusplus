@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
   BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
   BOOST_CHECK(pbs.hasNext());
 
-  pbs.input = "";
+  pbs.input = L"";
   BOOST_CHECK(pbs.hasNext() == false);
 }
 #endif
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
   BOOST_CHECK_MESSAGE(next == L'1', "nextOctal() on 'asdf' returned '" << next << "'");
   BOOST_CHECK(next != 0);
 
-  pbs.input = "9999";
+  pbs.input = L"9999";
   next = pbs.nextOctal();
   BOOST_CHECK(next == 0);
 }

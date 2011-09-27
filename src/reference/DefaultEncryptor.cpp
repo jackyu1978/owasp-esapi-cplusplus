@@ -97,16 +97,16 @@ namespace esapi
     String xform = config.getCipherTransformation();    
     split(xform, L"\\/:", parts);
 
-    ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + xform);
+    ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + TextConvert::WideToNarrow(xform));
     if(parts.size() != 3)
       throw EncryptionException(L"Malformed cipher transformation: " + xform);
 
     const String mode = parts[1];
     bool allowed = CryptoHelper::isAllowedCipherMode(mode);
 
-    ESAPI_ASSERT2(allowed, String(L"Cipher mode '") + mode + L"' is not allowed");
+    ESAPI_ASSERT2(allowed, NarrowString("Cipher mode '") + TextConvert::WideToNarrow(mode) + "' is not allowed");
     if( !allowed )
-      throw EncryptionException(String(L"Cipher mode '") + mode + L"' is not allowed");    
+      throw EncryptionException(NarrowString("Cipher mode '") + TextConvert::WideToNarrow(mode) + "' is not allowed");    
 
     // Cipher encrypter = Cipher::getInstance(xform);
     // String cipherAlg = encrypter.getAlgorithm();

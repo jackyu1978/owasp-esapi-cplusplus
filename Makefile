@@ -203,7 +203,7 @@ override CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
 # Default prefix for make install and uninstall. The names and default values are taken from
 # Stallman's GNU Make, Chapter 14, Section 4, Variables for Installation Directories
 ifeq ($(prefix),)
-prefix = /usr/local
+  prefix = /usr/local
 endif
 
 ifeq ($(exec_prefix),)

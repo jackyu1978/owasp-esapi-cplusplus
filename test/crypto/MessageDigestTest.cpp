@@ -465,11 +465,15 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_1P )
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
   catch(...)
     {
-
+      BOOST_ERROR("Caught unknown exception");
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (1)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 digest");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_2P )
@@ -492,11 +496,15 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_2P )
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
   catch(...)
     {
-
+      BOOST_ERROR("Caught unknown exception");
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (2)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 digest");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_3P )
@@ -519,11 +527,15 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_3P )
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
   catch(...)
     {
-
+      BOOST_ERROR("Caught unknown exception");
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (3)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 digest");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_4P )
@@ -546,11 +558,15 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_4P )
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
   catch(...)
     {
-
+      BOOST_ERROR("Caught unknown exception");
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (4)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 digest");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMD5_5P )
@@ -573,11 +589,15 @@ BOOST_AUTO_TEST_CASE( VerifyMD5_5P )
       md.digest(buf.data(), buf.size(), 0, sz);
       success = (::memcmp(buf.data(), hash, 16) == 0);
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
   catch(...)
     {
-
+      BOOST_ERROR("Caught unknown exception");
     }
-  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 hash (5)");
+  BOOST_CHECK_MESSAGE(success, "Failed to calculate MD5 digest");
 }
 
 /*
