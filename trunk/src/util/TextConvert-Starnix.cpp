@@ -29,7 +29,7 @@ static const std::string WideEncoding = "UTF-32LE";
 static const std::string WideEncoding = "UTF-32BE";
 #endif
 
-static const unsigned int WCHAR_T_SIZE = __SIZEOF_WCHAR_T__;
+static const unsigned int WCHAR_T_SIZE = sizeof(wchar_t);
 
 namespace esapi
 {
@@ -124,7 +124,7 @@ namespace esapi
       }
 
       // Skip the BOM if present
-      if(first && out[0] == 0xFEFF)
+      if(first && outlen >= 1 && out[0] == 0xFEFF)
       {
         const size_t ccb = outbytes - outlen - WCHAR_T_SIZE;
         const wchar_t* next = &out[1];
@@ -224,7 +224,7 @@ namespace esapi
       }
 
       // Skip the BOM if present
-      if(first && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+      if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
       {
         const size_t ccb = outbytes - outlen - 2;
         const char* next = &out[2];
