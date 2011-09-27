@@ -121,11 +121,6 @@ namespace esapi
   private:
 
     boost::shared_ptr<SecureVector> m_vector;
-
-  public:
-
-    // Tame the GCC optimizer
-    volatile void* m_tamer;
   };
 
   // Convenience

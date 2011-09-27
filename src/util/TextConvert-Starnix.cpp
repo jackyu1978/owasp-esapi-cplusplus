@@ -23,14 +23,6 @@
 #include <errno.h>
 #include <endian.h>
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-static const std::string WideEncoding = "UTF-32LE";
-#else
-static const std::string WideEncoding = "UTF-32BE";
-#endif
-
-static const unsigned int WCHAR_T_SIZE = sizeof(wchar_t);
-
 namespace esapi
 {
   /**
@@ -50,6 +42,9 @@ namespace esapi
   private:
     iconv_t m_cd;
   };
+
+  static const std::string WideEncoding = "UTF-32";
+  static const unsigned int WCHAR_T_SIZE = sizeof(wchar_t);
 
   /**
    * Convert a narrow character string to a wide character string. Encoding specifies
@@ -86,61 +81,67 @@ namespace esapi
 
     bool first = true;
     while(inlen != 0)
-    {
-      char* outptr = (char*)&out[0];
-      size_t outlen = outbytes;
-
-      size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
-      int err = errno;
-
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EILSEQ)
       {
-        std::ostringstream oss;
-        oss << "TextConvert::NarrowToWide failed (3, EILSEQ). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        char* outptr = (char*)&out[0];
+        size_t outlen = outbytes;
+
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EILSEQ)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::NarrowToWide failed (3, EILSEQ). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EINVAL)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::NarrowToWide failed (4, EINVAL). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EINVAL)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::NarrowToWide failed (4, EINVAL). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // Failed to convert all input characters
-      ASSERT(nonconv == 0);
-      if(nonconv != 0)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::NarrowToWide failed (5). Failed to convert a multibyte character ";
-        oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // Failed to convert all input characters
+        ASSERT(nonconv == 0);
+        if(nonconv != 0)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::NarrowToWide failed (5). Failed to convert a multibyte character ";
+            oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            throw InvalidArgumentException(oss.str());
+          }
 
-      // Skip the BOM if present
-      if(first && outlen >= 1 && out[0] == 0xFEFF)
-      {
-        const size_t ccb = outbytes - outlen - WCHAR_T_SIZE;
-        const wchar_t* next = &out[1];
-        const wchar_t* first = next;
-        const wchar_t* last = (wchar_t*)((char*)next + ccb);
-        temp.append(first, last);
+        // Skip the BOM if present
+        if(first && outlen >= 1 && (out[0] == 0xFEFF || out[0] == 0xFFFE))
+          {
+            const size_t ccb = outbytes - outlen - WCHAR_T_SIZE;
+            if(ccb)
+              {
+                const wchar_t* next = &out[1];
+                const wchar_t* first = next;
+                const wchar_t* last = (wchar_t*)((char*)next + ccb);
+                temp.append(first, last);
+              }
+          }
+        else
+          {
+            const size_t ccb = outbytes - outlen;
+            if(ccb)
+              {
+                const wchar_t* first = out;
+                const wchar_t* last = (wchar_t*)((char*)out + ccb);
+                temp.append(first, last);
+              }
+          }
+        first = false;
       }
-      else
-      {
-        const size_t ccb = outbytes - outlen;
-        const wchar_t* first = out;
-        const wchar_t* last = (wchar_t*)((char*)out + ccb);
-        temp.append(first, last);
-      }
-      first = false;
-    }
 
     WideString wstr;
     wstr.swap(temp);
@@ -149,8 +150,8 @@ namespace esapi
   }
 
   /**
-  * Convert a wide character string to a UTF-8 character string. Used by exception classes.
-  */
+   * Convert a wide character string to a UTF-8 character string. Used by exception classes.
+   */
   NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
   {
     return NarrowString("Not yet implemented");
@@ -186,60 +187,66 @@ namespace esapi
 
     bool first = true;
     while(inlen != 0)
-    {
-      char* outptr = (char*)&out[0];
-      size_t outlen = outbytes;
-
-      size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
-      int err = errno;
-
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EILSEQ)
       {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        char* outptr = (char*)&out[0];
+        size_t outlen = outbytes;
+
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EILSEQ)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EINVAL)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EINVAL)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // Failed to convert all input characters
-      ASSERT(nonconv == 0);
-      if(nonconv != 0)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
-        oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // Failed to convert all input characters
+        ASSERT(nonconv == 0);
+        if(nonconv != 0)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
+            oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
 
-      // Skip the BOM if present
-      if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
-      {
-        const size_t ccb = outbytes - outlen - 2;
-        const char* next = &out[2];
-        const char* first = next;
-        const char* last = (char*)((char*)next + ccb);
-        temp.append(first, last);
+        // Skip the BOM if present
+        if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+          {
+            const size_t ccb = outbytes - outlen - 2;
+            if(ccb)
+              {
+                const char* next = &out[2];
+                const char* first = next;
+                const char* last = (char*)((char*)next + ccb);
+                temp.append(first, last);
+              }
+          }
+        else
+          {
+            const size_t ccb = outbytes - outlen;
+            if(ccb)
+              {
+                const char* first = out;
+                const char* last = (char*)((char*)out + ccb);
+                temp.append(first, last);
+              }
+          }      
       }
-      else
-      {
-        const size_t ccb = outbytes - outlen;
-        const char* first = out;
-        const char* last = (char*)((char*)out + ccb);
-        temp.append(first, last);
-      }      
-    }
 
     first = false;
 
@@ -279,58 +286,64 @@ namespace esapi
 
     bool first = true;
     while(inlen != 0)
-    {
-      char* outptr = (char*)&out[0];
-      size_t outlen = outbytes;
-
-      size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
-      int err = errno;
-
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EILSEQ)
       {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        char* outptr = (char*)&out[0];
+        size_t outlen = outbytes;
+
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EILSEQ)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // An invalid multibyte sequence is encountered in the input.
-      ASSERT(nonconv != (size_t)-1);
-      if(nonconv == (size_t)-1 && err == EINVAL)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
-        oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // An invalid multibyte sequence is encountered in the input.
+        ASSERT(nonconv != (size_t)-1);
+        if(nonconv == (size_t)-1 && err == EINVAL)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
+            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
       
-      // Failed to convert all input characters
-      ASSERT(nonconv == 0);
-      if(nonconv != 0)
-      {
-        std::ostringstream oss;
-        oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
-        oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-        throw InvalidArgumentException(oss.str());
-      }
+        // Failed to convert all input characters
+        ASSERT(nonconv == 0);
+        if(nonconv != 0)
+          {
+            std::ostringstream oss;
+            oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
+            oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            throw InvalidArgumentException(oss.str());
+          }
 
-      // Skip the BOM if present
-      if(first && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
-      {
-        const size_t ccb = outbytes - outlen - 2;
-        const byte* next = (byte*)&out[2];
-        const byte* first = next;
-        temp.insert(temp.end(), first, ccb);
+        // Skip the BOM if present
+        if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+          {
+            const size_t ccb = outbytes - outlen - 2;
+            if(ccb)
+              {
+                const byte* next = (byte*)&out[2];
+                const byte* first = next;
+                temp.insert(temp.end(), first, ccb);
+              }
+          }
+        else
+          {
+            const size_t ccb = outbytes - outlen;
+            if(ccb)
+              {
+                const byte* first = (byte*)out;
+                temp.insert(temp.end(), first, ccb);
+              }
+          }      
       }
-      else
-      {
-        const size_t ccb = outbytes - outlen;
-        const byte* first = (byte*)out;
-        temp.insert(temp.end(), first, ccb);
-      }      
-    }
 
     first = false;
 
