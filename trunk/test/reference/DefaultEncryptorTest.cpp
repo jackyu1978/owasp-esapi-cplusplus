@@ -79,15 +79,10 @@ BOOST_AUTO_TEST_CASE( VerifyHash1 )
 
       const String expected = L"KYiahqQx3B2tJ8B8E+6FUqbD3K6UBwVoUrH6SnliOwXEe4GVHMn0pPtBiApZAmwdj7J926DUL4sk5UrE6u8bIw==";
       success = (encoded == expected);
-
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
-    }
-  catch(EncryptionException&)
-    {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
@@ -115,15 +110,10 @@ BOOST_AUTO_TEST_CASE( VerifyHash2 )
       const String expected = L"dLaQQLg7HsFej/So/DcUa5vsIOHSUj9aGcl/z64i7E4tw+2mg+PV7S/OmejoQ6got1bruemmoDij0HMjLz+2ZA==";
 
       success = (encoded == expected);
-
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
-    }
-  catch(EncryptionException&)
-    {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
@@ -146,15 +136,10 @@ BOOST_AUTO_TEST_CASE( VerifyHash3 )
 
       const String expected = L"0TWsPVOabzwKNp6kYU+oM2vrCKwfchfjkb4amCuFaYxqK3lvBiPDH6AjsAmpEVwitmlU+8HCXUouWlCzNIZz6w==";
       success = (encoded == expected);
-
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
-    }
-  catch(EncryptionException&)
-    {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
@@ -177,15 +162,10 @@ BOOST_AUTO_TEST_CASE( VerifyHash4 )
 
       const String expected = L"l0g3Av17sYmQFFkdlrskfxpGBuyKhwMg8hvoklaa0fIKV224f0tv4/B2Y0+ckuxjaBnldK86l310EKyYsHsCNQ==";
       success = (encoded == expected);
-
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
-    }
-  catch(EncryptionException&)
-    {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
@@ -208,15 +188,10 @@ BOOST_AUTO_TEST_CASE( VerifyHash5 )
 
       const String expected = L"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
       success = (encoded == expected);
-
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      BOOST_ERROR("Caught InvalidArgumentException");
-    }
-  catch(EncryptionException&)
-    {
-      BOOST_ERROR("Caught EncryptionException");
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {

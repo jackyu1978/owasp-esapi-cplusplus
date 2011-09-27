@@ -35,6 +35,8 @@ using std::ostream;
 #include <util/SecureArray.h>
 using esapi::SecureIntArray;
 
+static volatile void* g_tamer = NULL;
+
 BOOST_AUTO_TEST_CASE( SecureIntArrayTest_1P )
 {
   // Construction
@@ -85,7 +87,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_4N )
     const int* ptr = NULL;
     SecureIntArray vv(ptr, 0);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -101,7 +103,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_5P )
     SecureIntArray vv(ptr, 0);
     success &= (vv.size() == 0);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = false;
   }
@@ -118,7 +120,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_6P )
     success &= (vv.size() == 0);
     success &= (vv.data() == nullptr);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = false;
   }
@@ -133,7 +135,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_7N )
     const int* ptr = (const int*)((size_t)0 - sizeof(int));
     SecureIntArray vv(ptr, 8);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -149,7 +151,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_8N )
     SecureIntArray vv;
     vv.assign(ptr, 8);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -165,7 +167,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9N )
     SecureIntArray vv;
     vv.insert(vv.begin(), ptr, 8);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -181,7 +183,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10N )
     SecureIntArray vv;
     vv.insert(vv.end(), ptr, 8);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -193,13 +195,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_11P )
   bool success = true;
   try
   {
-    const int ptr[] = { 2, 2, 2, 2 };
+    const int arr[] = { 2, 2, 2, 2 };
     SecureIntArray vv(4);
-    vv.assign(ptr, COUNTOF(ptr));
+    vv.assign(arr, COUNTOF(arr));
+    g_tamer = (void*)vv.size();
+
     success &= (vv.size() == 4);
-    success &= (::memcmp(vv.data(), ptr, 4*sizeof(int)) == 0);
+    success &= (::memcmp(vv.data(), arr, sizeof(arr)) == 0);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = false;
   }
@@ -214,13 +218,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_12P )
     const int ptr[] = { 2, 2 };
     SecureIntArray vv(2);
     vv.insert(vv.begin(), ptr, COUNTOF(ptr));
+    g_tamer = (void*)vv.size();
+
     success &= (vv.size() == 4);
     success &= (vv[0] == 2);
     success &= (vv[1] == 2);
     success &= (vv[2] == 0);
     success &= (vv[3] == 0);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = false;
   }
@@ -235,13 +241,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_13P )
     const int ptr[] = { 2, 2 };
     SecureIntArray vv(2);
     vv.insert(vv.end(), ptr, COUNTOF(ptr));
+    g_tamer = (void*)vv.size();
+
     success &= (vv.size() == 4);
     success &= (vv[0] == 0);
     success &= (vv[1] == 0);
     success &= (vv[2] == 2);
     success &= (vv[3] == 2);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = false;
   }
@@ -257,7 +265,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_14N )
     SecureIntArray vv;
     vv.assign(ptr, vv.max_size()+1);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -273,7 +281,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_15N )
     SecureIntArray vv;
     vv.insert(vv.begin(), ptr, vv.max_size()+1);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
@@ -289,10 +297,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
     SecureIntArray vv(16);
     vv.insert(vv.begin(), ptr, vv.max_size()-1);
   }
-  catch(std::exception&)
+  catch(const std::exception&)
   {
     success = true;
   }
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
+  BOOST_MESSAGE("Unused " << g_tamer);
 }
 
