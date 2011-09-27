@@ -215,6 +215,7 @@ namespace esapi
     : m_vector(sa.m_vector)
   {
     ASSERT(m_vector.get());
+    ASSERT(m_vector->size() == sa.m_vector->size());
   }
 
   template <typename T>
@@ -223,8 +224,9 @@ namespace esapi
     if(this != &sa)
       {
         m_vector = sa.m_vector;
-      }
+      }    
     ASSERT(m_vector.get());
+    ASSERT(m_vector->size() == sa.m_vector->size());
     return *this;
   }
 

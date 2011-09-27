@@ -336,6 +336,7 @@ ifeq ($(GNU_LD216_OR_LATER),1)
 endif
 
 LDLIBS 		+= -lcryptopp -lboost_regex
+TESTCXXFLAGS += $(CPPFLAGS) $(subst -O2,-O0,$(CXXFLAGS))
 TESTLDFLAGS	+= -L/usr/local/lib -L/usr/lib
 TESTLDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
@@ -371,7 +372,7 @@ release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
 test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) $(TESTLDFLAGS) $(TESTLDLIBS) lib/$(DYNAMIC_LIB)
+	$(CXX) $(TESTCXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) $(TESTLDFLAGS) $(TESTLDLIBS) lib/$(DYNAMIC_LIB)
 	./$(TESTTARGET)
 
 directories:
