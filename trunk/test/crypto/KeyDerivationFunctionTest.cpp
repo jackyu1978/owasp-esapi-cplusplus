@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
 
   try
     {
-      SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, "");
+      SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, L"");
     }
   catch(...)
     {
