@@ -20,14 +20,27 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT NullPointerException : public EnterpriseSecurityException
-{
-public:
-	explicit NullPointerException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT NullPointerException : public EnterpriseSecurityException
   {
-  }
-};
+  public:
+    explicit NullPointerException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit NullPointerException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit NullPointerException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit NullPointerException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE
 

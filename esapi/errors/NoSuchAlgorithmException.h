@@ -32,6 +32,15 @@ namespace esapi {
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }
+
+    explicit NoSuchAlgorithmException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit NoSuchAlgorithmException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
   };
 
   // static const NoSuchAlgorithmException dummy(L"unused");

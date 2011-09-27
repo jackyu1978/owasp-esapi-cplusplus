@@ -46,11 +46,23 @@ namespace esapi
      * @param logMessage
      *                        the message logged
      */
-  ValidationException(const String &userMessage, const String &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage), context() { }
+    explicit ValidationException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit ValidationException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
 
-  ValidationException(const NarrowString &userMessage, const NarrowString &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage), context() { }
+    explicit ValidationException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit ValidationException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
 
     /**
      * Creates a new instance of ValidationException.

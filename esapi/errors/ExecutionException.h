@@ -19,13 +19,26 @@
 // TODO: Finish Porting from Java
 namespace esapi {
 
-class ESAPI_EXPORT ExecutionException : public EnterpriseSecurityException
-{
-public:
-	explicit ExecutionException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT ExecutionException : public EnterpriseSecurityException
   {
-  }
-};
+  public:
+    explicit ExecutionException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit ExecutionException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit ExecutionException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit ExecutionException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE

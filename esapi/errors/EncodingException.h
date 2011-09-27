@@ -20,13 +20,26 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT EncodingException : public EnterpriseSecurityException
-{
-public:
-	explicit EncodingException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT EncodingException : public EnterpriseSecurityException
   {
-  }
-};
+  public:
+    explicit EncodingException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit EncodingException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit EncodingException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit EncodingException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE

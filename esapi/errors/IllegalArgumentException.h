@@ -20,18 +20,27 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT IllegalArgumentException : public EnterpriseSecurityException
-{
-public:
-	explicit IllegalArgumentException(const String &message)
-    : EnterpriseSecurityException(message, message)
+  class ESAPI_EXPORT IllegalArgumentException : public EnterpriseSecurityException
   {
-  }
-  	explicit IllegalArgumentException(const String &userMessage, const String &logMessage)
-    : EnterpriseSecurityException(userMessage, logMessage)
-  {
-  }
-};
+  public:
+    explicit IllegalArgumentException(const String &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit IllegalArgumentException(const String &userMessage, const String &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+
+    explicit IllegalArgumentException(const NarrowString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit IllegalArgumentException(const NarrowString &userMessage, const NarrowString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
+  };
 
 } // NAMESPACE
 
