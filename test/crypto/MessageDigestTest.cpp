@@ -60,29 +60,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_1P )
       MessageDigest md00();
       success = true;
     }
-  catch(esapi::NoSuchAlgorithmException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught NoSuchAlgorithmException" << endl;
-    }
-  catch(esapi::InvalidArgumentException&)
-    {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(esapi::EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to create digest");
 }
@@ -96,29 +80,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_2P )
       MessageDigest md01 = MessageDigest::getInstance();
       success = true;
     }
-  catch(esapi::NoSuchAlgorithmException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught NoSuchAlgorithmException" << endl;
-    }
-  catch(esapi::InvalidArgumentException&)
-    {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(esapi::EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to create digest");
 }
@@ -136,25 +104,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_3N )
     {
       success = true;
     }
-  catch(esapi::InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(esapi::EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -172,25 +128,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_4N )
     {
       success = true;
     }
-  catch(esapi::InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(esapi::EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -207,25 +151,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_5N )
     {
       success = true;
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -243,25 +175,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_6N )
     {
       success = true;
     }
-  catch(InvalidArgumentException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
-  catch(EncryptionException&)
-    {
-      cerr << "!!Caught EncryptionException" << endl;
-    }
-  catch(std::runtime_error&)
-    {
-      cerr << "!!Caught runtime_error" << endl;
-    }
-  catch (std::exception&)
-    {
-      cerr << "!!Caught exception" << endl;
+      BOOST_ERROR(ex.what());
     }
   catch(...)
     {
-      cerr << "!!Caught unknown exception" << endl;
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to catch NoSuchAlgorithmException");
 }
@@ -289,9 +209,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_8N )
     {   
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught EncryptionException" << endl;
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (digest)");
 
@@ -317,9 +241,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_9N )
     {
       success = true;
     }
-  catch(EncryptionException& ex)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught EncryptionException" << endl;
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on under-sized buffer (digest)");
 }
@@ -335,13 +263,17 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_10N )
       const size_t size = md5.getDigestLength();
       md5.digest((byte*)ptr, size, 0, size);
     }
-  catch(InvalidArgumentException& ex)
-    {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
   catch(EncryptionException& ex)
     {
       success = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (digest)");
 }
@@ -355,14 +287,15 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_11N )
       success = false;
       MessageDigest md6(MessageDigest::getInstance());
       md6.update((byte*)nullptr, 0, 0, 0);
-    }
-  catch(InvalidArgumentException&)
-    {   
       success = true;
     }
-  catch(EncryptionException&)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught EncryptionException" << endl;
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on NULL/0 buffer (update)");
 }
@@ -378,13 +311,17 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_12N )
       const size_t ptr = ((size_t)-1) - 7;
       md7.update((byte*)ptr, md7.getDigestLength(), 0, 4);
     }
-  catch(InvalidArgumentException& ex)
-    {
-      cerr << "!!Caught InvalidArgumentException" << endl;
-    }
   catch(EncryptionException& ex)
     {
       success = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on integer wrap (update)");
 }
@@ -405,9 +342,13 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_13N )
     {
       success = true;
     }
-  catch(EncryptionException& ex)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught EncryptionException" << endl;
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (digest)");
 }
@@ -428,12 +369,15 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_14N )
     {
       success = true;
     }
-  catch(EncryptionException& ex)
+  catch(const std::exception& ex)
     {
-      cerr << "!!Caught EncryptionException" << endl;
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unkown exception");
     }
   BOOST_CHECK_MESSAGE(success, "Failed to throw on exceed bounds (update)");
-
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigestThreads )
