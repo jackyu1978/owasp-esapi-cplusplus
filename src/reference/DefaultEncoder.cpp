@@ -375,8 +375,11 @@ namespace esapi
     if ( input.empty() )
       return String();
 
+    SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
+    ASSERT( !sa.empty() );
+
     std::string encoded;
-    CryptoPP::StringSource((const byte*)input.data(), input.size(), true,
+    CryptoPP::StringSource(sa.data(), sa.size(), true,
       new CryptoPP::Base64Encoder(new CryptoPP::StringSink(encoded), wrap));
 
     return TextConvert::NarrowToWide(encoded);
@@ -390,8 +393,11 @@ namespace esapi
     if ( input.empty() )
       return String();
 
+    SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
+    ASSERT( !sa.empty() );
+
     std::string decoded;
-    CryptoPP::StringSource((const byte*)input.data(), input.size(), true,
+    CryptoPP::StringSource(sa.data(), sa.size(), true,
       new CryptoPP::Base64Decoder(new CryptoPP::StringSink(decoded)));
 
     return TextConvert::NarrowToWide(decoded);
