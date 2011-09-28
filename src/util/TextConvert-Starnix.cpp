@@ -108,7 +108,7 @@ namespace esapi
             throw InvalidArgumentException(oss.str());
           }
       
-        // Failed to convert all input characters
+        // Failed to convert all input characters. {-1, E2BIG } is expected.
         ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
         if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
@@ -118,31 +118,18 @@ namespace esapi
             oss << ". Return = " << nonconv << ", errno = " << err;
             throw InvalidArgumentException(oss.str());
           }
-
-        // Skip the BOM if present
-        if(first && outlen >= 1 && (out[0] == (wchar_t)0xfeff || out[0] == (wchar_t)0xfffe))
+        
+        const size_t ccb = outbytes - outlen;
+        if(ccb)
           {
-            const size_t ccb = outbytes - outlen - WCHAR_T_SIZE;
-            if(ccb)
-              {
-                const wchar_t* next = &out[1];
-                const wchar_t* first = next;
-                const wchar_t* last = (wchar_t*)((char*)next + ccb);
-                temp.append(first, last);
-              }
+            const wchar_t* first = out;
+            const wchar_t* last = (wchar_t*)((char*)out + ccb);
+            temp.append(first, last);
           }
-        else
-          {
-            const size_t ccb = outbytes - outlen;
-            if(ccb)
-              {
-                const wchar_t* first = out;
-                const wchar_t* last = (wchar_t*)((char*)out + ccb);
-                temp.append(first, last);
-              }
-          }
-        first = false;
       }
+
+    if(temp.size() >= 1 && (temp[0] == 0xfeff || temp[0] == 0xfffe))
+      temp.erase(temp.begin(), temp.begin()+1);
 
     WideString wstr;
     wstr.swap(temp);
@@ -215,7 +202,7 @@ namespace esapi
             throw InvalidArgumentException(oss.str());
           }
       
-        // Failed to convert all input characters
+        // Failed to convert all input characters. {-1, E2BIG } is expected.
         ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
         if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
@@ -226,31 +213,17 @@ namespace esapi
             throw InvalidArgumentException(oss.str());
           }
 
-        // Skip the BOM if present
-        if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+        const size_t ccb = outbytes - outlen;
+        if(ccb)
           {
-            const size_t ccb = outbytes - outlen - 2;
-            if(ccb)
-              {
-                const char* next = &out[2];
-                const char* first = next;
-                const char* last = (char*)((char*)next + ccb);
-                temp.append(first, last);
-              }
+            const char* first = out;
+            const char* last = (char*)((char*)out + ccb);
+            temp.append(first, last);
           }
-        else
-          {
-            const size_t ccb = outbytes - outlen;
-            if(ccb)
-              {
-                const char* first = out;
-                const char* last = (char*)((char*)out + ccb);
-                temp.append(first, last);
-              }
-          }      
       }
 
-    first = false;
+    if(temp.size() >= 2 && ((temp[0] == 0xfe && temp[1] == 0xff) || (temp[0] == 0xff && temp[1] == 0xfe)))
+      temp.erase(temp.begin(), temp.begin()+2);
 
     NarrowString nstr;
     nstr.swap(temp);
@@ -286,7 +259,6 @@ namespace esapi
     char* inptr = (char*)&wstr[0];
     size_t inlen = wstr.length() * WCHAR_T_SIZE;
 
-    bool first = true;
     while(inlen != 0)
       {
         char* outptr = (char*)&out[0];
@@ -315,7 +287,7 @@ namespace esapi
             throw InvalidArgumentException(oss.str());
           }
       
-        // Failed to convert all input characters
+        // Failed to convert all input characters. {-1, E2BIG } is expected.
         ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
         if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
@@ -326,29 +298,16 @@ namespace esapi
             throw InvalidArgumentException(oss.str());
           }
 
-        // Skip the BOM if present
-        if(first && outlen >= 2 && ((out[0] == 0xFE && out[1] == 0xFF) || (out[0] == 0xFF && out[1] == 0xFE)) )
+        const size_t ccb = outbytes - outlen;
+        if(ccb)
           {
-            const size_t ccb = outbytes - outlen - 2;
-            if(ccb)
-              {
-                const byte* next = (byte*)&out[2];
-                const byte* first = next;
-                temp.insert(temp.end(), first, ccb);
-              }
-          }
-        else
-          {
-            const size_t ccb = outbytes - outlen;
-            if(ccb)
-              {
-                const byte* first = (byte*)out;
-                temp.insert(temp.end(), first, ccb);
-              }
-          }      
+            const byte* first = (byte*)out;
+            temp.insert(temp.end(), first, ccb);
+          }     
       }
 
-    first = false;
+    if(temp.size() && (*temp.begin() == 0xfeff || *temp.begin() == 0xfffe))
+      temp.erase(temp.begin(), temp.begin()+1);
 
     SecureByteArray sba;
     sba.swap(temp);
