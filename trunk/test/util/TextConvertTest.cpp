@@ -37,6 +37,7 @@ using esapi::TextConvert;
 
 static const WideString wide = L"\u9aa8";
 static const NarrowString narrow("\xe9\xaa\xa8");
+static const size_t DumpMax = 8;
 
 BOOST_AUTO_TEST_CASE( TextConvertTest_1P )
 {
@@ -46,11 +47,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_1P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < n.length(); ii++)
+  for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
   BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
@@ -64,11 +65,12 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_2P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & e[ii]);
+  oss << ", ...";
 
   oss << ", got ";
-  for(size_t ii = 0; ii < w.length(); ii++)
+  for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
   BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
@@ -82,11 +84,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_3P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < n.length(); ii++)
+  for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
   BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
@@ -100,11 +102,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_4P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < w.length(); ii++)
+  for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
   BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
@@ -118,11 +120,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_5P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < n.length(); ii++)
+  for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
   BOOST_CHECK_MESSAGE(n == e, "Failed to down convert 'aa'. " + oss.str());
@@ -136,11 +138,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_6P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < w.length(); ii++)
+  for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
   BOOST_CHECK_MESSAGE(w == e, "Failed to up convert 'aa'. " + oss.str());
@@ -155,11 +157,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_7P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < n.length(); ii++)
+  for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
   BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (1). " + oss.str());
@@ -174,11 +176,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_8P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < w.length(); ii++)
+  for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
   BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (2). " + oss.str());
@@ -193,11 +195,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_9P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < w.length(); ii++)
+  for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
     oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
   BOOST_CHECK_MESSAGE(w == e, "Failed the Chinese Bone Test (3). " + oss.str());
@@ -212,11 +214,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_10P )
 
   std::ostringstream oss;
   oss << "Expected";
-  for(size_t ii = 0; ii < e.length(); ii++)
+  for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & e[ii]);
 
   oss << ", got ";
-  for(size_t ii = 0; ii < n.length(); ii++)
+  for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
     oss << " " << HEX(2) << int(0xFF & n[ii]);
 
   BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (4). " + oss.str());
@@ -270,11 +272,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_13P )
 
       std::ostringstream oss;
       oss << "Expected";
-      for(size_t ii = 0; ii < e.length(); ii++)
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
         oss << " " << HEX(2) << int(0xFF & e[ii]);
 
       oss << ", got ";
-      for(size_t ii = 0; ii < n.length(); ii++)
+      for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
         oss << " " << HEX(2) << int(0xFF & n[ii]);
 
       BOOST_CHECK_MESSAGE(n == e, "Failed to down convert letter 'a'. " + oss.str());
@@ -297,11 +299,11 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_14P )
 
       std::ostringstream oss;
       oss << "Expected";
-      for(size_t ii = 0; ii < e.length(); ii++)
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & e[ii]);
 
       oss << ", got ";
-      for(size_t ii = 0; ii < w.length(); ii++)
+      for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & w[ii]);
 
       BOOST_CHECK_MESSAGE(w == e, "Failed to up convert letter 'a'. " + oss.str());
@@ -328,15 +330,13 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_15P )
       WideString w = TextConvert::NarrowToWide(n);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & w[ii]);
       oss << ", ...";
 
@@ -364,16 +364,14 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_16P )
       NarrowString n = TextConvert::WideToNarrow(w);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & n[ii]);
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & e[ii]);
+      for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & n[ii]);
       oss << ", ...";
 
       BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (2, 0, repeat). " + oss.str());
@@ -400,15 +398,13 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_17P )
       WideString w = TextConvert::NarrowToWide(n);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & w[ii]);
       oss << ", ...";
 
@@ -436,16 +432,14 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_18P )
       NarrowString n = TextConvert::WideToNarrow(w);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & n[ii]);
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & e[ii]);
+      for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & n[ii]);
       oss << ", ...";
 
       BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (4, 1, repeat). " + oss.str());
@@ -472,15 +466,13 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_19P )
       WideString w = TextConvert::NarrowToWide(n);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), w.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
+      for(size_t ii = 0; ii < std::min(w.length(), DumpMax); ii++)
         oss << " " << HEX(4) << int(0xFFFF & w[ii]);
       oss << ", ...";
 
@@ -508,16 +500,14 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_20P )
       NarrowString n = TextConvert::WideToNarrow(w);
 
       std::ostringstream oss;
-      size_t kk = std::min(std::min(e.length(), n.length()), (size_t)16);
-
       oss << "Expected";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & n[ii]);
+      for(size_t ii = 0; ii < std::min(e.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & e[ii]);
       oss << ", ...";
 
       oss << ", got ";
-      for(size_t ii = 0; ii < kk; ii++)
-        oss << " " << HEX(2) << int(0xFF & e[ii]);
+      for(size_t ii = 0; ii < std::min(n.length(), DumpMax); ii++)
+        oss << " " << HEX(2) << int(0xFF & n[ii]);
       oss << ", ...";
 
       BOOST_CHECK_MESSAGE(n == e, "Failed the Chinese Bone Test (6, 2, repeat). " + oss.str());
