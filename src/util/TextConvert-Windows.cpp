@@ -195,90 +195,15 @@ namespace esapi
   */
   NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
   {
-    ASSERT( !wstr.empty() );
-    if(wstr.empty()) return NarrowString();
-
+    // This can still throw via the string
     try
     {
-      SafeInt<size_t> sz(wstr.size());
-      INT dw = (INT)sz;
-      UNUSED_VARIABLE(dw);
+      return WideToNarrow(wstr);
     }
-    catch(SafeIntException&) {
-      return NarrowString("TextConvert::WideToNarrowNoThrow: message string is too large (1)");
-    }
-
-    const DWORD dwFlags = WC_ERR_INVALID_CHARS | WC_NO_BEST_FIT_CHARS;
-
-    // If the function succeeds and cbMultiByte is 0, the return value is the required size, in bytes,
-    // for the buffer indicated by lpMultiByteStr.
-    DWORD dwReq = WideCharToMultiByte(CP_UTF8, dwFlags, wstr.data(), (INT)wstr.size(), NULL, 0, NULL, NULL);
-    ASSERT(dwReq > 0);
-    if( !(dwReq > 0) )
-      return NarrowString("TextConvert::WideToNarrowNoThrow failed (1)");
-
-    try
+    catch(const InvalidArgumentException&)
     {
-      SafeInt<size_t> sz(dwReq);
-      INT dw = (INT)sz;
-      UNUSED_VARIABLE(dw);
-    }
-    catch(SafeIntException&) {
-      return NarrowString("TextConvert::WideToNarrowNoThrow: message string is too large (2)");
     }
 
-    SecureByteArray arr(dwReq);
-
-    // Returns the number of bytes written to the buffer pointed to by lpMultiByteStr if successful.    
-    DWORD dwWritten = WideCharToMultiByte(CP_UTF8, dwFlags, wstr.data(), (INT)wstr.size(), (LPSTR)arr.data(), (INT)arr.size(), NULL, NULL);
-    ASSERT(dwWritten == dwReq);
-    if(dwWritten != dwReq)
-      return NarrowString("TextConvert::WideToNarrowNoThrow failed (2)");
-
-    // WideCharToMultiByte does not null-terminate an output string if the input string length is explicitly
-    // specified without a terminating null character.
-    return NarrowString(arr.begin(), arr.end());
-  }
-
-  SecureByteArray TextConvert::GetBytes(const String& wstr, const Encoding& enc)
-  {
-    ASSERT( !wstr.empty() );
-    if(wstr.empty()) return SecureByteArray();
-
-    try
-    {
-      SafeInt<size_t> sz(wstr.size());
-      INT dw = (INT)sz;
-      UNUSED_VARIABLE(dw);
-    }
-    catch(SafeIntException&)
-    {
-      throw InvalidArgumentException("TextConvert::GetBytes: string is too large");
-    }
-
-    const UINT cpage = EncodingToWindowsCodePage(enc);
-    const bool MustBeZero = (65001  == cpage || 42 == cpage || 50220 == cpage || 50221 == cpage ||
-      50222 == cpage ||  50225 == cpage || 50227 == cpage || 50229 == cpage || (cpage >= 57002 &&
-      cpage <= 57011) || 65000 == cpage || 54936  == cpage);    
-
-    // If the function succeeds and cbMultiByte is 0, the return value is the required size, in bytes,
-    // for the buffer indicated by lpMultiByteStr.
-    const DWORD dwFlags = (MustBeZero ? 0 : WC_ERR_INVALID_CHARS | WC_NO_BEST_FIT_CHARS);
-    DWORD dwReq = WideCharToMultiByte(cpage, dwFlags, wstr.data(), (INT)wstr.size(), NULL, 0, NULL, NULL);
-    ASSERT(dwReq > 0);
-    if( !(dwReq > 0) )
-      throw InvalidArgumentException("TextConvert::GetBytes failed (1)");
-
-    SecureByteArray arr(dwReq);
-
-    // Returns the number of bytes written to the buffer pointed to by lpMultiByteStr if successful.    
-    DWORD dwWritten = WideCharToMultiByte(cpage, dwFlags, wstr.data(), (INT)wstr.size(), (LPSTR)arr.data(), (INT)arr.size(), NULL, NULL);
-    ASSERT(dwWritten == dwReq);
-    if(dwWritten != dwReq)
-      throw InvalidArgumentException("TextConvert::GetBytes failed (2)");
-
-    // WideCharToMultiByte does not null-terminate an output string if the input string length is explicitly
-    // specified without a terminating null character.
-    return arr;
+    return NarrowString("TextConvert::WideToNarrowNoThrow failed");
   }
 }
