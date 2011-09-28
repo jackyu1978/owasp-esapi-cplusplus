@@ -25,10 +25,6 @@ using std::endl;
 #include <algorithm>
 using std::equal;
 
-#include <string>
-using std::char_traits;
-using std::basic_string;
-
 #include <sstream>
 using std::ostream;
 

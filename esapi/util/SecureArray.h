@@ -47,9 +47,8 @@ namespace esapi
     // Construction
     explicit SecureArray(size_type n = 0, const T value = T());
     explicit SecureArray(const T* ptr, size_t cnt);
-
     template <class InputIterator>
-    SecureArray(InputIterator first, InputIterator last);
+      SecureArray(InputIterator first, InputIterator last);
 
     // Destruction
     ~SecureArray() { }
@@ -99,16 +98,16 @@ namespace esapi
     T* data();
     const T* data() const;
 
-    void assign(size_type n, const T& u) GCC_NO_OPTIMIZE;
-    void assign(const T* ptr, size_t cnt) GCC_NO_OPTIMIZE;
+    void assign(size_type n, const T& u);
+    void assign(const T* ptr, size_t cnt);
     template <class InputIterator>
-    void assign(InputIterator first, InputIterator last) GCC_NO_OPTIMIZE;
+      void assign(InputIterator first, InputIterator last);
 
-    iterator insert(iterator pos, const T& x) GCC_NO_OPTIMIZE;
-    void insert(iterator pos, size_type n, const T& x) GCC_NO_OPTIMIZE;
-    void insert(iterator pos, const T* ptr, size_t cnt) GCC_NO_OPTIMIZE;
+    iterator insert(iterator pos, const T& x);
+    void insert(iterator pos, size_type n, const T& x);
+    void insert(iterator pos, const T* ptr, size_t cnt);
     template <class InputIterator>
-    void insert(iterator pos, InputIterator first, InputIterator last) GCC_NO_OPTIMIZE;
+      void insert(iterator pos, InputIterator first, InputIterator last);
 
     iterator erase(iterator pos);
     iterator erase(iterator first, iterator last);

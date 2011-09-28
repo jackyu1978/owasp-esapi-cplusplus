@@ -301,11 +301,5 @@ ESAPI_MS_NO_WARNING(4505)
 #define UNUSED_PARAMETER(x) ((void)x)
 #define UNUSED_VARIABLE(x) ((void)x)
 
-#if defined(ESAPI_CXX_GCC)
-# define GCC_NO_OPTIMIZE __attribute__((optimize(0)))
-#else
-# define GCC_NO_OPTIMIZE
-#endif
-
 // Defines the Char, String and typees such as Array
 #include "EsapiTypes.h"
