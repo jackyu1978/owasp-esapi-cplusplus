@@ -109,17 +109,18 @@ namespace esapi
           }
       
         // Failed to convert all input characters
-        ASSERT(nonconv == 0);
-        if(nonconv != 0)
+        ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
+        if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
             std::ostringstream oss;
             oss << "TextConvert::NarrowToWide failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            oss << ". Return = " << nonconv << ", errno = " << err;
             throw InvalidArgumentException(oss.str());
           }
 
         // Skip the BOM if present
-        if(first && outlen >= 1 && (out[0] == 0xFEFF || out[0] == 0xFFFE))
+        if(first && outlen >= 1 && (out[0] == (wchar_t)0xfeff || out[0] == (wchar_t)0xfffe))
           {
             const size_t ccb = outbytes - outlen - WCHAR_T_SIZE;
             if(ccb)
@@ -215,12 +216,13 @@ namespace esapi
           }
       
         // Failed to convert all input characters
-        ASSERT(nonconv == 0);
-        if(nonconv != 0)
+        ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
+        if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Return = " << nonconv << ", errno = " << err;
             throw InvalidArgumentException(oss.str());
           }
 
@@ -314,12 +316,13 @@ namespace esapi
           }
       
         // Failed to convert all input characters
-        ASSERT(nonconv == 0);
-        if(nonconv != 0)
+        ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
+        if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
           {
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Return = " << nonconv << ", errno = " << err;
             throw InvalidArgumentException(oss.str());
           }
 
