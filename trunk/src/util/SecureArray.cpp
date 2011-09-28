@@ -25,9 +25,10 @@ namespace esapi
   SecureArray<T>::SecureArray(size_type n, const T t)
     : m_vector(new SecureVector)
   {
+    ESAPI_ASSERT2(m_vector.get(), "SecureVector is not valid");
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     // Allocator will throw below
-
+    
     boost::shared_ptr<SecureVector> temp(new SecureVector(n,t));
     ASSERT(temp.get());
     if(!temp.get())
@@ -41,36 +42,45 @@ namespace esapi
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
     : m_vector(new SecureVector)
   {
+    ESAPI_ASSERT2(m_vector.get(), "SecureVector is not valid");
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
       throw InvalidArgumentException("Array pointer is not valid");
 
-    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
+    ESAPI_ASSERT2(cnt != 0, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     // Allocator will throw below
 
-    // Not sure what the conatiner does here...
+    // Not sure what the container does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
     //if((size_t)ptr % sizeof(T) != 0)
     //  throw InvalidArgumentException("Pointer slices elements");
 
-    // Check for wrap
-    SafeInt<size_t> si(cnt);
-    try {
+#if 0
+    try
+    {
+      const size_t base = (size_t)ptr;
+      SafeInt<size_t> si(cnt);
       si *= sizeof(T);
-      si += (size_t)ptr;
+      si += base;
     }
-    catch(SafeIntException&) {
-      throw std::bad_alloc();
+    catch(const SafeIntException&)
+    {
+      throw InvalidArgumentException("Array pointer wrap");
     }
+#endif
 
-    const T* last = (const T*)(size_t)si;
-    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr /*first*/, last));
+    const size_t b = (size_t)ptr;
+    size_t p = cnt * sizeof(T) + b;
+    ASSERT(p >= b);
+    if(!(p >= b))
+      throw InvalidArgumentException("Array pointer wrap");
+
+    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr /*first*/, ptr+cnt /*last*/));
     ASSERT(temp.get());
     if(!temp.get())
       throw std::bad_alloc();
 
-    ASSERT(temp->size() == cnt);
     m_vector.swap(temp);
     ASSERT(nullptr != m_vector.get());
   }
@@ -80,28 +90,20 @@ namespace esapi
   SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
     : m_vector(new SecureVector)
   {
+    ESAPI_ASSERT2(m_vector.get(), "SecureVector is not valid");
     ASSERT(first);
     if(!first)
       throw InvalidArgumentException("Bad first input iterator");
 
-    ASSERT(first >= last);
-    if(!(first >= last))
+    ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
+    if(!(last >= first))
       throw InvalidArgumentException("Bad input iterators");
 
-    // Not sure what the conatiner does here....
+    // Not sure what the container does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     //if((first % sizeof(T) != 0) || (last % sizeof(T) != 0))
     //  throw InvalidArgumentException("InputIterator slices elements");
-
-    // Check for wrap
-    SafeInt<size_t> si((size_t)last);
-    try {
-      si += sizeof(T);
-    }
-    catch(SafeIntException&) {
-      throw std::length_error("Bad input iterators");
-    }
 
     boost::shared_ptr<SecureVector> temp(new SecureVector(first,last));
     ASSERT(temp.get());
@@ -350,28 +352,36 @@ namespace esapi
     if(ptr == nullptr)
       throw InvalidArgumentException("Array pointer is not valid");
 
-    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
+    ESAPI_ASSERT2(cnt != 0, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
-    // Allocator will throw below
+    if(cnt > max_size())
+        throw std::bad_alloc();
 
-    // Not sure what the conatiner does here...
-    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
-    //if((size_t)ptr % sizeof(T) != 0)
-    //  throw InvalidArgumentException("Pointer slices elements");
-
-    // Check for wrap
-    SafeInt<size_t> si(cnt);
-    try {
+#if 0
+    try
+    {
+      const size_t base = (size_t)ptr;
+      SafeInt<size_t> si(cnt);
       si *= sizeof(T);
-      si += (size_t)ptr;
+      si += base;
     }
-    catch(SafeIntException&) {
-      throw std::length_error("Too many elements in the array");
+    catch(const SafeIntException&)
+    {
+      throw InvalidArgumentException("Array pointer wrap");
     }
+#endif
+
+    const size_t b = (size_t)ptr;
+    size_t p = cnt * sizeof(T) + b;
+    ASSERT(p >= b);
+    if(!(p >= b))
+      throw InvalidArgumentException("Array pointer wrap");
+
+    // Not sure what the container does here...
+    ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
 
     ASSERT(m_vector.get());
-    const T* last = (const T*)(size_t)si;
-    m_vector->assign(ptr /*first*/, last);
+    m_vector->assign(ptr /*first*/, ptr+cnt /*last*/);
   }
 
   template <typename T>
@@ -379,11 +389,11 @@ namespace esapi
   void SecureArray<T>::assign(InputIterator first, InputIterator last)
   {
     ESAPI_ASSERT2(first, "Bad first input iterator");
-    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
-    if(!(first >= last))
-      throw std::length_error(L"Input iterators are not valid");
+    ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
+    if(!(last >= first))
+      throw InvalidArgumentException("Bad input iterators");
 
-    // Not sure what the conatiner does here....
+    // Not sure what the container does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     
@@ -405,16 +415,8 @@ namespace esapi
     ESAPI_ASSERT2(n, "Insertion size is 0"); // Warning only
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     ESAPI_ASSERT2(n <= max_size() - size(), "Too many elements in the resulting array");
-
-    // Test resulting size, throw on overflow
-    SafeInt<size_t> si(n);
-    try {   
-      si += size();
-      si *= sizeof(T);
-    }
-    catch(SafeIntException&) {
-      throw std::bad_alloc();
-    }
+    if(n > max_size() - size())
+        throw std::bad_alloc();
 
     ASSERT(m_vector.get());
     m_vector->insert(pos, n, x);
@@ -427,39 +429,39 @@ namespace esapi
     if(ptr == nullptr)
       throw InvalidArgumentException("Array pointer is not valid");
 
-    ESAPI_ASSERT2(cnt, "Array size is 0"); // Warning only
+    ESAPI_ASSERT2(cnt != 0, "Array size is 0"); // Warning only
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     ESAPI_ASSERT2(cnt <= max_size() - size(), "Too many elements in the resulting array");
+    if(cnt > max_size() - size())
+        throw std::bad_alloc();
 
-    // Not sure what the conatiner does here...
+    // Not sure what the container does here...
     ESAPI_ASSERT2((size_t)ptr % sizeof(T) == 0, "Array pointer slices elements");
     //if((size_t)ptr % sizeof(T) != 0)
     //  throw InvalidArgumentException("Pointer slices elements");
 
-    // Check for wrap on the pointer
-    SafeInt<size_t> si(cnt);
-    try {
-      si *= sizeof(T);
-      si += (size_t)ptr;
-    }
-    catch(SafeIntException&) {
-      throw std::bad_alloc();
-    }
-
-    // Check for wrap on the resulting array
+#if 0
     try
     {
-      SafeInt<size_t> sj(cnt);
-      sj += size();
-      sj *= sizeof(T);
+      const size_t base = (size_t)ptr;
+      SafeInt<size_t> si(cnt);
+      si *= sizeof(T);
+      si += base;
     }
-    catch(SafeIntException&) {
-      throw std::bad_alloc();
+    catch(const SafeIntException&)
+    {
+      throw InvalidArgumentException("Array pointer wrap");
     }
+#endif
 
-    const T* last = (const T*)(size_t)si;
+    const size_t b = (size_t)ptr;
+    size_t p = cnt * sizeof(T) + b;
+    ASSERT(p >= b);
+    if(!(p >= b))
+      throw InvalidArgumentException("Array pointer wrap");
+
     ASSERT(m_vector.get());
-    m_vector->insert(pos, ptr /*first*/, last);
+    m_vector->insert(pos, ptr /*first*/, ptr+cnt /*last*/);
   }
 
   template <typename T>
@@ -467,11 +469,11 @@ namespace esapi
   void SecureArray<T>::insert(iterator pos, InputIterator first, InputIterator last)
   {
     ESAPI_ASSERT2(first, "Bad first input iterator");
-    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
-    if(!(first >= last))
-      throw std::length_error(L"Input iterators are not valid");
+    ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
+    if(!(last >= first))
+      throw InvalidArgumentException("Bad input iterators");
 
-    // Not sure what the conatiner does here....
+    // Not sure what the container does here....
     ESAPI_ASSERT2(first % sizeof(T) == 0, "InputIterator first slices elements");
     ESAPI_ASSERT2(last % sizeof(T) == 0, "InputIterator last slices elements");
     //if((size_t)first % sizeof(T) != 0 || (size_t)last % sizeof(T) != 0)

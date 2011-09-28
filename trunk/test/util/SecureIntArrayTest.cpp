@@ -76,26 +76,26 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_5P )
 BOOST_AUTO_TEST_CASE( SecureIntArrayTest_6P )
 {
   bool success = true;
-  SecureIntArray vv(4);
+  std::ostringstream oss;  
 
   try
   {
-    const int arr[] = { 2, 2, 2, 2 };    
-    vv.assign(arr, COUNTOF(arr));
+    const int arr[] = { 1, 1, 1, 1 };
+    SecureIntArray vv(arr, COUNTOF(arr));
+    BOOST_CHECK_MESSAGE(vv.size() == 4, "Failed to construct SecureArray");
 
     success &= (vv.size() == 4);
     success &= (::memcmp(vv.data(), arr, sizeof(arr)) == 0);
-  }
-  catch(const std::exception&)
-  {
-    success = false;
-  }
 
-  std::ostringstream oss;
-  oss << "Failed to insert array. Expected { 2,2,2,2 }, got { ";
-  for(size_t i = 0; i < vv.size(); i++)
-    oss << vv[i] << " ";
-  oss << "}";
+    oss << "Failed to create array. Expected { 1,1,1,1 }, got { ";
+    for(size_t i = 0; i < vv.size(); i++)
+      oss << vv[i] << " ";
+    oss << "}";
+  }
+  catch(const std::exception& ex)
+  {
+    BOOST_ERROR(ex.what());
+  }
   
   BOOST_CHECK_MESSAGE(success, oss.str());
 }
@@ -103,29 +103,28 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_6P )
 BOOST_AUTO_TEST_CASE( SecureIntArrayTest_7P )
 {
   bool success = true;
-  SecureIntArray vv(2);
+  std::ostringstream oss;  
 
   try
   {
-    const int ptr[] = { 2, 2 };    
-    vv.insert(vv.begin(), ptr, COUNTOF(ptr));
+    SecureIntArray vv(4);
+    const int arr[] = { 1, 1, 1, 1 };
+    BOOST_CHECK_MESSAGE(vv.size() == 4, "Failed to construct SecureArray");
+
+    vv.assign(arr, COUNTOF(arr));
 
     success &= (vv.size() == 4);
-    success &= (vv[0] == 2);
-    success &= (vv[1] == 2);
-    success &= (vv[2] == 0);
-    success &= (vv[3] == 0);
-  }
-  catch(const std::exception&)
-  {
-    success = false;
-  }
+    success &= (::memcmp(vv.data(), arr, sizeof(arr)) == 0);
 
-  std::ostringstream oss;
-  oss << "Failed to insert array. Expected { 2,2,0,0 }, got { ";
-  for(size_t i = 0; i < vv.size(); i++)
-    oss << vv[i] << " ";
-  oss << "}";
+    oss << "Failed to assign array. Expected { 1,1,1,1 }, got { ";
+    for(size_t i = 0; i < vv.size(); i++)
+      oss << vv[i] << " ";
+    oss << "}";
+  }
+  catch(const std::exception& ex)
+  {
+    BOOST_ERROR(ex.what());
+  }
   
   BOOST_CHECK_MESSAGE(success, oss.str());
 }
@@ -133,34 +132,68 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_7P )
 BOOST_AUTO_TEST_CASE( SecureIntArrayTest_8P )
 {
   bool success = true;
-  SecureIntArray vv(2);
+  std::ostringstream oss;
 
   try
   {
+    SecureIntArray vv(2);
     const int ptr[] = { 2, 2 };
+    BOOST_CHECK_MESSAGE(vv.size() == 2, "Failed to construct SecureArray");
+
+    vv.insert(vv.begin(), ptr, COUNTOF(ptr));
+
+    success &= (vv.size() == 4);
+    success &= (vv[0] == 2);
+    success &= (vv[1] == 2);
+    success &= (vv[2] == 0);
+    success &= (vv[3] == 0);
+
+    oss << "Failed to insert array. Expected { 2,2,0,0 }, got { ";
+    for(size_t i = 0; i < vv.size(); i++)
+      oss << vv[i] << " ";
+    oss << "}";
+  }
+  catch(const std::exception& ex)
+  {
+    BOOST_ERROR(ex.what());
+  }
+  
+  BOOST_CHECK_MESSAGE(success, oss.str());
+}
+
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9P )
+{
+  bool success = true;
+  std::ostringstream oss;
+
+  try
+  {
+    SecureIntArray vv(2);
+    const int ptr[] = { 3, 3 };
+    BOOST_CHECK_MESSAGE(vv.size() == 2, "Failed to construct SecureArray");
+
     vv.insert(vv.end(), ptr, COUNTOF(ptr));
 
     success &= (vv.size() == 4);
     success &= (vv[0] == 0);
     success &= (vv[1] == 0);
-    success &= (vv[2] == 2);
-    success &= (vv[3] == 2);
-  }
-  catch(const std::exception&)
-  {
-    success = false;
-  }
+    success &= (vv[2] == 3);
+    success &= (vv[3] == 3);
 
-  std::ostringstream oss;
-  oss << "Failed to insert array. Expected { 0,0,2,2 }, got { ";
-  for(size_t i = 0; i < vv.size(); i++)
-    oss << vv[i] << " ";
-  oss << "}";
+    oss << "Failed to insert array. Expected { 0,0,3,3 }, got { ";
+    for(size_t i = 0; i < vv.size(); i++)
+      oss << vv[i] << " ";
+    oss << "}";
+  }
+  catch(const std::exception& ex)
+  {
+    BOOST_ERROR(ex.what());
+  }
   
   BOOST_CHECK_MESSAGE(success, oss.str());
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10N )
 {
   bool success = false;
   try
@@ -168,14 +201,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_9N )
     const int* ptr = NULL;
     SecureIntArray vv(ptr, 0);
   }
-  catch(const std::exception&)
+  catch(const std::exception& ex)
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to throw on bad array");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10P )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_11P )
 {
   bool success = true;
   try
@@ -184,14 +218,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_10P )
     SecureIntArray vv(ptr, 0);
     success &= (vv.size() == 0);
   }
-  catch(const std::exception&)
+  catch(const std::exception& ex)
   {
-    success = false;
+    BOOST_ERROR(ex.what());
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to construct an empty array");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_11P )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_12P )
 {
   bool success = true;
   try
@@ -201,14 +236,15 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_11P )
     success &= (vv.size() == 0);
     success &= (vv.data() == nullptr);
   }
-  catch(const std::exception&)
+  catch(const std::exception& ex)
   {
-    success = false;
+    BOOST_ERROR(ex.what());
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to construct a single element array");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_12N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_13N )
 {
   bool success = false;
   try
@@ -220,10 +256,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_12N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_13N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_14N )
 {
   bool success = false;
   try
@@ -236,10 +273,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_13N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect assignment wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_14N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_15N )
 {
   bool success = false;
   try
@@ -252,10 +290,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_14N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_15N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
 {
   bool success = false;
   try
@@ -268,10 +307,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_15N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_17N )
 {
   bool success = false;
   try
@@ -284,10 +324,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_16N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect assignment wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_17N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_18N )
 {
   bool success = false;
   try
@@ -300,10 +341,11 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_17N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
-BOOST_AUTO_TEST_CASE( SecureIntArrayTest_18N )
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_19N )
 {
   bool success = false;
   try
@@ -316,6 +358,7 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_18N )
   {
     success = true;
   }
+
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
