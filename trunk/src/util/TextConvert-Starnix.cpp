@@ -79,7 +79,6 @@ namespace esapi
     char* inptr = (char*)&str[0];
     size_t inlen = str.length();
 
-    bool first = true;
     while(inlen != 0)
       {
         char* outptr = (char*)&out[0];
@@ -142,7 +141,16 @@ namespace esapi
    */
   NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
   {
-    return NarrowString("Not yet implemented");
+    // This can still throw via the string
+    try
+    {
+      return WideToNarrow(wstr);
+    }
+    catch(const InvalidArgumentException&)
+    {
+    }
+
+    return NarrowString("TextConvert::WideToNarrowNoThrow failed");
   }
 
   NarrowString TextConvert::WideToNarrow(const String& wstr, const Encoding& enc)
