@@ -33,10 +33,10 @@ namespace esapi
   class ESAPI_EXPORT PlainText
   {
   private:
-    //     const Logger logger = esapi.getLogger("PlainText");  //:Logger not implemented yet.
+    //const Logger logger = esapi.getLogger("PlainText");  //:Logger not implemented yet.
     esapi::SecureByteArray rawBytes; //:Plaintext stored as byte array.
   public:
-    PlainText();
+    PlainText();//:Preventing some errors from before.
     explicit PlainText(String str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
     explicit PlainText(const esapi::SecureByteArray &b); //:Constructs a PlainText object from a byte array.
     String toString(); //:Converts object to UTF-8 encoded {@code String}.

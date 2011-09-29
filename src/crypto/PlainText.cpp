@@ -16,31 +16,20 @@
 #include "EsapiCommon.h"
 #include "crypto/PlainText.h"
 #include "util/SecureArray.h"
-#include "errors/EncodingException.h"
+#include "util/TextConvert.h"
 #include <algorithm>
 
 namespace esapi
 {
 
-  PlainText::PlainText(String str) //:See catch statement below.
+  PlainText::PlainText(String str)
   {
-    /*
-      try
-      {
-      ESAPI_ASSERT2(!str.empty(), "String for PlainText cannot be null or empty.");
-      //rawBytes = toUTF8(str); //:Convert to UTF-8
-      }
-      catch()   //:Not sure what should be the catch parameters. "UnsupportedEncodingException e" gave errors.
-      {
-      //logger.error(Logger.EVENT_FAILURE, "plaintext(String) CTOR failed: Can't find UTF-8 byte-encoding!", UnsupportedEncodingException);
-      throw EncodingException(L"Can't find UTF-8 byte encoding!");
-      }
-    */
+    ASSERT(!str.empty());
+    rawBytes = TextConvert::GetBytes(str);
   }
 
   PlainText::PlainText(const esapi::SecureByteArray &b)
   {
-    ESAPI_ASSERT2(!b.empty(), "Secure byte array representing PlainText cannot be null.");
     rawBytes = b;
   }
 
@@ -48,22 +37,10 @@ namespace esapi
   {
   }
 
-  String PlainText::toString() //:Commented out for same reason as first constructor.
+  String PlainText::toString()
   {
-    /*
-      try
-      {
-      String result;
-      //result = toUni(rawBytes); //:Convert to Unicode
-      return result;
-      }
-      catch()
-      {
-      //logger.error(Logger.EVENT_FAILURE, "PlainText.toString() failed: Can't find UTF-8 byte encoding!", UnsupportedEncodingException);
-      throw EncodingException(L"Can't find UTF-8 byte encoding!");//, UnsupportedEncodingException);
-      }
-    */
-    return L"";
+    String result(rawBytes.begin(), rawBytes.end());
+    return result;
   }
 
   esapi::SecureByteArray PlainText::asBytes()
@@ -85,7 +62,8 @@ namespace esapi
 
   void PlainText::overwrite()
   {
-    rawBytes.clear();
+  for(size_t i = 0; i < rawBytes.length(); i++)
+     rawBytes[i] = L'*';
   }
 
 } // NAMESPACE esapi
