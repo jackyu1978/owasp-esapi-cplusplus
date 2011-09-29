@@ -83,8 +83,13 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
+#if defined(ESAPI_OS_BSD)
         size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
+#else
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+#endif
 
         // An invalid multibyte sequence is encountered in the input.
         ASSERT(nonconv != (size_t)-1);
@@ -187,8 +192,13 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
+#if defined(ESAPI_OS_BSD)
         size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
+#else
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+#endif
 
         // An invalid multibyte sequence is encountered in the input.
         ASSERT(nonconv != (size_t)-1);
@@ -274,8 +284,13 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
+#if defined(ESAPI_OS_BSD)
         size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
+#else
+        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        int err = errno;
+#endif
 
         // An invalid multibyte sequence is encountered in the input.
         ASSERT(nonconv != (size_t)-1);

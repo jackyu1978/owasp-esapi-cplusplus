@@ -57,6 +57,8 @@
 # define ESAPI_OS_FREEBSD 1
 #elif defined(__OpenBSD__)
 # define ESAPI_OS_OPENBSD 1
+#elif defined(__NetBSD__)
+# define ESAPI_OS_NETBSD 1
 #elif defined(__unux__) || defined(__unux)
 # define ESAPI_OS_UNIX 1
 #endif
@@ -64,6 +66,11 @@
 // Collect all the *nix's
 #if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_FREEBSD) || defined(ESAPI_OS_OPENBSD)
 # define ESAPI_OS_STARNIX 1
+#endif
+
+// Lump the BSD together
+#if defined(ESAPI_OS_FREEBSD) || defined(ESAPI_OS_NETBSD) || defined(ESAPI_OS_OPENBSD)
+# define ESAPI_OS_BSD 1
 #endif
 
 // Pick up the compiler
