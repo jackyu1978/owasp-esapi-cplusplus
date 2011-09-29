@@ -42,13 +42,13 @@ namespace esapi
      * Factory method to cough up an implementation.
      * Java offers a SecureRandom(byte[]), and this overload handles it.
      */
-    static SecureRandomImpl* createInstance(const String& algorithm, const byte* seed = nullptr, size_t size = 0) throw (NoSuchAlgorithmException);
+    static SecureRandomImpl* createInstance(const String& algorithm, const byte* seed, size_t size);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm.
      */
-    explicit SecureRandomImpl(const String& algorithm, const byte* seed = nullptr, size_t size = 0);
+    explicit SecureRandomImpl(const String& algorithm, const byte* seed, size_t size);
 
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
@@ -105,11 +105,11 @@ namespace esapi
       enum { SecurityLevel = SECLEVEL, SeedLength = SEEDLEN };
     };
 
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
     class BlockCipherImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -140,7 +140,7 @@ namespace esapi
     class HashImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -180,7 +180,7 @@ namespace esapi
     class HmacImpl : public SecureRandomImpl
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t) throw (NoSuchAlgorithmException);
+    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.

@@ -43,7 +43,7 @@ namespace esapi
     ASSERT( !algorithm.empty() );
 
     const String alg(normalizeAlgortihm(algorithm));
-    SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg);
+    SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg, nullptr, 0);
     MEMORY_BARRIER();
 
     ASSERT(impl != nullptr);
@@ -59,7 +59,7 @@ namespace esapi
    */
   SecureRandom::SecureRandom(const String& algorithm)
    
-    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm)))    
+    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm), nullptr, 0))    
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
