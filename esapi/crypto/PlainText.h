@@ -34,15 +34,18 @@ namespace esapi
   {
   private:
     //const Logger logger = esapi.getLogger("PlainText");  //:Logger not implemented yet.
-    esapi::SecureByteArray rawBytes; //:Plaintext stored as byte array.
+    SecureByteArray rawBytes; //:Plaintext stored as byte array.
   public:
     PlainText();//:Preventing some errors from before.
-    explicit PlainText(String str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
-    explicit PlainText(const esapi::SecureByteArray &b); //:Constructs a PlainText object from a byte array.
-    String toString(); //:Converts object to UTF-8 encoded {@code String}.
-    esapi::SecureByteArray asBytes(); //:Converts object to a byte array.
-    bool equals(PlainText obj);
-    size_t length();
+    explicit PlainText(const String& str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
+    explicit PlainText(const SecureByteArray &b); //:Constructs a PlainText object from a byte array.
+
+    // String is UTF-32 on *nix, UTF-16 on Windows.
+    String toString() const; //:Converts object to UTF-8 encoded {@code String}.
+
+    SecureByteArray asBytes() const; //:Converts object to a byte array.
+    bool equals(const PlainText& obj) const;
+    size_t length() const;
     void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
   };
 
