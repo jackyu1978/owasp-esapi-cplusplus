@@ -48,7 +48,7 @@ namespace esapi
 
     ASSERT(impl != nullptr);
     if(impl == nullptr)
-      throw EncryptionException(L"Failed to create SecureRandom");
+      throw EncryptionException("Failed to create SecureRandom");
 
     return SecureRandom(impl);
   }
@@ -66,7 +66,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to create SecureRandom");
+      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -80,7 +80,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to create SecureRandom");
+      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -94,7 +94,7 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to create SecureRandom");
+      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -153,7 +153,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve algorithm name");
+      throw EncryptionException("Failed to retrieve algorithm name");
 
     return m_impl->generateSeedImpl(numBytes);
   }
@@ -169,7 +169,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve algorithm name");
+      throw EncryptionException("Failed to retrieve algorithm name");
 
     return m_impl->getAlgorithmImpl();
   }  
@@ -186,7 +186,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to retrieve security level");
+      throw EncryptionException("Failed to retrieve security level");
 
     return m_impl->getSecurityLevelImpl();
   }
@@ -202,7 +202,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to generate random bytes");
+      throw EncryptionException("Failed to generate random bytes");
 
     m_impl->nextBytesImpl(bytes, size);
   }
@@ -218,7 +218,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to seed the generator");
+      throw EncryptionException("Failed to seed the generator");
 
     // No need to lock - RandomPool provides its own
     RandomPool::GetSharedInstance().Reseed();
@@ -238,7 +238,7 @@ namespace esapi
 
     ASSERT(m_impl.get() != nullptr);
     if(m_impl.get() == nullptr)
-      throw EncryptionException(L"Failed to seed the generator");
+      throw EncryptionException("Failed to seed the generator");
 
     m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }

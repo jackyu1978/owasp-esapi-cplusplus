@@ -51,7 +51,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException(L"Failed to initialize the random pool");
+      throw EncryptionException("Failed to initialize the random pool");
   }
 
   /**
@@ -74,7 +74,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException(L"Failed to reseed the random pool");
+      throw EncryptionException("Failed to reseed the random pool");
   }
 
   /**
@@ -149,7 +149,7 @@ namespace esapi
       throw InvalidArgumentException("The buffer or size is not valid");
 
     if(!m_keyed)
-      throw EncryptionException(L"Failed to generate a block in the random pool (1)");
+      throw EncryptionException("Failed to generate a block in the random pool (1)");
 
     try
     {
@@ -157,7 +157,7 @@ namespace esapi
       ByteArrayZeroizer z1(data, sizeof(data));
 
       if(!GetTimeData(data, sizeof(data)))
-        throw EncryptionException(L"Failed to generate a block in the random pool (2)");
+        throw EncryptionException("Failed to generate a block in the random pool (2)");
 
       size_t idx = 0;
       while(size)

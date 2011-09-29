@@ -44,29 +44,30 @@ private:
      int blockSize_; //:The block size, IN BYTES.
      SecureByteArray iv_; //:The initialization vector, NULL if not applicable
      enum CipherTransformationComponent {ALG, MODE, PADDING}; //:Cipher transformation component. Format is ALG/MODE/PADDING.
-     void setCipherTransformation(String cipherXForm, bool fromCipher);
-     String getFromCipherXForm(CipherTransformationComponent component);
+     void setCipherTransformation(const String& cipherXForm, bool fromCipher);
+     String getFromCipherXForm(CipherTransformationComponent component) const;
 public:
-     CipherSpec(String cipherXForm, int keySize, int blockSize, const SecureByteArray &iv); //:Explicitly sets everything.
-     CipherSpec(String cipherXForm, int keySize, int blockSize); //:Sets everything but IV.
-     CipherSpec(String cipherXForm, int keySize); //:Sets everything but blockSize and IV
-     CipherSpec(String cipherXForm, int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
+     CipherSpec(const String& cipherXForm, int keySize, int blockSize, const SecureByteArray &iv); //:Explicitly sets everything.
+     CipherSpec(const String& cipherXForm, int keySize, int blockSize); //:Sets everything but IV.
+     CipherSpec(const String& cipherXForm, int keySize); //:Sets everything but blockSize and IV
+     CipherSpec(const String& cipherXForm, int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
      CipherSpec(const SecureByteArray &iv); //:Sets only iv
      CipherSpec(); //:Created because of an error in another file.
-     void setCipherTransformation(String cipherXForm);
-     String getCipherTransformation();
+
+     void setCipherTransformation(const String& cipherXForm);
+     String getCipherTransformation() const;
      void setKeySize(int keySize);
-     int getKeySize();
+     int getKeySize() const;
      void setBlockSize(int blockSize);
-     int getBlockSize();
-     String getCipherAlgorithm();
-     String getCipherMode();
-     String getPaddingScheme();
+     int getBlockSize() const;
+     String getCipherAlgorithm() const;
+     String getCipherMode() const;
+     String getPaddingScheme() const;
      void setIV(const SecureByteArray &iv);
-     SecureByteArray getIV();
-     bool requiresIV();
-     String toString(); //:Returns a meaningful {@code String} describing the object.
-     bool equals(CipherSpec obj);
+     SecureByteArray getIV() const;
+     bool requiresIV() const;
+     String toString() const; //:Returns a meaningful {@code String} describing the object.
+     bool equals(const CipherSpec& obj) const;
 };
 
 } // NAMESPACE esapi

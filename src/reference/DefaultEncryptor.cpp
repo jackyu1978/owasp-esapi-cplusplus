@@ -99,7 +99,7 @@ namespace esapi
 
     ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + TextConvert::WideToNarrow(xform));
     if(parts.size() != 3)
-      throw EncryptionException(L"Malformed cipher transformation: " + xform);
+      throw EncryptionException("Malformed cipher transformation: " + TextConvert::WideToNarrow(xform));
 
     const String mode = parts[1];
     bool allowed = CryptoHelper::isAllowedCipherMode(mode);
@@ -134,4 +134,3 @@ namespace esapi
       parts.push_back(s);
   }
 }
-

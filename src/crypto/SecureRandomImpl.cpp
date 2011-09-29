@@ -366,7 +366,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException(L"generateSeedImpl(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException("generateSeedImpl(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -397,15 +397,15 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The buffer or size is not valid");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce");
 
     try
       {
@@ -771,7 +771,7 @@ namespace esapi
   template <class HASH, class DRBGINFO>
   SecureByteArray HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
-    throw UnsupportedOperationException(L"generateSeed(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -800,15 +800,15 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The buffer or size is not valid");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. A reseed is required");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hash drbg. The requested size exceeds the maximum this DRBG can produce");
 
     try
       {
@@ -984,14 +984,14 @@ namespace esapi
     /////////////////////////////////////////////////////////
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. A reseed is required");
 
     /////////////////////////////////////////////////////////
     // Sanity check, Table 2
     /////////////////////////////////////////////////////////
     ASSERT(hsize <= MaxRequest);
     if( !(hsize <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from hmac drbg. The requested size exceeds the maximum this DRBG can produce");
 
     /////////////////////////////////////////////////////////
     // We don't accept additional input, Steps 2 & 3 omitted
@@ -1107,7 +1107,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException(L"generateSeed(unsigned int numBytes) is not implemented");
+    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
   }
 
   /**
@@ -1132,17 +1132,17 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The buffer or size is not valid.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The buffer or size is not valid");
 
     ASSERT(m_rctr <= MaxReseed);
     if( !(m_rctr <= MaxReseed) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. A reseed is required.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. A reseed is required");
 
     ASSERT(size <= MaxRequest);
     if( !(size <= MaxRequest) )
-      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce.");
+      throw InvalidArgumentException("Unable to generate bytes from block cipher drbg. The requested size exceeds the maximum this DRBG can produce");
 
-    throw UnsupportedOperationException(L"Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 
   /**
@@ -1156,7 +1156,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException(L"Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 
   /**
@@ -1170,7 +1170,7 @@ namespace esapi
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException(L"Not implemented");
+    throw UnsupportedOperationException("Not implemented");
   }
 } // esapi
 
