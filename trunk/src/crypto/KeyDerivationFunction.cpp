@@ -202,7 +202,8 @@ namespace esapi
     while(keySize)
       {
         const unsigned int req = std::min((unsigned int)CryptoPP::SHA1::DIGESTSIZE, keySize);
-        const byte i[4] = { (ctr >> 24 & 0xff), (ctr >> 16 & 0xff), (ctr >> 8 & 0xff), (ctr & 0xff) };
+        const byte i[4] = { (byte)(ctr >> 24 & 0xff), (byte)(ctr >> 16 & 0xff),
+          (byte)(ctr >> 8 & 0xff), (byte)(ctr & 0xff) };
         const byte nil = '\0';
 
         CryptoPP::HMAC<CryptoPP::SHA1> hmac(keyDerivationKey.BytePtr(), keyDerivationKey.sizeInBytes());

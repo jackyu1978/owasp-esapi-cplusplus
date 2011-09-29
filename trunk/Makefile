@@ -199,6 +199,8 @@ ifeq ($(IS_LINUX),1)
   LDLIBS += -lpthread
 endif
 
+# Can't use -std=c++0x at the moment due to patches required (don't want to make it a prereq).
+# See http://clang.llvm.org/cxx_status.html
 ifeq ($(CLANG_COMPILER),1)
   override CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
   override CXXFLAGS += -fcatch-undefined-cxx0x-behavior
