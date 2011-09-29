@@ -34,9 +34,6 @@ using esapi::IllegalArgumentException;
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
-#include "util/TextConvert.h"
-using esapi::TextConvert;
-
 #include <crypto/CipherSpec.h>
 using esapi::CipherSpec;
 
@@ -84,7 +81,7 @@ BOOST_CHECK(caughtExcept);
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction4) //:Checking CipherSpec(SecureByteArray &b) CTOR.
 {
   SecureByteArray myIV;
-  CipherSpec cs = CipherSpec(myIV);
+  CipherSpec cs(myIV);
   //BOOST_CHECK(cs.getkeySize() == ESAPI.securityConfiguration().getEncryptionKeyLength());
   //BOOST_CHECK(cs.getCipherTransformation() == ESAPI.securityConfiguration().getCipherTransformation());
 }
