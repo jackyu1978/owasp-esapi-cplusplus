@@ -5,120 +5,17 @@
 This is a roadmap for the ESAPI C++ API
 
 = Summary =
-|| *Category* || *State* || *Lead* ||
-|| *Core* || --% ||  ||
-|| *Authenticator* || --% ||  ||
-|| *User* || --% ||  ||
-|| *AccessController* || --% ||  ||
-|| *AccessReferenceMap* || --% || David Anderson ||
-|| *Validation* || --% || Dan Amodio ||
-|| *Encoding* || --% ||  Dan Amodio ||
-|| *Encryptor* || --% || Jeffery Walton ||
-|| *EncryptedProperties* || --% ||  ||
-|| *Randomizer* || --% ||  ||
-|| *ExceptionHandling* || --% ||  ||
-|| *Logger* || --% || David Anderson ||
-|| *SecurityConfiguration* || --% ||  ||
-
-= Roadmap =
-Dates?
-
-= Classes =
-== Core ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| ESAPI ||  ||  ||  ||  ||  ||
-|| EsapiCommon || X || X ||  ||  || Jeffery Walton ||
-|| Executor || X ||  ||  ||  ||  ||
-
-----
-== Authenticator ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-||  ||  ||  ||  ||  ||  ||
-
-----
-== User ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-||  ||  ||  ||  ||  ||  ||
-
-----
-== AccessController ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-||  ||  ||  ||  ||  ||  ||
-
-----
-== AccessReferenceMap ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| AccessReferenceMap || X ||  ||  ||  || David Anderson ||
-|| RandomAccessReferenceMap || X ||  ||  ||  || David Anderson ||
-|| IntegerAccessReferenceMap || X ||  ||  ||  || David Anderson ||
-
-----
-== Validation ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| Validator || X || X ||  ||  || Dan Amodio ||
-|| ValidationErrorList || X || X ||  ||  || Dan Amodio ||
-|| ValidationRule || X || X ||  ||  || Dan Amodio ||
-|| BaseValidationRule || X || X ||  ||  || Dan Amodio ||
-|| DefaultValidator ||  ||  ||  ||  ||  ||
-
-=== Validation Rules ===
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| StringValidationRule ||  ||  ||  ||  ||  ||
-
-----
-== Encoding ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| Encoder || X || X ||  ||  || Dan Amodio ||
-|| EncoderConstants || X || X ||  ||  || Dan Amodio ||
-|| DefaultEncoder ||  ||  ||  ||  || Dan Amodio ||
-|| Codec || X || X || X ||  || Dan Amodio ||
-
-=== Codecs ===
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-||  ||  ||  ||  ||  ||  ||
-
-----
-== Encryptor ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| Encryptor || X ||  ||  ||  || Jeffery Walton ||
-|| CipherText || X ||  ||  ||  || Jeffery Walton ||
-|| CryptoHelper || X || X || X ||  || Jeffery Walton ||
-|| Key || X ||  ||  ||  || Jeffery Walton ||
-|| KeyDerivationFunction || X || X || X ||  || Jeffery Walton ||
-|| KeyGenerator || X || X || X ||  || Jeffery Walton ||
-|| MessageDigest || X || X || X ||  || Jeffery Walton ||
-|| PlainText || X ||  ||  ||  || Jeffery Walton ||
-|| SecretKey || X ||  ||  ||  || Jeffery Walton ||
-|| SecureRandom || X || X || X ||  || Jeffery Walton ||
-|| DefaultEncryptor || X ||  ||  ||  || Jeffery Walton ||
-
-----
-== EncryptedProperties ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-||  ||  ||  ||  ||  ||  ||
-
-----
-== Randomizer ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| EncryptedProperties || X ||  ||  ||  ||  ||
-
-----
-== ExceptionHandling ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| EnterpriseSecurityException || X || X ||  ||  || Dan Amodio ||
-|| EncodingException || X ||  ||  ||  || Dan Amodio ||
-|| ValidationException || X || X ||  ||  || Dan Amodio ||
-|| IntegrityException || X ||  ||  ||  ||  ||
-|| ExecutionException || X ||  ||  ||  ||  ||
-|| EncryptionException || X ||  ||  ||  ||  ||
-
-----
-== Logger ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| Logger || X ||  ||  ||  || David Anderson ||
-
-----
-== SecurityConfiguration ==
-|| *Class* || *Started* || *First Draft* || *Tests Written* || *Tests Passed* || *Point of Contact* ||
-|| SecurityConfiguration || X ||  ||  ||  || David Anderson ||
-----
+|| *Category* || *API Definition* || *Reference Implementation* || *Test Cases* || *API Documentation* || *Average* || *Lead* ||
+|| *Core and Utilities* || 80% || 80% || 80% || 50% || 72.5% ||  ||
+|| *Authenticator* || 30% || 0% || 0% || 10% || 10% ||  ||
+|| *User* || 30% || 0% || 0% || 10% || 10% ||  ||
+|| *AccessController* || 30% || 0% || 0% || 10% || 10% ||  ||
+|| *AccessReferenceMap* || 100% || 40% || 0% || 10% || 37.5% || David Anderson ||
+|| *Validation* || 80.00%||60.00%||20.00%||10.00%||42.50% || Dan Amodio ||
+|| *Encoding* || 90.00%	||80.00%||80.00%||10.00% || 65% || Dan Amodio ||
+|| *Encryptor* || 90.00%||60.00%||60.00%||10.00% || 55%|| Jeffery Walton ||
+|| *EncryptedProperties* || 100.00%||0.00%||0.00%||10.00% || 27.5%|| ||
+|| *Randomizer* || 30.00%||60.00%||70.00%||10.00% || 42.5% ||Jeffery Walton ||
+|| *ExceptionHandling* || 90.00%||100.00%||100.00%||10.00% || 75% || ||
+|| *Logger* || 100.00%	||0.00%	||0.00%	||10.00%||27.50% || David Anderson ||
+|| *SecurityConfiguration* || 100.00%	||50.00%	||0.00%	||10.00% || 40%|| ||
