@@ -88,7 +88,7 @@ namespace esapi
     }
     }
     */
-    throw new UnsupportedOperationException(L"This operation is not yet supported");
+    throw new UnsupportedOperationException("This operation is not yet supported");
   }
 
   String DefaultEncoder::canonicalize( const String & input) {
@@ -177,7 +177,7 @@ namespace esapi
     return htmlCodec.encode( IMMUNE_HTML, input);
     */
 
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::decodeForHTML(const String & /*input*/) {
@@ -187,7 +187,7 @@ namespace esapi
     }
     return htmlCodec.decode( input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForHTMLAttribute(const String & /*input*/) {
@@ -198,7 +198,7 @@ namespace esapi
     return htmlCodec.encode( IMMUNE_HTMLATTR, input)
     */
 
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForCSS(const String & /*input*/) {
@@ -208,7 +208,7 @@ namespace esapi
     }
     return cssCodec.encode( IMMUNE_CSS, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForJavaScript(const String & /*input*/) {
@@ -218,7 +218,7 @@ namespace esapi
     }
     return javaScriptCodec.encode(IMMUNE_JAVASCRIPT, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForVBScript(const String & /*input*/) {
@@ -228,7 +228,7 @@ namespace esapi
     }
     return vbScriptCodec.encode(IMMUNE_VBSCRIPT, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForSQL(const Codec& /*codec*/, const String & /*input*/) {
@@ -238,7 +238,7 @@ namespace esapi
     }
     return codec.encode(IMMUNE_SQL, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForOS(const Codec *codec, const String & input) {
@@ -305,7 +305,7 @@ namespace esapi
     }
     return sb.toString();
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForXPath(const String & /*input*/) {
@@ -315,7 +315,7 @@ namespace esapi
     }
     return htmlCodec.encode( IMMUNE_XPATH, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForXML(const String & /*input*/) {
@@ -325,7 +325,7 @@ namespace esapi
     }
     return xmlCodec.encode( IMMUNE_XML, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForXMLAttribute(const String & /*input*/) {
@@ -335,7 +335,7 @@ namespace esapi
     }
     return xmlCodec.encode( IMMUNE_XMLATTR, input);
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForURL(const String & /*input*/) throw (EncodingException) {
@@ -351,7 +351,7 @@ namespace esapi
     throw new EncodingException(L"Encoding failure", "Problem URL encoding input", e);
     }
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw new UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::decodeFromURL(const String & /*input*/) throw (EncodingException) {
@@ -368,7 +368,7 @@ namespace esapi
     throw new EncodingException(L"Decoding failed", "Problem URL decoding input", e);
     }
     */
-    throw new UnsupportedOperationException(L"This operation has not yet been implemented.");
+    throw UnsupportedOperationException("This operation has not yet been implemented.");
   }
 
   String DefaultEncoder::encodeForBase64(const String & input, bool wrap) {

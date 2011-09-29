@@ -182,7 +182,6 @@ namespace esapi
     char* inptr = (char*)&wstr[0];
     size_t inlen = wstr.length() * WCHAR_T_SIZE;
 
-    bool first = true;
     while(inlen != 0)
       {
         char* outptr = (char*)&out[0];

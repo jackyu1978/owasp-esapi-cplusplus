@@ -119,7 +119,6 @@ namespace esapi
    * Used by getInstance and most stack based SecureRandoms
    */
   SecureRandomImpl* SecureRandomImpl::createInstance(const String& algorithm, const byte* seed, size_t size)
-    throw (NoSuchAlgorithmException)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
 
@@ -312,7 +311,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HashImpl<HASH, DRBGINFO>::HashImpl(const String& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
+    : SecureRandomImpl(algorithm, nullptr, 0), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
     // seed and size are thinly veiled as "Personalization", and it is optional.
     // If size is non-zero, seed must be valid.
@@ -342,7 +341,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -365,7 +364,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     throw UnsupportedOperationException(L"generateSeedImpl(unsigned int numBytes) is not implemented");
   }
@@ -394,7 +393,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
@@ -419,7 +418,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -435,7 +434,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     ASSERT(seed && size);
     if(!seed || !size)
@@ -448,7 +447,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -464,7 +463,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     try
       {
@@ -473,7 +472,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -503,7 +502,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -565,7 +564,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -618,7 +617,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -666,7 +665,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -710,7 +709,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -723,7 +722,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HmacImpl<HASH, DRBGINFO>::HmacImpl(const String& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
+    : SecureRandomImpl(algorithm, nullptr, 0), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
   {
     // seed and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!seed && !ssize) || (seed && ssize) );
@@ -752,7 +751,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -797,7 +796,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
@@ -822,7 +821,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -838,7 +837,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     ASSERT(seed && size);
     if(!seed || !size)
@@ -851,7 +850,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -867,7 +866,7 @@ namespace esapi
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     try
       {
@@ -876,7 +875,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       } }
 
   template <class HASH, class DRBGINFO>
@@ -901,7 +900,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -962,7 +961,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -1036,7 +1035,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -1070,7 +1069,7 @@ namespace esapi
     catch(CryptoPP::Exception& ex)
       {
         m_catastrophic = true;
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
   }
 
@@ -1081,9 +1080,9 @@ namespace esapi
   /**
    * Constructs a secure random number generator (RNG).
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const String& algorithm, const byte* /*seed*/, size_t /*size*/)
-    : SecureRandomImpl(algorithm), m_v(), m_c(), m_rctr(1)
+    : SecureRandomImpl(algorithm, nullptr, 0), m_v(), m_c(), m_rctr(1)
   {
   }
 
@@ -1091,7 +1090,7 @@ namespace esapi
    * Returns the security level associated with the SecureRandom object. Used
    * by KeyGenerator to determine the appropriate key size for init.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   unsigned int BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getSecurityLevelImpl() const
   {
     return SecurityLevel;
@@ -1100,13 +1099,13 @@ namespace esapi
   /**
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   SecureByteArray BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     throw UnsupportedOperationException(L"generateSeed(unsigned int numBytes) is not implemented");
   }
@@ -1114,7 +1113,7 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   String BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomImpl::getAlgorithmImpl();
@@ -1123,13 +1122,13 @@ namespace esapi
   /**
    * Generates a user-specified number of random bytes.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
     // Has a catastrophic error been encountered previously?
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
@@ -1149,13 +1148,13 @@ namespace esapi
   /**
    * Reseeds this random object.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(const byte /*seed*/[], size_t /*size*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     throw UnsupportedOperationException(L"Not implemented");
   }
@@ -1163,13 +1162,13 @@ namespace esapi
   /**
    * Reseeds this random object, using the bytes contained in the given long seed.
    */
-  template <class CIPHER, template <class CIPHER> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(int /*seed*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
-      throw EncryptionException(L"A catastrophic error was previously encountered");
+      throw EncryptionException("A catastrophic error was previously encountered");
 
     throw UnsupportedOperationException(L"Not implemented");
   }

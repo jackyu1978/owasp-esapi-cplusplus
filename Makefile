@@ -95,6 +95,7 @@ GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c 'comeau')
 SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
+CLANG_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "^clang version")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
@@ -196,6 +197,11 @@ endif
 ifeq ($(IS_LINUX),1)
   override CXXFLAGS += -D_REENTRANT
   LDLIBS += -lpthread
+endif
+
+ifeq ($(CLANG_COMPILER),1)
+  override CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
+  override CXXFLAGS += -fcatch-undefined-cxx0x-behavior
 endif
 
 # Add paths
