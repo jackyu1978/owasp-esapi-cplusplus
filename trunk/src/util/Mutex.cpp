@@ -69,7 +69,7 @@ namespace esapi
       {
         std::ostringstream oss;
         oss << "Failed to acquire mutex, error = " << ret << " ";
-        oss << "(L" << strerror(ret) << ").";
+        oss << "(" << strerror(ret) << ").";
         throw std::runtime_error(oss.str());
       }
 #endif
@@ -86,7 +86,7 @@ namespace esapi
       {
         std::ostringstream oss;
         oss << "Failed to release mutex, error = " << ret << " ";
-        oss << "(L" << strerror(ret) << ").";
+        oss << "(" << strerror(ret) << ").";
         throw std::runtime_error(oss.str());
       }
 #endif
