@@ -34,22 +34,22 @@ using esapi::IllegalArgumentException;
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
+#include "util/TextConvert.h"
+using esapi::TextConvert;
+
 #include <crypto/CipherSpec.h>
 using esapi::CipherSpec;
-
-BOOST_AUTO_TEST_CASE( VerifyCipherSpec )
-{
-  BOOST_MESSAGE( "Verifying CipherSpec class" );
-}
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction1) //:Test correct construction.
 {
 SecureByteArray myIV;
-CipherSpec *cs = new CipherSpec(L"AES/CBC/NoPadding", 128, 8, myIV);
-BOOST_CHECK(cs != NULL);
+CipherSpec cs(L"AES/CBC/NoPadding", 128, 8, myIV);
+BOOST_CHECK(cs.getCipherTransformation() == L"AES/CBC/NoPadding");
+BOOST_CHECK(cs.getKeySize() == 128);
+BOOST_CHECK(cs.getBlockSize() == 8);
 }
 
-/*
+
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
 {
 SecureByteArray myIV;
@@ -58,7 +58,7 @@ bool caughtExcept = false;
      {
      CipherSpec cs(L"", 128, 8, myIV);
      }
-     catch(IllegalArgumentException&)
+     catch(const IllegalArgumentException&)
      {
      caughtExcept = true;
      }
@@ -73,7 +73,7 @@ bool caughtExcept = false;
      {
      CipherSpec cs(L"AES/CBC", 128, 8, myIV);
      }
-     catch(IllegalArgumentException&)
+     catch(const IllegalArgumentException&)
      {
      caughtExcept = true;
      }
@@ -84,7 +84,7 @@ BOOST_CHECK(caughtExcept);
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction4) //:Checking CipherSpec(SecureByteArray &b) CTOR.
 {
   SecureByteArray myIV;
-  CipherSpec cs(myIV);
+  CipherSpec cs = CipherSpec(myIV);
   //BOOST_CHECK(cs.getkeySize() == ESAPI.securityConfiguration().getEncryptionKeyLength());
   //BOOST_CHECK(cs.getCipherTransformation() == ESAPI.securityConfiguration().getCipherTransformation());
 }
@@ -98,13 +98,12 @@ bool caughtExcept = false;
      {
      cs.setCipherTransformation(L"");
      }
-     catch(IllegalArgumentException&)
+     catch(const IllegalArgumentException&)
      {
      caughtExcept = true;
      }
 BOOST_CHECK(caughtExcept);
 }
-*/
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction6) //:Testing a bunch of get functions.
 {
@@ -117,7 +116,7 @@ BOOST_CHECK(cs.getCipherMode() == L"Mode");
 BOOST_CHECK(cs.getPaddingScheme() == L"Padding");
 }
 
-/*
+
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
 {
 CipherSpec cs;
@@ -126,7 +125,7 @@ bool caughtExcept = false;
      {
      cs.setBlockSize(0);
      }
-     catch(IllegalArgumentException&)
+     catch(const IllegalArgumentException&)
      {
      caughtExcept = true;
      }
@@ -136,13 +135,12 @@ caughtExcept = false;
      {
      cs.setBlockSize(-1);
      }
-     catch(IllegalArgumentException&)
+     catch(const IllegalArgumentException&)
      {
      caughtExcept = true;
      }
 BOOST_CHECK(caughtExcept);
 }
-*/
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction8) //:Testing requiresIV().
 {

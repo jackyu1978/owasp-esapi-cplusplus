@@ -17,7 +17,6 @@
 #include "errors/IllegalArgumentException.h"
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
-
 #include <algorithm>
 
 namespace esapi
@@ -117,20 +116,23 @@ namespace esapi
     cipher_xform_ = xform;
   }
 
-  String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
-  {
-    std::vector<String> parts;
-    String cipherXForm = this->getCipherTransformation();
-    split(cipherXForm, L"/", parts);
-
-    const NarrowString msg = "Invalid cipher transformation: " + TextConvert::WideToNarrow(getCipherTransformation());
-    ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
-    return parts[component];
-  }
-
   String CipherSpec::getCipherTransformation() const
   {
-    return cipher_xform_;
+  String xformCopy(cipher_xform_);
+    return xformCopy;
+  }
+
+  String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
+  {
+    StringArray parts;
+    String xform = this->getCipherTransformation();
+    split(xform, L"/", parts);
+    const NarrowString msg = "Invalid cipher transformation: " + TextConvert::WideToNarrow(xform);
+    ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
+    if((parts.size() >= component))
+       return parts[component];
+    else
+       return L"";
   }
 
   void CipherSpec::setKeySize(int keySize)
@@ -144,7 +146,8 @@ namespace esapi
 
   int CipherSpec::getKeySize() const
   {
-    return keySize_;
+  int ks = keySize_;
+    return ks;
   }
 
   void CipherSpec::setBlockSize(int blockSize)
@@ -152,13 +155,13 @@ namespace esapi
     ASSERT(blockSize > 0);
     if(!(blockSize > 0))
        throw IllegalArgumentException("BlockSize must be > 0");
-
     blockSize_ = blockSize;
   }
 
   int CipherSpec::getBlockSize() const
   {
-    return blockSize_;
+  int bs = blockSize_;
+    return bs;
   }
 
   String CipherSpec::getCipherAlgorithm() const
@@ -176,24 +179,25 @@ namespace esapi
     return getFromCipherXForm(PADDING);
   }
 
-  void CipherSpec::setIV(const SecureByteArray &iv)
-  {
-    ESAPI_ASSERT2(requiresIV() && !iv.empty(), "Required IV cannot be null or 0 length");
-    iv_ = iv;
-  }
-
-  SecureByteArray CipherSpec::getIV() const
-  {
-    return iv_;
-  }
-
   bool CipherSpec::requiresIV() const
   {
-    String ciphmode = getCipherMode();
+    String ciphmode = this->getCipherMode();
     std::transform(ciphmode.begin(), ciphmode.end(), ciphmode.begin(), ::tolower);
     if(ciphmode == L"ecb")
       return false;
     return true;
+  }
+
+  void CipherSpec::setIV(const SecureByteArray &iv)
+  {
+  SecureByteArray ivCopy(iv);
+  ESAPI_ASSERT2((this->requiresIV() && !ivCopy.empty()), "Required IV cannot be null or 0 length");
+  iv_ = ivCopy;
+  }
+
+  SecureByteArray CipherSpec::getIV() const
+  {
+    return SecureByteArray(iv_);
   }
 
   String CipherSpec::toString() const

@@ -43,7 +43,7 @@ private:
      int keySize_; //:The key size, IN BITS.
      int blockSize_; //:The block size, IN BYTES.
      SecureByteArray iv_; //:The initialization vector, NULL if not applicable
-     enum CipherTransformationComponent {ALG, MODE, PADDING}; //:Cipher transformation component. Format is ALG/MODE/PADDING.
+     enum CipherTransformationComponent {ALG = 0, MODE = 1, PADDING = 2}; //:Cipher transformation component. Format is ALG/MODE/PADDING.
      void setCipherTransformation(const String& cipherXForm, bool fromCipher);
      String getFromCipherXForm(CipherTransformationComponent component) const;
 public:

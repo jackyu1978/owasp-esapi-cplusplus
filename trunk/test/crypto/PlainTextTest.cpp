@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_13) //:Test assignment and comparison.
   BOOST_CHECK(!str1.toString().empty());
   BOOST_CHECK(str2.toString() == altString);
   BOOST_CHECK(str1.toString() == unicodeStr);
-  BOOST_CHECK(str2.length() == altString.length());
+  BOOST_CHECK(str2.toString().length() == altString.length());
 }
 
 BOOST_AUTO_TEST_CASE(VerifyPlainText_14) //:Test Empty String.

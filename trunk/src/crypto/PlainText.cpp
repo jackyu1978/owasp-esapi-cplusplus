@@ -27,13 +27,13 @@ namespace esapi
   {
     ASSERT(!str.empty());
     // This actually calls GetBytes(str, "UTF-8"). So the SecureArray is an array
-    // represnting the string under a UTF-8 encoding.
+    // representing the string under a UTF-8 encoding.
     rawBytes = TextConvert::GetBytes(str);
   }
 
   PlainText::PlainText(const SecureByteArray &b)
   : rawBytes(b)
-  {    
+  {
   }
 
   PlainText::PlainText()
@@ -41,13 +41,10 @@ namespace esapi
   {
   }
 
-  String PlainText::toString() const
+  String PlainText::toString() const //:ByteArray of [formerly] encoded string in UTF-8 -> NarrowString -> WideString result
   {
-    // This is close, but not quite right. rawBytes is an array which consists of the
-    // [formerly] encoded string in UTF-8. You will need to do something else before
-    // stuffing it into a String. A good place to look would be TextConvertTest.cpp
-    String result(rawBytes.begin(), rawBytes.end());
-    return result;
+    NarrowString result(rawBytes.begin(), rawBytes.end());
+    return TextConvert::NarrowToWide(result);
   }
 
   SecureByteArray PlainText::asBytes() const
@@ -57,7 +54,7 @@ namespace esapi
 
   bool PlainText::equals(const PlainText& obj) const
   {
-    // Check this!!! 
+    // Check this!!!
     if(toString() == obj.toString())
       return true;
     return false;
