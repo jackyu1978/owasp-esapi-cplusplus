@@ -51,8 +51,6 @@ public:
      CipherSpec(String cipherXForm, int keySize, int blockSize); //:Sets everything but IV.
      CipherSpec(String cipherXForm, int keySize); //:Sets everything but blockSize and IV
      CipherSpec(String cipherXForm, int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
-     //CipherSpec(Cipher cipher);             //:Cipher class is Java specific, not sure if a C++ version is being used
-     //CipherSpec(Cipher cipher, int keySize);
      CipherSpec(const SecureByteArray &iv); //:Sets only iv
      CipherSpec(); //:Created because of an error in another file.
      void setCipherTransformation(String cipherXForm);

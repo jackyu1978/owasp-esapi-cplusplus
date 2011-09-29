@@ -24,8 +24,8 @@ namespace esapi
 {
 
   void split(const String &str, const String& delim, StringArray& parts) //:This function is private to DefaultEncryptor.cpp.
-  {                                                                                      //:That should probably change but I don't know where is best to put it.
-    String s(str);                                                                       //:This class needs the function so a copy was put here temporarily.
+  {                                                                            //:That should probably change but I don't know where is best to put it.
+    String s(str);                                                             //:This class needs the function so a copy was put here temporarily.
     String::size_type pos = 0;
 
     while( (pos = s.find_first_of(delim)) != String::npos )
@@ -69,7 +69,7 @@ namespace esapi
     setIV(iv);
   }
 
-  CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist.
+  CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist yet.
   {
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
@@ -131,7 +131,8 @@ namespace esapi
 
   void CipherSpec::setKeySize(int keySize)
   {
-    ESAPI_ASSERT2(keySize > 0, "keySize must be > 0; keySize = " + keySize);
+    if(!keySize > 0)
+       throw new IllegalArgumentException(L"KeySize must be > 0.");
     keySize_ = keySize;
   }
 
@@ -142,7 +143,8 @@ namespace esapi
 
   void CipherSpec::setBlockSize(int blockSize)
   {
-    ESAPI_ASSERT2(blockSize > 0, "blockSize must be > 0; blockSize = " + blockSize);
+    if(!blockSize > 0)
+       throw new IllegalArgumentException(L"BlockSize must be > 0.");
     blockSize_ = blockSize;
   }
 
