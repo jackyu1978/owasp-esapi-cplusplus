@@ -32,35 +32,110 @@ using esapi::SecureByteArray;
 #include "util/TextConvert.h"
 using esapi::TextConvert;
 
-#include <crypto/PlainText.h>
+#include "crypto/PlainText.h"
 using esapi::PlainText;
 
-BOOST_AUTO_TEST_CASE( VerifyPlainText )
-{
-  BOOST_MESSAGE("Verifying PlainText class");
-}
-
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction1)
+BOOST_AUTO_TEST_CASE(VerifyPlainText_1)
 {
   // Construction
   PlainText p;
+  BOOST_CHECK_MESSAGE(p.length() == 0, "Failed to construct PlainText");
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction2)
+BOOST_AUTO_TEST_CASE(VerifyPlainText_2)
 {
   // Copy
   PlainText p;
   PlainText pp(p);
+  BOOST_CHECK_MESSAGE(pp.length() == 0, "Failed to construct PlainText");
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction3)
+BOOST_AUTO_TEST_CASE(VerifyPlainText_3)
 {
   // Assignment
   PlainText p;
   PlainText pp = p;
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction4) //:Test assignment and comparison.
+BOOST_AUTO_TEST_CASE(VerifyPlainText_4)
+{
+  // Construction
+  String s(L"a");
+  PlainText p(s);
+  BOOST_CHECK_MESSAGE(p.length() == 1, "Failed to construct PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_5)
+{
+  // Construction
+  String s(1, L'a');
+  PlainText p(s);
+  BOOST_CHECK_MESSAGE(p.length() == 1, "Failed to construct PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_6)
+{
+  // Copy
+  String s(L"a");
+  PlainText p(s);
+  PlainText pp(p);
+  BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to copy PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_7)
+{
+  // Copy
+  String s(1, L'a');
+  PlainText p(s);
+  PlainText pp(p);
+  BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to copy PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_8)
+{
+  // Assignment
+  String s(L"a");
+  PlainText p(s);
+  PlainText pp = p;
+  BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to assign PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_9)
+{
+  // Assignment
+  String s(1, L'a');
+  PlainText p(s);
+  PlainText pp = p;
+  BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to assign PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_10)
+{
+  // Construction
+  String s(L"\u988a");
+  PlainText p(s);
+  BOOST_CHECK_MESSAGE(p.length() == 3, "Failed to construct PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_11)
+{
+  // Copy
+  String s(L"\u988a");
+  PlainText p(s);
+  PlainText pp(p);
+  BOOST_CHECK_MESSAGE(pp.length() == 3, "Failed to copy PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_12)
+{
+  // Assignment
+  String s(L"\u988a");
+  PlainText p(s);
+  PlainText pp = p;
+  BOOST_CHECK_MESSAGE(pp.length() == 3, "Failed to assign PlainText");
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainText_13) //:Test assignment and comparison.
 {
   String unicodeStr = L"A\u00ea\u00f1\u00fcC";     //:"AêñüC" // Check me !!!
   String altString = TextConvert::NarrowToWide("AêñüC");     //:Same as above.
@@ -73,7 +148,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction4) //:Test assignment and comparison
   BOOST_CHECK(str2.length() == altString.length());
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction5) //:Test Empty String.
+BOOST_AUTO_TEST_CASE(VerifyPlainText_14) //:Test Empty String.
 {
   PlainText pt(L"");
   BOOST_CHECK(pt.toString() == L"");
@@ -82,7 +157,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction5) //:Test Empty String.
   BOOST_CHECK(bytes.length() == 0);
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction6) //:Test Overwrite
+BOOST_AUTO_TEST_CASE(VerifyPlainText_15) //:Test Overwrite
 {
   String unicodeStr = TextConvert::NarrowToWide("A\u00ea\u00f1\u00fcC"); // Check me !!!
   SecureByteArray origBytes = TextConvert::GetBytes(unicodeStr);
