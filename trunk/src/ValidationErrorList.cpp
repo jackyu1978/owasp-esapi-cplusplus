@@ -48,7 +48,7 @@ namespace esapi
 
   ValidationException *ValidationErrorList::getError(const String &context){
 	  if (context.compare(L"")) return NULL;
-	  //ValidationException *foo = new ValidationException(L"foo",L"bar");
+	  //ValidationException *foo = new ValidationException("foo",L"bar");
 	  return errorList.find(context)->second;
   }
 

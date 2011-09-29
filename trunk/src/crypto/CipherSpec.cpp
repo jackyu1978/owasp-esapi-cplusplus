@@ -39,7 +39,7 @@ namespace esapi
       parts.push_back(s);
   }
 
-  CipherSpec::CipherSpec(String cipherXForm, int keySize, int blockSize, const SecureByteArray &iv)
+  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, int blockSize, const SecureByteArray &iv)
   {
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
@@ -47,21 +47,21 @@ namespace esapi
     setIV(iv);
   }
 
-  CipherSpec::CipherSpec(String cipherXForm, int keySize, int blockSize)
+  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, int blockSize)
   {
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
     setBlockSize(blockSize);
   }
 
-  CipherSpec::CipherSpec(String cipherXForm, int keySize)
+  CipherSpec::CipherSpec(const String& cipherXForm, int keySize)
   {
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
     setBlockSize(16);
   }
 
-  CipherSpec::CipherSpec(String cipherXForm, int keySize, const SecureByteArray &iv)
+  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, const SecureByteArray &iv)
   {
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
@@ -84,86 +84,94 @@ namespace esapi
     setBlockSize(16);
   }
 
-  void CipherSpec::setCipherTransformation(String cipherXForm)
+  void CipherSpec::setCipherTransformation(const String& cipherXForm)
   {
     setCipherTransformation(cipherXForm, false);
   }
 
-  void CipherSpec::setCipherTransformation(String cipherXForm, bool fromCipher)
+  void CipherSpec::setCipherTransformation(const String& cipherXForm, bool fromCipher)
   {
-    if(cipherXForm.empty())
-      throw new IllegalArgumentException(L"Cipher transformation may not be null or empty string (after trimming whitespace).");
+    String xform(cipherXForm);
+
+    ASSERT(!xform.empty());
+    if(xform.empty())
+      throw IllegalArgumentException("Cipher transformation may not be null or empty string (after trimming whitespace)");
 
     StringArray parts;
-    esapi::split(cipherXForm, L"/", parts);
+    esapi::split(xform, L"/", parts);
     size_t numParts = parts.size();
-    ESAPI_ASSERT2(fromCipher ? true : (numParts == 3), "Malformed cipherXform (" + TextConvert::WideToNarrow(cipherXForm) + "); must have form: \"alg/mode/paddingscheme\"");
+    ESAPI_ASSERT2(fromCipher ? true : (numParts == 3), "Malformed cipherXform (" + TextConvert::WideToNarrow(xform) + "); must have form: \"alg/mode/paddingscheme\"");
 
     if(fromCipher && numParts != 3)
       {
         if(numParts == 1)
-          cipherXForm += L"ECB/NoPadding";
+          xform += L"ECB/NoPadding";
         else if(numParts == 2)
-          cipherXForm += L"/NoPadding";
+          xform += L"/NoPadding";
         else
-          throw new IllegalArgumentException(L"Cipher transformation '" + cipherXForm + L"' must have form \"alg/mode/paddingscheme\".");
+          throw IllegalArgumentException("Cipher transformation '" + TextConvert::WideToNarrow(xform) + "' must have form \"alg/mode/paddingscheme\"");
       }
     else if(!fromCipher && numParts != 3)
-      throw new IllegalArgumentException(L"Malformed cipherXForm (" + cipherXForm + L"); Must have form \"alg/mode/paddingscheme\".");
-    ESAPI_ASSERT2(numParts == 3, "Implementation error in setCipherTransformation().");
-    cipher_xform_ = cipherXForm;
+      throw IllegalArgumentException("Malformed xform (" + TextConvert::WideToNarrow(xform) + "); Must have form \"alg/mode/paddingscheme\"");
+    ESAPI_ASSERT2(numParts == 3, "Implementation error in setCipherTransformation()");
+    cipher_xform_ = xform;
   }
 
-  String CipherSpec::getFromCipherXForm(CipherTransformationComponent component)
+  String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
   {
     std::vector<String> parts;
     String cipherXForm = this->getCipherTransformation();
     split(cipherXForm, L"/", parts);
-    ESAPI_ASSERT2(parts.size() == 3, NarrowString("Invalid cipher transformation: ") +
-      TextConvert::WideToNarrow(getCipherTransformation()));
+
+    const NarrowString msg = "Invalid cipher transformation: " + TextConvert::WideToNarrow(getCipherTransformation());
+    ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
     return parts[component];
   }
 
-  String CipherSpec::getCipherTransformation()
+  String CipherSpec::getCipherTransformation() const
   {
     return cipher_xform_;
   }
 
   void CipherSpec::setKeySize(int keySize)
   {
-    if(!keySize > 0)
-       throw new IllegalArgumentException(L"KeySize must be > 0.");
+    ASSERT(keySize > 0);
+    if(!(keySize > 0))
+       throw IllegalArgumentException("KeySize must be > 0");
+
     keySize_ = keySize;
   }
 
-  int CipherSpec::getKeySize()
+  int CipherSpec::getKeySize() const
   {
     return keySize_;
   }
 
   void CipherSpec::setBlockSize(int blockSize)
   {
-    if(!blockSize > 0)
-       throw new IllegalArgumentException(L"BlockSize must be > 0.");
+    ASSERT(blockSize > 0);
+    if(!(blockSize > 0))
+       throw IllegalArgumentException("BlockSize must be > 0");
+
     blockSize_ = blockSize;
   }
 
-  int CipherSpec::getBlockSize()
+  int CipherSpec::getBlockSize() const
   {
     return blockSize_;
   }
 
-  String CipherSpec::getCipherAlgorithm()
+  String CipherSpec::getCipherAlgorithm() const
   {
     return getFromCipherXForm(ALG);
   }
 
-  String CipherSpec::getCipherMode()
+  String CipherSpec::getCipherMode() const
   {
     return getFromCipherXForm(MODE);
   }
 
-  String CipherSpec::getPaddingScheme()
+  String CipherSpec::getPaddingScheme() const
   {
     return getFromCipherXForm(PADDING);
   }
@@ -174,12 +182,12 @@ namespace esapi
     iv_ = iv;
   }
 
-  SecureByteArray CipherSpec::getIV()
+  SecureByteArray CipherSpec::getIV() const
   {
     return iv_;
   }
 
-  bool CipherSpec::requiresIV()
+  bool CipherSpec::requiresIV() const
   {
     String ciphmode = getCipherMode();
     std::transform(ciphmode.begin(), ciphmode.end(), ciphmode.begin(), ::tolower);
@@ -188,7 +196,7 @@ namespace esapi
     return true;
   }
 
-  String CipherSpec::toString()
+  String CipherSpec::toString() const
   {
     WideStringStream strStm;
     strStm << L"CipherSpec: ";
@@ -206,7 +214,7 @@ namespace esapi
     return strStm.str();
   }
 
-  bool CipherSpec::equals(CipherSpec obj) //:In HashTrie.cpp, there's a line saying NullSafe isn't implemented yet, which breaks this function a bit.
+  bool CipherSpec::equals(const CipherSpec& obj) const //:In HashTrie.cpp, there's a line saying NullSafe isn't implemented yet, which breaks this function a bit.
   {
     /*
       if(NullSafe.equals(this->cipher_xform_, obj.cipher_xform_)
@@ -216,7 +224,9 @@ namespace esapi
       return true;
       return false;
     */
-    return 1;
+    if(this == &obj) return true;
+
+    return false;
   }
 
 } // NAMESPACE esapi

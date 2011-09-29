@@ -89,7 +89,7 @@ namespace esapi
       label = purpose.getBytes(L"UTF-8");
       context = context_.getBytes(L"UTF-8");
       } catch (UnsupportedEncodingException e) {
-      throw new EncryptionException(L"Encryption failure (internal encoding error: UTF-8)",
+      throw EncryptionException("Encryption failure (internal encoding error: UTF-8)",
       "UTF-8 encoding is NOT supported as a standard byte encoding: " + e.getMessage(), e);
       }
     */
@@ -249,8 +249,8 @@ namespace esapi
     return prf;
     }
     }
-    throw new IllegalArgumentException(L"Algorithm name " + prfAlgName +
-    " not a valid PRF algorithm name for the ESAPI KDF.");
+    throw IllegalArgumentException("Algorithm name " + prfAlgName +
+    " not a valid PRF algorithm name for the ESAPI KDF");
     }
     
     public static PRF_ALGORITHMS convertIntToPRF(int selection) {
@@ -259,7 +259,7 @@ namespace esapi
     return prf;
     }
     }
-    throw new IllegalArgumentException(L"No KDF PRF algorithm found for value name " + selection);    
+    throw IllegalArgumentException("No KDF PRF algorithm found for value name " + selection);    
     }
   */
 

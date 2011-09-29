@@ -68,8 +68,8 @@ BOOST_AUTO_TEST_CASE( test_try_catch )
       BOOST_CHECK_MESSAGE( TextConvert::NarrowToWide(ve.what()) == umsg, TextConvert::WideToNarrow(oss.str()) );
     }
 
-  // BOOST_REQUIRE_THROW( throw new std::exception, std::exception );
-  // BOOST_CHECK_THROW( throw new ValidationException(L"user message", L"log message"), std::exception );
+  // BOOST_REQUIRE_THROW( throw std::exception, std::exception );
+  // BOOST_CHECK_THROW( throw ValidationException("user message", L"log message"), std::exception );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -38,7 +38,7 @@ namespace esapi
 	  : BaseValidationRule<String>(typeName, encoder), whitelistPatterns(), blacklistPatterns(), minLength(0), maxLength(INT_MAX), validateInputAndCanonical(true)
   {
 	  ASSERT(encoder);
-	  if (encoder==nullptr) throw new NullPointerException(L"encoder has null pointer");
+	  if (encoder==nullptr) throw NullPointerException("encoder has null pointer");
 
 	  setEncoder( encoder );
 	  setTypeName( typeName );
@@ -52,7 +52,7 @@ namespace esapi
 
   String StringValidationRule::getValid(const String &context, const String &input) {
 	  //ASSERT(encoder);
-	  //if (encoder==nullptr) throw new NullPointerException(L"encoder has null pointer");
+	  //if (encoder==nullptr) throw NullPointerException("encoder has null pointer");
 
 	  String data = L"";
 
@@ -104,7 +104,7 @@ namespace esapi
 
   String StringValidationRule::getValid( const String &context, const String &input, ValidationErrorList &errorList ) {
 	  ASSERT(&errorList);
-	  if (&errorList==nullptr) throw new NullPointerException(L"errorList has null pointer");
+	  if (&errorList==nullptr) throw NullPointerException("errorList has null pointer");
 
 	  String valid;
 	  try {
@@ -121,7 +121,7 @@ namespace esapi
 
   void StringValidationRule::addWhitelistPattern(const String & pattern) {
 	  if (pattern.compare(L"")==0) {
-		  throw new IllegalArgumentException(L"Pattern cannot be null");
+		  throw IllegalArgumentException("Pattern cannot be null");
 	  }
 
 	  this->whitelistPatterns.insert(pattern);
@@ -129,7 +129,7 @@ namespace esapi
 
   void StringValidationRule::addBlacklistPattern(const String &pattern) {
 	  if (pattern.compare(L"")==0) {
-		  throw new IllegalArgumentException(L"Pattern cannot be null");
+		  throw IllegalArgumentException("Pattern cannot be null");
 	  }
 
 	  this->blacklistPatterns.insert(pattern);
@@ -167,7 +167,7 @@ namespace esapi
               logMessage << L") =" << *it << L", input=" << input;
               logMessage << (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
 
-			  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			  throw ValidationException( userMessage.str(), logMessage.str(), context );
 		  }
 	  }
 
@@ -193,7 +193,7 @@ namespace esapi
 			  StringStream logMessage;
 			  userMessage << context << L": Invalid input. Dangerous input matching " << *it + L" detected.";
 			  logMessage << L"Dangerous input: context=" << context << L", type(L" + getTypeName() + L")=" + *it + L", input=" + input + (/*NullSafe.equals(orig,input)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
-			  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+			  throw ValidationException( userMessage.str(), logMessage.str(), context );
 		  }
 	  }
 
@@ -211,7 +211,7 @@ namespace esapi
 		  StringStream logMessage;
 		  userMessage << context << L": Invalid input. The minimum length of " << minLength << L" characters was not met.";
 		  logMessage << L"Input does not meet the minimum length of " << minLength << L" by " << (minLength - input.size()) << L" characters: context=" << context << L", type=" << getTypeName() << L"), input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
-		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+		  throw ValidationException( userMessage.str(), logMessage.str(), context );
 	  }
 
 	  if (input.size() > maxLength) {
@@ -219,7 +219,7 @@ namespace esapi
 		  StringStream logMessage;
 		  userMessage << context << L": Invalid input. The maximum length of " << maxLength << L" characters was exceeded.";
 		  logMessage << L"Input exceeds maximum allowed length of " << maxLength << L" by " << (input.size()-maxLength) << L" characters: context=" << context << L", type=" << getTypeName() << L", orig=" << orig <<", input=" << input;
-		  throw new ValidationException( userMessage.str(), logMessage.str(), context );
+		  throw ValidationException( userMessage.str(), logMessage.str(), context );
 	  }
 
 	  return input;
@@ -239,7 +239,7 @@ namespace esapi
 	  StringStream logMessage;
 	  userMessage << context + L": Input required.";
 	  logMessage << L"Input required: context=" << context << L", input=" << input << (/*NullSafe.equals(input,orig)*/(input.compare(orig)==0) ? L"" : L", orig=" + orig);
-	  throw new ValidationException(userMessage.str(), logMessage.str(), context );
+	  throw ValidationException(userMessage.str(), logMessage.str(), context );
   }
 
   String StringValidationRule::checkEmpty(const String &context, const String &input) {
