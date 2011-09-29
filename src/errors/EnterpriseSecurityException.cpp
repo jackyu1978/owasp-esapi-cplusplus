@@ -52,4 +52,3 @@ namespace esapi
 	  return logMessage;
   }
 } // esapi
-
