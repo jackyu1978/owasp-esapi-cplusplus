@@ -21,7 +21,6 @@
 
 #include <iconv.h>
 #include <errno.h>
-#include <endian.h>
 
 namespace esapi
 {
@@ -43,7 +42,7 @@ namespace esapi
     iconv_t m_cd;
   };
 
-  static const std::string WideEncoding = "UTF-32";
+  static const std::string WideEncoding = "UTF-32LE";
   static const unsigned int WCHAR_T_SIZE = sizeof(wchar_t);
 
   /**
@@ -64,7 +63,7 @@ namespace esapi
     //  Reserve it
     temp.reserve(str.length());
 
-    iconv_t cd = iconv_open ("UTF-32", enc.c_str());
+    iconv_t cd = iconv_open ("UTF-32LE", enc.c_str());
     AutoConvDesc cleanup1(cd);
 
     ASSERT(cd != (iconv_t)-1);
@@ -84,7 +83,7 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
-        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
 
         // An invalid multibyte sequence is encountered in the input.
@@ -94,6 +93,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::NarrowToWide failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -104,6 +104,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::NarrowToWide failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -114,7 +115,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::NarrowToWide failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
-            oss << ". Return = " << nonconv << ", errno = " << err;
+            oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
         
@@ -166,7 +167,7 @@ namespace esapi
     //  Reserve it
     temp.reserve(wstr.length());
 
-    iconv_t cd = iconv_open (enc.c_str(), "UTF-32");
+    iconv_t cd = iconv_open (enc.c_str(), "UTF-32LE");
     AutoConvDesc cleanup1(cd);
 
     ASSERT(cd != (iconv_t)-1);
@@ -187,7 +188,7 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
-        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
 
         // An invalid multibyte sequence is encountered in the input.
@@ -197,6 +198,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -207,6 +209,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -217,7 +220,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-            oss << ". Return = " << nonconv << ", errno = " << err;
+            oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
 
@@ -230,7 +233,7 @@ namespace esapi
           }
       }
 
-    if(temp.size() >= 2 && ((temp[0] == 0xfe && temp[1] == 0xff) || (temp[0] == 0xff && temp[1] == 0xfe)))
+    if(temp.size() >= 2 && ((temp[0] == '\xfe' && temp[1] == '\xff') || (temp[0] == '\xff' && temp[1] == '\xfe')))
       temp.erase(temp.begin(), temp.begin()+2);
 
     NarrowString nstr;
@@ -252,7 +255,7 @@ namespace esapi
     //  Reserve it
     temp.reserve(wstr.length());
 
-    iconv_t cd = iconv_open (enc.c_str(), "UTF-32");
+    iconv_t cd = iconv_open (enc.c_str(), "UTF-32LE");
     AutoConvDesc cleanup1(cd);
 
     ASSERT(cd != (iconv_t)-1);
@@ -272,7 +275,7 @@ namespace esapi
         char* outptr = (char*)&out[0];
         size_t outlen = outbytes;
 
-        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
+        size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
         int err = errno;
 
         // An invalid multibyte sequence is encountered in the input.
@@ -282,6 +285,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -292,6 +296,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
+            oss << ". Bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
       
@@ -302,7 +307,7 @@ namespace esapi
             std::ostringstream oss;
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-            oss << ". Return = " << nonconv << ", errno = " << err;
+            oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
             throw InvalidArgumentException(oss.str());
           }
 
@@ -314,7 +319,7 @@ namespace esapi
           }     
       }
 
-    if(temp.size() && (*temp.begin() == 0xfeff || *temp.begin() == 0xfffe))
+    if(temp.size() && (temp[0] == L'\ufeff' || temp[0] == L'\ufffe'))
       temp.erase(temp.begin(), temp.begin()+1);
 
     SecureByteArray sba;
