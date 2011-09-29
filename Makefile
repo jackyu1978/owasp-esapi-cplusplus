@@ -337,6 +337,11 @@ ifeq ($(GNU_LD216_OR_LATER),1)
 endif
 
 LDLIBS 		+= -lcryptopp -lboost_regex
+
+ifeq ($(IS_BSD),1)
+  LDLIBS += -liconv
+endif
+
 TESTCXXFLAGS += $(CPPFLAGS) $(subst -O2,-O0,$(CXXFLAGS))
 TESTLDFLAGS	+= -L/usr/local/lib -L/usr/lib
 TESTLDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
