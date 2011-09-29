@@ -59,22 +59,23 @@ namespace esapi
 
     if(!(keySize >= 56))
       {
-        StringStream oss;
-        oss << L"KeyDerivationFunction: key has size of " << keySize << L", which is less than minimum of 56-bits.";
+        std::ostringstream oss;
+        oss << "KeyDerivationFunction: key has size of " << keySize << ", which is less than minimum of 56-bits.";
         throw InvalidArgumentException(oss.str());
       }
 
     if(!((keySize % 8) == 0))
       {
-        StringStream oss;
-        oss << L"KeyDerivationFunction: key size (L" << keySize << L") must be a even multiple of 8-bits.";
+        std::ostringstream oss;
+        oss << "KeyDerivationFunction: key size (" << keySize << ") must be a even multiple of 8-bits.";
         throw InvalidArgumentException(oss.str());
       }
 
     if(purpose.empty())
       {
-        StringStream oss;
-        oss << L"Purpose \'" << purpose << L"\' is null, empty, or not valid. Purpose should be either \'authenticity\' or \'encryption\'.";
+        std::ostringstream oss;
+        oss << "Purpose \'" << TextConvert::WideToNarrow(purpose) << "\' is null, empty, or not valid. ";
+        oss << "Purpose must be either \'authenticity\' or \'encryption\'.";
         throw InvalidArgumentException(oss.str());
       }
 
