@@ -40,9 +40,29 @@ BOOST_AUTO_TEST_CASE( VerifyPlainText )
   BOOST_MESSAGE("Verifying PlainText class");
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction1) //:Test assignment and comparison.
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction1)
 {
-  String unicodeStr = L"A\u00ea\u00f1\u00fcC";     //:"AêñüC"
+  // Construction
+  PlainText p;
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction2)
+{
+  // Copy
+  PlainText p;
+  PlainText pp(p);
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction3)
+{
+  // Assignment
+  PlainText p;
+  PlainText pp = p;
+}
+
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction4) //:Test assignment and comparison.
+{
+  String unicodeStr = L"A\u00ea\u00f1\u00fcC";     //:"AêñüC" // Check me !!!
   String altString = TextConvert::NarrowToWide("AêñüC");     //:Same as above.
   PlainText str1(unicodeStr), str2(altString);
   BOOST_CHECK(str1.equals(str1));
@@ -53,30 +73,30 @@ BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction1) //:Test assignment and comparison
   BOOST_CHECK(str2.length() == altString.length());
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction2) //:Test Empty String.
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction5) //:Test Empty String.
 {
-PlainText pt(L"");
-BOOST_CHECK(pt.toString() == L"");
-BOOST_CHECK(pt.length() == 0);
-SecureByteArray bytes = pt.asBytes();
-BOOST_CHECK(bytes.length() == 0);
+  PlainText pt(L"");
+  BOOST_CHECK(pt.toString() == L"");
+  BOOST_CHECK(pt.length() == 0);
+  SecureByteArray bytes = pt.asBytes();
+  BOOST_CHECK(bytes.length() == 0);
 }
 
-BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction3) //:Test Overwrite
+BOOST_AUTO_TEST_CASE(VerifyPlainTextFunction6) //:Test Overwrite
 {
-String unicodeStr = TextConvert::NarrowToWide("A\u00ea\u00f1\u00fcC");
-SecureByteArray origBytes = TextConvert::GetBytes(unicodeStr);
-PlainText pt(origBytes);
-BOOST_CHECK(pt.toString() == unicodeStr);
-//BOOST_CHECK(origBytes == pt.asBytes());  //:Can't compare SecureByteArrays with == operator
-size_t origLen = origBytes.length();
-pt.overwrite();
-SecureByteArray overwrittenBytes = pt.asBytes();
-size_t afterLen = overwrittenBytes.length();
-BOOST_CHECK(origLen == afterLen);
-size_t sum = 0;
-for(size_t i = 0; i < afterLen; i++)
-   if(overwrittenBytes[i] == L'*')
+  String unicodeStr = TextConvert::NarrowToWide("A\u00ea\u00f1\u00fcC"); // Check me !!!
+  SecureByteArray origBytes = TextConvert::GetBytes(unicodeStr);
+  PlainText pt(origBytes);
+  BOOST_CHECK(pt.toString() == unicodeStr);
+  //BOOST_CHECK(origBytes == pt.asBytes());  //:Can't compare SecureByteArrays with == operator
+  size_t origLen = origBytes.length();
+  pt.overwrite();
+  SecureByteArray overwrittenBytes = pt.asBytes();
+  size_t afterLen = overwrittenBytes.length();
+  BOOST_CHECK(origLen == afterLen);
+  size_t sum = 0;
+  for(size_t i = 0; i < afterLen; i++)
+    if(overwrittenBytes[i] == L'*')  // Check me !!!
       sum++;
-BOOST_CHECK(sum == afterLen);
+  BOOST_CHECK(sum == afterLen);
 }
