@@ -26,11 +26,10 @@ namespace esapi
   MessageDigestImpl* MessageDigestImpl::createInstance(const String& algorithm)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
+    ASSERT( !algorithm.empty() );
 
-#if defined(CRYPTOPP_ENABLE_NAMESPACE_WEAK)
     if(algorithm == L"MD5")
       return new MessageDigestTmpl<CryptoPP::Weak::MD5>(algorithm);
-#endif
 
     if(algorithm == L"SHA-1")
       return new MessageDigestTmpl<CryptoPP::SHA1>(algorithm);
@@ -58,8 +57,8 @@ namespace esapi
     // md.update(scratch);
 
     // We only have InvalidArgumentException and EncryptionException
-    StringStream oss;
-    oss << "Algorithm \'" << algorithm << "\' is not supported";
+    std::ostringstream oss;
+    oss << "Algorithm \'" << TextConvert::WideToNarrow(algorithm) << "\' is not supported";
     throw NoSuchAlgorithmException(oss.str());
   }
 
@@ -91,7 +90,7 @@ namespace esapi
       {
         size = (size_t)m_hash.DigestSize();
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
@@ -109,7 +108,7 @@ namespace esapi
       {
         m_hash.Restart();
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
@@ -121,7 +120,14 @@ namespace esapi
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(byte input)   
   {
-    m_hash.Update(&input, 1);
+    try
+      {
+        m_hash.Update(&input, 1);
+      }
+    catch(const CryptoPP::Exception& ex)
+      {
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
+      }
   }
 
   /**
@@ -134,7 +140,7 @@ namespace esapi
   }
 
   /**
-   * Updates the digest using the specified array of bytes.
+   * Updates the digest using the specified string.
    */
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const String& str)   
@@ -162,6 +168,11 @@ namespace esapi
   template <class HASH>
   void MessageDigestTmpl<HASH>::updateImpl(const SecureByteArray& sa, size_t offset, size_t len)   
   {
+    //ASSERT(sa.data());
+    //ASSERT(sa.size());
+    //ASSERT(len);
+    //ASSERT(offset+len <= size);
+
     return updateImpl(sa.data(), sa.size(), offset, len);
   }
 
@@ -173,7 +184,7 @@ namespace esapi
   {
     ESAPI_ASSERT2(input, "Input array is not valid");
     ESAPI_ASSERT2(size, "Input array size is 0");
-    ESAPI_ASSERT2(size, "Input array length is 0");
+    ESAPI_ASSERT2(len, "Input array length is 0");
     ESAPI_ASSERT2(offset+len <= size, "Input array offset and length exceeds size");
 
     // This Java program will throw a NullPointerException
@@ -186,18 +197,18 @@ namespace esapi
     // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // md.update(scratch);
 
-    // Removed Java like hack on a NULL reference. An empty wide string will
+    // This Java program will throw an IllegalArgumentException
+    // byte[] scratch = new byte[16];
+    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // md.update(scratch, 1, 16);
+
+    // Removed Java like hack on a NULL reference. An empty string will
     // eventually end up here. When its data pointer is retrieved, it will be
     // NULL and its size will be 0 size. We simply can't throw.
     // We don't early out in case the hash updates internal state even on a
     // null or zero size input.
     //if(!input)
     //  throw InvalidArgumentException("The input array or size is not valid");
-
-    // This Java program will throw an IllegalArgumentException
-    // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
-    // md.update(scratch, 1, 16);
 
     try
       {
@@ -213,11 +224,11 @@ namespace esapi
 
         m_hash.Update(input+offset, len);
       }
-    catch(SafeIntException&)
+    catch(const SafeIntException&)
       {
         throw EncryptionException("Integer overflow detected");
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
@@ -230,19 +241,19 @@ namespace esapi
    template <class HASH>
    SecureByteArray MessageDigestTmpl<HASH>::digestImpl()
    {
-     SecureByteArray out(HASH::DIGESTSIZE);
+     SecureByteArray digest(HASH::DIGESTSIZE);
 
     try
       {
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
-        m_hash.TruncatedFinal(out.data(), out.size());
+        m_hash.TruncatedFinal(digest.data(), digest.size());
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
 
-     return out;
+     return digest;
    }
 
   /**
@@ -250,9 +261,12 @@ namespace esapi
    * digest computation.
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const SecureByteArray& input)
+   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const SecureByteArray& sa)
    {
-     return digestImpl(input.data(), input.size());
+    //ASSERT(sa.data());
+    //ASSERT(sa.size());
+
+     return digestImpl(sa.data(), sa.size());
    }
 
   /**
@@ -262,6 +276,9 @@ namespace esapi
    template <class HASH>
    SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const String& input)
    {
+     //ASSERT(input.data());
+     //ASSERT(input.length());
+
      // Our String classes do not have a getBytes() method.
      SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
      return digestImpl(sa.data(), sa.size());
@@ -274,8 +291,8 @@ namespace esapi
    template <class HASH>
    SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const byte input[], size_t size)
    {
-     ASSERT(input);
-     ASSERT(size);
+     //ASSERT(input);
+     //ASSERT(size);
 
      SecureByteArray out(HASH::DIGESTSIZE);
 
@@ -288,11 +305,11 @@ namespace esapi
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
         m_hash.TruncatedFinal(out.data(), out.size());
       }
-    catch(SafeIntException&)
+    catch(const SafeIntException&)
       {
         throw EncryptionException("Integer overflow detected");
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
@@ -307,7 +324,9 @@ namespace esapi
   size_t MessageDigestTmpl<HASH>::digestImpl(SecureByteArray& buf, size_t offset, size_t len)
    
   {
-    ASSERT(buf.size());
+    //ASSERT(buf.data());
+    //ASSERT(buf.size());
+    //ASSERT(offset + len <= buf.size());
 
     return digestImpl(buf.data(), buf.size(), offset, len);
   }
@@ -319,17 +338,19 @@ namespace esapi
   size_t MessageDigestTmpl<HASH>::digestImpl(byte buf[], size_t size, size_t offset, size_t len)
    
   {
-    ASSERT(buf);
-    ASSERT(size);
+    ESAPI_ASSERT2(buf, "Input array is not valid");
+    ESAPI_ASSERT2(size, "Input array size is 0");
+    ESAPI_ASSERT2(len, "Input array length is 0");
+    ESAPI_ASSERT2(offset+len <= size, "Input array offset and length exceeds size");
 
     // This Java program will throw an IllegalArgumentException
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // int size = md.digest(null, 0, 0);
 
     if(!buf || !size)
       throw InvalidArgumentException("The buffer array or size is not valid");
 
-    // This Java program will throw an DigestException
+    // This Java program will throw a DigestException
     // byte[] scratch = new byte[1];
     // MessageDigest md = MessageDigest.getInstance(L"MD5");
     // int size = md.digest(scratch, 0, 0);
@@ -341,12 +362,13 @@ namespace esapi
 
     if(size < (size_t)m_hash.DigestSize() || len < (size_t)m_hash.DigestSize())
       {
-        StringStream oss;
-        oss << L"Length must be at least " << m_hash.DigestSize() << L" for " << getAlgorithmImpl();
+        std::stringstream oss;
+        oss << "Length must be at least " << m_hash.DigestSize() << " for " << TextConvert::WideToNarrow(getAlgorithmImpl());
         throw InvalidArgumentException(oss.str());
       }
 
     const size_t req = std::min(size, std::min((size_t)HASH::DIGESTSIZE, len));
+    ASSERT(req > 0);
 
     try
       {
@@ -363,11 +385,11 @@ namespace esapi
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
         m_hash.TruncatedFinal(buf+offset, req);
       }
-    catch(SafeIntException&)
+    catch(const SafeIntException&)
       {
         throw EncryptionException("Integer overflow detected");
       }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
       {
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }

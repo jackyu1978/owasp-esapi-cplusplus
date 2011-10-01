@@ -77,8 +77,8 @@
  * security levels. To keep a single pool for all generators, the Random Pool
  * uses AES-256/OFB. AES-256/OFB matches the security level of the strongest
  * SecureRandoms we provide (ie, SHA-512, HmacSHA-512, AES-256/CTR). Weaker
- * SecureRandoms (ie, SHA-1) are slightly penalized due to the stronger RandomPool
- * algorithm.
+ * SecureRandoms (ie, SHA-1) are slightly performance impaired due to the
+ * stronger RandomPool algorithm.
  *
  * Enough with the background info. When we instantiate, here's what we do:
  *   seed_material = Entropy (SeedLength bits from Random Pool) ||
@@ -121,6 +121,9 @@ namespace esapi
   SecureRandomImpl* SecureRandomImpl::createInstance(const String& algorithm, const byte* seed, size_t size)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
+    ASSERT( !algorithm.empty() );
+    //ASSERT(seed);
+    //ASSERT(size);
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
@@ -238,8 +241,8 @@ namespace esapi
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
-    StringStream oss;
-    oss << "Algorithm \'" << algorithm << "\' is not supported.";
+    std::ostringstream oss;
+    oss << "Algorithm \'" << TextConvert::WideToNarrow(algorithm) << "\' is not supported.";
     throw NoSuchAlgorithmException(oss.str());
   }
 
@@ -250,6 +253,9 @@ namespace esapi
   SecureRandomImpl::SecureRandomImpl(const String& algorithm, const byte*, size_t)
     : m_catastrophic(false), m_algorithm(algorithm)
   {
+    ASSERT( !algorithm.empty() );
+    //ASSERT(seed);
+    //ASSERT(size); 
   }
 
   /**
@@ -277,6 +283,7 @@ namespace esapi
     ASSERT(size1 >= size2);
 
     size_t rem = std::min(size1, size2);
+    ASSERT(rem > 0);
     
     // The min buffer should be 4, and the max buffer should be ~110 or less.
     int idx1 = (int)size1 - 1;
@@ -1012,7 +1019,7 @@ namespace esapi
             m_hmac.TruncatedFinal(m_v.data(), m_v.size());
 
             /////////////////////////////////////////////////////////
-            // Copy out, Step 4.2 (and 5)
+            // Copy out, Step 4.2 and 5
             /////////////////////////////////////////////////////////
             const size_t req = std::min(rem, (size_t)CryptoPP::HMAC<HASH>::DIGESTSIZE);
             ::memcpy(hash+idx, m_v.data(), req);

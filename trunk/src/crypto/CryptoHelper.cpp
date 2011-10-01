@@ -221,15 +221,18 @@ namespace esapi
     ASSERT(bytes);
     ASSERT(size);
 
-    if(!bytes)
-      throw InvalidArgumentException("The array cannot be null or empty");
+    if(!bytes || !size) return;
 
-    if(!size)
-      return;
-
-    // Will throw if ptr wraps. T* and size_t causing trouble on Linux
-    SafeInt<size_t> si((size_t)bytes); si += size;
-    g_dummy = (void*)(size_t)si;
+    try
+    {
+      // Will throw if ptr wraps. T* and size_t causing trouble on Linux
+      SafeInt<size_t> si((size_t)bytes); si += size;
+      g_dummy = (void*)(size_t)si;
+    }
+    catch(const SafeIntException& ex)
+    {
+      throw InvalidArgumentException("Source or destination array pointer wrap");
+    }
 
     for(size_t i = 0; i < size; i++)
       bytes[i] = x;
@@ -252,7 +255,7 @@ namespace esapi
     ASSERT(size);
 
     // The called overload tests for ptr wrap
-    overwrite(bytes, size, L'*');
+    overwrite(bytes, size, '*');
   }
 
   // These provide for a bit more type safety when copying bytes around.
@@ -280,18 +283,26 @@ namespace esapi
     if(!dest)
       throw InvalidArgumentException("Destination array cannot be null");
 
-    // Will throw if ptr wraps. T* and size_t causing trouble on Linux
-    SafeInt<size_t> ssi((size_t)src); ssi += srcSize;
-    g_dummy = (void*)(size_t)ssi;
-    SafeInt<size_t> dsi((size_t)dest); dsi += destSize;
-    g_dummy = (void*)(size_t)dsi;
+    try
+    {
+      // Will throw if ptr wraps. T* and size_t causing trouble on Linux
+      SafeInt<size_t> ssi((size_t)src); ssi += srcSize;
+      g_dummy = (void*)(size_t)ssi;
+      SafeInt<size_t> dsi((size_t)dest); dsi += destSize;
+      g_dummy = (void*)(size_t)dsi;
+    }
+    catch(const SafeIntException& ex)
+    {
+      throw InvalidArgumentException("Source or destination array pointer wrap");
+    }
 
     const size_t req = std::min(copySize, std::min(srcSize, destSize));
     ASSERT(req > 0);
+    ASSERT(req == copySize);
 
-    if(req < copySize)
-      throw std::out_of_range("Copy size exceeds source or destination size");
-        
+    if(req != copySize)
+      throw InvalidArgumentException("Copy size exceeds source or destination size");
+
     ESAPI_MS_NO_WARNING(4996);
     std::copy(src, src+req, dest);
     ESAPI_MS_DEF_WARNING(4996);
@@ -334,11 +345,18 @@ namespace esapi
     ASSERT(b2);
     ASSERT(s2);
 
-    // Will throw if ptr wraps. T* and size_t causing trouble on Linux
-    SafeInt<size_t> si1((size_t)b1); si1 += s1;
-    g_dummy = (void*)(size_t)si1;
-    SafeInt<size_t> si2((size_t)b2); si2 += s2;
-    g_dummy = (void*)(size_t)si2;
+    try
+    {
+      // Will throw if ptr wraps. T* and size_t causing trouble on Linux
+      SafeInt<size_t> si1((size_t)b1); si1 += s1;
+      g_dummy = (void*)(size_t)si1;
+      SafeInt<size_t> si2((size_t)b2); si2 += s2;
+      g_dummy = (void*)(size_t)si2;
+    }
+    catch(const SafeIntException& ex)
+    {
+      throw InvalidArgumentException("Source or destination array pointer wrap");
+    }
 
     // These early outs break the contract regarding timing.
     // https://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=5
@@ -352,11 +370,11 @@ namespace esapi
     if ( s1 != s2 ) {
       return false;
     }
-        
-    int result = 0;
+    
     // Make sure to go through ALL the bytes. We use the fact that if
     // you XOR any bit stream with itself the result will be all 0 bits,
     // which in turn yields 0 for the result.
+    int result = 0;
     for(size_t i = 0; i < s2; i++) {
       // XOR the 2 current bytes and then OR with the outstanding result.
       result |= (b1[i] ^ b2[i]);

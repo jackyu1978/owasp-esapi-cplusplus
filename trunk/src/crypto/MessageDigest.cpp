@@ -41,9 +41,6 @@ namespace esapi
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
-
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create MessageDigest");
   }
 
   /**
@@ -54,9 +51,6 @@ namespace esapi
   {
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
-
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create MessageDigest");
   }
 
   /**
@@ -79,9 +73,6 @@ namespace esapi
     // to 'this' object's lock. After the assignment below, the lock
     // has changed (it points to the new object lock). We subsequently
     // release the new lock (not the old lock).
-    //boost::shared_ptr<Mutex> tlock(m_lock);
-    //ESAPI_ASSERT2(tlock.get() != nullptr, "Object lock is null in assignment");
-    //MutexLock lock(tlock.get());
 
     if(this != &rhs)
     {
@@ -89,7 +80,6 @@ namespace esapi
       m_impl = rhs.m_impl;
     }
 
-    //ASSERT(tlock.get() != m_lock.get());
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
 
@@ -133,9 +123,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
-
     return m_impl->getDigestLengthImpl();
   }
 
@@ -148,9 +135,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to reset");
-
     return m_impl->resetImpl();
   }
 
@@ -167,9 +151,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(input);
   }
 
@@ -188,9 +169,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(input, size);
   }
 
@@ -208,9 +186,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(input);
   }
 
@@ -229,9 +204,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(str);
   }
 
@@ -253,9 +225,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(buf, size, offset, len);
   }
 
@@ -276,9 +245,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->updateImpl(sa, offset, len);
   }
 
@@ -292,9 +258,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->digestImpl();
   }
 
@@ -311,9 +274,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->digestImpl(input, size);
   }
 
@@ -329,9 +289,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->digestImpl(input);
   }
 
@@ -348,9 +305,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to update digest");
-
     return m_impl->digestImpl(input);
   }
 
@@ -371,9 +325,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve digest");
-
     return m_impl->digestImpl(buf, size, offset, len);
   }
 
@@ -394,9 +345,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve digest");
-
     return m_impl->digestImpl(buf, offset, len);
   }
 

@@ -47,9 +47,6 @@ namespace esapi
     MEMORY_BARRIER();
 
     ASSERT(impl != nullptr);
-    if(impl == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
-
     return SecureRandom(impl);
   }
 
@@ -64,9 +61,6 @@ namespace esapi
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
-
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -78,9 +72,6 @@ namespace esapi
   {
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
-
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -90,11 +81,9 @@ namespace esapi
    
     : m_lock(new Mutex), m_impl(impl)
   {
+    ASSERT(impl);
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
-
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to create SecureRandom");
   }
 
   /**
@@ -152,9 +141,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
-
     return m_impl->generateSeedImpl(numBytes);
   }
 
@@ -168,9 +154,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve algorithm name");
-
     return m_impl->getAlgorithmImpl();
   }  
 
@@ -185,9 +168,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to retrieve security level");
-
     return m_impl->getSecurityLevelImpl();
   }
 
@@ -201,9 +181,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to generate random bytes");
-
     m_impl->nextBytesImpl(bytes, size);
   }
 
@@ -216,14 +193,11 @@ namespace esapi
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
 
-    ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
-
-    // No need to lock - RandomPool provides its own
+    // No need to lock RandomPool - it provides its own
     RandomPool::GetSharedInstance().Reseed();
 
     // Reseed the SecureRandom object
+    ASSERT(m_impl.get() != nullptr);
     m_impl->setSeedImpl(seed, size);
   }
 
@@ -237,9 +211,6 @@ namespace esapi
     MutexLock lock(getObjectLock());
 
     ASSERT(m_impl.get() != nullptr);
-    if(m_impl.get() == nullptr)
-      throw EncryptionException("Failed to seed the generator");
-
     m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
 
@@ -446,5 +417,6 @@ namespace esapi
 
     return trimmed;
   }
+
 } // esapi
 
