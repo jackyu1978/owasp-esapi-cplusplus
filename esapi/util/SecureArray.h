@@ -45,9 +45,9 @@ namespace esapi
   public:
 
     // Construction
-    explicit SecureArray(size_type n = 0, const T& value = T());
+    explicit SecureArray(size_type cnt = 0, const T& value = T());
     explicit SecureArray(const T* ptr, size_t cnt);
-    template <class InputIterator>
+    template <typename InputIterator>
       SecureArray(InputIterator first, InputIterator last);
 
     // Destruction
@@ -100,13 +100,13 @@ namespace esapi
 
     void assign(size_type n, const T& u);
     void assign(const T* ptr, size_t cnt);
-    template <class InputIterator>
+    template <typename InputIterator>
       void assign(InputIterator first, InputIterator last);
 
     iterator insert(iterator pos, const T& x);
     void insert(iterator pos, size_type n, const T& x);
     void insert(iterator pos, const T* ptr, size_t cnt);
-    template <class InputIterator>
+    template <typename InputIterator>
       void insert(iterator pos, InputIterator first, InputIterator last);
 
     iterator erase(iterator pos);
@@ -119,16 +119,24 @@ namespace esapi
 
   private:
 
+    // Helpers to validate parameters in constructors
+    inline SecureVector* create_secure_array(size_type cnt, const T& value);
+    inline SecureVector* create_secure_array(const T* ptr, size_t cnt);
+    template <typename InputIterator>
+      inline SecureVector* create_secure_array(InputIterator first, InputIterator last);
+
+  private:
+
     boost::shared_ptr<SecureVector> m_vector;
   };
+
+  // Non-member swap
+  template <typename T>
+  void swap(SecureArray<T>& a, SecureArray<T>& b);
 
   // Convenience
   typedef SecureArray<byte> SecureByteArray;
   typedef SecureArray<int> SecureIntArray;
-
-  // Non-member swap
-  void swap(SecureByteArray& a, SecureByteArray& b);
-  void swap(SecureIntArray& a, SecureIntArray& b);
 
 } // NAMESPACE
 

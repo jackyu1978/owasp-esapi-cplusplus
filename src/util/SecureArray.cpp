@@ -26,16 +26,44 @@ namespace esapi
   // Construction
   template <typename T>
   SecureArray<T>::SecureArray(size_type n, const T& t)
-    : m_vector(new SecureVector(n,t))
+    : m_vector(create_secure_array(n,t))
   {
     ASSERT(m_vector.get());
-    ASSERT(n > 0);
-    ASSERT(n <= max_size());
   }
 
   template <typename T>
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
-    : m_vector(new SecureVector)
+    : m_vector(create_secure_array(ptr, cnt))
+  {
+    ASSERT(m_vector.get());
+  }
+
+  template <typename T>
+  template <typename InputIterator>
+  SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
+    : m_vector(create_secure_array(first, last))
+  {
+    ASSERT(m_vector.get());
+  }
+
+  // Private helper
+  template <typename T>
+  typename SecureArray<T>::SecureVector*
+  SecureArray<T>::create_secure_array(size_type cnt, const T& value)
+  {
+    // Warning only
+    ESAPI_ASSERT2(cnt != 0, "Array size is 0");
+    ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
+    if(!(cnt <= max_size()))
+      throw InvalidArgumentException("Too many elements in the array");
+
+    return new SecureVector(cnt, value);
+  }
+
+  // Private helper
+  template <typename T>
+  typename SecureArray<T>::SecureVector*
+  SecureArray<T>::create_secure_array(const T* ptr, size_t cnt)
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
@@ -66,17 +94,21 @@ namespace esapi
       throw InvalidArgumentException("Array pointer wrap");
 #endif
 
-    boost::shared_ptr<SecureVector> temp(new SecureVector(ptr /*first*/, ptr+cnt /*last*/));
-    ASSERT(temp.get());
-    m_vector.swap(temp);
+    return new SecureVector(ptr /*first*/, ptr+cnt /*last*/);
   }
 
+  // Private helper
   template <typename T>
-  template <class InputIterator>
-  SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
-    : m_vector(new SecureVector(first, last))
+  template <typename InputIterator>
+  typename SecureArray<T>::SecureVector*
+  SecureArray<T>::create_secure_array(InputIterator first, InputIterator last)
   {
-    ASSERT(m_vector.get());
+    ESAPI_ASSERT2(first, "Bad first input iterator");
+    ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
+    if(!(last >= first))
+      throw InvalidArgumentException("Bad input iterators");
+
+    return new SecureVector(first, last);
   }
 
   // Iterators
@@ -348,7 +380,7 @@ namespace esapi
   }
 
   template <typename T>
-  template <class InputIterator>
+  template <typename InputIterator>
   void SecureArray<T>::assign(InputIterator first, InputIterator last)
   {
     ESAPI_ASSERT2(first, "Bad first input iterator");
@@ -420,7 +452,7 @@ namespace esapi
   }
 
   template <typename T>
-  template <class InputIterator>
+  template <typename InputIterator>
   void SecureArray<T>::insert(iterator pos, InputIterator first, InputIterator last)
   {
     ESAPI_ASSERT2(first, "Bad first input iterator");
@@ -471,12 +503,8 @@ namespace esapi
     m_vector->push_back(x);
   }
 
-  void swap(SecureByteArray& a, SecureByteArray& b)
-  {
-    a.swap(b);
-  }
-
-  void swap(SecureIntArray& a, SecureIntArray& b)
+  template <typename T>
+  void swap(SecureArray<T>& a, SecureArray<T>& b)
   {
     a.swap(b);
   }
