@@ -83,7 +83,7 @@ namespace esapi
   }
 
   /**
-  * Returns the default algorithm used for key generation. Keep this value synchronized
+  * Returns the default security bits for key generation. Keep this value synchronized
   * with DefaultAlgorithm(). SP800-90 offers the mappings of security bits to generators
   * Table 2 (p.34) and Table 3 (p.46) and SP800-57.
   */
@@ -115,8 +115,8 @@ namespace esapi
     // SecureRandom stashes away the SecurityLevel in bytes (not
     // the customary bits). We should not be generating keys 
     // beyond its security level. Sanity check it now.
-    ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
-      "Requested bytes exceeds the security level of the generator");
+    //ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
+    //  "Requested bytes exceeds the security level of the generator");
   }
 
   /**
@@ -144,8 +144,8 @@ namespace esapi
     // SecureRandom stashes away the SecurityLevel in bytes (not
     // the customary bits). We should not be generating keys 
     // beyond its security level. Sanity check it now.
-    ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
-      "Requested bytes exceeds the security level of the generator");   
+    //ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
+    //  "Requested bytes exceeds the security level of the generator");   
   }
 
   /**
@@ -176,7 +176,8 @@ namespace esapi
     // SecureRandom stashes away the SecurityLevel in bytes (not
     // the customary bits). Here, we should not be generating
     // keys beyond its security level.
-    ASSERT(m_keyBytes <= m_random.getSecurityLevel());
+    ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
+      "The requested number of key bits exceeds the generator's security level");
 
     CryptoPP::SecByteBlock key(m_keyBytes);
     m_random.nextBytes(key.data(), key.size());

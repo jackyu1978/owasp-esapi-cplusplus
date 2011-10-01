@@ -91,13 +91,10 @@ namespace esapi
       return *this;
   }
 
-  size_t SecretKey::sizeInBytes() const
-  {
-    return m_secBlock.SizeInBytes();
-  }
-
   SecureByteArray SecretKey::getEncoded() const
   {
+    ASSERT(m_secBlock.data());
+    ASSERT(m_secBlock.size());
     return SecureByteArray(m_secBlock.data(), m_secBlock.size());
   }
 
@@ -107,18 +104,25 @@ namespace esapi
   String SecretKey::getFormat() const
   {
     ASSERT( !m_format.empty() );
-
     return m_format;
   }
 
   String SecretKey::getAlgorithm() const
   {
+    ASSERT( !m_algorithm.empty() );
     return m_algorithm;
   }
 
   const byte* SecretKey::BytePtr() const
   {
+    ASSERT(m_secBlock.BytePtr());
     return m_secBlock.BytePtr();
+  }
+
+  size_t SecretKey::sizeInBytes() const
+  {
+    ASSERT(m_secBlock.SizeInBytes());
+    return m_secBlock.SizeInBytes();
   }
 
   bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.m_secBlock == rhs.m_secBlock; }
@@ -131,7 +135,7 @@ namespace esapi
     std::string hex;
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
       new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-      );
+    );
 
     return (os << hex);
   }
