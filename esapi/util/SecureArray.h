@@ -45,7 +45,7 @@ namespace esapi
   public:
 
     // Construction
-    explicit SecureArray(size_type n = 0, const T value = T());
+    explicit SecureArray(size_type n = 0, const T& value = T());
     explicit SecureArray(const T* ptr, size_t cnt);
     template <class InputIterator>
       SecureArray(InputIterator first, InputIterator last);
@@ -125,6 +125,10 @@ namespace esapi
   // Convenience
   typedef SecureArray<byte> SecureByteArray;
   typedef SecureArray<int> SecureIntArray;
+
+  // Non-member swap
+  void swap(SecureByteArray& a, SecureByteArray& b);
+  void swap(SecureIntArray& a, SecureIntArray& b);
 
 } // NAMESPACE
 
