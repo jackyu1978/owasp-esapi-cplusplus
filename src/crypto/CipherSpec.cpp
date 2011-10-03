@@ -38,38 +38,52 @@ namespace esapi
       parts.push_back(s);
   }
 
-  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, int blockSize, const SecureByteArray &iv)
+  CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv)
   {
+    ASSERT( !cipherXForm.empty() );
+    ASSERT( keySize > 0 );
+    ASSERT( blockSize > 0 );
+    ASSERT( iv.size() > 0 );
+
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
     setBlockSize(blockSize);
     setIV(iv);
   }
 
-  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, int blockSize)
+  CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize)
   {
+    ASSERT( !cipherXForm.empty() );
+    ASSERT( keySize > 0 );
+    ASSERT( blockSize > 0 );
+
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
     setBlockSize(blockSize);
   }
 
-  CipherSpec::CipherSpec(const String& cipherXForm, int keySize)
+  CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize)
   {
+    ASSERT( !cipherXForm.empty() );
+    ASSERT( keySize > 0 );
+
     setCipherTransformation(cipherXForm);
     setKeySize(keySize);
     setBlockSize(16);
   }
 
-  CipherSpec::CipherSpec(const String& cipherXForm, int keySize, const SecureByteArray &iv)
+  CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, const SecureByteArray &iv)
+    : cipher_xform_(cipherXForm), keySize_(keySize), blockSize_(16), iv_(iv)
   {
-    setCipherTransformation(cipherXForm);
-    setKeySize(keySize);
-    setBlockSize(16);
-    setIV(iv);
+    ASSERT( !cipherXForm.empty() );
+    ASSERT( keySize > 0 );
+    ASSERT( iv.size() > 0 );
   }
 
   CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist yet.
   {
+    ASSERT( iv.size() > 0 );
+
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
     setBlockSize(16);
@@ -90,9 +104,9 @@ namespace esapi
 
   void CipherSpec::setCipherTransformation(const String& cipherXForm, bool fromCipher)
   {
-    String xform(cipherXForm);
+    ASSERT(!cipherXForm.empty());
 
-    ASSERT(!xform.empty());
+    String xform(cipherXForm);
     if(xform.empty())
       throw IllegalArgumentException("Cipher transformation may not be null or empty string (after trimming whitespace)");
 
@@ -118,50 +132,53 @@ namespace esapi
 
   String CipherSpec::getCipherTransformation() const
   {
-  String xformCopy(cipher_xform_);
-    return xformCopy;
+    return cipher_xform_;
   }
 
   String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
-  {
-    StringArray parts;
+  {    
     String xform = this->getCipherTransformation();
+    ASSERT( !xform.empty() );
+
+    StringArray parts;
     split(xform, L"/", parts);
+
     const NarrowString msg = "Invalid cipher transformation: " + TextConvert::WideToNarrow(xform);
     ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
-    if((parts.size() >= component))
+
+    if((parts.size() >= (unsigned)component))
        return parts[component];
     else
        return L"";
   }
 
-  void CipherSpec::setKeySize(int keySize)
+  void CipherSpec::setKeySize(unsigned int keySize)
   {
     ASSERT(keySize > 0);
     if(!(keySize > 0))
-       throw IllegalArgumentException("KeySize must be > 0");
+       throw IllegalArgumentException("KeySize must be greater than 0");
 
     keySize_ = keySize;
   }
 
-  int CipherSpec::getKeySize() const
+  unsigned int CipherSpec::getKeySize() const
   {
-  int ks = keySize_;
-    return ks;
+    ASSERT(keySize_ > 0);
+    return keySize_;
   }
 
-  void CipherSpec::setBlockSize(int blockSize)
+  void CipherSpec::setBlockSize(unsigned int blockSize)
   {
     ASSERT(blockSize > 0);
     if(!(blockSize > 0))
-       throw IllegalArgumentException("BlockSize must be > 0");
+       throw IllegalArgumentException("BlockSize must be greater than 0");
     blockSize_ = blockSize;
   }
 
-  int CipherSpec::getBlockSize() const
+  unsigned int CipherSpec::getBlockSize() const
   {
-  int bs = blockSize_;
-    return bs;
+    ASSERT(blockSize_ > 0);
+    return blockSize_;
   }
 
   String CipherSpec::getCipherAlgorithm() const
