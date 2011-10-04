@@ -28,14 +28,18 @@ namespace esapi
   SecureArray<T>::SecureArray(size_type n, const T& t)
     : m_vector(create_secure_array(n,t))
   {
+    // Parameters are validated in create_secure_array
     ASSERT(m_vector.get());
+    ASSERT(m_vector.size() == n);
   }
 
   template <typename T>
   SecureArray<T>::SecureArray(const T* ptr, size_t cnt)
     : m_vector(create_secure_array(ptr, cnt))
   {
+    // Parameters are validated in create_secure_array
     ASSERT(m_vector.get());
+    ASSERT(m_vector.size() == cnt);
   }
 
   template <typename T>
@@ -43,6 +47,7 @@ namespace esapi
   SecureArray<T>::SecureArray(InputIterator first, InputIterator last)
     : m_vector(create_secure_array(first, last))
   {
+    // Parameters are validated in create_secure_array
     ASSERT(m_vector.get());
   }
 
@@ -93,6 +98,10 @@ namespace esapi
   typename SecureArray<T>::SecureVector*
   SecureArray<T>::create_secure_array(InputIterator first, InputIterator last)
   {
+    // We're walking a tight rope here. There's nothing that says InputIterators need
+    // to compare. However, our use of them are as pointers, which will compare.
+    // The ASSERTs and tests might have to be yanked in the future if a non-pointer
+    // InputIterator is used. (Thanks to Jonathan Wakely for the clarification).
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
@@ -225,8 +234,8 @@ namespace esapi
   typename SecureArray<T>::size_type
   SecureArray<T>::max_size() const
   {
-    // Can't use m_vector->max_size() here. It might be called
-    // before the m_vector is constructed (ie, create_secure_array).
+    // Can't use m_vector->max_size() here. It might be called before
+    // the m_vector is constructed (eg, in create_secure_array).
     return std::numeric_limits<T>::max()/sizeof(T);
   }
 
@@ -364,6 +373,10 @@ namespace esapi
   template <typename InputIterator>
   void SecureArray<T>::assign(InputIterator first, InputIterator last)
   {
+    // We're walking a tight rope here. There's nothing that says InputIterators need
+    // to compare. However, our use of them are as pointers, which will compare.
+    // The ASSERTs and tests might have to be yanked in the future if a non-pointer
+    // InputIterator is used. (Thanks to Jonathan Wakely for the clarification).
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
@@ -426,6 +439,10 @@ namespace esapi
   template <typename InputIterator>
   void SecureArray<T>::insert(iterator pos, InputIterator first, InputIterator last)
   {
+    // We're walking a tight rope here. There's nothing that says InputIterators need
+    // to compare. However, our use of them are as pointers, which will compare.
+    // The ASSERTs and tests might have to be yanked in the future if a non-pointer
+    // InputIterator is used. (Thanks to Jonathan Wakely for the clarification).
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
@@ -447,7 +464,14 @@ namespace esapi
   typename SecureArray<T>::iterator
   SecureArray<T>::erase(iterator first, iterator last)
   {
-    ESAPI_ASSERT2(first >= last, "Input iterators are not valid");
+    // We're walking a tight rope here. There's nothing that says InputIterators need
+    // to compare. However, our use of them are as pointers, which will compare.
+    // The ASSERTs and tests might have to be yanked in the future if a non-pointer
+    // InputIterator is used. (Thanks to Jonathan Wakely for the clarification).
+    ESAPI_ASSERT2(first, "Bad first input iterator");
+    ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
+    if(!(last >= first))
+      throw InvalidArgumentException("Bad input iterators");
 
     ASSERT(m_vector.get());
     return m_vector->erase(first, last);

@@ -350,7 +350,7 @@ ifeq ($(IS_BSD),1)
   LDLIBS += -liconv
 endif
 
-TESTCXXFLAGS += $(CPPFLAGS) $(subst -O2,-O0,$(CXXFLAGS))
+TESTCXXFLAGS += $(CPPFLAGS) $(CXXFLAGS)
 TESTLDFLAGS	+= -L/usr/local/lib -L/usr/lib
 TESTLDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
