@@ -51,7 +51,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to initialize the random pool");
+      throw EncryptionException("Failed to initialize the random poo");
   }
 
   /**
@@ -74,7 +74,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to reseed the random pool");
+      throw EncryptionException("Failed to reseed the random poo");
   }
 
   /**
@@ -108,9 +108,9 @@ namespace esapi
         m_keyed = true;
       }
     }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
     {
-      throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+      throw EncryptionException(NarrowString("Internal error: ") + ex.what());
     }
 
     return m_keyed;
@@ -172,9 +172,9 @@ namespace esapi
         size -= req;
       }
     }
-    catch(CryptoPP::Exception& ex)
+    catch(const CryptoPP::Exception& ex)
     {
-      throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+      throw EncryptionException(NarrowString("Internal error: ") + ex.what());
     }
   }
 }
