@@ -138,6 +138,15 @@ namespace esapi
       return L"";
   }
 
+  void CipherSpec::setKeySize(int keySize)
+  {
+    ASSERT(keySize > 0);
+    if(!(keySize > 0))
+       throw IllegalArgumentException("KeySize must be greater than 0");
+
+    keySize_ = keySize;
+  }
+
   unsigned int CipherSpec::getKeySize() const
   {
     ASSERT(keySize_ > 0);
@@ -148,7 +157,7 @@ namespace esapi
   {
     ASSERT(blockSize > 0);
     if(!(blockSize > 0))
-      throw IllegalArgumentException("BlockSize must be > 0");
+      throw IllegalArgumentException("BlockSize must be greater than 0");
     blockSize_ = blockSize;
   }
 
