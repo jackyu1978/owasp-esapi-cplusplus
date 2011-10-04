@@ -39,51 +39,37 @@ namespace esapi
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize), iv_(iv)
   {
-    ASSERT( !cipherXForm.empty() );
     ASSERT( keySize > 0 );
     ASSERT( blockSize > 0 );
     ASSERT( iv.size() > 0 );
-
-    setCipherTransformation(cipherXForm);
-    setKeySize(keySize);
-    setBlockSize(blockSize);
-    setIV(iv);
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize)
   {
-    ASSERT( !cipherXForm.empty() );
     ASSERT( keySize > 0 );
     ASSERT( blockSize > 0 );
-
-    setCipherTransformation(cipherXForm);
-    setKeySize(keySize);
-    setBlockSize(blockSize);
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16)
   {
-    ASSERT( !cipherXForm.empty() );
     ASSERT( keySize > 0 );
-
-    setCipherTransformation(cipherXForm);
-    setKeySize(keySize);
-    setBlockSize(16);
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, const SecureByteArray &iv)
-    : cipher_xform_(cipherXForm), keySize_(keySize), blockSize_(16), iv_(iv)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16), iv_(iv)
   {
-    ASSERT( !cipherXForm.empty() );
     ASSERT( keySize > 0 );
     ASSERT( iv.size() > 0 );
   }
 
   CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist yet.
+  //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16), iv_(iv)
   {
     ASSERT( iv.size() > 0 );
-
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
     setBlockSize(16);
@@ -91,18 +77,14 @@ namespace esapi
   }
 
   CipherSpec::CipherSpec()
+  //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16)
   {
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
     setBlockSize(16);
   }
 
-  void CipherSpec::setCipherTransformation(const String& cipherXForm)
-  {
-    setCipherTransformation(cipherXForm, false);
-  }
-
-  void CipherSpec::setCipherTransformation(const String& cipherXForm, bool fromCipher)
+  String CipherSpec::verifyCipherXForm(const String& cipherXForm)
   {
     ASSERT(!cipherXForm.empty());
 
@@ -113,21 +95,25 @@ namespace esapi
     StringArray parts;
     esapi::split(xform, L"/", parts);
     size_t numParts = parts.size();
-    ESAPI_ASSERT2(fromCipher ? true : (numParts == 3), "Malformed cipherXform (" + TextConvert::WideToNarrow(xform) + "); must have form: \"alg/mode/paddingscheme\"");
+    ESAPI_ASSERT2(numParts == 3, "Malformed cipherXform (" + TextConvert::WideToNarrow(xform) + "); must have form: \"alg/mode/paddingscheme\"");
 
-    if(fromCipher && numParts != 3)
+    if(numParts != 3)
       {
+        throw IllegalArgumentException("Cipher transformation '" + TextConvert::WideToNarrow(xform) + "' must have form \"alg/mode/paddingscheme\"");
         if(numParts == 1)
           xform += L"ECB/NoPadding";
         else if(numParts == 2)
           xform += L"/NoPadding";
-        else
-          throw IllegalArgumentException("Cipher transformation '" + TextConvert::WideToNarrow(xform) + "' must have form \"alg/mode/paddingscheme\"");
+        else //:If it gets here, something's way off with the passed cipherXForm, so, set it to default. Getting here has already set off an exception above.
+          xform = L"ALG/MODE/PADDING"; //ESAPI.securityConfiguration().getCipherTransformation();
       }
-    else if(!fromCipher && numParts != 3)
-      throw IllegalArgumentException("Malformed xform (" + TextConvert::WideToNarrow(xform) + "); Must have form \"alg/mode/paddingscheme\"");
-    ESAPI_ASSERT2(numParts == 3, "Implementation error in setCipherTransformation()");
-    cipher_xform_ = xform;
+    ESAPI_ASSERT2(numParts == 3, "Implementation error in verifyCipherXForm()");
+    return xform;
+  }
+
+  void CipherSpec::setCipherTransformation(const String& cipherXForm)
+  {
+    cipher_xform_ = verifyCipherXForm( cipherXForm );
   }
 
   String CipherSpec::getCipherTransformation() const
@@ -136,7 +122,7 @@ namespace esapi
   }
 
   String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
-  {    
+  {
     String xform = this->getCipherTransformation();
     ASSERT( !xform.empty() );
 
@@ -147,18 +133,9 @@ namespace esapi
     ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
 
     if((parts.size() >= (unsigned)component))
-       return parts[component];
+      return parts[component];
     else
-       return L"";
-  }
-
-  void CipherSpec::setKeySize(unsigned int keySize)
-  {
-    ASSERT(keySize > 0);
-    if(!(keySize > 0))
-       throw IllegalArgumentException("KeySize must be greater than 0");
-
-    keySize_ = keySize;
+      return L"";
   }
 
   unsigned int CipherSpec::getKeySize() const
@@ -171,7 +148,7 @@ namespace esapi
   {
     ASSERT(blockSize > 0);
     if(!(blockSize > 0))
-       throw IllegalArgumentException("BlockSize must be greater than 0");
+      throw IllegalArgumentException("BlockSize must be > 0");
     blockSize_ = blockSize;
   }
 
@@ -207,9 +184,9 @@ namespace esapi
 
   void CipherSpec::setIV(const SecureByteArray &iv)
   {
-  SecureByteArray ivCopy(iv);
-  ESAPI_ASSERT2((this->requiresIV() && !ivCopy.empty()), "Required IV cannot be null or 0 length");
-  iv_ = ivCopy;
+    SecureByteArray ivCopy(iv);
+    ESAPI_ASSERT2((this->requiresIV() && !ivCopy.empty()), "Required IV cannot be null or 0 length");
+    iv_ = ivCopy;
   }
 
   SecureByteArray CipherSpec::getIV() const
