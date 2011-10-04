@@ -468,7 +468,7 @@ namespace esapi
     // to compare. However, our use of them are as pointers, which will compare.
     // The ASSERTs and tests might have to be yanked in the future if a non-pointer
     // InputIterator is used. (Thanks to Jonathan Wakely for the clarification).
-    ESAPI_ASSERT2(first, "Bad first input iterator");
+    // ESAPI_ASSERT2(first != nullptr, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
       throw InvalidArgumentException("Bad input iterators");
