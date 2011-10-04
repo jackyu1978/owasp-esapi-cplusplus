@@ -225,8 +225,9 @@ namespace esapi
   typename SecureArray<T>::size_type
   SecureArray<T>::max_size() const
   {
-    ASSERT(m_vector.get());
-    return m_vector->max_size();
+    // Can't use m_vector->max_size() here. It might be called
+    // before the m_vector is constructed (ie, create_secure_array).
+    return std::numeric_limits<T>::max()/sizeof(T);
   }
 
   template <typename T>
