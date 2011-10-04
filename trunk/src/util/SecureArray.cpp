@@ -80,14 +80,14 @@ namespace esapi
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
 
     try
-    {
-      const T* base = ptr;
-      base += SafeInt<size_t>(cnt);
-    }
+      {
+        const T* base = ptr;
+        base += SafeInt<size_t>(cnt);
+      }
     catch(const SafeIntException&)
-    {
-      throw InvalidArgumentException("Array pointer wrap");
-    }
+      {
+        throw InvalidArgumentException("Array pointer wrap");
+      }
 
     return new SecureVector(ptr /*first*/, ptr+cnt /*last*/);
   }
@@ -356,14 +356,14 @@ namespace esapi
       throw InvalidArgumentException("Too many elements in the array");
 
     try
-    {
-      const T* base = ptr;
-      base += SafeInt<size_t>(cnt);
-    }
+      {
+        const T* base = ptr;
+        base += SafeInt<size_t>(cnt);
+      }
     catch(const SafeIntException&)
-    {
-      throw InvalidArgumentException("Array pointer wrap");
-    }
+      {
+        throw InvalidArgumentException("Array pointer wrap");
+      }
 
     ASSERT(m_vector.get());
     m_vector->assign(ptr /*first*/, ptr+cnt /*last*/);
@@ -422,14 +422,14 @@ namespace esapi
       throw InvalidArgumentException("Too many elements in the array");
 
     try
-    {
-      const T* base = ptr;
-      base += SafeInt<size_t>(cnt);
-    }
+      {
+        const T* base = ptr;
+        base += SafeInt<size_t>(cnt);
+      }
     catch(const SafeIntException&)
-    {
-      throw InvalidArgumentException("Array pointer wrap");
-    }
+      {
+        throw InvalidArgumentException("Array pointer wrap");
+      }
 
     ASSERT(m_vector.get());
     m_vector->insert(pos, ptr /*first*/, ptr+cnt /*last*/);
