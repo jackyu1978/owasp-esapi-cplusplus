@@ -30,7 +30,7 @@ namespace esapi
   {
     // Parameters are validated in create_secure_array
     ASSERT(m_vector.get());
-    ASSERT(m_vector.size() == n);
+    ASSERT(m_vector->size() == n);
   }
 
   template <typename T>
@@ -39,7 +39,7 @@ namespace esapi
   {
     // Parameters are validated in create_secure_array
     ASSERT(m_vector.get());
-    ASSERT(m_vector.size() == cnt);
+    ASSERT(m_vector->size() == cnt);
   }
 
   template <typename T>
