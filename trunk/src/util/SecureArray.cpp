@@ -74,25 +74,15 @@ namespace esapi
     // Allocator will throw below
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
 
-#if !defined(SECURE_ARRAY_NO_SAFE_INT)
     try
     {
-      const size_t base = (size_t)ptr;
-      SafeInt<size_t> si(cnt);
-      si *= sizeof(T);
-      si += base;
+      const T* base = ptr;
+      base += SafeInt<size_t>(cnt);
     }
     catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Array pointer wrap");
     }
-#else
-    const size_t b = (size_t)ptr;
-    size_t p = cnt * sizeof(T) + b;
-    ASSERT(p >= b);
-    if(!(p >= b))
-      throw InvalidArgumentException("Array pointer wrap");
-#endif
 
     return new SecureVector(ptr /*first*/, ptr+cnt /*last*/);
   }
@@ -355,25 +345,15 @@ namespace esapi
     if(!(cnt <= max_size()))
       throw InvalidArgumentException("Too many elements in the array");
 
-#if !defined(SECURE_ARRAY_NO_SAFE_INT)
     try
     {
-      const size_t base = (size_t)ptr;
-      SafeInt<size_t> si(cnt);
-      si *= sizeof(T);
-      si += base;
+      const T* base = ptr;
+      base += SafeInt<size_t>(cnt);
     }
     catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Array pointer wrap");
     }
-#else
-    const size_t b = (size_t)ptr;
-    size_t p = cnt * sizeof(T) + b;
-    ASSERT(p >= b);
-    if(!(p >= b))
-      throw InvalidArgumentException("Array pointer wrap");
-#endif
 
     ASSERT(m_vector.get());
     m_vector->assign(ptr /*first*/, ptr+cnt /*last*/);
@@ -427,25 +407,15 @@ namespace esapi
     if(!(cnt <= max_size() - size()))
       throw InvalidArgumentException("Too many elements in the array");
 
-#if !defined(SECURE_ARRAY_NO_SAFE_INT)
     try
     {
-      const size_t base = (size_t)ptr;
-      SafeInt<size_t> si(cnt);
-      si *= sizeof(T);
-      si += base;
+      const T* base = ptr;
+      base += SafeInt<size_t>(cnt);
     }
     catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Array pointer wrap");
     }
-#else
-    const size_t b = (size_t)ptr;
-    size_t p = cnt * sizeof(T) + b;
-    ASSERT(p >= b);
-    if(!(p >= b))
-      throw InvalidArgumentException("Array pointer wrap");
-#endif
 
     ASSERT(m_vector.get());
     m_vector->insert(pos, ptr /*first*/, ptr+cnt /*last*/);
