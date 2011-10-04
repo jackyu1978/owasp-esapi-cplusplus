@@ -127,6 +127,8 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
       caughtExcept = true;
     }
   BOOST_CHECK(caughtExcept);
+
+#if 0
   caughtExcept = false;
   try
     {
@@ -137,6 +139,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
       caughtExcept = true;
     }
   BOOST_CHECK(caughtExcept);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction8) //:Testing requiresIV().
