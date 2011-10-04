@@ -51,7 +51,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to initialize the random poo");
+      throw EncryptionException("Failed to initialize the random pool");
   }
 
   /**
@@ -74,7 +74,7 @@ namespace esapi
     bool result = Rekey();
     ASSERT(result);
     if(!result)
-      throw EncryptionException("Failed to reseed the random poo");
+      throw EncryptionException("Failed to reseed the random pool");
   }
 
   /**
