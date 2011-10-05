@@ -333,8 +333,18 @@ namespace esapi
           }     
       }
 
-    if(temp.size() && (temp[0] == L'\ufeff' || temp[0] == L'\ufffe'))
-      temp.erase(temp.begin(), temp.begin()+1);
+    if(sizeof(wchar_t) == 2 && temp.size() >= 2)
+    {
+      wchar_t wc = (temp[0] << 8) | temp[1];
+      if(wc == L'\ufffe' || wc == L'\ufeff')
+        temp.erase(temp.begin(), temp.begin() + 2);
+    }
+    else if(sizeof(wchar_t) == 4 && temp.size() >= 4)
+    {
+      wchar_t wc = (temp[0] << 24) | (temp[1] << 16) | (temp[2] << 8) | temp[3];
+      if(wc == L'\ufffe' || wc == L'\ufeff')
+        temp.erase(temp.begin(), temp.begin() + 4);
+    }
 
     SecureByteArray sba;
     sba.swap(temp);
