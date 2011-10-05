@@ -92,7 +92,7 @@ namespace esapi
    * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
    *                ESAPI release 2.1 so if you are using this, please change your code.
    */
-  SecretKey CryptoHelper::computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const String& purpose)
+  SecretKey CryptoHelper::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose)
   {
     // Shamelessly ripped from KeyDerivationFunction.cpp
     ASSERT( keyDerivationKey.getEncoded().length()  > 0 );

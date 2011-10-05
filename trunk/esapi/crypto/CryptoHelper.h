@@ -94,7 +94,7 @@ namespace esapi
      * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
      *                         ESAPI release 2.1 so if you are using this, please change your code.
      */
-    SecretKey computeDerivedKey(const SecretKey keyDerivationKey, unsigned int keyBits, const String& purpose);
+    SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose);
 
     /**
      * Return true if specified cipher mode is one of those specified in the
