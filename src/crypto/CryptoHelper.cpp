@@ -229,7 +229,7 @@ namespace esapi
       SafeInt<size_t> si((size_t)bytes); si += size;
       g_dummy = (void*)(size_t)si;
     }
-    catch(const SafeIntException& ex)
+    catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Source or destination array pointer wrap");
     }
@@ -291,7 +291,7 @@ namespace esapi
       SafeInt<size_t> dsi((size_t)dest); dsi += destSize;
       g_dummy = (void*)(size_t)dsi;
     }
-    catch(const SafeIntException& ex)
+    catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Source or destination array pointer wrap");
     }
@@ -353,7 +353,7 @@ namespace esapi
       SafeInt<size_t> si2((size_t)b2); si2 += s2;
       g_dummy = (void*)(size_t)si2;
     }
-    catch(const SafeIntException& ex)
+    catch(const SafeIntException&)
     {
       throw InvalidArgumentException("Source or destination array pointer wrap");
     }
@@ -383,4 +383,3 @@ namespace esapi
   }
 
 } // NAMESPACE esapi
-
