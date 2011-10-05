@@ -138,7 +138,7 @@ namespace esapi
       return L"";
   }
 
-  void CipherSpec::setKeySize(int keySize)
+  void CipherSpec::setKeySize(unsigned int keySize)
   {
     ASSERT(keySize > 0);
     if(!(keySize > 0))
