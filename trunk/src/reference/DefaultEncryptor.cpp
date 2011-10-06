@@ -27,7 +27,7 @@
 namespace esapi
 {
   // Private to this module (for now)
-  static void split(const String& str, const String& delim, std::vector<String>& parts);
+  static void split(const String& str, const String& delim, StringArray& parts);
 
   String DefaultEncryptor::DefaultDigestAlgorithm()
   {

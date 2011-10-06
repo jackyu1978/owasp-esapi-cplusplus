@@ -41,7 +41,7 @@ namespace esapi
      * {@inheritDoc}
      * 
      * Hashes the data using the specified algorithm and the Java MessageDigest class. This method
-     * first adds the salt, a separator (L":"), and the data, and then rehashes the specified number of iterations
+     * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
      * in order to help strengthen weak passwords. Internally, the plainText and Salt are converted to UTF-8 strings.
      */
     virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations());
