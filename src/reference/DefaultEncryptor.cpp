@@ -75,7 +75,7 @@ namespace esapi
       }
     catch(CryptoPP::Exception& ex)
       {
-        throw EncryptionException(String(L"Internal error: ") + TextConvert::NarrowToWide(ex.what()));
+        throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
 
     return TextConvert::NarrowToWide(encoded);
