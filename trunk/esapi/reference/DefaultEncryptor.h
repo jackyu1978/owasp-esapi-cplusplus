@@ -61,9 +61,9 @@ namespace esapi
     }
 
     virtual String sign(const String & /*message*/)
-      {
-        return String();
-      }
+    {
+      return String();
+    }
 
     virtual bool verifySignature(const String &, const String &)
     {
@@ -71,14 +71,14 @@ namespace esapi
     }
 
     virtual String seal(const String &, long)
-      {
-        return String();
-      }
+    {
+      return String();
+    }
 
     virtual String unseal(const String &)
-      {
-        return String();
-      }
+    {
+      return String();
+    }
 
     virtual bool verifySeal(const String &)
     {

@@ -46,16 +46,16 @@ namespace esapi
     SecureByteArray hash(size);
 
     if( !salt.empty() )
-    {
-      SecureByteArray sa = TextConvert::GetBytes(salt, "UTF-8");
-      md.update(sa.data(), sa.size());
-    }    
+      {
+        SecureByteArray sa = TextConvert::GetBytes(salt, "UTF-8");
+        md.update(sa.data(), sa.size());
+      }    
 
     if( !message.empty() )
-    {
-      SecureByteArray ma = TextConvert::GetBytes(message, "UTF-8");
-      md.update(ma.data(), ma.size());
-    }
+      {
+        SecureByteArray ma = TextConvert::GetBytes(message, "UTF-8");
+        md.update(ma.data(), ma.size());
+      }
 
     // Fetch the hash (resets the object)
     md.digest(hash.data(), hash.size(), 0, size);
@@ -63,7 +63,7 @@ namespace esapi
     for (unsigned int i = 0; i < iterations; i++)
       {
         md.update(hash.data(), hash.size());
-        md.digest(hash.data(), hash.size(), 0, size);
+        md.digest(hash.data(), hash.size(), 0, hash.size());
       }
 
     NarrowString encoded;
@@ -93,7 +93,7 @@ namespace esapi
   {
     DummyConfiguration config;
 
-    std::vector<String> parts;
+    StringArray parts;
     String xform = config.getCipherTransformation();    
     split(xform, L"\\/:", parts);
 
@@ -134,3 +134,4 @@ namespace esapi
       parts.push_back(s);
   }
 }
+
