@@ -14,7 +14,7 @@
 
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
 
@@ -60,7 +60,7 @@ namespace esapi
     ESAPI_ASSERT2(cnt != 0, "Array size is 0");
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     if(!(cnt <= max_size()))
-      throw InvalidArgumentException("Too many elements in the array");
+      throw IllegalArgumentException("Too many elements in the array");
 
     return new SecureVector(cnt, value);
   }
@@ -72,7 +72,7 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException("Array pointer is not valid");
+      throw IllegalArgumentException("Array pointer is not valid");
 
     // Warning only
     ESAPI_ASSERT2(cnt != 0, "Array size is 0");
@@ -86,7 +86,7 @@ namespace esapi
       }
     catch(const SafeIntException&)
       {
-        throw InvalidArgumentException("Array pointer wrap");
+        throw IllegalArgumentException("Array pointer wrap");
       }
 
     return new SecureVector(ptr /*first*/, ptr+cnt /*last*/);
@@ -105,7 +105,7 @@ namespace esapi
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
-      throw InvalidArgumentException("Bad input iterators");
+      throw IllegalArgumentException("Bad input iterators");
 
     return new SecureVector(first, last);
   }
@@ -347,13 +347,13 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException("Array pointer is not valid");
+      throw IllegalArgumentException("Array pointer is not valid");
 
     // Warning only
     ESAPI_ASSERT2(cnt != 0, "Array size is 0");
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     if(!(cnt <= max_size()))
-      throw InvalidArgumentException("Too many elements in the array");
+      throw IllegalArgumentException("Too many elements in the array");
 
     try
       {
@@ -362,7 +362,7 @@ namespace esapi
       }
     catch(const SafeIntException&)
       {
-        throw InvalidArgumentException("Array pointer wrap");
+        throw IllegalArgumentException("Array pointer wrap");
       }
 
     ASSERT(m_vector.get());
@@ -380,7 +380,7 @@ namespace esapi
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
-      throw InvalidArgumentException("Bad input iterators");
+      throw IllegalArgumentException("Bad input iterators");
     
     ASSERT(m_vector.get());
     return m_vector->assign(first, last);
@@ -401,7 +401,7 @@ namespace esapi
     ESAPI_ASSERT2(n <= max_size(), "Too many elements in the array");
     ESAPI_ASSERT2(n <= max_size() - size(), "Too many elements in the resulting array");
     if(!(n <= max_size() - size()))
-      throw InvalidArgumentException("Too many elements in the resulting array");
+      throw IllegalArgumentException("Too many elements in the resulting array");
 
     ASSERT(m_vector.get());
     m_vector->insert(pos, n, x);
@@ -412,14 +412,14 @@ namespace esapi
   {
     ESAPI_ASSERT2(ptr, "Array pointer is not valid");
     if(ptr == nullptr)
-      throw InvalidArgumentException("Array pointer is not valid");
+      throw IllegalArgumentException("Array pointer is not valid");
 
     // Warning only
     ESAPI_ASSERT2(cnt != 0, "Array size is 0");
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     ESAPI_ASSERT2(cnt <= max_size() - size(), "Too many elements in the resulting array");
     if(!(cnt <= max_size() - size()))
-      throw InvalidArgumentException("Too many elements in the array");
+      throw IllegalArgumentException("Too many elements in the array");
 
     try
       {
@@ -428,7 +428,7 @@ namespace esapi
       }
     catch(const SafeIntException&)
       {
-        throw InvalidArgumentException("Array pointer wrap");
+        throw IllegalArgumentException("Array pointer wrap");
       }
 
     ASSERT(m_vector.get());
@@ -446,7 +446,7 @@ namespace esapi
     ESAPI_ASSERT2(first, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
-      throw InvalidArgumentException("Bad input iterators");
+      throw IllegalArgumentException("Bad input iterators");
     
     ASSERT(m_vector.get());
     m_vector->insert(pos, first, last);
@@ -471,7 +471,7 @@ namespace esapi
     // ESAPI_ASSERT2(first != nullptr, "Bad first input iterator");
     ESAPI_ASSERT2(last >= first, "Input iterators are not valid");
     if(!(last >= first))
-      throw InvalidArgumentException("Bad input iterators");
+      throw IllegalArgumentException("Bad input iterators");
 
     ASSERT(m_vector.get());
     return m_vector->erase(first, last);

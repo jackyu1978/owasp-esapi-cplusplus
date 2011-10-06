@@ -17,7 +17,7 @@
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
 #include "util/ArrayZeroizer.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include <iconv.h>
 #include <errno.h>
@@ -58,7 +58,7 @@ namespace esapi
     // Check for overflow on the reserve performed below
     WideString temp;
     if(str.length() > temp.max_size())
-      throw InvalidArgumentException("TextConvert::NarrowToWide failed (1). The output buffer would overflow");
+      throw IllegalArgumentException("TextConvert::NarrowToWide failed (1). The output buffer would overflow");
 
     //  Reserve it
     temp.reserve(str.length());
@@ -68,7 +68,7 @@ namespace esapi
 
     ASSERT(cd != (iconv_t)-1);
     if(cd == (iconv_t)-1)
-      throw InvalidArgumentException("TextConvert::NarrowToWide failed (2). The conversion descriptor is not valid");
+      throw IllegalArgumentException("TextConvert::NarrowToWide failed (2). The conversion descriptor is not valid");
     
     wchar_t out[4096 / WCHAR_T_SIZE];
     ArrayZeroizer<wchar_t> cleanup2(out, COUNTOF(out));
@@ -99,7 +99,7 @@ namespace esapi
             oss << "TextConvert::NarrowToWide failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // An invalid multibyte sequence is encountered in the input.
@@ -110,7 +110,7 @@ namespace esapi
             oss << "TextConvert::NarrowToWide failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // Failed to convert all input characters. {-1, E2BIG } is expected.
@@ -121,7 +121,7 @@ namespace esapi
             oss << "TextConvert::NarrowToWide failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&str[0]);
             oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
         
         const size_t ccb = outbytes - outlen;
@@ -152,7 +152,7 @@ namespace esapi
     {
       return WideToNarrow(wstr);
     }
-    catch(const InvalidArgumentException&)
+    catch(const IllegalArgumentException&)
     {
     }
 
@@ -167,7 +167,7 @@ namespace esapi
     // Check for overflow on the reserve performed below
     NarrowString temp;
     if(wstr.length() > temp.max_size())
-      throw InvalidArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
+      throw IllegalArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
 
     //  Reserve it
     temp.reserve(wstr.length());
@@ -177,7 +177,7 @@ namespace esapi
 
     ASSERT(cd != (iconv_t)-1);
     if(cd == (iconv_t)-1)
-      throw InvalidArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
+      throw IllegalArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
     
     char out[4096];
     ArrayZeroizer<char> cleanup2(out, COUNTOF(out));
@@ -208,7 +208,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // An invalid multibyte sequence is encountered in the input.
@@ -219,7 +219,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // Failed to convert all input characters. {-1, E2BIG } is expected.
@@ -230,7 +230,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
 
         const size_t ccb = outbytes - outlen;
@@ -259,7 +259,7 @@ namespace esapi
     // Check for overflow on the reserve performed below
     SecureByteArray temp;
     if(wstr.length() > temp.max_size())
-      throw InvalidArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
+      throw IllegalArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
 
     //  Reserve it
     temp.reserve(wstr.length());
@@ -269,7 +269,7 @@ namespace esapi
 
     ASSERT(cd != (iconv_t)-1);
     if(cd == (iconv_t)-1)
-      throw InvalidArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
+      throw IllegalArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
     
     char out[4096];
     ArrayZeroizer<char> cleanup2(out, COUNTOF(out));
@@ -300,7 +300,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // An invalid multibyte sequence is encountered in the input.
@@ -311,7 +311,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
             oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
       
         // Failed to convert all input characters. {-1, E2BIG } is expected.
@@ -322,7 +322,7 @@ namespace esapi
             oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
             oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
             oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
-            throw InvalidArgumentException(oss.str());
+            throw IllegalArgumentException(oss.str());
           }
 
         const size_t ccb = outbytes - outlen;

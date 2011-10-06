@@ -14,7 +14,7 @@
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
 #include "safeint/SafeInt3.hpp"
@@ -56,7 +56,7 @@ namespace esapi
     // MessageDigest md = MessageDigest.getInstance(L"Foo");
     // md.update(scratch);
 
-    // We only have InvalidArgumentException and EncryptionException
+    // We only have IllegalArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << TextConvert::WideToNarrow(algorithm) << "\' is not supported";
     throw NoSuchAlgorithmException(oss.str());
@@ -208,7 +208,7 @@ namespace esapi
     // We don't early out in case the hash updates internal state even on a
     // null or zero size input.
     //if(!input)
-    //  throw InvalidArgumentException("The input array or size is not valid");
+    //  throw IllegalArgumentException("The input array or size is not valid");
 
     try
       {
@@ -220,7 +220,7 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+          throw IllegalArgumentException("The buffer is too small for the specified offset and length");
 
         m_hash.Update(input+offset, len);
       }
@@ -348,7 +348,7 @@ namespace esapi
     // int size = md.digest(null, 0, 0);
 
     if(!buf || !size)
-      throw InvalidArgumentException("The buffer array or size is not valid");
+      throw IllegalArgumentException("The buffer array or size is not valid");
 
     // This Java program will throw a DigestException
     // byte[] scratch = new byte[1];
@@ -364,7 +364,7 @@ namespace esapi
       {
         std::stringstream oss;
         oss << "Length must be at least " << m_hash.DigestSize() << " for " << TextConvert::WideToNarrow(getAlgorithmImpl());
-        throw InvalidArgumentException(oss.str());
+        throw IllegalArgumentException(oss.str());
       }
 
     const size_t req = std::min(size, std::min((size_t)HASH::DIGESTSIZE, len));
@@ -380,7 +380,7 @@ namespace esapi
         SafeInt<size_t> safe2(offset);
         safe2 += len;
         if((size_t)safe2 > size)
-          throw InvalidArgumentException("The buffer is too small for the specified offset and length");
+          throw IllegalArgumentException("The buffer is too small for the specified offset and length");
 
         // TruncatedFinal returns the requested number of bytes and restarts the hash.
         m_hash.TruncatedFinal(buf+offset, req);

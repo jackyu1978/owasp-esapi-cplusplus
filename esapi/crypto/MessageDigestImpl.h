@@ -15,7 +15,7 @@
 #include "util/SecureArray.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
 namespace esapi

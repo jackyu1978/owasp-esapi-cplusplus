@@ -20,7 +20,7 @@
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 /**
  * This class implements functionality similar to Java's CryptoHelper for consistency

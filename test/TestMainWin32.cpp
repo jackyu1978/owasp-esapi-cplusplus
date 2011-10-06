@@ -21,8 +21,8 @@ using esapi::String;
 using esapi::NarrowString;
 using esapi::WideString;
 
-#include "errors/InvalidArgumentException.h"
-using esapi::InvalidArgumentException;
+#include "errors/IllegalArgumentException.h"
+using esapi::IllegalArgumentException;
 
 #include "errors/EncryptionException.h"
 using esapi::EncryptionException;
@@ -97,9 +97,9 @@ int main(int, char**)
       success = (encoded == expected);
 
     }
-  catch(InvalidArgumentException&)
+  catch(IllegalArgumentException&)
     {
-      //BOOST_ERROR("Caught InvalidArgumentException");
+      //BOOST_ERROR("Caught IllegalArgumentException");
     }
   catch(EncryptionException&)
     {
@@ -125,9 +125,9 @@ int main(int, char**)
       const String expected = L"v+HgWZYnwBxngZGeHgbzMzym0ROd5mRPTIrpdmeTlMoApHj/gCwUfajLWMqZHUoKDgzhgb5gSiECLzDUU9Gacg==";
       success = (encoded == expected);
     }
-  catch(InvalidArgumentException&)
+  catch(IllegalArgumentException&)
     {
-      //BOOST_ERROR("Caught InvalidArgumentException");
+      //BOOST_ERROR("Caught IllegalArgumentException");
     }
   catch(EncryptionException&)
     {
@@ -158,7 +158,7 @@ int main(int, char**)
     WideString w4(wide);
     NarrowString n4 = TextConvert::WideToNarrow(w4, "Junk");
   }
-  catch(const InvalidArgumentException& ex)
+  catch(const IllegalArgumentException& ex)
   {
     cerr << ex.what() << endl;
   }

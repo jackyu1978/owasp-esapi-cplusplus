@@ -19,7 +19,7 @@
 #include "crypto/Crypto++Common.h"
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 /**
  * This class implements functionality similar to Java's SecretKey for

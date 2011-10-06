@@ -19,7 +19,6 @@
 
 #include "BaseValidationRule.h"
 #include "errors/ValidationException.h"
-#include "errors/InvalidArgumentException.h"
 #include "errors/IllegalArgumentException.h"
 
 namespace esapi

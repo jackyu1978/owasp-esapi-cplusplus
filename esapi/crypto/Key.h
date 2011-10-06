@@ -17,7 +17,7 @@
 #include "EsapiCommon.h"
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include <string>
 

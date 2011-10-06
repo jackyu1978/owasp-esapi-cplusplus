@@ -16,7 +16,7 @@
 #include "util/TextConvert.h"
 #include "util/ArrayZeroizer.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 namespace esapi
 {
@@ -146,7 +146,7 @@ namespace esapi
 
     ASSERT(bytes && size);
     if( !(bytes && size) )
-      throw InvalidArgumentException("The buffer or size is not valid");
+      throw IllegalArgumentException("The buffer or size is not valid");
 
     if(!m_keyed)
       throw EncryptionException("Failed to generate a block in the random pool (1)");

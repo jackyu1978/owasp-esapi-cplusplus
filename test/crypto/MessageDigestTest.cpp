@@ -28,8 +28,8 @@ using esapi::String;
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
 
-#include "errors/InvalidArgumentException.h"
-using esapi::InvalidArgumentException;
+#include "errors/IllegalArgumentException.h"
+using esapi::IllegalArgumentException;
 
 #include "errors/EncryptionException.h"
 using esapi::EncryptionException;
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_8N )
       MessageDigest md3(MessageDigest::getInstance(L"MD-5"));
       md3.digest((byte*)nullptr, 0, 0, 0);
     }
-  catch(InvalidArgumentException&)
+  catch(IllegalArgumentException&)
     {   
       success = true;
     }
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_9N )
       SecureByteArray buf(sz);
       md4.digest(buf.data(), buf.size(), 0, sz-1);
     }
-  catch(InvalidArgumentException& ex)
+  catch(IllegalArgumentException& ex)
     {
       success = true;
     }
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_13N )
       SecureByteArray buf(sz);
       md8.digest(buf.data(), buf.size(), sz-1, 2*sz-1);
     }
-  catch(InvalidArgumentException& ex)
+  catch(IllegalArgumentException& ex)
     {
       success = true;
     }
@@ -365,7 +365,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_14N )
       SecureByteArray buf(sz);
       md9.update(buf.data(), buf.size(), sz-1, 2*sz-1);
     }
-  catch(InvalidArgumentException& ex)
+  catch(IllegalArgumentException& ex)
     {
       success = true;
     }

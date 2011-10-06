@@ -761,10 +761,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\InvalidArgumentException.h"
-						>
-					</File>
-					<File
 						RelativePath=".\esapi\errors\NoSuchAlgorithmException.h"
 						>
 					</File>

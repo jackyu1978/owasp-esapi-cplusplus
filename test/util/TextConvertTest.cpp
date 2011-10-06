@@ -27,8 +27,8 @@ using esapi::String;
 using esapi::NarrowString;
 using esapi::WideString;
 
-#include <errors/InvalidArgumentException.h>
-using esapi::InvalidArgumentException;
+#include <errors/IllegalArgumentException.h>
+using esapi::IllegalArgumentException;
 
 #include <util/TextConvert.h>
 using esapi::TextConvert;
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_11N )
       NarrowString n(narrow);
       WideString w = TextConvert::NarrowToWide(n, "Junk");
     }
-  catch(const InvalidArgumentException&)
+  catch(const IllegalArgumentException&)
     {
       success = true;
     }
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE( TextConvertTest_12N )
       WideString w(wide);
       NarrowString n = TextConvert::WideToNarrow(w, "Junk");
     }
-  catch(const InvalidArgumentException&)
+  catch(const IllegalArgumentException&)
     {
       success = true;
     }
