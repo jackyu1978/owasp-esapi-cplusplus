@@ -77,7 +77,7 @@ namespace esapi
     SecureArray& operator=(const SecureArray& sa);
 
     // Size and capacity
-    size_type max_size() const;
+    size_t max_size() const;
     size_t capacity() const;
     void reserve(size_t cnt = 0);
 

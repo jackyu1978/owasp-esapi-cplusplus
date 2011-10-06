@@ -231,12 +231,11 @@ namespace esapi
 
   // Size and capacity
   template <typename T>
-  typename SecureArray<T>::size_type
-  SecureArray<T>::max_size() const
+  size_t SecureArray<T>::max_size() const
   {
     // Can't use m_vector->max_size() here. It might be called before
     // the m_vector is constructed (eg, in create_secure_array).
-    return std::numeric_limits<T>::max()/sizeof(T);
+    return std::numeric_limits<size_t>::max()/sizeof(T);
   }
 
   template <typename T>
