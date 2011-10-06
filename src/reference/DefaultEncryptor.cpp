@@ -10,14 +10,18 @@
 
 #include "reference/DefaultEncryptor.h"
 
+#include "util/TextConvert.h"
+#include "util/SecureArray.h"
 // #include "crypto/Cipher.h"
 #include "crypto/PlainText.h"
 #include "crypto/CipherText.h"
 #include "crypto/SecretKey.h"
-#include "crypto/MessageDigest.h"
 #include "crypto/CryptoHelper.h"
-#include "util/TextConvert.h"
-#include "util/SecureArray.h"
+#include "crypto/MessageDigest.h"
+#include "crypto/Crypto++Common.h"
+#include "errors/IntegrityException.h"
+#include "errors/EncryptionException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include "DummyConfiguration.h"
 
@@ -40,10 +44,17 @@ namespace esapi
   }
 
   String DefaultEncryptor::hash(const String &message, const String &salt, unsigned int iterations)
-  {      
+  { 
     MessageDigest md(DefaultDigestAlgorithm());
     const size_t size = md.getDigestLength();
     SecureByteArray hash(size);
+
+    DummyConfiguration config;
+    const SecureByteArray& msalt = config.getMasterSalt();
+    if( !msalt.empty() )
+      {
+        md.update(msalt.data(), msalt.size());
+      }    
 
     if( !salt.empty() )
       {

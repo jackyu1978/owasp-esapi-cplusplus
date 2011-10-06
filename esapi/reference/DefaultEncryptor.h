@@ -10,24 +10,18 @@
 
 #pragma once
 
-#include "EsapiCommon.h"
-#include "Encryptor.h"
-#include "crypto/PlainText.h"
-#include "crypto/CipherText.h"
-#include "crypto/SecretKey.h"
-#include "crypto/MessageDigest.h"
-#include "crypto/Crypto++Common.h"
-#include "errors/IntegrityException.h"
-#include "errors/EncryptionException.h"
-#include "errors/IllegalArgumentException.h"
-
-#include <string>
-
 // Must be consistent with JavaEncryptor.java.
 // http://owasp-esapi-java.googlecode.com/svn/trunk/src/main/java/org/owasp/esapi/reference/crypto/JavaEncryptor.java
 
+#include "EsapiCommon.h"
+#include "Encryptor.h"
+#include "crypto/SecretKey.h"
+#include "crypto/PlainText.h"
+#include "crypto/CipherText.h"
+
 namespace esapi
 {
+
   class ESAPI_EXPORT DefaultEncryptor : public Encryptor
   {
   public:
@@ -40,8 +34,8 @@ namespace esapi
     /**
      * {@inheritDoc}
      * 
-     * Hashes the data using the specified algorithm and the Java MessageDigest class. This method
-     * first adds the salt, a separator (":"), and the data, and then rehashes the specified number of iterations
+     * Hashes the data using the algorithm from the JavaEncryptor class. This method first adds the master salt,
+     * then the user provided salt, and finally the password. The digested data is rehashed the specified number of iterations
      * in order to help strengthen weak passwords. Internally, the plainText and Salt are converted to UTF-8 strings.
      */
     virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations());
