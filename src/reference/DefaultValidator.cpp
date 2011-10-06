@@ -36,7 +36,6 @@ Validator* DefaultValidator::instance = nullptr;
 
 Validator* DefaultValidator::fileValidator = nullptr;
 
-
 bool DefaultValidator::isEmpty(const String &) const {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
@@ -45,6 +44,7 @@ bool DefaultValidator::isEmpty(const String &) const {
 bool DefaultValidator::isEmpty(Char[]) const {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
+
 
 Validator* DefaultValidator::getInstance() {
 	/*
@@ -59,6 +59,7 @@ Validator* DefaultValidator::getInstance() {
 	 */
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
+
 
 void DefaultValidator::initFileValidator() {
 	/*std::list<String> list = new ArrayList<String>();
@@ -83,6 +84,7 @@ DefaultValidator::DefaultValidator(Encoder* encoder)
 {
 	initFileValidator();
 }
+
 
 // must override to get rid of pointer member warning
 DefaultValidator::DefaultValidator(const DefaultValidator& other)
