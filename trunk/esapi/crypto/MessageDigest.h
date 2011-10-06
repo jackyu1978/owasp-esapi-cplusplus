@@ -14,7 +14,7 @@
 #include "util/Mutex.h"
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
 #include <boost/shared_ptr.hpp>

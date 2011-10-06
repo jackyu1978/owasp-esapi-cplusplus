@@ -13,7 +13,7 @@
 #include "crypto/MessageDigestImpl.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
 

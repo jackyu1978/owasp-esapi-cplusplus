@@ -16,7 +16,7 @@
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/NoSuchAlgorithmException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include <string>
 

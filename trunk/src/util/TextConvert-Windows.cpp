@@ -19,7 +19,7 @@
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
 #include "crypto/Crypto++Common.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
 
@@ -130,7 +130,7 @@ namespace esapi
       {
         std::ostringstream msg;
         msg << "Encoding '" << trimmed << "' is not valid";
-        throw InvalidArgumentException(msg.str());
+        throw IllegalArgumentException(msg.str());
       }
       return (UINT)n.ConvertToLong();
     }
@@ -140,7 +140,7 @@ namespace esapi
     {
       std::ostringstream msg;
       msg << "Encoding '" << trimmed << "' is not valid";
-      throw InvalidArgumentException(msg.str());
+      throw IllegalArgumentException(msg.str());
     }
 
     CodePageMapInterator fit = cpm.find(enc);
@@ -164,19 +164,19 @@ namespace esapi
     }
     catch(SafeIntException&)
     {
-      throw InvalidArgumentException("TextConvert::NarrowToWide: string is too large");
+      throw IllegalArgumentException("TextConvert::NarrowToWide: string is too large");
     }
 
     DWORD dwReq = MultiByteToWideChar(cpage, dwFlags, str.data(), (INT)str.size(), NULL, 0);
     ASSERT(dwReq > 0);
     if( !(dwReq > 0) )
-      throw InvalidArgumentException("TextConvert::NarrowToWide failed (1)");
+      throw IllegalArgumentException("TextConvert::NarrowToWide failed (1)");
 
     SecureArray<wchar_t> arr(dwReq);
     DWORD dwWritten = MultiByteToWideChar(cpage, dwFlags, str.data(), (INT)str.size(), (LPWSTR)arr.data(), (INT)arr.size());
     ASSERT(dwReq == dwWritten);
     if(dwReq != dwWritten)
-      throw InvalidArgumentException("TextConvert::NarrowToWide failed (2)");
+      throw IllegalArgumentException("TextConvert::NarrowToWide failed (2)");
 
     return String(arr.begin(), arr.end());
   }
@@ -253,7 +253,7 @@ namespace esapi
     }
     catch(SafeIntException&)
     {
-      throw InvalidArgumentException("TextConvert::GetBytes: string is too large");
+      throw IllegalArgumentException("TextConvert::GetBytes: string is too large");
     }
 
     const UINT cpage = EncodingToWindowsCodePage(enc);
@@ -267,7 +267,7 @@ namespace esapi
     DWORD dwReq = WideCharToMultiByte(cpage, dwFlags, wstr.data(), (INT)wstr.size(), NULL, 0, NULL, NULL);
     ASSERT(dwReq > 0);
     if( !(dwReq > 0) )
-      throw InvalidArgumentException("TextConvert::GetBytes failed (1)");
+      throw IllegalArgumentException("TextConvert::GetBytes failed (1)");
 
     SecureByteArray arr(dwReq);
 
@@ -275,7 +275,7 @@ namespace esapi
     DWORD dwWritten = WideCharToMultiByte(cpage, dwFlags, wstr.data(), (INT)wstr.size(), (LPSTR)arr.data(), (INT)arr.size(), NULL, NULL);
     ASSERT(dwWritten == dwReq);
     if(dwWritten != dwReq)
-      throw InvalidArgumentException("TextConvert::GetBytes failed (2)");
+      throw IllegalArgumentException("TextConvert::GetBytes failed (2)");
 
     // WideCharToMultiByte does not null-terminate an output string if the input string length is explicitly
     // specified without a terminating null character.

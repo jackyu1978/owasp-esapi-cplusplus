@@ -18,7 +18,7 @@
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include <string>
 

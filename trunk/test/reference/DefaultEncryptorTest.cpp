@@ -32,8 +32,8 @@ using esapi::DefaultEncryptor;
 #include <errors/EncryptionException.h>
 using esapi::EncryptionException;
 
-#include <errors/InvalidArgumentException.h>
-using esapi::InvalidArgumentException;
+#include <errors/IllegalArgumentException.h>
+using esapi::IllegalArgumentException;
 
 #include "util/TextConvert.h"
 using esapi::TextConvert;

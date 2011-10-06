@@ -19,7 +19,7 @@
 #include "crypto/Crypto++Common.h"
 #include "crypto/KeyDerivationFunction.h"
 #include "errors/EncryptionException.h"
-#include "errors/InvalidArgumentException.h"
+#include "errors/IllegalArgumentException.h"
 
 #include "DummyConfiguration.h"
 
@@ -119,7 +119,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
+      throw IllegalArgumentException("Cipher mode is not valid");
         
     DummyConfiguration config;
     const StringList& cipherModes = config.getCombinedCipherModes();
@@ -144,7 +144,7 @@ namespace esapi
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
-      throw InvalidArgumentException("Cipher mode is not valid");
+      throw IllegalArgumentException("Cipher mode is not valid");
 
     if ( isCombinedCipherMode(cipherMode) ) { 
       return true; 
@@ -231,7 +231,7 @@ namespace esapi
     }
     catch(const SafeIntException&)
     {
-      throw InvalidArgumentException("Source or destination array pointer wrap");
+      throw IllegalArgumentException("Source or destination array pointer wrap");
     }
 
     for(size_t i = 0; i < size; i++)
@@ -278,10 +278,10 @@ namespace esapi
     ASSERT(destSize >= copySize);
 
     if(!src)
-      throw InvalidArgumentException("Source array cannot be null");
+      throw IllegalArgumentException("Source array cannot be null");
 
     if(!dest)
-      throw InvalidArgumentException("Destination array cannot be null");
+      throw IllegalArgumentException("Destination array cannot be null");
 
     try
     {
@@ -293,7 +293,7 @@ namespace esapi
     }
     catch(const SafeIntException&)
     {
-      throw InvalidArgumentException("Source or destination array pointer wrap");
+      throw IllegalArgumentException("Source or destination array pointer wrap");
     }
 
     const size_t req = std::min(copySize, std::min(srcSize, destSize));
@@ -301,7 +301,7 @@ namespace esapi
     ASSERT(req == copySize);
 
     if(req != copySize)
-      throw InvalidArgumentException("Copy size exceeds source or destination size");
+      throw IllegalArgumentException("Copy size exceeds source or destination size");
 
     ESAPI_MS_NO_WARNING(4996);
     std::copy(src, src+req, dest);
@@ -355,7 +355,7 @@ namespace esapi
     }
     catch(const SafeIntException&)
     {
-      throw InvalidArgumentException("Source or destination array pointer wrap");
+      throw IllegalArgumentException("Source or destination array pointer wrap");
     }
 
     // These early outs break the contract regarding timing.
