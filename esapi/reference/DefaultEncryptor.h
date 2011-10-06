@@ -17,6 +17,7 @@
 #include "crypto/SecretKey.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/Crypto++Common.h"
+#include "errors/IntegrityException.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 
@@ -69,7 +70,7 @@ namespace esapi
       return false;
     }
 
-    virtual String seal(const String &, long) throw (IntegrityException)
+    virtual String seal(const String &, long)
       {
         return String();
       }
