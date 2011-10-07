@@ -300,3 +300,128 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_106N )
     }
 }
 
+BOOST_AUTO_TEST_CASE( AlgorithmName_107N )
+{
+  try
+    {
+      AlgorithmName aa("/CBC/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing cipher in algorithm (8)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_108N )
+{
+  try
+    {
+      AlgorithmName aa("AES//PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing mode in algorithm (9)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_109N )
+{
+  try
+    {
+      AlgorithmName aa("AES/CBC/");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing padding in algorithm (10)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_110N )
+{
+  try
+    {
+      AlgorithmName aa("/");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing cipher/padding in algorithm (11)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_111N )
+{
+  try
+    {
+      AlgorithmName aa("//");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing cipher/padding/mode in algorithm (12)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_112N )
+{
+  try
+    {
+      AlgorithmName aa("//PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing cipher/padding in algorithm (13)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_113N )
+{
+  try
+    {
+      AlgorithmName aa("AES/CBC/PKCS5Padding/");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch missing cipher/padding in algorithm (14)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
