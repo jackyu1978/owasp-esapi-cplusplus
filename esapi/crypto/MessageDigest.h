@@ -199,13 +199,6 @@ namespace esapi
   protected:
 
     /**
-    * Normalizes the algorithm name. An empty string on input is interpreted as
-    * the default algortihm. If the algorithm is not found (ie, unsupported),
-    * return the empty string.
-    */
-    static String normalizeAlgortihm(const String& algorithm);
-
-    /**
     * Creates a MessageDigest from an implmentation. Used by getInstance(...).
     */
     ESAPI_PRIVATE MessageDigest(MessageDigestImpl* impl);

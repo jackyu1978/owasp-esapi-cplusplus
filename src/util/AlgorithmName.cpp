@@ -218,6 +218,8 @@ namespace esapi
 
         //////// Hashes ////////
 
+        else if(temp == "md-5" || temp == "md5")
+          alg = "MD5";
         else if(temp == "sha-1" || temp == "sha1" || temp == "sha")
           alg = "SHA-1";
         else if(temp == "sha-224" || temp == "sha224")
