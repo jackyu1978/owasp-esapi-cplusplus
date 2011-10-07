@@ -258,8 +258,8 @@ namespace esapi
 
     const UINT cpage = EncodingToWindowsCodePage(enc);
     const bool MustBeZero = (65001  == cpage || 42 == cpage || 50220 == cpage || 50221 == cpage ||
-                             50222 == cpage ||  50225 == cpage || 50227 == cpage || 50229 == cpage || (cpage >= 57002 &&
-                                                                                                       cpage <= 57011) || 65000 == cpage || 54936  == cpage);    
+      50222 == cpage ||  50225 == cpage || 50227 == cpage || 50229 == cpage || (cpage >= 57002 &&
+      cpage <= 57011) || 65000 == cpage || 54936  == cpage);    
 
     // If the function succeeds and cbMultiByte is 0, the return value is the required size, in bytes,
     // for the buffer indicated by lpMultiByteStr.

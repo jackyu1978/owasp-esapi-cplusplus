@@ -17,6 +17,7 @@
 
 #include "EsapiCommon.h"
 #include "util/TextConvert.h"
+#include "errors/NoSuchAlgorithmException.h"
 #include <algorithm>
 
 namespace esapi
@@ -25,18 +26,19 @@ namespace esapi
   static void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts);
 
   AlgorithmName::AlgorithmName(const NarrowString& algorithm)
-    : m_original(algorithm), m_normal(normalizeAlgorithm(algorithm))
+    : m_normal(normalizeAlgorithm(algorithm))
   {
+    ASSERT( !algorithm.empty() );
   }
 
   AlgorithmName::AlgorithmName(const WideString& algorithm)
-    : m_original(TextConvert::WideToNarrow(algorithm)),
-      m_normal(TextConvert::WideToNarrow(normalizeAlgorithm(algorithm)))
+    : m_normal(TextConvert::WideToNarrow(normalizeAlgorithm(algorithm)))
   {
+    ASSERT( !algorithm.empty() );
   }
 
   AlgorithmName::AlgorithmName(const AlgorithmName& rhs)
-    : m_original(rhs.m_original), m_normal(rhs.m_normal)
+    : m_normal(rhs.m_normal)
   {
   }
 
@@ -44,20 +46,9 @@ namespace esapi
   {
     if(this != &rhs)
       {
-        m_original = rhs.m_original;
         m_normal = rhs.m_normal;
       }
     return *this;
-  }
-
-  void AlgorithmName::getOriginalAlgorithm(NarrowString& original) const
-  {
-    original = m_original;
-  }
-
-  void AlgorithmName::getOriginalAlgorithm(WideString& original) const
-  {
-    original = TextConvert::NarrowToWide(m_original);
   }
 
   void AlgorithmName::getNormalizedAlgorithm(NarrowString& normal) const
@@ -142,13 +133,6 @@ namespace esapi
     return false;
   }
 
-  WideString AlgorithmName::normalizeAlgorithm(const WideString& name) const
-  {
-    NarrowString narrow = TextConvert::WideToNarrow(name);
-    narrow = normalizeAlgorithm(narrow);
-    return TextConvert::NarrowToWide(narrow);
-  }
-
   void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts)
   {
     std::string s(str);
@@ -165,7 +149,14 @@ namespace esapi
       parts.push_back(s);
   }
 
-  NarrowString AlgorithmName::normalizeAlgorithm(const NarrowString& algorithm) const
+  WideString AlgorithmName::normalizeAlgorithm(const WideString& name)
+  {
+    NarrowString narrow = TextConvert::WideToNarrow(name);
+    narrow = normalizeAlgorithm(narrow);
+    return TextConvert::NarrowToWide(narrow);
+  }
+
+  NarrowString AlgorithmName::normalizeAlgorithm(const NarrowString& algorithm)
   {
     ASSERT(!algorithm.empty());
 
@@ -219,11 +210,11 @@ namespace esapi
         else if(temp == "blowfish")
           alg = "Blowfish";
 
-        else if(temp == "des")
-          alg = "DES";
-
         else if(temp == "desede")
           alg = "DES_ede";
+
+        else if(temp == "des")
+          alg = "DES";
 
         //////// Hashes ////////
 
@@ -274,11 +265,12 @@ namespace esapi
 
         else if(temp == "diffiehellman")
           alg = "DiffieHellman";
-      }
 
-    // Sanity check
-    if(!alg.length())
-      return trimmed;
+        //////// Oh shit! ////////
+
+        else
+          ASSERT(0);
+      }
 
     if(parts.size() >= 2)
       {
@@ -314,15 +306,26 @@ namespace esapi
           padding == "SSL3Padding";
       }
 
-    if(mode.length()) {
-      alg += "/" + mode;
+    // If there was any 'extra' information, such as an additional trailing
+    // slash and data, it will be caught below on the round trip test.
+
+    // Final return string
+    NarrowString result(alg);
+    if(mode.length()) { result += "/" + mode; }
+    if(padding.length()) { result += "/" + padding; }
+
+    // Final round trip test. If it does not round trip, we return the trimmed string.
+    NarrowString test1(trimmed), test2(result);
+    std::transform(test1.begin(), test1.end(), test1.begin(), ::tolower);
+    std::transform(test2.begin(), test2.end(), test2.begin(), ::tolower);
+    if(test2 != test2)
+    {
+      std::ostringstream oss;
+      oss << "Algorithm '" << trimmed << "' is not valid";
+      throw NoSuchAlgorithmException(oss.str());
     }
 
-    if(padding.length()) {
-      alg += "/" + padding;
-    }
-
-    return alg;
+    return result;
   }
 
 } // NAMESPACE
