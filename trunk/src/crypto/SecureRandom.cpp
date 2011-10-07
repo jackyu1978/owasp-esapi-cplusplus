@@ -13,6 +13,7 @@
  */
 
 #include "crypto/SecureRandom.h"
+#include "util/AlgorithmName.h"
 #include "crypto/SecureRandomImpl.h"
 #include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
@@ -42,7 +43,7 @@ namespace esapi
   {
     ASSERT( !algorithm.empty() );
 
-    const String alg(normalizeAlgortihm(algorithm));
+    const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
     SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg, nullptr, 0);
     MEMORY_BARRIER();
 
@@ -56,7 +57,8 @@ namespace esapi
    */
   SecureRandom::SecureRandom(const String& algorithm)
    
-    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(normalizeAlgortihm(algorithm), nullptr, 0))    
+    : m_lock(new Mutex),
+    m_impl(SecureRandomImpl::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -214,209 +216,4 @@ namespace esapi
     m_impl->setSeedImpl((const byte*)&seed, sizeof(seed));
   }
 
-  /**
-   * Normalizes the algorithm name. An empty string on input is interpreted as
-   * the default algortihm. If the algorithm is not found (ie, unsupported),
-   * return the empty string.
-   */
-  String SecureRandom::normalizeAlgortihm(const String& algorithm)
-  {
-    ASSERT(!algorithm.empty());
-
-    String alg(algorithm), mode;
-    String::size_type pos;
-
-    // Cut out whitespace
-    String::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
-    if(it != alg.end())
-      alg.erase(it, alg.end());
-
-    String trimmed(alg);
-
-    // Normalize the case
-    std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
-
-    // Normalize the slashes (we expect forward slashes, not back slashes)
-    while(String::npos != (pos = alg.find(L'\\')))
-      alg.replace(pos, 1, L"/");
-
-    // Split the string between CIPHER/MODE. Note that there might also be padding, but we ignore it
-    if(String::npos != (pos = alg.find(L'/')))
-      {
-        mode = alg.substr(pos+1);
-        alg.erase(pos);
-      }
-
-    // Lop off anything remaining in the mode such as padding - we always use Crypto++ default padding
-    if(String::npos != (pos = mode.find(L'/')))
-      mode.erase(pos);
-
-    // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
-
-    ////////////////////////////////// Block Ciphers //////////////////////////////////
-
-    if(alg == L"aes" && mode.empty())
-      return L"AES";
-
-    if(alg == L"aes" && mode == L"cfb")
-      return L"AES/CFB";
-
-    if(alg == L"aes" && mode == L"ofb")
-      return L"AES/OFB";
-
-    if(alg == L"aes" && mode == L"ctr")
-      return L"AES/CTR";
-
-    if((alg == L"aes128" || alg == L"aes-128") && mode == L"")
-      return L"AES128";
-
-    if((alg == L"aes128" || alg == L"aes-128") && mode == L"cfb")
-      return L"AES128/CFB";
-
-    if((alg == L"aes128" || alg == L"aes-128") && mode == L"ofb")
-      return L"AES128/OFB";
-
-    if((alg == L"aes128" || alg == L"aes-128") && mode == L"ctr")
-      return L"AES128/CTR";
-
-    if((alg == L"aes192" || alg == L"aes-192") && mode == L"")
-      return L"AES192";
-
-    if((alg == L"aes192" || alg == L"aes-192") && mode == L"cfb")
-      return L"AES192/CFB";
-
-    if((alg == L"aes192" || alg == L"aes-192") && mode == L"ofb")
-      return L"AES192/OFB";
-
-    if((alg == L"aes192" || alg == L"aes-192") && mode == L"ctr")
-      return L"AES192/CTR";
-
-    if((alg == L"aes256" || alg == L"aes-256") && mode == L"")
-      return L"AES256";
-
-    if((alg == L"aes256" || alg == L"aes-256") && mode == L"cfb")
-      return L"AES256/CFB";
-
-    if((alg == L"aes256" || alg == L"aes-256") && mode == L"ofb")
-      return L"AES256/OFB";
-
-    if((alg == L"aes256" || alg == L"aes-256") && mode == L"ctr")
-      return L"AES256/CTR";
-
-    if(alg == L"camellia" && mode == L"")
-      return L"Camellia";
-
-    if(alg == L"camellia" && mode == L"cfb")
-      return L"Camellia/CFB";
-
-    if(alg == L"camellia" && mode == L"ofb")
-      return L"Camellia/OFB";
-
-    if(alg == L"camellia" && mode == L"ctr")
-      return L"Camellia/CTR";
-
-    if(alg == L"camellia128" && mode == L"")
-      return L"Camellia128";
-
-    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"cfb")
-      return L"Camellia128/CFB";
-
-    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"ofb")
-      return L"Camellia128/OFB";
-
-    if((alg == L"camellia128" || alg == L"camellia-128") && mode == L"ctr")
-      return L"Camellia128/CTR";
-
-    if(alg == L"camellia192" && mode == L"")
-      return L"Camellia192";
-
-    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"cfb")
-      return L"Camellia192/CFB";
-
-    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"ofb")
-      return L"Camellia192/OFB";
-
-    if((alg == L"camellia192" || alg == L"camellia-192") && mode == L"ctr")
-      return L"Camellia192/CTR";
-
-    if(alg == L"camellia256" && mode == L"")
-      return L"Camellia256";
-
-    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"cfb")
-      return L"Camellia256/CFB";
-
-    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"ofb")
-      return L"Camellia256/OFB";
-
-    if((alg == L"camellia256" || alg == L"camellia-256") && mode == L"ctr")
-      return L"Camellia256/CTR";
-
-    if(alg == L"blowfish" && mode == L"")
-      return L"Blowfish";
-
-    if(alg == L"blowfish" && mode == L"cfb")
-      return L"Blowfish/CFB";
-
-    if(alg == L"blowfish" && mode == L"ofb")
-      return L"Blowfish/OFB";
-
-    if(alg == L"blowfish" && mode == L"ctr")
-      return L"Blowfish/CTR";
-
-    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"")
-      return L"DES_ede";
-
-    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"cfb")
-      return L"DES_ede/CFB";
-
-    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"ofb")
-      return L"DES_ede/OFB";
-
-    if((alg == L"desede" || alg == L"desede112" || alg == L"desede-112") && mode == L"ctr")
-      return L"DES_ede/CTR";
-
-    ////////////////////////////////// Hashes //////////////////////////////////
-
-    if(alg == L"sha-1" || alg == L"sha1" || alg == L"sha")
-      return L"SHA-1";
-
-    if(alg == L"sha-224" || alg == L"sha224")
-      return L"SHA-224";
-
-    if(alg == L"sha-256" || alg == L"sha256")
-      return L"SHA-256";
-
-    if(alg == L"sha-384" || alg == L"sha384")
-      return L"SHA-384";
-
-    if(alg == L"sha-512" || alg == L"sha512")
-      return L"SHA-512";
-
-    if(alg == L"whirlpool")
-      return L"Whirlpool";
-
-    ////////////////////////////////// HMACs //////////////////////////////////
-
-    if(alg == L"hmacsha-1" || alg == L"hmacsha1" || alg == L"hmacsha")
-      return L"HmacSHA1";
-
-    if(alg == L"hmacsha-224" || alg == L"hmacsha224")
-      return L"HmacSHA224";
-
-    if(alg == L"hmacsha-256" || alg == L"hmacsha256")
-      return L"HmacSHA256";
-
-    if(alg == L"hmacsha-384" || alg == L"hmacsha384")
-      return L"HmacSHA384";
-
-    if(alg == L"hmacsha-512" || alg == L"hmacsha512")
-      return L"HmacSHA512";
-
-    if(alg == L"hmacwhirlpool")
-      return L"HmacWhirlpool";
-
-    return trimmed;
-  }
-
 } // esapi
-
