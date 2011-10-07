@@ -300,6 +300,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/reference/DefaultEncryptorTest.cpp \
 			test/reference/DefaultEncoderTest.cpp \
 			test/util/zAllocatorTest.cpp \
+			test/util/AlgorithmNameTest.cpp \			
 			test/util/SecureByteArrayTest.cpp \
 			test/util/SecureIntArrayTest.cpp \
 			test/util/SecureStringTest1.cpp \
