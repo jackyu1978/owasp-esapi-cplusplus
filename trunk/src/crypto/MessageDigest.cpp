@@ -9,6 +9,7 @@
 */
 
 #include "EsapiCommon.h"
+#include "util/AlgorithmName.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/MessageDigestImpl.h"
 #include "crypto/Crypto++Common.h"
@@ -36,7 +37,8 @@ namespace esapi
   * Creates a message digest with the specified algorithm name.
   */
   MessageDigest::MessageDigest(const String& algorithm)   
-    : m_lock(new Mutex), m_impl(MessageDigestImpl::createInstance(normalizeAlgortihm(algorithm)))
+    : m_lock(new Mutex),
+    m_impl(MessageDigestImpl::createInstance(AlgorithmName::normalizeAlgorithm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -90,7 +92,7 @@ namespace esapi
   {
     ASSERT(!algorithm.empty());
 
-    const String alg(normalizeAlgortihm(algorithm));
+    const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
     MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
     MEMORY_BARRIER();
 
@@ -318,8 +320,7 @@ namespace esapi
   *
   * @return the number of digest bytes written to buf.
   */
-  size_t MessageDigest::digest(byte buf[], size_t size, size_t offset, size_t len)
-   
+  size_t MessageDigest::digest(byte buf[], size_t size, size_t offset, size_t len)   
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -338,8 +339,7 @@ namespace esapi
   *
   * @return the number of digest bytes written to buf.
   */
-  size_t MessageDigest::digest(SecureByteArray& buf, size_t offset, size_t len)
-   
+  size_t MessageDigest::digest(SecureByteArray& buf, size_t offset, size_t len)   
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -353,48 +353,4 @@ namespace esapi
     ASSERT(m_lock.get() != nullptr);
     return *m_lock.get();
   }
-
-  /**
-  * Normalizes the algorithm name. If the name is unknown, normalizeAlgortihm
-  * returns a whitespace trimmed algorithm name.
-  */
-  String MessageDigest::normalizeAlgortihm(const String& algorithm)
-  {
-    String alg(algorithm);
-
-    // Cut out whitespace
-    String::iterator it = std::remove_if(alg.begin(), alg.end(), ::isspace);
-    if(it != alg.end())
-      alg.erase(it, alg.end());
-
-    // Used to preserve case after trimming whitespace
-    String trimmed(alg);
-
-    // Normalize the case
-    std::transform(alg.begin(), alg.end(), alg.begin(), ::tolower);
-
-    if(alg == L"md5" || alg == L"md-5")
-      return L"MD5";
-
-    if(alg == L"sha-1" || alg == L"sha1" || alg == L"sha")
-      return L"SHA-1";
-
-    if(alg == L"sha-224" || alg == L"sha224")
-      return L"SHA-224";
-
-    if(alg == L"sha-256" || alg == L"sha256")
-      return L"SHA-256";
-
-    if(alg == L"sha-384" || alg == L"sha384")
-      return L"SHA-384";
-
-    if(alg == L"sha-512" || alg == L"sha512")
-      return L"SHA-512";
-
-    if(alg == L"whirlpool")
-      return L"Whirlpool";
-
-    return trimmed;
-  }
 }
-
