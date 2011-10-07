@@ -118,13 +118,6 @@ namespace esapi
   protected:
 
     /**
-     * Normalizes the algorithm name. An empty string on input is interpreted as
-     * the default algortihm. If the algorithm is not found (ie, unsupported),
-     * the empty string is returned.
-     */
-    static String normalizeAlgortihm(const String& algorithm);
-
-    /**
      * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
      */
     ESAPI_PRIVATE SecureRandom(SecureRandomImpl* impl);
