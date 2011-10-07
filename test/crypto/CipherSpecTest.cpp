@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
       SecureByteArray myIV;
       CipherSpec cs(L"", 128, 8, myIV);
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
       caughtExcept = true;
     }
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
       SecureByteArray myIV;
       CipherSpec cs(L"AES/CBC", 128, 8, myIV);
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
       caughtExcept = true;
     }
@@ -120,9 +120,9 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction4) //:Checking CipherSpec(SecureByt
       SecureByteArray myIV;
       CipherSpec cs(myIV);
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
-      // An empty A/M/P causes an IllegalArgumentException
+      // An empty A/M/P causes an NoSuchAlgorithmException
     }
   catch(const std::exception& ex)
     {
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
     {
       cs.setBlockSize(-1);
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
       caughtExcept = true;
     }

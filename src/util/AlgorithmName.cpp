@@ -15,7 +15,6 @@
 
 #include "EsapiCommon.h"
 #include "util/TextConvert.h"
-#include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 #include <algorithm>
 
@@ -185,14 +184,14 @@ namespace esapi
     split(alg, "\\/:", parts);
 
     if(parts.size() == 0)
-      throw IllegalArgumentException("The algorithm is empty");
+      throw NoSuchAlgorithmException("Invalid transformation format: '<empty>'");
 
     // An algorithm is either CIPHER or CIPHER/MODE/PADDING
     if(parts.size() != 1 && parts.size() != 3)
       {
         std::ostringstream oss;
-        oss << "Algorithm '" << trimmed << "' is not valid";
-        throw IllegalArgumentException(oss.str());
+        oss << "Invalid transformation format: '" << trimmed << "'";
+        throw NoSuchAlgorithmException(oss.str());
       }
 
     // Clear algorithm for final processing
@@ -288,7 +287,7 @@ namespace esapi
 
         else {
           std::ostringstream oss;
-          oss << "Algorithm '" << trimmed << "', cipher '" << temp << "' is not valid";
+          oss << "Invalid transformation format: '" << trimmed << "', cipher '" << temp << "'";
           ESAPI_ASSERT2(false, oss.str());
           throw NoSuchAlgorithmException(oss.str());
         }
@@ -319,7 +318,7 @@ namespace esapi
 
         else {
           std::ostringstream oss;
-          oss << "Algorithm '" << trimmed << "', mode '" << temp << "' is not valid";
+          oss << "Invalid transformation format: '" << trimmed << "', mode '" << temp << "'";
           ESAPI_ASSERT2(false, oss.str());
           throw NoSuchAlgorithmException(oss.str());
         }
@@ -338,7 +337,7 @@ namespace esapi
 
         else {
           std::ostringstream oss;
-          oss << "Algorithm '" << trimmed << "', padding '" << temp << "' is not valid";
+          oss << "Invalid transformation format: '" << trimmed << "', padding '" << temp << "'";
           ESAPI_ASSERT2(false, oss.str());
           throw NoSuchAlgorithmException(oss.str());
         }

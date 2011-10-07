@@ -32,8 +32,8 @@ using esapi::AlgorithmName;
 #include "errors/NoSuchAlgorithmException.h"
 using esapi::NoSuchAlgorithmException;
 
-#include "errors/IllegalArgumentException.h"
-using esapi::IllegalArgumentException;
+#include "errors/NoSuchAlgorithmException.h"
+using esapi::NoSuchAlgorithmException;
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_1P )
 {
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_104N )
 
       BOOST_ERROR("Failed to catch bogus data in algorithm (5)");
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
     }
   catch(...)
@@ -276,7 +276,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_105N )
 
       BOOST_ERROR("Failed to catch bogus data in algorithm (6)");
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
     }
   catch(...)
@@ -294,7 +294,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_106N )
 
       BOOST_ERROR("Failed to catch bogus data in algorithm (7)");
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
     }
   catch(...)
@@ -386,7 +386,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_111N )
 
       BOOST_ERROR("Failed to catch missing cipher/padding/mode in algorithm (12)");
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
     }
   catch(...)
