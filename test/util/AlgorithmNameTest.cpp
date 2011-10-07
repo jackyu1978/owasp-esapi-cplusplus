@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
   }
 }
 
-BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
+BOOST_AUTO_TEST_CASE( AlgorithmName_101N )
 {
   try
   {
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
   }
 }
 
-BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
+BOOST_AUTO_TEST_CASE( AlgorithmName_102N )
 {
   try
   {
@@ -228,7 +228,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
   }
 }
 
-BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
+BOOST_AUTO_TEST_CASE( AlgorithmName_103N )
 {
   try
   {
