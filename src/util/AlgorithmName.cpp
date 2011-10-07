@@ -277,21 +277,21 @@ namespace esapi
         temp = parts[1];
 
         if(temp == "none")
-          mode == "NONE";
+          mode = "NONE";
         else if(temp == "ecb")
-          mode == "ECB";
+          mode = "ECB";
         else if(temp == "cbc")
-          mode == "CBC";
+          mode = "CBC";
         else if(temp == "ccm")
-          mode == "CCM";
+          mode = "CCM";
         else if(temp == "gcm")
-          mode == "GCM";
+          mode = "GCM";
         else if(temp == "eax")
-          mode == "EAX";
+          mode = "EAX";
         else if(temp == "ofb")
-          mode == "OFB";
+          mode = "OFB";
         else if(temp == "CFB")
-          mode == "cfb";
+          mode = "cfb";
       }
 
     if(parts.size() >= 3)
@@ -299,11 +299,11 @@ namespace esapi
         temp = parts[2];
 
         if(temp == "nopadding")
-          padding == "NoPadding";
+          padding = "NoPadding";
         else if(temp == "pkcs5padding")
-          padding == "PKCS5Padding";
+          padding = "PKCS5Padding";
         else if(temp == "ssl3padding")
-          padding == "SSL3Padding";
+          padding = "SSL3Padding";
       }
 
     // If there was any 'extra' information, such as an additional trailing
