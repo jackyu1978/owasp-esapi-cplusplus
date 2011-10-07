@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_10P )
 {
   AlgorithmName aa(L"AES/CBC/PKCS5Padding");
   
-  NarrowString alg;
+  WideString alg;
   aa.getCipher(alg);
 
   BOOST_CHECK_MESSAGE(alg == L"AES", "Failed to getCipher (4)");
@@ -132,10 +132,10 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_12P )
 {
   AlgorithmName aa(L"AES/CBC/PKCS5Padding");
   
-  NarrowString mode;
+  WideString mode;
   aa.getMode(mode);
 
-  BOOST_CHECK_MESSAGE(mode == L"CBC", "Failed to getMode (1)");
+  BOOST_CHECK_MESSAGE(mode == L"CBC", "Failed to getMode (2)");
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_13P )
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_14P )
 {
   AlgorithmName aa(L"AES/CBC/PKCS5Padding");
   
-  NarrowString padding;
+  WideString padding;
   aa.getPadding(padding);
 
   BOOST_CHECK_MESSAGE(padding == L"PKCS5Padding", "Failed to getPadding (2)");
@@ -171,14 +171,14 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_16P )
   AlgorithmName aa(L"AES/CBC/PKCS5Padding");
   NarrowString alg = aa.algorithm();
 
-  BOOST_CHECK_MESSAGE(alg == L"AES/CBC/PKCS5Padding", "Failed to algorithm (2)");
+  BOOST_CHECK_MESSAGE(alg == "AES/CBC/PKCS5Padding", "Failed to algorithm (2)");
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
 {
   try
   {
-    AlgorithmName aa(L"Foo");  
+    AlgorithmName aa("Foo");  
     NarrowString alg = aa.algorithm();
 
     BOOST_ERROR("Failed to catch bogus algorithm (1)");
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_101N )
 {
   try
   {
-    AlgorithmName aa(L"Foo/CBC/PKCS5Padding");  
+    AlgorithmName aa("Foo/CBC/PKCS5Padding");  
     NarrowString alg = aa.algorithm();
 
     BOOST_ERROR("Failed to catch bogus cipher in algorithm (2)");
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_102N )
 {
   try
   {
-    AlgorithmName aa(L"AES/Foo/PKCS5Padding");  
+    AlgorithmName aa("AES/Foo/PKCS5Padding");  
     NarrowString alg = aa.algorithm();
 
     BOOST_ERROR("Failed to catch bogus mode in algorithm (3)");
@@ -232,7 +232,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_103N )
 {
   try
   {
-    AlgorithmName aa(L"AES/CBC/Foo");  
+    AlgorithmName aa("AES/CBC/Foo");  
     NarrowString alg = aa.algorithm();
 
     BOOST_ERROR("Failed to catch bogus cipher in algorithm (4)");
