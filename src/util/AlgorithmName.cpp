@@ -50,14 +50,14 @@ namespace esapi
     return *this;
   }
 
-  void AlgorithmName::getAlgorithm(NarrowString& normal) const
+  void AlgorithmName::getAlgorithm(NarrowString& algorithm) const
   {
-    normal = m_normal;
+    algorithm = m_normal;
   }
 
-  void AlgorithmName::getAlgorithm(WideString& normal) const
+  void AlgorithmName::getAlgorithm(WideString& algorithm) const
   {
-    normal = TextConvert::NarrowToWide(m_normal);
+    algorithm = TextConvert::NarrowToWide(m_normal);
   }
 
   bool AlgorithmName::getCipher(NarrowString& cipher) const
@@ -69,6 +69,8 @@ namespace esapi
       cipher = parts[0];
       return true;
     }
+
+    cipher = "";
     return false;
   }
 
@@ -81,6 +83,7 @@ namespace esapi
         return true;
       }
 
+    cipher = L"";
     return false;
   }
 
@@ -93,6 +96,8 @@ namespace esapi
       mode = parts[1];
       return true;
     }
+
+    mode = "";
     return false;
   }
 
@@ -105,6 +110,7 @@ namespace esapi
         return true;
       }
 
+    mode = L"";
     return false;
   }
 
@@ -117,6 +123,8 @@ namespace esapi
       padding = parts[2];
       return true;
     }
+
+    padding = "";
     return false;
   }
 
@@ -129,6 +137,7 @@ namespace esapi
         return true;
       }
 
+    padding = L"";
     return false;
   }
 
