@@ -192,12 +192,11 @@ namespace esapi
     {
       std::ostringstream oss;
       oss << "Algorithm '" << trimmed << "' is not valid";
-      throw NoSuchAlgorithmException(oss.str());
+      throw IllegalArgumentException(oss.str());
     }
 
     // Clear algorithm for final processing
     alg = mode = padding = "";
-    bool bad = false;
 
     // We should see a CIPHER (ie, HmacSHA1), or a CIPHER/MODE/PADDING.
     if(parts.size() >= 1)
@@ -288,11 +287,10 @@ namespace esapi
         //////// Oh shit! ////////
 
         else {
-          bad = true;
-
           std::ostringstream oss;
-          oss << "Cipher '" << temp << "' is not valid";
+          oss << "Algorithm '" << trimmed << "', cipher '" << temp << "' is not valid";
           ESAPI_ASSERT2(false, oss.str());
+          throw NoSuchAlgorithmException(oss.str());
         }
       }
 
@@ -320,11 +318,10 @@ namespace esapi
           mode = "CTR";
 
         else {
-          bad = true;
-
           std::ostringstream oss;
-          oss << "Mode '" << temp << "' is not valid";
+          oss << "Algorithm '" << trimmed << "', mode '" << temp << "' is not valid";
           ESAPI_ASSERT2(false, oss.str());
+          throw NoSuchAlgorithmException(oss.str());
         }
       }
 
@@ -340,20 +337,12 @@ namespace esapi
           padding = "SSL3Padding";
 
         else {
-          bad = true;
-
           std::ostringstream oss;
-          oss << "Padding '" << temp << "' is not valid";
+          oss << "Algorithm '" << trimmed << "', padding '" << temp << "' is not valid";
           ESAPI_ASSERT2(false, oss.str());
+          throw NoSuchAlgorithmException(oss.str());
         }
       }
-
-    if(bad)
-    {
-      std::ostringstream oss;
-      oss << "Algorithm '" << trimmed << "' is not valid";
-      throw NoSuchAlgorithmException(oss.str());
-    }
 
     // Final return string
     NarrowString result(alg);
