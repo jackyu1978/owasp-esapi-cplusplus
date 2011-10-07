@@ -187,6 +187,14 @@ namespace esapi
     if(parts.size() == 0)
       throw IllegalArgumentException("The algorithm is empty");
 
+    // An algorithm is either CIPHER or CIPHER/MODE/PADDING
+    if(parts.size() != 1 && parts.size() != 3)
+    {
+      std::ostringstream oss;
+      oss << "Algorithm '" << trimmed << "' is not valid";
+      throw NoSuchAlgorithmException(oss.str());
+    }
+
     // Clear algorithm for final processing
     alg = mode = padding = "";
     bool bad = false;
@@ -269,7 +277,7 @@ namespace esapi
           alg = "PBEWithSHA384";
         else if(temp == "pbewithsha512")
           alg = "PBEWithSHA512";
-        else if(temp == "pbewithshawhirlpool")
+        else if(temp == "pbewithwhirlpool")
           alg = "PBEWithWhirlpool";
 
         //////// Key Agreement ////////
@@ -288,7 +296,7 @@ namespace esapi
         }
       }
 
-    if(parts.size() >= 2)
+    if(parts.size() == 3)
       {
         temp = parts[1];
 
@@ -320,7 +328,7 @@ namespace esapi
         }
       }
 
-    if(parts.size() >= 3)
+    if(parts.size() == 3)
       {
         temp = parts[2];
 
@@ -339,17 +347,6 @@ namespace esapi
           ESAPI_ASSERT2(false, oss.str());
         }
       }
-
-    // If there was any 'extra' information, such as an additional
-    // trailing slash and data, flag it now
-    if(parts.size() >= 4)
-    {
-      bad = true;
-
-      std::ostringstream oss;
-      oss << "Additional data '" << parts[3] << "' is not expected or valid";
-      ESAPI_ASSERT2(false, oss.str());
-    }
 
     if(bad)
     {

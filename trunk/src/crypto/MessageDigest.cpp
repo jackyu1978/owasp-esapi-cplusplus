@@ -9,6 +9,7 @@
 */
 
 #include "EsapiCommon.h"
+#include "util/TextConvert.h"
 #include "util/AlgorithmName.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/MessageDigestImpl.h"
@@ -86,6 +87,12 @@ namespace esapi
     ASSERT(m_impl.get() != nullptr);
 
     return *this;
+  }
+
+  MessageDigest MessageDigest::getInstance(const NarrowString& algorithm)   
+  {
+    ASSERT(!algorithm.empty());
+    return getInstance(TextConvert::NarrowToWide(algorithm));
   }
 
   MessageDigest MessageDigest::getInstance(const String& algorithm)   
