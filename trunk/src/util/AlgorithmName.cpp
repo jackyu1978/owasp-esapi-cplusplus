@@ -11,12 +11,11 @@
  * @author Jeffrey Walton, noloader@gmail.com
  */
 
-#pragma once
-
 #include "util/AlgorithmName.h"
 
 #include "EsapiCommon.h"
 #include "util/TextConvert.h"
+#include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 #include <algorithm>
 
@@ -177,7 +176,7 @@ namespace esapi
     split(alg, "\\/:", parts);
 
     if(parts.size() == 0)
-      return "";
+      throw IllegalArgumentException("The algorithm is empty");
 
     // Clear algorithm for final processing
     alg = mode = padding = "";
@@ -312,7 +311,7 @@ namespace esapi
       {
         temp = parts[2];
 
-        if(temp == "nopadding")
+        if(temp == "nopadding" || temp == "none")
           padding = "NoPadding";
         else if(temp == "pkcs5padding")
           padding = "PKCS5Padding";

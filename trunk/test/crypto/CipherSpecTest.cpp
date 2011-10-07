@@ -28,6 +28,9 @@ using std::exception;
 #include "EsapiCommon.h"
 using esapi::String;
 
+#include "errors/NoSuchAlgorithmException.h"
+using esapi::NoSuchAlgorithmException;
+
 #include "errors/IllegalArgumentException.h"
 using esapi::IllegalArgumentException;
 
@@ -39,40 +42,67 @@ using esapi::CipherSpec;
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction1) //:Test correct construction.
 {
-  SecureByteArray myIV;
-  CipherSpec cs(L"AES/CBC/NoPadding", 128, 8, myIV);
-  BOOST_CHECK(cs.getCipherTransformation() == L"AES/CBC/NoPadding");
-  BOOST_CHECK(cs.getKeySize() == 128);
-  BOOST_CHECK(cs.getBlockSize() == 8);
+  try
+    {
+      SecureByteArray myIV;
+      CipherSpec cs(L"AES/CBC/NoPadding", 128, 8, myIV);
+      BOOST_CHECK(cs.getCipherTransformation() == L"AES/CBC/NoPadding");
+      BOOST_CHECK(cs.getKeySize() == 128);
+      BOOST_CHECK(cs.getBlockSize() == 8);
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
 
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
-{
-  SecureByteArray myIV;
+{  
   bool caughtExcept = false;
   try
     {
+      SecureByteArray myIV;
       CipherSpec cs(L"", 128, 8, myIV);
     }
   catch(const IllegalArgumentException&)
     {
       caughtExcept = true;
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
   BOOST_CHECK(caughtExcept);
 }
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
-{
-  SecureByteArray myIV;
+{  
   bool caughtExcept = false;
   try
     {
+      SecureByteArray myIV;
       CipherSpec cs(L"AES/CBC", 128, 8, myIV);
     }
   catch(const IllegalArgumentException&)
     {
       caughtExcept = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK(caughtExcept);
 }
@@ -80,51 +110,96 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction4) //:Checking CipherSpec(SecureByteArray &b) CTOR.
 {
-  SecureByteArray myIV;
-  CipherSpec cs(myIV);
+  //SecureByteArray myIV;
+  //CipherSpec cs(myIV);
   //BOOST_CHECK(cs.getkeySize() == ESAPI.securityConfiguration().getEncryptionKeyLength());
   //BOOST_CHECK(cs.getCipherTransformation() == ESAPI.securityConfiguration().getCipherTransformation());
+
+  try
+    {
+      SecureByteArray myIV;
+      CipherSpec cs(myIV);
+    }
+  catch(const IllegalArgumentException&)
+    {
+      // An empty A/M/P causes an IllegalArgumentException
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction5) //:Checking set and get CipherTransformation().
 {
-  CipherSpec cs(L"AlgName/Mode/Padding", 128);
-  BOOST_CHECK(cs.getCipherTransformation() == L"AlgName/Mode/Padding");
   bool caughtExcept = false;
   try
     {
+      CipherSpec cs(L"AlgName/Mode/Padding", 128);
+      BOOST_CHECK(cs.getCipherTransformation() == L"AlgName/Mode/Padding");
+
       cs.setCipherTransformation(L"");
     }
-  catch(const IllegalArgumentException&)
+  catch(const NoSuchAlgorithmException&)
     {
       caughtExcept = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK(caughtExcept);
 }
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction6) //:Testing a bunch of get functions.
 {
-  CipherSpec cs(L"Alg/Mode/Padding", 128, 8);
-  BOOST_CHECK(cs.getKeySize() == 128);
-  BOOST_CHECK(cs.getBlockSize() == 8);
-  BOOST_CHECK(cs.getCipherTransformation() == L"Alg/Mode/Padding");
-  BOOST_CHECK(cs.getCipherAlgorithm() == L"Alg");
-  BOOST_CHECK(cs.getCipherMode() == L"Mode");
-  BOOST_CHECK(cs.getPaddingScheme() == L"Padding");
+  try
+    {
+      CipherSpec cs(L"Blowfish/CBC/PKCS5Padding", 128, 8);
+      BOOST_CHECK(cs.getKeySize() == 128);
+      BOOST_CHECK(cs.getBlockSize() == 8);
+      BOOST_CHECK(cs.getCipherTransformation() == L"Blowfish/CBC/PKCS5Padding");
+      BOOST_CHECK(cs.getCipherAlgorithm() == L"Blowfish");
+      BOOST_CHECK(cs.getCipherMode() == L"CBC");
+      BOOST_CHECK(cs.getPaddingScheme() == L"PKCS5Padding");
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
-
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
 {
-  CipherSpec cs;
   bool caughtExcept = false;
   try
     {
+      CipherSpec cs;
       cs.setBlockSize(0);
     }
   catch(const IllegalArgumentException&)
     {
       caughtExcept = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
     }
   BOOST_CHECK(caughtExcept);
 
@@ -138,6 +213,14 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction7) //:Testing setBlockSize().
     {
       caughtExcept = true;
     }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
   BOOST_CHECK(caughtExcept);
 #endif
 }
@@ -146,14 +229,36 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction8) //:Testing requiresIV().
 {
   try
     {
-      CipherSpec cs(L"Alg/EcB/Padding", 128);
-      BOOST_CHECK(cs.getCipherMode() == L"EcB");
+      CipherSpec cs(L"AeS/EcB/nOpADDING", 128);
+      BOOST_CHECK(cs.getCipherAlgorithm() == L"AES");
+      BOOST_CHECK(cs.getCipherMode() == L"ECB");
+      BOOST_CHECK(cs.getPaddingScheme() == L"NoPadding");
       BOOST_CHECK(cs.requiresIV() == false);
-      cs.setCipherTransformation(L"Alg/NotECB/Padding");
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction9) //:Testing requiresIV().
+{
+  try
+    {
+      CipherSpec cs(L"AES/CBC/None", 128);
       BOOST_CHECK(cs.requiresIV() == true);
     }
   catch(const std::exception& ex)
     {
       BOOST_ERROR(ex.what());
     }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
+

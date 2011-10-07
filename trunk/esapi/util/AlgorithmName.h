@@ -24,15 +24,17 @@ namespace esapi
 
     /**
      * Normailize the algorithm name. If the algorithm is recognized, it is
-     * returned conformant to JCE, Appendix A. If it is not recognized, a
-     * NoSuchAlgorithmException is thrown.
+     * returned conformant to JCE, Appendix A naming. If the algorithm is
+     * empty after trimming, IllegalArgumentException is thrown. If the
+     * algorithm is not recognized, NoSuchAlgorithmException is thrown.
      */
     static NarrowString normalizeAlgorithm(const NarrowString& algorithm);
 
     /**
      * Normailize the algorithm name. If the algorithm is recognized, it is
-     * returned conformant to JCE, Appendix A. If it is not recognized, a
-     * NoSuchAlgorithmException is thrown.
+     * returned conformant to JCE, Appendix A naming. If the algorithm is
+     * empty after trimming, IllegalArgumentException is thrown. If the
+     * algorithm is not recognized, NoSuchAlgorithmException is thrown.
      */
     static WideString normalizeAlgorithm(const WideString& algorithm);
 
