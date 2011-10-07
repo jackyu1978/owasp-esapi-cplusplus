@@ -81,6 +81,17 @@ namespace esapi
 
     // AlgorithmName throws NoSuchAlgorithmException if cipherXForm is junk
     AlgorithmName xform(cipherXForm);
+
+    String unused;
+    if( !xform.getCipher(unused) )
+      throw IllegalArgumentException("Transform algorithm is not valid");
+
+    if( !xform.getMode(unused) )
+      throw IllegalArgumentException("Transform mode is not valid");
+
+    if( !xform.getPadding(unused) )
+      throw IllegalArgumentException("Transform padding is not valid");
+
     return TextConvert::NarrowToWide(xform.algorithm());
   }
 
@@ -96,6 +107,7 @@ namespace esapi
 
   String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
   {
+    // AlgorithmName throws NoSuchAlgorithmException if cipherXForm is junk
     AlgorithmName xform(getCipherTransformation());
     String comp;
 

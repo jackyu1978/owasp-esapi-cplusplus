@@ -35,14 +35,14 @@ using esapi::NoSuchAlgorithmException;
 BOOST_AUTO_TEST_CASE( AlgorithmName_1P )
 {
   // Construction
-  NarrowString s;
+  NarrowString s("DES/ECB/NoPadding");
   AlgorithmName a(s);
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_2P )
 {
   // Copy
-  NarrowString s;
+  NarrowString s("DES/ECB/NoPadding");
   AlgorithmName a(s);
   AlgorithmName aa(a);
 }
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_2P )
 BOOST_AUTO_TEST_CASE( AlgorithmName_3P )
 {
   // Assignment
-  NarrowString s;
+  NarrowString s("DES/ECB/NoPadding");
   AlgorithmName a(s);
   AlgorithmName aa = a;
 }
@@ -58,14 +58,14 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_3P )
 BOOST_AUTO_TEST_CASE( AlgorithmName_4P )
 {
   // Construction
-  WideString s;
+  WideString s(L"DES/ECB/NoPadding");
   AlgorithmName a(s);
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_5P )
 {
   // Copy
-  WideString s;
+  WideString s(L"DES/ECB/NoPadding");
   AlgorithmName a(s);
   AlgorithmName aa(a);
 }
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_5P )
 BOOST_AUTO_TEST_CASE( AlgorithmName_6P )
 {
   // Assignment
-  WideString s;
+  WideString s(L"DES/ECB/NoPadding");
   AlgorithmName a(s);
   AlgorithmName aa = a;
 }
