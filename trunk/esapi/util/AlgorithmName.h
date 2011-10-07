@@ -75,12 +75,12 @@ namespace esapi
     /**
      * Returns the normalized algorithm name per JCE, Appendix A.
      */
-    void getAlgorithm(NarrowString& normal) const;
+    void getAlgorithm(NarrowString& algorithm) const;
 
     /**
      * Returns the normalized algorithm name per JCE, Appendix A.
      */
-    void getAlgorithm(WideString& normal) const;
+    void getAlgorithm(WideString& algorithm) const;
 
     /**
      * Returns the cipher portion of the normalized algorithm name per JCE, Appendix A.
