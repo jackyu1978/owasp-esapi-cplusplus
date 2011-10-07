@@ -1,15 +1,15 @@
 /*
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ */
 
 #if !defined(ESAPI_OS_WINDOWS)
 # define BOOST_TEST_DYN_LINK
@@ -177,71 +177,126 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_16P )
 BOOST_AUTO_TEST_CASE( AlgorithmName_100N )
 {
   try
-  {
-    AlgorithmName aa("Foo");  
-    NarrowString alg = aa.algorithm();
+    {
+      AlgorithmName aa("Foo");  
+      NarrowString alg = aa.algorithm();
 
-    BOOST_ERROR("Failed to catch bogus algorithm (1)");
-  }
+      BOOST_ERROR("Failed to catch bogus algorithm (1)");
+    }
   catch(const NoSuchAlgorithmException&)
-  {
-  }
+    {
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_101N )
 {
   try
-  {
-    AlgorithmName aa("Foo/CBC/PKCS5Padding");  
-    NarrowString alg = aa.algorithm();
+    {
+      AlgorithmName aa("Foo/CBC/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
 
-    BOOST_ERROR("Failed to catch bogus cipher in algorithm (2)");
-  }
+      BOOST_ERROR("Failed to catch bogus cipher in algorithm (2)");
+    }
   catch(const NoSuchAlgorithmException&)
-  {
-  }
+    {
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_102N )
 {
   try
-  {
-    AlgorithmName aa("AES/Foo/PKCS5Padding");  
-    NarrowString alg = aa.algorithm();
+    {
+      AlgorithmName aa("AES/Foo/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
 
-    BOOST_ERROR("Failed to catch bogus mode in algorithm (3)");
-  }
+      BOOST_ERROR("Failed to catch bogus mode in algorithm (3)");
+    }
   catch(const NoSuchAlgorithmException&)
-  {
-  }
+    {
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_103N )
 {
   try
-  {
-    AlgorithmName aa("AES/CBC/Foo");  
-    NarrowString alg = aa.algorithm();
+    {
+      AlgorithmName aa("AES/CBC/Foo");  
+      NarrowString alg = aa.algorithm();
 
-    BOOST_ERROR("Failed to catch bogus cipher in algorithm (4)");
-  }
+      BOOST_ERROR("Failed to catch bogus padding in algorithm (4)");
+    }
   catch(const NoSuchAlgorithmException&)
-  {
-  }
+    {
+    }
   catch(...)
-  {
-    BOOST_ERROR("Caught unknown exception");
-  }
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
 }
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_104N )
+{
+  try
+    {
+      AlgorithmName aa("AES/CBC/PKCS5Padding/Foo");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch bogus data in algorithm (5)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_105N )
+{
+  try
+    {
+      AlgorithmName aa("AES/CBC/PKCS5Padding/Foo/Bar");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch bogus data in algorithm (6)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_106N )
+{
+  try
+    {
+      AlgorithmName aa("AES/CBC/PKCS5Padding/Foo/Bar/Bah");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch bogus data in algorithm (7)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
