@@ -181,6 +181,7 @@ namespace esapi
 
     // Clear algorithm for final processing
     alg = mode = padding = "";
+    bool bad = false;
 
     // We should see a CIPHER (ie, HmacSHA1), or a CIPHER/MODE/PADDING.
     if(parts.size() >= 1)
@@ -268,8 +269,13 @@ namespace esapi
 
         //////// Oh shit! ////////
 
-        else
-          ASSERT(0);
+        else {
+          bad = true;
+
+          std::ostringstream oss;
+          oss << "Cipher '" << temp << "' is not valid";
+          ESAPI_ASSERT2(false, oss.str());
+        }
       }
 
     if(parts.size() >= 2)
@@ -292,6 +298,14 @@ namespace esapi
           mode = "OFB";
         else if(temp == "CFB")
           mode = "cfb";
+
+        else {
+          bad = true;
+
+          std::ostringstream oss;
+          oss << "Mode '" << temp << "' is not valid";
+          ESAPI_ASSERT2(false, oss.str());
+        }
       }
 
     if(parts.size() >= 3)
@@ -304,26 +318,38 @@ namespace esapi
           padding = "PKCS5Padding";
         else if(temp == "ssl3padding")
           padding = "SSL3Padding";
+
+        else {
+          bad = true;
+
+          std::ostringstream oss;
+          oss << "Padding '" << temp << "' is not valid";
+          ESAPI_ASSERT2(false, oss.str());
+        }
       }
 
-    // If there was any 'extra' information, such as an additional trailing
-    // slash and data, it will be caught below on the round trip test.
+    // If there was any 'extra' information, such as an additional
+    // trailing slash and data, flag it now
+    if(parts.size() >= 4)
+    {
+      bad = true;
 
-    // Final return string
-    NarrowString result(alg);
-    if(mode.length()) { result += "/" + mode; }
-    if(padding.length()) { result += "/" + padding; }
+      std::ostringstream oss;
+      oss << "Additional data '" << parts[3] << "' is not expected or valid";
+      ESAPI_ASSERT2(false, oss.str());
+    }
 
-    // Final round trip test. If it does not round trip, we return the trimmed string.
-    NarrowString test1(trimmed), test2(result);
-    std::transform(test1.begin(), test1.end(), test1.begin(), ::tolower);
-    std::transform(test2.begin(), test2.end(), test2.begin(), ::tolower);
-    if(test2 != test2)
+    if(bad)
     {
       std::ostringstream oss;
       oss << "Algorithm '" << trimmed << "' is not valid";
       throw NoSuchAlgorithmException(oss.str());
     }
+
+    // Final return string
+    NarrowString result(alg);
+    if(mode.length()) { result += "/" + mode; }
+    if(padding.length()) { result += "/" + padding; }
 
     return result;
   }
