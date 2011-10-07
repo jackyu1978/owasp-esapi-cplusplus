@@ -269,6 +269,7 @@ REFSRCS =   src/reference/DefaultEncoder.cpp \
 			src/reference/validation/StringValidationRule.cpp
 
 UTILSRCS =	src/util/Mutex.cpp \
+			src/util/AlgorithmName.cpp \
 			src/util/SecureArray.cpp \
 			src/util/SecureString.cpp \
 			src/util/TextConvert-Starnix.cpp

@@ -1,15 +1,15 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ */
 
 #pragma once
 
@@ -31,7 +31,7 @@ namespace esapi
 
   AlgorithmName::AlgorithmName(const WideString& algorithm)
     : m_original(TextConvert::WideToNarrow(algorithm)),
-    m_normal(TextConvert::WideToNarrow(normalizeAlgorithm(algorithm)))
+      m_normal(TextConvert::WideToNarrow(normalizeAlgorithm(algorithm)))
   {
   }
 
@@ -43,10 +43,10 @@ namespace esapi
   AlgorithmName& AlgorithmName::operator=(const AlgorithmName& rhs)
   {
     if(this != &rhs)
-    {
-      m_original = rhs.m_original;
-      m_normal = rhs.m_normal;
-    }
+      {
+        m_original = rhs.m_original;
+        m_normal = rhs.m_normal;
+      }
     return *this;
   }
 
@@ -86,10 +86,10 @@ namespace esapi
   {
     std::string temp;
     if(getCipher(temp))
-    {
-      cipher = TextConvert::NarrowToWide(temp);
-      return true;
-    }
+      {
+        cipher = TextConvert::NarrowToWide(temp);
+        return true;
+      }
 
     return false;
   }
@@ -110,10 +110,10 @@ namespace esapi
   {
     std::string temp;
     if(getMode(temp))
-    {
-      mode = TextConvert::NarrowToWide(temp);
-      return true;
-    }
+      {
+        mode = TextConvert::NarrowToWide(temp);
+        return true;
+      }
 
     return false;
   }
@@ -134,10 +134,10 @@ namespace esapi
   {
     std::string temp;
     if(getPadding(temp))
-    {
-      padding = TextConvert::NarrowToWide(temp);
-      return true;
-    }
+      {
+        padding = TextConvert::NarrowToWide(temp);
+        return true;
+      }
 
     return false;
   }
@@ -155,10 +155,10 @@ namespace esapi
     std::string::size_type pos = 0;
 
     while( (pos = s.find_first_of(delim)) != String::npos )
-    {
-      parts.push_back(s.substr(0, pos));
-      s.erase(0, pos+1);
-    }
+      {
+        parts.push_back(s.substr(0, pos));
+        s.erase(0, pos+1);
+      }
 
     // Catch any tail bytes
     if( !s.empty() )
@@ -193,126 +193,126 @@ namespace esapi
 
     // We should see a CIPHER (ie, HmacSHA1), or a CIPHER/MODE/PADDING.
     if(parts.size() >= 1)
-    {
-      temp = parts[0];
+      {
+        temp = parts[0];
 
-      //////// Symmetric Ciphers ////////
+        //////// Symmetric Ciphers ////////
 
-      if(temp == "aes")
-        alg = "AES";
-      else if(temp == "aes128")
-        alg = "AES128";
-      else if(temp == "aes192")
-        alg = "AES192";
-      else if(temp == "aes256")
-        alg = "AES256";
+        if(temp == "aes")
+          alg = "AES";
+        else if(temp == "aes128")
+          alg = "AES128";
+        else if(temp == "aes192")
+          alg = "AES192";
+        else if(temp == "aes256")
+          alg = "AES256";
 
-      else if(temp == "camellia")
-        alg = "Camellia";
-      else if(temp == "camellia128")
-        alg = "Camellia128";
-      else if(temp == "camellia192")
-        alg = "Camellia192";
-      else if(temp == "camellia256")
-        alg = "Camellia256"; 
+        else if(temp == "camellia")
+          alg = "Camellia";
+        else if(temp == "camellia128")
+          alg = "Camellia128";
+        else if(temp == "camellia192")
+          alg = "Camellia192";
+        else if(temp == "camellia256")
+          alg = "Camellia256"; 
 
-      else if(temp == "blowfish")
-        alg = "Blowfish";
+        else if(temp == "blowfish")
+          alg = "Blowfish";
 
-      else if(temp == "des")
-        alg = "DES";
+        else if(temp == "des")
+          alg = "DES";
 
-      else if(temp == "desede")
-        alg = "DES_ede";
+        else if(temp == "desede")
+          alg = "DES_ede";
 
-      //////// Hashes ////////
+        //////// Hashes ////////
 
-      else if(temp == "sha-1" || temp == "sha1" || temp == "sha")
-        alg = "SHA-1";
-      else if(temp == "sha-224" || temp == "sha224")
-        alg = "SHA-224";
-      else if(temp == "sha-256" || temp == "sha256")
-        alg = "SHA-256";
-      else if(temp == "sha-384" || temp == "sha384")
-        alg = "SHA-384";
-      else if(temp == "sha-512" || temp == "sha512")
-        alg = "SHA-512";
-      else if(temp == "whirlpool")
-        alg = "Whirlpool";
+        else if(temp == "sha-1" || temp == "sha1" || temp == "sha")
+          alg = "SHA-1";
+        else if(temp == "sha-224" || temp == "sha224")
+          alg = "SHA-224";
+        else if(temp == "sha-256" || temp == "sha256")
+          alg = "SHA-256";
+        else if(temp == "sha-384" || temp == "sha384")
+          alg = "SHA-384";
+        else if(temp == "sha-512" || temp == "sha512")
+          alg = "SHA-512";
+        else if(temp == "whirlpool")
+          alg = "Whirlpool";
 
-      //////// HMACs ////////
+        //////// HMACs ////////
 
-      else if(temp == "hmacsha-1" || temp == "hmacsha1" || temp == "hmacsha")
-        alg = "HmacSHA1";
-      else if(temp == "hmacsha-224" || temp == "hmacsha224")
-        alg = "HmacSHA224";
-      else if(temp == "hmacsha-256" || temp == "hmacsha256")
-        alg = "HmacSHA256";
-      else if(temp == "hmacsha-384" || temp == "hmacsha384")
-        alg = "HmacSHA384";
-      else if(temp == "hmacsha-512" || temp == "hmacsha512")
-        alg = "HmacSHA512";
-      else if(temp == "hmacwhirlpool")
-        alg = "HmacWhirlpool";
+        else if(temp == "hmacsha-1" || temp == "hmacsha1" || temp == "hmacsha")
+          alg = "HmacSHA1";
+        else if(temp == "hmacsha-224" || temp == "hmacsha224")
+          alg = "HmacSHA224";
+        else if(temp == "hmacsha-256" || temp == "hmacsha256")
+          alg = "HmacSHA256";
+        else if(temp == "hmacsha-384" || temp == "hmacsha384")
+          alg = "HmacSHA384";
+        else if(temp == "hmacsha-512" || temp == "hmacsha512")
+          alg = "HmacSHA512";
+        else if(temp == "hmacwhirlpool")
+          alg = "HmacWhirlpool";
 
-      //////// PBE Hmacs ////////
+        //////// PBE Hmacs ////////
 
-      else if(temp == "pbewithsha1")
-        alg = "PBEWithSHA1";
-      else if(temp == "pbewithsha224")
-        alg = "PBEWithSHA224";
-      else if(temp == "pbewithsha256")
-        alg = "PBEWithSHA256";
-      else if(temp == "pbewithsha384")
-        alg = "PBEWithSHA384";
-      else if(temp == "pbewithsha512")
-        alg = "PBEWithSHA512";
-      else if(temp == "pbewithshawhirlpool")
-        alg = "PBEWithWhirlpool";
+        else if(temp == "pbewithsha1")
+          alg = "PBEWithSHA1";
+        else if(temp == "pbewithsha224")
+          alg = "PBEWithSHA224";
+        else if(temp == "pbewithsha256")
+          alg = "PBEWithSHA256";
+        else if(temp == "pbewithsha384")
+          alg = "PBEWithSHA384";
+        else if(temp == "pbewithsha512")
+          alg = "PBEWithSHA512";
+        else if(temp == "pbewithshawhirlpool")
+          alg = "PBEWithWhirlpool";
 
-      //////// Key Agreement ////////
+        //////// Key Agreement ////////
 
-      else if(temp == "diffiehellman")
-        alg = "DiffieHellman";
-    }
+        else if(temp == "diffiehellman")
+          alg = "DiffieHellman";
+      }
 
     // Sanity check
     if(!alg.length())
       return trimmed;
 
     if(parts.size() >= 2)
-    {
-      temp = parts[1];
+      {
+        temp = parts[1];
 
-      if(temp == "none")
-        mode == "NONE";
-      else if(temp == "ecb")
-        mode == "ECB";
-      else if(temp == "cbc")
-        mode == "CBC";
-      else if(temp == "ccm")
-        mode == "CCM";
-      else if(temp == "gcm")
-        mode == "GCM";
-      else if(temp == "eax")
-        mode == "EAX";
-      else if(temp == "ofb")
-        mode == "OFB";
-      else if(temp == "CFB")
-        mode == "cfb";
-    }
+        if(temp == "none")
+          mode == "NONE";
+        else if(temp == "ecb")
+          mode == "ECB";
+        else if(temp == "cbc")
+          mode == "CBC";
+        else if(temp == "ccm")
+          mode == "CCM";
+        else if(temp == "gcm")
+          mode == "GCM";
+        else if(temp == "eax")
+          mode == "EAX";
+        else if(temp == "ofb")
+          mode == "OFB";
+        else if(temp == "CFB")
+          mode == "cfb";
+      }
 
     if(parts.size() >= 3)
-    {
-      temp = parts[2];
+      {
+        temp = parts[2];
 
-      if(temp == "nopadding")
-        padding == "NoPadding";
-      else if(temp == "pkcs5padding")
-        padding == "PKCS5Padding";
-      else if(temp == "ssl3padding")
-        padding == "SSL3Padding";
-    }
+        if(temp == "nopadding")
+          padding == "NoPadding";
+        else if(temp == "pkcs5padding")
+          padding == "PKCS5Padding";
+        else if(temp == "ssl3padding")
+          padding == "SSL3Padding";
+      }
 
     if(mode.length()) {
       alg += "/" + mode;
