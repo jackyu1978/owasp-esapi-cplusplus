@@ -189,11 +189,11 @@ namespace esapi
 
     // An algorithm is either CIPHER or CIPHER/MODE/PADDING
     if(parts.size() != 1 && parts.size() != 3)
-    {
-      std::ostringstream oss;
-      oss << "Algorithm '" << trimmed << "' is not valid";
-      throw IllegalArgumentException(oss.str());
-    }
+      {
+        std::ostringstream oss;
+        oss << "Algorithm '" << trimmed << "' is not valid";
+        throw IllegalArgumentException(oss.str());
+      }
 
     // Clear algorithm for final processing
     alg = mode = padding = "";
@@ -226,7 +226,7 @@ namespace esapi
         else if(temp == "blowfish")
           alg = "Blowfish";
 
-        else if(temp == "desede")
+        else if(temp == "des_ede" || temp == "desede")
           alg = "DES_ede";
 
         else if(temp == "des")
