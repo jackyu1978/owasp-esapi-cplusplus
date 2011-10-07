@@ -14,101 +14,74 @@
 
 #include "EsapiCommon.h"
 #include "crypto/CipherSpec.h"
-#include "errors/IllegalArgumentException.h"
+#include "util/AlgorithmName.h"
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
-#include <algorithm>
+#include "errors/IllegalArgumentException.h"
+#include "errors/NoSuchAlgorithmException.h"
 
 namespace esapi
 {
-
-  void split(const String &str, const String& delim, StringArray& parts) //:This function is private to DefaultEncryptor.cpp.
-  {                                                                            //:That should probably change but I don't know where is best to put it.
-    String s(str);                                                             //:This class needs the function so a copy was put here temporarily.
-    String::size_type pos = 0;
-
-    while( (pos = s.find_first_of(delim)) != String::npos )
-      {
-        parts.push_back(s.substr(0, pos));
-        s.erase(0, pos+1);
-      }
-
-    // Catch any tail bytes
-    if( !s.empty() )
-      parts.push_back(s);
-  }
-
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv)
     : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize), iv_(iv)
   {
-    ASSERT( keySize > 0 );
-    ASSERT( blockSize > 0 );
-    ASSERT( iv.size() > 0 );
+    ASSERT( keySize_ > 0 );
+    ASSERT( blockSize_ > 0 );
+    ASSERT( iv_.size() > 0 );
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize)
     : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize)
   {
-    ASSERT( keySize > 0 );
-    ASSERT( blockSize > 0 );
+    ASSERT( keySize_ > 0 );
+    ASSERT( blockSize_ > 0 );
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize)
     : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16)
   {
-    ASSERT( keySize > 0 );
+    ASSERT( keySize_ > 0 );
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, const SecureByteArray &iv)
     : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16), iv_(iv)
   {
-    ASSERT( keySize > 0 );
+    ASSERT( keySize_ > 0 );
     ASSERT( iv.size() > 0 );
+    ASSERT( blockSize_ == iv_.size() );
   }
 
   CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist yet.
   //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16), iv_(iv)
   {
-    ASSERT( iv.size() > 0 );
+    ASSERT( iv_.size() > 0 );
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
     setBlockSize(16);
     setIV(iv);
-  }
 
+    // TODO: Fix initializers
+    ESAPI_ASSERT2(0, "Fix me!!!");
+  }
+  
   CipherSpec::CipherSpec()
   //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16)
   {
     //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
     //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
     setBlockSize(16);
+
+    // TODO: Fix initializers
+    ESAPI_ASSERT2(0, "Fix me!!!");
   }
 
   String CipherSpec::verifyCipherXForm(const String& cipherXForm)
   {
     ASSERT(!cipherXForm.empty());
 
-    String xform(cipherXForm);
-    if(xform.empty())
-      throw IllegalArgumentException("Cipher transformation may not be null or empty string (after trimming whitespace)");
-
-    StringArray parts;
-    esapi::split(xform, L"/", parts);
-    size_t numParts = parts.size();
-    ESAPI_ASSERT2(numParts == 3, "Malformed cipherXform (" + TextConvert::WideToNarrow(xform) + "); must have form: \"alg/mode/paddingscheme\"");
-
-    if(numParts != 3)
-      {
-        throw IllegalArgumentException("Cipher transformation '" + TextConvert::WideToNarrow(xform) + "' must have form \"alg/mode/paddingscheme\"");
-        if(numParts == 1)
-          xform += L"ECB/NoPadding";
-        else if(numParts == 2)
-          xform += L"/NoPadding";
-        else //:If it gets here, something's way off with the passed cipherXForm, so, set it to default. Getting here has already set off an exception above.
-          xform = L"ALG/MODE/PADDING"; //ESAPI.securityConfiguration().getCipherTransformation();
-      }
-    ESAPI_ASSERT2(numParts == 3, "Implementation error in verifyCipherXForm()");
-    return xform;
+    // AlgorithmName throws NoSuchAlgorithmException if cipherXForm is junk
+    AlgorithmName xform(cipherXForm);
+    return TextConvert::NarrowToWide(xform.algorithm());
   }
 
   void CipherSpec::setCipherTransformation(const String& cipherXForm)
@@ -123,19 +96,25 @@ namespace esapi
 
   String CipherSpec::getFromCipherXForm(CipherTransformationComponent component) const
   {
-    String xform = this->getCipherTransformation();
-    ASSERT( !xform.empty() );
+    AlgorithmName xform(getCipherTransformation());
+    String comp;
 
-    StringArray parts;
-    split(xform, L"/", parts);
+    switch(component)
+    {
+    case ALG:
+      xform.getCipher(comp);
+      break;
+    case MODE:
+      xform.getMode(comp);
+      break;
+    case PADDING:
+      xform.getPadding(comp);
+      break;
+    default:
+      ASSERT(0);
+    };
 
-    const NarrowString msg = "Invalid cipher transformation: " + TextConvert::WideToNarrow(xform);
-    ESAPI_ASSERT2(parts.size() == 3, msg.c_str());
-
-    if((parts.size() >= (unsigned)component))
-      return parts[component];
-    else
-      return L"";
+    return comp;
   }
 
   void CipherSpec::setKeySize(unsigned int keySize)

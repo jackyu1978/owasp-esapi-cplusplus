@@ -296,8 +296,8 @@ namespace esapi
           mode = "EAX";
         else if(temp == "ofb")
           mode = "OFB";
-        else if(temp == "CFB")
-          mode = "cfb";
+        else if(temp == "cfb")
+          mode = "CFB";
 
         else {
           bad = true;
