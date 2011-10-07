@@ -50,12 +50,12 @@ namespace esapi
     return *this;
   }
 
-  void AlgorithmName::getNormalizedAlgorithm(NarrowString& normal) const
+  void AlgorithmName::getAlgorithm(NarrowString& normal) const
   {
     normal = m_normal;
   }
 
-  void AlgorithmName::getNormalizedAlgorithm(WideString& normal) const
+  void AlgorithmName::getAlgorithm(WideString& normal) const
   {
     normal = TextConvert::NarrowToWide(m_normal);
   }
