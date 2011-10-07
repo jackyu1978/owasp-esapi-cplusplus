@@ -47,13 +47,15 @@ namespace esapi
     String getFromCipherXForm(CipherTransformationComponent component) const;
   public:
     CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv); //:Explicitly sets everything.
-    CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize); //:Sets everything but IV.
-    CipherSpec(const String& cipherXForm, unsigned int keySize); //:Sets everything but blockSize and IV
+    CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize); //:Sets everything but iv.
+    CipherSpec(const String& cipherXForm, unsigned int keySize); //:Sets everything but blockSize and iv.
     CipherSpec(const String& cipherXForm, unsigned int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
     CipherSpec(const SecureByteArray &iv); //:Sets only iv
-    CipherSpec(); //:Created because of an error in another file.
+    CipherSpec(const CipherSpec &cs); //:Copy CTOR.
+    CipherSpec();
 
-    String verifyCipherXForm(const String& cipherXForm);
+    CipherSpec& operator=(const CipherSpec& cs); //:Assignment.
+    String verifyCipherXForm(const String& cipherXForm); //:Verifies CipherXForm format matches "ALG/MODE/PAD".
     void setCipherTransformation(const String& cipherXForm);
     String getCipherTransformation() const;
     void setKeySize(unsigned int keySize);
@@ -67,7 +69,7 @@ namespace esapi
     SecureByteArray getIV() const;
     bool requiresIV() const;
     String toString() const; //:Returns a meaningful {@code String} describing the object.
-    bool equals(const CipherSpec& obj) const;
+    bool equals(const CipherSpec& obj) const; //:Comparison between CipherSpecs
   };
 
 } // NAMESPACE esapi
