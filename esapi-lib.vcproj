@@ -508,6 +508,10 @@
 				Name="util"
 				>
 				<File
+					RelativePath=".\src\util\AlgorithmName.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\src\util\Mutex.cpp"
 					>
 				</File>
@@ -816,6 +820,10 @@
 				<Filter
 					Name="util"
 					>
+					<File
+						RelativePath=".\esapi\util\AlgorithmName.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\util\ArrayZeroizer.h"
 						>

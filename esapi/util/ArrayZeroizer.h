@@ -17,7 +17,7 @@ namespace esapi
 {
   // Used for arrays which need zeroizing. E.g.,
   //  byte buffer[200];
-  //  ByteArrayZeroizer zz(buffer, sizeof(buffer));
+  //  ByteArrayZeroizer cleanup(buffer, sizeof(buffer));
 
   template<class T>
   class ArrayZeroizer
