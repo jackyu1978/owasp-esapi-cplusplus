@@ -39,6 +39,11 @@ namespace esapi
     static MessageDigest getInstance(const String& algorithm = DefaultAlgorithm());
 
     /**
+    * Returns a MessageDigest object that implements the specified digest algorithm.
+    */
+    static MessageDigest getInstance(const NarrowString& algorithm);
+
+    /**
     * Creates a message digest with the specified algorithm name.
     */
     explicit MessageDigest(const String& algorithm = DefaultAlgorithm());
