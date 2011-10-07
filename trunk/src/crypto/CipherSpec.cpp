@@ -31,14 +31,14 @@ namespace esapi
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize)
-    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(blockSize), iv_(SecureByteArray(16))
   {
     ASSERT( keySize_ > 0 );
     ASSERT( blockSize_ > 0 );
   }
 
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize)
-    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16)
+    : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16), iv_(SecureByteArray(16))
   {
     ASSERT( keySize_ > 0 );
   }
@@ -47,32 +47,35 @@ namespace esapi
     : cipher_xform_(verifyCipherXForm(cipherXForm)), keySize_(keySize), blockSize_(16), iv_(iv)
   {
     ASSERT( keySize_ > 0 );
-    ASSERT( iv.size() > 0 );
+    ASSERT( iv_.size() > 0 );
     ASSERT( blockSize_ == iv_.size() );
   }
 
-  CipherSpec::CipherSpec(const SecureByteArray &iv) //:In this constructor and one following, ESAPI class from Java version doesn't exist yet.
-  //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16), iv_(iv)
+  CipherSpec::CipherSpec(const SecureByteArray &iv)
+    : cipher_xform_(L"AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(iv)
   {
     ASSERT( iv_.size() > 0 );
-    //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
-    //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
-    setBlockSize(16);
-    setIV(iv);
-
-    // TODO: Fix initializers
-    ESAPI_ASSERT2(0, "Fix me!!!");
   }
-  
-  CipherSpec::CipherSpec()
-  //: cipher_xform_(ESAPI.securityConfiguration().getCipherTransformation()), keySize_(ESAPI.securityConfiguration().getEncryptionKeyLength()), blockSize_(16)
-  {
-    //setCipherTransformation(ESAPI.securityConfiguration().getCipherTransformation());
-    //setKeySize(ESAPI.securityConfiguration().getEncryptionKeyLength());
-    setBlockSize(16);
 
-    // TODO: Fix initializers
-    ESAPI_ASSERT2(0, "Fix me!!!");
+  CipherSpec::CipherSpec(const CipherSpec &cs)
+    : cipher_xform_(cs.getCipherTransformation()), keySize_(cs.getKeySize()), blockSize_(cs.getBlockSize()), iv_(cs.getIV())
+  {
+  }
+
+  CipherSpec::CipherSpec()
+    : cipher_xform_(L"AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(SecureByteArray(16))
+  {
+  }
+
+  CipherSpec& CipherSpec::operator=(const CipherSpec& cs)
+  {
+    if(this == &cs) return *this;
+
+    this->cipher_xform_ = cs.getCipherTransformation();
+    this->keySize_ = cs.getKeySize();
+    this->blockSize_ = cs.getBlockSize();
+    this->iv_ = cs.getIV();
+    return *this;
   }
 
   String CipherSpec::verifyCipherXForm(const String& cipherXForm)
@@ -112,19 +115,19 @@ namespace esapi
     String comp;
 
     switch(component)
-    {
-    case ALG:
-      xform.getCipher(comp);
-      break;
-    case MODE:
-      xform.getMode(comp);
-      break;
-    case PADDING:
-      xform.getPadding(comp);
-      break;
-    default:
-      ASSERT(0);
-    };
+      {
+      case ALG:
+        xform.getCipher(comp);
+        break;
+      case MODE:
+        xform.getMode(comp);
+        break;
+      case PADDING:
+        xform.getPadding(comp);
+        break;
+      default:
+        ASSERT(0);
+      };
 
     return comp;
   }
@@ -133,7 +136,7 @@ namespace esapi
   {
     ASSERT(keySize > 0);
     if(!(keySize > 0))
-       throw IllegalArgumentException("KeySize must be greater than 0");
+      throw IllegalArgumentException("KeySize must be greater than 0");
 
     keySize_ = keySize;
   }
@@ -212,18 +215,18 @@ namespace esapi
     return strStm.str();
   }
 
-  bool CipherSpec::equals(const CipherSpec& obj) const //:In HashTrie.cpp, there's a line saying NullSafe isn't implemented yet, which breaks this function a bit.
+  bool CipherSpec::equals(const CipherSpec& obj) const
   {
-    /*
-      if(NullSafe.equals(this->cipher_xform_, obj.cipher_xform_)
-      && this->keySize == obj.keySize
-      && this->blockSize == obj.blockSize
-      && CryptoHelper.arrayCompare(this->iv_, obj.iv_))
-      return true;
-      return false;
-    */
     if(this == &obj) return true;
-
+    SecureByteArray lhsIV = this->getIV();
+    SecureByteArray rhsIV = obj.getIV();
+    NarrowString lhsStr(lhsIV.begin(), lhsIV.end());
+    NarrowString rhsStr(rhsIV.begin(), rhsIV.end());
+    if(this->getCipherTransformation() == obj.getCipherTransformation()
+       && this->getKeySize() == obj.getKeySize()
+       && this->getBlockSize() == obj.getBlockSize()
+       && lhsStr == rhsStr)
+      return true;
     return false;
   }
 

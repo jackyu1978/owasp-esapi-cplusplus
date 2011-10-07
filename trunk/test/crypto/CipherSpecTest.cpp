@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction1) //:Test correct construction.
 
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
-{  
+{
   bool caughtExcept = false;
   try
     {
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
 }
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
-{  
+{
   bool caughtExcept = false;
   try
     {
@@ -110,11 +110,6 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
 
 BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction4) //:Checking CipherSpec(SecureByteArray &b) CTOR.
 {
-  //SecureByteArray myIV;
-  //CipherSpec cs(myIV);
-  //BOOST_CHECK(cs.getkeySize() == ESAPI.securityConfiguration().getEncryptionKeyLength());
-  //BOOST_CHECK(cs.getCipherTransformation() == ESAPI.securityConfiguration().getCipherTransformation());
-
   try
     {
       SecureByteArray myIV;
@@ -262,3 +257,65 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction9) //:Testing requiresIV().
     }
 }
 
+BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction10) //:Testing assignment operator.
+{
+  try
+    {
+      CipherSpec spec1(L"AES/CBC/None", 128, 16);
+      CipherSpec spec2(L"Blowfish/CBC/PKCS5Padding", 64, 8);
+      spec1 = spec2;
+      BOOST_CHECK(spec1.getCipherTransformation() == L"Blowfish/CBC/PKCS5Padding");
+      BOOST_CHECK(spec1.getKeySize() == 64);
+      BOOST_CHECK(spec1.getBlockSize() == spec2.getBlockSize());
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction11) //:Testing Copy CTOR.
+{
+  try
+    {
+      CipherSpec spec1(L"AES/CBC/None", 128, 16);
+      CipherSpec spec2(spec1);
+      BOOST_CHECK(spec2.equals(spec1));
+      BOOST_CHECK(spec1.getCipherTransformation() == spec2.getCipherTransformation());
+      BOOST_CHECK(spec1.getKeySize() == spec2.getKeySize());
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction12) //:Testing equals function.
+{
+  try
+    {
+      SecureByteArray myIV;
+      CipherSpec spec1(L"AES/CBC/None", 128, 16, myIV);
+      CipherSpec spec2(L"Blowfish/CBC/PKCS5Padding", 64, 8);
+      BOOST_CHECK(spec1.equals(spec1));
+      BOOST_CHECK(!spec1.equals(spec2));
+      spec2 = spec1;
+      BOOST_CHECK(spec1.equals(spec2));
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
