@@ -336,6 +336,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_108N )
     }
 }
 
+#if 0
 BOOST_AUTO_TEST_CASE( AlgorithmName_109N )
 {
   try
@@ -353,6 +354,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_109N )
       BOOST_ERROR("Caught unknown exception");
     }
 }
+#endif
 
 BOOST_AUTO_TEST_CASE( AlgorithmName_110N )
 {
@@ -408,6 +410,7 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_112N )
     }
 }
 
+#if 0
 BOOST_AUTO_TEST_CASE( AlgorithmName_113N )
 {
   try
@@ -425,3 +428,5 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_113N )
       BOOST_ERROR("Caught unknown exception");
     }
 }
+#endif
+
