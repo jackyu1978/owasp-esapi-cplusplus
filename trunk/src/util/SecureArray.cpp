@@ -13,13 +13,9 @@
  */
 
 #include "util/SecureArray.h"
-#include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
-
-// GCC is aggressively optimizing the SafeInt checks in this source file
-#define SECURE_ARRAY_NO_SAFE_INT 1
 
 namespace esapi
 {
