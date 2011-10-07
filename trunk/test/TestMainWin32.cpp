@@ -67,6 +67,9 @@ using esapi::DefaultEncryptor;
 #include <util/TextConvert.h>
 using esapi::TextConvert;
 
+#include <util/AlgorithmName.h>
+using esapi::AlgorithmName;
+
 #include <iostream>
 using std::cerr;
 using std::cout;
@@ -84,6 +87,12 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 
 int main(int, char**)
 {
+  AlgorithmName aa("AES/CBC/PKCS5Padding");
+  
+  NarrowString mode;
+  aa.getMode(mode);
+
+#if 0
   // String data
   String password = L"password", salt = L"salt", encoded;
   bool success = false;
@@ -112,7 +121,6 @@ int main(int, char**)
 
   //BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
 
-#if 0
   // String data
   String password = L"", salt = L"salt", encoded;
   bool success = false;
