@@ -80,3 +80,169 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_2P)
     }
 }
 
+BOOST_AUTO_TEST_CASE(IvParameterTest_3P)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, 0, 4);
+      SecureByteArray sa2 = iv.getIV();
+
+      BOOST_CHECK(sa1.size() == COUNTOF(arr));
+      BOOST_CHECK(sa2.size() == 4);
+      BOOST_CHECK(0 == memcmp(sa1.data(), sa2.data(), sa2.size()));
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_4P)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, 4, 4);
+      SecureByteArray sa2 = iv.getIV();
+
+      BOOST_CHECK(sa1.size() == COUNTOF(arr));
+      BOOST_CHECK(sa2.size() == 4);
+      BOOST_CHECK(0 == memcmp(sa1.data()+4, sa2.data(), sa2.size()));
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_5N)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, 0, COUNTOF(arr)+1);
+      SecureByteArray sa2 = iv.getIV();
+
+      BOOST_ERROR("Failed to catch exceeded bounds");
+    }
+  catch(const IllegalArgumentException& ex)
+    {
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_6N)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, 4, 4+1);
+
+      BOOST_ERROR("Failed to catch exceeded bounds");
+    }
+  catch(const IllegalArgumentException& ex)
+    {
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_7N)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, COUNTOF(arr)+1, 0);
+
+      BOOST_ERROR("Failed to catch exceeded bounds");
+    }
+  catch(const IllegalArgumentException& ex)
+    {
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_8N)
+{
+  try
+    {
+      const byte arr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+      SecureByteArray sa1(arr, COUNTOF(arr));
+
+      IvParameterSpec iv(sa1, COUNTOF(arr)+1, COUNTOF(arr));
+
+      BOOST_ERROR("Failed to catch exceeded bounds");
+    }
+  catch(const IllegalArgumentException& ex)
+    {
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE(IvParameterTest_9N)
+{
+  try
+    {
+      IvParameterSpec iv(nullptr, 0);
+
+      BOOST_ERROR("Failed to catch exceeded bounds");
+    }
+  catch(const IllegalArgumentException& ex)
+    {
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
