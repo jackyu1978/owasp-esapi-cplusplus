@@ -76,8 +76,13 @@ namespace esapi
         SafeInt<size_t> si(offset);
         si += len;
 
+        // ArrayIndexOutOfBoundsException
         if((size_t)si > size)
           throw IllegalArgumentException("The iv array is too small for the specified offset and length");
+
+        // Will throw on pointer wrap
+        const byte* ptr = iv;
+        ptr += si;
 
         return SecureByteArray(&(iv[offset]), len);
       }
