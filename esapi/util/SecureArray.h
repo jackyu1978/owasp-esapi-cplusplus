@@ -76,6 +76,9 @@ namespace esapi
     SecureArray(const SecureArray& sa);
     SecureArray& operator=(const SecureArray& sa);
 
+    // Clone
+    SecureArray clone() const;
+
     // Size and capacity
     size_t max_size() const;
     size_t capacity() const;
