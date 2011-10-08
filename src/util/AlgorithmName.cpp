@@ -145,7 +145,7 @@ namespace esapi
     std::string s(str);
     std::string::size_type pos = 0;
 
-    while( (pos = s.find_first_of(delim)) != String::npos )
+    while( (pos = s.find_first_of(delim)) != std::string::npos )
       {
         parts.push_back(s.substr(0, pos));
         s.erase(0, pos+1);
