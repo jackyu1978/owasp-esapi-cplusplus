@@ -362,3 +362,27 @@ BOOST_AUTO_TEST_CASE( SecureIntArrayTest_19N )
   BOOST_CHECK_MESSAGE(success, "Failed to detect insertion wrap");
 }
 
+BOOST_AUTO_TEST_CASE( SecureIntArrayTest_20P )
+{
+  bool success = false;
+  try
+  {
+    const int ptr[] = { 1, 2, 3, 4 };
+    SecureIntArray vv(ptr, COUNTOF(ptr));
+    SecureIntArray ww = vv.clone();
+
+    BOOST_CHECK_MESSAGE(ww.size() == vv.size(), "Failed to clone secure array (1)");
+    BOOST_CHECK_MESSAGE(ww[0] == 1 && ww[1] == 2 && ww[2] == 3 && ww[3] == 4, "Failed to clone secure array (2)");
+
+    vv[0] = 4; vv[1] = 3; vv[2] = 2; vv[3] = 1;
+    BOOST_CHECK_MESSAGE(vv[0] == 4 && vv[1] == 3 && vv[2] == 2 && vv[3] == 1, "Failed to clone secure array (3)");
+    BOOST_CHECK_MESSAGE(ww[0] == 1 && ww[1] == 2 && ww[2] == 3 && ww[3] == 4, "Failed to clone secure array (4)");
+    
+    success = true;
+  }
+  catch(std::exception&)
+  {
+  }
+  BOOST_CHECK_MESSAGE(success, "Failed to clone secure array");
+}
+
