@@ -198,155 +198,151 @@ namespace esapi
     alg = mode = padding = "";
 
     // We should see a CIPHER (ie, HmacSHA1), or a CIPHER/MODE/PADDING.
-    if(parts.size() >= 1)
-      {
-        temp = parts[0];
+    temp = parts[0];
 
-        //////// Symmetric Ciphers ////////
+    //////// Symmetric Ciphers ////////
 
-        if(temp == "aes")
-          alg = "AES";
-        else if(temp == "aes128")
-          alg = "AES128";
-        else if(temp == "aes192")
-          alg = "AES192";
-        else if(temp == "aes256")
-          alg = "AES256";
+    if(temp == "aes")
+      alg = "AES";
+    else if(temp == "aes128")
+      alg = "AES128";
+    else if(temp == "aes192")
+      alg = "AES192";
+    else if(temp == "aes256")
+      alg = "AES256";
 
-        else if(temp == "camellia")
-          alg = "Camellia";
-        else if(temp == "camellia128")
-          alg = "Camellia128";
-        else if(temp == "camellia192")
-          alg = "Camellia192";
-        else if(temp == "camellia256")
-          alg = "Camellia256"; 
+    else if(temp == "camellia")
+      alg = "Camellia";
+    else if(temp == "camellia128")
+      alg = "Camellia128";
+    else if(temp == "camellia192")
+      alg = "Camellia192";
+    else if(temp == "camellia256")
+      alg = "Camellia256"; 
 
-        else if(temp == "blowfish")
-          alg = "Blowfish";
+    else if(temp == "blowfish")
+      alg = "Blowfish";
 
-        else if(temp == "des_ede" || temp == "desede")
-          alg = "DES_ede";
+    else if(temp == "des_ede" || temp == "desede")
+      alg = "DES_ede";
 
-        else if(temp == "des")
-          alg = "DES";
+    else if(temp == "des")
+      alg = "DES";
 
-        //////// Hashes ////////
+    //////// Hashes ////////
 
-        else if(temp == "md-5" || temp == "md5")
-          alg = "MD5";
-        else if(temp == "sha-1" || temp == "sha1" || temp == "sha")
-          alg = "SHA-1";
-        else if(temp == "sha-224" || temp == "sha224")
-          alg = "SHA-224";
-        else if(temp == "sha-256" || temp == "sha256")
-          alg = "SHA-256";
-        else if(temp == "sha-384" || temp == "sha384")
-          alg = "SHA-384";
-        else if(temp == "sha-512" || temp == "sha512")
-          alg = "SHA-512";
-        else if(temp == "whirlpool")
-          alg = "Whirlpool";
+    else if(temp == "md-5" || temp == "md5")
+      alg = "MD5";
+    else if(temp == "sha-1" || temp == "sha1" || temp == "sha")
+      alg = "SHA-1";
+    else if(temp == "sha-224" || temp == "sha224")
+      alg = "SHA-224";
+    else if(temp == "sha-256" || temp == "sha256")
+      alg = "SHA-256";
+    else if(temp == "sha-384" || temp == "sha384")
+      alg = "SHA-384";
+    else if(temp == "sha-512" || temp == "sha512")
+      alg = "SHA-512";
+    else if(temp == "whirlpool")
+      alg = "Whirlpool";
 
-        //////// HMACs ////////
+    //////// HMACs ////////
 
-        else if(temp == "hmacsha-1" || temp == "hmacsha1" || temp == "hmacsha")
-          alg = "HmacSHA1";
-        else if(temp == "hmacsha-224" || temp == "hmacsha224")
-          alg = "HmacSHA224";
-        else if(temp == "hmacsha-256" || temp == "hmacsha256")
-          alg = "HmacSHA256";
-        else if(temp == "hmacsha-384" || temp == "hmacsha384")
-          alg = "HmacSHA384";
-        else if(temp == "hmacsha-512" || temp == "hmacsha512")
-          alg = "HmacSHA512";
-        else if(temp == "hmacwhirlpool")
-          alg = "HmacWhirlpool";
+    else if(temp == "hmacsha-1" || temp == "hmacsha1" || temp == "hmacsha")
+      alg = "HmacSHA1";
+    else if(temp == "hmacsha-224" || temp == "hmacsha224")
+      alg = "HmacSHA224";
+    else if(temp == "hmacsha-256" || temp == "hmacsha256")
+      alg = "HmacSHA256";
+    else if(temp == "hmacsha-384" || temp == "hmacsha384")
+      alg = "HmacSHA384";
+    else if(temp == "hmacsha-512" || temp == "hmacsha512")
+      alg = "HmacSHA512";
+    else if(temp == "hmacwhirlpool")
+      alg = "HmacWhirlpool";
 
-        //////// PBE Hmacs ////////
+    //////// PBE Hmacs ////////
 
-        else if(temp == "pbewithsha1")
-          alg = "PBEWithSHA1";
-        else if(temp == "pbewithsha224")
-          alg = "PBEWithSHA224";
-        else if(temp == "pbewithsha256")
-          alg = "PBEWithSHA256";
-        else if(temp == "pbewithsha384")
-          alg = "PBEWithSHA384";
-        else if(temp == "pbewithsha512")
-          alg = "PBEWithSHA512";
-        else if(temp == "pbewithwhirlpool")
-          alg = "PBEWithWhirlpool";
+    else if(temp == "pbewithsha1")
+      alg = "PBEWithSHA1";
+    else if(temp == "pbewithsha224")
+      alg = "PBEWithSHA224";
+    else if(temp == "pbewithsha256")
+      alg = "PBEWithSHA256";
+    else if(temp == "pbewithsha384")
+      alg = "PBEWithSHA384";
+    else if(temp == "pbewithsha512")
+      alg = "PBEWithSHA512";
+    else if(temp == "pbewithwhirlpool")
+      alg = "PBEWithWhirlpool";
 
-        //////// Key Agreement ////////
+    //////// Key Agreement ////////
 
-        else if(temp == "diffiehellman")
-          alg = "DiffieHellman";
+    else if(temp == "diffiehellman")
+      alg = "DiffieHellman";
 
-        //////// Oh shit! ////////
+    //////// Oh shit! ////////
 
-        else {
-          std::ostringstream oss;
-          oss << "Invalid transformation format: '" << trimmed << "', cipher '" << temp << "'";
-          ESAPI_ASSERT2(false, oss.str());
-          throw NoSuchAlgorithmException(oss.str());
-        }
-      }
+    else {
+      std::ostringstream oss;
+      oss << "Invalid transformation format: '" << trimmed << "', cipher '" << temp << "'";
+      ESAPI_ASSERT2(false, oss.str());
+      throw NoSuchAlgorithmException(oss.str());
+    }
 
-    if(parts.size() == 3)
-      {
-        temp = parts[1];
+    if(parts.size() == 1)
+      return alg;
 
-        if(temp == "none")
-          mode = "NONE";
-        else if(temp == "ecb")
-          mode = "ECB";
-        else if(temp == "cbc")
-          mode = "CBC";
-        else if(temp == "ccm")
-          mode = "CCM";
-        else if(temp == "gcm")
-          mode = "GCM";
-        else if(temp == "eax")
-          mode = "EAX";
-        else if(temp == "ofb")
-          mode = "OFB";
-        else if(temp == "cfb")
-          mode = "CFB";
-        else if(temp == "ctr")
-          mode = "CTR";
+    // Mode
+    temp = parts[1];
 
-        else {
-          std::ostringstream oss;
-          oss << "Invalid transformation format: '" << trimmed << "', mode '" << temp << "'";
-          ESAPI_ASSERT2(false, oss.str());
-          throw NoSuchAlgorithmException(oss.str());
-        }
-      }
+    if(temp == "none")
+      mode = "NONE";
+    else if(temp == "ecb")
+      mode = "ECB";
+    else if(temp == "cbc")
+      mode = "CBC";
+    else if(temp == "ccm")
+      mode = "CCM";
+    else if(temp == "gcm")
+      mode = "GCM";
+    else if(temp == "eax")
+      mode = "EAX";
+    else if(temp == "ofb")
+      mode = "OFB";
+    else if(temp == "cfb")
+      mode = "CFB";
+    else if(temp == "ctr")
+      mode = "CTR";
 
-    if(parts.size() == 3)
-      {
-        temp = parts[2];
+    else {
+      std::ostringstream oss;
+      oss << "Invalid transformation format: '" << trimmed << "', mode '" << temp << "'";
+      ESAPI_ASSERT2(false, oss.str());
+      throw NoSuchAlgorithmException(oss.str());
+    }
 
-        if(temp == "nopadding" || temp == "none")
-          padding = "NoPadding";
-        else if(temp == "pkcs5padding")
-          padding = "PKCS5Padding";
-        else if(temp == "ssl3padding")
-          padding = "SSL3Padding";
+    // Padding
+    temp = parts[2];
 
-        else {
-          std::ostringstream oss;
-          oss << "Invalid transformation format: '" << trimmed << "', padding '" << temp << "'";
-          ESAPI_ASSERT2(false, oss.str());
-          throw NoSuchAlgorithmException(oss.str());
-        }
-      }
+    if(temp == "nopadding" || temp == "none")
+      padding = "NoPadding";
+    else if(temp == "pkcs5padding")
+      padding = "PKCS5Padding";
+    else if(temp == "ssl3padding")
+      padding = "SSL3Padding";
+
+    else {
+      std::ostringstream oss;
+      oss << "Invalid transformation format: '" << trimmed << "', padding '" << temp << "'";
+      ESAPI_ASSERT2(false, oss.str());
+      throw NoSuchAlgorithmException(oss.str());
+    }
 
     // Final return string
     NarrowString result(alg);
-    if(mode.length()) { result += "/" + mode; }
-    if(padding.length()) { result += "/" + padding; }
+    result += "/" + mode;
+    result += "/" + padding;
 
     return result;
   }

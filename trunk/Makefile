@@ -250,6 +250,7 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 			src/crypto/SecureRandomImpl.cpp \
 			src/crypto/KeyGenerator.cpp \
 			src/crypto/CryptoHelper.cpp \
+			src/crypto/IvParameterSpec.cpp \
 			src/crypto/MessageDigest.cpp \
 			src/crypto/MessageDigestImpl.cpp \
 			src/crypto/RandomPool-Shared.cpp \
@@ -291,6 +292,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/CipherSpecTest.cpp \
 			test/crypto/CipherTextTest.cpp \
 			test/crypto/SecretKeyTest.cpp \
+			test/crypto/IvParameterTest.cpp \
 			test/crypto/SecureRandomTest.cpp \
 			test/crypto/KeyGeneratorTest.cpp \
 			test/crypto/CryptoHelperTest.cpp \

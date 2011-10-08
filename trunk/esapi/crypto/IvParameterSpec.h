@@ -1,15 +1,15 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ */
 
 #pragma once
 
@@ -23,28 +23,41 @@ namespace esapi
   {
   public:
     /**
-    * Creates an IvParameterSpec object using the bytes in iv as the IV.
-    */
+     * Creates an IvParameterSpec object using the bytes in iv as the IV.
+     */
     explicit IvParameterSpec(const byte iv[], size_t size);
 
     /**
-    * Creates an IvParameterSpec object using the bytes in iv as the IV.
-    */
+     * Creates an IvParameterSpec object using the bytes in iv as the IV.
+     */
     explicit IvParameterSpec(const SecureByteArray& iv);
 
     /**
-    * Creates an IvParameterSpec object using the first len bytes in iv,
-    * beginning at offset inclusive, as the IV.
-    */
+     * Creates an IvParameterSpec object using the first len bytes in iv,
+     * beginning at offset inclusive, as the IV.
+     */
     explicit IvParameterSpec(const byte iv[], size_t size, size_t offset, size_t len);
 
     /**
-    * Creates an IvParameterSpec object using the first len bytes in iv,
-    * beginning at offset inclusive, as the IV.
-    */
+     * Creates an IvParameterSpec object using the first len bytes in iv,
+     * beginning at offset inclusive, as the IV.
+     */
     explicit IvParameterSpec(const SecureByteArray& iv, size_t offset, size_t len);
 
+    /**
+     * Returns the initialization vector (IV).
+     */
+    SecureByteArray getIV() const;
+
   private:
-    SecureByteArray m_parameter;
+
+    /**
+     * Private helper to create the SecureByteArray.
+     */
+    SecureByteArray create_secure_array(const byte iv[], size_t size, size_t offset, size_t len);
+
+  private:
+
+    SecureByteArray m_iv;
   };
 } // NAMESPACE
