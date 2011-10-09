@@ -1,12 +1,12 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ */
 
 #pragma once
 
@@ -73,7 +73,7 @@ namespace esapi
 
   // Parameterized class we actually want.
   template <typename HASH>
-  class ESAPI_PRIVATE MessageDigestTmpl: public MessageDigestImpl
+    class ESAPI_PRIVATE MessageDigestTmpl: public MessageDigestImpl
   {
   public:
 
