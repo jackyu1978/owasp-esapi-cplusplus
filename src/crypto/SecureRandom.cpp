@@ -58,7 +58,7 @@ namespace esapi
   SecureRandom::SecureRandom(const String& algorithm)
    
     : m_lock(new Mutex),
-    m_impl(SecureRandomBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
+      m_impl(SecureRandomBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -113,10 +113,10 @@ namespace esapi
     //MutexLock lock(*tlock.get());
 
     if(this != &rhs)
-    {
-      m_lock = rhs.m_lock;
-      m_impl = rhs.m_impl;
-    }
+      {
+        m_lock = rhs.m_lock;
+        m_impl = rhs.m_impl;
+      }
 
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
