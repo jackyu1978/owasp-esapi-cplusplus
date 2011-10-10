@@ -22,7 +22,7 @@
 namespace esapi
 {
   // Forward declaration
-  class MessageDigestImpl;
+  class MessageDigestBase;
 
   class ESAPI_EXPORT MessageDigest
   {
@@ -206,7 +206,7 @@ namespace esapi
     /**
      * Creates a MessageDigest from an implmentation. Used by getInstance(...).
      */
-    ESAPI_PRIVATE MessageDigest(MessageDigestImpl* impl);
+    ESAPI_PRIVATE MessageDigest(MessageDigestBase* impl);
 
     /**
      * Retrieves the object level lock
@@ -223,7 +223,7 @@ namespace esapi
     /**
      * Reference counted PIMPL.
      */
-    boost::shared_ptr< MessageDigestImpl > m_impl;
+    boost::shared_ptr< MessageDigestBase > m_impl;
   };
 
 } // NAMESPACE
