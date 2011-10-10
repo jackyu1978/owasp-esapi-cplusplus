@@ -1,16 +1,16 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #include "crypto/RandomPool.h"
 #include "crypto/Crypto++Common.h"
@@ -56,10 +56,10 @@ namespace esapi
 #endif
 
   /**
-  * Fetches time data, encrypts the time data under the key and iv selected earlier.
-  * The key is being constructed for the RandomPool's AES256 cipher. Since we also
-  * sync an IV, at least 48 bytes will be needed.
-  */
+   * Fetches time data, encrypts the time data under the key and iv selected earlier.
+   * The key is being constructed for the RandomPool's AES256 cipher. Since we also
+   * sync an IV, at least 48 bytes will be needed.
+   */
   bool RandomPool::GenerateKeyAndIv(byte* key, size_t ksize)
   {
     ASSERT(key && ksize);
@@ -72,51 +72,51 @@ namespace esapi
     // First try the random pool
     {
       do
-      {
-        int fd = open("/dev/random", O_RDONLY);
-        AutoFileDesc z1(fd);
-
-        ESAPI_ASSERT2(fd > 0, "Failed to open /dev/random");
-        if( !(fd > 0) ) break; /* Failed */
-
-        do
         {
+          int fd = open("/dev/random", O_RDONLY);
+          AutoFileDesc z1(fd);
+
+          ESAPI_ASSERT2(fd > 0, "Failed to open /dev/random");
+          if( !(fd > 0) ) break; /* Failed */
+
+          do
+            {
 
 #if defined(ESAPI_OS_LINUX)
-          // Try to detect a blocking condition
-          struct rand_pool_info info;
+              // Try to detect a blocking condition
+              struct rand_pool_info info;
 
-          // No need for SU to read entropy counts. Its not in the man pages - inspect <linux/random.h>
-          ret = ioctl(fd, RNDGETENTCNT, &info);
-          ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
+              // No need for SU to read entropy counts. Its not in the man pages - inspect <linux/random.h>
+              ret = ioctl(fd, RNDGETENTCNT, &info);
+              ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
 
-          if(ret != 0) break; /* Failed */
-          if(info.entropy_count < 128 /*16 bytes*/) break; /* Failed (could block) */
+              if(ret != 0) break; /* Failed */
+              if(info.entropy_count < 128 /*16 bytes*/) break; /* Failed (could block) */
 #endif
 
-          static const size_t Chunk = 8;
-          const size_t req = std::min(rem, Chunk);
+              static const size_t Chunk = 8;
+              const size_t req = std::min(rem, Chunk);
 
-          // Since we are reading chunks in a loop, we are interested if we block on the nth
-          // iteration. If so, we don't make the call for the next itearion (we might block again).
-          CryptoPP::Timer timer;
-          timer.StartTimer();
+              // Since we are reading chunks in a loop, we are interested if we block on the nth
+              // iteration. If so, we don't make the call for the next itearion (we might block again).
+              CryptoPP::Timer timer;
+              timer.StartTimer();
 
-          ret = read(fd, key+idx, req);
-          ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chunk from /dev/random");
+              ret = read(fd, key+idx, req);
+              ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chunk from /dev/random");
 
-          // The return value determines number of bytes read
-          rem -= ret;
-          idx += ret;
+              // The return value determines number of bytes read
+              rem -= ret;
+              idx += ret;
 
-          // Test for failure now so we consume any available bytes
-          if((unsigned int)ret != req) break; /* Failed */
+              // Test for failure now so we consume any available bytes
+              if((unsigned int)ret != req) break; /* Failed */
 
-          // If it appears we have read too little or blocked, break and fall back /dev/urandom
-          if(timer.ElapsedTime() > 1 /*second*/) break;
+              // If it appears we have read too little or blocked, break and fall back /dev/urandom
+              if(timer.ElapsedTime() > 1 /*second*/) break;
 
-        } while(rem > 0);
-      } while(false);
+            } while(rem > 0);
+        } while(false);
     }
 
     // Early out if possible.
@@ -125,31 +125,31 @@ namespace esapi
     // Next try urandom
     {
       do
-      {
-        int fd = open("/dev/urandom", O_RDONLY);
-        AutoFileDesc z1(fd);
+        {
+          int fd = open("/dev/urandom", O_RDONLY);
+          AutoFileDesc z1(fd);
 
-        ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");
-        if( !(fd > 0) ) break; /* Failed */
+          ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");
+          if( !(fd > 0) ) break; /* Failed */
 
-        int ret = read(fd, key+idx, rem);
-        ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chunk from /dev/urandom");
-        if( (unsigned int)ret != rem ) break; /* Failed */
+          int ret = read(fd, key+idx, rem);
+          ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chunk from /dev/urandom");
+          if( (unsigned int)ret != rem ) break; /* Failed */
 
-        rem -= ret;
+          rem -= ret;
 
-      } while(false);
+        } while(false);
     }
 
     return (rem == 0);
   }
 
   /**
-  * Fetches time related data. The time data is a value from a
-  * high resolution timer and the standard time of day. We are
-  * intersted in the high performance counter since it is helpful
-  * in a virtual environment where rollbacks may occur.
-  */
+   * Fetches time related data. The time data is a value from a
+   * high resolution timer and the standard time of day. We are
+   * intersted in the high performance counter since it is helpful
+   * in a virtual environment where rollbacks may occur.
+   */
   bool RandomPool::GetTimeData(byte* data, size_t dsize)
   {
     ASSERT(data && dsize);
