@@ -235,13 +235,13 @@ namespace esapi
   }
 
   /**
-    * Completes the hash computation by performing final operations such as padding. The digest
-    * is reset after this call is made. 
+   * Completes the hash computation by performing final operations such as padding. The digest
+   * is reset after this call is made. 
    */
-   template <class HASH>
-   SecureByteArray MessageDigestImpl<HASH>::digestImpl()
-   {
-     SecureByteArray digest(HASH::DIGESTSIZE);
+  template <class HASH>
+  SecureByteArray MessageDigestImpl<HASH>::digestImpl()
+  {
+    SecureByteArray digest(HASH::DIGESTSIZE);
 
     try
       {
@@ -253,48 +253,48 @@ namespace esapi
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
 
-     return digest;
-   }
+    return digest;
+  }
 
   /**
    * Performs a final update on the digest using the specified array of bytes, then completes the
    * digest computation.
    */
-   template <class HASH>
-   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const SecureByteArray& sa)
-   {
+  template <class HASH>
+  SecureByteArray MessageDigestImpl<HASH>::digestImpl(const SecureByteArray& sa)
+  {
     //ASSERT(sa.data());
     //ASSERT(sa.size());
 
-     return digestImpl(sa.data(), sa.size());
-   }
+    return digestImpl(sa.data(), sa.size());
+  }
 
   /**
    * Performs a final update on the digest using the specified string, then completes the
    * digest computation.
    */
-   template <class HASH>
-   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const String& input)
-   {
-     //ASSERT(input.data());
-     //ASSERT(input.length());
+  template <class HASH>
+  SecureByteArray MessageDigestImpl<HASH>::digestImpl(const String& input)
+  {
+    //ASSERT(input.data());
+    //ASSERT(input.length());
 
-     // Our String classes do not have a getBytes() method.
-     SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
-     return digestImpl(sa.data(), sa.size());
-   }
+    // Our String classes do not have a getBytes() method.
+    SecureByteArray sa = TextConvert::GetBytes(input, "UTF-8");
+    return digestImpl(sa.data(), sa.size());
+  }
 
   /**
    * Performs a final update on the digest using the specified array of bytes, then completes the
    * digest computation.
    */
-   template <class HASH>
-   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const byte input[], size_t size)
-   {
-     //ASSERT(input);
-     //ASSERT(size);
+  template <class HASH>
+  SecureByteArray MessageDigestImpl<HASH>::digestImpl(const byte input[], size_t size)
+  {
+    //ASSERT(input);
+    //ASSERT(size);
 
-     SecureByteArray out(HASH::DIGESTSIZE);
+    SecureByteArray out(HASH::DIGESTSIZE);
 
     try
       {
@@ -314,8 +314,8 @@ namespace esapi
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
 
-     return out;
-   }
+    return out;
+  }
 
   /**
    * Completes the hash computation by performing final operations such as padding.
