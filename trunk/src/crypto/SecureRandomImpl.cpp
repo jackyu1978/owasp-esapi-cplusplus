@@ -14,6 +14,7 @@
 
 #include "EsapiCommon.h"
 #include "util/TextConvert.h"
+#include "util/AlgorithmName.h"
 #include "util/ArrayZeroizer.h"
 #include "crypto/RandomPool.h"
 #include "crypto/SecureRandomImpl.h"
@@ -31,7 +32,7 @@
  * This class implements functionality similar to Java's SecureRandom for consistency
  * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html.
  *
- * SP800-90, L'Recommendation for Random Number Generation Using Deterministic
+ * SP800-90, 'Recommendation for Random Number Generation Using Deterministic
  * Random Bit Generators'. SP800-90 algorithms are used for Hash, Hmac, and
  * Block Ciphers. For Block ciphers, SP800-90 specifies CTR mode. The counter
  * is a special case of an IV with [possibly] a nonce and monotomically
@@ -122,6 +123,8 @@ namespace esapi
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
     ASSERT( !algorithm.empty() );
+    AlgorithmName name(algorithm);
+
     //ASSERT(seed);
     //ASSERT(size);
 
@@ -1087,7 +1090,7 @@ namespace esapi
   /**
    * Constructs a secure random number generator (RNG).
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const String& algorithm, const byte* /*seed*/, size_t /*size*/)
     : SecureRandomBase(algorithm, nullptr, 0), m_v(), m_c(), m_rctr(1)
   {
@@ -1097,7 +1100,7 @@ namespace esapi
    * Returns the security level associated with the SecureRandom object. Used
    * by KeyGenerator to determine the appropriate key size for init.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   unsigned int BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getSecurityLevelImpl() const
   {
     return SecurityLevel;
@@ -1106,7 +1109,7 @@ namespace esapi
   /**
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   SecureByteArray BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
@@ -1120,7 +1123,7 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   String BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomBase::getAlgorithmImpl();
@@ -1129,7 +1132,7 @@ namespace esapi
   /**
    * Generates a user-specified number of random bytes.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::nextBytesImpl(byte bytes[], size_t size)
   {
     // Has a catastrophic error been encountered previously?
@@ -1155,7 +1158,7 @@ namespace esapi
   /**
    * Reseeds this random object.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(const byte /*seed*/[], size_t /*size*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
@@ -1169,7 +1172,7 @@ namespace esapi
   /**
    * Reseeds this random object, using the bytes contained in the given long seed.
    */
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
   void BlockCipherImpl<CIPHER, MODE, DRBGINFO>::setSeedImpl(int /*seed*/)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.

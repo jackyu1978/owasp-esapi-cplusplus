@@ -105,7 +105,7 @@ namespace esapi
       enum { SecurityLevel = SECLEVEL, SeedLength = SEEDLEN };
     };
 
-  template <class CIPHER, template <class C> class MODE, class DRBGINFO>
+  template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
     class BlockCipherImpl : public SecureRandomBase
   {
     // createInstance() needs to call new on the class
