@@ -26,7 +26,7 @@ namespace esapi
   /////////////////////////// Secure Random Implmentation ///////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////
 
-  class SecureRandomImpl : private NotCopyable
+  class SecureRandomBase : private NotCopyable
   {
     // SecureRandom needs access to createInstance() and getSecurityLevel()
     friend class SecureRandom;
@@ -35,20 +35,20 @@ namespace esapi
     /**
      * Destroy this random number generator (RNG).
      */
-    virtual ~SecureRandomImpl() { };
+    virtual ~SecureRandomBase() { };
 
   protected:
     /**
      * Factory method to cough up an implementation.
      * Java offers a SecureRandom(byte[]), and this overload handles it.
      */
-    static SecureRandomImpl* createInstance(const String& algorithm, const byte* seed, size_t size);
+    static SecureRandomBase* createInstance(const String& algorithm, const byte* seed, size_t size);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm.
      */
-    explicit SecureRandomImpl(const String& algorithm, const byte* seed, size_t size);
+    explicit SecureRandomBase(const String& algorithm, const byte* seed, size_t size);
 
     /**
      * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
@@ -56,7 +56,7 @@ namespace esapi
     virtual SecureByteArray generateSeedImpl(unsigned int numBytes) = 0;
 
     /**
-     * Returns the name of the algorithm implemented by this SecureRandomImpl object.
+     * Returns the name of the algorithm implemented by this SecureRandomBase object.
      */
     virtual String getAlgorithmImpl() const;
 
@@ -106,10 +106,10 @@ namespace esapi
     };
 
   template <class CIPHER, template <class C> class MODE, class DRBGINFO>
-    class BlockCipherImpl : public SecureRandomImpl
+    class BlockCipherImpl : public SecureRandomBase
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
+    friend SecureRandomBase* SecureRandomBase::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -137,10 +137,10 @@ namespace esapi
   ///////////////////////////////////////////////////////////////////////////////////////
 
   template <class HASH, class DRBGINFO>
-    class HashImpl : public SecureRandomImpl
+    class HashImpl : public SecureRandomBase
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
+    friend SecureRandomBase* SecureRandomBase::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.
@@ -177,10 +177,10 @@ namespace esapi
   ///////////////////////////////////////////////////////////////////////////////////////
 
   template <class HASH, class DRBGINFO>
-    class HmacImpl : public SecureRandomImpl
+    class HmacImpl : public SecureRandomBase
   {
     // createInstance() needs to call new on the class
-    friend SecureRandomImpl* SecureRandomImpl::createInstance(const String&, const byte*, size_t);
+    friend SecureRandomBase* SecureRandomBase::createInstance(const String&, const byte*, size_t);
 
     // Security levels are 80, 112, 128, ... The enum specifies bytes.
     // Seed length is 440 0r 888 bits, depending on the security level. The enum specifies bytes.

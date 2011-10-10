@@ -38,7 +38,7 @@ namespace esapi
    * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
    */
 
-  class SecureRandomImpl;
+  class SecureRandomBase;
 
   ///////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////// Secure Random //////////////////////////////////
@@ -118,9 +118,9 @@ namespace esapi
   protected:
 
     /**
-     * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
+     * Constructs a secure random number generator (RNG) from a SecureRandomBase implementation.
      */
-    ESAPI_PRIVATE SecureRandom(SecureRandomImpl* impl);
+    ESAPI_PRIVATE SecureRandom(SecureRandomBase* impl);
 
     /**
      * Returns the security level associated with the SecureRandom object. Used
@@ -143,7 +143,7 @@ namespace esapi
     /**
      * Reference counted PIMPL.
      */
-    boost::shared_ptr<SecureRandomImpl> m_impl;
+    boost::shared_ptr<SecureRandomBase> m_impl;
   };  
 
 }; // NAMESPACE esapi
