@@ -43,7 +43,7 @@ namespace esapi
     return 1024;
   }
 
-  String DefaultEncryptor::hash(const String &message, const String &salt, unsigned int iterations)
+  String DefaultEncryptor::hash(const String &message, const String &salt, unsigned int iterations) const
   { 
     MessageDigest md(DefaultDigestAlgorithm());
     const size_t size = md.getDigestLength();
@@ -92,7 +92,7 @@ namespace esapi
     return TextConvert::NarrowToWide(encoded);
   }
 
-  CipherText DefaultEncryptor::encrypt(const PlainText& plainText)
+  CipherText DefaultEncryptor::encrypt(const PlainText& plainText) const
   {
     DummyConfiguration config;
     SecretKey key(L"Unknown", config.getMasterKey());
@@ -100,7 +100,7 @@ namespace esapi
     return encrypt(key, plainText);
   }
 
-  CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText)
+  CipherText DefaultEncryptor::encrypt(const SecretKey& secretKey, const PlainText& plainText) const
   {
     DummyConfiguration config;
 

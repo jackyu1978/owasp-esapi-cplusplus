@@ -38,53 +38,53 @@ namespace esapi
      * then the user provided salt, and finally the password. The digested data is rehashed the specified number of iterations
      * in order to help strengthen weak passwords. Internally, the plainText and Salt are converted to UTF-8 strings.
      */
-    virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations());
+    virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations()) const;
 
-    virtual CipherText encrypt(const PlainText& plainText);
+    virtual CipherText encrypt(const PlainText& plainText) const;
 
-    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText);
+    virtual CipherText encrypt(const SecretKey& secretKey, const PlainText& plainText) const;
 
-    virtual PlainText decrypt(const CipherText& /*cipherText*/)
+    virtual PlainText decrypt(const CipherText& /*cipherText*/) const
     {
       return PlainText();
     }
 
-    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& /*cipherText*/)
+    virtual PlainText decrypt(const SecretKey& secretKey, const CipherText& /*cipherText*/) const
     {
       return PlainText();
     }
 
-    virtual String sign(const String & /*message*/)
+    virtual String sign(const String & /*message*/) const
     {
       return String();
     }
 
-    virtual bool verifySignature(const String &, const String &)
+    virtual bool verifySignature(const String &, const String &) const
     {
       return false;
     }
 
-    virtual String seal(const String &, long)
+    virtual String seal(const String &, long) const
     {
       return String();
     }
 
-    virtual String unseal(const String &)
+    virtual String unseal(const String &) const
     {
       return String();
     }
 
-    virtual bool verifySeal(const String &)
+    virtual bool verifySeal(const String &) const
     {
       return false;
     }
 
-    virtual long getRelativeTimeStamp(long /*timeStamp*/)
+    virtual long getRelativeTimeStamp(long /*timeStamp*/) const
     {
       return 0;
     }
 
-    virtual long getTimeStamp()
+    virtual long getTimeStamp() const
     {
       return 0;
     }
@@ -92,6 +92,10 @@ namespace esapi
   public:
     explicit DefaultEncryptor() { }
     virtual ~DefaultEncryptor() { }
+
+  private:
+    // Follow the lead of the base class
+    DefaultEncryptor& operator=(const DefaultEncryptor& rhs);
   };
 } // NAMESPACE
 
