@@ -381,5 +381,5 @@ namespace esapi
     }
     return (result == 0) ? true : false;
   }
-
 } // NAMESPACE esapi
+
