@@ -23,31 +23,31 @@
 
 namespace esapi
 {
-  MessageDigestImpl* MessageDigestImpl::createInstance(const String& algorithm)
+  MessageDigestBase* MessageDigestBase::createInstance(const String& algorithm)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
     ASSERT( !algorithm.empty() );
 
     if(algorithm == L"MD5")
-      return new MessageDigestTmpl<CryptoPP::Weak::MD5>(algorithm);
+      return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
 
     if(algorithm == L"SHA-1")
-      return new MessageDigestTmpl<CryptoPP::SHA1>(algorithm);
+      return new MessageDigestImpl<CryptoPP::SHA1>(algorithm);
 
     if(algorithm == L"SHA-224")
-      return new MessageDigestTmpl<CryptoPP::SHA224>(algorithm);
+      return new MessageDigestImpl<CryptoPP::SHA224>(algorithm);
 
     if(algorithm == L"SHA-256")
-      return new MessageDigestTmpl<CryptoPP::SHA256>(algorithm);
+      return new MessageDigestImpl<CryptoPP::SHA256>(algorithm);
 
     if(algorithm == L"SHA-384")
-      return new MessageDigestTmpl<CryptoPP::SHA384>(algorithm);
+      return new MessageDigestImpl<CryptoPP::SHA384>(algorithm);
 
     if(algorithm == L"SHA-512")
-      return new MessageDigestTmpl<CryptoPP::SHA512>(algorithm);
+      return new MessageDigestImpl<CryptoPP::SHA512>(algorithm);
 
     if(algorithm == L"Whirlpool")
-      return new MessageDigestTmpl<CryptoPP::Whirlpool>(algorithm);
+      return new MessageDigestImpl<CryptoPP::Whirlpool>(algorithm);
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
@@ -63,8 +63,8 @@ namespace esapi
   }
 
   template <class HASH>
-  MessageDigestTmpl<HASH>::MessageDigestTmpl(const String& algorithm)
-    : MessageDigestImpl(algorithm), m_hash()
+  MessageDigestImpl<HASH>::MessageDigestImpl(const String& algorithm)
+    : MessageDigestBase(algorithm), m_hash()
   {
     ASSERT( !algorithm.empty() );
   }
@@ -73,16 +73,16 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  String MessageDigestTmpl<HASH>::getAlgorithmImpl() const   
+  String MessageDigestImpl<HASH>::getAlgorithmImpl() const   
   {
-    return MessageDigestImpl::getAlgorithmImpl();
+    return MessageDigestBase::getAlgorithmImpl();
   }
 
   /**
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  size_t MessageDigestTmpl<HASH>::getDigestLengthImpl() const   
+  size_t MessageDigestImpl<HASH>::getDigestLengthImpl() const   
   {
     size_t size;
 
@@ -102,7 +102,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::resetImpl()
+  void MessageDigestImpl<HASH>::resetImpl()
   {
     try
       {
@@ -118,7 +118,7 @@ namespace esapi
    * Updates the digest using the specified byte.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(byte input)   
+  void MessageDigestImpl<HASH>::updateImpl(byte input)   
   {
     try
       {
@@ -134,7 +134,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const SecureByteArray& input)   
+  void MessageDigestImpl<HASH>::updateImpl(const SecureByteArray& input)   
   {
     updateImpl(input.data(), input.size());
   }
@@ -143,7 +143,7 @@ namespace esapi
    * Updates the digest using the specified string.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const String& str)   
+  void MessageDigestImpl<HASH>::updateImpl(const String& str)   
   {
     // Our String classes do not have a getBytes() method.
     SecureByteArray sa = TextConvert::GetBytes(str, "UTF-8");
@@ -154,7 +154,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size)   
+  void MessageDigestImpl<HASH>::updateImpl(const byte input[], size_t size)   
   {
     //ASSERT(input);
     //ASSERT(size);
@@ -166,7 +166,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes, starting at the specified offset.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const SecureByteArray& sa, size_t offset, size_t len)   
+  void MessageDigestImpl<HASH>::updateImpl(const SecureByteArray& sa, size_t offset, size_t len)   
   {
     //ASSERT(sa.data());
     //ASSERT(sa.size());
@@ -180,7 +180,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes, starting at the specified offset.
    */
   template <class HASH>
-  void MessageDigestTmpl<HASH>::updateImpl(const byte input[], size_t size, size_t offset, size_t len)   
+  void MessageDigestImpl<HASH>::updateImpl(const byte input[], size_t size, size_t offset, size_t len)   
   {
     ESAPI_ASSERT2(input, "Input array is not valid");
     ESAPI_ASSERT2(size, "Input array size is 0");
@@ -239,7 +239,7 @@ namespace esapi
     * is reset after this call is made. 
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl()
+   SecureByteArray MessageDigestImpl<HASH>::digestImpl()
    {
      SecureByteArray digest(HASH::DIGESTSIZE);
 
@@ -261,7 +261,7 @@ namespace esapi
    * digest computation.
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const SecureByteArray& sa)
+   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const SecureByteArray& sa)
    {
     //ASSERT(sa.data());
     //ASSERT(sa.size());
@@ -274,7 +274,7 @@ namespace esapi
    * digest computation.
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const String& input)
+   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const String& input)
    {
      //ASSERT(input.data());
      //ASSERT(input.length());
@@ -289,7 +289,7 @@ namespace esapi
    * digest computation.
    */
    template <class HASH>
-   SecureByteArray MessageDigestTmpl<HASH>::digestImpl(const byte input[], size_t size)
+   SecureByteArray MessageDigestImpl<HASH>::digestImpl(const byte input[], size_t size)
    {
      //ASSERT(input);
      //ASSERT(size);
@@ -321,7 +321,7 @@ namespace esapi
    * Completes the hash computation by performing final operations such as padding.
    */
   template <class HASH>
-  size_t MessageDigestTmpl<HASH>::digestImpl(SecureByteArray& buf, size_t offset, size_t len)
+  size_t MessageDigestImpl<HASH>::digestImpl(SecureByteArray& buf, size_t offset, size_t len)
    
   {
     //ASSERT(buf.data());
@@ -335,7 +335,7 @@ namespace esapi
    * Completes the hash computation by performing final operations such as padding.
    */
   template <class HASH>
-  size_t MessageDigestTmpl<HASH>::digestImpl(byte buf[], size_t size, size_t offset, size_t len)
+  size_t MessageDigestImpl<HASH>::digestImpl(byte buf[], size_t size, size_t offset, size_t len)
    
   {
     ESAPI_ASSERT2(buf, "Input array is not valid");
@@ -398,12 +398,12 @@ namespace esapi
   }
 
   // Explicit instantiations
-  template class MessageDigestTmpl<CryptoPP::Weak::MD5>;
-  template class MessageDigestTmpl<CryptoPP::SHA1>;
-  template class MessageDigestTmpl<CryptoPP::SHA224>;
-  template class MessageDigestTmpl<CryptoPP::SHA256>;
-  template class MessageDigestTmpl<CryptoPP::SHA384>;
-  template class MessageDigestTmpl<CryptoPP::SHA512>;
-  template class MessageDigestTmpl<CryptoPP::Whirlpool>;
+  template class MessageDigestImpl<CryptoPP::Weak::MD5>;
+  template class MessageDigestImpl<CryptoPP::SHA1>;
+  template class MessageDigestImpl<CryptoPP::SHA224>;
+  template class MessageDigestImpl<CryptoPP::SHA256>;
+  template class MessageDigestImpl<CryptoPP::SHA384>;
+  template class MessageDigestImpl<CryptoPP::SHA512>;
+  template class MessageDigestImpl<CryptoPP::Whirlpool>;
 };
 

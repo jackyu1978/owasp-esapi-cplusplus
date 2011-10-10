@@ -27,7 +27,7 @@
 namespace esapi
 {
   // Forward declaration
-  template <typename HASH> class MessageDigestTmpl;
+  template <typename HASH> class MessageDigestImpl;
 
   String MessageDigest::DefaultAlgorithm()
   {
@@ -39,7 +39,7 @@ namespace esapi
   */
   MessageDigest::MessageDigest(const String& algorithm)   
     : m_lock(new Mutex),
-    m_impl(MessageDigestImpl::createInstance(AlgorithmName::normalizeAlgorithm(algorithm)))
+    m_impl(MessageDigestBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -49,7 +49,7 @@ namespace esapi
   /**
   * Creates a MessageDigest from an implmentation
   */
-  MessageDigest::MessageDigest(MessageDigestImpl* impl)
+  MessageDigest::MessageDigest(MessageDigestBase* impl)
     : m_lock(new Mutex), m_impl(impl)
   {
     ASSERT(m_lock.get() != nullptr);
@@ -100,7 +100,7 @@ namespace esapi
     ASSERT(!algorithm.empty());
 
     const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
-    MessageDigestImpl* impl = MessageDigestImpl::createInstance(alg);
+    MessageDigestBase* impl = MessageDigestBase::createInstance(alg);
     MEMORY_BARRIER();
 
     ASSERT(impl != nullptr);

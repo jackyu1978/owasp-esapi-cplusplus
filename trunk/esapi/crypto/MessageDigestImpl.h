@@ -21,14 +21,14 @@
 namespace esapi
 {
   // Non-parameterized class so the smart pointer can hold it.
-  class ESAPI_PRIVATE MessageDigestImpl : private NotCopyable
+  class ESAPI_PRIVATE MessageDigestBase : private NotCopyable
   {
     // MessageDigest needs access to createInstance()
     friend class MessageDigest;
 
   public:
 
-    explicit MessageDigestImpl(const String& algorithm)
+    explicit MessageDigestBase(const String& algorithm)
       : m_algorithm(algorithm) { }
 
     virtual String getAlgorithmImpl() const { return m_algorithm; };
@@ -63,7 +63,7 @@ namespace esapi
 
   protected:
 
-    static MessageDigestImpl* createInstance(const String& algorithm);
+    static MessageDigestBase* createInstance(const String& algorithm);
 
   private:
 
@@ -73,11 +73,11 @@ namespace esapi
 
   // Parameterized class we actually want.
   template <typename HASH>
-    class ESAPI_PRIVATE MessageDigestTmpl: public MessageDigestImpl
+    class ESAPI_PRIVATE MessageDigestImpl: public MessageDigestBase
   {
   public:
 
-    explicit MessageDigestTmpl(const String& algorithm);
+    explicit MessageDigestImpl(const String& algorithm);
 
     virtual String getAlgorithmImpl() const ;
 
