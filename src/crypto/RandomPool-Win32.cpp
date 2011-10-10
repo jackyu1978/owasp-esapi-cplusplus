@@ -1,16 +1,16 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* http://www.owasp.org/index.php/ESAPI.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* @author Kevin Wall, kevin.w.wall@gmail.com
-* @author Jeffrey Walton, noloader@gmail.com
-*
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * http://www.owasp.org/index.php/ESAPI.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * @author Kevin Wall, kevin.w.wall@gmail.com
+ * @author Jeffrey Walton, noloader@gmail.com
+ *
+ */
 
 #include "crypto/RandomPool.h"
 #include "crypto/Crypto++Common.h"
@@ -69,22 +69,22 @@ namespace esapi
 
       // Get a handle to the Intel CSP
       if(CryptAcquireContext(&hProvider, NULL, INTEL_DEF_PROV, PROV_INTEL_SEC, 0))
-      {
-        while(req)
         {
-          CryptoPP::Timer timer;
-          timer.StartTimer();
+          while(req)
+            {
+              CryptoPP::Timer timer;
+              timer.StartTimer();
 
-          BOOL result = CryptGenRandom(hProvider, 1, &key[idx]);
-          ASSERT(result);
-          if(!result) break; /* Failed */
+              BOOL result = CryptGenRandom(hProvider, 1, &key[idx]);
+              ASSERT(result);
+              if(!result) break; /* Failed */
 
-          req--; idx++;
+              req--; idx++;
 
-          // If it appears we have blocked, break and fall back to the base provider
-          if(timer.ElapsedTime() > 1) break;
+              // If it appears we have blocked, break and fall back to the base provider
+              if(timer.ElapsedTime() > 1) break;
+            }
         }
-      }
     }
 
     // Early out if possible.
@@ -97,20 +97,20 @@ namespace esapi
 
       // Get a handle to the default CSP
       if(!CryptAcquireContext(&hProvider, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
-      {
-        // Get a handle to the base CSP
-        if(!CryptAcquireContext(&hProvider, NULL, MS_DEF_PROV, PROV_RSA_FULL, 0))
-        {        
-          // Create a new keyset as required (one of the joys of dealing with MS).
-          // Once created, the previous calls to CryptAcquireContext will succeed.
-          CryptAcquireContext(&hProvider, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET);
+        {
+          // Get a handle to the base CSP
+          if(!CryptAcquireContext(&hProvider, NULL, MS_DEF_PROV, PROV_RSA_FULL, 0))
+            {        
+              // Create a new keyset as required (one of the joys of dealing with MS).
+              // Once created, the previous calls to CryptAcquireContext will succeed.
+              CryptAcquireContext(&hProvider, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET);
+            }
         }
-      }
       // Get a random number
       if(hProvider && CryptGenRandom(hProvider, (DWORD)req, &key[idx]))
-      {
-        req = 0;
-      }
+        {
+          req = 0;
+        }
     }
 
     return (req == 0);
@@ -125,11 +125,11 @@ namespace esapi
 
     LARGE_INTEGER li;
     if(::QueryPerformanceCounter(&li))
-    {
-      req = std::min(rem, sizeof(li));
-      ::memcpy(data, &li, req);
-      rem -= req; idx+= req;
-    }
+      {
+        req = std::min(rem, sizeof(li));
+        ::memcpy(data, &li, req);
+        rem -= req; idx+= req;
+      }
 
     // Any room remaining? There should be...
     if(!rem) return true;
