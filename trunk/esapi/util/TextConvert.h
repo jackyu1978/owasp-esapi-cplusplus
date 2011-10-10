@@ -14,6 +14,8 @@
  *
  */
 
+#pragma once
+
 #include "EsapiCommon.h"
 #include "util/NotCopyable.h"
 #include "util/SecureArray.h"
