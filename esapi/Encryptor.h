@@ -321,9 +321,6 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
 
   private:
     // Make sure compiler never generates this.
-    // Note - we have to have it defined for the linker. Otherwise, the Encryptor
-    // vtable lacks the implementation for the declared symbol, which will cause
-    // linking errors in the shared object later.
     Encryptor& operator=(const Encryptor& rhs);
 
   };   // End class
