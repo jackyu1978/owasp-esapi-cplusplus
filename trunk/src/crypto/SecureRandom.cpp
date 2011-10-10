@@ -44,7 +44,7 @@ namespace esapi
     ASSERT( !algorithm.empty() );
 
     const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
-    SecureRandomImpl* impl = SecureRandomImpl::createInstance(alg, nullptr, 0);
+    SecureRandomBase* impl = SecureRandomBase::createInstance(alg, nullptr, 0);
     MEMORY_BARRIER();
 
     ASSERT(impl != nullptr);
@@ -58,7 +58,7 @@ namespace esapi
   SecureRandom::SecureRandom(const String& algorithm)
    
     : m_lock(new Mutex),
-    m_impl(SecureRandomImpl::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
+    m_impl(SecureRandomBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -70,16 +70,16 @@ namespace esapi
    */
   SecureRandom::SecureRandom(const byte seed[], size_t size)
    
-    : m_lock(new Mutex), m_impl(SecureRandomImpl::createInstance(DefaultAlgorithm(), seed, size))
+    : m_lock(new Mutex), m_impl(SecureRandomBase::createInstance(DefaultAlgorithm(), seed, size))
   {
     ASSERT(m_lock.get() != nullptr);
     ASSERT(m_impl.get() != nullptr);
   }
 
   /**
-   * Constructs a secure random number generator (RNG) from a SecureRandomImpl implementation.
+   * Constructs a secure random number generator (RNG) from a SecureRandomBase implementation.
    */
-  SecureRandom::SecureRandom(SecureRandomImpl* impl)
+  SecureRandom::SecureRandom(SecureRandomBase* impl)
    
     : m_lock(new Mutex), m_impl(impl)
   {

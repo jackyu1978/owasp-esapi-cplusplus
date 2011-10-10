@@ -118,7 +118,7 @@ namespace esapi
    * Factory method to cough up an implementation.
    * Used by getInstance and most stack based SecureRandoms
    */
-  SecureRandomImpl* SecureRandomImpl::createInstance(const String& algorithm, const byte* seed, size_t size)
+  SecureRandomBase* SecureRandomBase::createInstance(const String& algorithm, const byte* seed, size_t size)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
     ASSERT( !algorithm.empty() );
@@ -250,7 +250,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the named
    * random number algorithm.
    */
-  SecureRandomImpl::SecureRandomImpl(const String& algorithm, const byte*, size_t)
+  SecureRandomBase::SecureRandomBase(const String& algorithm, const byte*, size_t)
     : m_catastrophic(false), m_algorithm(algorithm)
   {
     ASSERT( !algorithm.empty() );
@@ -259,9 +259,9 @@ namespace esapi
   }
 
   /**
-   * Returns the name of the algorithm implemented by this SecureRandomImpl object.
+   * Returns the name of the algorithm implemented by this SecureRandomBase object.
    */
-  String SecureRandomImpl::getAlgorithmImpl() const
+  String SecureRandomBase::getAlgorithmImpl() const
   {
     ASSERT( !m_algorithm.empty() );
     return m_algorithm;
@@ -318,7 +318,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HashImpl<HASH, DRBGINFO>::HashImpl(const String& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm, nullptr, 0), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
+    : SecureRandomBase(algorithm, nullptr, 0), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
     // seed and size are thinly veiled as "Personalization", and it is optional.
     // If size is non-zero, seed must be valid.
@@ -384,7 +384,7 @@ namespace esapi
   {
     // Don't throw the catastrophic error here. The user might need the name of the generator.
 
-    return SecureRandomImpl::getAlgorithmImpl();
+    return SecureRandomBase::getAlgorithmImpl();
   }
 
   /**
@@ -729,7 +729,7 @@ namespace esapi
    */
   template <class HASH, class DRBGINFO>
   HmacImpl<HASH, DRBGINFO>::HmacImpl(const String& algorithm, const byte* seed, size_t ssize)
-    : SecureRandomImpl(algorithm, nullptr, 0), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
+    : SecureRandomBase(algorithm, nullptr, 0), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
   {
     // seed and size are optional. If size is non-zero, seed must be valid
     ASSERT( (!seed && !ssize) || (seed && ssize) );
@@ -787,7 +787,7 @@ namespace esapi
   template <class HASH, class DRBGINFO>
   String HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
   {
-    return SecureRandomImpl::getAlgorithmImpl();
+    return SecureRandomBase::getAlgorithmImpl();
   }
 
   /**
@@ -1089,7 +1089,7 @@ namespace esapi
    */
   template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const String& algorithm, const byte* /*seed*/, size_t /*size*/)
-    : SecureRandomImpl(algorithm, nullptr, 0), m_v(), m_c(), m_rctr(1)
+    : SecureRandomBase(algorithm, nullptr, 0), m_v(), m_c(), m_rctr(1)
   {
   }
 
@@ -1123,7 +1123,7 @@ namespace esapi
   template <class CIPHER, template <class C> class MODE, class DRBGINFO>
   String BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
-    return SecureRandomImpl::getAlgorithmImpl();
+    return SecureRandomBase::getAlgorithmImpl();
   }
 
   /**
