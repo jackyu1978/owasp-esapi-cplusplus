@@ -21,11 +21,6 @@
 #define HEX(x) std::hex << std::setw(x) << std::setfill(L'0')
 #define OCT(x) std::octal << std::setw(x) << std::setfill(L'0')
 
-//
-// Thread safe, multiprocessor initialization
-// http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
-//
-
 namespace esapi
 {
   Char HTMLEntityCodec::REPLACEMENT_CHAR()
@@ -185,8 +180,6 @@ namespace esapi
       {
         boost::shared_ptr<EntityMap> temp(new EntityMap);
         ASSERT(nullptr != temp.get());
-        if(nullptr == temp.get())
-          throw std::bad_alloc();
 
         // Convenience
         EntityMap& tm = *temp.get();
