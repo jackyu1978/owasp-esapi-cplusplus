@@ -21,6 +21,7 @@
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 
+#include <cryptopp/config.h>
 #include <cryptopp/misc.h>
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/aes.h>
@@ -28,6 +29,9 @@
 #include <cryptopp/sha.h>
 #include <cryptopp/hex.h>
 #include <cryptopp/md5.h>
+#include <cryptopp/eax.h>
+#include <cryptopp/ccm.h>
+#include <cryptopp/gcm.h>
 #include <cryptopp/hmac.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/modes.h>
