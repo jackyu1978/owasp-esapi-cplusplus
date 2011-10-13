@@ -10,7 +10,6 @@
 
 #include "EsapiCommon.h"
 #include "codecs/HTMLEntityCodec.h"
-#include "crypto/Crypto++Common.h"
 #include <boost/shared_ptr.hpp>
 
 #include <string>
