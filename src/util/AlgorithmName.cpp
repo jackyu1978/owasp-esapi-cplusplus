@@ -339,6 +339,13 @@ namespace esapi
       throw NoSuchAlgorithmException(oss.str());
     }
 
+    // Remove if we ever get around to adding SSL3 padding.
+    if(padding == "SSL3Padding") {
+      std::ostringstream oss;
+      oss << "Unsupported transformation format: '" << trimmed << "', padding '" << temp << "'";
+      throw NoSuchAlgorithmException(oss.str());
+    }
+
     // Final return string
     NarrowString result(alg);
     result += "/" + mode;
