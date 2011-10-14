@@ -303,7 +303,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @return 
      *      the absolute timestamp
      */
-    virtual time_t getRelativeTimeStamp( time_t offset ) const = 0;
+    virtual long getRelativeTimeStamp( time_t offset ) const = 0;
 
 
     /**
@@ -313,7 +313,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @return 
      *      a timestamp representing the current time
      */
-    virtual time_t getTimeStamp() const = 0;
+    virtual long getTimeStamp() const = 0;
 
   protected:
     /** Do nothing virtual DTOR. */
