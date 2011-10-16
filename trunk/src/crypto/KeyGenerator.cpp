@@ -17,6 +17,7 @@
 #include "crypto/KeyGenerator.h"
 #include "crypto/SecureRandom.h"
 #include "crypto/Crypto++Common.h"
+#include "util/TextConvert.h"
 #include "errors/EncryptionException.h"
 
 #include "safeint/SafeInt3.hpp"
@@ -36,7 +37,7 @@ namespace esapi
   /**
   * Creates a KeyGenerator object.
   */
-  KeyGenerator::KeyGenerator(const String& algorithmName)
+  KeyGenerator::KeyGenerator(const NarrowString& algorithmName)
     : m_random(SecureRandom::getInstance(algorithmName)), m_keyBytes((unsigned)InvalidKeyBytes)
   {
   }
@@ -69,6 +70,15 @@ namespace esapi
   KeyGenerator KeyGenerator::getInstance(const String& algorithm)
   {
     ASSERT( !algorithm.empty() );
+    return KeyGenerator(TextConvert::WideToNarrow(algorithm));
+  }
+
+  /**
+  * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
+  */
+  KeyGenerator KeyGenerator::getInstance(const NarrowString& algorithm)
+  {
+    ASSERT( !algorithm.empty() );
     return KeyGenerator(algorithm);
   }
 
@@ -77,9 +87,9 @@ namespace esapi
   * with DefaultKeySize(). SP800-90 offers the mappings of security bits to generators
   * Table 2 (p.34) and Table 3 (p. 46) and SP800-57.
   */
-  String KeyGenerator::DefaultAlgorithm()
+  NarrowString KeyGenerator::DefaultAlgorithm()
   {
-    return L"AES";
+    return "AES";
   }
 
   /**
@@ -159,7 +169,7 @@ namespace esapi
   /**
   * Returns the algorithm name of this KeyGenerator object.
   */
-  String KeyGenerator::getAlgorithm() const
+  NarrowString KeyGenerator::getAlgorithm() const
   {
     return m_random.getAlgorithm();
   }

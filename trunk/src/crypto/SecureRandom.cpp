@@ -30,20 +30,19 @@ namespace esapi
    * The default secure random number generator (RNG) algorithm. Currently returns
    * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
    */
-  String SecureRandom::DefaultAlgorithm()
+  NarrowString SecureRandom::DefaultAlgorithm()
   {
-    return String(L"SHA-256");
+    return NarrowString("SHA-256");
   }
 
   /**
    * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
    */
-  SecureRandom SecureRandom::getInstance(const String& algorithm)
-   
+  SecureRandom SecureRandom::getInstance(const NarrowString& algorithm)   
   {
     ASSERT( !algorithm.empty() );
 
-    const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
+    const NarrowString alg(AlgorithmName::normalizeAlgorithm(algorithm));
     SecureRandomBase* impl = SecureRandomBase::createInstance(alg, nullptr, 0);
     MEMORY_BARRIER();
 
@@ -52,13 +51,36 @@ namespace esapi
   }
 
   /**
+   * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
+   */
+  SecureRandom SecureRandom::getInstance(const WideString& algorithm)   
+  {
+    ASSERT( !algorithm.empty() );
+    return getInstance(TextConvert::WideToNarrow(algorithm));
+  }
+
+  /**
    * Constructs a secure random number generator (RNG) implementing the named
    * random number algorithm if specified
    */
-  SecureRandom::SecureRandom(const String& algorithm)
+  SecureRandom::SecureRandom(const NarrowString& algorithm)
    
     : m_lock(new Mutex),
       m_impl(SecureRandomBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm), nullptr, 0))    
+  {
+    ASSERT( !algorithm.empty() );
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
+  }
+
+  /**
+   * Constructs a secure random number generator (RNG) implementing the named
+   * random number algorithm if specified
+   */
+  SecureRandom::SecureRandom(const WideString& algorithm)
+   
+    : m_lock(new Mutex),
+    m_impl(SecureRandomBase::createInstance(TextConvert::WideToNarrow(AlgorithmName::normalizeAlgorithm(algorithm)), nullptr, 0))
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -149,7 +171,7 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
-  String SecureRandom::getAlgorithm() const
+  NarrowString SecureRandom::getAlgorithm() const
    
   {
     // All forward facing gear which manipulates internal state acquires the object lock

@@ -225,7 +225,7 @@ namespace esapi
     // Convert it back into a SecretKey of the appropriate type.
     // return new SecretKeySpec(derivedKey, keyDerivationKey.getAlgorithm());
 
-    return SecretKey(L"HMACSha1", derived);
+    return SecretKey("HMACSha1", derived);
   }
 
   /**

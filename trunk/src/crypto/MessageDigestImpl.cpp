@@ -23,47 +23,47 @@
 
 namespace esapi
 {
-  MessageDigestBase* MessageDigestBase::createInstance(const String& algorithm)
+  MessageDigestBase* MessageDigestBase::createInstance(const NarrowString& algorithm)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
     ASSERT( !algorithm.empty() );
 
-    if(algorithm == L"MD5")
+    if(algorithm == "MD5")
       return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
 
-    if(algorithm == L"SHA-1")
+    if(algorithm == "SHA-1")
       return new MessageDigestImpl<CryptoPP::SHA1>(algorithm);
 
-    if(algorithm == L"SHA-224")
+    if(algorithm == "SHA-224")
       return new MessageDigestImpl<CryptoPP::SHA224>(algorithm);
 
-    if(algorithm == L"SHA-256")
+    if(algorithm == "SHA-256")
       return new MessageDigestImpl<CryptoPP::SHA256>(algorithm);
 
-    if(algorithm == L"SHA-384")
+    if(algorithm == "SHA-384")
       return new MessageDigestImpl<CryptoPP::SHA384>(algorithm);
 
-    if(algorithm == L"SHA-512")
+    if(algorithm == "SHA-512")
       return new MessageDigestImpl<CryptoPP::SHA512>(algorithm);
 
-    if(algorithm == L"Whirlpool")
+    if(algorithm == "Whirlpool")
       return new MessageDigestImpl<CryptoPP::Whirlpool>(algorithm);
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
     // This Java program will throw a NoSuchAlgorithmException
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance(L"Foo");
+    // MessageDigest md = MessageDigest.getInstance("Foo");
     // md.update(scratch);
 
     // We only have IllegalArgumentException and EncryptionException
     std::ostringstream oss;
-    oss << "Algorithm \'" << TextConvert::WideToNarrow(algorithm) << "\' is not supported";
+    oss << "Algorithm \'" << algorithm << "\' is not supported";
     throw NoSuchAlgorithmException(oss.str());
   }
 
   template <class HASH>
-  MessageDigestImpl<HASH>::MessageDigestImpl(const String& algorithm)
+  MessageDigestImpl<HASH>::MessageDigestImpl(const NarrowString& algorithm)
     : MessageDigestBase(algorithm), m_hash()
   {
     ASSERT( !algorithm.empty() );
@@ -73,7 +73,7 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  String MessageDigestImpl<HASH>::getAlgorithmImpl() const   
+  NarrowString MessageDigestImpl<HASH>::getAlgorithmImpl() const   
   {
     return MessageDigestBase::getAlgorithmImpl();
   }
@@ -189,17 +189,17 @@ namespace esapi
 
     // This Java program will throw a NullPointerException
     // byte[] scratch = null;
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // md.update(scratch);
 
     // This Java program is OK
     // byte[] scratch = new byte[0];
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // md.update(scratch);
 
     // This Java program will throw an IllegalArgumentException
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // md.update(scratch, 1, 16);
 
     // Removed Java like hack on a NULL reference. An empty string will
@@ -352,18 +352,18 @@ namespace esapi
 
     // This Java program will throw a DigestException
     // byte[] scratch = new byte[1];
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // int size = md.digest(scratch, 0, 0);
 
     // And so will this one
     // byte[] scratch = new byte[16];
-    // MessageDigest md = MessageDigest.getInstance(L"MD5");
+    // MessageDigest md = MessageDigest.getInstance("MD5");
     // int ret = md.digest(scratch, 0, 15);
 
     if(size < (size_t)m_hash.DigestSize() || len < (size_t)m_hash.DigestSize())
       {
         std::stringstream oss;
-        oss << "Length must be at least " << m_hash.DigestSize() << " for " << TextConvert::WideToNarrow(getAlgorithmImpl());
+        oss << "Length must be at least " << m_hash.DigestSize() << " for " << getAlgorithmImpl();
         throw IllegalArgumentException(oss.str());
       }
 

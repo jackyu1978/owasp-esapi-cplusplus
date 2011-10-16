@@ -31,22 +31,27 @@ namespace esapi
     /**
      * Returns the default message digest, currently defined as SHA-256.
      */
-    static String DefaultAlgorithm();
+    static NarrowString DefaultAlgorithm();
 
     /**
      * Returns a MessageDigest object that implements the specified digest algorithm.
      */
-    static MessageDigest getInstance(const String& algorithm = DefaultAlgorithm());
+    static MessageDigest getInstance(const NarrowString& algorithm = DefaultAlgorithm());
 
     /**
      * Returns a MessageDigest object that implements the specified digest algorithm.
      */
-    static MessageDigest getInstance(const NarrowString& algorithm);
+    static MessageDigest getInstance(const String& algorithm);
 
     /**
      * Creates a message digest with the specified algorithm name.
      */
-    explicit MessageDigest(const String& algorithm = DefaultAlgorithm());
+    explicit MessageDigest(const NarrowString& algorithm = DefaultAlgorithm());
+
+    /**
+     * Creates a message digest with the specified algorithm name.
+     */
+    explicit MessageDigest(const String& algorithm);
 
     /**
      * Copies a message digest.
@@ -66,7 +71,7 @@ namespace esapi
     /**
      * Returns a string that identifies the algorithm, independent of implementation details.
      */    
-    String getAlgorithm() const;
+    NarrowString getAlgorithm() const;
 
     /**
      * Returns the length of the digest in bytes.

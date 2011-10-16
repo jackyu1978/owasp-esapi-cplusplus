@@ -52,8 +52,8 @@ namespace esapi
   typename SecureArray<T>::SecureVector*
   SecureArray<T>::create_secure_array(size_type cnt, const T& value)
   {
-    // Warning only
-    ESAPI_ASSERT2(cnt != 0, "Array size is 0");
+    // Array size 0 is OK.
+    // ESAPI_ASSERT2(cnt != 0, "Array size is 0");
     ESAPI_ASSERT2(cnt <= max_size(), "Too many elements in the array");
     if(!(cnt <= max_size()))
       throw IllegalArgumentException("Too many elements in the array");

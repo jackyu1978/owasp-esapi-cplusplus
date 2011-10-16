@@ -38,10 +38,11 @@
 #include <cryptopp/base64.h>
 #include <cryptopp/hrtimer.h>
 #include <cryptopp/integer.h>
+#include <cryptopp/filters.h>
 #include <cryptopp/blowfish.h>
 #include <cryptopp/camellia.h>
 #include <cryptopp/whrlpool.h>
-#include <cryptopp/filters.h>
+#include <cryptopp/rijndael.h>
 #include <cryptopp/secblock.h>
 
 #if defined(_MSC_VER)

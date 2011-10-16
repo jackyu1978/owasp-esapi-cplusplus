@@ -95,7 +95,7 @@ namespace esapi
   CipherText DefaultEncryptor::encrypt(const PlainText& plainText) const
   {
     DummyConfiguration config;
-    SecretKey key(L"Unknown", config.getMasterKey());
+    SecretKey key("Unknown", config.getMasterKey());
 
     return encrypt(key, plainText);
   }
