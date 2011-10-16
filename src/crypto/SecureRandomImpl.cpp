@@ -119,7 +119,7 @@ namespace esapi
    * Factory method to cough up an implementation.
    * Used by getInstance and most stack based SecureRandoms
    */
-  SecureRandomBase* SecureRandomBase::createInstance(const String& algorithm, const byte* seed, size_t size)
+  SecureRandomBase* SecureRandomBase::createInstance(const NarrowString& algorithm, const byte* seed, size_t size)
   {
     // http://download.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html
     ASSERT( !algorithm.empty() );
@@ -130,122 +130,122 @@ namespace esapi
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
-    if(algorithm == L"SHA-1")
+    if(algorithm == "SHA-1")
       return new HashImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"SHA-224")
+    if(algorithm == "SHA-224")
       return new HashImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"SHA-256")
+    if(algorithm == "SHA-256")
       return new HashImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"SHA-384")
+    if(algorithm == "SHA-384")
       return new HashImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == L"SHA-512")
+    if(algorithm == "SHA-512")
       return new HashImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Whirlpool")
+    if(algorithm == "Whirlpool")
       return new HashImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Block Ciphers //////////////////////////////////
 
-    if(algorithm == L"AES" || algorithm == L"AES128")
+    if(algorithm == "AES" || algorithm == "AES128")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES/CFB" || algorithm == L"AES128/CFB")
+    if(algorithm == "AES/CFB" || algorithm == "AES128/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES/OFB" || algorithm == L"AES128/OFB")
+    if(algorithm == "AES/OFB" || algorithm == "AES128/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES/CTR" || algorithm == L"AES128/CTR")
+    if(algorithm == "AES/CTR" || algorithm == "AES128/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES192")
+    if(algorithm == "AES192")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES192/CFB")
+    if(algorithm == "AES192/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES192/OFB")
+    if(algorithm == "AES192/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES192/CTR")
+    if(algorithm == "AES192/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES256")
+    if(algorithm == "AES256")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES256/CFB")
+    if(algorithm == "AES256/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES256/OFB")
+    if(algorithm == "AES256/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == L"AES256/CTR")
+    if(algorithm == "AES256/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Camellia" || algorithm == L"Camellia128")
+    if(algorithm == "Camellia" || algorithm == "Camellia128")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Camellia/CFB" || algorithm == L"Camellia128/CFB")
+    if(algorithm == "Camellia/CFB" || algorithm == "Camellia128/CFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Camellia/OFB" || algorithm == L"Camellia128/OFB")
+    if(algorithm == "Camellia/OFB" || algorithm == "Camellia128/OFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Camellia/CTR" || algorithm == L"Camellia128/CTR")
+    if(algorithm == "Camellia/CTR" || algorithm == "Camellia128/CTR")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Blowfish" || algorithm == L"Blowfish128")
+    if(algorithm == "Blowfish" || algorithm == "Blowfish128")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Blowfish/CFB" || algorithm == L"Blowfish128/CFB")
+    if(algorithm == "Blowfish/CFB" || algorithm == "Blowfish128/CFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Blowfish/OFB" || algorithm == L"Blowfish128/OFB")
+    if(algorithm == "Blowfish/OFB" || algorithm == "Blowfish128/OFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"Blowfish/CTR" || algorithm == L"Blowfish128/CTR")
+    if(algorithm == "Blowfish/CTR" || algorithm == "Blowfish128/CTR")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == L"DES_ede" || algorithm == L"DES_ede112")
+    if(algorithm == "DES_ede" || algorithm == "DES_ede112")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == L"DES_ede/CFB" || algorithm == L"DES_ede112/CFB")
+    if(algorithm == "DES_ede/CFB" || algorithm == "DES_ede112/CFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == L"DES_ede/OFB" || algorithm == L"DES_ede112/OFB")
+    if(algorithm == "DES_ede/OFB" || algorithm == "DES_ede112/OFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == L"DES_ede/CTR" || algorithm == L"DES_ede112/CTR")
+    if(algorithm == "DES_ede/CTR" || algorithm == "DES_ede112/CTR")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Hmacs //////////////////////////////////
 
-    if(algorithm == L"HmacSHA1")
+    if(algorithm == "HmacSHA1")
       return new HmacImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"HmacSHA224")
+    if(algorithm == "HmacSHA224")
       return new HmacImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"HmacSHA256")
+    if(algorithm == "HmacSHA256")
       return new HmacImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == L"HmacSHA384")
+    if(algorithm == "HmacSHA384")
       return new HmacImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == L"HmacSHA512")
+    if(algorithm == "HmacSHA512")
       return new HmacImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == L"HmacWhirlpool")
+    if(algorithm == "HmacWhirlpool")
       return new HmacImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ///////////////////////////////// Catch All /////////////////////////////////
 
     std::ostringstream oss;
-    oss << "Algorithm \'" << TextConvert::WideToNarrow(algorithm) << "\' is not supported.";
+    oss << "Algorithm \'" << algorithm << "\' is not supported.";
     throw NoSuchAlgorithmException(oss.str());
   }
 
@@ -253,7 +253,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG) implementing the named
    * random number algorithm.
    */
-  SecureRandomBase::SecureRandomBase(const String& algorithm, const byte*, size_t)
+  SecureRandomBase::SecureRandomBase(const NarrowString& algorithm, const byte*, size_t)
     : m_catastrophic(false), m_algorithm(algorithm)
   {
     ASSERT( !algorithm.empty() );
@@ -264,10 +264,9 @@ namespace esapi
   /**
    * Returns the name of the algorithm implemented by this SecureRandomBase object.
    */
-  String SecureRandomBase::getAlgorithmImpl() const
+  NarrowString SecureRandomBase::getAlgorithmImpl() const
   {
-    ASSERT( !m_algorithm.empty() );
-    return m_algorithm;
+    return m_algorithm.algorithm();
   }
 
   /**
@@ -320,7 +319,7 @@ namespace esapi
    * Create a SecureRandom implementation based on a hash
    */
   template <class HASH, class DRBGINFO>
-  HashImpl<HASH, DRBGINFO>::HashImpl(const String& algorithm, const byte* seed, size_t ssize)
+  HashImpl<HASH, DRBGINFO>::HashImpl(const NarrowString& algorithm, const byte* seed, size_t ssize)
     : SecureRandomBase(algorithm, nullptr, 0), m_hash(), m_v(SeedLength), m_c(SeedLength), m_rctr(1)
   {
     // seed and size are thinly veiled as "Personalization", and it is optional.
@@ -369,21 +368,28 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  SecureByteArray HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray HashImpl<HASH, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("generateSeedImpl(unsigned int numBytes) is not implemented");
+    ASSERT(numBytes);
+    if(!numBytes)
+      return SecureByteArray();
+
+    SecureByteArray sa(numBytes);
+    nextBytesImpl(sa.data(), sa.size());
+
+    return sa;
   }
 
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class HASH, class DRBGINFO>
-  String HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
+  NarrowString HashImpl<HASH, DRBGINFO>::getAlgorithmImpl() const
   {
     // Don't throw the catastrophic error here. The user might need the name of the generator.
 
@@ -731,7 +737,7 @@ namespace esapi
    * Create a SecureRandom implementation based on a block cipher
    */
   template <class HASH, class DRBGINFO>
-  HmacImpl<HASH, DRBGINFO>::HmacImpl(const String& algorithm, const byte* seed, size_t ssize)
+  HmacImpl<HASH, DRBGINFO>::HmacImpl(const NarrowString& algorithm, const byte* seed, size_t ssize)
     : SecureRandomBase(algorithm, nullptr, 0), m_hmac(), m_v(DigestLength), m_k(DigestLength), m_rctr(1)
   {
     // seed and size are optional. If size is non-zero, seed must be valid
@@ -779,16 +785,21 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class HASH, class DRBGINFO>
-  SecureByteArray HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray HmacImpl<HASH,DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
-    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
+    ASSERT(numBytes);
+
+    SecureByteArray sa(numBytes);
+    nextBytesImpl(sa.data(), sa.size());
+
+    return sa;
   }
 
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class HASH, class DRBGINFO>
-  String HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
+  NarrowString HmacImpl<HASH,DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomBase::getAlgorithmImpl();
   }
@@ -1091,7 +1102,7 @@ namespace esapi
    * Constructs a secure random number generator (RNG).
    */
   template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
-  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const String& algorithm, const byte* /*seed*/, size_t /*size*/)
+  BlockCipherImpl<CIPHER, MODE, DRBGINFO>::BlockCipherImpl(const NarrowString& algorithm, const byte* /*seed*/, size_t /*size*/)
     : SecureRandomBase(algorithm, nullptr, 0), m_v(), m_c(), m_rctr(1)
   {
   }
@@ -1110,21 +1121,28 @@ namespace esapi
    * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
    */
   template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
-  SecureByteArray BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int /*numBytes*/)
+  SecureByteArray BlockCipherImpl<CIPHER, MODE, DRBGINFO>::generateSeedImpl(unsigned int numBytes)
   {
     // Has a catastrophic error been encountered previously? Forwarding facing gear is the gate keeper.
     ASSERT(!m_catastrophic);
     if(m_catastrophic)
       throw EncryptionException("A catastrophic error was previously encountered");
 
-    throw UnsupportedOperationException("generateSeed(unsigned int numBytes) is not implemented");
+    ASSERT(numBytes);
+    if(!numBytes)
+      return SecureByteArray();
+
+    SecureByteArray sa(numBytes);
+    nextBytesImpl(sa.data(), sa.size());
+
+    return sa;
   }
 
   /**
    * Returns the name of the algorithm implemented by this SecureRandom object.
    */
   template <class CIPHER, template <class CPHR> class MODE, class DRBGINFO>
-  String BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
+  NarrowString BlockCipherImpl<CIPHER, MODE, DRBGINFO>::getAlgorithmImpl() const
   {
     return SecureRandomBase::getAlgorithmImpl();
   }

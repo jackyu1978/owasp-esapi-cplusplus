@@ -13,6 +13,7 @@
 #include "EsapiCommon.h"
 #include "util/NotCopyable.h"
 #include "util/SecureArray.h"
+#include "util/AlgorithmName.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
@@ -28,10 +29,10 @@ namespace esapi
 
   public:
 
-    explicit MessageDigestBase(const String& algorithm)
+    explicit MessageDigestBase(const NarrowString& algorithm)
       : m_algorithm(algorithm) { }
 
-    virtual String getAlgorithmImpl() const { return m_algorithm; };
+    virtual NarrowString getAlgorithmImpl() const { return m_algorithm.algorithm(); };
 
     virtual size_t getDigestLengthImpl() const = 0;
 
@@ -63,12 +64,12 @@ namespace esapi
 
   protected:
 
-    static MessageDigestBase* createInstance(const String& algorithm);
+    static MessageDigestBase* createInstance(const NarrowString& algorithm);
 
   private:
 
     // Crypto++ does not always implement AglortihmName()
-    String m_algorithm;
+    AlgorithmName m_algorithm;
   };
 
   // Parameterized class we actually want.
@@ -77,9 +78,9 @@ namespace esapi
   {
   public:
 
-    explicit MessageDigestImpl(const String& algorithm);
+    explicit MessageDigestImpl(const NarrowString& algorithm);
 
-    virtual String getAlgorithmImpl() const ;
+    virtual NarrowString getAlgorithmImpl() const;
 
     virtual size_t getDigestLengthImpl() const;
 

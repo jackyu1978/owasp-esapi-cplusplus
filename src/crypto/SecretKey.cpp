@@ -19,9 +19,9 @@
 
 namespace esapi
 {
-  SecretKey::SecretKey(const String& alg,
+  SecretKey::SecretKey(const NarrowString& alg,
     const size_t sizeInBytes,
-    const String& format)
+    const NarrowString& format)
     : m_algorithm(alg), m_secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -35,9 +35,9 @@ namespace esapi
     }
   }
 
-  SecretKey::SecretKey(const String& alg,
+  SecretKey::SecretKey(const NarrowString& alg,
     const CryptoPP::SecByteBlock& bytes,
-    const String& format)
+    const NarrowString& format)
     : m_algorithm(alg), m_secBlock(bytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -45,9 +45,9 @@ namespace esapi
     ASSERT( !m_format.empty() );
   }
 
-  SecretKey::SecretKey(const String& alg,
+  SecretKey::SecretKey(const NarrowString& alg,
     const SecureByteArray& bytes,
-    const String& format)
+    const NarrowString& format)
     : m_algorithm(alg), m_secBlock(bytes.data(), bytes.size()), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
@@ -84,9 +84,9 @@ namespace esapi
    */
   SecretKey& SecretKey::operator=(const SecureByteArray& rhs)
   {
-      m_algorithm = L"Unknown";
+      m_algorithm = "Unknown";
       m_secBlock = CryptoPP::SecByteBlock(rhs.data(), rhs.size());
-      m_format = L"RAW";
+      m_format = "RAW";
 
       return *this;
   }
@@ -101,13 +101,13 @@ namespace esapi
   // The return value is a bit confusing. If the key supports encoding, return
   // the ASN.1 name for the method, otherwise retun the empty string. If the
   // key does *not* support encoding, return L"RAW".
-  String SecretKey::getFormat() const
+  NarrowString SecretKey::getFormat() const
   {
     ASSERT( !m_format.empty() );
     return m_format;
   }
 
-  String SecretKey::getAlgorithm() const
+  NarrowString SecretKey::getAlgorithm() const
   {
     ASSERT( !m_algorithm.empty() );
     return m_algorithm;

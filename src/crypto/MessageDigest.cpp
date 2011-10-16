@@ -29,9 +29,21 @@ namespace esapi
   // Forward declaration
   template <typename HASH> class MessageDigestImpl;
 
-  String MessageDigest::DefaultAlgorithm()
+  NarrowString MessageDigest::DefaultAlgorithm()
   {
-    return String(L"SHA-256");
+    return NarrowString("SHA-256");
+  }
+
+  /**
+   * Creates a message digest with the specified algorithm name.
+   */
+  MessageDigest::MessageDigest(const NarrowString& algorithm)   
+    : m_lock(new Mutex),
+      m_impl(MessageDigestBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm)))
+  {
+    ASSERT( !algorithm.empty() );
+    ASSERT(m_lock.get() != nullptr);
+    ASSERT(m_impl.get() != nullptr);
   }
 
   /**
@@ -39,7 +51,7 @@ namespace esapi
    */
   MessageDigest::MessageDigest(const String& algorithm)   
     : m_lock(new Mutex),
-      m_impl(MessageDigestBase::createInstance(AlgorithmName::normalizeAlgorithm(algorithm)))
+    m_impl(MessageDigestBase::createInstance(TextConvert::WideToNarrow(AlgorithmName::normalizeAlgorithm(algorithm))))
   {
     ASSERT( !algorithm.empty() );
     ASSERT(m_lock.get() != nullptr);
@@ -92,14 +104,8 @@ namespace esapi
   MessageDigest MessageDigest::getInstance(const NarrowString& algorithm)   
   {
     ASSERT(!algorithm.empty());
-    return getInstance(TextConvert::NarrowToWide(algorithm));
-  }
 
-  MessageDigest MessageDigest::getInstance(const String& algorithm)   
-  {
-    ASSERT(!algorithm.empty());
-
-    const String alg(AlgorithmName::normalizeAlgorithm(algorithm));
+    const NarrowString alg(AlgorithmName::normalizeAlgorithm(algorithm));
     MessageDigestBase* impl = MessageDigestBase::createInstance(alg);
     MEMORY_BARRIER();
 
@@ -110,8 +116,14 @@ namespace esapi
     return MessageDigest(impl);
   }
 
+  MessageDigest MessageDigest::getInstance(const WideString& algorithm)   
+  {
+    ASSERT(!algorithm.empty());
+    return getInstance(TextConvert::WideToNarrow(algorithm));
+  }
+
   // Default implementation for derived classes which do nothing
-  String MessageDigest::getAlgorithm() const
+  NarrowString MessageDigest::getAlgorithm() const
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());

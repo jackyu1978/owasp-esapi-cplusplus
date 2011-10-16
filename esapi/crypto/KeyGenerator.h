@@ -37,7 +37,7 @@ namespace esapi
     /**
      * Returns the default algorithm used for key generation.
      */
-    static String DefaultAlgorithm();
+    static NarrowString DefaultAlgorithm();
 
     /**
      * Returns the default key size for key generation.
@@ -48,7 +48,12 @@ namespace esapi
     /**
      * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
      */
-    static KeyGenerator getInstance(const String& algorithm = DefaultAlgorithm());
+    static KeyGenerator getInstance(const String& algorithm);
+
+    /**
+     * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
+     */
+    static KeyGenerator getInstance(const NarrowString& algorithm = DefaultAlgorithm());
 
     /**
      * Initializes this key generator for a certain keysize.
@@ -68,7 +73,7 @@ namespace esapi
     /**
      * Returns the algorithm name of this KeyGenerator object.
      */
-    virtual String getAlgorithm() const;
+    virtual NarrowString getAlgorithm() const;
 
     /**
      * Generates a secret key.
@@ -99,7 +104,7 @@ namespace esapi
     /**
      * Creates a KeyGenerator object.
      */
-    ESAPI_PRIVATE explicit KeyGenerator(const String& algorithmName = DefaultAlgorithm());
+    ESAPI_PRIVATE explicit KeyGenerator(const NarrowString& algorithmName = DefaultAlgorithm());
 
   private:
     /**

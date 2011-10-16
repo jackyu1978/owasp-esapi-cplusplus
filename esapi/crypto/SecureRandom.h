@@ -17,6 +17,7 @@
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
 #include "util/SecureArray.h"
+#include "util/TextConvert.h"
 #include "crypto/RandomPool.h"
 #include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
@@ -57,18 +58,29 @@ namespace esapi
      * The default secure random number generator (RNG) algorithm. Currently returns
      * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
      */
-    static String DefaultAlgorithm();
+    static NarrowString DefaultAlgorithm();
 
     /**
      * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
      */
-    static SecureRandom getInstance(const String& algorithm = DefaultAlgorithm());
+    static SecureRandom getInstance(const NarrowString& algorithm = DefaultAlgorithm());
+
+    /**
+     * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
+     */
+    static SecureRandom getInstance(const String& algorithm);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the named
      * random number algorithm if specified
      */
-    explicit SecureRandom(const String& algorithm = DefaultAlgorithm());
+    explicit SecureRandom(const NarrowString& algorithm);
+
+    /**
+     * Constructs a secure random number generator (RNG) implementing the named
+     * random number algorithm if specified
+     */
+    explicit SecureRandom(const WideString& algorithm);
 
     /**
      * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
@@ -98,7 +110,7 @@ namespace esapi
     /**
      * Returns the name of the algorithm implemented by this SecureRandom object.
      */
-    String getAlgorithm() const;
+    NarrowString getAlgorithm() const;
 
     /**
      * Generates a user-specified number of random bytes.
