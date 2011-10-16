@@ -165,7 +165,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
     
@@ -181,7 +181,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -197,7 +197,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -213,7 +213,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -229,7 +229,7 @@ void VerifyAesKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -252,7 +252,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -268,7 +268,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -284,7 +284,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -300,7 +300,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -316,7 +316,7 @@ void VerifyCamelliaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -339,7 +339,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -355,7 +355,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -371,7 +371,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -387,7 +387,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -403,7 +403,7 @@ void VerifyDesEdeKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -426,7 +426,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -442,7 +442,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -458,7 +458,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -474,7 +474,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -490,7 +490,7 @@ void VerifyBlowfishKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -513,7 +513,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -529,7 +529,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -545,7 +545,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -561,7 +561,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -577,7 +577,7 @@ void VerifyShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -596,7 +596,7 @@ void VerifyWhirlpoolKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -619,7 +619,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -635,7 +635,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -651,7 +651,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -667,7 +667,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 
@@ -683,7 +683,7 @@ void VerifyHmacShaKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }
@@ -702,7 +702,7 @@ void VerifyHmacWhirlpoolKeyGenerator()
       const unsigned int bytes = (bits+7)/8;
       kg.init(bits);
 
-      BOOST_MESSAGE( "Testing " << TextConvert::WideToNarrow(kg.getAlgorithm()) << " (" << bits << ")" );
+      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
       VerifyKeyGeneration(kg, bytes);
     }
 }

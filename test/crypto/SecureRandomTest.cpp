@@ -23,7 +23,8 @@ using std::cerr;
 using std::endl;
 
 #include "EsapiCommon.h"
-using esapi::Char;
+using esapi::NarrowString;
+using esapi::WideString;
 using esapi::String;
 
 #include <errno.h>
@@ -108,13 +109,13 @@ void* WorkerThreadProc(void* param)
   // This is the usage we envision - a single shared PRNG
   args.random.nextBytes(random, sizeof(random));
 
-  SecureRandom prng1;
+  SecureRandom prng1 = SecureRandom::getInstance("SHA-512");
   for (unsigned int i = 0; i < 64; i++)
     prng1.nextBytes(random, i+1);
 
   prng1.nextBytes(random, sizeof(random));
 
-  SecureRandom prng2 = SecureRandom::getInstance(L"SHA-256");
+  SecureRandom prng2 = SecureRandom::getInstance("SHA-256");
   prng2.nextBytes(random, sizeof(random));
 
   for (unsigned int i = 0; i < 64; i++)

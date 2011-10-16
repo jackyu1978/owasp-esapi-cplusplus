@@ -49,3 +49,4 @@ namespace esapi
     static SecureByteArray GetBytes(const String& wstr, const Encoding& encoding = "UTF-8");
   };
 }
+
