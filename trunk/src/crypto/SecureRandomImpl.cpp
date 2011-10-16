@@ -130,116 +130,122 @@ namespace esapi
 
     ////////////////////////////////// Hashes //////////////////////////////////
 
-    if(algorithm == "SHA-1")
+    if(algorithm == "SHA1PRNG")
       return new HashImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-224")
+    else if(algorithm == "SHA")
+      return new HashImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
+
+    else if(algorithm == "SHA-1")
+      return new HashImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
+
+    else if(algorithm == "SHA-224")
       return new HashImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-256")
+    else if(algorithm == "SHA-256")
       return new HashImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-384")
+    else if(algorithm == "SHA-384")
       return new HashImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "SHA-512")
+    else if(algorithm == "SHA-512")
       return new HashImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "Whirlpool")
+    else if(algorithm == "Whirlpool")
       return new HashImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Block Ciphers //////////////////////////////////
 
-    if(algorithm == "AES" || algorithm == "AES128")
+    else if(algorithm == "AES" || algorithm == "AES128")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/CFB" || algorithm == "AES128/CFB")
+    else if(algorithm == "AES/CFB" || algorithm == "AES128/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/OFB" || algorithm == "AES128/OFB")
+    else if(algorithm == "AES/OFB" || algorithm == "AES128/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES/CTR" || algorithm == "AES128/CTR")
+    else if(algorithm == "AES/CTR" || algorithm == "AES128/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192")
+    else if(algorithm == "AES192")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/CFB")
+    else if(algorithm == "AES192/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/OFB")
+    else if(algorithm == "AES192/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES192/CTR")
+    else if(algorithm == "AES192/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<24/*192*/, 40/*320*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256")
+    else if(algorithm == "AES256")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/CFB")
+    else if(algorithm == "AES256/CFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/OFB")
+    else if(algorithm == "AES256/OFB")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::OFB_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "AES256/CTR")
+    else if(algorithm == "AES256/CTR")
       return new BlockCipherImpl<CryptoPP::AES, CryptoPP::CTR_Mode, DrbgInfo<32/*256*/, 48/*384*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia" || algorithm == "Camellia128")
+    else if(algorithm == "Camellia" || algorithm == "Camellia128")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia/CFB" || algorithm == "Camellia128/CFB")
+    else if(algorithm == "Camellia/CFB" || algorithm == "Camellia128/CFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
     if(algorithm == "Camellia/OFB" || algorithm == "Camellia128/OFB")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Camellia/CTR" || algorithm == "Camellia128/CTR")
+    else if(algorithm == "Camellia/CTR" || algorithm == "Camellia128/CTR")
       return new BlockCipherImpl<CryptoPP::Camellia, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish" || algorithm == "Blowfish128")
+    else if(algorithm == "Blowfish" || algorithm == "Blowfish128")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/CFB" || algorithm == "Blowfish128/CFB")
+    else if(algorithm == "Blowfish/CFB" || algorithm == "Blowfish128/CFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/OFB" || algorithm == "Blowfish128/OFB")
+    else if(algorithm == "Blowfish/OFB" || algorithm == "Blowfish128/OFB")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::OFB_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "Blowfish/CTR" || algorithm == "Blowfish128/CTR")
+    else if(algorithm == "Blowfish/CTR" || algorithm == "Blowfish128/CTR")
       return new BlockCipherImpl<CryptoPP::Blowfish, CryptoPP::CTR_Mode, DrbgInfo<16/*128*/, 32/*256*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede" || algorithm == "DES_ede112")
+    else if(algorithm == "DES_ede" || algorithm == "DES_ede112")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/CFB" || algorithm == "DES_ede112/CFB")
+    else if(algorithm == "DES_ede/CFB" || algorithm == "DES_ede112/CFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/OFB" || algorithm == "DES_ede112/OFB")
+    else if(algorithm == "DES_ede/OFB" || algorithm == "DES_ede112/OFB")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::OFB_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
-    if(algorithm == "DES_ede/CTR" || algorithm == "DES_ede112/CTR")
+    else if(algorithm == "DES_ede/CTR" || algorithm == "DES_ede112/CTR")
       return new BlockCipherImpl<CryptoPP::DES_EDE3, CryptoPP::CTR_Mode, DrbgInfo<14/*112*/, 29/*232*/> >(algorithm, seed, size);
 
     ////////////////////////////////// Hmacs //////////////////////////////////
 
-    if(algorithm == "HmacSHA1")
+    else if(algorithm == "HmacSHA1")
       return new HmacImpl<CryptoPP::SHA1, DrbgInfo<10/*80*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA224")
+    else if(algorithm == "HmacSHA224")
       return new HmacImpl<CryptoPP::SHA224, DrbgInfo<14/*112*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA256")
+    else if(algorithm == "HmacSHA256")
       return new HmacImpl<CryptoPP::SHA256, DrbgInfo<16/*128*/, 55/*440*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA384")
+    else if(algorithm == "HmacSHA384")
       return new HmacImpl<CryptoPP::SHA384, DrbgInfo<24/*192*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacSHA512")
+    else if(algorithm == "HmacSHA512")
       return new HmacImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-    if(algorithm == "HmacWhirlpool")
+    else if(algorithm == "HmacWhirlpool")
       return new HmacImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
     ///////////////////////////////// Catch All /////////////////////////////////

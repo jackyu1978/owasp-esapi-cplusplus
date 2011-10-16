@@ -281,6 +281,11 @@ namespace esapi
     else if(temp == "diffiehellman")
       alg = "DiffieHellman";
 
+    //////// SecureRandom ////////
+
+    else if(temp == "sha1prng")
+      alg = "SHA1PRNG";
+
     //////// Oh shit! ////////
 
     else {
