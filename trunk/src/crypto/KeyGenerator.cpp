@@ -79,7 +79,7 @@ namespace esapi
   */
   String KeyGenerator::DefaultAlgorithm()
   {
-    return L"SHA-256";
+    return L"AES";
   }
 
   /**
