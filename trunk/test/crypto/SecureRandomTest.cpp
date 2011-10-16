@@ -38,6 +38,134 @@ static void* WorkerThreadProc(void* param);
 
 static const unsigned int THREAD_COUNT = 16;
 
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_1P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance(SecureRandom::DefaultAlgorithm());
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_2P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_3P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA-1");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_4P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA1Prng");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_5P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA-224");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_6P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA-256");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_7P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA-384");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_8P )
+{
+	try
+	{
+	  SecureRandom prng = SecureRandom::getInstance("SHA-512");
+	}
+	catch(const std::exception& ex)
+	{
+        BOOST_ERROR(ex.what());
+	}
+	catch(...)
+	{
+        BOOST_ERROR("Caught unknown exception");
+	}
+}
+
 struct Args
 {
   Args(unsigned int i, SecureRandom& r)
@@ -47,7 +175,7 @@ struct Args
   SecureRandom& random;
 };
 
-BOOST_AUTO_TEST_CASE( VerifySecureRandom )
+BOOST_AUTO_TEST_CASE( VerifySecureRandom_MT )
 {
   BOOST_MESSAGE( "Verifying SecureRandom with " << THREAD_COUNT << " threads" );
 
