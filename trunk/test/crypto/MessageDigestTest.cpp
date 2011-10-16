@@ -192,8 +192,8 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_7P )
   bool success = false;
 
   MessageDigest md2(MessageDigest::getInstance());
-  success = (md2.getAlgorithm() == L"SHA-256");
-  BOOST_CHECK_MESSAGE(success, "Default generator " << TextConvert::WideToNarrow(md2.getAlgorithm()) << " is unexpected");
+  success = (md2.getAlgorithm() == "SHA-256");
+  BOOST_CHECK_MESSAGE(success, "Default generator " << md2.getAlgorithm() << " is unexpected");
 }
 
 BOOST_AUTO_TEST_CASE( VerifyMessageDigest_8N )
