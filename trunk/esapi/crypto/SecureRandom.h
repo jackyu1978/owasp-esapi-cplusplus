@@ -34,129 +34,129 @@
 
 namespace esapi
 {
-  /**
-   * This class implements functionality similar to Java's SecureRandom for consistency
-   * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
-   */
-
-  class SecureRandomBase;
-
-  ///////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////// Secure Random //////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////
-
-  class ESAPI_EXPORT SecureRandom
-  {
-    // KeyGenerator needs access to getSecurityLevel()
-    friend class KeyGenerator;
-
-    // While it make sense to make DefaultAlgorithm a public static string, we can't
-    // be sure of initializtion order of non-local statics. So it becomes a function.
-
-  public:
     /**
-     * The default secure random number generator (RNG) algorithm. Currently returns
-     * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
+     * This class implements functionality similar to Java's SecureRandom for consistency
+     * http://download.oracle.com/javase/6/docs/api/java/security/SecureRandom.html
      */
-    static NarrowString DefaultAlgorithm();
 
-    /**
-     * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
-     */
-    static SecureRandom getInstance(const NarrowString& algorithm = DefaultAlgorithm());
+    class SecureRandomBase;
 
-    /**
-     * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
-     */
-    static SecureRandom getInstance(const String& algorithm);
+    ///////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////// Secure Random //////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Constructs a secure random number generator (RNG) implementing the named
-     * random number algorithm if specified
-     */
-    explicit SecureRandom(const NarrowString& algorithm);
+    class ESAPI_EXPORT SecureRandom
+    {
+        // KeyGenerator needs access to getSecurityLevel()
+        friend class KeyGenerator;
 
-    /**
-     * Constructs a secure random number generator (RNG) implementing the named
-     * random number algorithm if specified
-     */
-    explicit SecureRandom(const WideString& algorithm);
+        // While it make sense to make DefaultAlgorithm a public static string, we can't
+        // be sure of initializtion order of non-local statics. So it becomes a function.
 
-    /**
-     * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
-     */
-    explicit SecureRandom(const byte* seed, size_t size);
+    public:
+        /**
+         * The default secure random number generator (RNG) algorithm. Currently returns
+         * SHA-256. SHA-1 is approved for Random Number Generation. See SP 800-57, Table 2.
+         */
+        static NarrowString DefaultAlgorithm();
 
-    /**
-     * Destroy this random number generator (RNG).
-     */
-    ~SecureRandom() { };
+        /**
+         * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
+         */
+        static SecureRandom getInstance(const NarrowString& algorithm = DefaultAlgorithm());
 
-    /**
-     * Copy this secure random number generator (RNG).
-     */
-    SecureRandom(const SecureRandom& rhs);
+        /**
+         * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
+         */
+        static SecureRandom getInstance(const String& algorithm);
 
-    /**
-     * Assign this secure random number generator (RNG).
-     */
-    SecureRandom& operator=(const SecureRandom& rhs);
+        /**
+         * Constructs a secure random number generator (RNG) implementing the named
+         * random number algorithm if specified
+         */
+        explicit SecureRandom(const NarrowString& algorithm);
 
-    /**
-     * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
-     */
-    SecureByteArray generateSeed(unsigned int numBytes);
+        /**
+         * Constructs a secure random number generator (RNG) implementing the named
+         * random number algorithm if specified
+         */
+        explicit SecureRandom(const WideString& algorithm);
 
-    /**
-     * Returns the name of the algorithm implemented by this SecureRandom object.
-     */
-    NarrowString getAlgorithm() const;
+        /**
+         * Constructs a secure random number generator (RNG) implementing the default random number algorithm.
+         */
+        explicit SecureRandom(const byte* seed, size_t size);
 
-    /**
-     * Generates a user-specified number of random bytes.
-     */
-    void nextBytes(byte* bytes, size_t size);
+        /**
+         * Destroy this random number generator (RNG).
+         */
+        ~SecureRandom() { };
 
-    /**
-     * Reseeds this random object.
-     */
-    void setSeed(const byte seed[], size_t size);
+        /**
+         * Copy this secure random number generator (RNG).
+         */
+        SecureRandom(const SecureRandom& rhs);
 
-    /**
-     * Reseeds this random object, using the bytes contained in the given long seed.
-     */
-    void setSeed(int seed);
+        /**
+         * Assign this secure random number generator (RNG).
+         */
+        SecureRandom& operator=(const SecureRandom& rhs);
 
-  protected:
+        /**
+         * Returns the given number of seed bytes, computed using the seed generation algorithm that this class uses to seed itself.
+         */
+        SecureByteArray generateSeed(unsigned int numBytes);
 
-    /**
-     * Constructs a secure random number generator (RNG) from a SecureRandomBase implementation.
-     */
-    ESAPI_PRIVATE SecureRandom(SecureRandomBase* impl);
+        /**
+         * Returns the name of the algorithm implemented by this SecureRandom object.
+         */
+        NarrowString getAlgorithm() const;
 
-    /**
-     * Returns the security level associated with the SecureRandom object. Used
-     * by KeyGenerator to determine the appropriate key size for init.
-     */
-    ESAPI_PRIVATE unsigned int getSecurityLevel() const;
+        /**
+         * Generates a user-specified number of random bytes.
+         */
+        void nextBytes(byte* bytes, size_t size);
 
-    /**
-     * Retrieves the object level lock
-     */
-    ESAPI_PRIVATE inline Mutex& getObjectLock() const;
+        /**
+         * Reseeds this random object.
+         */
+        void setSeed(const byte seed[], size_t size);
 
-  private:
+        /**
+         * Reseeds this random object, using the bytes contained in the given long seed.
+         */
+        void setSeed(int seed);
 
-    /**
-     * Object level lock for concurrent access
-     */
-    mutable boost::shared_ptr<Mutex> m_lock;
+    protected:
 
-    /**
-     * Reference counted PIMPL.
-     */
-    boost::shared_ptr<SecureRandomBase> m_impl;
-  };  
+        /**
+         * Constructs a secure random number generator (RNG) from a SecureRandomBase implementation.
+         */
+        ESAPI_PRIVATE SecureRandom(SecureRandomBase* impl);
+
+        /**
+         * Returns the security level associated with the SecureRandom object. Used
+         * by KeyGenerator to determine the appropriate key size for init.
+         */
+        ESAPI_PRIVATE unsigned int getSecurityLevel() const;
+
+        /**
+         * Retrieves the object level lock
+         */
+        ESAPI_PRIVATE inline Mutex& getObjectLock() const;
+
+    private:
+
+        /**
+         * Object level lock for concurrent access
+         */
+        mutable boost::shared_ptr<Mutex> m_lock;
+
+        /**
+         * Reference counted PIMPL.
+         */
+        boost::shared_ptr<SecureRandomBase> m_impl;
+    };  
 
 }; // NAMESPACE esapi
 
