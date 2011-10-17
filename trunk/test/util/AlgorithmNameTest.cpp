@@ -433,3 +433,110 @@ BOOST_AUTO_TEST_CASE( AlgorithmName_113N )
 }
 #endif
 
+BOOST_AUTO_TEST_CASE( AlgorithmName_114N )
+{
+  try
+    {
+      AlgorithmName aa("AES128");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (15)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_115N )
+{
+  try
+    {
+      AlgorithmName aa("AES192");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (16)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_116N )
+{
+  try
+    {
+      AlgorithmName aa("AES256");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (17)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_117N )
+{
+  try
+    {
+      AlgorithmName aa("AES128/CBC/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (18)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_118N )
+{
+  try
+    {
+      AlgorithmName aa("AES192/CBC/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (19)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
+
+BOOST_AUTO_TEST_CASE( AlgorithmName_119N )
+{
+  try
+    {
+      AlgorithmName aa("AES256/CBC/PKCS5Padding");  
+      NarrowString alg = aa.algorithm();
+
+      BOOST_ERROR("Failed to catch malformed algorithm (20)");
+    }
+  catch(const NoSuchAlgorithmException&)
+    {
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+}
