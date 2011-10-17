@@ -291,18 +291,21 @@ namespace esapi
       mode = "ECB";
     else if(temp == "cbc")
       mode = "CBC";
-    else if(temp == "ccm")
-      mode = "CCM";
-    else if(temp == "gcm")
-      mode = "GCM";
-    else if(temp == "eax")
-      mode = "EAX";
     else if(temp == "ofb")
       mode = "OFB";
     else if(temp == "cfb")
       mode = "CFB";
     else if(temp == "ctr")
       mode = "CTR";
+#if 0
+    // Uncomment in the future
+    else if(temp == "ccm")
+      mode = "CCM";
+    else if(temp == "gcm")
+      mode = "GCM";
+    else if(temp == "eax")
+      mode = "EAX";
+#endif
 
     else {
       std::ostringstream oss;

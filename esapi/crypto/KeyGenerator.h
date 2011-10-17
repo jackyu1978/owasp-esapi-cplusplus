@@ -17,6 +17,7 @@
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
+#include "util/AlgorithmName.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 
@@ -108,13 +109,19 @@ namespace esapi
 
   private:
     /**
-     * A java like reference to a SecureRandom object, which will generate the bit stream.
+     * The name of the algorithm for which we are generating keys.
      */
-    SecureRandom m_random;
+    AlgorithmName m_algorithm;
 
     /**
-     * Size of the key to generate, in bits.
+     * Size of the key to generate, in bytes. Set by init().
      */
     unsigned int m_keyBytes;
+
+    /**
+     * A java like reference to a SecureRandom object, which will generate the bit stream.
+     * We use either the default generator, or the generator supplied in getInstance.
+     */
+    SecureRandom m_random;
   };
 }; // NAMESPACE esapi

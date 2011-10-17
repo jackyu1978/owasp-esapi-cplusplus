@@ -38,7 +38,8 @@ namespace esapi
   * Creates a KeyGenerator object.
   */
   KeyGenerator::KeyGenerator(const NarrowString& algorithmName)
-    : m_random(SecureRandom::getInstance(algorithmName)), m_keyBytes((unsigned)InvalidKeyBytes)
+    : m_algorithm(algorithmName), m_keyBytes((unsigned)InvalidKeyBytes),
+    m_random(SecureRandom::getInstance(SecureRandom::DefaultAlgorithm()))
   {
   }
 
@@ -46,7 +47,7 @@ namespace esapi
   * Copy a KeyGenerator object (SecureRandom is safe to copy).
   */
   KeyGenerator::KeyGenerator(const KeyGenerator& rhs)
-    : m_random(rhs.m_random), m_keyBytes(rhs.m_keyBytes)
+    : m_algorithm(rhs.m_algorithm), m_keyBytes(rhs.m_keyBytes), m_random(rhs.m_random)
   {
   }
 
@@ -57,20 +58,12 @@ namespace esapi
   {
     if(this != &rhs)
     {
-      m_random = rhs.m_random;
+      m_algorithm = rhs.m_algorithm;
       m_keyBytes = rhs.m_keyBytes;
+      m_random = rhs.m_random;      
     }
 
     return *this;
-  }
-
-  /**
-  * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
-  */
-  KeyGenerator KeyGenerator::getInstance(const String& algorithm)
-  {
-    ASSERT( !algorithm.empty() );
-    return KeyGenerator(TextConvert::WideToNarrow(algorithm));
   }
 
   /**
@@ -80,6 +73,15 @@ namespace esapi
   {
     ASSERT( !algorithm.empty() );
     return KeyGenerator(algorithm);
+  }
+
+  /**
+  * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
+  */
+  KeyGenerator KeyGenerator::getInstance(const String& algorithm)
+  {
+    ASSERT( !algorithm.empty() );
+    return KeyGenerator(TextConvert::WideToNarrow(algorithm));
   }
 
   /**
@@ -192,7 +194,10 @@ namespace esapi
     CryptoPP::SecByteBlock key(m_keyBytes);
     m_random.nextBytes(key.data(), key.size());
 
-    return SecretKey(m_random.getAlgorithm(), key);
+    NarrowString algorithm;
+    m_algorithm.getAlgorithm(algorithm);
+
+    return SecretKey(algorithm, key);
   }
 
 } // NAMESPACE esapi
