@@ -79,7 +79,9 @@ namespace esapi
     // "This class provides the functionality of a secret (symmetric) key generator."
     NarrowString cipher = kgen.getAlgorithm();
     if(cipher != "DES" && cipher != "DES_ede" && cipher != "Blowfish" && cipher != "AES" &&
-      cipher != "Camellia")
+      cipher != "Camellia" && cipher != "HmacSHA1" && cipher != "HmacSHA224" &&
+      cipher != "HmacSHA256" && cipher != "HmacSHA384"&& cipher != "HmacSHA512" &&
+      cipher != "HmacWhirlpool" )
     {
       throw NoSuchAlgorithmException(cipher + " KeyGenerator not available");
     }

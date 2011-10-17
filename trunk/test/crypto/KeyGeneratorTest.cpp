@@ -22,7 +22,6 @@ using std::cerr;
 using std::endl;
 
 #include "EsapiCommon.h"
-using esapi::Char;
 using esapi::String;
 
 #include <boost/shared_ptr.hpp>
@@ -46,17 +45,13 @@ void VerifyDesEdeKeyGenerator();
 void VerifyBlowfishKeyGenerator();
 void VerifyCamelliaKeyGenerator();
 
-// Hashes
-void VerifyShaKeyGenerator();
-void VerifyWhirlpoolKeyGenerator();
-
 // HMACs
 void VerifyHmacShaKeyGenerator();
 void VerifyHmacWhirlpoolKeyGenerator();
 
 void VerifyKey(KeyGenerator& kgen, size_t bytes);
 
-BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
+BOOST_AUTO_TEST_CASE( VerifyKeyGenerator )
 {
   BOOST_MESSAGE( "Verifying KeyGeneration class" );
 
@@ -64,9 +59,6 @@ BOOST_AUTO_TEST_CASE( VerifyKeyGeneration )
   //VerifyDesEdeKeyGenerator();
   //VerifyBlowfishKeyGenerator();
   //VerifyCamelliaKeyGenerator();
-
-  VerifyShaKeyGenerator();
-  VerifyWhirlpoolKeyGenerator();
 
   VerifyHmacShaKeyGenerator();
   VerifyHmacWhirlpoolKeyGenerator();
@@ -481,112 +473,6 @@ void VerifyBlowfishKeyGenerator()
   ///////////////////////////////////////////////////////////////////////
 
   alg = L"BlowFISH/OFB//Zero";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-}
-
-void VerifyShaKeyGenerator()
-{
-  BOOST_MESSAGE( " Verifying SHA" );
-
-  String alg;
-
-  ///////////////////////////////////////////////////////////////////////
-
-  alg = L"SHA1";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-
-  ///////////////////////////////////////////////////////////////////////
-
-  alg = L"SHA224";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-
-  ///////////////////////////////////////////////////////////////////////
-
-  alg = L"SHA256";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-
-  ///////////////////////////////////////////////////////////////////////
-
-  alg = L"SHA384";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-
-  ///////////////////////////////////////////////////////////////////////
-
-  alg = L"SHA512";
-
-  for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
-    {
-      KeyGenerator kg(KeyGenerator::getInstance(alg));
-
-      const unsigned int bits = KEY_SIZES[i];
-      const unsigned int bytes = (bits+7)/8;
-      kg.init(bits);
-
-      BOOST_MESSAGE( "Testing " << kg.getAlgorithm() << " (" << bits << ")" );
-      VerifyKeyGeneration(kg, bytes);
-    }
-}
-
-void VerifyWhirlpoolKeyGenerator()
-{
-  BOOST_MESSAGE( " Verifying Whirlpool" );
-
-  String alg = L"Whirlpool";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
