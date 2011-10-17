@@ -23,16 +23,32 @@ namespace esapi
   // Private to this module
   static void split(const std::string& str, const std::string& delim, std::vector<std::string>& parts);
 
-  AlgorithmName::AlgorithmName(const NarrowString& algorithm)
+  AlgorithmName::AlgorithmName(const NarrowString& algorithm, bool cipherOnly)
     : m_normal(normalizeAlgorithm(algorithm))
   {
     ASSERT( !algorithm.empty() );
+
+    // We'd prefer to throw in the ctor, but its a limitation, not a feature!
+    // Actually, we need to narmalize first (in case of throw), so maybe it is a feature.
+    NarrowString cipher;
+    getCipher(cipher);
+
+    if(cipherOnly && m_normal != cipher)
+      throw NoSuchAlgorithmException(m_normal + " not available");
   }
 
-  AlgorithmName::AlgorithmName(const WideString& algorithm)
+  AlgorithmName::AlgorithmName(const WideString& algorithm, bool cipherOnly)
     : m_normal(TextConvert::WideToNarrow(normalizeAlgorithm(algorithm)))
   {
     ASSERT( !algorithm.empty() );
+
+    // We'd prefer to throw in the ctor, but its a limitation, not a feature!
+    // Actually, we need to narmalize first (in case of throw), so maybe it is a feature.
+    NarrowString cipher;
+    getCipher(cipher);
+
+    if(cipherOnly && m_normal != cipher)
+      throw NoSuchAlgorithmException(m_normal + " not available");
   }
 
   AlgorithmName::AlgorithmName(const AlgorithmName& rhs)
