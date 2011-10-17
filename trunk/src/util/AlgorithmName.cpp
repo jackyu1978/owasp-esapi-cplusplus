@@ -187,7 +187,7 @@ namespace esapi
       throw NoSuchAlgorithmException("Invalid transformation format: '<empty>'");
 
     // An algorithm is either CIPHER or CIPHER/MODE/PADDING
-    if(parts.size() != 1 && parts.size() != 3)
+    if(!(parts.size() == 1 || parts.size() == 3))
       {
         std::ostringstream oss;
         oss << "Invalid transformation format: '" << trimmed << "'";
@@ -204,28 +204,12 @@ namespace esapi
 
     if(temp == "aes")
       alg = "AES";
-    else if(temp == "aes128")
-      alg = "AES128";
-    else if(temp == "aes192")
-      alg = "AES192";
-    else if(temp == "aes256")
-      alg = "AES256";
-
     else if(temp == "camellia")
       alg = "Camellia";
-    else if(temp == "camellia128")
-      alg = "Camellia128";
-    else if(temp == "camellia192")
-      alg = "Camellia192";
-    else if(temp == "camellia256")
-      alg = "Camellia256"; 
-
     else if(temp == "blowfish")
       alg = "Blowfish";
-
     else if(temp == "des_ede" || temp == "desede")
       alg = "DES_ede";
-
     else if(temp == "des")
       alg = "DES";
 
@@ -352,11 +336,10 @@ namespace esapi
     }
 
     // Final return string
-    NarrowString result(alg);
-    result += "/" + mode;
-    result += "/" + padding;
+    alg += "/" + mode;
+    alg += "/" + padding;
 
-    return result;
+    return alg;
   }
 
 } // NAMESPACE
