@@ -73,7 +73,18 @@ namespace esapi
   KeyGenerator KeyGenerator::getInstance(const NarrowString& algorithm)
   {
     ASSERT( !algorithm.empty() );
-    return KeyGenerator(algorithm);
+    KeyGenerator kgen(algorithm);
+
+    // http://download.oracle.com/javase/6/docs/api/javax/crypto/KeyGenerator.html
+    // "This class provides the functionality of a secret (symmetric) key generator."
+    NarrowString cipher = kgen.getAlgorithm();
+    if(cipher != "DES" && cipher != "DES_ede" && cipher != "Blowfish" && cipher != "AES" &&
+      cipher != "Camellia")
+    {
+      throw NoSuchAlgorithmException(cipher + " KeyGenerator not available");
+    }
+
+    return kgen;
   }
 
   /**
@@ -82,7 +93,7 @@ namespace esapi
   KeyGenerator KeyGenerator::getInstance(const String& algorithm)
   {
     ASSERT( !algorithm.empty() );
-    return KeyGenerator(TextConvert::WideToNarrow(algorithm));
+    return KeyGenerator::getInstance(TextConvert::WideToNarrow(algorithm));
   }
 
   /**
