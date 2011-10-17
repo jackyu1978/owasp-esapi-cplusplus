@@ -185,7 +185,10 @@ namespace esapi
   */
   NarrowString KeyGenerator::getAlgorithm() const
   {
-    return m_random.getAlgorithm();
+    NarrowString algorithm;
+    m_algorithm.getAlgorithm(algorithm);
+
+    return algorithm;
   }
 
   /**
