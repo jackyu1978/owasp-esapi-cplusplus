@@ -38,7 +38,7 @@ namespace esapi
   * Creates a KeyGenerator object.
   */
   KeyGenerator::KeyGenerator(const NarrowString& algorithmName)
-    : m_algorithm(algorithmName), m_keyBytes((unsigned)InvalidKeyBytes),
+    : m_algorithm(algorithmName, true), m_keyBytes((unsigned)InvalidKeyBytes),
     m_random(SecureRandom::getInstance(SecureRandom::DefaultAlgorithm()))
   {
   }
@@ -47,7 +47,8 @@ namespace esapi
   * Copy a KeyGenerator object (SecureRandom is safe to copy).
   */
   KeyGenerator::KeyGenerator(const KeyGenerator& rhs)
-    : m_algorithm(rhs.m_algorithm), m_keyBytes(rhs.m_keyBytes), m_random(rhs.m_random)
+    : m_algorithm(rhs.m_algorithm), m_keyBytes(rhs.m_keyBytes),
+    m_random(rhs.m_random)
   {
   }
 

@@ -43,12 +43,12 @@ namespace esapi
     /**
      * Construct an AlgorithmName object.
      */
-    explicit AlgorithmName(const NarrowString& algorithm);
+    explicit AlgorithmName(const NarrowString& algorithm, bool cipherOnly = false);
 
     /**
      * Construct an AlgorithmName object.
      */
-    explicit AlgorithmName(const WideString& algorithm);
+    explicit AlgorithmName(const WideString& algorithm, bool cipherOnly = false);
 
     /**
      * Destroy an AlgorithmName object.
