@@ -188,7 +188,7 @@ namespace esapi
           const NarrowString npattern(TextConvert::WideToNarrow(*it));
 		  const boost::regex nre(npattern);
 
-		  if(!boost::regex_match(ninput,nre)) {
+		  if(boost::regex_match(ninput,nre)) {
 			  StringStream userMessage;
 			  StringStream logMessage;
 			  userMessage << context << L": Invalid input. Dangerous input matching " << *it + L" detected.";
