@@ -32,8 +32,10 @@ using esapi::NarrowString;
 
 #include "reference/validation/StringValidationRule.h"
 #include "errors/ValidationException.h"
+#include "errors/IllegalArgumentException.h"
 using esapi::StringValidationRule;
 using esapi::ValidationException;
+using esapi::IllegalArgumentException;
 
 #include "util/TextConvert.h"
 using esapi::TextConvert;
@@ -72,14 +74,14 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 
 	validationRule.addWhitelistPattern(L"^[a-zA-Z]*");
 
-	/*
+
 	try {
 		validationRule.getValid(L"", L"Magnum44");
 		BOOST_FAIL(L"Expected Exception not thrown");
 	}
 	catch (ValidationException& ve) {
-		BOOST_CHECK(!ve.getContext().empty()); // should not be empty
-	}*/
+		BOOST_CHECK(ve.getLogMessage().compare("")!=0); // should not be empty
+	}
 
 
 	try {
@@ -90,64 +92,64 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 	}
 
 }
-/*
+
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 
-	StringValidationRule validationRule = new StringValidationRule(L"");
+	StringValidationRule validationRule(L"");
 
 	//null white list patterns throw IllegalArgumentException
 	try {
-		String pattern = null;
+		String pattern = L"";
 		validationRule.addWhitelistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
-	}
-	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
+		BOOST_FAIL("Expected Exception not thrown");
+	} catch (IllegalArgumentException& ie) {
+		BOOST_CHECK(!ie.getUserMessage().empty());
 	}
 
-	try {
-		java.util.regex.Pattern pattern = null;
-		validationRule.addWhitelistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
-	}
-	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
-	}
-
+	/*
 	//invalid white list patterns throw PatternSyntaxException
 	try {
-		String pattern = "_][0}[";
+		String pattern = L"_][0}[";
 		validationRule.addWhitelistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
+		BOOST_FAIL("Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
+		//Assert.assertNotNull(ie.getMessage());
 	}
+	*/
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelist){
-	StringValidationRule validationRule = new StringValidationRule(L"");
+	StringValidationRule validationRule(L"");
 
-	char[] whitelistArray = new char[] {'a', 'b', 'c'};
-	Assert.assertEquals(L"abc", validationRule.whitelist(L"12345abcdef", whitelistArray));
+	std::set<Char> whitelistArray;
+	whitelistArray.insert(L'a');
+	whitelistArray.insert(L'b');
+	whitelistArray.insert(L'c');
+
+	BOOST_CHECK(validationRule.whitelist(L"12345abcdef", whitelistArray).compare(L"abc")==0);
 }
+
 
 BOOST_AUTO_TEST_CASE( StringValidationRuleTestBlacklistPattern) {
 
-	StringValidationRule validationRule = new StringValidationRule(L"NoAngleBrackets");
+	StringValidationRule validationRule(L"NoAngleBrackets");
 
-	Assert.assertEquals(L"beg <script> end", validationRule.getValid(L"", L"beg <script> end"));
+	BOOST_CHECK(validationRule.getValid(L"", L"beg <script> end").compare(L"beg <script> end")==0);
+
 	validationRule.addBlacklistPattern(L"^.*(<|>).*");
+
 	try {
 		validationRule.getValid(L"", L"beg <script> end");
-		Assert.fail(L"Expected Exception not thrown");
+		BOOST_FAIL("Expected Exception not thrown");
 	}
-	catch (ValidationException ve) {
-		Assert.assertNotNull(ve.getMessage());
+	catch (ValidationException &ve) {
+		BOOST_CHECK(!ve.getUserMessage().empty());
 	}
-	Assert.assertEquals(L"beg script end", validationRule.getValid(L"", L"beg script end"));
+	BOOST_CHECK(validationRule.getValid(L"", L"beg script end").compare(L"beg script end")==0);
 }
 
+/*
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 
 	StringValidationRule validationRule = new StringValidationRule(L"");
