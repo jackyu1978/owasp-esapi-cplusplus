@@ -124,13 +124,22 @@ namespace esapi
 		  throw IllegalArgumentException("Pattern cannot be null");
 	  }
 
+	  // test the pattern
+	  NarrowString npattern = TextConvert::WideToNarrow(pattern);
+	  const boost::regex nre(npattern);
+
 	  this->whitelistPatterns.insert(pattern);
+
   }
 
   void StringValidationRule::addBlacklistPattern(const String &pattern) {
 	  if (pattern.compare(L"")==0) {
 		  throw IllegalArgumentException("Pattern cannot be null");
 	  }
+
+	  // test the pattern
+	  NarrowString npattern = TextConvert::WideToNarrow(pattern);
+	  const boost::regex nre(npattern);
 
 	  this->blacklistPatterns.insert(pattern);
   }

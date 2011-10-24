@@ -106,17 +106,20 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelistPattern_Invalid) {
 		BOOST_CHECK(!ie.getUserMessage().empty());
 	}
 
-	/*
+
 	//invalid white list patterns throw PatternSyntaxException
 	try {
 		String pattern = L"_][0}[";
 		validationRule.addWhitelistPattern(pattern);
+
+		//validationRule.getValid(L"", L"test");
+
 		BOOST_FAIL("Expected Exception not thrown");
 	}
-	catch (IllegalArgumentException ie) {
-		//Assert.assertNotNull(ie.getMessage());
+	catch (std::exception &e) {
+		BOOST_CHECK(e.what()!=0);
 	}
-	*/
+
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestWhitelist){
@@ -149,41 +152,32 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestBlacklistPattern) {
 	BOOST_CHECK(validationRule.getValid(L"", L"beg script end").compare(L"beg script end")==0);
 }
 
-/*
+
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 
-	StringValidationRule validationRule = new StringValidationRule(L"");
+	StringValidationRule validationRule(L"");
 
 	//null black list patterns throw IllegalArgumentException
 	try {
-		String pattern = null;
+		String pattern = L"";
 		validationRule.addBlacklistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
+		BOOST_FAIL(L"Expected Exception not thrown");
 	}
-	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
-	}
-
-	try {
-		java.util.regex.Pattern pattern = null;
-		validationRule.addBlacklistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
-	}
-	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
+	catch (IllegalArgumentException &ie) {
+		BOOST_CHECK(!ie.getUserMessage().empty());
 	}
 
 	//invalid black list patterns throw PatternSyntaxException
-	try {
+	/*try {
 		String pattern = "_][0}[";
 		validationRule.addBlacklistPattern(pattern);
 		Assert.fail(L"Expected Exception not thrown");
 	}
 	catch (IllegalArgumentException ie) {
 		Assert.assertNotNull(ie.getMessage());
-	}
+	}*/
 }
-
+/*
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestCheckLengths) {
 
 	StringValidationRule validationRule = new StringValidationRule(L"Max12_Min2");
