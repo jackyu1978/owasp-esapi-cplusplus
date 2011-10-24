@@ -106,7 +106,8 @@ namespace esapi
 	  ASSERT(&errorList);
 	  if (&errorList==nullptr) throw NullPointerException("errorList has null pointer");
 
-	  String valid;
+	  String valid = L"";
+
 	  try {
 		  valid = this->getValid( context, input );
 	  } catch (ValidationException &e) {

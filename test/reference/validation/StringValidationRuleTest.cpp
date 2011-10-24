@@ -33,6 +33,8 @@ using esapi::NarrowString;
 #include "reference/validation/StringValidationRule.h"
 #include "errors/ValidationException.h"
 #include "errors/IllegalArgumentException.h"
+#include "ValidationErrorList.h"
+using esapi::ValidationErrorList;
 using esapi::StringValidationRule;
 using esapi::ValidationException;
 using esapi::IllegalArgumentException;
@@ -168,46 +170,46 @@ BOOST_AUTO_TEST_CASE(StringValidationRuleTestBlacklistPattern_Invalid) {
 	}
 
 	//invalid black list patterns throw PatternSyntaxException
-	/*try {
-		String pattern = "_][0}[";
+	try {
+		String pattern = L"_][0}[";
 		validationRule.addBlacklistPattern(pattern);
-		Assert.fail(L"Expected Exception not thrown");
+		BOOST_FAIL(L"Expected Exception not thrown");
 	}
-	catch (IllegalArgumentException ie) {
-		Assert.assertNotNull(ie.getMessage());
-	}*/
+	catch (std::exception &e) {
+		BOOST_CHECK(e.what()!=0);
+	}
 }
-/*
+
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestCheckLengths) {
 
-	StringValidationRule validationRule = new StringValidationRule(L"Max12_Min2");
+	StringValidationRule validationRule(L"Max12_Min2");
 	validationRule.setMinimumLength(2);
 	validationRule.setMaximumLength(12);
 
-	Assert.assertTrue(validationRule.isValid(L"", L"12"));
-	Assert.assertTrue(validationRule.isValid(L"", L"123456"));
-	Assert.assertTrue(validationRule.isValid(L"", L"ABCDEFGHIJKL"));
+	BOOST_CHECK(validationRule.isValid(L"", L"12"));
+	BOOST_CHECK(validationRule.isValid(L"", L"123456"));
+	BOOST_CHECK(validationRule.isValid(L"", L"ABCDEFGHIJKL"));
 
-	Assert.assertFalse(validationRule.isValid(L"", L"1"));
-	Assert.assertFalse(validationRule.isValid(L"", L"ABCDEFGHIJKLM"));
+	BOOST_CHECK(!validationRule.isValid(L"", L"1"));
+	BOOST_CHECK(!validationRule.isValid(L"", L"ABCDEFGHIJKLM"));
 
-	ValidationErrorList errorList = new ValidationErrorList();
-	Assert.assertEquals(L"1234567890", validationRule.getValid(L"", L"1234567890", errorList));
-	Assert.assertEquals(0, errorList.size());
-	Assert.assertEquals(null, validationRule.getValid(L"", L"123456789012345", errorList));
-	Assert.assertEquals(1, errorList.size());
+	ValidationErrorList errorList;
+	BOOST_CHECK(validationRule.getValid(L"", L"1234567890", errorList).compare(L"1234567890")==0);
+	BOOST_CHECK(errorList.size()==0);
+	BOOST_CHECK(validationRule.getValid(L"test", L"123456789012345", errorList).compare(L"")==0);
+	BOOST_CHECK(errorList.size()==1);
 }
 
 BOOST_AUTO_TEST_CASE(StringValidationRuleTestAllowNull) {
 
-	StringValidationRule validationRule = new StringValidationRule(L"");
+	StringValidationRule validationRule(L"");
 
-	Assert.assertFalse(validationRule.isAllowNull());
-	Assert.assertFalse(validationRule.isValid(L"", null));
+	BOOST_CHECK(!validationRule.isAllowNull());
+	BOOST_CHECK(!validationRule.isValid(L"", L""));
 
 	validationRule.setAllowNull(true);
-	Assert.assertTrue(validationRule.isAllowNull());
-	Assert.assertTrue(validationRule.isValid(L"", null));
-}*/
+	BOOST_CHECK(validationRule.isAllowNull());
+	BOOST_CHECK(validationRule.isValid(L"", L""));
+}
 
 #endif // !defined(_GLIBCXX_DEBUG)
