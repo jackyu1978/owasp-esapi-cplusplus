@@ -167,12 +167,8 @@ endif
 # http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
 # http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
 ifeq ($(GCC41_OR_LATER),1)
-  ifeq ($(WANT_DEBUG),1)
     override CXXFLAGS += -D_FORTIFY_SOURCE=2
     override CXXFLAGS += -fstack-protector-all
-  else
-    override CXXFLAGS += -fstack-protector
-  endif  
 endif
 
 # -Wstrict-overflow: http://www.airs.com/blog/archives/120
