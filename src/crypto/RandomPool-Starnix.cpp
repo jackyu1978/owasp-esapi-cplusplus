@@ -67,7 +67,7 @@ namespace esapi
 
     size_t rem /*remaining*/ = ksize;
     size_t idx = 0;
-    int ret  = 0;
+    ssize_t ret  = 0;
 
     // First try the random pool
     {
@@ -132,7 +132,7 @@ namespace esapi
           ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");
           if( !(fd > 0) ) break; /* Failed */
 
-          int ret = read(fd, key+idx, rem);
+          ssize_t ret = read(fd, key+idx, rem);
           ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chunk from /dev/urandom");
           if( (unsigned int)ret != rem ) break; /* Failed */
 

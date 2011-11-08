@@ -484,8 +484,8 @@ BOOST_AUTO_TEST_CASE( VerifySecureIntArray )
     {
       success = false;
       SecureIntArray vv;
-      byte p = vv.at(0);
-      ((void)p);
+      int i = vv.at(0);
+      ((void)i);
     }
   catch(std::exception&)
     {

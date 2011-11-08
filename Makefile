@@ -151,7 +151,7 @@ endif
 # -fwrapv: no way around that damn optimizer, see http://www.airs.com/blog/archives/120.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
-  override CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder
+  override CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
   override CXXFLAGS += -fwrapv -Wformat=2 -Wformat-security
   override CXXFLAGS += -Wno-unused
 #  Too much Boost noise
