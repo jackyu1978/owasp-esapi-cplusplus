@@ -111,7 +111,7 @@ void VerifyKeyGeneration(KeyGenerator& kgen, size_t bytes)
   bool success = false;
   try
     {      
-      kgen.init( (bytes * 3 / 2) * 8);
+      kgen.init((unsigned int)((bytes * 3 / 2) * 8));
       success = true;
     }
   catch(...)
