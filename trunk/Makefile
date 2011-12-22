@@ -236,6 +236,8 @@ CODECSRCS =	src/codecs/Codec.cpp \
 			src/codecs/HTMLEntityCodec.cpp \
 			src/codecs/UnixCodec.cpp \
 			src/codecs/WindowsCodec.cpp \
+			src/codecs/DB2Codec.cpp \
+			src/codecs/MySQLCodec.cpp \
 			src/codecs/LDAPCodec.cpp 
 
 CRYPTOSRCS = src/crypto/PlainText.cpp \
@@ -283,6 +285,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/PushbackStringTest.cpp \
 			test/codecs/HTMLEntityCodecTest.cpp \
 			test/codecs/LDAPCodecTest.cpp \
+			test/codecs/MySQLCodecTest.cpp \
 			test/codecs/UnixCodecTest.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherSpecTest.cpp \
