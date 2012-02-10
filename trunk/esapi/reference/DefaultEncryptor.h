@@ -38,7 +38,9 @@ namespace esapi
      * then the user provided salt, and finally the password. The digested data is rehashed the specified number of iterations
      * in order to help strengthen weak passwords. Internally, the plainText and Salt are converted to UTF-8 strings.
      */
-    virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations()) const;
+    // orig 2012.01.29 jAHOLMES  (inexact match class still abstract)
+    // virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations()) const;
+    virtual String hash(const String& plainText, const String &salt, unsigned int iterations = 4096 ) const;
 
     virtual CipherText encrypt(const PlainText& plainText) const;
 
@@ -64,7 +66,9 @@ namespace esapi
       return false;
     }
 
-    virtual String seal(const String &, long) const
+    // orig 2012.01.29 jAHOLMES  (inexact match class still abstract)
+    // virtual String seal(const String &, long) const
+    virtual String seal(const String &, time_t) const
     {
       return String();
     }
@@ -79,7 +83,9 @@ namespace esapi
       return false;
     }
 
-    virtual long getRelativeTimeStamp(long /*timeStamp*/) const
+    // orig 2012.01.29 jAHOLMES  (inexact match class still abstract)
+    // virtual long getRelativeTimeStamp(long /*timeStamp*/) const
+    virtual long getRelativeTimeStamp(time_t /*timeStamp*/) const
     {
       return 0;
     }

@@ -13,7 +13,17 @@
  * @author Andrew Durkin, atdurkin@gmail.com
  */
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -142,6 +152,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_5N)
     }
   catch(const IllegalArgumentException& ex)
     {
+        UNUSED_VARIABLE(ex);
     }
   catch(const std::exception& ex)
     {
@@ -166,6 +177,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_6N)
     }
   catch(const IllegalArgumentException& ex)
     {
+        UNUSED_VARIABLE(ex);
     }
   catch(const std::exception& ex)
     {
@@ -190,6 +202,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_7N)
     }
   catch(const IllegalArgumentException& ex)
     {
+        UNUSED_VARIABLE(ex);
     }
   catch(const std::exception& ex)
     {
@@ -214,6 +227,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_8N)
     }
   catch(const IllegalArgumentException& ex)
     {
+        UNUSED_VARIABLE(ex);
     }
   catch(const std::exception& ex)
     {
@@ -235,6 +249,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_9N)
     }
   catch(const IllegalArgumentException& ex)
     {
+        UNUSED_VARIABLE(ex);
     }
   catch(const std::exception& ex)
     {

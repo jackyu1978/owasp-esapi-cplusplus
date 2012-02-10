@@ -12,7 +12,17 @@
 
 #include <iostream>
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -23,16 +33,36 @@ using esapi::String;
 #include "codecs/PushbackString.h"
 using esapi::PushbackString;
 
+
+class  esapi::TEST_ASSISTANT_CLASS( PushbackString )
+{
+public:
+    static String GetInput( PushbackString & pbs )
+    {
+        return pbs.input;
+    }
+
+    static void SetInput( PushbackString & pbs, String & str )
+    {
+        pbs.input = str;
+    }
+};
+ 
+
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 {
   PushbackString pbs(L"asdf");
 
   BOOST_CHECK(pbs.index() == 0);
-  BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
+  // original 2012.01.29 jAH
+  // BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
+  BOOST_CHECK( (esapi::TEST_ASSISTANT_CLASS( PushbackString )::GetInput( pbs )).compare(L"asdf") == 0 );
   BOOST_CHECK(pbs.hasNext());
 
-  pbs.input = L"";
+  // original 2012.01.29 jAHOLMES
+  // pbs.input = L"";
+  esapi::TEST_ASSISTANT_CLASS( PushbackString )::SetInput( pbs, String( L"" ) );
   BOOST_CHECK(pbs.hasNext() == false);
 }
 #endif
@@ -116,7 +146,9 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
   BOOST_CHECK_MESSAGE(next == L'1', "nextOctal() on 'asdf' returned '" << next << "'");
   BOOST_CHECK(next != 0);
 
-  pbs.input = L"9999";
+  // original 2012.01.29 jAHOLMES
+  // pbs.input = L"9999";
+  esapi::TEST_ASSISTANT_CLASS( PushbackString )::SetInput( pbs, String( L"9999" ) );
   next = pbs.nextOctal();
   BOOST_CHECK(next == 0);
 }
