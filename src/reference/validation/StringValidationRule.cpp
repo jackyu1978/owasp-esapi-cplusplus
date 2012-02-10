@@ -22,7 +22,13 @@
 #include <limits.h>
 #include <sstream>
 
-#define BOOST_REGEX_DYN_LINK
+#if defined(_WIN32)
+    #if defined(_WINDLL)
+        #define BOOST_REGEX_DYN_LINK
+    #endif
+#else
+    #define BOOST_REGEX_DYN_LINK
+#endif
 #include <boost/regex.hpp>
 
 namespace esapi

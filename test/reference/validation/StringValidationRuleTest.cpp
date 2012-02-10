@@ -11,7 +11,17 @@
  *
  */
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -42,6 +52,33 @@ using esapi::IllegalArgumentException;
 #include "util/TextConvert.h"
 using esapi::TextConvert;
 
+
+class  esapi::TEST_ASSISTANT_CLASS( StringValidationRule )
+{
+public:
+
+    static String checkEmpty(StringValidationRule &svr, const String &context, const String &input) 
+    {
+        return svr.checkEmpty( context, input );
+    }
+
+	static String checkLength(StringValidationRule &svr, const String & context, const String & input)
+    {
+        return svr.checkLength( context, input );
+    }
+
+	static String checkBlacklist(StringValidationRule &svr, const String & context, const String & input)
+    {
+        return svr.checkBlacklist( context, input );
+    }
+
+	static String checkWhitelist(StringValidationRule &svr, const String & context, const String & input)
+    {
+        return svr.checkWhitelist( context, input );
+    }
+
+};
+
 // ABI Compatibility problem
 #if !defined(_GLIBCXX_DEBUG)
 
@@ -57,13 +94,21 @@ BOOST_AUTO_TEST_CASE( StringValidationRuleTestWhitelistPattern) {
 	validationRule.setValidateInputAndCanonical(false);
 
 #if !defined(ESAPI_BUILD_RELEASE)
-	BOOST_CHECK(validationRule.checkEmpty(L"", L"asdf").compare(L"asdf")==0);
+    // original 2012.01.29 jAHOLMES
+	// BOOST_CHECK(validationRule.checkEmpty(L"", L"asdf").compare(L"asdf")==0);
+    BOOST_CHECK( esapi::TEST_ASSISTANT_CLASS( StringValidationRule )::checkEmpty( validationRule, String(L""), String(L"asdf")).compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkLength(L"", L"asdf").compare(L"asdf")==0);
+    // original 2012.01.29 jAHOLMES
+	// BOOST_CHECK(validationRule.checkLength(L"", L"asdf").compare(L"asdf")==0);
+    BOOST_CHECK( esapi::TEST_ASSISTANT_CLASS( StringValidationRule )::checkLength( validationRule, String(L""), String(L"asdf")).compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkWhitelist(L"", L"asdf").compare(L"asdf")==0);
+    // original 2012.01.29 jAHOLMES
+	// BOOST_CHECK(validationRule.checkWhitelist(L"", L"asdf").compare(L"asdf")==0);
+    BOOST_CHECK( esapi::TEST_ASSISTANT_CLASS( StringValidationRule )::checkWhitelist( validationRule, String(L""), String(L"asdf")).compare(L"asdf")==0);
 
-	BOOST_CHECK(validationRule.checkBlacklist(L"", L"asdf").compare(L"asdf")==0);
+    // original 2012.01.29 jAHOLMES
+	// BOOST_CHECK(validationRule.checkBlacklist(L"", L"asdf").compare(L"asdf")==0);
+    BOOST_CHECK( esapi::TEST_ASSISTANT_CLASS( StringValidationRule )::checkBlacklist( validationRule, String(L""), String(L"asdf")).compare(L"asdf")==0);
 #endif
 
 	try {

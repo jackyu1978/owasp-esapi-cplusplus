@@ -12,7 +12,17 @@
  * @author David Anderson, david.anderson@aspectsecurity.com
  */
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -43,7 +53,9 @@ using esapi::MessageDigest;
 #include "util/TextConvert.h"
 using esapi::TextConvert;
 
+#if defined(ESAPI_OS_STARNIX)
 #include <pthread.h>
+#endif
 #include <errno.h>
 
 static void* WorkerThreadProc(void* param);
@@ -57,7 +69,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_1P )
 
   try
     {    
-      MessageDigest md00();
+      MessageDigest md00;
       success = true;
     }
   catch(const std::exception& ex)
@@ -239,6 +251,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_9N )
     }
   catch(IllegalArgumentException& ex)
     {
+      UNUSED_VARIABLE( ex );
       success = true;
     }
   catch(const std::exception& ex)
@@ -265,6 +278,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_10N )
     }
   catch(EncryptionException& ex)
     {
+      UNUSED_VARIABLE( ex );
       success = true;
     }
   catch(const std::exception& ex)
@@ -313,6 +327,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_12N )
     }
   catch(EncryptionException& ex)
     {
+      UNUSED_VARIABLE( ex );
       success = true;
     }
   catch(const std::exception& ex)
@@ -340,6 +355,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_13N )
     }
   catch(IllegalArgumentException& ex)
     {
+      UNUSED_VARIABLE( ex );
       success = true;
     }
   catch(const std::exception& ex)
@@ -367,6 +383,7 @@ BOOST_AUTO_TEST_CASE( VerifyMessageDigest_14N )
     }
   catch(IllegalArgumentException& ex)
     {
+      UNUSED_VARIABLE( ex );
       success = true;
     }
   catch(const std::exception& ex)

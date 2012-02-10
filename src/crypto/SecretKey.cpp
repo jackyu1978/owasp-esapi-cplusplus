@@ -31,7 +31,14 @@ namespace esapi
     if(sizeInBytes)
     {
       SecureRandom prng = SecureRandom::getInstance(alg);
+#if ( CRYPTOPP_VERSION == 530 )
+      byte * bPtr = (m_secBlock);
+      prng.nextBytes( bPtr, m_secBlock.SizeInBytes());
+#elif ( CRYPTOPP_VERSION == 561 )
       prng.nextBytes(m_secBlock.BytePtr(), m_secBlock.SizeInBytes());
+#else
+    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
+#endif
     }
   }
 
@@ -115,8 +122,15 @@ namespace esapi
 
   const byte* SecretKey::BytePtr() const
   {
-    ASSERT(m_secBlock.BytePtr());
-    return m_secBlock.BytePtr();
+#if ( CRYPTOPP_VERSION == 530 )
+      ASSERT( m_secBlock != (byte *)NULL );
+      return m_secBlock;
+#elif ( CRYPTOPP_VERSION == 561 )
+      ASSERT((m_secBlock.BytePtr());
+      return m_secBlock.BytePtr();
+#else
+    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
+#endif
   }
 
   size_t SecretKey::sizeInBytes() const
@@ -133,9 +147,18 @@ namespace esapi
     // Using an insecure 'hex' string (it does not zeroize). We could switch to a
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
+
+#if ( CRYPTOPP_VERSION == 530 )
+    CryptoPP::StringSource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
+        new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+        );
+#elif ( CRYPTOPP_VERSION == 561 )
     CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
-      new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-    );
+        new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
+        );
+#else
+    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
+#endif
 
     return (os << hex);
   }

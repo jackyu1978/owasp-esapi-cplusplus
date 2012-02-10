@@ -216,7 +216,13 @@ namespace esapi
 
         // Though we continually call TruncatedFinal, we are retrieving a
         // full block except for possibly the last block
+#if ( CRYPTOPP_VERSION == 530 )
+        hmac.TruncatedFinal(derived+idx, req);
+#elif ( CRYPTOPP_VERSION == 561 )
         hmac.TruncatedFinal(derived.BytePtr()+idx, req);
+#else
+    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
+#endif
 
         idx += req;
         keySize -= req;        

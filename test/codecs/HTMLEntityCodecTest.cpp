@@ -13,7 +13,17 @@
  *
  */
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -38,6 +48,17 @@ using esapi::TextConvert;
 static const unsigned int THREAD_COUNT = 64;
 static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
+
+
+class  esapi::TEST_ASSISTANT_CLASS( HTMLEntityCodec )
+{
+public:
+    static const std::map<Char, String>& Test_getCharacterToEntityMap( )
+    {
+        return HTMLEntityCodec::getCharacterToEntityMap();
+    }
+};
+ 
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_1P)
 {
@@ -279,9 +300,6 @@ BOOST_AUTO_TEST_CASE( HTMLEntityCodecTest_13P )
 void DoWorkerThreadStuff()
 {
 }
-void* WorkerThreadProc(void* param)
-{
-}
 #elif defined(ESAPI_OS_STARNIX)
 void DoWorkerThreadStuff()
 {
@@ -321,7 +339,9 @@ void* WorkerThreadProc(void* param)
 #endif
 
 #if !defined(ESAPI_BUILD_RELEASE)
-  const std::map<Char,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
+  // orig 2012.01.25 jAHOLMES
+  // const std::map<Char,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
+  const std::map<Char,String>& characterToEntityMap = esapi::TEST_ASSISTANT_CLASS( HTMLEntityCodec )::Test_getCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
 #endif
 

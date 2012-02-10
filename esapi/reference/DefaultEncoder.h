@@ -23,6 +23,7 @@
 #include "errors/EncodingException.h"
 #include <list>
 #include <string>
+#include <set>
 
 namespace esapi {
 /**

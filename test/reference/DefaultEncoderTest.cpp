@@ -11,7 +11,17 @@
  *
  */
 
-#define BOOST_TEST_DYN_LINK
+#if defined(_WIN32)
+    #if defined(STATIC_TEST)
+        // do not enable BOOST_TEST_DYN_LINK
+    #elif defined(DLL_TEST)
+        #define BOOST_TEST_DYN_LINK
+    #else
+        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
+    #endif
+#else
+    #define BOOST_TEST_DYN_LINK
+#endif
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -23,9 +33,6 @@ using std::endl;
 #include "EsapiCommon.h"
 using esapi::Char;
 using esapi::String;
-
-#include <map>
-#include <set>
 
 #include "reference/DefaultEncoder.h"
 #include "codecs/Codec.h"
@@ -39,7 +46,10 @@ using boost::shared_ptr;
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 {
-	esapi::DefaultEncoder de;
+    // original 2012.01.29 jAHOLMES
+	// esapi::DefaultEncoder de;
+    esapi::Encoder & de = const_cast<esapi::Encoder &>( esapi::DefaultEncoder::getInstance() );
+
 	shared_ptr<UnixCodec>uc1(new esapi::UnixCodec);
 
 	String encoded = de.encodeForOS(uc1.get(), L"asdf<");
@@ -48,7 +58,9 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	shared_ptr<UnixCodec>uc2(new esapi::UnixCodec);
 	BOOST_CHECK(de.encodeForOS(uc2.get(), L"sdf:ff").compare(L"sdf\\:ff")==0);
 
-	encoded = de.encodeForBase64(L"asdf");
+    // original 2012.01.29 jAHOLMES
+	// encoded = de.encodeForBase64(L"asdf");
+	encoded = de.encodeForBase64(L"asdf", false);
 	BOOST_CHECK(encoded.compare(L"YXNkZg==") == 0); //base64 value of `asdf`
 	BOOST_CHECK(de.decodeFromBase64(encoded).compare(L"asdf")==0);
 

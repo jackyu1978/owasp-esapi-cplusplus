@@ -27,7 +27,11 @@
 
 /* Intel Chipset CSP name */
 #if !defined(INTEL_DEF_PROV)
+#if defined(UNICODE)
 # define INTEL_DEF_PROV        L"Intel Hardware Cryptographic Service Provider"
+#else
+# define INTEL_DEF_PROV        "Intel Hardware Cryptographic Service Provider"
+#endif
 #endif // INTEL_DEF_PROV
 
 namespace esapi

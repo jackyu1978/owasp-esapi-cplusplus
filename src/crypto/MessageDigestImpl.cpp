@@ -29,7 +29,15 @@ namespace esapi
     ASSERT( !algorithm.empty() );
 
     if(algorithm == "MD5")
+    {
+#if ( CRYPTOPP_VERSION == 530 )
+      return new MessageDigestImpl<CryptoPP::MD5>(algorithm);
+#elif ( CRYPTOPP_VERSION == 561 )
       return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
+#else
+    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
+#endif
+    }
 
     if(algorithm == "SHA-1")
       return new MessageDigestImpl<CryptoPP::SHA1>(algorithm);
@@ -398,7 +406,7 @@ namespace esapi
   }
 
   // Explicit instantiations
-  template class MessageDigestImpl<CryptoPP::Weak::MD5>;
+  template class MessageDigestImpl<CryptoPP::MD5>;
   template class MessageDigestImpl<CryptoPP::SHA1>;
   template class MessageDigestImpl<CryptoPP::SHA224>;
   template class MessageDigestImpl<CryptoPP::SHA256>;
