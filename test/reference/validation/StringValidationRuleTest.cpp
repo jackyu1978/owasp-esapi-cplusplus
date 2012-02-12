@@ -53,7 +53,7 @@ using esapi::IllegalArgumentException;
 using esapi::TextConvert;
 
 
-class  esapi::TEST_ASSISTANT_CLASS( StringValidationRule )
+class TEST_ASSISTANT_CLASS( StringValidationRule )
 {
 public:
 

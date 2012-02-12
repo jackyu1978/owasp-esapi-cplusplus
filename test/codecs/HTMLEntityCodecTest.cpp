@@ -50,7 +50,7 @@ static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
 
 
-class  esapi::TEST_ASSISTANT_CLASS( HTMLEntityCodec )
+class TEST_ASSISTANT_CLASS( HTMLEntityCodec )
 {
 public:
     static const std::map<Char, String>& Test_getCharacterToEntityMap( )
