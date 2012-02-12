@@ -325,8 +325,8 @@ ARFLAGS = 	-rcs
 
 ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# No heap or statck exec (this is a best effort, PaX might ignore)
-# http://linux.die.net/man/8/execstack
+# No-exec the heap and the stack (this is a best effort, the kernel or PaX might ignore)
+# PT_GNU_HEAP is a Gentoo extension. Also see http://www.airs.com/blog/archives/518
 ifeq ($(GNU_LD210_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,-z,noexecstack -Wl,-z,noexecheap
 endif
