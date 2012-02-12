@@ -20,22 +20,22 @@
 namespace esapi
 {
   SecretKey::SecretKey(const NarrowString& alg,
-    const size_t sizeInBytes,
+    const size_t size,
     const NarrowString& format)
-    : m_algorithm(alg), m_secBlock(sizeInBytes), m_format(format)
+    : m_algorithm(alg), m_secBlock(size), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
     ASSERT( m_secBlock.size() );
     ASSERT( !m_format.empty() );
 
-    if(sizeInBytes)
+    if(size)
     {
       SecureRandom prng = SecureRandom::getInstance(alg);
 #if ( CRYPTOPP_VERSION == 530 )
       byte * bPtr = (m_secBlock);
-      prng.nextBytes( bPtr, m_secBlock.SizeInBytes());
+      prng.nextBytes( bPtr, m_secBlock.size());
 #elif ( CRYPTOPP_VERSION == 561 )
-      prng.nextBytes(m_secBlock.BytePtr(), m_secBlock.SizeInBytes());
+      prng.nextBytes(m_secBlock.data(), m_secBlock.size());
 #else
     #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
 #endif
@@ -122,21 +122,14 @@ namespace esapi
 
   const byte* SecretKey::BytePtr() const
   {
-#if ( CRYPTOPP_VERSION == 530 )
-      ASSERT( m_secBlock != (byte *)NULL );
-      return m_secBlock;
-#elif ( CRYPTOPP_VERSION == 561 )
-      ASSERT((m_secBlock.BytePtr());
-      return m_secBlock.BytePtr();
-#else
-    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
-#endif
+      ASSERT(m_secBlock.data());
+      return m_secBlock.data();
   }
 
   size_t SecretKey::sizeInBytes() const
   {
-    ASSERT(m_secBlock.SizeInBytes());
-    return m_secBlock.SizeInBytes();
+    ASSERT(m_secBlock.size());
+    return m_secBlock.size();
   }
 
   bool operator==(const SecretKey& lhs, const SecretKey& rhs) { return lhs.m_secBlock == rhs.m_secBlock; }
@@ -148,17 +141,9 @@ namespace esapi
     // SecByteBlock and ArraySink, but the std::ostream would still be insecure.
     std::string hex;
 
-#if ( CRYPTOPP_VERSION == 530 )
     CryptoPP::StringSource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
         new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-        );
-#elif ( CRYPTOPP_VERSION == 561 )
-    CryptoPP::ArraySource(rhs.BytePtr(), rhs.sizeInBytes(), true, /* don't buffer */
-        new CryptoPP::HexEncoder( new CryptoPP::StringSink(hex) )
-        );
-#else
-    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
-#endif
+    );
 
     return (os << hex);
   }
