@@ -361,15 +361,16 @@ ifeq ($(IS_BSD),1)
 endif
 
 # Merge ESAPI flags with user supplied flags.
+override CFLAGS += $(ESAPI_CXXFLAGS)
 override CXXFLAGS += $(ESAPI_CXXFLAGS)
 override LDFLAGS += $(ESAPI_LDFLAGS)
 
-TESTCXXFLAGS += $(CPPFLAGS) $(CXXFLAGS)
-TESTLDFLAGS	+= -L/usr/local/lib -L/usr/lib $(ESAPI_LDFLAGS)
-TESTLDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
+TEST_CXXFLAGS += $(CXXFLAGS)
+TEST_LDFLAGS	+= -L/usr/local/lib -L/usr/lib $(ESAPI_LDFLAGS)
+TEST_LDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
-TESTTARGET = test/run_esapi_tests
+TEST_TARGET = test/run_esapi_tests
 
 # Might need this. TOOD: test and uncomment or remove
 # ifeq ($(UNAME),Darwin)
@@ -399,9 +400,9 @@ debug: $(DYNAMIC_LIB) test
 release: $(DYNAMIC_LIB) test
 
 # `make test` builds the DSO and runs the tests. OPT=O2, SYM=G3, ASSERTs are off.
-test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET)
-	$(CXX) $(TESTCXXFLAGS) $(EXE_ASLR) -o $(TESTTARGET) $(TESTOBJS) $(TESTLDFLAGS) $(TESTLDLIBS) lib/$(DYNAMIC_LIB)
-	./$(TESTTARGET)
+test check: $(DYNAMIC_LIB) $(TESTOBJS) $(TEST_TARGET)
+	$(CXX) $(CPPFLAGS) $(TEST_CXXFLAGS) $(EXE_ASLR) -o $(TEST_TARGET) $(TESTOBJS) $(TEST_LDFLAGS) $(TEST_LDLIBS) lib/$(DYNAMIC_LIB)
+	./$(TEST_TARGET)
 
 directories:
 	-$(MKDIR) -p $(includedir)/esapi/codecs
@@ -440,8 +441,8 @@ util: $(UTILOBJS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
-$(TESTTARGET): ;
+$(TEST_TARGET): ;
 
 .PHONY: clean
 clean:
-	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TESTTARGET) $(TESTTARGET).* *.dSYM core *.core
+	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TEST_TARGET) $(TEST_TARGET).* *.dSYM core *.core
