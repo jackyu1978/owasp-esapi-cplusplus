@@ -406,7 +406,11 @@ namespace esapi
   }
 
   // Explicit instantiations
-  template class MessageDigestImpl<CryptoPP::MD5>;
+  // TODO: Figure out a better way to do this to bring in the correct namespace'd MD5
+  using namespace CryptoPP;
+  using namespace CryptoPP::Weak;
+
+  template class MessageDigestImpl<MD5>;
   template class MessageDigestImpl<CryptoPP::SHA1>;
   template class MessageDigestImpl<CryptoPP::SHA224>;
   template class MessageDigestImpl<CryptoPP::SHA256>;
