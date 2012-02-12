@@ -307,15 +307,13 @@ ESAPI_MS_NO_WARNING(4505)
 # define ESAPI_TEST_EXPORT
 #endif
 
- 
 #if !defined(ESAPI_BUILD_RELEASE)
-#define ASSIST_UNIT_TEST( class__ ) friend class class__##Test
+# define ASSIST_UNIT_TEST( class__ ) friend class class__##Test
 #else
-#define ASSIST_UNIT_TEST( class__ )
+# define ASSIST_UNIT_TEST( class__ )
 #endif
 
 #define TEST_ASSISTANT_CLASS( class__ ) class__##Test 
-
 
 
 #define UNUSED_PARAMETER(x) ((void)x)

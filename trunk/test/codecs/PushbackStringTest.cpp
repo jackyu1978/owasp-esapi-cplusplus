@@ -34,7 +34,7 @@ using esapi::String;
 using esapi::PushbackString;
 
 
-class  esapi::TEST_ASSISTANT_CLASS( PushbackString )
+class TEST_ASSISTANT_CLASS( PushbackString )
 {
 public:
     static String GetInput( PushbackString & pbs )
@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
 }
 #endif
 
-BOOST_AUTO_TEST_CASE( PushbackStringTest )
+BOOST_AUTO_TEST_CASE( PushbackStringTest2 )
 {
   PushbackString pbs(L"asdf");
 
