@@ -114,6 +114,8 @@ GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[7-9]
 # For -nodlopen, which appeared around 2000 (Binutils 2.10).
 # http://sourceware.org/ml/binutils/2011-09/msg00049.html
 GNU_LD210_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[0-9]|2\.[2-9])')
+# For -noexecstack and -noexecheap, which appeared around 2003 (Binutils 2.14) (see the ld/ChangeLog-2003 in BinUtils).
+GNU_LD214_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[4-9]|2\.[2-9])')
 # For -relro and -now, which appeared around 6/2004 (Binutils 2.15) (see the ld/ChangeLog-2004 in BinUtils).
 GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-9]|2\.[2-9])')
 # For --exclude-libs, which appeared around 4/2002, but was ELF'd in 10/2005 
@@ -325,16 +327,15 @@ ARFLAGS = 	-rcs
 
 ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# No-exec the heap and the stack (this is a best effort, the kernel or PaX might ignore)
-# PT_GNU_HEAP is a Gentoo extension. Also see http://www.airs.com/blog/archives/518
-ifeq ($(GNU_LD210_OR_LATER),1)
-  ESAPI_LDFLAGS +=	-Wl,-z,noexecstack -Wl,-z,noexecheap
-endif
-
-
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodldump
+endif
+
+# No-exec the heap and the stack (this is a best effort, the kernel or PaX might ignore)
+# PT_GNU_HEAP is a Gentoo extension. Also see http://www.airs.com/blog/archives/518
+ifeq ($(GNU_LD214_OR_LATER),1)
+  ESAPI_LDFLAGS +=	-Wl,-z,noexecstack -Wl,-z,noexecheap
 endif
 
 # Linker hardening
