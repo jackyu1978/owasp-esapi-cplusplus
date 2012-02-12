@@ -20,25 +20,18 @@
 namespace esapi
 {
   SecretKey::SecretKey(const NarrowString& alg,
-    const size_t size,
+    const size_t sizeInBytes,
     const NarrowString& format)
-    : m_algorithm(alg), m_secBlock(size), m_format(format)
+    : m_algorithm(alg), m_secBlock(sizeInBytes), m_format(format)
   {
     ASSERT( !m_algorithm.empty() );
     ASSERT( m_secBlock.size() );
     ASSERT( !m_format.empty() );
 
-    if(size)
+    if(sizeInBytes)
     {
       SecureRandom prng = SecureRandom::getInstance(alg);
-#if ( CRYPTOPP_VERSION == 530 )
-      byte * bPtr = (m_secBlock);
-      prng.nextBytes( bPtr, m_secBlock.size());
-#elif ( CRYPTOPP_VERSION == 561 )
       prng.nextBytes(m_secBlock.data(), m_secBlock.size());
-#else
-    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
-#endif
     }
   }
 
