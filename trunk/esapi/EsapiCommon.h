@@ -166,6 +166,7 @@
     }                                                             \
   }
 #elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
+#  define ASSERT(exp) ((void)(exp))
 #  define ESAPI_ASSERT1(exp) assert(exp)
 #  define ESAPI_ASSERT2(exp, msg) assert(exp)
 #else
@@ -211,6 +212,7 @@ struct DebugTrapHandler
   }
 
   static void NullHandler(int /*unused*/) { }
+
 };
 
 // We specify a relatively low priority, to make sure we run before other CTORs
