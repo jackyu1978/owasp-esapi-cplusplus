@@ -36,7 +36,6 @@
 namespace esapi {
   class ESAPI_EXPORT HTMLEntityCodec : public Codec {
 
-
     typedef std::map<Char, String> EntityMap;
     typedef std::map<Char, String>::const_iterator EntityMapIterator;
 
@@ -142,7 +141,6 @@ namespace esapi {
     */
     Char decodeCharacter( PushbackString& str ) const;
 
-    ASSIST_UNIT_TEST( HTMLEntityCodec );
   };
 }; // esapi namespace
 

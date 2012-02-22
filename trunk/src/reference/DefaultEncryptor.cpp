@@ -80,17 +80,9 @@ namespace esapi
     NarrowString encoded;
     try
       {
-#if ( CRYPTOPP_VERSION == 530 )
-           CryptoPP::StringSource(hash.data(), hash.size(), true /* don't buffer */,
-              new CryptoPP::Base64Encoder(
+        CryptoPP::StringSource(hash.data(), hash.size(), true /* don't buffer */,
+            new CryptoPP::Base64Encoder(
                 new CryptoPP::StringSink(encoded), false /* no line breaks */));
-#elif ( CRYPTOPP_VERSION == 561 )
-           CryptoPP::ArraySource(hash.data(), hash.size(), true /* don't buffer */,
-              new CryptoPP::Base64Encoder(
-                new CryptoPP::StringSink(encoded), false /* no line breaks */));
-#else
-    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
-#endif
       }
     catch(CryptoPP::Exception& ex)
       {

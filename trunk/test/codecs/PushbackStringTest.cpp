@@ -33,36 +33,16 @@ using esapi::String;
 #include "codecs/PushbackString.h"
 using esapi::PushbackString;
 
-
-class TEST_ASSISTANT_CLASS( PushbackString )
-{
-public:
-    static String GetInput( PushbackString & pbs )
-    {
-        return pbs.input;
-    }
-
-    static void SetInput( PushbackString & pbs, String & str )
-    {
-        pbs.input = str;
-    }
-};
- 
-
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( PushbackStringHasNext )
 {
   PushbackString pbs(L"asdf");
 
   BOOST_CHECK(pbs.index() == 0);
-  // original 2012.01.29 jAH
-  // BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
-  BOOST_CHECK( (esapi::TEST_ASSISTANT_CLASS( PushbackString )::GetInput( pbs )).compare(L"asdf") == 0 );
+  BOOST_CHECK(pbs.input.compare(L"asdf") == 0);
   BOOST_CHECK(pbs.hasNext());
 
-  // original 2012.01.29 jAHOLMES
-  // pbs.input = L"";
-  esapi::TEST_ASSISTANT_CLASS( PushbackString )::SetInput( pbs, String( L"" ) );
+  pbs.input = L"";
   BOOST_CHECK(pbs.hasNext() == false);
 }
 #endif
@@ -146,9 +126,7 @@ BOOST_AUTO_TEST_CASE( PushbackStringNextOctal )
   BOOST_CHECK_MESSAGE(next == L'1', "nextOctal() on 'asdf' returned '" << next << "'");
   BOOST_CHECK(next != 0);
 
-  // original 2012.01.29 jAHOLMES
-  // pbs.input = L"9999";
-  esapi::TEST_ASSISTANT_CLASS( PushbackString )::SetInput( pbs, String( L"9999" ) );
+  pbs.input = L"9999";
   next = pbs.nextOctal();
   BOOST_CHECK(next == 0);
 }

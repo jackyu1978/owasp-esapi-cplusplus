@@ -50,16 +50,6 @@ static void DoWorkerThreadStuff();
 static void* WorkerThreadProc(void* param);
 
 
-class TEST_ASSISTANT_CLASS( HTMLEntityCodec )
-{
-public:
-    static const std::map<Char, String>& Test_getCharacterToEntityMap( )
-    {
-        return HTMLEntityCodec::getCharacterToEntityMap();
-    }
-};
- 
-
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_1P)
 {
   // Positive test - construction
@@ -339,9 +329,7 @@ void* WorkerThreadProc(void* param)
 #endif
 
 #if !defined(ESAPI_BUILD_RELEASE)
-  // orig 2012.01.25 jAHOLMES
-  // const std::map<Char,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
-  const std::map<Char,String>& characterToEntityMap = esapi::TEST_ASSISTANT_CLASS( HTMLEntityCodec )::Test_getCharacterToEntityMap();
+  const std::map<Char,String>& characterToEntityMap = HTMLEntityCodec::getCharacterToEntityMap();
   ASSERT(characterToEntityMap.size() > 0);
 #endif
 

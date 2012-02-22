@@ -39,29 +39,6 @@ using esapi::String;
 using esapi::KeyDerivationFunction;
 using esapi::SecretKey;
 
-
-/*
-class TEST_ASSISTANT_CLASS( SecretKey ) : public SecretKey
-{
-public:
-
-    ESAPI_TEST_EXPORT TEST_ASSISTANT_CLASS( SecretKey )(const NarrowString& alg, const size_t sizeInBytes, const NarrowString& format = "RAW")
-        : SecretKey( alg, sizeInBytes, format )
-    {
-    }
-
-    ESAPI_TEST_EXPORT TEST_ASSISTANT_CLASS( SecretKey )(const NarrowString& alg, const CryptoPP::SecByteBlock& bytes, const NarrowString& format = "RAW")
-        : SecretKey( alg, bytes, format )
-    {
-    }
-
-    static size_t sizeInBytes( SecretKey & sk )
-    {
-        return sk.sizeInBytes();
-    }
-};
-*/
-
 #if !defined(ESAPI_BUILD_RELEASE)
 //BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction )
 //{
@@ -81,67 +58,67 @@ public:
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction1 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey ) k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 16, "VerifyKeyDerivationFunction1 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction1 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction2 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 16*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 16, "VerifyKeyDerivationFunction2 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 16, "VerifyKeyDerivationFunction2 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction3 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 7, "VerifyKeyDerivationFunction3 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction3 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction4 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 7*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 7, "VerifyKeyDerivationFunction4 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 7, "VerifyKeyDerivationFunction4 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction5 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"encryption");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 64, "VerifyKeyDerivationFunction5 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction5 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction6 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"authenticity");
 
   SecretKey d = KeyDerivationFunction::computeDerivedKey(k, 64*8, p);
 
-  BOOST_CHECK_MESSAGE( TEST_ASSISTANT_CLASS( SecretKey )::sizeInBytes(d) == 64, "VerifyKeyDerivationFunction6 failed" );
+  BOOST_CHECK_MESSAGE( d.sizeInBytes() == 64, "VerifyKeyDerivationFunction6 failed" );
 }
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 0);
+  SecretKey k("SHA-512", 0);
   String p(L"encryption");
   bool success = false;
 
@@ -161,7 +138,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction7 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   String p(L"encryption");
   bool success = false;
 
@@ -179,7 +156,7 @@ BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction8 )
 
 BOOST_AUTO_TEST_CASE( VerifyKeyDerivationFunction9 )
 {
-  TEST_ASSISTANT_CLASS( SecretKey )  k("SHA-512", 32);
+  SecretKey k("SHA-512", 32);
   bool success = false;
 
   try

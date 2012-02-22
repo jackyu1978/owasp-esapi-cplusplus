@@ -173,7 +173,6 @@ private:
 public:
 	virtual ~StringValidationRule() {};
 
-    ASSIST_UNIT_TEST( StringValidationRule );
 };
 }; // esapi namespace
 

@@ -30,13 +30,7 @@ namespace esapi
 
     if(algorithm == "MD5")
     {
-#if ( CRYPTOPP_VERSION == 530 )
-      return new MessageDigestImpl<CryptoPP::MD5>(algorithm);
-#elif ( CRYPTOPP_VERSION == 561 )
-      return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
-#else
-    #error Need to define CRYPTOPP_VERSION (530 or 561 currently supported)
-#endif
+        return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
     }
 
     if(algorithm == "SHA-1")

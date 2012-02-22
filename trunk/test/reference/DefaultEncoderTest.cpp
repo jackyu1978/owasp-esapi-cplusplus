@@ -46,10 +46,7 @@ using boost::shared_ptr;
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 {
-    // original 2012.01.29 jAHOLMES
-	// esapi::DefaultEncoder de;
-    esapi::Encoder & de = const_cast<esapi::Encoder &>( esapi::DefaultEncoder::getInstance() );
-
+	esapi::DefaultEncoder de;
 	shared_ptr<UnixCodec>uc1(new esapi::UnixCodec);
 
 	String encoded = de.encodeForOS(uc1.get(), L"asdf<");
@@ -58,9 +55,7 @@ BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )
 	shared_ptr<UnixCodec>uc2(new esapi::UnixCodec);
 	BOOST_CHECK(de.encodeForOS(uc2.get(), L"sdf:ff").compare(L"sdf\\:ff")==0);
 
-    // original 2012.01.29 jAHOLMES
-	// encoded = de.encodeForBase64(L"asdf");
-	encoded = de.encodeForBase64(L"asdf", false);
+	encoded = de.encodeForBase64(L"asdf");
 	BOOST_CHECK(encoded.compare(L"YXNkZg==") == 0); //base64 value of `asdf`
 	BOOST_CHECK(de.decodeFromBase64(encoded).compare(L"asdf")==0);
 

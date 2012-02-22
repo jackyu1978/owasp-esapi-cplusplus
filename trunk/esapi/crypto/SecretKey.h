@@ -118,8 +118,6 @@ namespace esapi
     CryptoPP::SecByteBlock m_secBlock;   // The actual secret key
     NarrowString m_format;               // Encoding format
 
-
-    ASSIST_UNIT_TEST( SecretKey );
   };
 
   ESAPI_EXPORT bool operator==(const SecretKey& lhs, const SecretKey& rhs);

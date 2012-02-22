@@ -29,15 +29,11 @@
 #include <cryptopp/sha.h>
 #include <cryptopp/hex.h>
 #include <cryptopp/md5.h>
-#if ( CRYPTOPP_VERSION == 530 )
-    //  use FIPS version includes only
-#elif ( CRYPTOPP_VERSION == 561 )
-    #include <cryptopp/eax.h>
-    #include <cryptopp/ccm.h>
-    #include <cryptopp/gcm.h>
-#else
-    #error Need to define CRYPTOPP_VERSION (530 (for FIPS) or 561 (most recent) currently supported)
-#endif
+//////////////////////////////////////////
+//  These include files are not included in 5.3.0
+//    #include <cryptopp/eax.h>
+//    #include <cryptopp/ccm.h>
+//    #include <cryptopp/gcm.h>
 #include <cryptopp/hmac.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/modes.h>
