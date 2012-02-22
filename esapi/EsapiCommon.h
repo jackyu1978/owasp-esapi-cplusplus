@@ -175,6 +175,7 @@
 #endif
 
 // For the lazy folks like me!
+#undef ASSERT       // need to undef first to eliminate a repetitive warning
 #define ASSERT(x) ESAPI_ASSERT1(x)
 
 #if !defined(ESAPI_NO_ASSERT)
@@ -306,15 +307,6 @@ ESAPI_MS_NO_WARNING(4505)
 #else
 # define ESAPI_TEST_EXPORT
 #endif
-
-#if !defined(ESAPI_BUILD_RELEASE)
-# define ASSIST_UNIT_TEST( class__ ) friend class class__##Test
-#else
-# define ASSIST_UNIT_TEST( class__ )
-#endif
-
-#define TEST_ASSISTANT_CLASS( class__ ) class__##Test 
-
 
 #define UNUSED_PARAMETER(x) ((void)x)
 #define UNUSED_VARIABLE(x) ((void)x)

@@ -130,7 +130,6 @@ namespace esapi {
      */
     ESAPI_PRIVATE String remainder();
 
-    ASSIST_UNIT_TEST( PushbackString );
   };
 
 }; /** esapi namespace */

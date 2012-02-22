@@ -90,6 +90,7 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 
 int main(int, char**)
 {
+#if 0
   try
   {
     KeyGenerator kgen = KeyGenerator::getInstance("AES");
@@ -104,7 +105,6 @@ int main(int, char**)
     cerr << ex.what() << endl;
   }
 
-#if 0
   try
   {
     KeyGenerator kgen = KeyGenerator::getInstance("SHA-256");
