@@ -62,7 +62,7 @@ The Win32 version of ESAPI is also dependent upon Crypto++ and Boost. The Visual
 
 The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
 
-The project should convert to VS2010 without trouble. In addition, the project [down] should convert to VS2005 by modifying the solution and project file's headers (its just XML, change the version number). Below Visual Studio 2008 uses Version=9.00. To convert to Visual Studio 2005, change the version to 8.00.
+The project should convert to VS2010 without trouble. In addition, the project should down-convert to VS2005 by modifying the solution and project file's headers (its just XML, change the version number). Below Visual Studio 2008 uses Version=9.00. To convert to Visual Studio 2005, change the version to 8.00.
 
 <pre><?xml version="1.0" encoding="Windows-1252"?></pre>
 <pre><VisualStudioProject</pre>
