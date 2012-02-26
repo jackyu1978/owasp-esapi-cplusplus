@@ -15,45 +15,68 @@ SafeInt3.hpp is included in the ESAPI project directory and located in <ESAPI di
 
 == Crypto++ ==
 
-<pre># Debian and friends
-$ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev</pre>
+{{{
+# Debian and friends
+$ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev
+}}}
 
-<pre># Fedora and friends
-> su -
-# yum install cryptopp cryptopp-devel</pre>
+{{{
+# Debian and friends
+$ sudo apt-get install libcrypto++9 libcrypto++9-dbg libcrypto++-dev
+}}}
 
-<pre># FreeBSD
+{{{
+# Fedora and friends
 > su -
-# pkg_add -r cryptopp</pre>
+# yum install cryptopp cryptopp-devel
+}}}
+
+{{{
+# FreeBSD
+> su -
+# pkg_add -r cryptopp
+}}}
 
 OpenBSD does not offer Crypto++. It must be installed from sources. See the Crypto++ website at http://www.cryptopp.com/; and http://www.cryptopp.com/wiki/Linux. The Linux page will take you through building Crypto++ using the makefile.
 
 == Boost ==
 
-<pre># Debian and friends
-$ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-test-dev libboost-regex-dev</pre>
+{{{
+# Debian and friends
+$ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-test-dev libboost-regex-dev
+}}}
 
-<pre># Fedora and friends
+{{{
+# Fedora and friends
 > su -
-# yum install boost-devel</pre>
+# yum install boost-devel
+}}}
 
-<pre># FreeBSD
+{{{
+# FreeBSD
 > su -
-# pkg_add -r boost-libs</pre>
+# pkg_add -r boost-libs
+}}}
 
-<pre># OpenBSD
+{{{
+# OpenBSD
 > su -
-# pkg_add boost</pre>
+# pkg_add boost
+}}}
 
 == Grepping Package ==
 
 Searching packages can be performed as follows (using boost as an example).
 
-<pre># Debian and friends
-$ apt-cache pkgnames | grep -i boost</pre>
+{{{
+# Debian and friends
+$ apt-cache pkgnames | grep -i boost
+}}}
 
-<pre># Fedora and friends
-> yum search boost | grep -i devel</pre>
+{{{
+# Fedora and friends
+> yum search boost | grep -i devel
+}}}
 
 == Win32 ==
 A version of ESAPI for Windows x86/x64 is available via a Visual Studio 2008 solution file. The Win32 version of ESAPI will build a static version of the library. The Win32 version does not build the self tests due to problems linking against Boost::Test.
@@ -64,8 +87,10 @@ The Crypto++ variable is named 'CRYPTOPP' and should point to the directory cont
 
 The project should convert to VS2010 without trouble. In addition, the project should down-convert to VS2005 by modifying the solution and project file's headers (its just XML, change the version number). Below Visual Studio 2008 uses Version=9.00. To convert to Visual Studio 2005, change the version to 8.00.
 
-<pre><?xml version="1.0" encoding="Windows-1252"?></pre>
-<pre><VisualStudioProject</pre>
-<pre>    ProjectType="Visual C++"</pre>
-<pre>    Version="9.00"</pre>
-<pre>    ...</pre>
+{{{
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+    ProjectType="Visual C++"
+    Version="9.00"
+    ...
+}}}
