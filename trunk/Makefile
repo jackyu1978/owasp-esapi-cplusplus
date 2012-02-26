@@ -388,9 +388,9 @@ TEST_TARGET = test/run_esapi_tests
 # endif
 
 # `file -L` and `otool -hv` tells us our SO is a DYLIB. When in Rome...
-ifeq ($(IS_DARWIN),1)
-  DYNAMIC_LIB = libesapi-c++.dylib
-endif
+#ifeq ($(IS_DARWIN),1)
+#  DYNAMIC_LIB = libesapi-c++.dylib
+#endif
 
 # `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)

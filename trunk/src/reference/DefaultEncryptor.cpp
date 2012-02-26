@@ -18,7 +18,6 @@
 #include "crypto/SecretKey.h"
 #include "crypto/CryptoHelper.h"
 #include "crypto/MessageDigest.h"
-#include "crypto/Crypto++Common.h"
 #include "errors/IntegrityException.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"

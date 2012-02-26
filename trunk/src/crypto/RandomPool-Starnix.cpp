@@ -13,7 +13,6 @@
  */
 
 #include "crypto/RandomPool.h"
-#include "crypto/Crypto++Common.h"
 #include "util/ArrayZeroizer.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"

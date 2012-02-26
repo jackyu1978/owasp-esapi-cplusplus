@@ -16,7 +16,7 @@
 
 #include "EsapiCommon.h"
 #include "crypto/Key.h"
-#include "crypto/Crypto++Common.h"
+#include "crypto/CryptoppCommon.h"
 #include "util/SecureArray.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"

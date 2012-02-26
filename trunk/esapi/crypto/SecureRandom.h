@@ -19,7 +19,7 @@
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
 #include "crypto/RandomPool.h"
-#include "crypto/Crypto++Common.h"
+#include "crypto/CryptoppCommon.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
