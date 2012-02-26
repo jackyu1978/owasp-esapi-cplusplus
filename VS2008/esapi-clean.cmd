@@ -1,6 +1,3 @@
-REM Uncomment if you want to whack the entire Esapi-Windows\
-REM rmdir /s /q "%~dp0\Esapi-Windows\"
-
 rmdir /s /q "%~dp0\Esapi-Windows"
 
 attrib -r -a -s -h "%~dp0\*.ncb"
