@@ -26,7 +26,7 @@ default: test
 .SUFFIXES: .c .cc .cpp .cxx .o .h .hpp
 
 # Override on the command line as you see fit, eg `make install CP=~/my-cool-cp`.
-# Otherwise, we take defaults form paths in the environment.
+# Otherwise, we take defaults from paths in the environment.
 AR = ar
 CP = cp
 RM = rm
@@ -36,6 +36,7 @@ MKDIR = mkdir
 RANLIB = ranlib
 INSTALL = install
 
+# Extension will be changed for Mac OS X below.
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
 
@@ -328,11 +329,6 @@ ARFLAGS = 	-rcs
 
 ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
-# Mac OS X and libiconv
-ifeq ($(IS_DARWIN),1)
-  ESAPI_LDFLAGS +=	-liconv
-endif
-
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodldump
@@ -363,7 +359,12 @@ endif
 
 LDLIBS 		+= -lcryptopp -lboost_regex
 
+# iconvert library. For GNU Linux, its included in glib (and Make needs a logical OR)
 ifeq ($(IS_BSD),1)
+  LDLIBS += -liconv
+endif
+
+ifeq ($(IS_DARWIN),1)
   LDLIBS += -liconv
 endif
 
@@ -380,11 +381,16 @@ TEST_LDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 TEST_TARGET = test/run_esapi_tests
 
 # Might need this. TOOD: test and uncomment or remove
-# ifeq ($(UNAME),Darwin)
+# ifeq ($(IS_DARWIN),1)
 #   AR = libtool
 #   ARFLAGS = -static -o
 #   CXX = c++
 # endif
+
+# `file -L` and `otool -hv` tells us our SO is a DYLIB. When in Rome...
+ifeq ($(IS_DARWIN),1)
+  DYNAMIC_LIB = libesapi-c++.dylib
+endif
 
 # `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)
