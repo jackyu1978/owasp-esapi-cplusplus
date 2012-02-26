@@ -46,12 +46,15 @@ STATIC_LIB =	libesapi-c++.a
 DEBUG_GOALS = $(filter $(MAKECMDGOALS), debug)
 ifneq ($(DEBUG_GOALS),)
   WANT_DEBUG := 1
+  WANT_TEST := 0
+  WANT_RELEASE := 0
 endif
 
 TEST_GOALS = $(filter $(MAKECMDGOALS), test)
 ifneq ($(TEST_GOALS),)
   WANT_DEBUG := 0
   WANT_TEST := 1
+  WANT_RELEASE := 0s
 endif
 
 RELEASE_GOALS = $(filter $(MAKECMDGOALS), release all $(DYNAMIC_LIB) $(STATIC_LIB) crypto codec codecs err errors ref reference)

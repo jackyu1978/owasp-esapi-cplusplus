@@ -19,7 +19,6 @@
  *
  **/
 
-/*
 #if defined(_WIN32)
     #if defined(STATIC_TEST)
         // do not enable BOOST_TEST_DYN_LINK
@@ -33,10 +32,11 @@
 #endif
 #define BOOST_TEST_MODULE "ESAPI C++ Unit Tests"
 #include <boost/test/unit_test.hpp>
-*/
 
+/*
 int main(int argc, char** argv)
 {
     
     return 0;
 }
+*/
