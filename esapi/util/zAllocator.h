@@ -84,10 +84,12 @@ namespace esapi
       inline void deallocate(pointer p, size_type cnt)
       {
         ASSERT(p);
-        ASSERT(cnt);
         if(!p) return;
 
-        // cnt is a count of elements, not bytes.
+        // What to do on wrap here???
+        ASSERT(cnt);
+        ASSERT(!(cnt > max_size()));
+
         // Because 'p' is assigned to a static volatile pointer, the
         // optimizer currently does not optimize out the ::memset as dead
         // code. Set a breakpoint on the assignment to g_dummy in the
