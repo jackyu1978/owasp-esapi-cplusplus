@@ -16,7 +16,6 @@
 #include "crypto/SecretKey.h"
 #include "crypto/KeyGenerator.h"
 #include "crypto/SecureRandom.h"
-#include "crypto/Crypto++Common.h"
 #include "util/TextConvert.h"
 #include "errors/EncryptionException.h"
 

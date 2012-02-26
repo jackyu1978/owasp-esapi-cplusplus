@@ -18,7 +18,6 @@
 #include "util/ArrayZeroizer.h"
 #include "crypto/RandomPool.h"
 #include "crypto/SecureRandomImpl.h"
-#include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"

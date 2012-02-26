@@ -15,7 +15,6 @@
 #include "EsapiCommon.h"
 #include "crypto/SecretKey.h"
 #include "crypto/SecureRandom.h"
-#include "crypto/Crypto++Common.h"
 
 namespace esapi
 {

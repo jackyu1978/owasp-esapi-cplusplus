@@ -17,7 +17,7 @@
 #include "codecs/WindowsCodec.h"
 
 #include "util/TextConvert.h"
-#include "crypto/Crypto++Common.h"
+#include "crypto/CryptoppCommon.h"
 
 #include "errors/NullPointerException.h"
 #include "errors/UnsupportedOperationException.h"

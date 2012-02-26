@@ -14,7 +14,7 @@
 #include "util/NotCopyable.h"
 #include "util/SecureArray.h"
 #include "util/AlgorithmName.h"
-#include "crypto/Crypto++Common.h"
+#include "crypto/CryptoppCommon.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"

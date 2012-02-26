@@ -13,7 +13,6 @@
 #include "util/AlgorithmName.h"
 #include "crypto/MessageDigest.h"
 #include "crypto/MessageDigestImpl.h"
-#include "crypto/Crypto++Common.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 

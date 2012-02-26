@@ -14,7 +14,6 @@
 
 #include "EsapiCommon.h"
 #include "crypto/KeyDerivationFunction.h"
-#include "crypto/Crypto++Common.h"
 #include "crypto/SecretKey.h"
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"

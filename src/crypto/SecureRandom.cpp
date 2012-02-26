@@ -15,7 +15,6 @@
 #include "crypto/SecureRandom.h"
 #include "util/AlgorithmName.h"
 #include "crypto/SecureRandomImpl.h"
-#include "crypto/Crypto++Common.h"
 #include "safeint/SafeInt3.hpp"
 
 #include <algorithm>

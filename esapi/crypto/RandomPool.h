@@ -16,7 +16,7 @@
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
 #include "util/NotCopyable.h"
-#include "crypto/Crypto++Common.h"
+#include "crypto/CryptoppCommon.h"
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 

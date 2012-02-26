@@ -18,7 +18,6 @@
 #include "util/Mutex.h"
 #include "util/SecureArray.h"
 #include "util/TextConvert.h"
-#include "crypto/Crypto++Common.h"
 #include "errors/IllegalArgumentException.h"
 
 #include "safeint/SafeInt3.hpp"
