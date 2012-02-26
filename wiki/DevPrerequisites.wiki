@@ -34,7 +34,7 @@ $ yum install cryptopp cryptopp-devel
 {{{
 # FreeBSD
 > su -
-<nowiki>#</nowiki>$
+$
 $ pkg_add -r boost-libs
 }}}
 
