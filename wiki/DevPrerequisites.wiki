@@ -34,7 +34,7 @@ $ sudo apt-get install libcrypto++9 libcrypto++9-dbg libcrypto++-dev
 {{{
 # FreeBSD
 > su -
-# pkg_add -r cryptopp
+<nowiki>#</nowiki> pkg_add -r cryptopp
 }}}
 
 OpenBSD does not offer Crypto++. It must be installed from sources. See the Crypto++ website at http://www.cryptopp.com/; and http://www.cryptopp.com/wiki/Linux. The Linux page will take you through building Crypto++ using the makefile.
@@ -49,19 +49,19 @@ $ sudo apt-get install libboost-dbg libboost-dev libboost-regex-dev libboost-tes
 {{{
 # Fedora and friends
 > su -
-# yum install boost-devel
+$ yum install boost-devel
 }}}
 
 {{{
 # FreeBSD
 > su -
-# pkg_add -r boost-libs
+$ pkg_add -r boost-libs
 }}}
 
 {{{
 # OpenBSD
 > su -
-# pkg_add boost
+$ pkg_add boost
 }}}
 
 == Grepping Package ==
