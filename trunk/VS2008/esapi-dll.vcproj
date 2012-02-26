@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="esapi-lib"
-	ProjectGUID="{19A185E9-BF21-4A06-8376-13493824E359}"
-	RootNamespace="esapilib"
+	Name="esapi-dll"
+	ProjectGUID="{50CD478C-7DF6-4353-BF80-C05AE15A7DFE}"
+	RootNamespace="esapicplusplus"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -22,8 +22,8 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86"
-			ConfigurationType="4"
+			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -44,11 +44,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -63,12 +63,19 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
 				AdditionalDependencies="cryptlib.lib"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\Win32\Output\$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -78,6 +85,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -86,8 +96,8 @@
 		<Configuration
 			Name="Debug|x64"
 			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64"
-			ConfigurationType="4"
+			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -109,11 +119,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
+				PreprocessorDefinitions="WIN64;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -128,12 +138,19 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
 				AdditionalDependencies="cryptlib.lib"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\x64\Output\$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -145,14 +162,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86"
-			ConfigurationType="4"
+			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -175,9 +195,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
-				RuntimeLibrary="0"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -193,12 +213,21 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
 				AdditionalDependencies="cryptlib.lib"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\Win32\Output\$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -210,14 +239,17 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64"
-			ConfigurationType="4"
+			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
+			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -241,9 +273,9 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="./esapi; ./errors; ./deps; $(CRYPTOPP); $(BOOST);"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;"
-				RuntimeLibrary="0"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
+				PreprocessorDefinitions="WIN64;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -259,12 +291,21 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
+				Name="VCLinkerTool"
 				AdditionalDependencies="cryptlib.lib"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\x64\Output\$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -274,6 +315,9 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -289,86 +333,78 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\DummyConfiguration.cpp"
+				RelativePath="..\src\windows\dllmain.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\EncoderConstants.cpp"
+				RelativePath="..\src\DummyConfiguration.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\ValidationErrorList.cpp"
+				RelativePath="..\src\EncoderConstants.cpp"
 				>
 			</File>
-			<Filter
-				Name="codecs"
+			<File
+				RelativePath="..\src\ValidationErrorList.cpp"
 				>
-				<File
-					RelativePath=".\src\codecs\Codec.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\HTMLEntityCodec.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\LDAPCodec.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\PushbackString.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\UnixCodec.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\codecs\WindowsCodec.cpp"
-					>
-				</File>
-			</Filter>
+			</File>
 			<Filter
 				Name="crypto"
 				>
 				<File
-					RelativePath=".\src\crypto\CipherSpec.cpp"
+					RelativePath="..\src\crypto\AlgorithmParameters.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\CipherText.cpp"
+					RelativePath="..\src\crypto\Cipher.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\CryptoHelper.cpp"
+					RelativePath="..\src\crypto\CipherImpl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\KeyDerivationFunction.cpp"
+					RelativePath="..\src\crypto\CipherSpec.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\KeyGenerator.cpp"
+					RelativePath="..\src\crypto\CipherText.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\MessageDigest.cpp"
+					RelativePath="..\src\crypto\CryptoHelper.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\MessageDigestImpl.cpp"
+					RelativePath="..\src\crypto\IvParameterSpec.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\PlainText.cpp"
+					RelativePath="..\src\crypto\KeyDerivationFunction.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\RandomPool-Shared.cpp"
+					RelativePath="..\src\crypto\KeyGenerator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\RandomPool-Starnix.cpp"
+					RelativePath="..\src\crypto\MessageDigest.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\crypto\MessageDigestImpl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\crypto\PlainText.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\crypto\RandomPool-Shared.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\crypto\RandomPool-Starnix.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -404,19 +440,47 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\src\crypto\RandomPool-Win32.cpp"
+					RelativePath="..\src\crypto\RandomPool-Win32.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\SecretKey.cpp"
+					RelativePath="..\src\crypto\SecretKey.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\SecureRandom.cpp"
+					RelativePath="..\src\crypto\SecureRandom.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\crypto\SecureRandomImpl.cpp"
+					RelativePath="..\src\crypto\SecureRandomImpl.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="codecs"
+				>
+				<File
+					RelativePath="..\src\codecs\Codec.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\codecs\HTMLEntityCodec.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\codecs\LDAPCodec.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\codecs\PushbackString.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\codecs\UnixCodec.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\codecs\WindowsCodec.cpp"
 					>
 				</File>
 			</Filter>
@@ -424,11 +488,11 @@
 				Name="errors"
 				>
 				<File
-					RelativePath=".\src\errors\EnterpriseSecurityException.cpp"
+					RelativePath="..\src\errors\EnterpriseSecurityException.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\errors\ValidationException.cpp"
+					RelativePath="..\src\errors\ValidationException.cpp"
 					>
 				</File>
 			</Filter>
@@ -436,71 +500,39 @@
 				Name="reference"
 				>
 				<File
-					RelativePath=".\src\reference\DefaultEncoder.cpp"
+					RelativePath="..\src\reference\DefaultEncoder.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\DefaultEncryptor.cpp"
+					RelativePath="..\src\reference\DefaultEncryptor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\DefaultExecutor.cpp"
+					RelativePath="..\src\reference\DefaultExecutor.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\DefaultValidator.cpp"
+					RelativePath="..\src\reference\DefaultValidator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\IntegerAccessReferenceMap.cpp"
+					RelativePath="..\src\reference\IntegerAccessReferenceMap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\reference\RandomAccessReferenceMap.cpp"
+					RelativePath="..\src\reference\RandomAccessReferenceMap.cpp"
 					>
 				</File>
 				<Filter
 					Name="validation"
 					>
 					<File
-						RelativePath=".\src\reference\validation\BaseValidationRule.cpp"
+						RelativePath="..\src\reference\validation\BaseValidationRule.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\src\reference\validation\StringValidationRule.cpp"
+						RelativePath="..\src\reference\validation\StringValidationRule.cpp"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|x64"
-							ExcludedFromBuild="true"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -508,59 +540,19 @@
 				Name="util"
 				>
 				<File
-					RelativePath=".\src\util\AlgorithmName.cpp"
+					RelativePath="..\src\util\AlgorithmName.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\util\Mutex.cpp"
+					RelativePath="..\src\util\Mutex.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\util\SecureArray.cpp"
+					RelativePath="..\src\util\SecureArray.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\src\util\SecureString.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\util\TextConvert-Starnix.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|x64"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\src\util\TextConvert-Windows.cpp"
+					RelativePath="..\src\util\SecureString.cpp"
 					>
 				</File>
 			</Filter>
@@ -642,36 +634,24 @@
 				Name="esapi"
 				>
 				<Filter
-					Name="codecs"
-					>
-					<File
-						RelativePath=".\esapi\codecs\Codec.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\LDAPCodec.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\PushbackString.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\UnixCodec.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\codecs\WindowsCodec.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="crypto"
 					>
+					<File
+						RelativePath=".\esapi\crypto\AlgorithmParameters.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\AlgorithmParameterSpec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\Cipher.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\CipherImpl.h"
+						>
+					</File>
 					<File
 						RelativePath=".\esapi\crypto\CipherSpec.h"
 						>
@@ -686,6 +666,10 @@
 					</File>
 					<File
 						RelativePath=".\esapi\crypto\CryptoHelper.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\crypto\IvParameterSpec.h"
 						>
 					</File>
 					<File
@@ -730,10 +714,46 @@
 					</File>
 				</Filter>
 				<Filter
+					Name="codecs"
+					>
+					<File
+						RelativePath=".\esapi\codecs\Codec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\LDAPCodec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\PushbackString.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\Trie.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\UnixCodec.h"
+						>
+					</File>
+					<File
+						RelativePath=".\esapi\codecs\WindowsCodec.h"
+						>
+					</File>
+				</Filter>
+				<Filter
 					Name="errors"
 					>
 					<File
 						RelativePath=".\esapi\errors\AccessControlException.h"
+						>
+					</File>
+					<File
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
@@ -842,10 +862,6 @@
 					</File>
 					<File
 						RelativePath=".\esapi\util\SecureString.h"
-						>
-					</File>
-					<File
-						RelativePath=".\esapi\util\TextConvert.h"
 						>
 					</File>
 					<File
