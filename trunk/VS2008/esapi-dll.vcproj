@@ -563,59 +563,59 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\esapi\AccessReferenceMap.h"
+				RelativePath="..\esapi\AccessReferenceMap.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\DummyConfiguration.h"
+				RelativePath="..\esapi\DummyConfiguration.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\Encoder.h"
+				RelativePath="..\esapi\Encoder.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\EncoderConstants.h"
+				RelativePath="..\esapi\EncoderConstants.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\EncryptedProperties.h"
+				RelativePath="..\esapi\EncryptedProperties.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\Encryptor.h"
+				RelativePath="..\esapi\Encryptor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\EsapiCommon.h"
+				RelativePath="..\esapi\EsapiCommon.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\EsapiTypes.h"
+				RelativePath="..\esapi\EsapiTypes.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\Executor.h"
+				RelativePath="..\esapi\Executor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\Logger.h"
+				RelativePath="..\esapi\Logger.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\SecurityConfiguration.h"
+				RelativePath="..\esapi\SecurityConfiguration.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\ValidationErrorList.h"
+				RelativePath="..\esapi\ValidationErrorList.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\ValidationRule.h"
+				RelativePath="..\esapi\ValidationRule.h"
 				>
 			</File>
 			<File
-				RelativePath=".\esapi\Validator.h"
+				RelativePath="..\esapi\Validator.h"
 				>
 			</File>
 			<Filter
@@ -637,79 +637,79 @@
 					Name="crypto"
 					>
 					<File
-						RelativePath=".\esapi\crypto\AlgorithmParameters.h"
+						RelativePath="..\esapi\crypto\AlgorithmParameters.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\AlgorithmParameterSpec.h"
+						RelativePath="..\esapi\crypto\AlgorithmParameterSpec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\Cipher.h"
+						RelativePath="..\esapi\crypto\Cipher.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\CipherImpl.h"
+						RelativePath="..\esapi\crypto\CipherImpl.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\CipherSpec.h"
+						RelativePath="..\esapi\crypto\CipherSpec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\CipherText.h"
+						RelativePath="..\esapi\crypto\CipherText.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\Crypto++Common.h"
+						RelativePath="..\esapi\crypto\Crypto++Common.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\CryptoHelper.h"
+						RelativePath="..\esapi\crypto\CryptoHelper.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\IvParameterSpec.h"
+						RelativePath="..\esapi\crypto\IvParameterSpec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\Key.h"
+						RelativePath="..\esapi\crypto\Key.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\KeyDerivationFunction.h"
+						RelativePath="..\esapi\crypto\KeyDerivationFunction.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\KeyGenerator.h"
+						RelativePath="..\esapi\crypto\KeyGenerator.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\MessageDigest.h"
+						RelativePath="..\esapi\crypto\MessageDigest.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\MessageDigestImpl.h"
+						RelativePath="..\esapi\crypto\MessageDigestImpl.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\PlainText.h"
+						RelativePath="..\esapi\crypto\PlainText.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\RandomPool.h"
+						RelativePath="..\esapi\crypto\RandomPool.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\SecretKey.h"
+						RelativePath="..\esapi\crypto\SecretKey.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\SecureRandom.h"
+						RelativePath="..\esapi\crypto\SecureRandom.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\crypto\SecureRandomImpl.h"
+						RelativePath="..\esapi\crypto\SecureRandomImpl.h"
 						>
 					</File>
 				</Filter>
@@ -717,31 +717,31 @@
 					Name="codecs"
 					>
 					<File
-						RelativePath=".\esapi\codecs\Codec.h"
+						RelativePath="..\esapi\codecs\Codec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\HTMLEntityCodec.h"
+						RelativePath="..\esapi\codecs\HTMLEntityCodec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\LDAPCodec.h"
+						RelativePath="..\esapi\codecs\LDAPCodec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\PushbackString.h"
+						RelativePath="..\esapi\codecs\PushbackString.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\Trie.h"
+						RelativePath="..\esapi\codecs\Trie.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\UnixCodec.h"
+						RelativePath="..\esapi\codecs\UnixCodec.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\codecs\WindowsCodec.h"
+						RelativePath="..\esapi\codecs\WindowsCodec.h"
 						>
 					</File>
 				</Filter>
@@ -749,7 +749,7 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\esapi\errors\AccessControlException.h"
+						RelativePath="..\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
@@ -757,47 +757,47 @@
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\EncodingException.h"
+						RelativePath="..\esapi\errors\EncodingException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\EncryptionException.h"
+						RelativePath="..\esapi\errors\EncryptionException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\EnterpriseSecurityException.h"
+						RelativePath="..\esapi\errors\EnterpriseSecurityException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\ExecutionException.h"
+						RelativePath="..\esapi\errors\ExecutionException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\IllegalArgumentException.h"
+						RelativePath="..\esapi\errors\IllegalArgumentException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\IntegrityException.h"
+						RelativePath="..\esapi\errors\IntegrityException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\IntrusionException.h"
+						RelativePath="..\esapi\errors\IntrusionException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\NoSuchAlgorithmException.h"
+						RelativePath="..\esapi\errors\NoSuchAlgorithmException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\NullPointerException.h"
+						RelativePath="..\esapi\errors\NullPointerException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\UnsupportedOperationException.h"
+						RelativePath="..\esapi\errors\UnsupportedOperationException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\errors\ValidationException.h"
+						RelativePath="..\esapi\errors\ValidationException.h"
 						>
 					</File>
 				</Filter>
@@ -805,34 +805,34 @@
 					Name="reference"
 					>
 					<File
-						RelativePath=".\esapi\reference\DefaultEncoder.h"
+						RelativePath="..\esapi\reference\DefaultEncoder.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\reference\DefaultEncryptor.h"
+						RelativePath="..\esapi\reference\DefaultEncryptor.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\reference\DefaultValidator.h"
+						RelativePath="..\esapi\reference\DefaultValidator.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\reference\IntegerAccessReferenceMap.h"
+						RelativePath="..\esapi\reference\IntegerAccessReferenceMap.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\reference\RandomAccessReferenceMap.h"
+						RelativePath="..\esapi\reference\RandomAccessReferenceMap.h"
 						>
 					</File>
 					<Filter
 						Name="validation"
 						>
 						<File
-							RelativePath=".\esapi\reference\validation\BaseValidationRule.h"
+							RelativePath="..\esapi\reference\validation\BaseValidationRule.h"
 							>
 						</File>
 						<File
-							RelativePath=".\esapi\reference\validation\StringValidationRule.h"
+							RelativePath="..\esapi\reference\validation\StringValidationRule.h"
 							>
 						</File>
 					</Filter>
@@ -841,31 +841,31 @@
 					Name="util"
 					>
 					<File
-						RelativePath=".\esapi\util\AlgorithmName.h"
+						RelativePath="..\esapi\util\AlgorithmName.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\ArrayZeroizer.h"
+						RelativePath="..\esapi\util\ArrayZeroizer.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\Mutex.h"
+						RelativePath="..\esapi\util\Mutex.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\NotCopyable.h"
+						RelativePath="..\esapi\util\NotCopyable.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\SecureArray.h"
+						RelativePath="..\esapi\util\SecureArray.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\SecureString.h"
+						RelativePath="..\esapi\util\SecureString.h"
 						>
 					</File>
 					<File
-						RelativePath=".\esapi\util\zAllocator.h"
+						RelativePath="..\esapi\util\zAllocator.h"
 						>
 					</File>
 				</Filter>
