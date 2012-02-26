@@ -16,12 +16,12 @@ SafeInt3.hpp is included in the ESAPI project directory and located in <ESAPI di
 == Crypto++ ==
 
 {{{
-# Debian and friends
+# Debian and friends (Ubuntu 11.04 and below)
 $ sudo apt-get install libcrypto++8 libcrypto++8-dbg libcrypto++-dev
 }}}
 
 {{{
-# Debian and friends
+# Debian and friends (Ubuntu 11.10 and above)
 $ sudo apt-get install libcrypto++9 libcrypto++9-dbg libcrypto++-dev
 }}}
 
