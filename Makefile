@@ -125,6 +125,7 @@ GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-
 IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
 IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
 IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
+IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
 
 # Fall back to g++ if CXX is not specified
 ifeq (($strip $(CXX)),)
@@ -326,6 +327,11 @@ TESTOBJS =		$(TESTSRCS:.cpp=.o)
 ARFLAGS = 	-rcs
 
 ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
+
+# Mac OS X and libiconv
+ifeq ($(IS_DARWIN),1)
+  ESAPI_LDFLAGS +=	-liconv
+endif
 
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
