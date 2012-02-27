@@ -19,6 +19,7 @@
 #include "errors/IllegalArgumentException.h"
 #include "safeint/SafeInt3.hpp"
 
+#include <new>
 #include <vector>
 #include <boost/shared_ptr.hpp>
 
@@ -194,8 +195,8 @@ namespace esapi
     void reserve(size_t cnt)
     {
       ASSERT(!(cnt > max_size()));
-      if(cnt > max_size)
-        throw bad_alloc();
+      if(cnt > max_size())
+        throw std::bad_alloc();
 
       ASSERT(m_vector.get());
       m_vector->reserve(cnt);
@@ -219,14 +220,14 @@ namespace esapi
       return m_vector->size();
     }
 
-    void resize(size_type n, T t)
+    void resize(size_type cnt, T t)
     {
       ASSERT(!(cnt > max_size()));
       if(cnt > max_size)
-        throw bad_alloc();
+        throw std::bad_alloc();
 
       ASSERT(m_vector.get());
-      m_vector->resize(n, t);
+      m_vector->resize(cnt, t);
     }
 
     void clear()
@@ -496,8 +497,8 @@ namespace esapi
 
 } // NAMESPACE
 
-// Causes duplicate symbols under MSVC???
-#if !defined(ESAPI_CXX_MSVC)
+// Causes duplicate symbols under MSVC and GCC
+#if 0
 namespace std
 {
   // Effective C++, Item 25, pp 106-112
