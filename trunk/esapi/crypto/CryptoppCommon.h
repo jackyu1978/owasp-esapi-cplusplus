@@ -17,6 +17,7 @@
 #if defined(_MSC_VER)
 # pragma warning( push, 2 )
 # pragma warning( disable: 4505 )
+# pragma warning( disable: 6326 )
 #endif
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
