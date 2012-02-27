@@ -14,8 +14,8 @@
 
 #include "EsapiCommon.h"
 
-#include "crypto/SecretKey.h"
 #include "crypto/CryptoppCommon.h"
+#include "crypto/SecretKey.h"
 
 /**
  * This class implements a Key Derivation Function (KDF) and supporting methods.
