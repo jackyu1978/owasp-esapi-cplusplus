@@ -26,7 +26,6 @@
 
 # include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
-#endif
 
 #include <iostream>
 using std::cout;
