@@ -663,7 +663,7 @@
 					Name="SafeInt"
 					>
 					<File
-						RelativePath=".\deps\safeint\SafeInt3.hpp"
+						RelativePath="..\deps\safeint\SafeInt3.hpp"
 						>
 					</File>
 				</Filter>

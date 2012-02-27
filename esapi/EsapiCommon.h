@@ -63,6 +63,16 @@
 # define ESAPI_OS_UNIX 1
 #endif
 
+// Static vs Dynamic runtime linking for Boost
+// http://msdn.microsoft.com/en-US/library/2kzt1wy3(v=vs.90).aspx
+#if defined(ESAPI_OS_WINDOWS) && defined(_MT)
+# define ESAPI_OS_WINDOWS_STATIC 1
+#elif defined(ESAPI_OS_WINDOWS) && defined(_DLL)
+# define ESAPI_OS_WINDOWS_DYNAMIC 1
+#elif defined(ESAPI_OS_WINDOWS)
+# pragma warning("Neither static nor dynamic has been picked up")
+#endif
+
 // Collect all the *nix's
 #if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_FREEBSD) || defined(ESAPI_OS_OPENBSD)
 # define ESAPI_OS_STARNIX 1

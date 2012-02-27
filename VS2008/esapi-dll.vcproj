@@ -48,7 +48,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -123,7 +123,7 @@
 				PreprocessorDefinitions="WIN64;_DEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				DebugInformationFormat="3"
@@ -197,7 +197,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -275,7 +275,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP); $(BOOST);"
 				PreprocessorDefinitions="WIN64;NDEBUG;_WINDOWS;_USRDLL;ESAPI_MS_DLL_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
@@ -625,7 +625,7 @@
 					Name="SafeInt"
 					>
 					<File
-						RelativePath=".\deps\safeint\SafeInt3.hpp"
+						RelativePath="..\deps\safeint\SafeInt3.hpp"
 						>
 					</File>
 				</Filter>
@@ -749,11 +749,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath="..\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath="..\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
