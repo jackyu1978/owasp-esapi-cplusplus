@@ -16,6 +16,8 @@
 
 #include "EsapiCommon.h"
 #include "util/zAllocator.h"
+#include "errors/IllegalArgumentException.h"
+#include "safeint/SafeInt3.hpp"
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
