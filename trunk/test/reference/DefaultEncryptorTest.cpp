@@ -82,13 +82,13 @@ BOOST_AUTO_TEST_CASE( VerifyHash1 )
   // String data
   String password = L"password", salt = L"salt", encoded;
   bool success = false;
+  const String expected = L"9Lw+bODsCpRW/wNyzapmC5xyOrF7fx/G0C46LKshoByzQ8gqSNlnJ91e+eWR5nsr58GGGLdoYRbgwYRVTrHjLQ==";
 
   try
     {
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
-
-      const String expected = L"wt4mxWv9iVZIxx2zwhmcuFBWMKu3TDZ9JamhDF7TI01KImF1fLtFitpJGKEzZJzA+D3GUg/3/itlRfDY+RAn6g==";
+      
       success = (encoded == expected);
     }
   catch(const std::exception& ex)
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE( VerifyHash1 )
       BOOST_ERROR("Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (expected): " << TextConvert::WideToNarrow(expected) << ", (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
 BOOST_AUTO_TEST_CASE( VerifyHash2 )
@@ -108,13 +108,13 @@ BOOST_AUTO_TEST_CASE( VerifyHash2 )
   // String data
   String password = L"", salt = L"", encoded;
   bool success = false;
-
+  const String expected = L"FuSGJAO03JV8sK4jUlegyguthHIQhV+36IeDLOMM8E3B00Q4rheRCv5TyLYkfwhFLINcNP2e4/ywpnPsY1JjNA==";
+    
   try
     {
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
-
-      const String expected = L"meQnjDp11bpZqktCNsYaPUVfUnptYoCTS54pozGtW6eUmPPLv903Ik31umRQWUtyBVwpR/6Rbw3VnBWbX9UKnQ==";
+      
       success = (encoded == expected);
     }
   catch(const std::exception& ex)
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE( VerifyHash2 )
       BOOST_ERROR("Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (expected): " << TextConvert::WideToNarrow(expected) << ", (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
 BOOST_AUTO_TEST_CASE( VerifyHash3 )
@@ -134,13 +134,13 @@ BOOST_AUTO_TEST_CASE( VerifyHash3 )
   // String data
   String password = L"password", salt = L"", encoded;
   bool success = false;
-
+  const String expected = L"04jstQ3C1a7zALLbnqGvvNqDsCcnIY65dADzjDKy3dl1H8Oao0vE1Sf43dftLwKKUdPcGN2EYEF8Nprh+nq3mg==";
+    
   try
     {
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
-
-      const String expected = L"y9XYKzJ5rFcfsWTQHdt5HI3nxHGsa273FxBWKEpc0y/q1Nk/oz6Dx1WNLPwQHZHW1CQuTuu7JnMKs5ZQioRegg==";
+      
       success = (encoded == expected);
     }
   catch(const std::exception& ex)
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE( VerifyHash3 )
       BOOST_ERROR("Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (expected): " << TextConvert::WideToNarrow(expected) << ", (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
 BOOST_AUTO_TEST_CASE( VerifyHash4 )
@@ -160,13 +160,13 @@ BOOST_AUTO_TEST_CASE( VerifyHash4 )
   // String data
   String password = L"", salt = L"salt", encoded;
   bool success = false;
+  const String expected = L"Ta2RUilim/6vxzx0nlUWoloMv4J1kZyLWsT5woi3FOidFT65XjA6Z2umi/Pfs60ebtJTzuMZFTcGvsByk4QA6g==";
 
   try
     {
       DefaultEncryptor encryptor;
       encoded = encryptor.hash(password, salt);
-
-      const String expected = L"8jWD+85WZUZroRcI1uYKy3PimirMqUbcr+dNVJDeGIFqbB6QkMcPVpkeeTEqr/ptJq32uG6bmjphrHzX+xrTOg==";
+      
       success = (encoded == expected);
     }
   catch(const std::exception& ex)
@@ -178,6 +178,6 @@ BOOST_AUTO_TEST_CASE( VerifyHash4 )
       BOOST_ERROR("Caught unknown exception");
     }
 
-  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (calculated): " << TextConvert::WideToNarrow(encoded));
+  BOOST_CHECK_MESSAGE(success, "Failed to arrive at expected hash (expected): " << TextConvert::WideToNarrow(expected) << ", (calculated): " << TextConvert::WideToNarrow(encoded));
 }
 
