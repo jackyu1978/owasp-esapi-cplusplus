@@ -546,10 +546,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\util\SecureArray.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\util\SecureString.cpp"
 					>
 				</File>
