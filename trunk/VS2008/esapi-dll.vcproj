@@ -352,27 +352,7 @@
 				Name="crypto"
 				>
 				<File
-					RelativePath="..\src\crypto\AlgorithmParameters.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\Cipher.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherSpec.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\crypto\CipherText.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CryptoHelper.cpp"
 					>
 				</File>
 				<File
@@ -749,11 +729,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath="..\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath="..\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
