@@ -71,6 +71,9 @@ namespace esapi
     ESAPI_ASSERT2(len <= size, "Length exceeds iv size");
     ESAPI_ASSERT2(offset <= size - len, "Offset and length exceed iv array size");
 
+	if(!iv || !size)
+		return SecureByteArray();
+
     try
       {
         SafeInt<size_t> si(offset);
