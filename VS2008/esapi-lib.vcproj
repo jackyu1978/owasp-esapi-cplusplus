@@ -334,34 +334,6 @@
 				Name="crypto"
 				>
 				<File
-					RelativePath="..\src\crypto\AlgorithmParameters.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\Cipher.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherAuthEncImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherCryptoppHelper.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherEncImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherImpl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\crypto\CipherSpec.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\crypto\CipherText.cpp"
 					>
 				</File>
