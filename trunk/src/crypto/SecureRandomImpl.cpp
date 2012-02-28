@@ -289,6 +289,18 @@ namespace esapi
         ASSERT(size1 <= 255 && size2 <= 255);
         ASSERT(size1 >= size2);
 
+		if(!buffer1)
+			throw IllegalArgumentException("Buffer 1 is not valid");
+
+		if(!size1)
+			throw IllegalArgumentException("Buffer 1 size is not valid");
+
+		if(!buffer2)
+			throw IllegalArgumentException("Buffer 2 is not valid");
+
+		if(!size2)
+			throw IllegalArgumentException("Buffer 2 size is not valid");
+
         size_t rem = std::min(size1, size2);
         ASSERT(rem > 0);
     
