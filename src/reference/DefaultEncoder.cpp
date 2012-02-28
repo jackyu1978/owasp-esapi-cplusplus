@@ -71,8 +71,10 @@ namespace esapi
     }
     return singletonInstance;
     */
-    Encoder* enc = nullptr;
-    return *enc;
+    static DefaultEncoder encoder;
+
+	MEMORY_BARRIER();
+	return encoder;
   }
 
   DefaultEncoder::DefaultEncoder( std::set<String> codecNames)
