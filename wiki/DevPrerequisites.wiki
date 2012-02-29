@@ -59,11 +59,13 @@ $ apt-cache pkgnames | grep -i boost
 }}}
 
 == Win32 ==
-A version of ESAPI for Windows x86/x64 is available via a Visual Studio 2008 solution file. The Win32 version of ESAPI will build a static version of the library. The Win32 version does not build the self tests due to problems linking against Boost::Test.
+A version of ESAPI for Windows x86/x64 is available via a Visual Studio 2008 solution file. The Win32 version of ESAPI will build a static version of the library. The Win32 version does not build the self tests due to problems linking against Boost.
 
-The Win32 version of ESAPI is also dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. If you do not have a Crypto++ or Boost environmental variable, see http://technet.microsoft.com/en-us/library/bb726962.aspx and http://support.microsoft.com/kb/310519.
+The Win32 version of ESAPI is dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'.
 
-The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
+Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
+
+If you do not have a Crypto++ or Boost environmental variable, see http://technet.microsoft.com/en-us/library/bb726962.aspx and http://support.microsoft.com/kb/310519.
 
 The project should convert to VS2010 without trouble. In addition, the project should down-convert to VS2005 by modifying the solution and project file's headers (its just XML, change the version number). Below Visual Studio 2008 uses Version=9.00. To convert to Visual Studio 2005, change the version to 8.00.
 
