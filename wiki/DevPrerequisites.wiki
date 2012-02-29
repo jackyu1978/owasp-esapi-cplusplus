@@ -61,7 +61,7 @@ $ apt-cache pkgnames | grep -i boost
 == Win32 ==
 A version of ESAPI for Windows x86/x64 is available via a Visual Studio 2008 solution file. The Win32 version of ESAPI will build a static version of the library. The Win32 version does not build the self tests due to problems linking against Boost.
 
-The Win32 version of ESAPI is dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'.
+The Win32 version of ESAPI is dependent upon Crypto++ and Boost. The Visual Studio project expects two environmental variables to be set: one for Crypto++ and one for Boost. The Crypto++ variable is named 'CRYPTOPP' and should point to the directory containing Crypto++. For example, if Crypto++ is in a folder on the desktop, the envrioment should be 'CRYPTOPP=C:\...\Desktop'. Additionally, the Crypto++ directory must be named *cryptopp* since its used in an include: {{{#include "cryptopp/rsa.h"}}}.
 
 Boost uses the environmental variable 'BOOST', and should include the Boost folder (unlike Crypto++). For example, if Boost is located in 'C:\Program Files\boost\boost_1_47', the envrioment should be 'BOOST=C:\Program Files\boost\boost_1_47'. Note well (N.B.): remember to build the Crypto++ and Boost libraries to avoid linker errors.
 
