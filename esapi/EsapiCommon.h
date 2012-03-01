@@ -65,12 +65,12 @@
 
 // Static vs Dynamic runtime linking for Boost
 // http://msdn.microsoft.com/en-US/library/2kzt1wy3(v=vs.90).aspx
-#if defined(ESAPI_OS_WINDOWS) && defined(_MT)
+#if defined(ESAPI_OS_WINDOWS) && defined(_MT) && !defined(_DLL)
 # define ESAPI_OS_WINDOWS_STATIC 1
-#elif defined(ESAPI_OS_WINDOWS) && defined(_DLL)
+#elif defined(ESAPI_OS_WINDOWS) && defined(_MT) && defined(_DLL)
 # define ESAPI_OS_WINDOWS_DYNAMIC 1
 #elif defined(ESAPI_OS_WINDOWS)
-# pragma warning("Neither static nor dynamic has been picked up")
+# pragma warning("Neither static nor dynamic runtime linking has been picked up")
 #endif
 
 // Collect all the *nix's
