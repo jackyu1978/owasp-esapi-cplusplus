@@ -121,7 +121,7 @@ namespace esapi
 
     // Trim a trailing suffix from the integer (if present)
     const size_t len = nn.length();
-    if(len && !::isalnum(nn[len-1]))
+    if(len && !::isalnum((unsigned char)(nn[len-1])))
       nn.erase(nn.end()-1);
 
     if(nn == enc)

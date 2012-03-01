@@ -528,10 +528,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\util\SecureArray.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\util\SecureString.cpp"
 					>
 				</File>
@@ -729,11 +725,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath="..\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath="..\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
