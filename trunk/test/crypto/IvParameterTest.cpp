@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE(IvParameterTest_9N)
     {
       IvParameterSpec iv(nullptr, 0);
 
-      BOOST_ERROR("Failed to catch exceeded bounds");
+      BOOST_ERROR("Failed to catch nullptr");
     }
   catch(const IllegalArgumentException& ex)
     {
