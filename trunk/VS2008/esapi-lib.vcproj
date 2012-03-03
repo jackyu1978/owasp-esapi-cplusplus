@@ -453,14 +453,6 @@
 					RelativePath="..\src\reference\DefaultValidator.cpp"
 					>
 				</File>
-				<File
-					RelativePath="..\src\reference\IntegerAccessReferenceMap.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\reference\RandomAccessReferenceMap.cpp"
-					>
-				</File>
 				<Filter
 					Name="validation"
 					>
@@ -816,6 +808,10 @@
 					</File>
 					<File
 						RelativePath="..\esapi\reference\DefaultValidator.h"
+						>
+					</File>
+					<File
+						RelativePath="..\esapi\reference\GenericAccessReferenceMap.h"
 						>
 					</File>
 					<File
