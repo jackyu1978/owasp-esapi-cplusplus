@@ -66,7 +66,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -141,7 +141,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="17"
@@ -216,7 +216,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -294,7 +294,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -337,7 +337,6 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -371,6 +370,14 @@
 			<File
 				RelativePath="..\test\TestMainWin32.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<Filter
 				Name="codec"
@@ -378,6 +385,14 @@
 				<File
 					RelativePath="..\test\codecs\CodecTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\codecs\HTMLEntityCodecTest.cpp"
@@ -418,10 +433,26 @@
 				<File
 					RelativePath="..\test\codecs\LDAPCodecTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\codecs\MySQLCodecTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\codecs\PushbackStringTest.cpp"
@@ -502,6 +533,14 @@
 				<File
 					RelativePath="..\test\crypto\CipherSpecTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\CipherTextTest.cpp"
@@ -510,10 +549,26 @@
 				<File
 					RelativePath="..\test\crypto\CryptoHelperTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\IvParameterTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\KeyDerivationFunctionTest.cpp"
@@ -554,14 +609,38 @@
 				<File
 					RelativePath="..\test\crypto\KeyGeneratorTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\MessageDigestTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\PlainTextTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\crypto\SecretKeyTest.cpp"
@@ -602,6 +681,14 @@
 				<File
 					RelativePath="..\test\crypto\SecureRandomTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -610,6 +697,14 @@
 				<File
 					RelativePath="..\test\errors\ValidationExceptionTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -653,6 +748,18 @@
 				</File>
 				<File
 					RelativePath="..\test\reference\DefaultEncryptorTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\test\reference\GenericAccessReferenceMapTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\test\reference\IntegerAccessReferenceMapTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\test\reference\RandomAccessReferenceMapTest.cpp"
 					>
 				</File>
 				<Filter
@@ -702,14 +809,38 @@
 				<File
 					RelativePath="..\test\util\AlgorithmNameTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\util\SecureByteArrayTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\util\SecureIntArrayTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\util\SecureStringTest1.cpp"
@@ -722,6 +853,14 @@
 				<File
 					RelativePath="..\test\util\TextConvertTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\test\util\zAllocatorTest.cpp"

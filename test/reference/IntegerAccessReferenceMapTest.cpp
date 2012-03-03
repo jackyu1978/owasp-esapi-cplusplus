@@ -11,17 +11,18 @@
  *
  */
 
-#if defined(_WIN32)
-    #if defined(STATIC_TEST)
-        // do not enable BOOST_TEST_DYN_LINK
-    #elif defined(DLL_TEST)
-        #define BOOST_TEST_DYN_LINK
-    #else
-        #error "For Windows you must define either STATIC_TEST or DLL_TEST"
-    #endif
+#include "EsapiCommon.h"
+
+#if defined(ESAPI_OS_WINDOWS_STATIC)
+// do not enable BOOST_TEST_DYN_LINK
+#elif defined(ESAPI_OS_WINDOWS_DYNAMIC)
+# define BOOST_TEST_DYN_LINK
+#elif defined(ESAPI_OS_WINDOWS)
+# error "For Windows, ESAPI_OS_WINDOWS_STATIC or ESAPI_OS_WINDOWS_DYNAMIC must be defined"
 #else
-    #define BOOST_TEST_DYN_LINK
+# define BOOST_TEST_DYN_LINK
 #endif
+
 #include <boost/test/unit_test.hpp>
 using namespace boost::unit_test;
 
@@ -31,7 +32,6 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#include "EsapiCommon.h"
 using esapi::Char;
 using esapi::String;
 
@@ -48,6 +48,8 @@ namespace esapi
 
     BOOST_AUTO_TEST_CASE( IntegerRefMapTest_CtorDtor )
     {
+        BOOST_MESSAGE( "Verifying IntegerAccessReferenceMap class" );
+
        IntegerAccessReferenceMap * test_ptr_obj = new IntegerAccessReferenceMap;
 
        BOOST_CHECK_MESSAGE( test_ptr_obj != NULL, "CTOR failed to create ptr" );

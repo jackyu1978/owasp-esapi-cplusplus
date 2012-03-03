@@ -495,14 +495,6 @@
 					RelativePath="..\src\reference\DefaultValidator.cpp"
 					>
 				</File>
-				<File
-					RelativePath="..\src\reference\IntegerAccessReferenceMap.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\reference\RandomAccessReferenceMap.cpp"
-					>
-				</File>
 				<Filter
 					Name="validation"
 					>
@@ -513,6 +505,14 @@
 					<File
 						RelativePath="..\src\reference\validation\StringValidationRule.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							ExcludedFromBuild="true"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -725,11 +725,11 @@
 					Name="errors"
 					>
 					<File
-						RelativePath="..\esapi\errors\AccessControlException.h"
+						RelativePath=".\AccessControlException.h"
 						>
 					</File>
 					<File
-						RelativePath=".\AccessControlException.h"
+						RelativePath="..\esapi\errors\AccessControlException.h"
 						>
 					</File>
 					<File
@@ -790,6 +790,10 @@
 					</File>
 					<File
 						RelativePath="..\esapi\reference\DefaultValidator.h"
+						>
+					</File>
+					<File
+						RelativePath="..\esapi\reference\GenericAccessReferenceMap.h"
 						>
 					</File>
 					<File
