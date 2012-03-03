@@ -313,7 +313,10 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp \
 			test/util/TextConvertTest.cpp \
-			test/reference/validation/StringValidationRuleTest.cpp
+			test/reference/validation/StringValidationRuleTest.cpp \
+			test/reference/GenericAccessReferenceMapTest.cpp \
+			test/reference/IntegerAccessReferenceMapTest.cpp \
+			test/reference/RandomAccessReferenceMapTest.cpp
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
