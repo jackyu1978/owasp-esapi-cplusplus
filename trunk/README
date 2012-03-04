@@ -8,9 +8,9 @@ The ESAPI C++ security library is published by OWASP under the BSD license. You 
 
 The ESAPI C++ library  is a free, open source, security control library for a number of languages, including ASP, PHP, Python, Ruby, Objective C, Java, and .Net. ESAPI is used by a growing number of security conscious organizations, including American Express, Apache Foundation, Booz Allen Hamilton, Aspect Security, Foundstone (McAfee?), The Hartford, Infinite Campus, Lockheed Martin, MITRE, The World Bank, and the SANS Institute.
 
-The ESAPI library facilitates writing lower-risk applications by making it easier to retrofit security into existing applications, and provides a solid foundation for new development. ESAPI C++ is a scaled down version of the library offered in other languages. The C++ version uses Wei Dai's Crypto++ for cryptographic operations, and the SafeInt class written by David LeBlanc for safe integer operations.
+The ESAPI library facilitates writing lower-risk applications by making it easier to retrofit security into existing applications, and provides a solid foundation for new development. ESAPI C++ is a scaled down version of the library offered in other languages. The C++ version uses Wei Dai's Crypto++ for cryptographic operations, and the SafeInt class written by David LeBlanc for safe integer operations. Additionally, the ESAPI library uses Boost.
 
-The project's web presense is located at https://www.owasp.org/index.php/OWASP_ESAPI_C%2B%2B_Project.
+The project's web presence is located at https://www.owasp.org/index.php/OWASP_ESAPI_C%2B%2B_Project.
 
 The project's source code is located at http://code.google.com/p/owasp-esapi-cplusplus/.
 
@@ -40,5 +40,3 @@ If you are programming an application which uses the ESAPI C++ security library,
 == ESAPI Library Installation ==
 
 To install the ESAPI C++ security library, please visit <???>.
-
-
