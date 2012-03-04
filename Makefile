@@ -360,7 +360,7 @@ ifeq ($(GNU_LD216_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
-LDLIBS 		+= -lcryptopp -lboost_regex
+LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
 
 # iconvert library. For GNU Linux, its included in glib (and Make needs a logical OR)
 ifeq ($(IS_BSD),1)
