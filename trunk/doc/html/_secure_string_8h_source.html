@@ -106,9 +106,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00021"></a>00021 <span class="keyword">using</span> std::basic_string;
 <a name="l00022"></a>00022 
 <a name="l00023"></a>00023 <span class="comment">//#if defined(_GLIBCXX_DEBUG)</span>
-<a name="l00024"></a>00024 <span class="comment">//typedef __gnu_debug::basic_string&lt; Char, std::char_traits&lt;Char&gt;, esapi::zallocator&lt;Char&gt; &gt; SecureStringBase;</span>
+<a name="l00024"></a>00024 <span class="comment">//typedef __gnu_debug::basic_string&lt; Char, std::char_traits&lt;Char&gt;, zallocator&lt;Char&gt; &gt; SecureStringBase;</span>
 <a name="l00025"></a>00025 <span class="comment">//#else</span>
-<a name="l00026"></a>00026 <span class="comment">//typedef std::basic_string&lt; Char, std::char_traits&lt;Char&gt;, esapi::zallocator&lt;Char&gt; &gt; SecureStringBase;</span>
+<a name="l00026"></a>00026 <span class="comment">//typedef std::basic_string&lt; Char, std::char_traits&lt;Char&gt;, zallocator&lt;Char&gt; &gt; SecureStringBase;</span>
 <a name="l00027"></a>00027 <span class="comment">//#endif</span>
 <a name="l00028"></a>00028 
 <a name="l00029"></a>00029 <span class="keyword">namespace </span>esapi
@@ -117,7 +117,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00032"></a>00032   {
 <a name="l00033"></a>00033   <span class="keyword">public</span>:
 <a name="l00034"></a>00034 
-<a name="l00035"></a><a class="code" href="classesapi_1_1_secure_string.html#a52d47091ea576cb3a46bd1fd0d189123">00035</a>     <span class="keyword">typedef</span> std::basic_string&lt; Char, std::char_traits&lt;Char&gt;, <a class="code" href="classesapi_1_1zallocator.html">esapi::zallocator&lt;Char&gt;</a> &gt; <a class="code" href="classesapi_1_1_secure_string.html#a52d47091ea576cb3a46bd1fd0d189123">SecureStringBase</a>;
+<a name="l00035"></a><a class="code" href="classesapi_1_1_secure_string.html#a52d47091ea576cb3a46bd1fd0d189123">00035</a>     <span class="keyword">typedef</span> std::basic_string&lt; Char, std::char_traits&lt;Char&gt;, <a class="code" href="classesapi_1_1zallocator.html">zallocator&lt;Char&gt;</a> &gt; <a class="code" href="classesapi_1_1_secure_string.html#a52d47091ea576cb3a46bd1fd0d189123">SecureStringBase</a>;
 <a name="l00036"></a><a class="code" href="classesapi_1_1_secure_string.html#ad749308c3d1637ad9da66091c4540293">00036</a>     <span class="keyword">typedef</span> <a class="code" href="classesapi_1_1zallocator.html#a434fde65bd724ca83185ccc68d30b0d4">zallocator&lt;Char&gt;::size_type</a> <a class="code" href="classesapi_1_1_secure_string.html#ad749308c3d1637ad9da66091c4540293">size_type</a>;
 <a name="l00037"></a><a class="code" href="classesapi_1_1_secure_string.html#a3c9a8f41786e77ea320a48021a66773b">00037</a>     <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html#ad749308c3d1637ad9da66091c4540293">size_type</a> npos = <span class="keyword">static_cast&lt;</span><a class="code" href="classesapi_1_1_secure_string.html#ad749308c3d1637ad9da66091c4540293">size_type</a><span class="keyword">&gt;</span>(-1);
 <a name="l00038"></a>00038 
@@ -269,8 +269,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00184"></a>00184     SecureStringBase m_base;
 <a name="l00185"></a>00185   };
 <a name="l00186"></a>00186 
-<a name="l00187"></a>00187   ESAPI_EXPORT <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s, <span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; ss);
-<a name="l00188"></a>00188   ESAPI_EXPORT <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; ss, <span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s);
+<a name="l00187"></a>00187   ESAPI_EXPORT <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s, <span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; ss);
+<a name="l00188"></a>00188   ESAPI_EXPORT <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; ss, <span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s);
 <a name="l00189"></a>00189 
 <a name="l00190"></a>00190 } <span class="comment">// NAMESPACE</span>
 <a name="l00191"></a>00191 
@@ -278,7 +278,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00193"></a>00193 <span class="keyword">namespace </span>std
 <a name="l00194"></a>00194 {
 <a name="l00195"></a>00195   <span class="keyword">template</span> &lt;&gt;
-<a name="l00196"></a>00196   ESAPI_EXPORT <span class="keywordtype">void</span> <a class="code" href="namespacestd.html#a4bf4bede4d770effaeb5d4aa83131663">swap</a>(<a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; a, <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; b);
+<a name="l00196"></a>00196   ESAPI_EXPORT <span class="keywordtype">void</span> <a class="code" href="namespacestd.html#a4bf4bede4d770effaeb5d4aa83131663">swap</a>(<a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; a, <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; b);
 <a name="l00197"></a>00197 }
 </pre></div></div><!-- contents -->
 <!-- window showing the filter options -->

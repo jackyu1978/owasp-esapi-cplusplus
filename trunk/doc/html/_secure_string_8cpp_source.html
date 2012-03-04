@@ -640,12 +640,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00568"></a>00568     <span class="keywordflow">return</span> m_base.compare(pos1, n1, s, n2);
 <a name="l00569"></a>00569   }
 <a name="l00570"></a>00570 
-<a name="l00571"></a><a class="code" href="namespaceesapi.html#a3d857d631f2e3e280671875eda3769e6">00571</a>   <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s, <span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; ss)
+<a name="l00571"></a><a class="code" href="namespaceesapi.html#a3d857d631f2e3e280671875eda3769e6">00571</a>   <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s, <span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; ss)
 <a name="l00572"></a>00572   {
 <a name="l00573"></a>00573     <span class="keywordflow">return</span> ss.<a class="code" href="classesapi_1_1_secure_string.html#ac201eea516e2d2e28ca3ade01dd3da78">compare</a>(0, s.size(), s.data()) == 0;
 <a name="l00574"></a>00574   }
 <a name="l00575"></a>00575 
-<a name="l00576"></a><a class="code" href="namespaceesapi.html#a65ed8050a63c1bad3c78c26ff5539d3d">00576</a>   <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; ss, <span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s)
+<a name="l00576"></a><a class="code" href="namespaceesapi.html#a65ed8050a63c1bad3c78c26ff5539d3d">00576</a>   <span class="keywordtype">bool</span> <a class="code" href="namespaceesapi.html#acd531e511b3a3db7efba9f6a6f227303">operator==</a>(<span class="keyword">const</span> <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; ss, <span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&amp; s)
 <a name="l00577"></a>00577   {  
 <a name="l00578"></a>00578     <span class="keywordflow">return</span> ss.<a class="code" href="classesapi_1_1_secure_string.html#ac201eea516e2d2e28ca3ade01dd3da78">compare</a>(0, s.size(), s.data()) == 0;
 <a name="l00579"></a>00579   }
@@ -656,7 +656,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00584"></a>00584 <span class="keyword">namespace </span>std
 <a name="l00585"></a>00585 {
 <a name="l00586"></a>00586   <span class="keyword">template</span> &lt;&gt;
-<a name="l00587"></a><a class="code" href="namespacestd.html#a57f625c00120ce37c4dd3a0cd04bca14">00587</a>   <span class="keywordtype">void</span> <a class="code" href="namespacestd.html#a4bf4bede4d770effaeb5d4aa83131663">swap</a>(<a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; a, <a class="code" href="classesapi_1_1_secure_string.html">esapi::SecureString</a>&amp; b)
+<a name="l00587"></a><a class="code" href="namespacestd.html#a57f625c00120ce37c4dd3a0cd04bca14">00587</a>   <span class="keywordtype">void</span> <a class="code" href="namespacestd.html#a4bf4bede4d770effaeb5d4aa83131663">swap</a>(<a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; a, <a class="code" href="classesapi_1_1_secure_string.html">SecureString</a>&amp; b)
 <a name="l00588"></a>00588   {
 <a name="l00589"></a>00589     a.<a class="code" href="classesapi_1_1_secure_string.html#af44d03392e4661e925b24f896b487c37">swap</a>(b);
 <a name="l00590"></a>00590   }

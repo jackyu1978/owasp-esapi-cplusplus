@@ -204,8 +204,8 @@ Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">ESAPI_EXPORT std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a1d3cd20bdf4a5760a3487dab7c0dd31a">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classesapi_1_1_secret_key.html">SecretKey</a> &amp;rhs)</td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a7a118885840184bcf6ba30692036c24c">swap</a> (<a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt; <a class="el" href="namespaceesapi.html#a6a7dbb2bce650c5e1d550c913f56c8b8">T</a> &gt; &amp;a, <a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt; <a class="el" href="namespaceesapi.html#a6a7dbb2bce650c5e1d550c913f56c8b8">T</a> &gt; &amp;b)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">ESAPI_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a3d857d631f2e3e280671875eda3769e6">operator==</a> (const <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;s, const <a class="el" href="classesapi_1_1_secure_string.html">esapi::SecureString</a> &amp;ss)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">ESAPI_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a65ed8050a63c1bad3c78c26ff5539d3d">operator==</a> (const <a class="el" href="classesapi_1_1_secure_string.html">esapi::SecureString</a> &amp;ss, const <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;s)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ESAPI_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a3d857d631f2e3e280671875eda3769e6">operator==</a> (const <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;s, const <a class="el" href="classesapi_1_1_secure_string.html">SecureString</a> &amp;ss)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">ESAPI_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a65ed8050a63c1bad3c78c26ff5539d3d">operator==</a> (const <a class="el" href="classesapi_1_1_secure_string.html">SecureString</a> &amp;ss, const <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;s)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classesapi_1_1_mutex.html">Mutex</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a5dffad16a942e2411abeb960664d740c">GetClassLock</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceesapi.html#a1b38ef02da5663931df28d7695cbe8d2">CodePageMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#a003a6e8866f0ed7fc997c2f8cb8ff0fb">GetCodePageMap</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">UINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceesapi.html#af9af9500691af2bed24f5b2180d49f88">EncodingToWindowsCodePage</a> (const <a class="el" href="namespaceesapi.html#a65cfe8619ad9f03d58c84997dd3b1d9f">Encoding</a> &amp;encoding)</td></tr>
@@ -233,7 +233,7 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 <dd>
 Sivasankar Tanakala (<a href="mailto:stanakal@TRS.NYC.NY.US">stanakal@TRS.NYC.NY.US</a>) </dd></dl>
 <dl class="since"><dt><b>Since:</b></dt><dd>October 26, 2010 </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="classesapi_1_1_encoder.html">esapi::Encoder</a></dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="classesapi_1_1_encoder.html">Encoder</a></dd></dl>
 <p>OWASP Enterprise Security API (ESAPI)</p>
 <p>This file is part of the Open Web Application Security Project (OWASP) Enterprise Security API (ESAPI) project. For details, please see <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.</p>
 <p>Copyright (c) 2007 - The OWASP Foundation</p>
@@ -549,12 +549,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecurity.com</a>)</dd></dl>
 <p>2007 </p>
 </div><hr/><h2>Typedef Documentation</h2>
-<a class="anchor" id="a68fc6ab8ac764857ef3ddad0281c57c0"></a><!-- doxytag: member="esapi::ByteArrayZeroizer" ref="a68fc6ab8ac764857ef3ddad0281c57c0" args="" -->
+<a class="anchor" id="a68fc6ab8ac764857ef3ddad0281c57c0"></a><!-- doxytag: member="ByteArrayZeroizer" ref="a68fc6ab8ac764857ef3ddad0281c57c0" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;<a class="el" href="_esapi_common_8h.html#a0c8186d9b9b7880309c27230bbb5e69d">byte</a>&gt; <a class="el" href="namespaceesapi.html#a68fc6ab8ac764857ef3ddad0281c57c0">esapi::ByteArrayZeroizer</a></td>
+          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;<a class="el" href="_esapi_common_8h.html#a0c8186d9b9b7880309c27230bbb5e69d">byte</a>&gt; <a class="el" href="namespaceesapi.html#a68fc6ab8ac764857ef3ddad0281c57c0">ByteArrayZeroizer</a></td>
         </tr>
       </table>
 </div>
@@ -564,12 +564,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="ac7991f59320493e1ee3596b417ad16eb"></a><!-- doxytag: member="esapi::Char" ref="ac7991f59320493e1ee3596b417ad16eb" args="" -->
+<a class="anchor" id="ac7991f59320493e1ee3596b417ad16eb"></a><!-- doxytag: member="Char" ref="ac7991f59320493e1ee3596b417ad16eb" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef wchar_t <a class="el" href="namespaceesapi.html#ac7991f59320493e1ee3596b417ad16eb">esapi::Char</a></td>
+          <td class="memname">typedef wchar_t <a class="el" href="namespaceesapi.html#ac7991f59320493e1ee3596b417ad16eb">Char</a></td>
         </tr>
       </table>
 </div>
@@ -579,12 +579,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a34fcc6ffddb391c1929c79e1e96b2236"></a><!-- doxytag: member="esapi::CharArrayZeroizer" ref="a34fcc6ffddb391c1929c79e1e96b2236" args="" -->
+<a class="anchor" id="a34fcc6ffddb391c1929c79e1e96b2236"></a><!-- doxytag: member="CharArrayZeroizer" ref="a34fcc6ffddb391c1929c79e1e96b2236" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;<a class="el" href="namespaceesapi.html#ac7991f59320493e1ee3596b417ad16eb">Char</a>&gt; <a class="el" href="namespaceesapi.html#a34fcc6ffddb391c1929c79e1e96b2236">esapi::CharArrayZeroizer</a></td>
+          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;<a class="el" href="namespaceesapi.html#ac7991f59320493e1ee3596b417ad16eb">Char</a>&gt; <a class="el" href="namespaceesapi.html#a34fcc6ffddb391c1929c79e1e96b2236">CharArrayZeroizer</a></td>
         </tr>
       </table>
 </div>
@@ -594,12 +594,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a1b38ef02da5663931df28d7695cbe8d2"></a><!-- doxytag: member="esapi::CodePageMap" ref="a1b38ef02da5663931df28d7695cbe8d2" args="" -->
+<a class="anchor" id="a1b38ef02da5663931df28d7695cbe8d2"></a><!-- doxytag: member="CodePageMap" ref="a1b38ef02da5663931df28d7695cbe8d2" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::map&lt;std::string, UINT, <a class="el" href="classesapi_1_1icompare.html">icompare</a>&gt; <a class="el" href="namespaceesapi.html#a1b38ef02da5663931df28d7695cbe8d2">esapi::CodePageMap</a></td>
+          <td class="memname">typedef std::map&lt;std::string, UINT, <a class="el" href="classesapi_1_1icompare.html">icompare</a>&gt; <a class="el" href="namespaceesapi.html#a1b38ef02da5663931df28d7695cbe8d2">CodePageMap</a></td>
         </tr>
       </table>
 </div>
@@ -609,12 +609,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="af5c29da8cefd193c946736d669864065"></a><!-- doxytag: member="esapi::CodePageMapInterator" ref="af5c29da8cefd193c946736d669864065" args="" -->
+<a class="anchor" id="af5c29da8cefd193c946736d669864065"></a><!-- doxytag: member="CodePageMapInterator" ref="af5c29da8cefd193c946736d669864065" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef CodePageMap::const_iterator <a class="el" href="namespaceesapi.html#af5c29da8cefd193c946736d669864065">esapi::CodePageMapInterator</a></td>
+          <td class="memname">typedef CodePageMap::const_iterator <a class="el" href="namespaceesapi.html#af5c29da8cefd193c946736d669864065">CodePageMapInterator</a></td>
         </tr>
       </table>
 </div>
@@ -624,12 +624,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a44bd7cfebb907e7dba6db4cb0ffde223"></a><!-- doxytag: member="esapi::CodePageMapValue" ref="a44bd7cfebb907e7dba6db4cb0ffde223" args="" -->
+<a class="anchor" id="a44bd7cfebb907e7dba6db4cb0ffde223"></a><!-- doxytag: member="CodePageMapValue" ref="a44bd7cfebb907e7dba6db4cb0ffde223" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef CodePageMap::value_type <a class="el" href="namespaceesapi.html#a44bd7cfebb907e7dba6db4cb0ffde223">esapi::CodePageMapValue</a></td>
+          <td class="memname">typedef CodePageMap::value_type <a class="el" href="namespaceesapi.html#a44bd7cfebb907e7dba6db4cb0ffde223">CodePageMapValue</a></td>
         </tr>
       </table>
 </div>
@@ -639,12 +639,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a65cfe8619ad9f03d58c84997dd3b1d9f"></a><!-- doxytag: member="esapi::Encoding" ref="a65cfe8619ad9f03d58c84997dd3b1d9f" args="" -->
+<a class="anchor" id="a65cfe8619ad9f03d58c84997dd3b1d9f"></a><!-- doxytag: member="Encoding" ref="a65cfe8619ad9f03d58c84997dd3b1d9f" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespaceesapi.html#a73a5edf49a6fc053240d3b0bb617c803">NarrowString</a> <a class="el" href="namespaceesapi.html#a65cfe8619ad9f03d58c84997dd3b1d9f">esapi::Encoding</a></td>
+          <td class="memname">typedef <a class="el" href="namespaceesapi.html#a73a5edf49a6fc053240d3b0bb617c803">NarrowString</a> <a class="el" href="namespaceesapi.html#a65cfe8619ad9f03d58c84997dd3b1d9f">Encoding</a></td>
         </tr>
       </table>
 </div>
@@ -654,12 +654,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a3e5eef0a74b3048ae63c0874c020c24d"></a><!-- doxytag: member="esapi::ExecuteResult" ref="a3e5eef0a74b3048ae63c0874c020c24d" args="" -->
+<a class="anchor" id="a3e5eef0a74b3048ae63c0874c020c24d"></a><!-- doxytag: member="ExecuteResult" ref="a3e5eef0a74b3048ae63c0874c020c24d" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a3e5eef0a74b3048ae63c0874c020c24d">esapi::ExecuteResult</a></td>
+          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a3e5eef0a74b3048ae63c0874c020c24d">ExecuteResult</a></td>
         </tr>
       </table>
 </div>
@@ -674,12 +674,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="a3e47dde43d0951fa9d33269c57e9aeb9"></a><!-- doxytag: member="esapi::InputStream" ref="a3e47dde43d0951fa9d33269c57e9aeb9" args="" -->
+<a class="anchor" id="a3e47dde43d0951fa9d33269c57e9aeb9"></a><!-- doxytag: member="InputStream" ref="a3e47dde43d0951fa9d33269c57e9aeb9" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> <a class="el" href="namespaceesapi.html#a3e47dde43d0951fa9d33269c57e9aeb9">esapi::InputStream</a></td>
+          <td class="memname">typedef <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> <a class="el" href="namespaceesapi.html#a3e47dde43d0951fa9d33269c57e9aeb9">InputStream</a></td>
         </tr>
       </table>
 </div>
@@ -689,12 +689,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="aae3dd3f8d40da0b474992a361d569f4a"></a><!-- doxytag: member="esapi::IntArrayZeroizer" ref="aae3dd3f8d40da0b474992a361d569f4a" args="" -->
+<a class="anchor" id="aae3dd3f8d40da0b474992a361d569f4a"></a><!-- doxytag: member="IntArrayZeroizer" ref="aae3dd3f8d40da0b474992a361d569f4a" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;int&gt; <a class="el" href="namespaceesapi.html#aae3dd3f8d40da0b474992a361d569f4a">esapi::IntArrayZeroizer</a></td>
+          <td class="memname">typedef <a class="el" href="classesapi_1_1_array_zeroizer.html">ArrayZeroizer</a>&lt;int&gt; <a class="el" href="namespaceesapi.html#aae3dd3f8d40da0b474992a361d569f4a">IntArrayZeroizer</a></td>
         </tr>
       </table>
 </div>
@@ -704,12 +704,12 @@ Dan Amodio (<a href="mailto:dan.amodio@aspectsecurity.com">dan.amodio@aspectsecu
 
 </div>
 </div>
-<a class="anchor" id="ad464ce2fbc42a1450055df9f0d0f3e3e"></a><!-- doxytag: member="esapi::Iterator" ref="ad464ce2fbc42a1450055df9f0d0f3e3e" args="" -->
+<a class="anchor" id="ad464ce2fbc42a1450055df9f0d0f3e3e"></a><!-- doxytag: member="Iterator" ref="ad464ce2fbc42a1450055df9f0d0f3e3e" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef size_t <a class="el" href="namespaceesapi.html#ad464ce2fbc42a1450055df9f0d0f3e3e">esapi::Iterator</a></td>
+          <td class="memname">typedef size_t <a class="el" href="namespaceesapi.html#ad464ce2fbc42a1450055df9f0d0f3e3e">Iterator</a></td>
         </tr>
       </table>
 </div>
@@ -740,12 +740,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a02d3d8f2bd32ae708a79d2bdba9eb281"></a><!-- doxytag: member="esapi::K" ref="a02d3d8f2bd32ae708a79d2bdba9eb281" args="" -->
+<a class="anchor" id="a02d3d8f2bd32ae708a79d2bdba9eb281"></a><!-- doxytag: member="K" ref="a02d3d8f2bd32ae708a79d2bdba9eb281" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a02d3d8f2bd32ae708a79d2bdba9eb281">esapi::K</a></td>
+          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a02d3d8f2bd32ae708a79d2bdba9eb281">K</a></td>
         </tr>
       </table>
 </div>
@@ -755,12 +755,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="adcec6d51b1da2f01b13d6618e75cfe27"></a><!-- doxytag: member="esapi::NarrowChar" ref="adcec6d51b1da2f01b13d6618e75cfe27" args="" -->
+<a class="anchor" id="adcec6d51b1da2f01b13d6618e75cfe27"></a><!-- doxytag: member="NarrowChar" ref="adcec6d51b1da2f01b13d6618e75cfe27" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef char <a class="el" href="namespaceesapi.html#adcec6d51b1da2f01b13d6618e75cfe27">esapi::NarrowChar</a></td>
+          <td class="memname">typedef char <a class="el" href="namespaceesapi.html#adcec6d51b1da2f01b13d6618e75cfe27">NarrowChar</a></td>
         </tr>
       </table>
 </div>
@@ -770,12 +770,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a73a5edf49a6fc053240d3b0bb617c803"></a><!-- doxytag: member="esapi::NarrowString" ref="a73a5edf49a6fc053240d3b0bb617c803" args="" -->
+<a class="anchor" id="a73a5edf49a6fc053240d3b0bb617c803"></a><!-- doxytag: member="NarrowString" ref="a73a5edf49a6fc053240d3b0bb617c803" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::string <a class="el" href="namespaceesapi.html#a73a5edf49a6fc053240d3b0bb617c803">esapi::NarrowString</a></td>
+          <td class="memname">typedef std::string <a class="el" href="namespaceesapi.html#a73a5edf49a6fc053240d3b0bb617c803">NarrowString</a></td>
         </tr>
       </table>
 </div>
@@ -785,12 +785,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="aee101f5a76c792e2b5cbb4ea5ff09cea"></a><!-- doxytag: member="esapi::NarrowStringStream" ref="aee101f5a76c792e2b5cbb4ea5ff09cea" args="" -->
+<a class="anchor" id="aee101f5a76c792e2b5cbb4ea5ff09cea"></a><!-- doxytag: member="NarrowStringStream" ref="aee101f5a76c792e2b5cbb4ea5ff09cea" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::stringstream <a class="el" href="namespaceesapi.html#aee101f5a76c792e2b5cbb4ea5ff09cea">esapi::NarrowStringStream</a></td>
+          <td class="memname">typedef std::stringstream <a class="el" href="namespaceesapi.html#aee101f5a76c792e2b5cbb4ea5ff09cea">NarrowStringStream</a></td>
         </tr>
       </table>
 </div>
@@ -800,12 +800,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="adc29dd55d6239b3748cf568837a65675"></a><!-- doxytag: member="esapi::Pattern" ref="adc29dd55d6239b3748cf568837a65675" args="" -->
+<a class="anchor" id="adc29dd55d6239b3748cf568837a65675"></a><!-- doxytag: member="Pattern" ref="adc29dd55d6239b3748cf568837a65675" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> <a class="el" href="namespaceesapi.html#adc29dd55d6239b3748cf568837a65675">esapi::Pattern</a></td>
+          <td class="memname">typedef <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> <a class="el" href="namespaceesapi.html#adc29dd55d6239b3748cf568837a65675">Pattern</a></td>
         </tr>
       </table>
 </div>
@@ -815,12 +815,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="acc53b5a5f1a061740002ced3ce18adc4"></a><!-- doxytag: member="esapi::SecureByteArray" ref="acc53b5a5f1a061740002ced3ce18adc4" args="" -->
+<a class="anchor" id="acc53b5a5f1a061740002ced3ce18adc4"></a><!-- doxytag: member="SecureByteArray" ref="acc53b5a5f1a061740002ced3ce18adc4" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt;<a class="el" href="_esapi_common_8h.html#a0c8186d9b9b7880309c27230bbb5e69d">byte</a>&gt; <a class="el" href="namespaceesapi.html#acc53b5a5f1a061740002ced3ce18adc4">esapi::SecureByteArray</a></td>
+          <td class="memname">typedef <a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt;<a class="el" href="_esapi_common_8h.html#a0c8186d9b9b7880309c27230bbb5e69d">byte</a>&gt; <a class="el" href="namespaceesapi.html#acc53b5a5f1a061740002ced3ce18adc4">SecureByteArray</a></td>
         </tr>
       </table>
 </div>
@@ -830,12 +830,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a29d8cd847ee7f01ebf1348715dfbac84"></a><!-- doxytag: member="esapi::SecureIntArray" ref="a29d8cd847ee7f01ebf1348715dfbac84" args="" -->
+<a class="anchor" id="a29d8cd847ee7f01ebf1348715dfbac84"></a><!-- doxytag: member="SecureIntArray" ref="a29d8cd847ee7f01ebf1348715dfbac84" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt;int&gt; <a class="el" href="namespaceesapi.html#a29d8cd847ee7f01ebf1348715dfbac84">esapi::SecureIntArray</a></td>
+          <td class="memname">typedef <a class="el" href="classesapi_1_1_secure_array.html">SecureArray</a>&lt;int&gt; <a class="el" href="namespaceesapi.html#a29d8cd847ee7f01ebf1348715dfbac84">SecureIntArray</a></td>
         </tr>
       </table>
 </div>
@@ -845,12 +845,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="ac7e5578df54f144516577c5bb1c833f1"></a><!-- doxytag: member="esapi::String" ref="ac7e5578df54f144516577c5bb1c833f1" args="" -->
+<a class="anchor" id="ac7e5578df54f144516577c5bb1c833f1"></a><!-- doxytag: member="String" ref="ac7e5578df54f144516577c5bb1c833f1" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::wstring <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">esapi::String</a></td>
+          <td class="memname">typedef std::wstring <a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a></td>
         </tr>
       </table>
 </div>
@@ -860,12 +860,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="aaf8d50421b785a4d0b54b6d9288e87cf"></a><!-- doxytag: member="esapi::StringArray" ref="aaf8d50421b785a4d0b54b6d9288e87cf" args="" -->
+<a class="anchor" id="aaf8d50421b785a4d0b54b6d9288e87cf"></a><!-- doxytag: member="StringArray" ref="aaf8d50421b785a4d0b54b6d9288e87cf" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;<a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&gt; <a class="el" href="namespaceesapi.html#aaf8d50421b785a4d0b54b6d9288e87cf">esapi::StringArray</a></td>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&gt; <a class="el" href="namespaceesapi.html#aaf8d50421b785a4d0b54b6d9288e87cf">StringArray</a></td>
         </tr>
       </table>
 </div>
@@ -875,12 +875,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a3320f84397a1844bd8c7a47408693da6"></a><!-- doxytag: member="esapi::StringList" ref="a3320f84397a1844bd8c7a47408693da6" args="" -->
+<a class="anchor" id="a3320f84397a1844bd8c7a47408693da6"></a><!-- doxytag: member="StringList" ref="a3320f84397a1844bd8c7a47408693da6" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::list&lt;<a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&gt; <a class="el" href="namespaceesapi.html#a3320f84397a1844bd8c7a47408693da6">esapi::StringList</a></td>
+          <td class="memname">typedef std::list&lt;<a class="el" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a>&gt; <a class="el" href="namespaceesapi.html#a3320f84397a1844bd8c7a47408693da6">StringList</a></td>
         </tr>
       </table>
 </div>
@@ -890,12 +890,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a49b1bbab0e4cbdb551e19e15413351fa"></a><!-- doxytag: member="esapi::StringStream" ref="a49b1bbab0e4cbdb551e19e15413351fa" args="" -->
+<a class="anchor" id="a49b1bbab0e4cbdb551e19e15413351fa"></a><!-- doxytag: member="StringStream" ref="a49b1bbab0e4cbdb551e19e15413351fa" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::wstringstream <a class="el" href="namespaceesapi.html#a49b1bbab0e4cbdb551e19e15413351fa">esapi::StringStream</a></td>
+          <td class="memname">typedef std::wstringstream <a class="el" href="namespaceesapi.html#a49b1bbab0e4cbdb551e19e15413351fa">StringStream</a></td>
         </tr>
       </table>
 </div>
@@ -905,12 +905,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a6a7dbb2bce650c5e1d550c913f56c8b8"></a><!-- doxytag: member="esapi::T" ref="a6a7dbb2bce650c5e1d550c913f56c8b8" args="" -->
+<a class="anchor" id="a6a7dbb2bce650c5e1d550c913f56c8b8"></a><!-- doxytag: member="T" ref="a6a7dbb2bce650c5e1d550c913f56c8b8" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a6a7dbb2bce650c5e1d550c913f56c8b8">esapi::T</a></td>
+          <td class="memname">typedef unsigned int <a class="el" href="namespaceesapi.html#a6a7dbb2bce650c5e1d550c913f56c8b8">T</a></td>
         </tr>
       </table>
 </div>
@@ -920,12 +920,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="aa8696024fa08b4fe8d103783750d33d9"></a><!-- doxytag: member="esapi::WideChar" ref="aa8696024fa08b4fe8d103783750d33d9" args="" -->
+<a class="anchor" id="aa8696024fa08b4fe8d103783750d33d9"></a><!-- doxytag: member="WideChar" ref="aa8696024fa08b4fe8d103783750d33d9" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef wchar_t <a class="el" href="namespaceesapi.html#aa8696024fa08b4fe8d103783750d33d9">esapi::WideChar</a></td>
+          <td class="memname">typedef wchar_t <a class="el" href="namespaceesapi.html#aa8696024fa08b4fe8d103783750d33d9">WideChar</a></td>
         </tr>
       </table>
 </div>
@@ -935,12 +935,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="ab344736a66d424406f24acac2c7cb370"></a><!-- doxytag: member="esapi::WideString" ref="ab344736a66d424406f24acac2c7cb370" args="" -->
+<a class="anchor" id="ab344736a66d424406f24acac2c7cb370"></a><!-- doxytag: member="WideString" ref="ab344736a66d424406f24acac2c7cb370" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::wstring <a class="el" href="namespaceesapi.html#ab344736a66d424406f24acac2c7cb370">esapi::WideString</a></td>
+          <td class="memname">typedef std::wstring <a class="el" href="namespaceesapi.html#ab344736a66d424406f24acac2c7cb370">WideString</a></td>
         </tr>
       </table>
 </div>
@@ -950,12 +950,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a60d2a1a3805e8336851fc7ef44e15603"></a><!-- doxytag: member="esapi::WideStringStream" ref="a60d2a1a3805e8336851fc7ef44e15603" args="" -->
+<a class="anchor" id="a60d2a1a3805e8336851fc7ef44e15603"></a><!-- doxytag: member="WideStringStream" ref="a60d2a1a3805e8336851fc7ef44e15603" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::wstringstream <a class="el" href="namespaceesapi.html#a60d2a1a3805e8336851fc7ef44e15603">esapi::WideStringStream</a></td>
+          <td class="memname">typedef std::wstringstream <a class="el" href="namespaceesapi.html#a60d2a1a3805e8336851fc7ef44e15603">WideStringStream</a></td>
         </tr>
       </table>
 </div>
@@ -966,12 +966,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 </div>
 </div>
 <hr/><h2>Function Documentation</h2>
-<a class="anchor" id="af9af9500691af2bed24f5b2180d49f88"></a><!-- doxytag: member="esapi::EncodingToWindowsCodePage" ref="af9af9500691af2bed24f5b2180d49f88" args="(const Encoding &amp;encoding)" -->
+<a class="anchor" id="af9af9500691af2bed24f5b2180d49f88"></a><!-- doxytag: member="EncodingToWindowsCodePage" ref="af9af9500691af2bed24f5b2180d49f88" args="(const Encoding &amp;encoding)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">UINT <a class="el" href="namespaceesapi.html#af9af9500691af2bed24f5b2180d49f88">esapi::EncodingToWindowsCodePage</a> </td>
+          <td class="memname">UINT <a class="el" href="namespaceesapi.html#af9af9500691af2bed24f5b2180d49f88">EncodingToWindowsCodePage</a> </td>
           <td>(</td>
           <td class="paramtype">const Encoding &amp;&#160;</td>
           <td class="paramname"><em>encoding</em></td><td>)</td>
@@ -985,12 +985,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a5dffad16a942e2411abeb960664d740c"></a><!-- doxytag: member="esapi::GetClassLock" ref="a5dffad16a942e2411abeb960664d740c" args="()" -->
+<a class="anchor" id="a5dffad16a942e2411abeb960664d740c"></a><!-- doxytag: member="GetClassLock" ref="a5dffad16a942e2411abeb960664d740c" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classesapi_1_1_mutex.html">Mutex</a>&amp; <a class="el" href="namespaceesapi.html#a5dffad16a942e2411abeb960664d740c">esapi::GetClassLock</a> </td>
+          <td class="memname"><a class="el" href="classesapi_1_1_mutex.html">Mutex</a>&amp; <a class="el" href="namespaceesapi.html#a5dffad16a942e2411abeb960664d740c">GetClassLock</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1003,12 +1003,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a003a6e8866f0ed7fc997c2f8cb8ff0fb"></a><!-- doxytag: member="esapi::GetCodePageMap" ref="a003a6e8866f0ed7fc997c2f8cb8ff0fb" args="()" -->
+<a class="anchor" id="a003a6e8866f0ed7fc997c2f8cb8ff0fb"></a><!-- doxytag: member="GetCodePageMap" ref="a003a6e8866f0ed7fc997c2f8cb8ff0fb" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="namespaceesapi.html#a1b38ef02da5663931df28d7695cbe8d2">CodePageMap</a>&amp; <a class="el" href="namespaceesapi.html#a003a6e8866f0ed7fc997c2f8cb8ff0fb">esapi::GetCodePageMap</a> </td>
+          <td class="memname">const <a class="el" href="namespaceesapi.html#a1b38ef02da5663931df28d7695cbe8d2">CodePageMap</a>&amp; <a class="el" href="namespaceesapi.html#a003a6e8866f0ed7fc997c2f8cb8ff0fb">GetCodePageMap</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1021,12 +1021,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a7d59c5a1755aa370d9899e1d1cd69471"></a><!-- doxytag: member="esapi::operator!=" ref="a7d59c5a1755aa370d9899e1d1cd69471" args="(const SecretKey &amp;lhs, const SecretKey &amp;rhs)" -->
+<a class="anchor" id="a7d59c5a1755aa370d9899e1d1cd69471"></a><!-- doxytag: member="operator!=" ref="a7d59c5a1755aa370d9899e1d1cd69471" args="(const SecretKey &amp;lhs, const SecretKey &amp;rhs)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool esapi::operator!= </td>
+          <td class="memname">bool operator!= </td>
           <td>(</td>
           <td class="paramtype">const SecretKey &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -1050,12 +1050,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a1d3cd20bdf4a5760a3487dab7c0dd31a"></a><!-- doxytag: member="esapi::operator&lt;&lt;" ref="a1d3cd20bdf4a5760a3487dab7c0dd31a" args="(std::ostream &amp;os, const SecretKey &amp;rhs)" -->
+<a class="anchor" id="a1d3cd20bdf4a5760a3487dab7c0dd31a"></a><!-- doxytag: member="operator&lt;&lt;" ref="a1d3cd20bdf4a5760a3487dab7c0dd31a" args="(std::ostream &amp;os, const SecretKey &amp;rhs)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::ostream &amp; esapi::operator&lt;&lt; </td>
+          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>os</em>, </td>
@@ -1079,12 +1079,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="acd531e511b3a3db7efba9f6a6f227303"></a><!-- doxytag: member="esapi::operator==" ref="acd531e511b3a3db7efba9f6a6f227303" args="(const SecretKey &amp;lhs, const SecretKey &amp;rhs)" -->
+<a class="anchor" id="acd531e511b3a3db7efba9f6a6f227303"></a><!-- doxytag: member="operator==" ref="acd531e511b3a3db7efba9f6a6f227303" args="(const SecretKey &amp;lhs, const SecretKey &amp;rhs)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool esapi::operator== </td>
+          <td class="memname">bool operator== </td>
           <td>(</td>
           <td class="paramtype">const SecretKey &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -1108,12 +1108,12 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a3d857d631f2e3e280671875eda3769e6"></a><!-- doxytag: member="esapi::operator==" ref="a3d857d631f2e3e280671875eda3769e6" args="(const String &amp;s, const esapi::SecureString &amp;ss)" -->
+<a class="anchor" id="a3d857d631f2e3e280671875eda3769e6"></a><!-- doxytag: member="operator==" ref="a3d857d631f2e3e280671875eda3769e6" args="(const String &amp;s, const SecureString &amp;ss)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool esapi::operator== </td>
+          <td class="memname">bool operator== </td>
           <td>(</td>
           <td class="paramtype">const String &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>
@@ -1121,7 +1121,7 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classesapi_1_1_secure_string.html">esapi::SecureString</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classesapi_1_1_secure_string.html">SecureString</a> &amp;&#160;</td>
           <td class="paramname"><em>ss</em>&#160;</td>
         </tr>
         <tr>
@@ -1137,14 +1137,14 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a65ed8050a63c1bad3c78c26ff5539d3d"></a><!-- doxytag: member="esapi::operator==" ref="a65ed8050a63c1bad3c78c26ff5539d3d" args="(const esapi::SecureString &amp;ss, const String &amp;s)" -->
+<a class="anchor" id="a65ed8050a63c1bad3c78c26ff5539d3d"></a><!-- doxytag: member="operator==" ref="a65ed8050a63c1bad3c78c26ff5539d3d" args="(const SecureString &amp;ss, const String &amp;s)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool esapi::operator== </td>
+          <td class="memname">bool operator== </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classesapi_1_1_secure_string.html">esapi::SecureString</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classesapi_1_1_secure_string.html">SecureString</a> &amp;&#160;</td>
           <td class="paramname"><em>ss</em>, </td>
         </tr>
         <tr>
@@ -1166,14 +1166,14 @@ David Anderson (<a href="mailto:david.anderson@aspectsecurity.com">david.anderso
 
 </div>
 </div>
-<a class="anchor" id="a7a118885840184bcf6ba30692036c24c"></a><!-- doxytag: member="esapi::swap" ref="a7a118885840184bcf6ba30692036c24c" args="(SecureArray&lt; T &gt; &amp;a, SecureArray&lt; T &gt; &amp;b)" -->
+<a class="anchor" id="a7a118885840184bcf6ba30692036c24c"></a><!-- doxytag: member="swap" ref="a7a118885840184bcf6ba30692036c24c" args="(SecureArray&lt; T &gt; &amp;a, SecureArray&lt; T &gt; &amp;b)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="namespaceesapi.html#a7a118885840184bcf6ba30692036c24c">esapi::swap</a> </td>
+          <td class="memname">void <a class="el" href="namespaceesapi.html#a7a118885840184bcf6ba30692036c24c">swap</a> </td>
           <td>(</td>
           <td class="paramtype">SecureArray&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
