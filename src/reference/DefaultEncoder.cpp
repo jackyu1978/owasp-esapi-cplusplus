@@ -90,7 +90,7 @@ namespace esapi
     }
     }
     */
-    throw UnsupportedOperationException("This operation is not yet supported");
+    //throw UnsupportedOperationException("This operation is not yet supported");
   }
 
   String DefaultEncoder::canonicalize( const String & input) {
@@ -255,6 +255,10 @@ namespace esapi
     return codec->encode( IMMUNE_OS, COUNTOF(IMMUNE_OS), input);
 
   }
+  std::string DefaultEncoder::encodeForOS(const Codec *codec, const std::string & input) {
+	  return TextConvert::WideToNarrow( encodeForOS(codec, TextConvert::NarrowToWide( input )) );
+  }
+
 
   String DefaultEncoder::encodeForLDAP(const String & input) {
     if ( input.empty() )

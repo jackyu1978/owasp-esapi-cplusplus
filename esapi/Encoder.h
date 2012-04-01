@@ -293,6 +293,7 @@ public:
      * @return input encoded for use in command shell
      */
 	virtual String encodeForOS(const Codec *, const String &) =0;
+	virtual std::string encodeForOS(const Codec *, const std::string &) =0;
 
 	/**
 	 * Encode data for use in LDAP queries.
