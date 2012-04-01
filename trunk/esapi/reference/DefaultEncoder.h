@@ -129,6 +129,7 @@ public:
 	 * {@inheritDoc}
 	 */
 	String encodeForOS(const Codec*, const String &);
+	std::string encodeForOS(const Codec*, const std::string &);
 
 	/**
 	 * {@inheritDoc}
