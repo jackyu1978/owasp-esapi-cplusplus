@@ -94,6 +94,7 @@ ESAPI_CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
 IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
+IS_GENTOO = $(shell uname -a | $(EGREP) -i -c "gentoo")
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
@@ -340,7 +341,10 @@ endif
 # No-exec the heap and the stack (this is a best effort, the kernel or PaX might ignore)
 # PT_GNU_HEAP is a Gentoo extension. Also see http://www.airs.com/blog/archives/518
 ifeq ($(GNU_LD214_OR_LATER),1)
-  ESAPI_LDFLAGS +=	-Wl,-z,noexecstack -Wl,-z,noexecheap
+  ESAPI_LDFLAGS +=	-Wl,-z,noexecstack
+  ifeq ($(IS_GENTOO),1)
+    ESAPI_LDFLAGS += -Wl,-z,noexecheap
+  endif
 endif
 
 # Linker hardening
