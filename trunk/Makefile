@@ -156,11 +156,11 @@ endif
 
 # GCC is usually a signed char, but not always (cf, ARM). We'd also like to cut the UTF-16 problem
 # off at the pass, but it looks like we need to re-complile a bunch of stuff when using -fshort-wchar.
-# -fwrapv: no way around that damn optimizer, see http://www.airs.com/blog/archives/120.
+# -fwrapv: http://www.airs.com/blog/archives/120.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
   ESAPI_CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
-  ESAPI_CXXFLAGS += -fwrapv -Wformat=2 -Wformat-security
+  ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wno-unused
 #  Too much Boost noise
 #  ESAPI_CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
