@@ -34,6 +34,10 @@ $ yum install cryptopp cryptopp-devel
 == Boost ==
 
 {{{
+$ sudo apt-get install libboost-dev
+}}}
+
+{{{
 # FreeBSD
 > su -
 $
