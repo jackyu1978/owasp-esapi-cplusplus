@@ -35,7 +35,7 @@ $ yum install cryptopp cryptopp-devel
 
 {{{
 # Debian and friends
-$ sudo apt-get install libboost-dev
+$ sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev
 }}}
 
 {{{
