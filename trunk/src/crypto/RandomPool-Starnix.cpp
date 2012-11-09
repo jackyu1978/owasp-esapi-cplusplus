@@ -17,6 +17,7 @@
 #include "errors/EncryptionException.h"
 #include "errors/IllegalArgumentException.h"
 
+#include <unistd.h>
 #include <time.h>
 #include <fcntl.h>
 
