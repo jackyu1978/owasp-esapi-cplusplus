@@ -175,7 +175,11 @@ endif
 # http://gcc.gnu.org/onlinedocs/gcc-4.1.0/gcc/Optimize-Options.html
 # http://www.linuxfromscratch.org/hints/downloads/files/ssp.txt
 ifeq ($(GCC41_OR_LATER),1)
-    ESAPI_CXXFLAGS += -D_FORTIFY_SOURCE=2
+
+    # GCC 4.7 warns of FORTIFY_SOURCE with -O0 (used with Debug and Test)
+    ifeq ($(WANT_RELEASE),1)
+        ESAPI_CXXFLAGS += -D_FORTIFY_SOURCE=2
+    endif
     ESAPI_CXXFLAGS += -fstack-protector-all
 endif
 
