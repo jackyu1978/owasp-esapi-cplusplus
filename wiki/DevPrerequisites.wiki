@@ -39,7 +39,7 @@ $ sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libbo
 }}}
 
 {{{
-# # Fedora and friends
+#Fedora and friends
 $ sudo yum install boost-devel
 }}}
 
