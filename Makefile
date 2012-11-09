@@ -191,11 +191,12 @@ ifeq ($(GCC43_OR_LATER),1)
   ESAPI_CXXFLAGS += -std=c++0x
 endif
 
+# Nope, not yet (failed with GCC 4.7)
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
-ifeq ($(GCC47_OR_LATER),1)
-  ESAPI_CXXFLAGS += -fmemory-model=c++0x
-endif
+# ifeq ($(GCC47_OR_LATER),1)
+#  ESAPI_CXXFLAGS += -fmemory-model=c++0x
+# endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifeq ($(IS_LINUX),1)
