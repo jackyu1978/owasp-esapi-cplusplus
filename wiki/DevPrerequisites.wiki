@@ -28,7 +28,7 @@ $ sudo apt-get install libcrypto++9 libcrypto++9-dbg libcrypto++-dev
 {{{
 # Fedora and friends
 > su -
-$ yum install cryptopp cryptopp-devel
+# yum install cryptopp cryptopp-devel
 }}}
 
 == Boost ==
@@ -36,6 +36,11 @@ $ yum install cryptopp cryptopp-devel
 {{{
 # Debian and friends
 $ sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev
+}}}
+
+{{{
+# # Fedora and friends
+$ sudo yum install boost-devel
 }}}
 
 {{{
