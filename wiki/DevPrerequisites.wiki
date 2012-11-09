@@ -62,7 +62,7 @@ Searching packages can be performed as follows (using boost as an example).
 
 {{{
 # Debian and friends
-$ apt-cache pkgnames | grep -i boost
+$ apt-cache pkgnames | grep -i boost | grep -i dev
 }}}
 
 {{{
