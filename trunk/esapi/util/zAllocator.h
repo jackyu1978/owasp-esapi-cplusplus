@@ -26,6 +26,7 @@
 // For problems with _Alloc_hider, see http://gcc.gnu.org/ml/gcc-help/2011-08/msg00199.html.
 
 #if defined(ESAPI_CXX_MSVC)
+# pragma warning(push, 3)
 # pragma warning(disable:4100)
 #endif
 
@@ -134,5 +135,10 @@ namespace esapi
     // Storage and intialization
     template <class T>
     volatile void* zallocator<T>::g_dummy = nullptr;
+    
+#if defined(ESAPI_CXX_MSVC)
+# pragma warning(default:4100)
+# pragma warning(pop)
+#endif
     
 } // esapi
