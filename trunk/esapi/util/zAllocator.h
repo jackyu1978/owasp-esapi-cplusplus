@@ -126,7 +126,7 @@ namespace esapi
         {
             ASSERT(p);
             if(p)
-                p->~U;
+                p->~U();
         }
 #endif
         
