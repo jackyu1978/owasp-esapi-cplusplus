@@ -31,106 +31,108 @@
 
 namespace esapi
 {
-  template<typename T>
+    template<typename T>
     class zallocator
     {
     public:
-
-      typedef T value_type;
-      typedef value_type* pointer;
-      typedef const value_type* const_pointer;
-      typedef value_type& reference;
-      typedef const value_type& const_reference;
-      typedef std::size_t size_type;
-      typedef std::ptrdiff_t difference_type;
-
+        
+        typedef T value_type;
+        typedef value_type* pointer;
+        typedef const value_type* const_pointer;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+        typedef std::size_t size_type;
+        typedef std::ptrdiff_t difference_type;
+        
     public:
-
-      // tame the optimizer
-      static volatile void* g_dummy;
-
-      template<typename U>
+        
+        // tame the optimizer
+        static volatile void* g_dummy;
+        
+        template<typename U>
 	    struct rebind {
-	    typedef zallocator<U> other;
-      };
-
-      inline explicit zallocator() { }
-      inline virtual ~zallocator() { }
-      inline zallocator(zallocator const&) { }
-
-      // Dropped explicit. See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50118
-      template<typename U>
-      inline zallocator(zallocator<U> const&) { }
-
-      // address
-      inline pointer address(reference r) { return &r; }
-      inline const_pointer address(const_reference r) { return &r; }
-
-      // memory allocation
-      inline pointer allocate(size_type cnt, typename std::allocator<void>::const_pointer = 0)
-      {
-        ASSERT(cnt > 0);
-        ASSERT(cnt <= max_size());
-
-        // Check for overflow/wrap. Standard containers only need to check for wrap in
-        // vector::reserve. Other containers might check, but don't be fooled into complacency.
-        // zero count allocation are legal, but near useless.
-        if(cnt > max_size())
-          throw std::bad_alloc();
-
-        return reinterpret_cast<pointer>(::operator new(cnt * sizeof (T))); 
-      }
-    
-      inline void deallocate(pointer p, size_type cnt)
-      {
-        ASSERT(p);
-        if(!p) return;
-
-        // What to do on wrap here???
-        ASSERT(cnt);
-        ASSERT(!(cnt > max_size()));
-
-        // Because 'p' is assigned to a static volatile pointer, the
-        // optimizer currently does not optimize out the ::memset as dead
-        // code. Set a breakpoint on the assignment to g_dummy in the
-        // assembled code for verification.
-        ::memset(p, 0x00, cnt * sizeof (T));
-        g_dummy = p;
-        ::operator delete(p);
-      }
-
-      // size
-      inline size_type max_size() const
-      {
-        return std::numeric_limits<size_type>::max() / sizeof(T);
-      }
-
-      // construction/destruction
-      inline void construct(pointer p, const T& t) { new(p) T(t); }
-      inline void destroy(pointer p) { p->~T(); }
-
-      inline bool operator==(zallocator const&) const { return true; }
-      inline bool operator!=(zallocator const& a) const { return !operator==(a); }
-
-      // http://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=11
+            typedef zallocator<U> other;
+        };
+        
+        inline explicit zallocator() { }
+        inline virtual ~zallocator() { }
+        inline zallocator(zallocator const&) { }
+        
+        // Dropped explicit. See http://gcc.gnu.org/bugzilla/show_bug.cgi?id=50118
+        template<typename U>
+        inline zallocator(zallocator<U> const&) { }
+        
+        // address
+        inline pointer address(reference r) { return &r; }
+        inline const_pointer address(const_reference r) { return &r; }
+        
+        // memory allocation
+        inline pointer allocate(size_type cnt, typename std::allocator<void>::const_pointer = 0)
+        {
+            ASSERT(cnt > 0);
+            ASSERT(cnt <= max_size());
+            
+            // Check for overflow/wrap. Standard containers only need to check for wrap in
+            // vector::reserve. Other containers might check, but don't be fooled into complacency.
+            // zero count allocation are legal, but near useless.
+            if(cnt > max_size())
+                throw std::bad_alloc();
+            
+            return reinterpret_cast<pointer>(::operator new(cnt * sizeof (T)));
+        }
+        
+        inline void deallocate(pointer p, size_type cnt)
+        {
+            ASSERT(p);
+            if(!p) return;
+            
+            // What to do on wrap here???
+            ASSERT(cnt);
+            ASSERT(!(cnt > max_size()));
+            
+            // Because 'p' is assigned to a static volatile pointer, the
+            // optimizer currently does not optimize out the ::memset as dead
+            // code. Set a breakpoint on the assignment to g_dummy in the
+            // assembled code for verification.
+            ::memset(p, 0x00, cnt * sizeof (T));
+            g_dummy = p;
+            ::operator delete(p);
+        }
+        
+        // size
+        inline size_type max_size() const
+        {
+            return std::numeric_limits<size_type>::max() / sizeof(T);
+        }
+        
+        // construction/destruction
+        inline void construct(pointer p, const T& t) { new(p) T(t); }
+        inline void destroy(pointer p) { p->~T(); }
+        
+        inline bool operator==(zallocator const&) const { return true; }
+        inline bool operator!=(zallocator const& a) const { return !operator==(a); }
+        
+        // http://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=11
 #if defined(__GXX_EXPERIMENTAL_CXX0X__) && __GNUC__ == 4 && __GNUC_MINOR__ < 7
-      template<typename U, typename... Args>
+        template<typename U, typename... Args>
         void construct(U* p, Args&&... a)
-      {
-        ::new ((void*)p) U(std::forward<Args>(a)...);
-      }
-
-      template<typename U>
+        {
+            ::new ((void*)p) U(std::forward<Args>(a)...);
+        }
+        
+        template<typename U>
         void destroy(U* p)
         {
-          delete p;
+            ASSERT(p);
+            if(p)
+                p->~U;
         }
 #endif
-
+        
     };
-
-  // Storage and intialization
-  template <class T>
+    
+    // Storage and intialization
+    template <class T>
     volatile void* zallocator<T>::g_dummy = nullptr;
-
+    
 } // esapi
