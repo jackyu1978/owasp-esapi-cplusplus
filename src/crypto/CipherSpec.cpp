@@ -20,6 +20,9 @@
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
+#include <algorithm>
+using std::transform;
+
 namespace esapi
 {
   CipherSpec::CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv)
