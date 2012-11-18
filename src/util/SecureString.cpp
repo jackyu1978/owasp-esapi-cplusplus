@@ -18,7 +18,7 @@ namespace esapi
 {
   // Construction
   SecureString::SecureString()
-    : m_base(L"") { }
+    : m_base() { }
 
   SecureString::SecureString(const Char* s, size_t n)
     : m_base(s, n) { ASSERT(s); ASSERT(n); }
