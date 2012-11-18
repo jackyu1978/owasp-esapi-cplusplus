@@ -35,8 +35,8 @@ using std::endl;
 #include "EsapiCommon.h"
 using esapi::String;
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+
+using std::shared_ptr;
 
 #include <crypto/Key.h>
 #include <crypto/SecretKey.h>

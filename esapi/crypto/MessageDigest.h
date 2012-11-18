@@ -17,7 +17,7 @@
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
-#include <boost/shared_ptr.hpp>
+
 
 namespace esapi
 {
@@ -223,12 +223,12 @@ namespace esapi
     /**
      * Object level lock for concurrent access
      */
-    mutable boost::shared_ptr<Mutex> m_lock;
+    mutable std::shared_ptr<Mutex> m_lock;
 
     /**
      * Reference counted PIMPL.
      */
-    boost::shared_ptr< MessageDigestBase > m_impl;
+    std::shared_ptr< MessageDigestBase > m_impl;
   };
 
 } // NAMESPACE

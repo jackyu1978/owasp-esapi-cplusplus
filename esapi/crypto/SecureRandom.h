@@ -30,7 +30,7 @@
 #include <stdexcept>
 #include <cassert>
 
-#include <boost/shared_ptr.hpp>
+
 
 namespace esapi
 {
@@ -150,12 +150,12 @@ namespace esapi
         /**
          * Object level lock for concurrent access
          */
-        mutable boost::shared_ptr<Mutex> m_lock;
+        mutable std::shared_ptr<Mutex> m_lock;
 
         /**
          * Reference counted PIMPL.
          */
-        boost::shared_ptr<SecureRandomBase> m_impl;
+        std::shared_ptr<SecureRandomBase> m_impl;
     };  
 
 }; // NAMESPACE esapi

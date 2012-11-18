@@ -28,7 +28,7 @@
 #include <map>
 #include <string>
 
-#include <boost/shared_ptr.hpp>
+
 
 /**
  * Reference implementation of the Validator interface. This implementation
@@ -53,7 +53,7 @@ namespace esapi
 	  std::map<String, const ValidationRule<void*>* > rules;
 
 	  /** The encoder to use for canonicalization */
-	  boost::shared_ptr<Encoder> encoder;
+	  std::shared_ptr<Encoder> encoder;
 
 	  /** Initialize file validator with an appropriate set of codecs */
 	  void initFileValidator();

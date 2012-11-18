@@ -101,7 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00042"></a>00042         <span class="keyword">protected</span>:
 <a name="l00043"></a><a class="code" href="classesapi_1_1_base_validation_rule.html#ae88119bc946d92b46ba546915f0f24ad">00043</a>                 <span class="keywordtype">bool</span> <a class="code" href="classesapi_1_1_base_validation_rule.html#ae88119bc946d92b46ba546915f0f24ad">allowNull</a>;
 <a name="l00044"></a>00044         <span class="comment">// TODO: Bring back constness as required</span>
-<a name="l00045"></a><a class="code" href="classesapi_1_1_base_validation_rule.html#a46e5cc36a024ac381d08159031cb80fd">00045</a>                 boost::shared_ptr&lt;Encoder&gt; <a class="code" href="classesapi_1_1_base_validation_rule.html#a46e5cc36a024ac381d08159031cb80fd">encoder</a>;
+<a name="l00045"></a><a class="code" href="classesapi_1_1_base_validation_rule.html#a46e5cc36a024ac381d08159031cb80fd">00045</a>                 std::shared_ptr&lt;Encoder&gt; <a class="code" href="classesapi_1_1_base_validation_rule.html#a46e5cc36a024ac381d08159031cb80fd">encoder</a>;
 <a name="l00046"></a>00046 
 <a name="l00058"></a>00058                 <span class="comment">//template &lt;typename T&gt;</span>
 <a name="l00059"></a>00059                 <span class="keyword">virtual</span> <a class="code" href="namespaceesapi.html#a6a7dbb2bce650c5e1d550c913f56c8b8">T</a> <a class="code" href="classesapi_1_1_base_validation_rule.html#a40cda018c1a7f46d41b71cda4d269d6b">sanitize</a>(<span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;, <span class="keyword">const</span> <a class="code" href="namespaceesapi.html#ac7e5578df54f144516577c5bb1c833f1">String</a> &amp;) = 0;
@@ -187,7 +187,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00166"></a>00166 
 <a name="l00167"></a>00167 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
 <a name="l00168"></a><a class="code" href="classesapi_1_1_base_validation_rule.html#a040937e367ab9df68ff49b383c0ef16f">00168</a> <span class="keywordtype">void</span> <a class="code" href="classesapi_1_1_base_validation_rule.html#a040937e367ab9df68ff49b383c0ef16f">BaseValidationRule&lt;T&gt;::setEncoder</a>( <a class="code" href="classesapi_1_1_encoder.html">Encoder</a>* newEncoder ) {
-<a name="l00169"></a>00169                 this-&gt;encoder = boost::shared_ptr&lt;Encoder&gt;(newEncoder);
+<a name="l00169"></a>00169                 this-&gt;encoder = std::shared_ptr&lt;Encoder&gt;(newEncoder);
 <a name="l00170"></a>00170 }
 <a name="l00171"></a>00171 
 <a name="l00172"></a>00172 <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;

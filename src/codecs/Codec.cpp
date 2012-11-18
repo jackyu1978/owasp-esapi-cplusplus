@@ -17,7 +17,7 @@
 #include "EsapiCommon.h"
 #include "codecs/Codec.h"
 
-#include <boost/shared_ptr.hpp>
+
 
 #include <sstream>
 #include <iomanip>
@@ -43,12 +43,12 @@ namespace esapi
     MutexLock lock(getClassMutex());
 
     static volatile bool init = false;
-    static boost::shared_ptr<StringArray> hexArr;
+    static std::shared_ptr<StringArray> hexArr;
 
     MEMORY_BARRIER();
     if(!init)
     {
-      boost::shared_ptr<StringArray> temp(new StringArray);
+      std::shared_ptr<StringArray> temp(new StringArray);
       ASSERT(temp);
       if(nullptr == temp.get())
         throw std::bad_alloc();

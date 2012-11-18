@@ -17,7 +17,7 @@
 #include "util/Mutex.h"
 #include "util/SecureArray.h"
 
-#include <boost/shared_ptr.hpp>
+
 
 namespace esapi
 {
@@ -238,12 +238,12 @@ namespace esapi
     /**
     * Object level lock for concurrent access
     */
-    mutable boost::shared_ptr<Mutex> m_lock;
+    mutable std::shared_ptr<Mutex> m_lock;
 
     /**
     * Reference counted PIMPL.
     */
-    boost::shared_ptr< CipherImpl > m_impl;
+    std::shared_ptr< CipherImpl > m_impl;
   };
 
 } // NAMESPACE

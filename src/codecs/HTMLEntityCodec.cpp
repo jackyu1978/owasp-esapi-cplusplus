@@ -10,7 +10,7 @@
 
 #include "EsapiCommon.h"
 #include "codecs/HTMLEntityCodec.h"
-#include <boost/shared_ptr.hpp>
+
 
 #include <string>
 #include <sstream>
@@ -172,12 +172,12 @@ namespace esapi
     MutexLock lock(getClassMutex());
 
     static volatile bool init = false;
-    static boost::shared_ptr<EntityMap> map;
+    static std::shared_ptr<EntityMap> map;
 
     MEMORY_BARRIER();
     if(!init)
       {
-        boost::shared_ptr<EntityMap> temp(new EntityMap);
+        std::shared_ptr<EntityMap> temp(new EntityMap);
         ASSERT(nullptr != temp.get());
 
         // Convenience
