@@ -240,12 +240,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00172"></a>00172     MutexLock lock(getClassMutex());
 <a name="l00173"></a>00173 
 <a name="l00174"></a>00174     <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keywordtype">bool</span> init = <span class="keyword">false</span>;
-<a name="l00175"></a>00175     <span class="keyword">static</span> boost::shared_ptr&lt;EntityMap&gt; map;
+<a name="l00175"></a>00175     <span class="keyword">static</span> std::shared_ptr&lt;EntityMap&gt; map;
 <a name="l00176"></a>00176 
 <a name="l00177"></a>00177     MEMORY_BARRIER();
 <a name="l00178"></a>00178     <span class="keywordflow">if</span>(!init)
 <a name="l00179"></a>00179       {
-<a name="l00180"></a>00180         boost::shared_ptr&lt;EntityMap&gt; temp(<span class="keyword">new</span> EntityMap);
+<a name="l00180"></a>00180         std::shared_ptr&lt;EntityMap&gt; temp(<span class="keyword">new</span> EntityMap);
 <a name="l00181"></a>00181         <a class="code" href="_esapi_common_8h.html#aca68c0d4ac8df0838e209fb5300f7be3">ASSERT</a>(<span class="keyword">nullptr</span> != temp.get());
 <a name="l00182"></a>00182 
 <a name="l00183"></a>00183         <span class="comment">// Convenience</span>

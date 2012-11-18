@@ -41,8 +41,8 @@ using esapi::String;
 using esapi::UnixCodec;
 using esapi::DefaultEncoder;
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+
+using std::shared_ptr;
 
 #if !defined(ESAPI_BUILD_RELEASE)
 BOOST_AUTO_TEST_CASE( DefaultEncoderTestCase )

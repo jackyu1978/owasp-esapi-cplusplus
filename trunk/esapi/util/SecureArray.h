@@ -21,7 +21,7 @@
 
 #include <new>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+
 
 namespace esapi
 {
@@ -481,7 +481,7 @@ namespace esapi
 
   private:
 
-    boost::shared_ptr<SecureVector> m_vector;
+    std::shared_ptr<SecureVector> m_vector;
   };
 
   // Non-member swap

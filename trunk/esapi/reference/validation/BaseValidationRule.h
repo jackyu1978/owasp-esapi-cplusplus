@@ -22,7 +22,7 @@
 #include "errors/UnsupportedOperationException.h"
 
 #include <set>
-#include <boost/shared_ptr.hpp>
+
 
 /**
  * A ValidationRule performs syntax and possibly semantic validation of a single
@@ -42,7 +42,7 @@ namespace esapi
 	protected:
 		bool allowNull;
         // TODO: Bring back constness as required
-		boost::shared_ptr<Encoder> encoder;
+		std::shared_ptr<Encoder> encoder;
 
 		/**
 		 * The method is similar to ValidationRuile.getSafe except that it returns a
@@ -166,7 +166,7 @@ void BaseValidationRule<T>::setTypeName( const String &newTypeName ) {
 
 template <typename T>
 void BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
-		this->encoder = boost::shared_ptr<Encoder>(newEncoder);
+		this->encoder = std::shared_ptr<Encoder>(newEncoder);
 }
 
 template <typename T>

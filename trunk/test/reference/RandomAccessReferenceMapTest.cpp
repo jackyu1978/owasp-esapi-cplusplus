@@ -39,8 +39,8 @@ using esapi::String;
 #include "codecs/UnixCodec.h"
 using esapi::UnixCodec;
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+
+using std::shared_ptr;
 
 namespace esapi
 {
