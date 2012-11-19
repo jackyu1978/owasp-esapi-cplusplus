@@ -172,12 +172,12 @@ namespace esapi
     MutexLock lock(getClassMutex());
 
     static volatile bool init = false;
-    static std::shared_ptr<EntityMap> map;
+    static shared_ptr<EntityMap> map;
 
     MEMORY_BARRIER();
     if(!init)
       {
-        std::shared_ptr<EntityMap> temp(new EntityMap);
+        shared_ptr<EntityMap> temp(new EntityMap);
         ASSERT(nullptr != temp.get());
 
         // Convenience

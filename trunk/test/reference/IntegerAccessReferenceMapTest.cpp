@@ -40,9 +40,6 @@ using esapi::String;
 #include "codecs/UnixCodec.h"
 using esapi::UnixCodec;
 
-
-using std::shared_ptr;
-
 namespace esapi
 {
 

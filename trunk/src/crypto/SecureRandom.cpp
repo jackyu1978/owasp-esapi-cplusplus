@@ -125,7 +125,7 @@ namespace esapi
         // to 'this' object's lock. After the assignment below, the lock
         // has changed (it points to the new object lock). We subsequently
         // release the new lock (not the old lock).
-        //std::shared_ptr<Mutex> tlock(m_lock);
+        //shared_ptr<Mutex> tlock(m_lock);
         //ASSERT(tlock.get() != nullptr);
         //MutexLock lock(*tlock.get());
 
