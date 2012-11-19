@@ -73,14 +73,14 @@
 # pragma warning("Neither static nor dynamic runtime linking has been picked up")
 #endif
 
-// Collect all the *nix's
-#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_FREEBSD) || defined(ESAPI_OS_OPENBSD)
-# define ESAPI_OS_STARNIX 1
-#endif
-
-// Lump the BSD together
+// Lump the BSDs together
 #if defined(ESAPI_OS_FREEBSD) || defined(ESAPI_OS_NETBSD) || defined(ESAPI_OS_OPENBSD)
 # define ESAPI_OS_BSD 1
+#endif
+
+// Collect all the *nix's
+#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_BSD)
+# define ESAPI_OS_STARNIX 1
 #endif
 
 // Pick up the compiler
@@ -125,7 +125,7 @@
 // Windows defines a min that clashes with std::min. We also need
 // Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
 #if defined(ESAPI_OS_WINDOWS)
-# define NOMINMAX
+# define NOMINMAX 1
 # define  _WIN32_WINNT 0x0500
 # include <windows.h>
 # include <Wincrypt.h>
@@ -137,9 +137,14 @@
 # include <errno.h>
 #endif
 
+// I don't like using 'using' like this. I would rather it be
+// scoped at declaration, but Apple is a problem.
 #if defined(ESAPI_OS_APPLE)
 # include <tr1/memory>
 using std::tr1::shared_ptr;
+#else
+# include <memory>
+using std::shared_ptr;
 #endif
 
 // We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
