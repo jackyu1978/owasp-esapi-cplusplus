@@ -92,15 +92,25 @@ endif
 # into a bigger or smaller unsigned integer.
 ESAPI_CXXFLAGS += -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1
 
-IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
+IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
+IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
+IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
+IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
+IS_APPLE = $(shell cpp -dM < /dev/null 2>&1 | $(EGREP) -i -c "__apple__")
 IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
 IS_GENTOO = $(shell uname -a | $(EGREP) -i -c "gentoo")
+
+IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
+
+ifeq ($(IS_APPLE),1)
+  CXX = clang++
+endif
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c 'comeau')
 SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
-CLANG_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "^clang version")
+CLANG_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "clang version")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
@@ -127,11 +137,6 @@ GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-
 # http://sourceware.org/ml/binutils/2011-09/msg00064.html
 GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-9]|2\.[2-9])')
 
-IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
-IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
-IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
-IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
-
 # Fall back to g++ if CXX is not specified
 ifeq (($strip $(CXX)),)
   CXX = g++
@@ -152,6 +157,10 @@ endif
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifeq ($(INTEL_COMPILER),1)
   ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
+endif
+
+ifeq ($(IS_APPLE),1)
+  ESAPI_CXXFLAGS += -pipe -std=c++0x
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM). We'd also like to cut the UTF-16 problem

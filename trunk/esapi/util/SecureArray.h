@@ -21,7 +21,10 @@
 
 #include <new>
 #include <vector>
+#include <memory>
 
+using std::shared_ptr;
+using std::tr1::shared_ptr;
 
 namespace esapi
 {
@@ -481,7 +484,7 @@ namespace esapi
 
   private:
 
-    std::shared_ptr<SecureVector> m_vector;
+    shared_ptr<SecureVector> m_vector;
   };
 
   // Non-member swap
