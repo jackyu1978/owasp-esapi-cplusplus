@@ -137,6 +137,11 @@
 # include <errno.h>
 #endif
 
+#if defined(ESAPI_OS_APPLE)
+# include <tr1/memory>
+using std::tr1::shared_ptr;
+#endif
+
 // We *cannot* count on '!defined(nullptr)' since nullptr is a keyword.
 // For Microsoft, nullptr is available in Visual Studio 2010 and
 // above (version 1600), so we test for something earlier. For GCC, its
