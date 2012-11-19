@@ -600,25 +600,25 @@ namespace esapi
     SecureStringBase m_base;
   }; // CLASS
 
-  //  ESAPI_EXPORT bool operator==(const String& s, const esapi::SecureString& ss)
-  //  {
-  //    return ss.compare(0, s.size(), s.data()) == 0;
-  //  }
+  inline bool operator==(const String& s, const esapi::SecureString& ss)
+  {
+    return ss.compare(0, s.size(), s.data()) == 0;
+  }
     
-  //  ESAPI_EXPORT bool operator==(const esapi::SecureString& ss, const String& s)
-  //  {
-  //    return ss.compare(0, s.size(), s.data()) == 0;
-  //  }
+  inline bool operator==(const esapi::SecureString& ss, const String& s)
+  {
+      return ss.compare(0, s.size(), s.data()) == 0;
+  }
     
 } // NAMESPACE
     
 // Effective C++, Item 25, pp 106-112
 // Dupicate symbols
-//namespace std
-//{
-//  template <>
-//    ESAPI_EXPORT void swap(esapi::SecureString& a, esapi::SecureString& b)
-//  {
-//    a.swap(b);
-//  }
-//}
+namespace std
+{
+  template <>
+    inline void swap(esapi::SecureString& a, esapi::SecureString& b)
+  {
+    a.swap(b);
+  }
+}
