@@ -205,6 +205,8 @@ ifeq ($(GCC43_OR_LATER),1)
 endif
 
 # Nope, not yet (failed with GCC 4.7)
+# http://gcc.gnu.org/projects/cxx0x.html
+#
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
 # http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
 # ifeq ($(GCC47_OR_LATER),1)
