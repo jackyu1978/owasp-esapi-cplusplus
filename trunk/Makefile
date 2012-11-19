@@ -223,7 +223,14 @@ endif
 # See http://clang.llvm.org/cxx_status.html
 ifeq ($(CLANG_COMPILER),1)
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
-  ESAPI_CXXFLAGS += -fcatch-undefined-cxx0x-behavior
+  # http://stackoverflow.com/questions/13445742/apple-and-shared-ptr
+  # ESAPI_CXXFLAGS += -std=c++11 -stdlib=libc++
+  
+  # http://embed.cs.utah.edu/ioc/
+  ifeq ($(WANT_DEBUG),1)
+    ESAPI_CXXFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
+    ESAPI_CXXFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
+  endif
 endif
 
 # Add paths

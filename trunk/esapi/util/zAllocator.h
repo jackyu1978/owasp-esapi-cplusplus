@@ -115,6 +115,8 @@ namespace esapi
         
         // http://code.google.com/p/owasp-esapi-cplusplus/issues/detail?id=11
 #if defined(__GXX_EXPERIMENTAL_CXX0X__) && __GNUC__ == 4 && __GNUC_MINOR__ < 7
+        // Why is Apple defining __GXX_EXPERIMENTAL_CXX0X__
+# if !defined(ESAPI_OS_APPLE)
         template<typename U, typename... Args>
         void construct(U* p, Args&&... a)
         {
@@ -128,6 +130,7 @@ namespace esapi
             if(p)
                 p->~U();
         }
+# endif
 #endif
         
     };

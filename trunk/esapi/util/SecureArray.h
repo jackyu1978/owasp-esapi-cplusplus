@@ -21,10 +21,6 @@
 
 #include <new>
 #include <vector>
-#include <memory>
-
-using std::shared_ptr;
-using std::tr1::shared_ptr;
 
 namespace esapi
 {
@@ -226,7 +222,7 @@ namespace esapi
     void resize(size_type cnt, T t)
     {
       ASSERT(!(cnt > max_size()));
-      if(cnt > max_size)
+      if(cnt > max_size())
         throw std::bad_alloc();
 
       ASSERT(m_vector.get());
