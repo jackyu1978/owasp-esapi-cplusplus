@@ -40,10 +40,6 @@ using esapi::String;
 using esapi::UnixCodec;
 using esapi::GenericAccessReferenceMap;
 
-
-using std::shared_ptr;
-
-
 namespace esapi
 {
 

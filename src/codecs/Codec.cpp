@@ -43,12 +43,12 @@ namespace esapi
     MutexLock lock(getClassMutex());
 
     static volatile bool init = false;
-    static std::shared_ptr<StringArray> hexArr;
+    static shared_ptr<StringArray> hexArr;
 
     MEMORY_BARRIER();
     if(!init)
     {
-      std::shared_ptr<StringArray> temp(new StringArray);
+      shared_ptr<StringArray> temp(new StringArray);
       ASSERT(temp);
       if(nullptr == temp.get())
         throw std::bad_alloc();

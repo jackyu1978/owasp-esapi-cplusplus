@@ -238,12 +238,12 @@ namespace esapi
     /**
     * Object level lock for concurrent access
     */
-    mutable std::shared_ptr<Mutex> m_lock;
+    mutable shared_ptr<Mutex> m_lock;
 
     /**
     * Reference counted PIMPL.
     */
-    std::shared_ptr< CipherImpl > m_impl;
+    shared_ptr< CipherImpl > m_impl;
   };
 
 } // NAMESPACE

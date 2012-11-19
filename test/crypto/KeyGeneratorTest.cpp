@@ -35,9 +35,6 @@ using std::endl;
 #include "EsapiCommon.h"
 using esapi::String;
 
-
-using std::shared_ptr;
-
 #include <crypto/Key.h>
 #include <crypto/SecretKey.h>
 #include <crypto/KeyGenerator.h>

@@ -53,7 +53,7 @@ namespace esapi
 	  std::map<String, const ValidationRule<void*>* > rules;
 
 	  /** The encoder to use for canonicalization */
-	  std::shared_ptr<Encoder> encoder;
+	  shared_ptr<Encoder> encoder;
 
 	  /** Initialize file validator with an appropriate set of codecs */
 	  void initFileValidator();
