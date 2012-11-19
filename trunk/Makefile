@@ -74,7 +74,7 @@ endif
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
 # Whoops, ABI compatibility issues with pre-built DSOs
-#  ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+#  ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG=1 -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
   ESAPI_CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
@@ -332,7 +332,6 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/util/SecureByteArrayTest.cpp \
 			test/util/SecureIntArrayTest.cpp \
 			test/util/SecureStringTest1.cpp \
-			test/util/SecureStringTest2.cpp \
 			test/util/TextConvertTest.cpp \
 			test/reference/validation/StringValidationRuleTest.cpp \
 			test/reference/GenericAccessReferenceMapTest.cpp \
