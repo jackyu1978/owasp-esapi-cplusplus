@@ -75,14 +75,17 @@ endif
 ifeq ($(WANT_DEBUG),1)
 # Whoops, ABI compatibility issues with pre-built DSOs
 #  ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG=1 -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  ESAPI_CFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
   ESAPI_CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
+  ESAPI_CFLAGS += -DNDEBUG=1 -g -O2
   ESAPI_CXXFLAGS += -DNDEBUG=1 -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
+  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
   ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
@@ -156,10 +159,12 @@ endif
 # MS and GCC allow the attribute at the beginning of the declaraion, ICC does not...
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifeq ($(INTEL_COMPILER),1)
+  ESAPI_CFLAGS += -pipe -Wall -wd1011
   ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
 endif
 
 ifeq ($(IS_APPLE),1)
+  ESAPI_CFLAGS += -pipe
   ESAPI_CXXFLAGS += -pipe -std=c++0x
 endif
 
@@ -168,6 +173,10 @@ endif
 # -fwrapv: http://www.airs.com/blog/archives/120.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
+  ESAPI_CFLAGS += -pipe -fsigned-char -fmessage-length=0 -Wconversion
+  ESAPI_CFLAGS += -Wformat=2 -Wformat-security
+  ESAPI_CFLAGS += -Wno-unused
+
   ESAPI_CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wno-unused
@@ -178,6 +187,7 @@ endif
 # http://gcc.gnu.org/wiki/Visibility
 # http://people.redhat.com/drepper/dsohowto.pdf
 ifeq ($(GCC40_OR_LATER),1)
+  ESAPI_CFLAGS += -fvisibility=hidden
   ESAPI_CXXFLAGS += -fvisibility=hidden
 endif
 
@@ -187,8 +197,10 @@ ifeq ($(GCC41_OR_LATER),1)
 
     # GCC 4.7 warns of FORTIFY_SOURCE with -O0 (used with Debug and Test)
     ifeq ($(WANT_RELEASE),1)
+        ESAPI_CFLAGS += -D_FORTIFY_SOURCE=2
         ESAPI_CXXFLAGS += -D_FORTIFY_SOURCE=2
     endif
+    ESAPI_CFLAGS += -fstack-protector-all
     ESAPI_CXXFLAGS += -fstack-protector-all
 endif
 
@@ -200,6 +212,8 @@ endif
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifeq ($(GCC43_OR_LATER),1)
+  ESAPI_CFLAGS += -Wall -Wextra -Wno-unused
+
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
   ESAPI_CXXFLAGS += -std=c++0x
 endif
@@ -215,6 +229,7 @@ endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifeq ($(IS_LINUX),1)
+  ESAPI_CFLAGS += -D_REENTRANT
   ESAPI_CXXFLAGS += -D_REENTRANT
   LDLIBS += -lpthread
 endif
@@ -222,18 +237,23 @@ endif
 # Can't use -std=c++0x at the moment due to patches required (don't want to make it a prereq).
 # See http://clang.llvm.org/cxx_status.html
 ifeq ($(CLANG_COMPILER),1)
+  ESAPI_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
   # http://stackoverflow.com/questions/13445742/apple-and-shared-ptr
   # ESAPI_CXXFLAGS += -std=c++11 -stdlib=libc++
   
   # http://embed.cs.utah.edu/ioc/
   ifeq ($(WANT_DEBUG),1)
+    ESAPI_CFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
+    ESAPI_CFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
+
     ESAPI_CXXFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
     ESAPI_CXXFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
   endif
 endif
 
 # Add paths
+ESAPI_CFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
 ESAPI_CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
 
 # Default prefix for make install and uninstall. The names and default values are taken from
@@ -397,10 +417,11 @@ ifeq ($(IS_DARWIN),1)
   LDLIBS += -liconv
 endif
 
-# Merge ESAPI flags with user supplied flags.
-override CFLAGS += $(ESAPI_CXXFLAGS)
-override CXXFLAGS += $(ESAPI_CXXFLAGS)
-override LDFLAGS += $(ESAPI_LDFLAGS)
+# Merge ESAPI flags with user supplied flags. We perform the extra step to ensure 
+# user options follow our options, which should give user option's preference.
+override CFLAGS := $(ESAPI_CFLAGS) $(CFLAGS)
+override CXXFLAGS := $(ESAPI_CXXFLAGS) $(CXXFLAGS)
+override LDFLAGS := $(ESAPI_LDFLAGS) $(LDFLAGS)
 
 TEST_CXXFLAGS += $(CXXFLAGS)
 TEST_LDFLAGS	+= -L/usr/local/lib -L/usr/lib $(ESAPI_LDFLAGS)
@@ -480,7 +501,7 @@ ref reference: $(REFOBJS)
 util: $(UTILOBJS)
 
 .cpp.o:
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -fpic -c $< -o $@
+	$(CXX) $(CPPFLAGS) -fpic $(CXXFLAGS) -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TEST_TARGET): ;
