@@ -627,7 +627,7 @@ void DoWorkerThreadStuff()
   // *** Worker Threads ***
   for(unsigned int i=0; i<THREAD_COUNT; i++)
     {
-      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)i);
+      int ret = pthread_create(&threads[i], nullptr, WorkerThreadProc, (void*)(intptr_t)i);
       if(0 != ret /*success*/)
         {
           BOOST_ERROR( "pthread_create failed (thread " << i << "): " << strerror(errno) );
