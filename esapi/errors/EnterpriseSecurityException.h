@@ -43,8 +43,8 @@ namespace esapi
 
       /** The logger. */
       //const Logger logger = ESAPI.getLogger(L"EnterpriseSecurityException");
-      NarrowString userMessage;
-      NarrowString logMessage;
+      NarrowString m_userMessage;
+      NarrowString m_logMessage;
 
     public:
 

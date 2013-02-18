@@ -33,30 +33,30 @@ namespace esapi
       throw IllegalArgumentException("Context must be unique");
     }
 
-	  this->errorList.insert( std::pair<String, ValidationException *>(context, vex) );
+	  m_errorList.insert( std::pair<String, ValidationException *>(context, vex) );
   }
 
   std::list<ValidationException *> ValidationErrorList::errors(){
-	  std::list<ValidationException *> errors;
+	  std::list<ValidationException *> errs;
 	  std::map<String, ValidationException *>::iterator it;
 
-	  for ( it = errorList.begin(); it != errorList.end(); it++ )
-		  errors.push_back( (*it).second );
+	  for ( it = m_errorList.begin(); it != m_errorList.end(); it++ )
+		  errs.push_back( (*it).second );
 
-	  return errors;
+	  return errs;
   }
 
   ValidationException *ValidationErrorList::getError(const String &context){
 	  if (context.compare(L"")) return NULL;
 	  //ValidationException *foo = new ValidationException("foo",L"bar");
-	  return errorList.find(context)->second;
+	  return m_errorList.find(context)->second;
   }
 
   bool ValidationErrorList::isEmpty() const{
-	  return errorList.empty();
+	  return m_errorList.empty();
   }
 
   size_t ValidationErrorList::size() const{
-	  return errorList.size();
+	  return m_errorList.size();
   }
 } // esapi
