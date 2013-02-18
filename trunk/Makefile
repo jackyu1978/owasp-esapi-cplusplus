@@ -174,12 +174,17 @@ endif
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
   ESAPI_CFLAGS += -pipe -fsigned-char -fmessage-length=0 -Wconversion
+  ESAPI_CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations
   ESAPI_CFLAGS += -Wformat=2 -Wformat-security
-  ESAPI_CFLAGS += -Wno-unused
+  ESAPI_CFLAGS += -Wshadow -Wno-unused
+  ESAPI_CFLAGS += -fstrict-aliasing
 
   ESAPI_CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
+  ESAPI_CXXFLAGS += -Wmissing-declarations
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wno-unused
+  ESAPI_CXXFLAGS += -fstrict-aliasing
+
 #  Too much Boost noise
 #  ESAPI_CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
 endif
@@ -377,7 +382,7 @@ ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
-  ESAPI_LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodldump
+  ESAPI_LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodump
 endif
 
 # No-exec the heap and the stack (this is a best effort, the kernel or PaX might ignore)
@@ -502,6 +507,9 @@ util: $(UTILOBJS)
 
 .cpp.o:
 	$(CXX) $(CPPFLAGS) -fpic $(CXXFLAGS) -c $< -o $@
+
+.c.o:
+	$(CXX) $(CPPFLAGS) -fpic $(CFLAGS) -c $< -o $@
 
 # Empty target to satisy its use as a dependency in `make {test|check}`
 $(TEST_TARGET): ;

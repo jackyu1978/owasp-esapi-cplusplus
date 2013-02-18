@@ -87,10 +87,10 @@ namespace esapi {
 		 */
 		//private HashMap<String, ValidationException> errorList = new HashMap<String, ValidationException>();
 		//std::hash_map<const String, ValidationException*, hash<const string>, eqstr> errorList;
-		std::map<String, ValidationException *> errorList;
+		std::map<String, ValidationException *> m_errorList;
 
 	public:
-		ValidationErrorList() : errorList() {};
+		ValidationErrorList() : m_errorList() {};
 
 
 		/**
