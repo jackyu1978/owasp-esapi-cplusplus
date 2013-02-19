@@ -176,13 +176,13 @@ ifeq ($(GCC_COMPILER),1)
   ESAPI_CFLAGS += -pipe -fsigned-char -fmessage-length=0 -Wconversion
   ESAPI_CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations
   ESAPI_CFLAGS += -Wformat=2 -Wformat-security
-  ESAPI_CFLAGS += -Wshadow -Wno-unused
+  ESAPI_CFLAGS += -Wuninitialized -Wshadow -Wno-unused
   ESAPI_CFLAGS += -fstrict-aliasing
 
   ESAPI_CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
   ESAPI_CXXFLAGS += -Wmissing-declarations
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
-  ESAPI_CXXFLAGS += -Wno-unused
+  ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
   ESAPI_CXXFLAGS += -fstrict-aliasing
 
 #  Too much Boost noise
