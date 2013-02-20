@@ -217,10 +217,10 @@ endif
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifeq ($(GCC43_OR_LATER),1)
-  ESAPI_CFLAGS += -Wall -Wextra -Wno-unused
+  ESAPI_CFLAGS += -Wall -Wextra -Wno-unused -Wtrampolines
 
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
-  ESAPI_CXXFLAGS += -std=c++0x
+  ESAPI_CXXFLAGS += -Wtrampolines -std=c++0x
 endif
 
 # Nope, not yet (failed with GCC 4.7)
