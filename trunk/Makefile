@@ -64,10 +64,10 @@ ifneq ($(RELEASE_GOALS),)
   WANT_RELEASE := 1
 endif
 
-# If nothing is specified, default to Test.
+# If nothing is specified, default to Release.
 ifeq ($(WANT_DEBUG),0)
-  ifeq ($(WANT_RELEASE),0)
-    WANT_TEST := 1
+  ifeq ($(WANT_TEST),0)
+    WANT_RELEASE := 1
   endif
 endif
 
@@ -75,18 +75,18 @@ endif
 ifeq ($(WANT_DEBUG),1)
 # Whoops, ABI compatibility issues with pre-built DSOs
 #  ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG=1 -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
-  ESAPI_CFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
-  ESAPI_CXXFLAGS += -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  ESAPI_CFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  ESAPI_CXXFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
-  ESAPI_CFLAGS += -DNDEBUG=1 -g -O2
-  ESAPI_CXXFLAGS += -DNDEBUG=1 -g -O2
+  ESAPI_CFLAGS += -DNDEBUG=1 -UDEBUG -g -O2
+  ESAPI_CXXFLAGS += -DNDEBUG=1 -UDEBUG -g -O2
 endif
 
 ifeq ($(WANT_TEST),1)
-  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
-  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O0 -Dprivate=public -Dprotected=public
+  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
+  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
