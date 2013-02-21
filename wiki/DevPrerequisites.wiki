@@ -31,6 +31,18 @@ $ sudo apt-get install libcrypto++9 libcrypto++9-dbg libcrypto++-dev
 # yum install cryptopp cryptopp-devel
 }}}
 
+== Dmalloc ==
+
+{{{
+# Debian and friends
+$ sudo apt-get install libdmalloc5
+}}}
+
+{{{
+#Fedora and friends
+$ sudo yum install dmalloc
+}}}
+
 == Boost ==
 
 {{{
