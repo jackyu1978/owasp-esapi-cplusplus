@@ -186,12 +186,11 @@ using std::shared_ptr;
     }                                                             \
   }
 #elif (defined(ESAPI_BUILD_DEBUG) && defined(ESAPI_OS_WINDOWS)) && !defined(ESAPI_NO_ASSERT)
-#  define ASSERT(exp) ((void)(exp))
-#  define ESAPI_ASSERT1(exp) assert(exp)
-#  define ESAPI_ASSERT2(exp, msg) assert(exp)
+#  define ESAPI_ASSERT1(exp) 		assert(exp)
+#  define ESAPI_ASSERT2(exp, msg) 	assert(exp)
 #else
-#  define ESAPI_ASSERT1(exp) ((void)(exp))
-#  define ESAPI_ASSERT2(exp, msg) ((void)(exp))
+#  define ESAPI_ASSERT1(exp) 		((void)(exp))
+#  define ESAPI_ASSERT2(exp, msg) 	((void)(exp))
 #endif
 
 // For the lazy folks like me!
@@ -256,7 +255,7 @@ static const DebugTrapHandler g_dummyHandler __attribute__ ((init_priority (110)
 typedef unsigned char byte;
 #endif
 
-// Supress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
+// Suppress MS warnings as required, but only if CL supports __pragma (VS 2008 and above)
 #if defined(ESAPI_CXX_MSVC) && (_MSC_VER >= 1500)
 # define ESAPI_MS_NO_WARNING(x)                 \
   __pragma(warning(disable:x))
