@@ -233,11 +233,12 @@ endif
 #  ESAPI_CXXFLAGS += -fmemory-model=c++0x
 # endif
 
-# http://gcc.gnu.org/gcc-4.8/changes.html and https://code.google.com/p/address-sanitizer/
+# http://gcc.gnu.org/gcc-4.8/changes.htm, https://code.google.com/p/address-sanitizer/
+# and http://code.google.com/p/data-race-test/wiki/ThreadSanitizer
 ifeq ($(GCC48_OR_LATER),1)
   ifeq ($(WANT_DEBUG),1)
-    ESAPI_CFLAGS += -fsanitizer=memory
-    ESAPI_CXXFLAGS += -fsanitizer=memory
+    ESAPI_CFLAGS += -fsanitizer=memory -fsanitize=thread
+    ESAPI_CXXFLAGS += -fsanitizer=memory -fsanitize=thread
   endif
 endif
 
