@@ -123,6 +123,7 @@ GCC44_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[4-9]
 GCC45_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[5-9]|[5-9])')
 GCC46_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[6-9]|[5-9])')
 GCC47_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[7-9]|[5-9])')
+GCC48_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[8-9]|[5-9])')
 
 # -z nodlopen: Do not allow an attacker to dlopen us
 # --exclude-libs: keep other library symbols (which we depend upon) from being exported (by us)
@@ -231,6 +232,14 @@ endif
 # ifeq ($(GCC47_OR_LATER),1)
 #  ESAPI_CXXFLAGS += -fmemory-model=c++0x
 # endif
+
+# http://gcc.gnu.org/gcc-4.8/changes.html and https://code.google.com/p/address-sanitizer/
+ifeq ($(GCC48_OR_LATER),1)
+  ifeq ($(WANT_DEBUG),1)
+    ESAPI_CFLAGS += -fsanitizer=memory
+    ESAPI_CXXFLAGS += -fsanitizer=memory
+  endif
+endif
 
 # http://lists.debian.org/debian-devel/2003/10/msg01538.html
 ifeq ($(IS_LINUX),1)
