@@ -193,9 +193,10 @@ using std::shared_ptr;
 #  define ESAPI_ASSERT2(exp, msg) 	((void)(exp))
 #endif
 
-// For the lazy folks like me!
-#undef ASSERT       // need to undef first to eliminate a repetitive warning
-#define ASSERT(x) ESAPI_ASSERT1(x)
+// Don't step on a MFC assert.
+#if !defined(ASSERT)
+#  define ASSERT(exp)     ESAPI_ASSERT1(exp)
+#endif
 
 #if !defined(ESAPI_NO_ASSERT)
 # if defined(ESAPI_OS_STARNIX) && defined(ESAPI_BUILD_DEBUG) && defined(__cplusplus)
