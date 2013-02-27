@@ -93,4 +93,4 @@ namespace esapi
 
     virtual ~ValidationException() throw() {};
   };
-};
+} // NAMESPACE
