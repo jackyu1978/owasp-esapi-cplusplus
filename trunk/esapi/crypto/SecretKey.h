@@ -126,3 +126,4 @@ namespace esapi
   ESAPI_EXPORT std::ostream& operator<<(std::ostream& os, const SecretKey& rhs);
 
 } // NAMESPACE esapi
+

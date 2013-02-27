@@ -127,4 +127,5 @@ namespace esapi
      */
     CryptoPP::OFB_Mode<CryptoPP::AES>::Encryption m_cipher;
   };
-}
+} // NAMESPACE
+

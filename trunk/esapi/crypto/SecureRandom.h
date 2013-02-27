@@ -158,5 +158,5 @@ namespace esapi
         shared_ptr<SecureRandomBase> m_impl;
     };  
 
-}; // NAMESPACE esapi
+} // NAMESPACE esapi
 

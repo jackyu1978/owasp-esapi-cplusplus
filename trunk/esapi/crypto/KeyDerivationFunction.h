@@ -114,5 +114,5 @@ namespace esapi
     KeyDerivationFunction() { /** No instantiation */ };
   };
 
-}; // NAMESPACE esapi
+} // NAMESPACE esapi
 

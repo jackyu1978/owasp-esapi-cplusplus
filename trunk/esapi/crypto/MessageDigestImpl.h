@@ -115,3 +115,4 @@ namespace esapi
     HASH m_hash;
   };
 } // NAMESPACE
+
