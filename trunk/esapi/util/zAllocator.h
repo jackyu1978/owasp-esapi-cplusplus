@@ -95,7 +95,7 @@ namespace esapi
             // optimizer currently does not optimize out the ::memset as dead
             // code. Set a breakpoint on the assignment to g_dummy in the
             // assembled code for verification.
-            ::memset(p, 0x00, cnt * sizeof (T));
+            ::memset(static_cast<void*>(p), 0x00, cnt * sizeof (T));
             g_dummy = p;
             ::operator delete(p);
         }
