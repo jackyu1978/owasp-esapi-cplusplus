@@ -92,6 +92,8 @@
 # define ESAPI_CXX_COMO 1
 #elif defined(__SUNPRO_C)
 # define ESAPI_CXX_SUN 1
+#elif defined(__clang__)
+# define ESAPI_CXX_CLANG 1
 #elif defined(__GNUC__)
 # define ESAPI_CXX_GCC 1
 #endif
@@ -139,7 +141,7 @@
 
 // I don't like using 'using' like this. I would rather it be
 // scoped at declaration, but Apple is a problem.
-#if defined(ESAPI_OS_APPLE)
+#if defined(ESAPI_OS_APPLE) || defined(ESAPI_CXX_CLANG)
 # include <tr1/memory>
 using std::tr1::shared_ptr;
 #else
@@ -299,7 +301,7 @@ ESAPI_MS_NO_WARNING(4505)
 #elif defined(ESAPI_CXX_ICC)
 # define ESAPI_EXPORT
 # define ESAPI_PRIVATE
-#elif defined(ESAPI_CXX_GCC)
+#elif defined(ESAPI_CXX_GCC) || defined(ESAPI_CXX_CLANG)
 # if (__GNUC__ >= 4)
 #  define ESAPI_EXPORT __attribute__ ((visibility ("default")))
 #  define ESAPI_PRIVATE  __attribute__ ((visibility ("hidden")))
@@ -314,7 +316,7 @@ ESAPI_MS_NO_WARNING(4505)
 # define MEMORY_BARRIER() _ReadWriteBarrier()
 #elif defined(ESAPI_CXX_ICC)
 # define MEMORY_BARRIER() __memory_barrier()
-#elif defined(ESAPI_CXX_GCC)
+#elif defined(ESAPI_CXX_GCC) || defined(ESAPI_CXX_CLANG)
 # define MEMORY_BARRIER() __asm__ __volatile__ ("" ::: "memory")
 #else
 # error "Unknown compiler"
