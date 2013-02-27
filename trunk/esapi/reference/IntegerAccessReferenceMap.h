@@ -79,5 +79,5 @@ namespace esapi
      * name the commonly used version for ease of use
      */
     typedef IntegerAccessGenericReferenceMap< String > IntegerAccessReferenceMap;
-};
+} // NAMESPACE
 

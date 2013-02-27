@@ -60,4 +60,5 @@ private:
 //	rtrim(s);
 //}
 
-}
+} // NAMESPACE
+

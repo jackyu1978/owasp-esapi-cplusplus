@@ -181,5 +181,5 @@ public:
 	 */
 	String decodeFromBase64(const String &);
 };
-}; // esapi namespace
+} // NAMESPACE
 

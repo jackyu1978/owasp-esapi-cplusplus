@@ -102,4 +102,5 @@ namespace esapi
      * name the commonly used version for ease of use
      */
     typedef  RandomAccessGenericReferenceMap< String > RandomAccessReferenceMap;
-};
+} // NAMESPACE
+

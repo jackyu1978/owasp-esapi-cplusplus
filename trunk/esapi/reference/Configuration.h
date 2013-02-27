@@ -61,4 +61,4 @@ private:
 	Configuration& operator= (const Configuration &);
 };
 
-}
+} // NAMESPACE
