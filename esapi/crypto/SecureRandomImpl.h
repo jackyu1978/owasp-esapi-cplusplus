@@ -213,3 +213,4 @@ namespace esapi
         size_t m_rctr;
     };
 } // NAMESPACE
+

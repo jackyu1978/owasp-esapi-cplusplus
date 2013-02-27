@@ -224,4 +224,4 @@ namespace esapi
   private:
     CryptoHelper() { /** No instantiation */ };
   };
-}; // NAMESPACE esapi
+} // NAMESPACE esapi

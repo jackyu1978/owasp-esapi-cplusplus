@@ -124,4 +124,5 @@ namespace esapi
      */
     SecureRandom m_random;
   };
-}; // NAMESPACE esapi
+} // NAMESPACE esapi
+

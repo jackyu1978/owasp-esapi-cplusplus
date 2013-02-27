@@ -48,5 +48,5 @@ namespace esapi
     size_t length() const;
     void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
   };
-
 } // NAMESPACE esapi
+
