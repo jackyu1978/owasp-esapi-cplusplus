@@ -91,6 +91,7 @@ namespace esapi
   private:
     static Mutex& getClassLock();
   };
-};
+} // NAMESPACE
+
 
 

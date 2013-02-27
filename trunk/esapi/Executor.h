@@ -48,6 +48,5 @@ namespace esapi
 
 		virtual ~Executor() {};
 	};
-};
-
+} // NAMESPACE
 

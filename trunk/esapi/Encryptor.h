@@ -324,5 +324,5 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
     Encryptor& operator=(const Encryptor& rhs);
 
   };   // End class
+} // NAMESPACE
 
-}   // End 'namespace esapi'

@@ -40,6 +40,5 @@ namespace esapi
 
 		virtual ~EncryptedProperties() {};
 	};
-};
-
+} // NAMESPACE
 

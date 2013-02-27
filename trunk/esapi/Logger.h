@@ -160,6 +160,5 @@ namespace esapi
       return this.type;
     }
   };
-};
-
+} // NAMESPACE
 

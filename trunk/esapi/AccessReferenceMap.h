@@ -220,6 +220,5 @@ namespace esapi
 		virtual ~AccessReferenceMap() {};
 
 	};
-};
-
+} // NAMESPACE
 

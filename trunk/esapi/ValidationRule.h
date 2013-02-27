@@ -93,6 +93,5 @@ namespace esapi
 
 		virtual ~ValidationRule() {};
 	};
-};
-
+} // NAMESPACE
 
