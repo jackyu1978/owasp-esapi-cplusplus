@@ -595,4 +595,4 @@ namespace esapi
        */
 	  String safeReadLine(std::fstream &, int);
   };
-}; //esapi namespace
+} // NAMESPACE

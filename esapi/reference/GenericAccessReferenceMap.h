@@ -330,5 +330,5 @@ namespace esapi
         boost::mutex  lockMaps;
 
     };
+} // NAMESPACE
 
-}
