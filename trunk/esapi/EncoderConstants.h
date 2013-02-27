@@ -102,6 +102,6 @@ private:
 
 };
 
-}; /** esapi namespace */
+} /** esapi namespace */
 
 
