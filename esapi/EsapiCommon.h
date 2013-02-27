@@ -335,3 +335,4 @@ ESAPI_MS_NO_WARNING(4505)
 
 // Defines the Char, String and typees such as Array
 #include "EsapiTypes.h"
+

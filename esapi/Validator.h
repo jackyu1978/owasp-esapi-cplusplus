@@ -638,6 +638,5 @@ namespace esapi
 
 		virtual ~Validator() {};
 	};
-};
-
+} // NAMESPACE
 

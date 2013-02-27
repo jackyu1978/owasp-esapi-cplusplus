@@ -441,8 +441,5 @@ public:
 	virtual String decodeFromBase64(const String &) =0;
 
 };
-
-
-}; // esapi namespace
-
+} // esapi namespace
 

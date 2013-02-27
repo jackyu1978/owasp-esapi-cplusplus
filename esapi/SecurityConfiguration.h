@@ -171,6 +171,5 @@ namespace esapi
       this->actions = actions;
     }
   };
-};
-
+} // NAMESPACE
 

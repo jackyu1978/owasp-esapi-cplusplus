@@ -135,6 +135,5 @@ namespace esapi {
 
 		virtual ~ValidationErrorList() {};
 	};
-};
-
+} // NAMESPACE
 

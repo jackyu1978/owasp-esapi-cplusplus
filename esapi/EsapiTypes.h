@@ -37,4 +37,6 @@ namespace esapi
   typedef std::vector<String> StringArray;
   typedef std::list<String> StringList;
   // typedef std::map<std::string> StringMap;
-}
+
+} // NAMESPACE
+

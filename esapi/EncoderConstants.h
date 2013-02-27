@@ -101,7 +101,5 @@ private:
 	}
 
 };
-
-} /** esapi namespace */
-
+} // NAMESPACE
 
