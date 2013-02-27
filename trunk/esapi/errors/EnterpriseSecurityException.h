@@ -104,4 +104,4 @@ namespace esapi
 
       virtual const char* what() const throw();
     };
-};
+} // NAMESPACE

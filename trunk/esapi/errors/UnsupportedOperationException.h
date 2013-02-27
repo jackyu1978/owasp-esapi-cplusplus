@@ -42,5 +42,5 @@ namespace esapi {
       }
   };
 
-}; // NAMESPACE
+} // NAMESPACE
 
