@@ -22,19 +22,19 @@
 
 #include <vector>
 
-  /**
-   * The Codec interface defines a set of methods for encoding and decoding application level encoding schemes,
-   * such as HTML entity encoding and percent encoding (aka URL encoding). Codecs are used in output encoding
-   * and canonicalization.  The design of these codecs allows for character-by-character decoding, which is
-   * necessary to detect double-encoding and the use of multiple encoding schemes, both of which are techniques
-   * used by attackers to bypass validation and bury encoded attacks in data.
-   *
-   * @author Jeff Williams (jeff.williams .at. aspectsecurity.com) <a
-   *         href="http://www.aspectsecurity.com">Aspect Security</a>
-   * @author Dan Amodio (dan.amodio@aspectsecurity.com)
-   * @since June 1, 2007
-   * @see org.owasp.esapi.Encoder
-   */
+/**
+ * The Codec interface defines a set of methods for encoding and decoding application level encoding schemes,
+ * such as HTML entity encoding and percent encoding (aka URL encoding). Codecs are used in output encoding
+ * and canonicalization.  The design of these codecs allows for character-by-character decoding, which is
+ * necessary to detect double-encoding and the use of multiple encoding schemes, both of which are techniques
+ * used by attackers to bypass validation and bury encoded attacks in data.
+ *
+ * @author Jeff Williams (jeff.williams .at. aspectsecurity.com) <a
+ *         href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author Dan Amodio (dan.amodio@aspectsecurity.com)
+ * @since June 1, 2007
+ * @see org.owasp.esapi.Encoder
+ */
 
 namespace esapi {
 
@@ -43,10 +43,10 @@ namespace esapi {
   private:
 
     /**template <>
-      String* initHexArray(){
-      String foo[256] = {"bar", "bar", "bar"};
-      return foo;
-      }*/
+       String* initHexArray(){
+       String foo[256] = {"bar", "bar", "bar"};
+       return foo;
+       }*/
 
     /**
      * Used to initialize the values of private member hex
