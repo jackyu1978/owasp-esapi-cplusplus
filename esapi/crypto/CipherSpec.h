@@ -46,17 +46,17 @@ namespace esapi
     enum CipherTransformationComponent {ALG, MODE, PADDING}; //:Cipher transformation component. Format is ALG/MODE/PADDING.
     String getFromCipherXForm(CipherTransformationComponent component) const;
   public:
-    CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv); //:Explicitly sets everything.
-    CipherSpec(const String& cipherXForm, unsigned int keySize, unsigned int blockSize); //:Sets everything but iv.
-    CipherSpec(const String& cipherXForm, unsigned int keySize); //:Sets everything but blockSize and iv.
-    CipherSpec(const String& cipherXForm, unsigned int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
+    CipherSpec(const NarrowString& cipherXForm, unsigned int keySize, unsigned int blockSize, const SecureByteArray &iv); //:Explicitly sets everything.
+    CipherSpec(const NarrowString& cipherXForm, unsigned int keySize, unsigned int blockSize); //:Sets everything but iv.
+    CipherSpec(const NarrowString& cipherXForm, unsigned int keySize); //:Sets everything but blockSize and iv.
+    CipherSpec(const NarrowString& cipherXForm, unsigned int keySize, const SecureByteArray &iv); //:Sets everything but blockSize.
     CipherSpec(const SecureByteArray &iv); //:Sets only iv
     CipherSpec(const CipherSpec &cs); //:Copy CTOR.
     CipherSpec();
 
     CipherSpec& operator=(const CipherSpec& cs); //:Assignment.
-    String verifyCipherXForm(const String& cipherXForm); //:Verifies CipherXForm format matches "ALG/MODE/PAD".
-    void setCipherTransformation(const String& cipherXForm);
+    String verifyCipherXForm(const NarrowString& cipherXForm); //:Verifies CipherXForm format matches "ALG/MODE/PAD".
+    void setCipherTransformation(const NarrowString& cipherXForm);
     String getCipherTransformation() const;
     void setKeySize(unsigned int keySize);
     unsigned int getKeySize() const;

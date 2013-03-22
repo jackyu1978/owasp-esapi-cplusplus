@@ -80,7 +80,7 @@ namespace esapi
             // return esapi::randomizer().getRandomString( 6, EncoderConstants.CHAR_ALPHANUMERICS );
 
             // temporary
-            String letters = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             String sb;
 
             for ( int i = 0; i < 6; i++ )

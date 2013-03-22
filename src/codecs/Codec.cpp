@@ -17,8 +17,6 @@
 #include "EsapiCommon.h"
 #include "codecs/Codec.h"
 
-
-
 #include <sstream>
 #include <iomanip>
 
@@ -91,7 +89,7 @@ namespace esapi
     return s_mutex;
   }
 
-  String Codec::encode(const Char immune[], size_t length, const String& input) const
+  String Codec::encode(const Char immune[], size_t length, const NarrowString& input) const
   {
     ASSERT(immune);
     ASSERT(length);
@@ -119,7 +117,7 @@ namespace esapi
     return String(1, c);
   }
 
-  String Codec::decode(const String& input) const{
+  String Codec::decode(const NarrowString& input) const{
     ASSERT(!input.empty());
 
     String sb;
@@ -176,7 +174,7 @@ namespace esapi
     return str.str();
   }
 
-  bool Codec::containsCharacter(Char c, const String& s) const{
+  bool Codec::containsCharacter(Char c, const NarrowString& s) const{
     ASSERT(c != 0);
     ASSERT(!s.empty());
 

@@ -27,7 +27,7 @@
 /* Intel Chipset CSP name */
 #if !defined(INTEL_DEF_PROV)
 #if defined(UNICODE)
-# define INTEL_DEF_PROV        L"Intel Hardware Cryptographic Service Provider"
+# define INTEL_DEF_PROV        "Intel Hardware Cryptographic Service Provider"
 #else
 # define INTEL_DEF_PROV        "Intel Hardware Cryptographic Service Provider"
 #endif
@@ -71,7 +71,7 @@ namespace esapi
       AutoProvider z1(hProvider);
 
       // Get a handle to the Intel CSP
-      if(CryptAcquireContext(&hProvider, NULL, INTEL_DEF_PROV, PROV_INTEL_SEC, 0))
+      if(CryptAcquireContextA(&hProvider, NULL, INTEL_DEF_PROV, PROV_INTEL_SEC, 0))
         {
           while(req)
             {

@@ -23,11 +23,11 @@ namespace esapi {
   class ESAPI_EXPORT NullPointerException : public EnterpriseSecurityException
   {
   public:
-    explicit NullPointerException(const String &message)
+    explicit NullPointerException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit NullPointerException(const String &userMessage, const String &logMessage)
+    explicit NullPointerException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

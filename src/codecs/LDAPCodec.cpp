@@ -30,19 +30,19 @@ namespace esapi
 
       switch (c) {
       case L'\\':
-              return L"\\5c";
+              return "\\5c";
               break;
       case L'*':
-              return L"\\2a";
+              return "\\2a";
               break;
       case L'(':
-              return L"\\28";
+              return "\\28";
               break;
       case L')':
-			  return L"\\29";
+			  return "\\29";
               break;
       case L'\0':
-              return L"\\00";
+              return "\\00";
               break;
       default:
               return String(1, c);

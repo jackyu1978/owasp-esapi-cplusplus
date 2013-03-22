@@ -23,11 +23,11 @@ namespace esapi {
   class ESAPI_EXPORT IntegrityException : public EnterpriseSecurityException
   {
   public:
-    explicit IntegrityException(const String &message)
+    explicit IntegrityException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit IntegrityException(const String &userMessage, const String &logMessage)
+    explicit IntegrityException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

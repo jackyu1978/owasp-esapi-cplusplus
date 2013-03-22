@@ -24,15 +24,6 @@ namespace esapi {
   class ESAPI_EXPORT NoSuchAlgorithmException : public EnterpriseSecurityException
   {
   public:
-    explicit NoSuchAlgorithmException(const String &message)
-      : EnterpriseSecurityException(message, message)
-      {
-      }
-    explicit NoSuchAlgorithmException(const String &userMessage, const String &logMessage)
-      : EnterpriseSecurityException(userMessage, logMessage)
-      {
-      }
-
     explicit NoSuchAlgorithmException(const NarrowString &message)
       : EnterpriseSecurityException(message, message)
       {
@@ -41,9 +32,18 @@ namespace esapi {
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }
+
+    explicit NoSuchAlgorithmException(const WideString &message)
+      : EnterpriseSecurityException(message, message)
+      {
+      }
+    explicit NoSuchAlgorithmException(const WideString &userMessage, const WideString &logMessage)
+      : EnterpriseSecurityException(userMessage, logMessage)
+      {
+      }
   };
 
-  // static const NoSuchAlgorithmException dummy(L"unused");
+  // static const NoSuchAlgorithmException dummy("unused");
 
 } // NAMESPACE
 

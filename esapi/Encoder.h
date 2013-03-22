@@ -68,7 +68,7 @@ public:
 	 * @param input the text to canonicalize
 	 * @return a String containing the canonicalized text
 	 */
-	virtual String canonicalize(const String &) =0;
+	virtual String canonicalize(const NarrowString &) =0;
 
 	/**
 	 * This method is the equivalent to calling <pre>Encoder.canonicalize(input, strict, strict);</pre>
@@ -83,7 +83,7 @@ public:
 	 *
 	 * @return a String containing the canonicalized text
 	 */
-	virtual String canonicalize(const String &, bool) =0;
+	virtual String canonicalize(const NarrowString &, bool) =0;
 
 	/**
 	 * Canonicalization is simply the operation of reducing a possibly encoded
@@ -93,7 +93,7 @@ public:
 	 * the attack. Note that data encoded more than once is not something that a
 	 * normal user would generate and should be regarded as an attack.
 	 * <p>
-     * Everyone <a href="http://cwe.mitre.org/data/definitions/180.html">says</a> you shouldn't do validation
+     * Everyone <a href="http://cwe.mitre.org/data/definitions/180.htm">says</a> you shouldn't do validation
      * without canonicalizing the data first. This is easier said than done. The canonicalize method can
      * be used to simplify just about any input down to its most basic form. Note that canonicalize doesn't
      * handle Unicode issues, it focuses on higher level encoding and escaping schemes. In addition to simple
@@ -106,7 +106,7 @@ public:
      * <p>
      * Using canonicalize is simple. The default is just...
      * <pre>
-     *     String clean = ESAPI.encoder().canonicalize( request.getParameter(L"input"));
+     *     String clean = ESAPI.encoder().canonicalize( request.getParameter("input"));
      * </pre>
      * You need to decode untrusted data so that it's safe for ANY downstream interpreter or decoder. For
      * example, if your data goes into a Windows command shell, then into a database, and then to a browser,
@@ -147,7 +147,7 @@ public:
      * warning messages in the log about each multiple encoding and mixed encoding received.
      * <pre>
      *     // disabling strict mode to allow mixed encoding
-     *     String url = ESAPI.encoder().canonicalize( request.getParameter(L"url"), false, false);
+     *     String url = ESAPI.encoder().canonicalize( request.getParameter("ur"), false, false);
      * </pre>
 	 *
 	 * @see <a href="http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4">W3C specifications</a>
@@ -161,7 +161,7 @@ public:
 	 *
 	 * @return a String containing the canonicalized text
 	 */
-	virtual String canonicalize(const String &, bool, bool) =0;
+	virtual String canonicalize(const NarrowString &, bool, bool) =0;
 
 	/**
 	 * Encode data for use in Cascading Style Sheets (CSS) content.
@@ -173,7 +173,7 @@ public:
 	 *
 	 * @return input encoded for CSS
 	 */
-	virtual String encodeForCSS(const String &) =0;
+	virtual String encodeForCSS(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in HTML using HTML entity encoding
@@ -182,8 +182,8 @@ public:
 	 * 00-08, 0B-0C, 0E-1F, and 7F-9F
 	 * <p>cannot be used in HTML.
 	 *
-	 * @see <a href="http://en.wikipedia.org/wiki/Character_encodings_in_HTML">HTML Encodings [wikipedia.org]</a>
-	 * @see <a href="http://www.w3.org/TR/html4/sgml/sgmldecl.html">SGML Specification [w3.org]</a>
+	 * @see <a href="http://en.wikipedia.org/wiki/Character_encodings_in_HTM">HTML Encodings [wikipedia.org]</a>
+	 * @see <a href="http://www.w3.org/TR/html4/sgml/sgmldecl.htm">SGML Specification [w3.org]</a>
      * @see <a href="http://www.w3.org/TR/REC-xml/#charsets">XML Specification [w3.org]</a>
 	 *
 	 * @param input
@@ -191,14 +191,14 @@ public:
 	 *
 	 * @return input encoded for HTML
 	 */
-	virtual String encodeForHTML(const String &) =0;
+	virtual String encodeForHTML(const NarrowString &) =0;
 
 	/**
      * Decodes HTML entities.
      * @param input the <code>String</code> to decode
      * @return the newly decoded <code>String</code>
      */
-	virtual String decodeForHTML(const String &) =0;
+	virtual String decodeForHTML(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in HTML attributes.
@@ -208,7 +208,7 @@ public:
 	 *
 	 * @return input encoded for use as an HTML attribute
 	 */
-	virtual String encodeForHTMLAttribute(const String &) =0;
+	virtual String encodeForHTMLAttribute(const NarrowString &) =0;
 
 
     /**
@@ -230,7 +230,7 @@ public:
      *
      * @return input encoded for use in JavaScript
      */
-	virtual String encodeForJavaScript(const String &) =0;
+	virtual String encodeForJavaScript(const NarrowString &) =0;
 
 	/**
 	 * Encode data for insertion inside a data value in a Visual Basic script. Putting user data directly
@@ -244,7 +244,7 @@ public:
 	 *
 	 * @return input encoded for use in VBScript
 	 */
-	virtual String encodeForVBScript(const String &) =0;
+	virtual String encodeForVBScript(const NarrowString &) =0;
 
 
 	/**
@@ -263,7 +263,7 @@ public:
 	 * However, this syntax does not work with all drivers, and requires
 	 * modification of all queries.
 	 *
-	 * @see <a href="http://java.sun.com/j2se/1.4.2/docs/guide/jdbc/getstart/statement.html">JDBC Specification</a>
+	 * @see <a href="http://java.sun.com/j2se/1.4.2/docs/guide/jdbc/getstart/statement.htm">JDBC Specification</a>
 	 *
 	 * @param codec
 	 * 		a Codec that declares which database 'input' is being encoded for (ie. MySQL, Oracle, etc.)
@@ -272,7 +272,7 @@ public:
 	 *
 	 * @return input encoded for use in SQL
 	 */
-	virtual String encodeForSQL(const Codec &, const String &) =0;
+	virtual String encodeForSQL(const Codec &, const NarrowString &) =0;
 
     /**
      * Encode for an operating system command shell according to the selected codec (appropriate codecs include the WindowsCodec and UnixCodec).
@@ -280,10 +280,10 @@ public:
      * Please note the following recommendations before choosing to use this method:
      *
      * 1)      It is strongly recommended that applications avoid making direct OS system calls if possible as such calls are not portable, and they are potentially unsafe. Please use language provided features if at all possible, rather than native OS calls to implement the desired feature.
-     * 2)      If an OS call cannot be avoided, then it is recommended that the program to be invoked be invoked directly (e.g., System.exec(L"nameofcommand" + "parameterstocommand");) as this avoids the use of the command shell. The "parameterstocommand" should of course be validated before passing them to the OS command.
+     * 2)      If an OS call cannot be avoided, then it is recommended that the program to be invoked be invoked directly (e.g., System.exec("nameofcommand" + "parameterstocommand");) as this avoids the use of the command shell. The "parameterstocommand" should of course be validated before passing them to the OS command.
      * 3)      If you must use this method, then we recommend validating all user supplied input passed to the command shell as well, in addition to using this method in order to make the command shell invocation safe.
      *
-     * An example use of this method would be: System.exec(L"dir " + ESAPI.encodeForOS(WindowsCodec, "parameter(s)tocommandwithuserinput");
+     * An example use of this method would be: System.exec("dir " + ESAPI.encodeForOS(WindowsCodec, "parameter(s)tocommandwithuserinput");
      *
      * @param codec
      *      a Codec that declares which operating system 'input' is being encoded for (ie. Windows, Unix, etc.)
@@ -292,8 +292,8 @@ public:
      *
      * @return input encoded for use in command shell
      */
-	virtual String encodeForOS(const Codec *, const String &) =0;
-	virtual std::string encodeForOS(const Codec *, const std::string &) =0;
+	virtual NarrowString encodeForOS(const Codec *, const NarrowString &) =0;
+	virtual WideString encodeForOS(const Codec *, const WideString &) =0;
 
 	/**
 	 * Encode data for use in LDAP queries.
@@ -303,7 +303,7 @@ public:
 	 *
 	 * @return input encoded for use in LDAP
 	 */
-	virtual String encodeForLDAP(const String &) =0;
+	virtual String encodeForLDAP(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in an LDAP distinguished name.
@@ -313,7 +313,7 @@ public:
 	 *
 	 *  @return input encoded for use in an LDAP distinguished name
 	 */
-	virtual String encodeForDN(const String &) =0;
+	virtual String encodeForDN(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in an XPath query.
@@ -325,13 +325,13 @@ public:
 	 * prevent injection.
 	 *
 	 * For more information, refer to <a
-	 * href="http://www.ibm.com/developerworks/xml/library/x-xpathinjection.html">this
+	 * href="http://www.ibm.com/developerworks/xml/library/x-xpathinjection.htm">this
 	 * article</a> which specifies the following list of characters as the most
 	 * dangerous: ^&"*';<>(). <a
 	 * href="http://www.packetstormsecurity.org/papers/bypass/Blind_XPath_Injection_20040518.pdf">This
 	 * paper</a> suggests disallowing ' and " in queries.
 	 *
-	 * @see <a href="http://www.ibm.com/developerworks/xml/library/x-xpathinjection.html">XPath Injection [ibm.com]</a>
+	 * @see <a href="http://www.ibm.com/developerworks/xml/library/x-xpathinjection.htm">XPath Injection [ibm.com]</a>
 	 * @see <a href="http://www.packetstormsecurity.org/papers/bypass/Blind_XPath_Injection_20040518.pdf">Blind XPath Injection [packetstormsecurity.org]</a>
 	 *
 	 * @param input
@@ -339,7 +339,7 @@ public:
 	 * @return
 	 * 		input encoded for use in XPath
 	 */
-	virtual String encodeForXPath(const String &) =0;
+	virtual String encodeForXPath(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in an XML element. The implementation should follow the <a
@@ -359,7 +359,7 @@ public:
 	 * @return
 	 *			input encoded for use in XML
 	 */
-	virtual String encodeForXML(const String &) =0;
+	virtual String encodeForXML(const NarrowString &) =0;
 
 	/**
 	 * Encode data for use in an XML attribute. The implementation should follow
@@ -379,7 +379,7 @@ public:
 	 * @return
 	 * 			input encoded for use in an XML attribute
 	 */
-	virtual String encodeForXMLAttribute(const String &) =0;
+	virtual String encodeForXMLAttribute(const NarrowString &) =0;
 
 	/**
 	 * Encode for use in a URL. This method performs <a
@@ -397,7 +397,7 @@ public:
 	 * @throws EncodingException
 	 * 		if encoding fails
 	 */
-	virtual String encodeForURL(const String &) throw (EncodingException) =0;
+	virtual String encodeForURL(const NarrowString &) throw (EncodingException) =0;
 
 	/**
 	 * Decode from URL. Implementations should first canonicalize and
@@ -413,7 +413,7 @@ public:
 	 * @throws EncodingException
 	 * 		if decoding fails
 	 */
-	virtual String decodeFromURL(const String &) throw (EncodingException) =0;
+	virtual String decodeFromURL(const NarrowString &) throw (EncodingException) =0;
 
 	/**
 	 * Encode for Base64.
@@ -425,7 +425,7 @@ public:
 	 *
 	 * @return input encoded for Base64
 	 */
-	virtual String encodeForBase64(const String &, bool) =0;
+	virtual String encodeForBase64(const NarrowString &, bool) =0;
 
 	/**
 	 * Decode data encoded with BASE-64 encoding.
@@ -438,7 +438,7 @@ public:
 	 *
 	 * @throws IOException
 	 */
-	virtual String decodeFromBase64(const String &) =0;
+	virtual String decodeFromBase64(const NarrowString &) =0;
 
 };
 } // esapi namespace

@@ -26,7 +26,7 @@ namespace esapi
   {
   public:
 
-    static String DefaultDigestAlgorithm();
+    static NarrowString DefaultDigestAlgorithm();
     static unsigned int DefaultDigestIterations();
 
   public:
@@ -39,8 +39,8 @@ namespace esapi
      * in order to help strengthen weak passwords. Internally, the plainText and Salt are converted to UTF-8 strings.
      */
     // orig 2012.01.29 jAHOLMES  (inexact match class still abstract)
-    // virtual String hash(const String& plainText, const String &salt, unsigned int iterations = DefaultDigestIterations()) const;
-    virtual String hash(const String& plainText, const String &salt, unsigned int iterations = 4096 ) const;
+    // virtual String hash(const NarrowString& plainText, const NarrowString &salt, unsigned int iterations = DefaultDigestIterations()) const;
+    virtual NarrowString hash(const NarrowString& plainText, const NarrowString &salt, unsigned int iterations = 4096 ) const;
 
     virtual CipherText encrypt(const PlainText& plainText) const;
 
@@ -56,29 +56,29 @@ namespace esapi
       return PlainText();
     }
 
-    virtual String sign(const String & /*message*/) const
+    virtual NarrowString sign(const NarrowString & /*message*/) const
     {
       return String();
     }
 
-    virtual bool verifySignature(const String &, const String &) const
+    virtual bool verifySignature(const NarrowString &, const NarrowString &) const
     {
       return false;
     }
 
     // orig 2012.01.29 jAHOLMES  (inexact match class still abstract)
-    // virtual String seal(const String &, long) const
-    virtual String seal(const String &, time_t) const
+    // virtual String seal(const NarrowString &, long) const
+    virtual NarrowString seal(const NarrowString &, time_t) const
     {
       return String();
     }
 
-    virtual String unseal(const String &) const
+    virtual NarrowString unseal(const NarrowString &) const
     {
       return String();
     }
 
-    virtual bool verifySeal(const String &) const
+    virtual bool verifySeal(const NarrowString &) const
     {
       return false;
     }

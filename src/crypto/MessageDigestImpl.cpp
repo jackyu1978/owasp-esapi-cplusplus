@@ -48,7 +48,7 @@ namespace esapi
     if(algorithm == "SHA-512")
       return new MessageDigestImpl<CryptoPP::SHA512>(algorithm);
 
-    if(algorithm == "Whirlpool")
+    if(algorithm == "Whirlpoo")
       return new MessageDigestImpl<CryptoPP::Whirlpool>(algorithm);
 
     ///////////////////////////////// Catch All /////////////////////////////////
@@ -145,7 +145,7 @@ namespace esapi
    * Updates the digest using the specified string.
    */
   template <class HASH>
-  void MessageDigestImpl<HASH>::updateImpl(const String& str)   
+  void MessageDigestImpl<HASH>::updateImpl(const NarrowString& str)   
   {
     // Our String classes do not have a getBytes() method.
     SecureByteArray sa = TextConvert::GetBytes(str, "UTF-8");
@@ -276,7 +276,7 @@ namespace esapi
    * digest computation.
    */
   template <class HASH>
-  SecureByteArray MessageDigestImpl<HASH>::digestImpl(const String& input)
+  SecureByteArray MessageDigestImpl<HASH>::digestImpl(const NarrowString& input)
   {
     //ASSERT(input.data());
     //ASSERT(input.length());

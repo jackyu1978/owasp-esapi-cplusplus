@@ -60,7 +60,7 @@ namespace esapi
   SecureString(size_t n, Char c)
     : m_base(n, c) { ASSERT(n); }
         
-  SecureString(const String& str)
+  SecureString(const NarrowString& str)
     : m_base(str.data(), str.size()) { }
         
     template<class InputIterator>
@@ -142,7 +142,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& operator=(const String& str)
+    SecureString& operator=(const NarrowString& str)
       {
 	m_base.assign(str.data(), str.size());
 	return *this;
@@ -168,7 +168,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& operator+=(const String& str)
+    SecureString& operator+=(const NarrowString& str)
       {
 	m_base.append(str.data(), str.size());
 	return *this;
@@ -194,7 +194,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& append(const String& str)
+    SecureString& append(const NarrowString& str)
       {
 	m_base.append(str.data(), str.size());
 	return *this;
@@ -234,7 +234,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& assign(const String& str)
+    SecureString& assign(const NarrowString& str)
       {
 	m_base.assign(str.data(), str.size());
 	return *this;
@@ -274,7 +274,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& insert(size_t pos, const String& str)
+    SecureString& insert(size_t pos, const NarrowString& str)
       {
 	m_base.insert(pos, str.data(), str.size());
 	return *this;
@@ -286,7 +286,7 @@ namespace esapi
 	return *this;
       }
         
-    SecureString& insert(size_t pos1, const String& str, size_t pos2, size_t n)
+    SecureString& insert(size_t pos1, const NarrowString& str, size_t pos2, size_t n)
       {
 	m_base.insert(pos1, SecureStringBase(str.data(), str.size()), pos2, n);
 	return *this;
@@ -387,7 +387,7 @@ namespace esapi
       return m_base.find(str.m_base, pos);
     }
         
-    size_t find(const String& str, size_t pos) const
+    size_t find(const NarrowString& str, size_t pos) const
     {
       return m_base.find(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -415,7 +415,7 @@ namespace esapi
       return m_base.rfind(str.m_base, pos);
     }
         
-    size_t rfind(const String& str, size_t pos) const
+    size_t rfind(const NarrowString& str, size_t pos) const
     {
       return m_base.rfind(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -443,7 +443,7 @@ namespace esapi
       return m_base.find_first_of(str.m_base, pos);
     }
         
-    size_t find_first_of(const String& str, size_t pos) const
+    size_t find_first_of(const NarrowString& str, size_t pos) const
     {
       return m_base.find_first_of(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -471,7 +471,7 @@ namespace esapi
       return m_base.find_last_of(str.m_base, pos);
     }
         
-    size_t find_last_of(const String& str, size_t pos) const
+    size_t find_last_of(const NarrowString& str, size_t pos) const
     {
       return m_base.find_last_of(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -498,7 +498,7 @@ namespace esapi
       return m_base.find_first_not_of(str.m_base, pos);
     }
         
-    size_t find_first_not_of(const String& str, size_t pos) const
+    size_t find_first_not_of(const NarrowString& str, size_t pos) const
     {
       return m_base.find_first_not_of(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -526,7 +526,7 @@ namespace esapi
       return m_base.find_last_not_of(str.m_base, pos);
     }
         
-    size_t find_last_not_of(const String& str, size_t pos) const
+    size_t find_last_not_of(const NarrowString& str, size_t pos) const
     {
       return m_base.find_last_not_of(SecureStringBase(str.data(), str.size()), pos);
     }
@@ -553,7 +553,7 @@ namespace esapi
       return m_base.compare(str.m_base);
     }
         
-    int compare(const String& str) const
+    int compare(const NarrowString& str) const
     {
       return m_base.compare(0, str.size(), str.data());
     }
@@ -563,7 +563,7 @@ namespace esapi
       return m_base.compare(pos, n, str.m_base);
     }
         
-    int compare(size_t pos, size_t n, const String& str) const
+    int compare(size_t pos, size_t n, const NarrowString& str) const
     {
       return m_base.compare(pos, n, SecureStringBase(str.data(), str.size()));
     }
@@ -573,7 +573,7 @@ namespace esapi
       return m_base.compare(pos1, n1, str.m_base, pos2, n2);
     }
         
-    int compare(size_t pos1, size_t n1, const String& str, size_t pos2, size_t n2) const
+    int compare(size_t pos1, size_t n1, const NarrowString& str, size_t pos2, size_t n2) const
     {
       return m_base.compare(pos1, n1, SecureStringBase(str.data(), str.size()), pos2, n2);
     }
@@ -600,12 +600,12 @@ namespace esapi
     SecureStringBase m_base;
   }; // CLASS
 
-  inline bool operator==(const String& s, const esapi::SecureString& ss)
+  inline bool operator==(const NarrowString& s, const esapi::SecureString& ss)
   {
     return ss.compare(0, s.size(), s.data()) == 0;
   }
     
-  inline bool operator==(const esapi::SecureString& ss, const String& s)
+  inline bool operator==(const esapi::SecureString& ss, const NarrowString& s)
   {
       return ss.compare(0, s.size(), s.data()) == 0;
   }

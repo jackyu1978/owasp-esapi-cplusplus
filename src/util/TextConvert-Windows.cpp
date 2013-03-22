@@ -148,10 +148,10 @@ namespace esapi
     return fit->second;
   }
 
-  String TextConvert::NarrowToWide(const NarrowString& str, const Encoding& enc)
+  WideString TextConvert::NarrowToWide(const NarrowString& str, const Encoding& enc)
   {
     ASSERT( !str.empty() );
-    if(str.empty()) return String();
+    if(str.empty()) return WideString();
 
     const UINT cpage = EncodingToWindowsCodePage(enc);
     static const DWORD dwFlags = MB_ERR_INVALID_CHARS;
@@ -178,10 +178,10 @@ namespace esapi
     if(dwReq != dwWritten)
       throw IllegalArgumentException("TextConvert::NarrowToWide failed (2)");
 
-    return String(arr.begin(), arr.end());
+    return WideString(arr.begin(), arr.end());
   }
 
-  NarrowString TextConvert::WideToNarrow(const String& wstr, const Encoding& enc)
+  NarrowString TextConvert::WideToNarrow(const WideString& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();
@@ -193,7 +193,7 @@ namespace esapi
   /**
    * Convert a wide character string to a UTF-8 character string. Used by exception classes.
    */
-  NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
+  NarrowString TextConvert::WideToNarrowNoThrow(const WideString& wstr)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();
@@ -240,7 +240,7 @@ namespace esapi
     return NarrowString(arr.begin(), arr.end());
   }
 
-  SecureByteArray TextConvert::GetBytes(const String& wstr, const Encoding& enc)
+  SecureByteArray TextConvert::GetBytes(const WideString& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return SecureByteArray();

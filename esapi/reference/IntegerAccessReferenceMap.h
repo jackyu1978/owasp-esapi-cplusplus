@@ -46,7 +46,7 @@ namespace esapi
             boost::lock_guard<boost::mutex>  lock( lockCounter );
 #if  ESAPI_OS_WINDOWS
             TCHAR buffer[ 64 ];
-            swprintf_s( buffer, 64, L"%d", count++ );
+            swprintf_s( buffer, 64, "%d", count++ );
 
             return String( buffer );
 #else

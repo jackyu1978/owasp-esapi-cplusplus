@@ -37,11 +37,11 @@ namespace esapi
     SecureByteArray rawBytes; //:Plaintext stored as byte array.
   public:
     PlainText();//:Preventing some errors from before.
-    explicit PlainText(const String& str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
+    explicit PlainText(const NarrowString& str); //:Constructs a PlainText object using @param str. @param str is converted to UTF-8 and stored in a byte array.
     explicit PlainText(const SecureByteArray &b); //:Constructs a PlainText object from a byte array.
 
     // String is UTF-32 on *nix, UTF-16 on Windows.
-    String toString() const; //:Converts object to UTF-8 encoded {@code String}.
+    NarrowString toString() const; //:Converts object to UTF-8 encoded {@code String}.
 
     SecureByteArray asBytes() const; //:Converts object to a byte array.
     bool equals(const PlainText& obj) const;
@@ -49,4 +49,3 @@ namespace esapi
     void overwrite(); //:Overwrites contents of rawBytes member with '*' character.
   };
 } // NAMESPACE esapi
-

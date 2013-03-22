@@ -81,7 +81,7 @@ namespace esapi {
      * 		the String to encode
      * @return the encoded String
      */
-    virtual String encode(const Char immune[], size_t length, const String&) const;
+    virtual String encode(const Char immune[], size_t length, const NarrowString&) const;
 
     /**
      * Default implementation that should be overridden in specific codecs.
@@ -102,7 +102,7 @@ namespace esapi {
      * @return
      *		the decoded String
      */
-    virtual String decode(const String&) const;
+    virtual String decode(const NarrowString&) const;
 
     /**
      * Returns the decoded version of the next character from the input string and advances the
@@ -134,7 +134,7 @@ namespace esapi {
      * @param s
      * @return true if character c is found, false otherwise
      */
-    bool containsCharacter(Char a, const String& s) const;
+    bool containsCharacter(Char a, const NarrowString& s) const;
 
     /**
      * Utility to search a character array for a specific Char.

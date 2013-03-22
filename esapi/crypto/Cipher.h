@@ -46,12 +46,12 @@ namespace esapi
     /**
     * Generates a Cipher object that implements the specified transformation.
     */
-    static Cipher getInstance(const String& algorithm);
+    static Cipher getInstance(const NarrowString& algorithm);
 
     /**
     * Generates a Cipher object that implements the specified transformation.
     */
-    static Cipher getInstance(const NarrowString& algorithm);
+    static Cipher getInstance(const WideString& algorithm);
 
     /**
     * Copies a cipher.
@@ -203,12 +203,12 @@ namespace esapi
     /**
     * Unwrap a previously wrapped key. 
     */
-    Key unwrap(const byte wrappedKey[], const String& wrappedKeyAlgorithm, int wrappedKeyType);
+    Key unwrap(const byte wrappedKey[], const NarrowString& wrappedKeyAlgorithm, int wrappedKeyType);
 
     /**
     * Unwrap a previously wrapped key. 
     */
-    Key unwrap(const SecureByteArray& wrappedKey, const String& wrappedKeyAlgorithm, int wrappedKeyType);
+    Key unwrap(const SecureByteArray& wrappedKey, const NarrowString& wrappedKeyAlgorithm, int wrappedKeyType);
 
     /**
     * Wrap a key. 
@@ -221,7 +221,7 @@ namespace esapi
     /**
     * Creates a cipher with the specified algorithm name.
     */
-    explicit Cipher(const String& algorithm);
+    explicit Cipher(const NarrowString& algorithm);
 
     /**
     * Creates a Cipher from an implmentation. Used by getInstance(...).

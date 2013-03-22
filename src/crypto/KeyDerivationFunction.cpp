@@ -46,7 +46,7 @@ namespace esapi
 {
   // Keep behavior consistent with the existing Java implementation
   // http://code.google.com/p/owasp-esapi-java/source/browse/trunk/src/main/java/org/owasp/esapi/crypto/KeyDerivationFunction.java
-  SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const String& purpose)
+  SecretKey KeyDerivationFunction::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keySize, const NarrowString& purpose)
   {
     // We would choose a larger minimum key size, but we want to be
     // able to accept DES for legacy encryption needs.
@@ -54,7 +54,7 @@ namespace esapi
     ASSERT( keySize >= 56 );
     ASSERT( (keySize % 8) == 0 );
     ASSERT( !purpose.empty());
-    ASSERT( purpose == L"authenticity" || purpose == L"encryption" );
+    ASSERT( purpose == "authenticity" || purpose == "encryption" );
 
     if(!(keySize >= 56))
       {
@@ -73,7 +73,7 @@ namespace esapi
     if(purpose.empty())
       {
         std::ostringstream oss;
-        oss << "Purpose \'" << TextConvert::WideToNarrow(purpose) << "\' is null, empty, or not valid. ";
+        oss << "Purpose \'" << purpose << "\' is null, empty, or not valid. ";
         oss << "Purpose must be either \'authenticity\' or \'encryption\'.";
         throw IllegalArgumentException(oss.str());
       }
@@ -83,11 +83,11 @@ namespace esapi
 
     /**
       byte[] derivedKey = new byte[ keySize ];
-      byte[] label;              // Same purpose as NIST SP 800-108's "label" in section 5.1.
+      byte[] label;              // Same purpose as NIST SP 800-108's "labe" in section 5.1.
       byte[] context;            // See setContext() for details.
       try {
-      label = purpose.getBytes(L"UTF-8");
-      context = context_.getBytes(L"UTF-8");
+      label = purpose.getBytes("UTF-8");
+      context = context_.getBytes("UTF-8");
       } catch (UnsupportedEncodingException e) {
       throw EncryptionException("Encryption failure (internal encoding error: UTF-8)",
       "UTF-8 encoding is NOT supported as a standard byte encoding: " + e.getMessage(), e);
@@ -95,8 +95,8 @@ namespace esapi
     */
 
     // Consistency with Java implementation. This class needs to wire-up a context.
-    const String& label = purpose;
-    const String context;
+    const NarrowString& label = purpose;
+    const NarrowString context;
 
     // Note that keyDerivationKey is going to be some SecretKey like an AES or
     // DESede key, but not an HmacSHA1 key. That means it is not likely
@@ -114,7 +114,7 @@ namespace esapi
       Mac mac = null;
 
       try {
-      mac = Mac.getInstance(L"HmacSHA1");
+      mac = Mac.getInstance("HmacSHA1");
       mac.init(sk);
       } catch( InvalidKeyException ex ) {
       logger.error(Logger.SECURITY_FAILURE, "Created HmacSHA1 Mac but SecretKey sk has alg " + sk.getAlgorithm(), ex);

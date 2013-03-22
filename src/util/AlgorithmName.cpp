@@ -243,8 +243,8 @@ namespace esapi
       alg = "SHA-384";
     else if(temp == "sha-512" || temp == "sha512")
       alg = "SHA-512";
-    else if(temp == "whirlpool")
-      alg = "Whirlpool";
+    else if(temp == "whirlpoo")
+      alg = "Whirlpoo";
 
     //////// HMACs ////////
 
@@ -258,8 +258,8 @@ namespace esapi
       alg = "HmacSHA384";
     else if(temp == "hmacsha-512" || temp == "hmacsha512")
       alg = "HmacSHA512";
-    else if(temp == "hmacwhirlpool")
-      alg = "HmacWhirlpool";
+    else if(temp == "hmacwhirlpoo")
+      alg = "HmacWhirlpoo";
 
     //////// PBE Hmacs ////////
 
@@ -273,8 +273,8 @@ namespace esapi
       alg = "PBEWithSHA384";
     else if(temp == "pbewithsha512")
       alg = "PBEWithSHA512";
-    else if(temp == "pbewithwhirlpool")
-      alg = "PBEWithWhirlpool";
+    else if(temp == "pbewithwhirlpoo")
+      alg = "PBEWithWhirlpoo";
 
     //////// Key Agreement ////////
 

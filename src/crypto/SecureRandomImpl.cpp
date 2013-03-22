@@ -150,7 +150,7 @@ namespace esapi
         else if(algorithm == "SHA-512")
             return new HashImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-        else if(algorithm == "Whirlpool")
+        else if(algorithm == "Whirlpoo")
             return new HashImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
         ////////////////////////////////// Block Ciphers //////////////////////////////////
@@ -244,7 +244,7 @@ namespace esapi
         else if(algorithm == "HmacSHA512")
             return new HmacImpl<CryptoPP::SHA512, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
-        else if(algorithm == "HmacWhirlpool")
+        else if(algorithm == "HmacWhirlpoo")
             return new HmacImpl<CryptoPP::Whirlpool, DrbgInfo<32/*256*/, 111/*888*/> >(algorithm, seed, size);
 
         ///////////////////////////////// Catch All /////////////////////////////////

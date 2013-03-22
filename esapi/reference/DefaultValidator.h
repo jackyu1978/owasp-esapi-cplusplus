@@ -68,7 +68,7 @@ namespace esapi
 	   * @param input string input value
 	   * @return boolean response if input is empty or not
 	   */
-	  bool isEmpty(const String &) const ;
+	  bool isEmpty(const NarrowString &) const ;
 
 	  /**
 	   * Helper function to check if a byte array is empty
@@ -125,7 +125,7 @@ namespace esapi
 	  /**
 	   * Get a validation rule from the registry with the "type name" of the rule as the key.
 	   */
-	  ValidationRule<void*>& getRule( const String & );
+	  ValidationRule<void*>& getRule( const NarrowString & );
 
 	  /**
 	   * Returns true if data received from browser is valid. Double encoding is treated as an attack. The
@@ -140,13 +140,13 @@ namespace esapi
 	   * @return The canonicalized user input.
 	   * @throws IntrusionException
 	   */
-	  bool isValidInput(const String &, const String &, const String &, int, bool);
+	  bool isValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool);
 
-	  bool isValidInput(const String &, const String &, const String &, int, bool, ValidationErrorList &);
+	  bool isValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &);
 
-	  bool isValidInput(const String &, const String &, const String &, int, bool, bool);
+	  bool isValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool);
 
-	  bool isValidInput(const String &, const String &, const String &, int, bool, bool, ValidationErrorList &);
+	  bool isValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool, ValidationErrorList &);
 
 	  /**
 	   * Validates data received from the browser and returns a safe version.
@@ -163,7 +163,7 @@ namespace esapi
 	   * @throws ValidationException
 	   * @throws IntrusionException
 	   */
-	  String getValidInput(const String &, const String &, const String &, int, bool);
+	  String getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool);
 
 	  /**
 	   * Validates data received from the browser and returns a safe version. Only
@@ -179,7 +179,7 @@ namespace esapi
 	   * @throws ValidationException
 	   * @throws IntrusionException
 	   */
-	  String getValidInput(const String &, const String &, const String &, int, bool, bool);
+	  String getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool);
 
 	  /**
 	   * Validates data received from the browser and returns a safe version. Only
@@ -195,7 +195,7 @@ namespace esapi
 	   * @return The canonicalized user input.
 	   * @throws IntrusionException
 	   */
-	  String getValidInput(const String &, const String &, const String &, int, bool, ValidationErrorList&);
+	  String getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, ValidationErrorList&);
 
 	  /**
 	   * Validates data received from the browser and returns a safe version. Only
@@ -211,70 +211,70 @@ namespace esapi
 	   * @return The user input, may be canonicalized if canonicalize argument is true
 	   * @throws IntrusionException
 	   */
-	  String getValidInput(const String &, const String &, const String &, int, bool, bool, ValidationErrorList &);
+	  String getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidDate(const String &, const String &, const DateFormat &, bool);
+	  bool isValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool);
 
           /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &);
+	  bool isValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   * TODO this should end up returning boost::gregorian::date
 	   */
-	  Char* getValidDate(const String &, const String &, const DateFormat &, bool) throw (ValidationException, IntrusionException);
+	  Char* getValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  Char* getValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &);
+	  Char* getValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidSafeHTML(const String &, const String &, int, bool);
+	  bool isValidSafeHTML(const NarrowString &, const NarrowString &, int, bool);
 
      /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &);
+	  bool isValidSafeHTML(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   *
 	   * This implementation relies on the OWASP AntiSamy project.
 	   */
-	  String getValidSafeHTML( const String &, const String &, int, bool) throw (ValidationException, IntrusionException);
+	  String getValidSafeHTML( const NarrowString &, const NarrowString &, int, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &);
+	  String getValidSafeHTML(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidCreditCard(const String &, const String &, bool);
+	  bool isValidCreditCard(const NarrowString &, const NarrowString &, bool);
 
      /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidCreditCard(const String &, const String &, bool, ValidationErrorList &);
+	  bool isValidCreditCard(const NarrowString &, const NarrowString &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidCreditCard(const String &, const String &, bool) throw (ValidationException, IntrusionException);
+	  String getValidCreditCard(const NarrowString &, const NarrowString &, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidCreditCard(const String &, const String &, bool, ValidationErrorList &);
+	  String getValidCreditCard(const NarrowString &, const NarrowString &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
@@ -283,7 +283,7 @@ namespace esapi
 	   * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	   * path (/private/etc), not the symlink (/etc).</p>
 	   */
-	  bool isValidDirectoryPath(const String &, const String &, std::fstream &, bool);
+	  bool isValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool);
 
           /**
 	   * {@inheritDoc}
@@ -292,128 +292,128 @@ namespace esapi
 	   * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	   * path (/private/etc), not the symlink (/etc).</p>
 	   */
-	  bool isValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &);
+	  bool isValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidDirectoryPath(const String &, const String &, std::fstream &, bool) throw (ValidationException, IntrusionException);
+	  String getValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &);
+	  String getValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool, ValidationErrorList &);
 
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileName(const String &, const String &, bool);
+	  bool isValidFileName(const NarrowString &, const NarrowString &, bool);
 
       /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileName(const String &, const String &, bool, ValidationErrorList &);
+	  bool isValidFileName(const NarrowString &, const NarrowString &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileName(const String &, const String &, const std::list<String> &, bool);
+	  bool isValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool);
 
       /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &);
+	  bool isValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidFileName(const String &, const String &, const std::list<String> &, bool) throw (ValidationException, IntrusionException);
+	  String getValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  String getValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &);
+	  String getValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidNumber(const String &, const String &, long, long, bool);
+	  bool isValidNumber(const NarrowString &, const NarrowString &, long, long, bool);
 
       /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &);
+	  bool isValidNumber(const NarrowString &, const NarrowString &, long, long, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  double getValidNumber(const String &, const String &, long, long, bool) throw (ValidationException, IntrusionException);
+	  double getValidNumber(const NarrowString &, const NarrowString &, long, long, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  double getValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &);
+	  double getValidNumber(const NarrowString &, const NarrowString &, long, long, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidDouble(const String &, const String &, double, double, bool);
+	  bool isValidDouble(const NarrowString &, const NarrowString &, double, double, bool);
 
       /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &);
+	  bool isValidDouble(const NarrowString &, const NarrowString &, double, double, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  double getValidDouble(const String &, const String &, double, double, bool) throw (ValidationException, IntrusionException);
+	  double getValidDouble(const NarrowString &, const NarrowString &, double, double, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  double getValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &);
+	  double getValidDouble(const NarrowString &, const NarrowString &, double, double, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidInteger(const String &, const String &, int, int, bool);
+	  bool isValidInteger(const NarrowString &, const NarrowString &, int, int, bool);
 
       /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &);
+	  bool isValidInteger(const NarrowString &, const NarrowString &, int, int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  int getValidInteger(const String &, const String &, int, int, bool) throw (ValidationException, IntrusionException);
+	  int getValidInteger(const NarrowString &, const NarrowString &, int, int, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  int getValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &);
+	  int getValidInteger(const NarrowString &, const NarrowString &, int, int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileContent(const String &, Char[], int, bool);
+	  bool isValidFileContent(const NarrowString &, Char[], int, bool);
 
           /**
 	   * {@inheritDoc}
 	   */
-	  bool isValidFileContent(const String &, Char[], int, bool, ValidationErrorList &);
+	  bool isValidFileContent(const NarrowString &, Char[], int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  Char* getValidFileContent(const String &, Char[], int, bool) throw (ValidationException, IntrusionException);
+	  Char* getValidFileContent(const NarrowString &, Char[], int, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  Char* getValidFileContent(const String &, Char[], int, bool, ValidationErrorList &);
+	  Char* getValidFileContent(const NarrowString &, Char[], int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
@@ -422,7 +422,7 @@ namespace esapi
 	   * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	   * path (/private/etc), not the symlink (/etc).</p>
        */
-	  bool isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool);
+	  bool isValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, bool);
 
       /**
 	   * {@inheritDoc}
@@ -431,50 +431,50 @@ namespace esapi
 	   * is a symlink. For example, on MacOS X, /etc is actually /private/etc. If you mean to use /etc, use its real
 	   * path (/private/etc), not the symlink (/etc).</p>
        */
-	  bool isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool, ValidationErrorList &);
+	  bool isValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, bool, ValidationErrorList &);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  void assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool);
+	  void assertValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, const std::list<String> &, bool);
 
 	  /**
 	   * {@inheritDoc}
 	   */
-	  void assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool, ValidationErrorList &);
+	  void assertValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, const std::list<String> &, bool, ValidationErrorList &);
 
 	   /**
 	   * {@inheritDoc}
 	   *
 	   * Returns true if input is a valid list item.
 	   */
-	  bool isValidListItem(const String &, const String &, const std::list<String> &);
+	  bool isValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &);
 
       /**
 	   * {@inheritDoc}
 	   *
 	   * Returns true if input is a valid list item.
 	   */
-	  bool isValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &);
+	  bool isValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &, ValidationErrorList &);
 
 	  /**
 	   * Returns the list item that exactly matches the canonicalized input. Invalid or non-matching input
 	   * will generate a descriptive ValidationException, and input that is clearly an attack
 	   * will generate a descriptive IntrusionException.
 	   */
-	  String getValidListItem(const String &, const String &, const std::list<String> &) throw (ValidationException, IntrusionException);
+	  String getValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * ValidationErrorList variant of getValidListItem
        *
        * @param errors
        */
-	  String getValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &);
+	  String getValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &, ValidationErrorList &);
 
 	   /**
 	   * {@inheritDoc}
        */
-	  //bool isValidHTTPRequestParameterSet(const String &, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames);
+	  //bool isValidHTTPRequestParameterSet(const NarrowString &, HttpServletRequest request, Set<String> requiredNames, Set<String> optionalNames);
 
            /**
 	   * {@inheritDoc}
@@ -504,7 +504,7 @@ namespace esapi
 	   * Checks that all bytes are valid ASCII characters (between 33 and 126
 	   * inclusive). This implementation does no decoding. http://en.wikipedia.org/wiki/ASCII.
 	   */
-	  bool isValidPrintable(const String &, Char[], int, bool);
+	  bool isValidPrintable(const NarrowString &, Char[], int, bool);
 
       /**
        * {@inheritDoc}
@@ -512,7 +512,7 @@ namespace esapi
 	   * Checks that all bytes are valid ASCII characters (between 33 and 126
 	   * inclusive). This implementation does no decoding. http://en.wikipedia.org/wiki/ASCII.
 	   */
-	  bool isValidPrintable(const String &, Char[], int, bool, ValidationErrorList &);
+	  bool isValidPrintable(const NarrowString &, Char[], int, bool, ValidationErrorList &);
 
 	  /**
 	   * Returns canonicalized and validated printable characters as a byte array. Invalid input will generate a descriptive ValidationException, and input that is clearly an attack
@@ -520,14 +520,14 @@ namespace esapi
        *
        * @throws IntrusionException
        */
-	  Char* getValidPrintable(const String &, Char[], int, bool) throw (ValidationException, IntrusionException);
+	  Char* getValidPrintable(const NarrowString &, Char[], int, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * ValidationErrorList variant of getValidPrintable
        *
        * @param errors
        */
-	  Char* getValidPrintable(const String &, Char[], int, bool, ValidationErrorList &);
+	  Char* getValidPrintable(const NarrowString &, Char[], int, bool, ValidationErrorList &);
 
 
 	   /**
@@ -535,14 +535,14 @@ namespace esapi
 	   *
 	   * Returns true if input is valid printable ASCII characters (32-126).
 	   */
-	  bool isValidPrintable(const String &, const String &, int, bool);
+	  bool isValidPrintable(const NarrowString &, const NarrowString &, int, bool);
 
       /**
 	   * {@inheritDoc}
 	   *
 	   * Returns true if input is valid printable ASCII characters (32-126).
 	   */
-	  bool isValidPrintable(const String &, const String &, int, bool, ValidationErrorList &);
+	  bool isValidPrintable(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &);
 
 	  /**
 	   * Returns canonicalized and validated printable characters as a String. Invalid input will generate a descriptive ValidationException, and input that is clearly an attack
@@ -550,20 +550,20 @@ namespace esapi
        *
        * @throws IntrusionException
        */
-	  String getValidPrintable(const String &, const String &, int, bool) throw (ValidationException, IntrusionException);
+	  String getValidPrintable(const NarrowString &, const NarrowString &, int, bool) throw (ValidationException, IntrusionException);
 
 	  /**
 	   * ValidationErrorList variant of getValidPrintable
        *
        * @param errors
        */
-	  String getValidPrintable(const String &, const String &, int, bool, ValidationErrorList &);
+	  String getValidPrintable(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &);
 
 
 	  /**
 	   * Returns true if input is a valid redirect location.
 	   */
-	  //bool isValidRedirectLocation(const String &, const String &, bool);
+	  //bool isValidRedirectLocation(const NarrowString &, const NarrowString &, bool);
 
           /**
 	   * Returns true if input is a valid redirect location.

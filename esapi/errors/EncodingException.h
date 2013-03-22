@@ -23,11 +23,11 @@ namespace esapi {
   class ESAPI_EXPORT EncodingException : public EnterpriseSecurityException
   {
   public:
-    explicit EncodingException(const String &message)
+    explicit EncodingException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit EncodingException(const String &userMessage, const String &logMessage)
+    explicit EncodingException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

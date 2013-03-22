@@ -101,7 +101,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      *      if the specified hash algorithm could not be found or another
      *      problem exists with the hashing of 'plaintext'
      */
-    virtual String hash(const String& plaintext, const String& salt, unsigned int iterations = 4096) const = 0;
+    virtual String hash(const NarrowString& plaintext, const NarrowString& salt, unsigned int iterations = 4096) const = 0;
 
     /**
      * Encrypts the provided plaintext bytes using the cipher transformation
@@ -206,11 +206,11 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * string.
      * <p>
      * <b>Limitations:</b> A new public/private key pair used for ESAPI 2.0 digital
-     * signatures with this method and {@link #verifySignature(const String&, const String&)}
+     * signatures with this method and {@link #verifySignature(const NarrowString&, const NarrowString&)}
      * are dynamically created when the default reference implementation class,
      * {@link ref::DefaultEncryptor} is first created.
      * Because this key pair is not persisted nor is the public key shared,
-     * this method and the corresponding {@link #verifySignature(const String&, const String&)}
+     * this method and the corresponding {@link #verifySignature(const NarrowString&, const NarrowString&)}
      * can not be used with expected results across JVM instances. This limitation
      * will be addressed in ESAPI 2.1.
      * </p>
@@ -223,18 +223,18 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @throws EncryptionException
      *      if the specified signature algorithm cannot be found
      */
-    virtual String sign(const String& data) const = 0;
+    virtual String sign(const NarrowString& data) const = 0;
 
     /**
      * Verifies a digital signature (created with the sign method) and returns
      * the boolean result.
      * <p>
      * <b>Limitations:</b> A new public/private key pair used for ESAPI 2.0 digital
-     * signatures with this method and {@link #sign(const String&)}
+     * signatures with this method and {@link #sign(const NarrowString&)}
      * are dynamically created when the default reference implementation class,
      * {@link ref::DefaultEncryptor} is first created.
      * Because this key pair is not persisted nor is the public key shared,
-     * this method and the corresponding {@link #sign(const String&)}
+     * this method and the corresponding {@link #sign(const NarrowString&)}
      * can not be used with expected results across JVM instances. This limitation
      * will be addressed in ESAPI 2.1.
      * </p>
@@ -247,7 +247,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      *      true, if the signature is verified, false otherwise
      * 
      */
-    virtual bool verifySignature(const String& signature, const String& data) const = 0;
+    virtual bool verifySignature(const NarrowString& signature, const NarrowString& data) const = 0;
 
     /**
      * Creates a seal that binds a set of data and includes an expiration timestamp.
@@ -262,7 +262,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @throws IntegrityException
      * 
      */
-    virtual String seal(const String& data, time_t timestamp) const = 0;
+    virtual String seal(const NarrowString& data, time_t timestamp) const = 0;
 
     /**
      * Unseals data (created with the seal method) and throws an exception
@@ -278,7 +278,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @throws EncryptionException 
      *      if the unsealed data cannot be retrieved for any reason
      */
-    virtual String unseal(const String& seal) const = 0;
+    virtual String unseal(const NarrowString& seal) const = 0;
 
     /**
      * Verifies a seal (created with the seal method) and throws an exception
@@ -291,7 +291,7 @@ namespace esapi {   // Preferred over the longer org::owasp::esapi
      * @return 
      *      true, if the seal is valid.  False otherwise
      */
-    virtual bool verifySeal(const String& seal) const = 0;
+    virtual bool verifySeal(const NarrowString& seal) const = 0;
 
     /**
      * Gets an absolute timestamp representing an offset from the current time to be used by

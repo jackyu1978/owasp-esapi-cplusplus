@@ -19,7 +19,7 @@
 
 namespace esapi
 {
-  PushbackString::PushbackString(const String& input)
+  PushbackString::PushbackString(const NarrowString& input)
     : input(input), varPushback(0), varTemp(0), varIndex(0), varMark(0) {
     ASSERT(!input.empty());
   }
@@ -36,7 +36,7 @@ namespace esapi
 
   bool PushbackString::hasNext() const{
     if ( this->varPushback != 0 ) return true;
-    if ( this->input.compare(L"") == 0 ) return false;
+    if ( this->input.compare("") == 0 ) return false;
     if ( this->input.length() == 0 ) return false;
     if ( this->varIndex >= this->input.length() ) return false;
     return true;
@@ -48,7 +48,7 @@ namespace esapi
       this->varPushback = 0;
       return save;
     }
-    if ( this->input.compare(L"") == 0) return 0;
+    if ( this->input.compare("") == 0) return 0;
     if ( this->input.length() == 0 ) return 0;
     if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -88,7 +88,7 @@ namespace esapi
 
   Char PushbackString::peek() const{
     if ( this->varPushback != 0 ) return this->varPushback;
-    if ( this->input.compare(L"") == 0) return 0;
+    if ( this->input.compare("") == 0) return 0;
     if ( this->input.length() == 0 ) return 0;
     if ( this->varIndex >= this->input.length() ) return 0;
 
@@ -100,7 +100,7 @@ namespace esapi
     ASSERT(c != 0);
 
     if ( this->varPushback != 0 && this->varPushback == c ) return true;
-    if ( this->input.compare(L"") == 0) return false;
+    if ( this->input.compare("") == 0) return false;
     if ( this->input.length() == 0 ) return false;
     if ( this->varIndex >= this->input.length() ) return false;
 

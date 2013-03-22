@@ -20,7 +20,7 @@
 
 namespace esapi
 {
-ValidationException::ValidationException(const String &userMessage, const String &logMessage, const String &msgContext)
+ValidationException::ValidationException(const NarrowString &userMessage, const NarrowString &logMessage, const NarrowString &msgContext)
   : EnterpriseSecurityException(userMessage, logMessage), context(msgContext)
 {
 }
@@ -29,7 +29,7 @@ String ValidationException::getContext() {
 	return this->context;
 }
 
-void ValidationException::setContext(const String &newContext) {
+void ValidationException::setContext(const NarrowString &newContext) {
 	this->context = newContext;
 }
 

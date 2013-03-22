@@ -23,11 +23,11 @@ namespace esapi {
   class ESAPI_EXPORT UnsupportedOperationException : public EnterpriseSecurityException
   {
   public:
-    explicit UnsupportedOperationException(const String &message)
+    explicit UnsupportedOperationException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit UnsupportedOperationException(const String &userMessage, const String &logMessage)
+    explicit UnsupportedOperationException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

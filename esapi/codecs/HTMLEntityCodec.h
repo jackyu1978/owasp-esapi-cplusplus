@@ -36,13 +36,13 @@
 namespace esapi {
   class ESAPI_EXPORT HTMLEntityCodec : public Codec {
 
-    typedef std::map<Char, String> EntityMap;
-    typedef std::map<Char, String>::const_iterator EntityMapIterator;
+    typedef std::map<int, String> EntityMap;
+    typedef std::map<int, String>::const_iterator EntityMapIterator;
 
   private:
-    static Char REPLACEMENT_CHAR();
-    static const String& REPLACEMENT_HEX();
-    static const String& REPLACEMENT_STR();
+    static NarrowString REPLACEMENT_CHAR();
+    static const NarrowString& REPLACEMENT_HEX();
+    static const NarrowString& REPLACEMENT_STR();
 
     /**
     * getNumericEntry checks input to see if it is a numeric entity

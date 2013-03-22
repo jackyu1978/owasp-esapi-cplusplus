@@ -48,7 +48,7 @@ namespace esapi
   /**
    * Creates a message digest with the specified algorithm name.
    */
-  MessageDigest::MessageDigest(const String& algorithm)   
+  MessageDigest::MessageDigest(const WideString& algorithm)   
     : m_lock(new Mutex),
     m_impl(MessageDigestBase::createInstance(TextConvert::WideToNarrow(AlgorithmName::normalizeAlgorithm(algorithm))))
   {
@@ -218,7 +218,7 @@ namespace esapi
    * @throws throws an EncryptionException if the array or size is not valid
    * or a cryptographic failure occurs.
    */
-  void MessageDigest::update(const String& str)
+  void MessageDigest::update(const NarrowString& str)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());
@@ -319,7 +319,7 @@ namespace esapi
    *
    * @param input the specified array.
    */
-  SecureByteArray MessageDigest::digest(const String& input)
+  SecureByteArray MessageDigest::digest(const NarrowString& input)
   {
     // All forward facing gear which manipulates internal state acquires the object lock
     MutexLock lock(getObjectLock());

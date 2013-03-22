@@ -99,7 +99,7 @@ namespace esapi
 
   // The return value is a bit confusing. If the key supports encoding, return
   // the ASN.1 name for the method, otherwise retun the empty string. If the
-  // key does *not* support encoding, return L"RAW".
+  // key does *not* support encoding, return "RAW".
   NarrowString SecretKey::getFormat() const
   {
     ASSERT( !m_format.empty() );
