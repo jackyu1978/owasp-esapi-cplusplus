@@ -47,15 +47,15 @@ BOOST_AUTO_TEST_CASE( MySQLCodecBasicTest )
 	MySQLCodec mySQLCodecStandard( MySQLCodec::MYSQL_MODE );
 
 	const Char immune[] = { 0 };
-	String result = L"";
+	String result = "";
 
-	BOOST_CHECK( mySQLCodecANSI.encode(immune,0, L"\'") == String(L"\'\'") );
-	BOOST_CHECK( mySQLCodecStandard.encode(immune,0, L"<").compare(L"\\<") == 0 );
+	BOOST_CHECK( mySQLCodecANSI.encode(immune,0, "\'") == String("\'\'") );
+	BOOST_CHECK( mySQLCodecStandard.encode(immune,0, "<").compare("\\<") == 0 );
 
-	result = mySQLCodecStandard.decode(L"\\<");
-	BOOST_CHECK( result == L"<" );
+	result = mySQLCodecStandard.decode("\\<");
+	BOOST_CHECK( result == "<" );
 
-	BOOST_CHECK( mySQLCodecANSI.decode(L"\'\'").compare(L"\'") == 0 );
+	BOOST_CHECK( mySQLCodecANSI.decode("\'\'").compare("\'") == 0 );
 }
 
 
@@ -66,12 +66,12 @@ BOOST_AUTO_TEST_CASE(testMySQLStandardEncodeChar0x100)
 
 	Char in = (Char)0x100;
 	String inStr = String(1,(Char)0x100);
-	String expected = L"\\" + String(1,(Char)0x100);
+	String expected = "\\" + String(1,(Char)0x100);
 	String result;
 
 	result = mySQLCodecStandard.encodeCharacter(immune, 0, in);
 
-	//std::wcout << L"in:" << in << L" inStr: " << inStr << L" expected: " << expected << L" result: " << result;
+	//std::wcout << "in:" << in << " inStr: " << inStr << " expected: " << expected << " result: " << result;
 
 	// this should be escaped
 	BOOST_CHECK(! inStr.compare(result) == 0);

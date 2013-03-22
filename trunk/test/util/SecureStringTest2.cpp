@@ -39,10 +39,10 @@ using esapi::StringStream;
 #include <util/SecureString.h>
 using esapi::SecureString;
 
-static const Char THE_STRING1[] = L"Goodbye, secret";
-static const Char THE_STRING2[] = L"Foo Bar Bah";
-static const Char THE_STRING3[] = L"Goodbye, secretFoo Bar Bah";
-static const Char THE_STRING4[] = L"Goodbye, secretA";
+static const Char THE_STRING1[] = "Goodbye, secret";
+static const Char THE_STRING2[] = "Foo Bar Bah";
+static const Char THE_STRING3[] = "Goodbye, secretFoo Bar Bah";
+static const Char THE_STRING4[] = "Goodbye, secretA";
 
 BOOST_AUTO_TEST_CASE( VerifyAppend )
 {
@@ -135,10 +135,10 @@ BOOST_AUTO_TEST_CASE( VerifyForwardFind )
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.find(L"s");
+      String::size_type sp = s1.find("s");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.find(L"s");
+      SecureString::size_type ssp = s1.find("s");
 
       success = (sp == ssp);
     }
@@ -151,10 +151,10 @@ BOOST_AUTO_TEST_CASE( VerifyForwardFind )
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.find(L"z");
+      String::size_type sp = s1.find("z");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.find(L"z");
+      SecureString::size_type ssp = s1.find("z");
 
       success = (sp == ssp);
     }
@@ -172,10 +172,10 @@ BOOST_AUTO_TEST_CASE( VerifyReverseFind )
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.rfind(L"s");
+      String::size_type sp = s1.rfind("s");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.rfind(L"s");
+      SecureString::size_type ssp = s1.rfind("s");
 
       success = (sp == ssp);
     }
@@ -188,10 +188,10 @@ BOOST_AUTO_TEST_CASE( VerifyReverseFind )
   try
     {
       String s1 = THE_STRING1;
-      String::size_type sp = s1.rfind(L"z");
+      String::size_type sp = s1.rfind("z");
 
       SecureString ss1 = THE_STRING1;
-      SecureString::size_type ssp = s1.rfind(L"z");
+      SecureString::size_type ssp = s1.rfind("z");
 
       success = (sp == ssp);
     }
