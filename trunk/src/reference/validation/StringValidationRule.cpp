@@ -128,26 +128,19 @@ namespace esapi
 
   void StringValidationRule::addWhitelistPattern(const NarrowString & pattern) {
 	  if (pattern.compare("")==0) {
-		  throw IllegalArgumentException("Pattern cannot be nul");
+		  throw IllegalArgumentException("Pattern cannot be nu");
 	  }
 
-	  // test the pattern
-	  NarrowString npattern = TextConvert::WideToNarrow(pattern);
-	  const boost::regex nre(npattern);
-
+	  const boost::regex nre(pattern);
 	  this->whitelistPatterns.insert(pattern);
-
   }
 
   void StringValidationRule::addBlacklistPattern(const NarrowString &pattern) {
 	  if (pattern.compare("")==0) {
-		  throw IllegalArgumentException("Pattern cannot be nul");
+		  throw IllegalArgumentException("Pattern cannot be nu");
 	  }
 
-	  // test the pattern
-	  NarrowString npattern = TextConvert::WideToNarrow(pattern);
-	  const boost::regex nre(npattern);
-
+	  const boost::regex nre(pattern);
 	  this->blacklistPatterns.insert(pattern);
   }
 
@@ -165,14 +158,11 @@ namespace esapi
 
   String StringValidationRule::checkWhitelist(const NarrowString &context, const NarrowString &input, const NarrowString &orig)
   {
-      NarrowString ninput = TextConvert::WideToNarrow(input);
 	  std::set<String>::iterator it = whitelistPatterns.begin();
 
 	  for (; it!= whitelistPatterns.end(); it++) {
-          const NarrowString npattern(TextConvert::WideToNarrow(*it));
-		  const boost::regex nre(npattern);
-
-		  if(!boost::regex_match(ninput,nre)) {
+		  const boost::regex nre(*it);
+		  if(!boost::regex_match(input,nre)) {
 			  StringStream userMessage;			  
 			  userMessage << context << ": Invalid input. Please conform to regex '";
               userMessage << *it << "' with a maximum length of ";
@@ -196,15 +186,13 @@ namespace esapi
 
   String StringValidationRule::checkBlacklist(const NarrowString &context, const NarrowString &input, const NarrowString &orig)
   {
-      NarrowString ninput = TextConvert::WideToNarrow(input);
 	  std::set<String>::iterator it = blacklistPatterns.begin();
 
 	  for (; it!= blacklistPatterns.end(); it++)
       {
-          const NarrowString npattern(TextConvert::WideToNarrow(*it));
-		  const boost::regex nre(npattern);
+		  const boost::regex nre(*it);
 
-		  if(boost::regex_match(ninput,nre)) {
+		  if(boost::regex_match(input,nre)) {
 			  StringStream userMessage;
 			  StringStream logMessage;
 			  userMessage << context << ": Invalid input. Dangerous input matching " << *it + " detected.";
