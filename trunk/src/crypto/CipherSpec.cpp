@@ -55,7 +55,7 @@ namespace esapi
   }
 
   CipherSpec::CipherSpec(const SecureByteArray &iv)
-    : cipher_xform_(L"AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(iv)
+    : cipher_xform_("AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(iv)
   {
     ASSERT( iv_.size() > 0 );
   }
@@ -66,7 +66,7 @@ namespace esapi
   }
 
   CipherSpec::CipherSpec()
-    : cipher_xform_(L"AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(SecureByteArray(16))
+    : cipher_xform_("AES/CBC/NoPadding"), keySize_(16), blockSize_(16), iv_(SecureByteArray(16))
   {
   }
 
@@ -98,7 +98,7 @@ namespace esapi
     if( !xform.getPadding(unused) )
       throw IllegalArgumentException("Transform padding is not valid");
 
-    return TextConvert::NarrowToWide(xform.algorithm());
+    return xform.algorithm();
   }
 
   void CipherSpec::setCipherTransformation(const String& cipherXForm)
@@ -183,7 +183,7 @@ namespace esapi
   {
     String ciphmode = this->getCipherMode();
     std::transform(ciphmode.begin(), ciphmode.end(), ciphmode.begin(), ::tolower);
-    if(ciphmode == L"ecb")
+    if(ciphmode == "ecb")
       return false;
     return true;
   }
@@ -202,19 +202,19 @@ namespace esapi
 
   String CipherSpec::toString() const
   {
-    WideStringStream strStm;
-    strStm << L"CipherSpec: ";
+    StringStream strStm;
+    strStm << "CipherSpec: ";
     strStm << getCipherTransformation();
-    strStm << L"; keySize = ";
+    strStm << "; keySize = ";
     strStm << getKeySize();
-    strStm << L" bits; blockSize = ";
+    strStm << " bits; blockSize = ";
     strStm << getBlockSize();
-    strStm << L" bytes; IV Length = ";
+    strStm << " bytes; IV Length = ";
     SecureByteArray iv = getIV();
     if(!iv.empty())
-      strStm << iv.length() << L" bytes.";
+      strStm << iv.length() << " bytes.";
     else
-      strStm << L"[No IV present (not set or not required)].";
+      strStm << "[No IV present (not set or not required)].";
     return strStm.str();
   }
 
