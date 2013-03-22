@@ -27,25 +27,25 @@
  * @see esapi::Encoder
  */
 namespace esapi {
-class ESAPI_EXPORT DB2Codec : public Codec {
+  class ESAPI_EXPORT DB2Codec : public Codec {
 
-public:
-	/**
-	 * {@inheritDoc}
-	 *
+  public:
+    /**
+     * {@inheritDoc}
+     *
      *
      * @param immune
      */
-	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
+    NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 *
-	 */
-	NarrowString decodeCharacter( PushbackString& ) const;
+    /**
+     * {@inheritDoc}
+     *
+     *
+     */
+    NarrowString decodeCharacter( PushbackString& ) const;
 
-};
+  };
 }; // esapi namespace
 

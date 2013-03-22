@@ -32,26 +32,26 @@ namespace esapi
   class WindowsCodec : public Codec
   {
   public:
-	  /**
-	   * {@inheritDoc}
-	   *
-	   * Returns Windows shell encoded character (which is ^)
-       *
-       * @param immune
-       */
-	  NarrowString encodeCharacter( const Char[], size_t, Char) const;
+    /**
+     * {@inheritDoc}
+     *
+     * Returns Windows shell encoded character (which is ^)
+     *
+     * @param immune
+     */
+    NarrowString encodeCharacter( const Char[], size_t, Char) const;
 
 
-	  /**
-	   * {@inheritDoc}
-	   *
-	   * Returns the decoded version of the character starting at index, or
-	   * null if no decoding is possible.
-	   * <p>
-	   * Formats all are legal both upper/lower case:
-	   *   ^x - all special characters
-	   */
-	  NarrowString decodeCharacter( esapi::PushbackString& ) const;
+    /**
+     * {@inheritDoc}
+     *
+     * Returns the decoded version of the character starting at index, or
+     * null if no decoding is possible.
+     * <p>
+     * Formats all are legal both upper/lower case:
+     *   ^x - all special characters
+     */
+    NarrowString decodeCharacter( esapi::PushbackString& ) const;
   };
 }; // esapi namespace
 

@@ -29,31 +29,31 @@
  * @see org.owasp.esapi.Encoder
  */
 namespace esapi {
-class ESAPI_EXPORT UnixCodec : public Codec {
+  class ESAPI_EXPORT UnixCodec : public Codec {
 
-public:
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns backslash-encoded character
+  public:
+    /**
+     * {@inheritDoc}
+     *
+     * Returns backslash-encoded character
      *
      * @param immune
      */
-	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
+    NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns the decoded version of the character starting at index, or
-	 * null if no decoding is possible.
-	 * <p>
-	 * Formats all are legal both upper/lower case:
-	 *   \x - all special characters
-	 *
-	 */
-	NarrowString decodeCharacter( PushbackString& ) const;
+    /**
+     * {@inheritDoc}
+     *
+     * Returns the decoded version of the character starting at index, or
+     * null if no decoding is possible.
+     * <p>
+     * Formats all are legal both upper/lower case:
+     *   \x - all special characters
+     *
+     */
+    NarrowString decodeCharacter( PushbackString& ) const;
 
-};
+  };
 }; // esapi namespace
 

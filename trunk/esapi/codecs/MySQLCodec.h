@@ -30,9 +30,9 @@
  * @see org.owasp.esapi.Encoder
  */
 namespace esapi {
-class ESAPI_EXPORT MySQLCodec : public Codec {
+  class ESAPI_EXPORT MySQLCodec : public Codec {
 
-public:
+  public:
     /**
      * Specifies the SQL Mode the target MySQL Server is running with. For details about MySQL Server Modes
      * please see the Manual at {@link http://dev.mysql.com/doc/refman/5.0/en/server-sql-mode.html#sqlmode_ansi}
@@ -43,55 +43,55 @@ public:
      */
     enum Mode { ANSI_MODE = 1, MYSQL_MODE = 0 };
 
-private:
-	enum Mode mode;
+  private:
+    enum Mode mode;
 
-	/**
-	 * encodeCharacterANSI encodes for ANSI SQL.
-	 *
-	 * Apostrophe is encoded
+    /**
+     * encodeCharacterANSI encodes for ANSI SQL.
+     *
+     * Apostrophe is encoded
      *
      * Bug ###: In ANSI Mode Strings can also be passed in using the quotation. In ANSI_QUOTES mode a quotation
      * is considered to be an identifier, thus cannot be used at all in a value and will be dropped completely.
-	 *
-	 * @param c
-	 * 			character to encode
-	 * @return
-	 * 			String encoded to standards of MySQL running in ANSI mode
-	 */
-	NarrowString encodeCharacterANSI( Char c ) const;
+     *
+     * @param c
+     * 			character to encode
+     * @return
+     * 			String encoded to standards of MySQL running in ANSI mode
+     */
+    NarrowString encodeCharacterANSI( Char c ) const;
 
-	/**
-	 * Encode a character suitable for MySQL
-	 *
-	 * @param c
-	 * 			Character to encode
-	 * @return
-	 * 			Encoded Character
-	 */
-	NarrowString encodeCharacterMySQL( Char c ) const;
+    /**
+     * Encode a character suitable for MySQL
+     *
+     * @param c
+     * 			Character to encode
+     * @return
+     * 			Encoded Character
+     */
+    NarrowString encodeCharacterMySQL( Char c ) const;
 
-	/**
-	 * decodeCharacterANSI decodes the next character from ANSI SQL escaping
-	 *
-	 * @param input
-	 * 			A PushBackString containing characters you'd like decoded
-	 * @return
-	 * 			A single character, decoded
-	 */
-	NarrowString decodeCharacterANSI( PushbackString& ) const;
+    /**
+     * decodeCharacterANSI decodes the next character from ANSI SQL escaping
+     *
+     * @param input
+     * 			A PushBackString containing characters you'd like decoded
+     * @return
+     * 			A single character, decoded
+     */
+    NarrowString decodeCharacterANSI( PushbackString& ) const;
 
-	/**
-	 * decodeCharacterMySQL decodes all the potential escaped characters that MySQL is prepared to escape
-	 *
-	 * @param input
-	 * 			A string you'd like to be decoded
-	 * @return
-	 * 			A single character from that string, decoded.
-	 */
-	NarrowString decodeCharacterMySQL( PushbackString& ) const;
+    /**
+     * decodeCharacterMySQL decodes all the potential escaped characters that MySQL is prepared to escape
+     *
+     * @param input
+     * 			A string you'd like to be decoded
+     * @return
+     * 			A single character from that string, decoded.
+     */
+    NarrowString decodeCharacterMySQL( PushbackString& ) const;
 
-public:
+  public:
     /** Target MySQL Server is running in Standard MySQL (Default) mode. */
     //static const int MYSQL_MODE = 0;
     /** Target MySQL Server is running in {@link http://dev.mysql.com/doc/refman/5.0/en/ansi-mode.html ANSI Mode} */
@@ -103,28 +103,28 @@ public:
      */
     MySQLCodec( Mode mode ) { this->mode = mode; }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns quote-encoded character
+    /**
+     * {@inheritDoc}
+     *
+     * Returns quote-encoded character
      *
      * @param immune
      */
-	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
+    NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Returns the decoded version of the character starting at index, or
-	 * null if no decoding is possible.
-	 *
-	 * Formats all are legal (case sensitive)
-	 *   In ANSI_MODE '' decodes to '
-	 *   In MYSQL_MODE \x decodes to x (or a small list of specials)
-	 */
-	NarrowString decodeCharacter( PushbackString& ) const;
+    /**
+     * {@inheritDoc}
+     *
+     * Returns the decoded version of the character starting at index, or
+     * null if no decoding is possible.
+     *
+     * Formats all are legal (case sensitive)
+     *   In ANSI_MODE '' decodes to '
+     *   In MYSQL_MODE \x decodes to x (or a small list of specials)
+     */
+    NarrowString decodeCharacter( PushbackString& ) const;
 
-};
+  };
 }; // esapi namespace
 
