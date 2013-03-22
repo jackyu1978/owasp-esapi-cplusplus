@@ -251,104 +251,11 @@ namespace esapi
     return nstr;
   }
 
-  SecureByteArray TextConvert::GetBytes(const NarrowString& wstr, const Encoding& enc)
+  SecureByteArray TextConvert::GetBytes(const NarrowString& str, const Encoding& enc)
   {
-    ASSERT( !wstr.empty() );
-    if(wstr.empty()) return SecureByteArray();    
+    ASSERT( !str.empty() );
+    if(str.empty()) return SecureByteArray();
 
-    // Check for overflow on the reserve performed below
-    SecureByteArray temp;
-    if(wstr.length() > temp.max_size())
-      throw IllegalArgumentException("TextConvert::WideToNarrow failed (1). The output buffer would overflow");
-
-    //  Reserve it
-    temp.reserve(wstr.length());
-
-    iconv_t cd = iconv_open (enc.c_str(), "UTF-32LE");
-    AutoConvDesc cleanup1(cd);
-
-    ASSERT(cd != (iconv_t)-1);
-    if(cd == (iconv_t)-1)
-      throw IllegalArgumentException("TextConvert::WideToNarrow failed (2). The conversion descriptor is not valid");
-    
-    char out[4096];
-    ArrayZeroizer<char> cleanup2(out, COUNTOF(out));
-    const size_t outbytes = sizeof(out);
-
-    // libiconv manages inptr and inlen for each iteration
-    char* inptr = (char*)&wstr[0];
-    size_t inlen = wstr.length() * WCHAR_T_SIZE;
-
-    while(inlen != 0)
-      {
-        char* outptr = (char*)&out[0];
-        size_t outlen = outbytes;
-
-#if defined(ESAPI_OS_BSD)
-        size_t nonconv = iconv(cd, (const char**)&inptr, &inlen, &outptr, &outlen);
-        int err = errno;
-#else
-        size_t nonconv = iconv(cd, &inptr, &inlen, &outptr, &outlen);
-        int err = errno;
-#endif
-
-        // An invalid multibyte sequence is encountered in the input.
-        ASSERT(nonconv != (size_t)-1);
-        if(nonconv == (size_t)-1 && err == EILSEQ)
-          {
-            std::ostringstream oss;
-            oss << "TextConvert::WideToNarrow failed (3, EILSEQ). An invalid multibyte character ";
-            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-            oss << ". Bytes remaining = " << inlen;
-            throw IllegalArgumentException(oss.str());
-          }
-      
-        // An invalid multibyte sequence is encountered in the input.
-        ASSERT(nonconv != (size_t)-1);
-        if(nonconv == (size_t)-1 && err == EINVAL)
-          {
-            std::ostringstream oss;
-            oss << "TextConvert::WideToNarrow failed (4, EINVAL). An invalid multibyte character ";
-            oss << "was encountered at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-            oss << ". Bytes remaining = " << inlen;
-            throw IllegalArgumentException(oss.str());
-          }
-      
-        // Failed to convert all input characters. {-1, E2BIG } is expected.
-        ASSERT(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG));
-        if(!(nonconv == 0 || (nonconv == (size_t)-1 && err == E2BIG)))
-          {
-            std::ostringstream oss;
-            oss << "TextConvert::WideToNarrow failed (5). Failed to convert a multibyte character ";
-            oss << "at byte position " << (size_t)((byte*)inptr - (byte*)&wstr[0]);
-            oss << ". Return = " << nonconv << ", errno = " << err << ", bytes remaining = " << inlen;
-            throw IllegalArgumentException(oss.str());
-          }
-
-        const size_t ccb = outbytes - outlen;
-        if(ccb)
-          {
-            const byte* first = (byte*)out;
-            temp.insert(temp.end(), first, ccb);
-          }     
-      }
-
-    if(sizeof(wchar_t) == 2 && temp.size() >= 2)
-      {
-        wchar_t wc = (temp[0] << 8) | temp[1];
-        if(wc == L'\ufffe' || wc == L'\ufeff')
-          temp.erase(temp.begin(), temp.begin() + 2);
-      }
-    else if(sizeof(wchar_t) == 4 && temp.size() >= 4)
-      {
-        wchar_t wc = (temp[0] << 24) | (temp[1] << 16) | (temp[2] << 8) | temp[3];
-        if(wc == L'\ufffe' || wc == L'\ufeff')
-          temp.erase(temp.begin(), temp.begin() + 4);
-      }
-
-    SecureByteArray sba;
-    sba.swap(temp);
-
-    return sba;
+    return SecureByteArray(reinterpret_cast<const byte*>(str.data()), str.size());
   }
 }
