@@ -1,5 +1,6 @@
 rmdir /s /q "%~dp0\Debug"
 rmdir /s /q "%~dp0\Release"
+rmdir /s /q "%~dp0\Temp"
 rmdir /s /q "%~dp0\ipch"
 
 attrib -r -a -s -h "%~dp0\*.ncb"
