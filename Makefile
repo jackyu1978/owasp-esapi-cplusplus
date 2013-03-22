@@ -252,13 +252,15 @@ endif
 # Can't use -std=c++0x at the moment due to patches required (don't want to make it a prereq).
 # See http://clang.llvm.org/cxx_status.html
 ifeq ($(CLANG_COMPILER),1)
-  ESAPI_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
-  ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
+  #ESAPI_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
+  #ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
+  ESAPI_CFLAGS += -Weverything -Wno-global-constructors -Wno-exit-time-destructors -Wno-undef -Wno-long-long -Wno-unused-parameter -Wno-tautological-compare
+  ESAPI_CXXFLAGS += -Weverything -Wno-global-constructors -Wno-exit-time-destructors -Wno-undef -Wno-long-long -Wno-unused-parameter -Wno-tautological-compare
   # http://stackoverflow.com/questions/13445742/apple-and-shared-ptr
   # ESAPI_CXXFLAGS += -std=c++11 -stdlib=libc++
   
   # http://embed.cs.utah.edu/ioc/
-  ifeq ($(WANT_DEBUG),1)
+  ifneq ($(WANT_RELEASE),1)
     ESAPI_CFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
     ESAPI_CFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
 

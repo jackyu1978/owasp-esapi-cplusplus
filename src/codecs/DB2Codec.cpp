@@ -15,16 +15,16 @@
 
 namespace esapi
 {
-  String DB2Codec::encodeCharacter( const Char immune[], size_t length, Char c) const {
+  NarrowString DB2Codec::encodeCharacter( const Char immune[], size_t length, Char c) const {
 	  ASSERT (c != 0);
 
-	if (c == L'\'')
-		return String(L"\'\'");
+	if (c == '\'')
+		return String("\'\'");
 
-	if (c == L';')
-		return String(L".");
+	if (c == ';')
+		return String(".");
 
-    return String(L"")+c;
+    return String("")+c;
   }
 
   Char DB2Codec::decodeCharacter( PushbackString& input) const {
@@ -33,29 +33,29 @@ namespace esapi
 
 		if (first == 0) {
 			input.reset();
-			return L'\0';
+			return '\0';
 		}
 
 		// if this is not an encoded character, return null
 
-		if (first != L'\'') {
+		if (first != '\'') {
 			input.reset();
-			return L'\0';
+			return '\0';
 		}
 
 		Char second = input.next();
 
-		if (second == L'0') {
+		if (second == '0') {
 			input.reset();
-			return L'\0';
+			return '\0';
 		}
 
 		// if this is not an encoded character, return null
-		if (second != L'\'') {
+		if (second != '\'') {
 			input.reset();
-			return L'\0';
+			return '\0';
 		}
 
-		return L'\'';
+		return '\'';
   }
 } // esapi
