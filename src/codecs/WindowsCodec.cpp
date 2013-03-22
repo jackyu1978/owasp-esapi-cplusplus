@@ -14,7 +14,7 @@
 
 namespace esapi
 {
-  String WindowsCodec::encodeCharacter( const Char immune[], size_t length, Char c) const {
+  NarrowString WindowsCodec::encodeCharacter( const Char immune[], size_t length, Char c) const {
 	  ASSERT (c != 0);
 
 	  // check for immune characters
@@ -24,29 +24,28 @@ namespace esapi
 	  }
 
 	  // check for alphanumeric characters
-	  String hex = Codec::getHexForNonAlphanumeric( c );
+	  NarrowString hex = Codec::getHexForNonAlphanumeric( c );
 	  if ( hex.empty() ) {
-		  return String(1, c);
+		  return NarrowString(1, c);
 	  }
 
-	  return String("^") + c;
+	  return NarrowString("^") + c;
   }
 
-  Char WindowsCodec::decodeCharacter(PushbackString& input) const {
+  NarrowString WindowsCodec::decodeCharacter(PushbackString& input) const {
 	  input.mark();
-	  Char first = input.next();
-	  if ( first == L'\0' ) {
+	  NarrowString first(1,input.next());
+	  if (first.empty()) {
 		  input.reset();
-		  return L'\0';
+		  return NarrowString();
 	  }
 
 	  // if this is not an encoded character, return null
-	  if ( first != L'^' ) {
+	  if ( first[0] != '^' ) {
 		  input.reset();
-		  return L'\0';
+		  return NarrowString();
 	  }
 
-	  Char second = input.next();
-	  return second;
+	  return NarrowString(1,input.next());
   }
 } // esapi

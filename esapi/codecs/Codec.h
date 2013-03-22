@@ -81,7 +81,7 @@ namespace esapi {
      * 		the String to encode
      * @return the encoded String
      */
-    virtual String encode(const Char immune[], size_t length, const NarrowString&) const;
+    virtual NarrowString encode(const Char immune[], size_t length, const NarrowString&) const;
 
     /**
      * Default implementation that should be overridden in specific codecs.
@@ -92,7 +92,7 @@ namespace esapi {
      * @return
      * 		the encoded Character
      */
-    virtual String encodeCharacter(const Char immune[], size_t length, Char c) const;
+    virtual NarrowString encodeCharacter(const Char immune[], size_t length, Char c) const;
 
     /**
      * Decode a String that was encoded using the encode method in this Class
@@ -102,7 +102,7 @@ namespace esapi {
      * @return
      *		the decoded String
      */
-    virtual String decode(const NarrowString&) const;
+    virtual NarrowString decode(const NarrowString&) const;
 
     /**
      * Returns the decoded version of the next character from the input string and advances the
@@ -113,7 +113,7 @@ namespace esapi {
      *
      * @return the decoded Character
      */
-    virtual Char decodeCharacter(PushbackString&) const;
+    virtual NarrowString decodeCharacter(PushbackString&) const;
 
     /**
      * Lookup the hex value of any character that is not alphanumeric.
@@ -121,11 +121,11 @@ namespace esapi {
      * @return, return null if alphanumeric or the character code
      * 	in hex.
      */
-    static String getHexForNonAlphanumeric(Char);
+    static NarrowString getHexForNonAlphanumeric(Char);
 
-    static String toOctal(Char);
+    static NarrowString toOctal(Char);
 
-    static String toHex(Char);
+    static NarrowString toHex(Char);
 
     /**
      * Utility to search a string for a specific Char.

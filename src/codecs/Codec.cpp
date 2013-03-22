@@ -89,7 +89,7 @@ namespace esapi
     return s_mutex;
   }
 
-  String Codec::encode(const Char immune[], size_t length, const NarrowString& input) const
+  NarrowString Codec::encode(const Char immune[], size_t length, const NarrowString& input) const
   {
     ASSERT(immune);
     ASSERT(length);
@@ -109,7 +109,7 @@ namespace esapi
     return sb;
   }
 
-  String Codec::encodeCharacter(const Char immune[], size_t length, Char c) const{
+  NarrowString Codec::encodeCharacter(const Char immune[], size_t length, Char c) const{
     ASSERT(immune);
     ASSERT(length);
     ASSERT(c != 0);
@@ -117,16 +117,18 @@ namespace esapi
     return String(1, c);
   }
 
-  String Codec::decode(const NarrowString& input) const{
+  NarrowString Codec::decode(const NarrowString& input) const{
     ASSERT(!input.empty());
 
-    String sb;
+    NarrowString sb;
     sb.reserve(input.size());
 
     PushbackString pbs(input);
     while (pbs.hasNext()) {
-      Char c = decodeCharacter(pbs);
-      if (c != 0) {
+      NarrowString c = decodeCharacter(pbs);
+      ASSERT(!c.empty());
+
+      if (!c.empty()) {
         sb+=c;
       } else {
         sb+=pbs.next();
@@ -135,16 +137,16 @@ namespace esapi
     return sb;
   }
 
-  Char Codec::decodeCharacter(PushbackString& input) const{
+  NarrowString Codec::decodeCharacter(PushbackString& input) const{
     // This method needs to reset input under certain conditions,
     // which it is not doing. See the comments in the header file.
     ASSERT(0);
     ASSERT(input.hasNext());
 
-    return input.next();
+    return NarrowString(1, input.next());
   }
 
-  String Codec::getHexForNonAlphanumeric(Char c) {
+  NarrowString Codec::getHexForNonAlphanumeric(Char c) {
     ASSERT(c != 0);
 
     const StringArray& hex = getHexArray();
@@ -156,7 +158,7 @@ namespace esapi
     return toHex((Char)i);
   }
 
-  String Codec::toOctal(Char c) {
+  NarrowString Codec::toOctal(Char c) {
     ASSERT(c != 0);
 
     StringStream str;
@@ -165,7 +167,7 @@ namespace esapi
     return str.str();
   }
 
-  String Codec::toHex(Char c) {
+  NarrowString Codec::toHex(Char c) {
     ASSERT(c != 0);
 
     StringStream str;

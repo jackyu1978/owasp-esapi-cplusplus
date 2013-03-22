@@ -39,7 +39,7 @@ namespace esapi
        *
        * @param immune
        */
-	  String encodeCharacter( const Char[], size_t, Char) const;
+	  NarrowString encodeCharacter( const Char[], size_t, Char) const;
 
 
 	  /**
@@ -51,7 +51,7 @@ namespace esapi
 	   * Formats all are legal both upper/lower case:
 	   *   ^x - all special characters
 	   */
-	  Char decodeCharacter( esapi::PushbackString& ) const;
+	  NarrowString decodeCharacter( esapi::PushbackString& ) const;
   };
 }; // esapi namespace
 

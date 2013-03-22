@@ -39,7 +39,7 @@ public:
      *
      * @param immune
      */
-	String encodeCharacter( const Char[], size_t , Char ) const;
+	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
 	/**
@@ -52,7 +52,7 @@ public:
 	 *   \x - all special characters
 	 *
 	 */
-	Char decodeCharacter( PushbackString& ) const;
+	NarrowString decodeCharacter( PushbackString& ) const;
 
 };
 }; // esapi namespace
