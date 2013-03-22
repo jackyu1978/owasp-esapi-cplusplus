@@ -32,11 +32,11 @@ namespace esapi {
       {
       }
 
-    explicit AccessControlException(const NarrowString &message)
+    explicit AccessControlException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit AccessControlException(const NarrowString &userMessage, const NarrowString &logMessage)
+    explicit AccessControlException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

@@ -75,19 +75,19 @@ BOOST_AUTO_TEST_CASE( VerifyKeyGenerator )
 /**
  * The following Java program prints 3 sizes without excpetions.
  *
- *  Cipher cipher = Cipher.getInstance(L"AES");
- *  KeyGenerator generator = KeyGenerator.getInstance(L"AES");
+ *  Cipher cipher = Cipher.getInstance("AES");
+ *  KeyGenerator generator = KeyGenerator.getInstance("AES");
  *  
  *  generator.init(128);
  *  Key key1 = generator.generateKey();
- *  System.out.println(L"Key 1 size: " + key1.getEncoded().length);
+ *  System.out.println("Key 1 size: " + key1.getEncoded().length);
  *  
  *  Key key2 = generator.generateKey();
- *  System.out.println(L"Key 2 size: " + key2.getEncoded().length);
+ *  System.out.println("Key 2 size: " + key2.getEncoded().length);
  *  
  *  generator.init(256);
  *  Key key3 = generator.generateKey();
- *  System.out.println(L"Key 3 size: " + key3.getEncoded().length);
+ *  System.out.println("Key 3 size: " + key3.getEncoded().length);
  */
 
 void VerifyKeyGeneration(KeyGenerator& kgen, size_t bytes)
@@ -155,7 +155,7 @@ void VerifyAesKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"aes";
+  alg = "aes";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -171,7 +171,7 @@ void VerifyAesKeyGenerator()
     
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"aes/CBC";
+  alg = "aes/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -187,7 +187,7 @@ void VerifyAesKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"aes\\cfb";
+  alg = "aes\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -203,7 +203,7 @@ void VerifyAesKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"aes/OFB";
+  alg = "aes/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -219,7 +219,7 @@ void VerifyAesKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"aes/OFB/PKCS5";
+  alg = "aes/OFB/PKCS5";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -242,7 +242,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"CameLLia";
+  alg = "CameLLia";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -258,7 +258,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"CameLLia/CBC";
+  alg = "CameLLia/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -274,7 +274,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"CameLLia\\cfb";
+  alg = "CameLLia\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -290,7 +290,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"CameLLia/OFB";
+  alg = "CameLLia/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -306,7 +306,7 @@ void VerifyCamelliaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"CameLLia/OFB/  PKCS5   ";
+  alg = "CameLLia/OFB/  PKCS5   ";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -329,7 +329,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"DeSEdE";
+  alg = "DeSEdE";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -345,7 +345,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"DeSEdE/CBC";
+  alg = "DeSEdE/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -361,7 +361,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"DeSEdE\\cfb";
+  alg = "DeSEdE\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -377,7 +377,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"DeSEdE/OFB";
+  alg = "DeSEdE/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -393,7 +393,7 @@ void VerifyDesEdeKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"DeSEdE/OFB\\PKCS 7";
+  alg = "DeSEdE/OFB\\PKCS 7";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -416,7 +416,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"BlowFISH";
+  alg = "BlowFISH";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -432,7 +432,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"BlowFISH/CBC";
+  alg = "BlowFISH/CBC";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -448,7 +448,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"BlowFISH\\cfb";
+  alg = "BlowFISH\\cfb";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -464,7 +464,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"BlowFISH/OFB";
+  alg = "BlowFISH/OFB";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -480,7 +480,7 @@ void VerifyBlowfishKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"BlowFISH/OFB//Zero";
+  alg = "BlowFISH/OFB//Zero";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -503,7 +503,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"HmacSHA1";
+  alg = "HmacSHA1";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -519,7 +519,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"HmacSHA224";
+  alg = "HmacSHA224";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -535,7 +535,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"HmacSHA256";
+  alg = "HmacSHA256";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -551,7 +551,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"HmacSHA384";
+  alg = "HmacSHA384";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -567,7 +567,7 @@ void VerifyHmacShaKeyGenerator()
 
   ///////////////////////////////////////////////////////////////////////
 
-  alg = L"HmacSHA512";
+  alg = "HmacSHA512";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {
@@ -584,9 +584,9 @@ void VerifyHmacShaKeyGenerator()
 
 void VerifyHmacWhirlpoolKeyGenerator()
 {
-  BOOST_MESSAGE( " Verifying HMAC-Whirlpool" );
+  BOOST_MESSAGE( " Verifying HMAC-Whirlpoo" );
 
-  String alg = L"HmacWhirlpool";
+  String alg = "HmacWhirlpoo";
 
   for(size_t i = 0; i < COUNTOF(KEY_SIZES); i++)
     {

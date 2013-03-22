@@ -56,8 +56,8 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction1) //:Test correct construction.
   try
     {
       SecureByteArray myIV;
-      CipherSpec cs(L"AES/CBC/NoPadding", 128, 8, myIV);
-      BOOST_CHECK(cs.getCipherTransformation() == L"AES/CBC/NoPadding");
+      CipherSpec cs("AES/CBC/NoPadding", 128, 8, myIV);
+      BOOST_CHECK(cs.getCipherTransformation() =="AES/CBC/NoPadding");
       BOOST_CHECK(cs.getKeySize() == 128);
       BOOST_CHECK(cs.getBlockSize() == 8);
     }
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction2) //:Test empty cipher XForm.
   try
     {
       SecureByteArray myIV;
-      CipherSpec cs(L"", 128, 8, myIV);
+      CipherSpec cs("", 128, 8, myIV);
     }
   catch(const NoSuchAlgorithmException&)
     {
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction3) //:Missing padding scheme.
   try
     {
       SecureByteArray myIV;
-      CipherSpec cs(L"AES/CBC", 128, 8, myIV);
+      CipherSpec cs("AES/CBC", 128, 8, myIV);
     }
   catch(const NoSuchAlgorithmException&)
     {
@@ -145,10 +145,10 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction5) //:Checking set and get CipherTr
   bool caughtExcept = false;
   try
     {
-      CipherSpec cs(L"AlgName/Mode/Padding", 128);
-      BOOST_CHECK(cs.getCipherTransformation() == L"AlgName/Mode/Padding");
+      CipherSpec cs("AlgName/Mode/Padding", 128);
+      BOOST_CHECK(cs.getCipherTransformation() =="AlgName/Mode/Padding");
 
-      cs.setCipherTransformation(L"");
+      cs.setCipherTransformation("");
     }
   catch(const NoSuchAlgorithmException&)
     {
@@ -169,13 +169,13 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction6) //:Testing a bunch of get functi
 {
   try
     {
-      CipherSpec cs(L"Blowfish/CBC/PKCS5Padding", 128, 8);
+      CipherSpec cs("Blowfish/CBC/PKCS5Padding", 128, 8);
       BOOST_CHECK(cs.getKeySize() == 128);
       BOOST_CHECK(cs.getBlockSize() == 8);
-      BOOST_CHECK(cs.getCipherTransformation() == L"Blowfish/CBC/PKCS5Padding");
-      BOOST_CHECK(cs.getCipherAlgorithm() == L"Blowfish");
-      BOOST_CHECK(cs.getCipherMode() == L"CBC");
-      BOOST_CHECK(cs.getPaddingScheme() == L"PKCS5Padding");
+      BOOST_CHECK(cs.getCipherTransformation() =="Blowfish/CBC/PKCS5Padding");
+      BOOST_CHECK(cs.getCipherAlgorithm() =="Blowfish");
+      BOOST_CHECK(cs.getCipherMode() =="CBC");
+      BOOST_CHECK(cs.getPaddingScheme() =="PKCS5Padding");
     }
   catch(const std::exception& ex)
     {
@@ -235,10 +235,10 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction8) //:Testing requiresIV().
 {
   try
     {
-      CipherSpec cs(L"AeS/EcB/nOpADDING", 128);
-      BOOST_CHECK(cs.getCipherAlgorithm() == L"AES");
-      BOOST_CHECK(cs.getCipherMode() == L"ECB");
-      BOOST_CHECK(cs.getPaddingScheme() == L"NoPadding");
+      CipherSpec cs("AeS/EcB/nOpADDING", 128);
+      BOOST_CHECK(cs.getCipherAlgorithm() =="AES");
+      BOOST_CHECK(cs.getCipherMode() =="ECB");
+      BOOST_CHECK(cs.getPaddingScheme() =="NoPadding");
       BOOST_CHECK(cs.requiresIV() == false);
     }
   catch(const std::exception& ex)
@@ -255,7 +255,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction9) //:Testing requiresIV().
 {
   try
     {
-      CipherSpec cs(L"AES/CBC/None", 128);
+      CipherSpec cs("AES/CBC/None", 128);
       BOOST_CHECK(cs.requiresIV() == true);
     }
   catch(const std::exception& ex)
@@ -272,10 +272,10 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction10) //:Testing assignment operator.
 {
   try
     {
-      CipherSpec spec1(L"AES/CBC/None", 128, 16);
-      CipherSpec spec2(L"Blowfish/CBC/PKCS5Padding", 64, 8);
+      CipherSpec spec1("AES/CBC/None", 128, 16);
+      CipherSpec spec2("Blowfish/CBC/PKCS5Padding", 64, 8);
       spec1 = spec2;
-      BOOST_CHECK(spec1.getCipherTransformation() == L"Blowfish/CBC/PKCS5Padding");
+      BOOST_CHECK(spec1.getCipherTransformation() =="Blowfish/CBC/PKCS5Padding");
       BOOST_CHECK(spec1.getKeySize() == 64);
       BOOST_CHECK(spec1.getBlockSize() == spec2.getBlockSize());
     }
@@ -293,7 +293,7 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction11) //:Testing Copy CTOR.
 {
   try
     {
-      CipherSpec spec1(L"AES/CBC/None", 128, 16);
+      CipherSpec spec1("AES/CBC/None", 128, 16);
       CipherSpec spec2(spec1);
       BOOST_CHECK(spec2.equals(spec1));
       BOOST_CHECK(spec1.getCipherTransformation() == spec2.getCipherTransformation());
@@ -314,8 +314,8 @@ BOOST_AUTO_TEST_CASE(VerifyCipherSpecFunction12) //:Testing equals function.
   try
     {
       SecureByteArray myIV;
-      CipherSpec spec1(L"AES/CBC/None", 128, 16, myIV);
-      CipherSpec spec2(L"Blowfish/CBC/PKCS5Padding", 64, 8);
+      CipherSpec spec1("AES/CBC/None", 128, 16, myIV);
+      CipherSpec spec2("Blowfish/CBC/PKCS5Padding", 64, 8);
       BOOST_CHECK(spec1.equals(spec1));
       BOOST_CHECK(!spec1.equals(spec2));
       spec2 = spec1;

@@ -90,14 +90,14 @@ namespace esapi
     {
         IntegerAccessReferenceMap test_obj;
 
-        String s1 = L"The Curtains";
-        String s2 = L"Begins Singing";
+        String s1 = "The Curtains";
+        String s2 = "Begins Singing";
 
         String indirect1 = test_obj.addDirectReference( s1 );
         String indirect2 = test_obj.addDirectReference( s2 );
 
-        BOOST_CHECK_MESSAGE( indirect1.compare( L"1" ) == 0, "counter didn't increment" );
-        BOOST_CHECK_MESSAGE( indirect2.compare( L"2" ) == 0, "counter didn't increment" );
+        BOOST_CHECK_MESSAGE( indirect1.compare( "1" ) == 0, "counter didn't increment" );
+        BOOST_CHECK_MESSAGE( indirect2.compare( "2" ) == 0, "counter didn't increment" );
 
         String d1 = test_obj.getDirectReference( indirect1 );
         String d2 = test_obj.getDirectReference( indirect2 );
@@ -117,21 +117,21 @@ namespace esapi
     {
         IntegerAccessReferenceMap test_obj;
 
-        String s1 = L"Felix";
-        String s2 = L"Garfield";
+        String s1 = "Felix";
+        String s2 = "Garfield";
 
         String indirect1 = test_obj.addDirectReference( s1 );
         String indirect2 = test_obj.addDirectReference( s2 );
 
-        BOOST_CHECK_THROW( test_obj.getDirectReference( String( L"Tom" ) ), AccessControlException );
+        BOOST_CHECK_THROW( test_obj.getDirectReference( String( "Tom" ) ), AccessControlException );
 
-        BOOST_CHECK_THROW( test_obj.removeDirectReference( String( L"Jerry" ) ), AccessControlException );
+        BOOST_CHECK_THROW( test_obj.removeDirectReference( String( "Jerry" ) ), AccessControlException );
     }
 
 
     BOOST_AUTO_TEST_CASE( IntegerRefMapTest_update )
     {
-        String direct[4] = { L"1", L"2", L"3", L"4" };
+        String direct[4] = { "1", "2", "3", "4" };
         bool direct_seen[ 4 ];
 
         for ( int i = 0; i < 4; i++ )
@@ -148,11 +148,11 @@ namespace esapi
 
         IntegerAccessReferenceMap test_obj;
 
-        String i1 = test_obj.addDirectReference( L"3" );
+        String i1 = test_obj.addDirectReference( "3" );
 
         test_obj.update( update_set );
 
-        String u1 = test_obj.getIndirectReference( L"3" );
+        String u1 = test_obj.getIndirectReference( "3" );
 
         BOOST_CHECK_MESSAGE( i1.compare( u1 ) == 0, "Existing entry was overwritten" );
 
@@ -186,7 +186,7 @@ namespace esapi
         IntegerAccessReferenceMap test_obj;
 
         String indirect[4];
-        String direct[4] = { L"1", L"2", L"3", L"4" };
+        String direct[4] = { "1", "2", "3", "4" };
         bool direct_seen[ 4 ];
         bool indirect_seen[ 4 ];
 

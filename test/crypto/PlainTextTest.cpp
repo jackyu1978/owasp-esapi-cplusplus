@@ -35,7 +35,7 @@ using std::endl;
 
 #include "EsapiCommon.h"
 using esapi::NarrowString;
-using esapi::String;
+using esapi::WideString;
 
 #include "util/SecureArray.h"
 using esapi::SecureByteArray;
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_3)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_4)
 {
   // Construction
-  String s(L"a");
+  NarrowString s("a");
   PlainText p(s);
   BOOST_CHECK_MESSAGE(p.length() == 1, "Failed to construct PlainText");
 }
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_4)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_5)
 {
   // Construction
-  String s(1, L'a');
+  NarrowString s(1, 'a');
   PlainText p(s);
   BOOST_CHECK_MESSAGE(p.length() == 1, "Failed to construct PlainText");
 }
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_5)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_6)
 {
   // Copy
-  String s(L"a");
+  NarrowString s("a");
   PlainText p(s);
   PlainText pp(p);
   BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to copy PlainText");
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_6)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_7)
 {
   // Copy
-  String s(1, L'a');
+  NarrowString s(1, 'a');
   PlainText p(s);
   PlainText pp(p);
   BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to copy PlainText");
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_7)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_8)
 {
   // Assignment
-  String s(L"a");
+  NarrowString s("a");
   PlainText p(s);
   PlainText pp = p;
   BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to assign PlainText");
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_8)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_9)
 {
   // Assignment
-  String s(1, L'a');
+  NarrowString s(1, 'a');
   PlainText p(s);
   PlainText pp = p;
   BOOST_CHECK_MESSAGE(pp.length() == 1, "Failed to assign PlainText");
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_9)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_10)
 {
   // Construction
-  String s(L"\u988a");
+  NarrowString s("\u988a");
   PlainText p(s);
   BOOST_CHECK_MESSAGE(p.length() == 3, "Failed to construct PlainText");
 }
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_10)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_11)
 {
   // Copy
-  String s(L"\u988a");
+  NarrowString s("\u988a");
   PlainText p(s);
   PlainText pp(p);
   BOOST_CHECK_MESSAGE(pp.length() == 3, "Failed to copy PlainText");
@@ -140,29 +140,31 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_11)
 BOOST_AUTO_TEST_CASE(VerifyPlainText_12)
 {
   // Assignment
-  String s(L"\u988a");
+  NarrowString s("\u988a");
   PlainText p(s);
   PlainText pp = p;
   BOOST_CHECK_MESSAGE(pp.length() == 3, "Failed to assign PlainText");
 }
 
+/*
 BOOST_AUTO_TEST_CASE(VerifyPlainText_13) //:Test assignment and comparison.
 {
-  String unicodeStr = L"A\u00ea\u00f1\u00fcC";     //:"AêñüC" // Check me !!!
-  String altString = TextConvert::NarrowToWide("AêñüC");     //:Same as above.
-  PlainText str1(unicodeStr), str2(altString);
+  WideString wstr1 = L"A\u00ea\u00f1\u00fcC";     //:"AêñüC" // Check me !!!
+  WideString wstr2 = TextConvert::NarrowToWide("AêñüC");     //:Same as above.
+  PlainText str1(wstr1), str2(wstr2);
   BOOST_CHECK(str1.equals(str1));
   BOOST_CHECK(str1.equals(str2));
   BOOST_CHECK(!str1.toString().empty());
-  BOOST_CHECK(str2.toString() == altString);
-  BOOST_CHECK(str1.toString() == unicodeStr);
-  BOOST_CHECK(str2.toString().length() == altString.length());
+  BOOST_CHECK(str1.toString() == wstr1);
+  BOOST_CHECK(str2.toString() == wstr2);
+  BOOST_CHECK(str2.toString().length() == wstr2.length());
 }
+*/
 
-BOOST_AUTO_TEST_CASE(VerifyPlainText_14) //:Test Empty String.
+BOOST_AUTO_TEST_CASE(VerifyPlainText_14) //:Test Empty NarrowString.
 {
-  PlainText pt(L"");
-  BOOST_CHECK(pt.toString() == L"");
+  PlainText pt("");
+  BOOST_CHECK(pt.toString() == "");
   BOOST_CHECK(pt.length() == 0);
   SecureByteArray bytes = pt.asBytes();
   BOOST_CHECK(bytes.length() == 0);
@@ -171,13 +173,13 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_14) //:Test Empty String.
 #if 0
 BOOST_AUTO_TEST_CASE(VerifyPlainText_15) //:Test Overwrite
 {
- // Under the debugger, the narrow string is as follows. Its causing failures under ICC.
+ // Under the debugger, the narrow NarrowString is as follows. Its causing failures under ICC.
  // I believe it needs a code page/encoding/locale associated with it (by default, its
  // UTF-8, which may not be correct here).
  // (gdb) p str
  // $4 = (const esapi::NarrowString &) @0x7fffffffc920: {
  // _M_dataplus = { ..., _M_p = 0x6ed168 "A\352\361\374C"}}
-  String unicodeStr = TextConvert::NarrowToWide("A\u00ea\u00f1\u00fcC"); // Check me !!!
+  NarrowString unicodeStr = TextConvert::NarrowToWide("A\u00ea\u00f1\u00fcC"); // Check me !!!
   SecureByteArray origBytes = TextConvert::GetBytes(unicodeStr);
   PlainText pt(origBytes);
   BOOST_CHECK(pt.toString() == unicodeStr);
@@ -189,7 +191,7 @@ BOOST_AUTO_TEST_CASE(VerifyPlainText_15) //:Test Overwrite
   BOOST_CHECK(origLen == afterLen);
   size_t sum = 0;
   for(size_t i = 0; i < afterLen; i++)
-    if(overwrittenBytes[i] == L'*')  // Check me !!!
+    if(overwrittenBytes[i] == '*')  // Check me !!!
       sum++;
   BOOST_CHECK(sum == afterLen);
 }

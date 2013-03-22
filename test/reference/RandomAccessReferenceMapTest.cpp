@@ -49,7 +49,7 @@ namespace esapi
         RandomAccessReferenceMap * test_ptr_obj = new RandomAccessReferenceMap();
 
         // just poke something to see if it's there
-        String i = test_ptr_obj->getIndirectReference( String( L"Marine Birds" ) );
+        String i = test_ptr_obj->getIndirectReference( String( "Marine Birds" ) );
 
         BOOST_CHECK_MESSAGE( i.length() == 0 , "test object was not empty" );
         
@@ -91,8 +91,8 @@ namespace esapi
     {
         RandomAccessReferenceMap test_obj;
 
-        String s1 = L"Marine Birds";
-        String s2 = L"British Songbird";
+        String s1 = "Marine Birds";
+        String s2 = "British Songbird";
 
         String indirect1 = test_obj.addDirectReference( s1 );
         String indirect2 = test_obj.addDirectReference( s2 );
@@ -120,21 +120,21 @@ namespace esapi
     {
         RandomAccessReferenceMap test_obj;
 
-        String s1 = L"Felix";
-        String s2 = L"Garfield";
+        String s1 = "Felix";
+        String s2 = "Garfield";
 
         String indirect1 = test_obj.addDirectReference( s1 );
         String indirect2 = test_obj.addDirectReference( s2 );
 
-        BOOST_CHECK_THROW( test_obj.getDirectReference( String( L"Tom" ) ), AccessControlException );
+        BOOST_CHECK_THROW( test_obj.getDirectReference( String( "Tom" ) ), AccessControlException );
 
-        BOOST_CHECK_THROW( test_obj.removeDirectReference( String( L"Jerry" ) ), AccessControlException );
+        BOOST_CHECK_THROW( test_obj.removeDirectReference( String( "Jerry" ) ), AccessControlException );
     }
 
 
     BOOST_AUTO_TEST_CASE( RandomRefMapTest_update )
     {
-        String direct[4] = { L"1", L"2", L"3", L"4" };
+        String direct[4] = { "1", "2", "3", "4" };
         bool direct_seen[ 4 ];
 
         for ( int i = 0; i < 4; i++ )
@@ -151,11 +151,11 @@ namespace esapi
 
         RandomAccessReferenceMap test_obj;
 
-        String i1 = test_obj.addDirectReference( L"3" );
+        String i1 = test_obj.addDirectReference( "3" );
 
         test_obj.update( update_set );
 
-        String u1 = test_obj.getIndirectReference( L"3" );
+        String u1 = test_obj.getIndirectReference( "3" );
 
         BOOST_CHECK_MESSAGE( i1.compare( u1 ) == 0, "Existing entry was overwritten" );
 
@@ -189,7 +189,7 @@ namespace esapi
         RandomAccessReferenceMap test_obj;
 
         String indirect[4];
-        String direct[4] = { L"1", L"2", L"3", L"4" };
+        String direct[4] = { "1", "2", "3", "4" };
         bool direct_seen[ 4 ];
         bool indirect_seen[ 4 ];
 
