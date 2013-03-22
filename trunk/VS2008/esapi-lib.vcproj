@@ -12,7 +12,7 @@
 		<Platform
 			Name="Win32"
 		/>
-		<Platform
+		<Platforms
 			Name="x64"
 		/>
 	</Platforms>
@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x86"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x86"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
@@ -86,8 +86,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x64"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x64"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
@@ -152,8 +152,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x86"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x86"
 			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -217,8 +217,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x64"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x64"
 			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
