@@ -29,26 +29,24 @@ namespace esapi
     ASSERT( !algorithm.empty() );
 
     if(algorithm == "MD5")
-    {
-        return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
-    }
+      return new MessageDigestImpl<CryptoPP::Weak::MD5>(algorithm);
 
-    if(algorithm == "SHA-1")
+    else if(algorithm == "SHA-1")
       return new MessageDigestImpl<CryptoPP::SHA1>(algorithm);
 
-    if(algorithm == "SHA-224")
+    else if(algorithm == "SHA-224")
       return new MessageDigestImpl<CryptoPP::SHA224>(algorithm);
 
-    if(algorithm == "SHA-256")
+    else if(algorithm == "SHA-256")
       return new MessageDigestImpl<CryptoPP::SHA256>(algorithm);
 
-    if(algorithm == "SHA-384")
+    else if(algorithm == "SHA-384")
       return new MessageDigestImpl<CryptoPP::SHA384>(algorithm);
 
-    if(algorithm == "SHA-512")
+    else if(algorithm == "SHA-512")
       return new MessageDigestImpl<CryptoPP::SHA512>(algorithm);
 
-    if(algorithm == "Whirlpoo")
+    else if(algorithm == "Whirlpoo")
       return new MessageDigestImpl<CryptoPP::Whirlpool>(algorithm);
 
     ///////////////////////////////// Catch All /////////////////////////////////
@@ -58,7 +56,6 @@ namespace esapi
     // MessageDigest md = MessageDigest.getInstance("Foo");
     // md.update(scratch);
 
-    // We only have IllegalArgumentException and EncryptionException
     std::ostringstream oss;
     oss << "Algorithm \'" << algorithm << "\' is not supported";
     throw NoSuchAlgorithmException(oss.str());
@@ -84,9 +81,9 @@ namespace esapi
    * Returns a string that identifies the algorithm, independent of implementation details.
    */
   template <class HASH>
-  size_t MessageDigestImpl<HASH>::getDigestLengthImpl() const   
+  size_t MessageDigestImpl<HASH>::getDigestLengthImpl() const
   {
-    size_t size;
+    size_t size = 0;
 
     try
       {
@@ -120,7 +117,7 @@ namespace esapi
    * Updates the digest using the specified byte.
    */
   template <class HASH>
-  void MessageDigestImpl<HASH>::updateImpl(byte input)   
+  void MessageDigestImpl<HASH>::updateImpl(byte input)
   {
     try
       {
@@ -156,7 +153,7 @@ namespace esapi
    * Updates the digest using the specified array of bytes.
    */
   template <class HASH>
-  void MessageDigestImpl<HASH>::updateImpl(const byte input[], size_t size)   
+  void MessageDigestImpl<HASH>::updateImpl(const byte input[], size_t size)
   {
     //ASSERT(input);
     //ASSERT(size);
