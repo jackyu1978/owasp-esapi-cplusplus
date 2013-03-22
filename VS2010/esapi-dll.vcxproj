@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50CD478C-7DF6-4353-BF80-C05AE15A7DFE}</ProjectGuid>
+    <RootNamespace>esapicplusplus</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Esapi-Windows\$(Configuration)\x86\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\Esapi-Windows\Temp\$(Configuration)\x86\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Esapi-Windows\$(Configuration)\x64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Esapi-Windows\Temp\$(Configuration)\x64\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Esapi-Windows\$(Configuration)\x86\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Esapi-Windows\Temp\$(Configuration)\x86\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\Esapi-Windows\$(Configuration)\x64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\Esapi-Windows\Temp\$(Configuration)\x64\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_STATIC_CPPLIB;ESAPI_MS_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CRYPTOPP_LIB32)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;_STATIC_CPPLIB;ESAPI_MS_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CRYPTOPP_LIB64)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_STATIC_CPPLIB;ESAPI_MS_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CRYPTOPP_LIB32)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../esapi; ../errors; ../reference; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;_STATIC_CPPLIB;ESAPI_MS_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(CRYPTOPP_LIB64)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\windows\dllmain.cpp" />
+    <ClCompile Include="..\src\DummyConfiguration.cpp" />
+    <ClCompile Include="..\src\EncoderConstants.cpp" />
+    <ClCompile Include="..\src\ValidationErrorList.cpp" />
+    <ClCompile Include="..\src\crypto\CipherText.cpp" />
+    <ClCompile Include="..\src\crypto\IvParameterSpec.cpp" />
+    <ClCompile Include="..\src\crypto\KeyDerivationFunction.cpp" />
+    <ClCompile Include="..\src\crypto\KeyGenerator.cpp" />
+    <ClCompile Include="..\src\crypto\MessageDigest.cpp" />
+    <ClCompile Include="..\src\crypto\MessageDigestImpl.cpp" />
+    <ClCompile Include="..\src\crypto\PlainText.cpp" />
+    <ClCompile Include="..\src\crypto\RandomPool-Shared.cpp" />
+    <ClCompile Include="..\src\crypto\RandomPool-Starnix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\RandomPool-Win32.cpp" />
+    <ClCompile Include="..\src\crypto\SecretKey.cpp" />
+    <ClCompile Include="..\src\crypto\SecureRandom.cpp" />
+    <ClCompile Include="..\src\crypto\SecureRandomImpl.cpp" />
+    <ClCompile Include="..\src\codecs\Codec.cpp" />
+    <ClCompile Include="..\src\codecs\HTMLEntityCodec.cpp" />
+    <ClCompile Include="..\src\codecs\LDAPCodec.cpp" />
+    <ClCompile Include="..\src\codecs\PushbackString.cpp" />
+    <ClCompile Include="..\src\codecs\UnixCodec.cpp" />
+    <ClCompile Include="..\src\codecs\WindowsCodec.cpp" />
+    <ClCompile Include="..\src\errors\EnterpriseSecurityException.cpp" />
+    <ClCompile Include="..\src\errors\ValidationException.cpp" />
+    <ClCompile Include="..\src\reference\DefaultEncoder.cpp" />
+    <ClCompile Include="..\src\reference\DefaultEncryptor.cpp" />
+    <ClCompile Include="..\src\reference\DefaultExecutor.cpp" />
+    <ClCompile Include="..\src\reference\DefaultValidator.cpp" />
+    <ClCompile Include="..\src\reference\validation\BaseValidationRule.cpp" />
+    <ClCompile Include="..\src\reference\validation\StringValidationRule.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\util\AlgorithmName.cpp" />
+    <ClCompile Include="..\src\util\Mutex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\esapi\AccessReferenceMap.h" />
+    <ClInclude Include="..\esapi\DummyConfiguration.h" />
+    <ClInclude Include="..\esapi\Encoder.h" />
+    <ClInclude Include="..\esapi\EncoderConstants.h" />
+    <ClInclude Include="..\esapi\EncryptedProperties.h" />
+    <ClInclude Include="..\esapi\Encryptor.h" />
+    <ClInclude Include="..\esapi\EsapiCommon.h" />
+    <ClInclude Include="..\esapi\EsapiTypes.h" />
+    <ClInclude Include="..\esapi\Executor.h" />
+    <ClInclude Include="..\esapi\Logger.h" />
+    <ClInclude Include="..\esapi\SecurityConfiguration.h" />
+    <ClInclude Include="..\esapi\ValidationErrorList.h" />
+    <ClInclude Include="..\esapi\ValidationRule.h" />
+    <ClInclude Include="..\esapi\Validator.h" />
+    <ClInclude Include="..\deps\safeint\SafeInt3.hpp" />
+    <ClInclude Include="..\esapi\crypto\AlgorithmParameters.h" />
+    <ClInclude Include="..\esapi\crypto\AlgorithmParameterSpec.h" />
+    <ClInclude Include="..\esapi\crypto\Cipher.h" />
+    <ClInclude Include="..\esapi\crypto\CipherImpl.h" />
+    <ClInclude Include="..\esapi\crypto\CipherSpec.h" />
+    <ClInclude Include="..\esapi\crypto\CipherText.h" />
+    <ClInclude Include="..\esapi\crypto\Crypto++Common.h" />
+    <ClInclude Include="..\esapi\crypto\CryptoHelper.h" />
+    <ClInclude Include="..\esapi\crypto\IvParameterSpec.h" />
+    <ClInclude Include="..\esapi\crypto\Key.h" />
+    <ClInclude Include="..\esapi\crypto\KeyDerivationFunction.h" />
+    <ClInclude Include="..\esapi\crypto\KeyGenerator.h" />
+    <ClInclude Include="..\esapi\crypto\MessageDigest.h" />
+    <ClInclude Include="..\esapi\crypto\MessageDigestImpl.h" />
+    <ClInclude Include="..\esapi\crypto\PlainText.h" />
+    <ClInclude Include="..\esapi\crypto\RandomPool.h" />
+    <ClInclude Include="..\esapi\crypto\SecretKey.h" />
+    <ClInclude Include="..\esapi\crypto\SecureRandom.h" />
+    <ClInclude Include="..\esapi\crypto\SecureRandomImpl.h" />
+    <ClInclude Include="..\esapi\codecs\Codec.h" />
+    <ClInclude Include="..\esapi\codecs\HTMLEntityCodec.h" />
+    <ClInclude Include="..\esapi\codecs\LDAPCodec.h" />
+    <ClInclude Include="..\esapi\codecs\PushbackString.h" />
+    <ClInclude Include="..\esapi\codecs\Trie.h" />
+    <ClInclude Include="..\esapi\codecs\UnixCodec.h" />
+    <ClInclude Include="..\esapi\codecs\WindowsCodec.h" />
+    <ClInclude Include="AccessControlException.h" />
+    <ClInclude Include="..\esapi\errors\AccessControlException.h" />
+    <ClInclude Include="..\esapi\errors\EncodingException.h" />
+    <ClInclude Include="..\esapi\errors\EncryptionException.h" />
+    <ClInclude Include="..\esapi\errors\EnterpriseSecurityException.h" />
+    <ClInclude Include="..\esapi\errors\ExecutionException.h" />
+    <ClInclude Include="..\esapi\errors\IllegalArgumentException.h" />
+    <ClInclude Include="..\esapi\errors\IntegrityException.h" />
+    <ClInclude Include="..\esapi\errors\IntrusionException.h" />
+    <ClInclude Include="..\esapi\errors\NoSuchAlgorithmException.h" />
+    <ClInclude Include="..\esapi\errors\NullPointerException.h" />
+    <ClInclude Include="..\esapi\errors\UnsupportedOperationException.h" />
+    <ClInclude Include="..\esapi\errors\ValidationException.h" />
+    <ClInclude Include="..\esapi\reference\DefaultEncoder.h" />
+    <ClInclude Include="..\esapi\reference\DefaultEncryptor.h" />
+    <ClInclude Include="..\esapi\reference\DefaultValidator.h" />
+    <ClInclude Include="..\esapi\reference\GenericAccessReferenceMap.h" />
+    <ClInclude Include="..\esapi\reference\IntegerAccessReferenceMap.h" />
+    <ClInclude Include="..\esapi\reference\RandomAccessReferenceMap.h" />
+    <ClInclude Include="..\esapi\reference\validation\BaseValidationRule.h" />
+    <ClInclude Include="..\esapi\reference\validation\StringValidationRule.h" />
+    <ClInclude Include="..\esapi\util\AlgorithmName.h" />
+    <ClInclude Include="..\esapi\util\ArrayZeroizer.h" />
+    <ClInclude Include="..\esapi\util\Mutex.h" />
+    <ClInclude Include="..\esapi\util\NotCopyable.h" />
+    <ClInclude Include="..\esapi\util\SecureArray.h" />
+    <ClInclude Include="..\esapi\util\SecureString.h" />
+    <ClInclude Include="..\esapi\util\zAllocator.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

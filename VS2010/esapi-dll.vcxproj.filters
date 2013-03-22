@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\crypto">
+      <UniqueIdentifier>{cb68af06-f00a-4863-a690-37752e2f7fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\codecs">
+      <UniqueIdentifier>{861b1b3c-07e0-46b3-95c9-a7385ed58aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\errors">
+      <UniqueIdentifier>{c7cf67ce-ec44-4184-bf62-54bd516a3355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\reference">
+      <UniqueIdentifier>{640dad90-5de8-4198-9f7b-72382712c72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\reference\validation">
+      <UniqueIdentifier>{e653708b-0738-42a2-8617-5e5efed6385a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{32808a68-97bc-4f1a-97cb-4eea59a9a889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\deps">
+      <UniqueIdentifier>{79961ae8-f1fa-48d0-b36e-6ad0aa0a15a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\deps\SafeInt">
+      <UniqueIdentifier>{fff1800a-b89f-40f6-9990-9a7705081fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi">
+      <UniqueIdentifier>{eeed2b7b-b49d-407e-af7b-74a40352f791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\crypto">
+      <UniqueIdentifier>{5e4e9680-c480-4e20-a0e0-664b3f9b02c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\codecs">
+      <UniqueIdentifier>{87fc085d-7087-4d46-a796-c757c4810d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\errors">
+      <UniqueIdentifier>{c252a988-3a8e-4e17-8884-1ab41ae708c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\reference">
+      <UniqueIdentifier>{cb5eebbe-5618-4e36-9d75-a86f0cec2231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\reference\validation">
+      <UniqueIdentifier>{d284e000-e2ca-4958-bbdf-e7c90739a91e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\esapi\util">
+      <UniqueIdentifier>{7549fef1-fb67-4da3-92e7-8a55f26aea5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\windows\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DummyConfiguration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EncoderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ValidationErrorList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\CipherText.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\IvParameterSpec.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\KeyDerivationFunction.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\KeyGenerator.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\MessageDigest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\MessageDigestImpl.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\PlainText.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\RandomPool-Shared.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\RandomPool-Starnix.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\RandomPool-Win32.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\SecretKey.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\SecureRandom.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crypto\SecureRandomImpl.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\Codec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\HTMLEntityCodec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\LDAPCodec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\PushbackString.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\UnixCodec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\WindowsCodec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\errors\EnterpriseSecurityException.cpp">
+      <Filter>Source Files\errors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\errors\ValidationException.cpp">
+      <Filter>Source Files\errors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\DefaultEncoder.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\DefaultEncryptor.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\DefaultExecutor.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\DefaultValidator.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\validation\BaseValidationRule.cpp">
+      <Filter>Source Files\reference\validation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\validation\StringValidationRule.cpp">
+      <Filter>Source Files\reference\validation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\AlgorithmName.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\Mutex.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\esapi\AccessReferenceMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\DummyConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\Encoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\EncoderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\EncryptedProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\Encryptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\EsapiCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\EsapiTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\Executor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\SecurityConfiguration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\ValidationErrorList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\ValidationRule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\Validator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\safeint\SafeInt3.hpp">
+      <Filter>Header Files\deps\SafeInt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\AlgorithmParameters.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\AlgorithmParameterSpec.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\Cipher.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\CipherImpl.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\CipherSpec.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\CipherText.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\Crypto++Common.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\CryptoHelper.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\IvParameterSpec.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\Key.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\KeyDerivationFunction.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\KeyGenerator.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\MessageDigest.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\MessageDigestImpl.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\PlainText.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\RandomPool.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\SecretKey.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\SecureRandom.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\crypto\SecureRandomImpl.h">
+      <Filter>Header Files\esapi\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\Codec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\HTMLEntityCodec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\LDAPCodec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\PushbackString.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\Trie.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\UnixCodec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\WindowsCodec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="AccessControlException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\AccessControlException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\EncodingException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\EncryptionException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\EnterpriseSecurityException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\ExecutionException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\IllegalArgumentException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\IntegrityException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\IntrusionException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\NoSuchAlgorithmException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\NullPointerException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\UnsupportedOperationException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\ValidationException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\DefaultEncoder.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\DefaultEncryptor.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\DefaultValidator.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\GenericAccessReferenceMap.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\IntegerAccessReferenceMap.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\RandomAccessReferenceMap.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\validation\BaseValidationRule.h">
+      <Filter>Header Files\esapi\reference\validation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\validation\StringValidationRule.h">
+      <Filter>Header Files\esapi\reference\validation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\AlgorithmName.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\ArrayZeroizer.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\Mutex.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\NotCopyable.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\SecureArray.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\SecureString.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\util\zAllocator.h">
+      <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
