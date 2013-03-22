@@ -36,7 +36,7 @@ namespace esapi
   const NarrowString& HTMLEntityCodec::REPLACEMENT_STR()
   {
     static const NarrowString str("\xFF\xDD");
-	return str;
+    return str;
   }
 
   NarrowString HTMLEntityCodec::getNumericEntity(PushbackString&) {
@@ -476,10 +476,10 @@ namespace esapi
     // check if there's a defined entity
     const EntityMap& map = getCharacterToEntityMap();
     if(0 != map.count(c))
-    {
-      EntityMapIterator it = map.find(c);
-      return String("&") + it->second + String(";");
-    }
+      {
+	EntityMapIterator it = map.find(c);
+	return String("&") + it->second + String(";");
+      }
 
     // Hack ahead!!! Need to cut in ESAPI logic
     if(c < 256 && ::isalnum(c))

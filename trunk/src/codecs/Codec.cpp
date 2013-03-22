@@ -1,18 +1,18 @@
 /**
-* OWASP Enterprise Security API (ESAPI)
-*
-* This file is part of the Open Web Application Security Project (OWASP)
-* Enterprise Security API (ESAPI) project. For details, please see
-* <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
-*
-* Copyright (c) 2011 - The OWASP Foundation
-*
-* The ESAPI is published by OWASP under the BSD license. You should read and accept the
-* LICENSE before you use, modify, and/or redistribute this software.
-*
-* @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
-* @created 2011
-*/
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2011 - The OWASP Foundation
+ *
+ * The ESAPI is published by OWASP under the BSD license. You should read and accept the
+ * LICENSE before you use, modify, and/or redistribute this software.
+ *
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @created 2011
+ */
 
 #include "EsapiCommon.h"
 #include "codecs/Codec.h"
@@ -24,9 +24,9 @@
 #define OCT(x) std::octal << std::setw(x) << std::setfill(L'0')
 
 /**
-* Precomputed size of the internal hex array.
-* Private to this compilation unit.
-*/
+ * Precomputed size of the internal hex array.
+ * Private to this compilation unit.
+ */
 static const size_t ARR_SIZE = 256;
 
 //
@@ -45,33 +45,33 @@ namespace esapi
 
     MEMORY_BARRIER();
     if(!init)
-    {
-      shared_ptr<StringArray> temp(new StringArray);
-      ASSERT(temp);
-      if(nullptr == temp.get())
-        throw std::bad_alloc();
+      {
+	shared_ptr<StringArray> temp(new StringArray);
+	ASSERT(temp);
+	if(nullptr == temp.get())
+	  throw std::bad_alloc();
 
-      // Convenience
-      StringArray& ta = *temp.get();
+	// Convenience
+	StringArray& ta = *temp.get();
 
-      // Save on reallocations
-      ta.resize(ARR_SIZE);
+	// Save on reallocations
+	ta.resize(ARR_SIZE);
 
-      for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
-        if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
-          ta[c] = String();
-        } else {
-          StringStream str;
-          // str << HEX(2) << int(0xFF & c);
-          str << std::hex << c;
-          ta[c] = str.str();
-        }
-      }
+	for ( unsigned int c = 0; c < ARR_SIZE; c++ ) {
+	  if ( (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5A) || (c >= 0x61 && c <= 0x7A) ) {
+	    ta[c] = String();
+	  } else {
+	    StringStream str;
+	    // str << HEX(2) << int(0xFF & c);
+	    str << std::hex << c;
+	    ta[c] = str.str();
+	  }
+	}
 
-      hexArr.swap(temp);
-      init = true;
+	hexArr.swap(temp);
+	init = true;
 
-      MEMORY_BARRIER();
+	MEMORY_BARRIER();
 
       } // !init
 
@@ -79,10 +79,10 @@ namespace esapi
   }
 
   /**
-  * Retrieve the class wide intialization lock.
-  *
-  * @return the mutex used to lock the class.
-  */
+   * Retrieve the class wide intialization lock.
+   *
+   * @return the mutex used to lock the class.
+   */
   Mutex& Codec::getClassMutex ()
   {
     static Mutex s_mutex;
