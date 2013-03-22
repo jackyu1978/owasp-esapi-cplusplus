@@ -527,10 +527,6 @@
 					RelativePath="..\src\util\Mutex.cpp"
 					>
 				</File>
-				<File
-					RelativePath="..\src\util\SecureString.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
