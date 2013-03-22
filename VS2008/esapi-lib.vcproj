@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/analyze"
 				Optimization="0"
-				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_STATIC_CPPLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -66,7 +66,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="cryptlib.lib"
-				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\Win32\Output\$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(CRYPTOPP_LIB32)\$(ConfigurationName)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -111,7 +111,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/analyze"
 				Optimization="0"
-				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_STATIC_CPPLIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -132,7 +132,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="cryptlib.lib"
-				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\x64\Output\$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(CRYPTOPP_LIB64)\$(ConfigurationName)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -177,7 +177,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_STATIC_CPPLIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -197,7 +197,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="cryptlib.lib"
-				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\Win32\Output\$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(CRYPTOPP_LIB32)\$(ConfigurationName)"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -243,7 +243,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP); $(BOOST);"
+				AdditionalIncludeDirectories="../esapi; ../errors; ../deps; $(CRYPTOPP_INCLUDE); $(BOOST);"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_STATIC_CPPLIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -263,7 +263,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="cryptlib.lib"
-				AdditionalLibraryDirectories="$(CRYPTOPP)\cryptopp\x64\Output\$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(CRYPTOPP_LIB64)\$(ConfigurationName)"
 			/>
 			<Tool
 				Name="VCALinkTool"
