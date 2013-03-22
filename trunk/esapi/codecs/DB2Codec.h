@@ -36,7 +36,7 @@ public:
      *
      * @param immune
      */
-	String encodeCharacter( const Char[], size_t , Char ) const;
+	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
 	/**

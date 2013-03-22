@@ -59,7 +59,7 @@ private:
 	 * @return
 	 * 			String encoded to standards of MySQL running in ANSI mode
 	 */
-	String encodeCharacterANSI( Char c ) const;
+	NarrowString encodeCharacterANSI( Char c ) const;
 
 	/**
 	 * Encode a character suitable for MySQL
@@ -69,7 +69,7 @@ private:
 	 * @return
 	 * 			Encoded Character
 	 */
-	String encodeCharacterMySQL( Char c ) const;
+	NarrowString encodeCharacterMySQL( Char c ) const;
 
 	/**
 	 * decodeCharacterANSI decodes the next character from ANSI SQL escaping
