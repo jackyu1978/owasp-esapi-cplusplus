@@ -90,48 +90,19 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 
 int main(int, char**)
 {
-#if 0
-  try
-  {
-    KeyGenerator kgen = KeyGenerator::getInstance("AES");
-    kgen.init(128);
-    SecretKey key = kgen.generateKey();
+	//MD5 ("abc") = 900150983cd24fb0d6963f7d28e17f72
+	bool success = false;
+	MessageDigest md(MessageDigest::getInstance("MD5"));
 
-    Cipher c = Cipher::getInstance("AES/CBC/PKCS5Padding");
-    c.init(Cipher::ENCRYPT_MODE, key);
-  }
-  catch(const std::exception& ex)
-  {
-    cerr << ex.what() << endl;
-  }
+	const size_t sz = md.getDigestLength();
+	SecureByteArray buf(sz);
 
-  try
-  {
-    KeyGenerator kgen = KeyGenerator::getInstance("SHA-256");
-    kgen.init(128);
-    SecretKey key = kgen.generateKey();
+	const String msg("abc");
+	md.update(msg);
 
-    Cipher c = Cipher::getInstance("AES/ECB/PKCS5Padding");
-    c.init(Cipher::ENCRYPT_MODE, key);
-  }
-  catch(const std::exception& ex)
-  {
-    cerr << ex.what() << endl;
-  }
+	const byte hash[16] = {0x90,0x01,0x50,0x98,0x3c,0xd2,0x4f,0xb0,0xd6,0x96,0x3f,0x7d,0x28,0xe1,0x7f,0x72};
+	md.digest(buf.data(), buf.size(), 0, sz);
+	success = (::memcmp(buf.data(), hash, sizeof(hash)) == 0);
 
-  try
-  {
-    KeyGenerator kgen = KeyGenerator::getInstance("SHA-256");
-    kgen.init(128);
-    SecretKey key = kgen.generateKey();
-
-    Cipher c = Cipher::getInstance("AES/CBC/PKCS5Padding");
-    c.init(Cipher::ENCRYPT_MODE, key);
-  }
-  catch(const std::exception& ex)
-  {
-    cerr << ex.what() << endl;
-  }
-#endif
-  return 0;
+	return 0;
 }
