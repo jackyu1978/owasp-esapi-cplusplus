@@ -510,10 +510,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\util\SecureString.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\util\TextConvert-Starnix.cpp"
 					>
 					<FileConfiguration
