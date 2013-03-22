@@ -50,10 +50,10 @@ namespace esapi
    * the encoding of the narrow string. If the string is from the current locale, use
    * EncodingDefault.
    */
-  String TextConvert::NarrowToWide(const NarrowString& str, const Encoding& enc)
+  WideString TextConvert::NarrowToWide(const NarrowString& str, const Encoding& enc)
   {
     ASSERT( !str.empty() );
-    if(str.empty()) return String();    
+    if(str.empty()) return WideString();    
 
     // Check for overflow on the reserve performed below
     WideString temp;
@@ -145,7 +145,7 @@ namespace esapi
   /**
    * Convert a wide character string to a UTF-8 character string. Used by exception classes.
    */
-  NarrowString TextConvert::WideToNarrowNoThrow(const NarrowString& wstr)
+  NarrowString TextConvert::WideToNarrowNoThrow(const WideString& wstr)
   {
     // This can still throw via the string
     try
@@ -159,7 +159,7 @@ namespace esapi
     return NarrowString("TextConvert::WideToNarrowNoThrow failed");
   }
 
-  NarrowString TextConvert::WideToNarrow(const NarrowString& wstr, const Encoding& enc)
+  NarrowString TextConvert::WideToNarrow(const WideString& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();    
