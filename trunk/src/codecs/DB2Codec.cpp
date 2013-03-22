@@ -19,43 +19,43 @@ namespace esapi
 	  ASSERT (c != 0);
 
 	if (c == '\'')
-		return String("\'\'");
+		return NarrowString("\'\'");
 
 	if (c == ';')
-		return String(".");
+		return NarrowString(".");
 
-    return String("")+c;
+    return NarrowString(1,c);
   }
 
-  Char DB2Codec::decodeCharacter( PushbackString& input) const {
+  NarrowString DB2Codec::decodeCharacter( PushbackString& input) const {
 		input.mark();
-		Char first = input.next();
+		NarrowString first(1,input.next());
 
-		if (first == 0) {
+		if (first.empty()) {
 			input.reset();
-			return '\0';
+			return NarrowString();
 		}
 
 		// if this is not an encoded character, return null
 
-		if (first != '\'') {
+		if (first[0] != '\'') {
 			input.reset();
-			return '\0';
+			return NarrowString();
 		}
 
-		Char second = input.next();
+		NarrowString second(1,input.next());
 
-		if (second == '0') {
+		if (second.empty()) {
 			input.reset();
-			return '\0';
+			return NarrowString();
 		}
 
 		// if this is not an encoded character, return null
-		if (second != '\'') {
+		if (second[0] != '\'') {
 			input.reset();
-			return '\0';
+			return NarrowString();
 		}
 
-		return '\'';
+		return NarrowString("'");
   }
 } // esapi

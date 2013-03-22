@@ -44,7 +44,7 @@ public:
 	 *
 	 *
 	 */
-	Char decodeCharacter( PushbackString& ) const;
+	NarrowString decodeCharacter( PushbackString& ) const;
 
 };
 }; // esapi namespace

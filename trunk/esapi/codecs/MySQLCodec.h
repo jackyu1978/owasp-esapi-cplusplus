@@ -79,7 +79,7 @@ private:
 	 * @return
 	 * 			A single character, decoded
 	 */
-	Char decodeCharacterANSI( PushbackString& ) const;
+	NarrowString decodeCharacterANSI( PushbackString& ) const;
 
 	/**
 	 * decodeCharacterMySQL decodes all the potential escaped characters that MySQL is prepared to escape
@@ -89,7 +89,7 @@ private:
 	 * @return
 	 * 			A single character from that string, decoded.
 	 */
-	Char decodeCharacterMySQL( PushbackString& ) const;
+	NarrowString decodeCharacterMySQL( PushbackString& ) const;
 
 public:
     /** Target MySQL Server is running in Standard MySQL (Default) mode. */
@@ -110,7 +110,7 @@ public:
      *
      * @param immune
      */
-	String encodeCharacter( const Char[], size_t , Char ) const;
+	NarrowString encodeCharacter( const Char[], size_t , Char ) const;
 
 
 	/**
@@ -123,7 +123,7 @@ public:
 	 *   In ANSI_MODE '' decodes to '
 	 *   In MYSQL_MODE \x decodes to x (or a small list of specials)
 	 */
-	Char decodeCharacter( PushbackString& ) const;
+	NarrowString decodeCharacter( PushbackString& ) const;
 
 };
 }; // esapi namespace

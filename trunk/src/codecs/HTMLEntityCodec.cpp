@@ -39,7 +39,7 @@ namespace esapi
 	return str;
   }
 
-  Char HTMLEntityCodec::getNumericEntity(PushbackString&) {
+  NarrowString HTMLEntityCodec::getNumericEntity(PushbackString&) {
     /*
       Character first = input.peek();
       if ( first == null ) return null;
@@ -53,7 +53,7 @@ namespace esapi
     return 0;
   }
 
-  Char HTMLEntityCodec::parseNumber(PushbackString& /*input*/) {
+  NarrowString HTMLEntityCodec::parseNumber(PushbackString& /*input*/) {
     /*
       StringBuilder sb = new StringBuilder();
       while( input.hasNext() ) {
@@ -87,7 +87,7 @@ namespace esapi
     return 0;
   }
 
-  Char HTMLEntityCodec::parseHex(PushbackString&) {
+  NarrowString HTMLEntityCodec::parseHex(PushbackString&) {
     /*
       StringBuilder sb = new StringBuilder();
       while( input.hasNext() ) {
@@ -121,7 +121,7 @@ namespace esapi
     return 0;
   }
 
-  Char HTMLEntityCodec::getNamedEntity(PushbackString&) {
+  NarrowString HTMLEntityCodec::getNamedEntity(PushbackString&) {
     /*
       StringBuilder possible = new StringBuilder();
       Map.Entry<CharSequence,Character> entry;
@@ -447,7 +447,7 @@ namespace esapi
     return *map.get();
   }
 
-  String HTMLEntityCodec::encodeCharacter( const Char* immune, size_t length, Char c) const
+  NarrowString HTMLEntityCodec::encodeCharacter( const Char* immune, size_t length, Char c) const
   {
     ASSERT(immune);
     ASSERT(length);
@@ -493,7 +493,7 @@ namespace esapi
     // return String(1, c);
   }
 
-  Char HTMLEntityCodec::decodeCharacter(PushbackString& /*input*/) const {
+  NarrowString HTMLEntityCodec::decodeCharacter(PushbackString& /*input*/) const {
     /*
       input.mark();
       Character first = input.next();
