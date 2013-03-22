@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x86"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x86\$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -66,7 +66,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -95,8 +95,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x64"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x64\$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -141,7 +141,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="17"
@@ -170,8 +170,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x86\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x86"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x86\$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -216,7 +216,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\$(ConfigurationName)\x86&quot;;&quot;$(BOOST)\VS9\x86\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -247,8 +247,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64"
-			IntermediateDirectory="$(SolutionDir)\Esapi-Windows\Temp\$(ConfigurationName)\x64\$(ProjectName)"
+			OutputDirectory="$(SolutionDir)\$(ConfigurationName)\x64"
+			IntermediateDirectory="$(SolutionDir)\Temp\$(ConfigurationName)\x64\$(ProjectName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -294,7 +294,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="esapi-lib.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\Esapi-Windows\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\$(ConfigurationName)\x64&quot;;&quot;$(BOOST)\VS9\x64\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

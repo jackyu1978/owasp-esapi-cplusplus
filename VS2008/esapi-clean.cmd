@@ -1,4 +1,6 @@
-rmdir /s /q "%~dp0\Esapi-Windows"
+rmdir /s /q "%~dp0\Debug"
+rmdir /s /q "%~dp0\Release"
+rmdir /s /q "%~dp0\ipch"
 
 attrib -r -a -s -h "%~dp0\*.ncb"
 attrib -r -a -s -h "%~dp0\*.suo"
