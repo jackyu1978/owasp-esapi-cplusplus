@@ -46,11 +46,11 @@ namespace esapi
      * @param logMessage
      *                        the message logged
      */
-    explicit ValidationException(const String &message)
+    explicit ValidationException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit ValidationException(const String &userMessage, const String &logMessage)
+    explicit ValidationException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }
@@ -74,7 +74,7 @@ namespace esapi
      * @param context
      *            the source that caused this exception
      */
-    ValidationException(const String &, const String &, const String &);
+    ValidationException(const NarrowString &, const NarrowString &, const NarrowString &);
 
     /**
      * Returns the UI reference that caused this ValidationException
@@ -89,7 +89,7 @@ namespace esapi
      * @param context
      *                      the context to set, passed as a String
      */
-    void setContext(const String &);
+    void setContext(const NarrowString &);
 
     virtual ~ValidationException() throw() {};
   };

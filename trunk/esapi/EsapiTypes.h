@@ -18,10 +18,6 @@
 
 namespace esapi
 {
-  typedef wchar_t Char;
-  typedef std::wstring String;
-  typedef std::wstringstream StringStream;
-
   typedef wchar_t WideChar;
   typedef std::wstring WideString;
   typedef std::wstringstream WideStringStream;
@@ -29,6 +25,10 @@ namespace esapi
   typedef char NarrowChar;
   typedef std::string NarrowString;
   typedef std::stringstream NarrowStringStream;
+
+  typedef NarrowChar Char;
+  typedef NarrowString String;
+  typedef NarrowStringStream StringStream;
 
   //typedef char Char;
   //typedef std::string String;

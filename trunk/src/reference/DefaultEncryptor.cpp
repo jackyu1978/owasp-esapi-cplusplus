@@ -30,11 +30,11 @@
 namespace esapi
 {
   // Private to this module (for now)
-  static void split(const String& str, const String& delim, StringArray& parts);
+  static void split(const NarrowString& str, const NarrowString& delim, StringArray& parts);
 
   String DefaultEncryptor::DefaultDigestAlgorithm()
   {
-    return String(L"SHA-512");
+    return NarrowString("SHA-512");
   }
 
   unsigned int DefaultEncryptor::DefaultDigestIterations()
@@ -42,7 +42,7 @@ namespace esapi
     return 1024;
   }
 
-  String DefaultEncryptor::hash(const String &message, const String &salt, unsigned int iterations) const
+  String DefaultEncryptor::hash(const NarrowString &message, const NarrowString &salt, unsigned int iterations) const
   { 
     MessageDigest md(DefaultDigestAlgorithm());
     const size_t size = md.getDigestLength();
@@ -88,7 +88,7 @@ namespace esapi
         throw EncryptionException(NarrowString("Internal error: ") + ex.what());
       }
 
-    return TextConvert::NarrowToWide(encoded);
+    return encoded;
   }
 
   CipherText DefaultEncryptor::encrypt(const PlainText& plainText) const
@@ -105,18 +105,18 @@ namespace esapi
 
     StringArray parts;
     String xform = config.getCipherTransformation();    
-    split(xform, L"\\/:", parts);
+    split(xform, "\\/:", parts);
 
-    ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + TextConvert::WideToNarrow(xform));
+    ESAPI_ASSERT2(parts.size() == 3, "Malformed cipher transformation: " + c);
     if(parts.size() != 3)
-      throw EncryptionException("Malformed cipher transformation: " + TextConvert::WideToNarrow(xform));
+      throw EncryptionException("Malformed cipher transformation: " + xform);
 
-    const String mode = parts[1];
+    const NarrowString mode = parts[1];
     bool allowed = CryptoHelper::isAllowedCipherMode(mode);
 
-    ESAPI_ASSERT2(allowed, NarrowString("Cipher mode '") + TextConvert::WideToNarrow(mode) + "' is not allowed");
+    ESAPI_ASSERT2(allowed, NarrowString("Cipher mode '") + modes + "' is not allowed");
     if( !allowed )
-      throw EncryptionException(NarrowString("Cipher mode '") + TextConvert::WideToNarrow(mode) + "' is not allowed");    
+      throw EncryptionException(NarrowString("Cipher mode '") + mode + "' is not allowed");    
 
     // Cipher encrypter = Cipher::getInstance(xform);
     // String cipherAlg = encrypter.getAlgorithm();
@@ -128,7 +128,7 @@ namespace esapi
     return CipherText();
   }
 
-  void split(const String& str, const String& delim, StringArray& parts)
+  void split(const NarrowString& str, const NarrowString& delim, StringArray& parts)
   {
     String s(str);
     String::size_type pos = 0;

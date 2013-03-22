@@ -22,7 +22,7 @@
 namespace esapi
 {
 
-  PlainText::PlainText(const String& str)
+  PlainText::PlainText(const NarrowString& str)
   : rawBytes()
   {
     ASSERT(!str.empty());
@@ -41,10 +41,10 @@ namespace esapi
   {
   }
 
-  String PlainText::toString() const //:ByteArray of [formerly] encoded string in UTF-8 -> NarrowString -> WideString result
+  NarrowString PlainText::toString() const //:ByteArray of [formerly] encoded string in UTF-8 -> NarrowString -> WideString result
   {
     NarrowString result(rawBytes.begin(), rawBytes.end());
-    return TextConvert::NarrowToWide(result);
+    return result;
   }
 
   SecureByteArray PlainText::asBytes() const

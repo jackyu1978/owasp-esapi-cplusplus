@@ -46,31 +46,31 @@ protected:
 
 public:
 
-	StringValidationRule(const String &);
+	StringValidationRule(const NarrowString &);
 
-	StringValidationRule(const String &, Encoder*);
+	StringValidationRule(const NarrowString &, Encoder*);
 
-	StringValidationRule(const String &, Encoder*, const String &);
-
-	/**
-	 * {@inheritDoc}
-	 */
-	virtual String getValid(const String &, const String &);
+	StringValidationRule(const NarrowString &, Encoder*, const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String getValid( const String &context, const String &input, ValidationErrorList &errorList );
+	virtual String getValid(const NarrowString &, const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	virtual String sanitize(const String &, const String &);
+	String getValid( const NarrowString &context, const NarrowString &input, ValidationErrorList &errorList );
 
-	virtual void addWhitelistPattern(const String &);
+	/**
+	 * {@inheritDoc}
+	 */
+	virtual String sanitize(const NarrowString &, const NarrowString &);
+
+	virtual void addWhitelistPattern(const NarrowString &);
 	//virtual void addWhitelistPattern(Pattern);
 
-	virtual void addBlacklistPattern(const String &);
+	virtual void addBlacklistPattern(const NarrowString &);
 	//virtual void addBlacklistPattern(Pattern);
 
 	virtual void setMinimumLength(int);
@@ -96,7 +96,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkWhitelist(const String &, const String &, const String &);
+	virtual String checkWhitelist(const NarrowString &, const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input against whitelists.
@@ -105,7 +105,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkWhitelist(const String &, const String &);
+	virtual String checkWhitelist(const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input against blacklists.
@@ -117,7 +117,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkBlacklist(const String &, const String &, const String &);
+	virtual String checkBlacklist(const NarrowString &, const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input against blacklists.
@@ -126,7 +126,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkBlacklist(const String &, const String &);
+	virtual String checkBlacklist(const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input lengths
@@ -138,7 +138,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkLength(const String &, const String &, const String &);
+	virtual String checkLength(const NarrowString &, const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input lengths
@@ -147,7 +147,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkLength(const String &, const String &);
+	virtual String checkLength(const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input emptiness
@@ -159,7 +159,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkEmpty(const String &, const String &, const String &);
+	virtual String checkEmpty(const NarrowString &, const NarrowString &, const NarrowString &);
 
 	/**
 	 * checks input emptiness
@@ -168,7 +168,7 @@ private:
 	 * @return input upon a successful check
 	 * @throws ValidationException if the check fails.
 	 */
-	virtual String checkEmpty(const String &, const String &);
+	virtual String checkEmpty(const NarrowString &, const NarrowString &);
 
 public:
 	virtual ~StringValidationRule() {};

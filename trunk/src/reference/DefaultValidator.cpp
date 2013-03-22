@@ -36,7 +36,7 @@ Validator* DefaultValidator::instance = nullptr;
 
 Validator* DefaultValidator::fileValidator = nullptr;
 
-bool DefaultValidator::isEmpty(const String &) const {
+bool DefaultValidator::isEmpty(const NarrowString &) const {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
@@ -100,21 +100,21 @@ void DefaultValidator::addRule( const ValidationRule<void*> & ) {
 }
 
 
-ValidationRule<void*>& DefaultValidator::getRule( const String & ) {
+ValidationRule<void*>& DefaultValidator::getRule( const NarrowString & ) {
 	//return rules.get( name );
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
 
-bool DefaultValidator::isValidInput(const String & context, const String &input, const String &type, int maxLength, bool allowNull) {
+bool DefaultValidator::isValidInput(const NarrowString & context, const NarrowString &input, const NarrowString &type, int maxLength, bool allowNull) {
 	return isValidInput(context, input, type, maxLength, allowNull, true);
 }
 
-bool DefaultValidator::isValidInput(const String & context, const String &input, const String &type, int maxLength, bool allowNull, ValidationErrorList &errors) {
+bool DefaultValidator::isValidInput(const NarrowString & context, const NarrowString &input, const NarrowString &type, int maxLength, bool allowNull, ValidationErrorList &errors) {
 	return isValidInput(context, input, type, maxLength, allowNull, true, errors);
 }
 
-bool DefaultValidator::isValidInput(const String &context, const String &input, const String &type, int maxLength, bool allowNull, bool canonicalize) {
+bool DefaultValidator::isValidInput(const NarrowString &context, const NarrowString &input, const NarrowString &type, int maxLength, bool allowNull, bool canonicalize) {
 	try {
 		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
 		return true;
@@ -123,7 +123,7 @@ bool DefaultValidator::isValidInput(const String &context, const String &input, 
 	}
 }
 
-bool DefaultValidator::isValidInput(const String & context, const String & input, const String &type, int maxLength, bool allowNull, bool canonicalize, ValidationErrorList &errors) {
+bool DefaultValidator::isValidInput(const NarrowString & context, const NarrowString & input, const NarrowString &type, int maxLength, bool allowNull, bool canonicalize, ValidationErrorList &errors) {
 	try {
 		getValidInput( context, input, type, maxLength, allowNull, canonicalize);
 		return true;
@@ -133,235 +133,235 @@ bool DefaultValidator::isValidInput(const String & context, const String & input
 	}
 }
 
-String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool) {
+String DefaultValidator::getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, bool) {
+String DefaultValidator::getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, ValidationErrorList&) {
+String DefaultValidator::getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, ValidationErrorList&) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidInput(const String &, const String &, const String &, int, bool, bool, ValidationErrorList &) {
+String DefaultValidator::getValidInput(const NarrowString &, const NarrowString &, const NarrowString &, int, bool, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDate(const String &, const String &, const DateFormat &, bool) {
+bool DefaultValidator::isValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidDate(const String &, const String &, const DateFormat &, bool) throw (ValidationException, IntrusionException) {
+Char* DefaultValidator::getValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidDate(const String &, const String &, const DateFormat &, bool, ValidationErrorList &) {
+Char* DefaultValidator::getValidDate(const NarrowString &, const NarrowString &, const DateFormat &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidSafeHTML(const String &, const String &, int, bool) {
+bool DefaultValidator::isValidSafeHTML(const NarrowString &, const NarrowString &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidSafeHTML(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidSafeHTML( const String &, const String &, int, bool) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidSafeHTML( const NarrowString &, const NarrowString &, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidSafeHTML(const String &, const String &, int, bool, ValidationErrorList &) {
+String DefaultValidator::getValidSafeHTML(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidCreditCard(const String &, const String &, bool) {
+bool DefaultValidator::isValidCreditCard(const NarrowString &, const NarrowString &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidCreditCard(const String &, const String &, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidCreditCard(const NarrowString &, const NarrowString &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidCreditCard(const String &, const String &, bool) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidCreditCard(const NarrowString &, const NarrowString &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidCreditCard(const String &, const String &, bool, ValidationErrorList &) {
+String DefaultValidator::getValidCreditCard(const NarrowString &, const NarrowString &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDirectoryPath(const String &, const String &, std::fstream &, bool) {
+bool DefaultValidator::isValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidDirectoryPath(const String &, const String &, std::fstream &, bool) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidDirectoryPath(const String &, const String &, std::fstream &, bool, ValidationErrorList &)  {
+String DefaultValidator::getValidDirectoryPath(const NarrowString &, const NarrowString &, std::fstream &, bool, ValidationErrorList &)  {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileName(const String &, const String &, bool) {
+bool DefaultValidator::isValidFileName(const NarrowString &, const NarrowString &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileName(const String &, const String &, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidFileName(const NarrowString &, const NarrowString &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileName(const String &, const String &, const std::list<String> &, bool) {
+bool DefaultValidator::isValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidFileName(const String &, const String &, const std::list<String> &, bool) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidFileName(const String &, const String &, const std::list<String> &, bool, ValidationErrorList &) {
+String DefaultValidator::getValidFileName(const NarrowString &, const NarrowString &, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidNumber(const String &, const String &, long, long, bool) {
+bool DefaultValidator::isValidNumber(const NarrowString &, const NarrowString &, long, long, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidNumber(const NarrowString &, const NarrowString &, long, long, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double DefaultValidator::getValidNumber(const String &, const String &, long, long, bool) throw (ValidationException, IntrusionException) {
+double DefaultValidator::getValidNumber(const NarrowString &, const NarrowString &, long, long, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double DefaultValidator::getValidNumber(const String &, const String &, long, long, bool, ValidationErrorList &) {
+double DefaultValidator::getValidNumber(const NarrowString &, const NarrowString &, long, long, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDouble(const String &, const String &, double, double, bool) {
+bool DefaultValidator::isValidDouble(const NarrowString &, const NarrowString &, double, double, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidDouble(const NarrowString &, const NarrowString &, double, double, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double DefaultValidator::getValidDouble(const String &, const String &, double, double, bool) throw (ValidationException, IntrusionException) {
+double DefaultValidator::getValidDouble(const NarrowString &, const NarrowString &, double, double, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-double DefaultValidator::getValidDouble(const String &, const String &, double, double, bool, ValidationErrorList &) {
+double DefaultValidator::getValidDouble(const NarrowString &, const NarrowString &, double, double, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidInteger(const String &, const String &, int, int, bool) {
+bool DefaultValidator::isValidInteger(const NarrowString &, const NarrowString &, int, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidInteger(const NarrowString &, const NarrowString &, int, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-int DefaultValidator::getValidInteger(const String &, const String &, int, int, bool) throw (ValidationException, IntrusionException) {
+int DefaultValidator::getValidInteger(const NarrowString &, const NarrowString &, int, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-int DefaultValidator::getValidInteger(const String &, const String &, int, int, bool, ValidationErrorList &) {
+int DefaultValidator::getValidInteger(const NarrowString &, const NarrowString &, int, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileContent(const String &, Char[], int, bool) {
+bool DefaultValidator::isValidFileContent(const NarrowString &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileContent(const String &, Char[], int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidFileContent(const NarrowString &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidFileContent(const String &, Char[], int, bool) throw (ValidationException, IntrusionException) {
+Char* DefaultValidator::getValidFileContent(const NarrowString &, Char[], int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidFileContent(const String &, Char[], int, bool, ValidationErrorList &) {
+Char* DefaultValidator::getValidFileContent(const NarrowString &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool) {
+bool DefaultValidator::isValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-void DefaultValidator::assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool) {
+void DefaultValidator::assertValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, const std::list<String> &, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-void DefaultValidator::assertValidFileUpload(const String &, const String &, const String &, std::fstream &, Char[], int, const std::list<String> &, bool, ValidationErrorList &) {
+void DefaultValidator::assertValidFileUpload(const NarrowString &, const NarrowString &, const NarrowString &, std::fstream &, Char[], int, const std::list<String> &, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidListItem(const String &, const String &, const std::list<String> &) {
+bool DefaultValidator::isValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &) {
+bool DefaultValidator::isValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidListItem(const String &, const String &, const std::list<String> &) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidListItem(const String &, const String &, const std::list<String> &, ValidationErrorList &) {
+String DefaultValidator::getValidListItem(const NarrowString &, const NarrowString &, const std::list<String> &, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidPrintable(const String &, Char[], int, bool) {
+bool DefaultValidator::isValidPrintable(const NarrowString &, Char[], int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidPrintable(const String &, Char[], int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidPrintable(const NarrowString &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidPrintable(const String &, Char[], int, bool) throw (ValidationException, IntrusionException) {
+Char* DefaultValidator::getValidPrintable(const NarrowString &, Char[], int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-Char* DefaultValidator::getValidPrintable(const String &, Char[], int, bool, ValidationErrorList &) {
+Char* DefaultValidator::getValidPrintable(const NarrowString &, Char[], int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidPrintable(const String &, const String &, int, bool) {
+bool DefaultValidator::isValidPrintable(const NarrowString &, const NarrowString &, int, bool) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-bool DefaultValidator::isValidPrintable(const String &, const String &, int, bool, ValidationErrorList &) {
+bool DefaultValidator::isValidPrintable(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidPrintable(const String &, const String &, int, bool) throw (ValidationException, IntrusionException) {
+String DefaultValidator::getValidPrintable(const NarrowString &, const NarrowString &, int, bool) throw (ValidationException, IntrusionException) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 
-String DefaultValidator::getValidPrintable(const String &, const String &, int, bool, ValidationErrorList &) {
+String DefaultValidator::getValidPrintable(const NarrowString &, const NarrowString &, int, bool, ValidationErrorList &) {
 	throw UnsupportedOperationException("Not yet implemented"); //TODO Implement
 }
 

@@ -22,11 +22,11 @@ namespace esapi
   class ESAPI_EXPORT IntrusionException : public EnterpriseSecurityException
   {
   public:
-    explicit IntrusionException(const String &message)
+    explicit IntrusionException(const WideString &message)
       : EnterpriseSecurityException(message, message)
       {
       }
-    explicit IntrusionException(const String &userMessage, const String &logMessage)
+    explicit IntrusionException(const WideString &userMessage, const WideString &logMessage)
       : EnterpriseSecurityException(userMessage, logMessage)
       {
       }

@@ -21,15 +21,15 @@
 
 namespace esapi
 {
-  void ValidationErrorList::addError(const String &context, ValidationException *vex) {
+  void ValidationErrorList::addError(const NarrowString &context, ValidationException *vex) {
     if ( context.empty() ) {
       // throw( "Context for cannot be null: " + vex->getLogMessage() );
-      throw IllegalArgumentException("Context for cannot be null");
+      throw IllegalArgumentException("Context for cannot be nul");
     }
 
-	  //if ( vex == NULL ) throw( "Context (L" + context + ") cannot be null" );
+	  //if ( vex == NULL ) throw( "Context (" + context + ") cannot be nul" );
     if (getError(context) != NULL) {
-      // throw (L"Context (L" + context + ") already exists, must be unique");
+      // throw ("Context (" + context + ") already exists, must be unique");
       throw IllegalArgumentException("Context must be unique");
     }
 
@@ -46,9 +46,9 @@ namespace esapi
 	  return errs;
   }
 
-  ValidationException *ValidationErrorList::getError(const String &context){
-	  if (context.compare(L"")) return NULL;
-	  //ValidationException *foo = new ValidationException("foo",L"bar");
+  ValidationException *ValidationErrorList::getError(const NarrowString &context){
+	  if (context.compare("")) return NULL;
+	  //ValidationException *foo = new ValidationException("foo","bar");
 	  return m_errorList.find(context)->second;
   }
 

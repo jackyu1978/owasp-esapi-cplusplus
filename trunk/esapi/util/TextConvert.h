@@ -32,21 +32,25 @@ namespace esapi
     * the encoding of the narrow string. If the string is from the current locale, use
     * EncodingDefault. If the narrow string is UTF-8, use EncodingNarrow.
     */
-    static String NarrowToWide(const NarrowString& str, const Encoding& encoding = "UTF-8");
+    static WideString NarrowToWide(const NarrowString& str, const Encoding& encoding = "UTF-8");
     /**
     * Convert a wide character string to a narrow character string. Encoding specifies
     * the encoding of the resulting narrow string. If the current locale is desired,
     * use EncodingDefault. If UTF-8 is desired, use EncodingNarrow.
     */
-    static NarrowString WideToNarrow(const String& wstr, const Encoding& encoding = "UTF-8");
+    static NarrowString WideToNarrow(const WideString& wstr, const Encoding& encoding = "UTF-8");
     /**
     * Convert a wide character string to a UTF-8 character string. Used by exception classes.
     */
-    static NarrowString WideToNarrowNoThrow(const String& wstr);
+    static NarrowString WideToNarrowNoThrow(const WideString& wstr);
     /**
     * Convert a wide character string into a byte array using the specified encoding.
     */
-    static SecureByteArray GetBytes(const String& wstr, const Encoding& encoding = "UTF-8");
+    static SecureByteArray GetBytes(const NarrowString& str, const Encoding& encoding = "UTF-8");
+    /**
+    * Convert a wide character string into a byte array using the specified encoding.
+    */
+    static SecureByteArray GetBytes(const WideString& wstr, const Encoding& encoding = "UTF-8");
   };
 }
 

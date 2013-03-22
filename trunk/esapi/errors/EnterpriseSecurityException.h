@@ -42,7 +42,7 @@ namespace esapi
     protected:
 
       /** The logger. */
-      //const Logger logger = ESAPI.getLogger(L"EnterpriseSecurityException");
+      //const Logger logger = ESAPI.getLogger("EnterpriseSecurityException");
       NarrowString m_userMessage;
       NarrowString m_logMessage;
 

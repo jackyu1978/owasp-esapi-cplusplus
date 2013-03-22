@@ -68,7 +68,7 @@ namespace esapi
         /**
          * Returns a SecureRandom object that implements the specified Random Number Generator (RNG) algorithm.
          */
-        static SecureRandom getInstance(const String& algorithm);
+        static SecureRandom getInstance(const WideString& algorithm);
 
         /**
          * Constructs a secure random number generator (RNG) implementing the named

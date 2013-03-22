@@ -27,7 +27,7 @@ namespace esapi
     virtual String getRandomizerImplementation();
     virtual String getEncryptionImplementation();
     virtual String getValidationImplementation();
-    virtual Pattern getValidationPattern(const String &);
+    virtual Pattern getValidationPattern(const NarrowString &);
     virtual bool getLenientDatesAccepted();
     virtual String getExecutorImplementation();
     virtual String getHTTPUtilitiesImplementation();
@@ -43,7 +43,7 @@ namespace esapi
     virtual String getUsernameParameterName();
     virtual String getEncryptionAlgorithm();
     virtual String getCipherTransformation();
-    virtual String setCipherTransformation(const String &);
+    virtual String setCipherTransformation(const NarrowString &);
     virtual String getPreferredJCEProvider();
     virtual bool useMACforCipherText();
     virtual bool overwritePlainText();
@@ -64,15 +64,15 @@ namespace esapi
     virtual int getAllowedLoginAttempts();
     virtual int getMaxOldPasswordHashes();
     virtual bool getDisableIntrusionDetection();
-    virtual Threshold getQuota(const String &);
-    virtual String getResourceFile(const String &);
+    virtual Threshold getQuota(const NarrowString &);
+    virtual String getResourceFile(const NarrowString &);
     virtual bool getForceHttpOnlySession();
     virtual bool getForceSecureSession();
     virtual bool getForceHttpOnlyCookies();
     virtual bool getForceSecureCookies();
     virtual int getMaxHttpHeaderSize();
-    virtual InputStream getResourceStream(const String &);
-    virtual void setResourceDirectory(const String &);
+    virtual InputStream getResourceStream(const NarrowString &);
+    virtual void setResourceDirectory(const NarrowString &);
     virtual String getResponseContentType();
     virtual String getHttpSessionIdName();
     virtual long getRememberTokenDuration();

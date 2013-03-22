@@ -41,7 +41,7 @@ namespace esapi
     /**
      * Returns a MessageDigest object that implements the specified digest algorithm.
      */
-    static MessageDigest getInstance(const String& algorithm);
+    static MessageDigest getInstance(const WideString& algorithm);
 
     /**
      * Creates a message digest with the specified algorithm name.
@@ -51,7 +51,7 @@ namespace esapi
     /**
      * Creates a message digest with the specified algorithm name.
      */
-    explicit MessageDigest(const String& algorithm);
+    explicit MessageDigest(const WideString& algorithm);
 
     /**
      * Copies a message digest.
@@ -110,7 +110,7 @@ namespace esapi
      * @throws       throws an EncryptionException if the array or size is not valid
      *               or a cryptographic failure occurs.
      */
-    void update(const String& input);
+    void update(const NarrowString& input);
 
     /**
      * Updates the digest using the specified array of bytes.
@@ -172,7 +172,7 @@ namespace esapi
      * @param input  the specified array.
      * @param size   the size of the array.
      */
-    SecureByteArray digest(const String& input);
+    SecureByteArray digest(const NarrowString& input);
 
     /**
      * Performs a final update on the digest using the specified array of bytes, then completes the

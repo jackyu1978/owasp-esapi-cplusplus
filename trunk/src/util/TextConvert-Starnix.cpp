@@ -145,7 +145,7 @@ namespace esapi
   /**
    * Convert a wide character string to a UTF-8 character string. Used by exception classes.
    */
-  NarrowString TextConvert::WideToNarrowNoThrow(const String& wstr)
+  NarrowString TextConvert::WideToNarrowNoThrow(const NarrowString& wstr)
   {
     // This can still throw via the string
     try
@@ -159,7 +159,7 @@ namespace esapi
     return NarrowString("TextConvert::WideToNarrowNoThrow failed");
   }
 
-  NarrowString TextConvert::WideToNarrow(const String& wstr, const Encoding& enc)
+  NarrowString TextConvert::WideToNarrow(const NarrowString& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return NarrowString();    
@@ -251,7 +251,7 @@ namespace esapi
     return nstr;
   }
 
-  SecureByteArray TextConvert::GetBytes(const String& wstr, const Encoding& enc)
+  SecureByteArray TextConvert::GetBytes(const NarrowString& wstr, const Encoding& enc)
   {
     ASSERT( !wstr.empty() );
     if(wstr.empty()) return SecureByteArray();    

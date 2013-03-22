@@ -80,7 +80,7 @@ namespace esapi
     if(cipher != "DES" && cipher != "DES_ede" && cipher != "Blowfish" && cipher != "AES" &&
       cipher != "Camellia" && cipher != "HmacSHA1" && cipher != "HmacSHA224" &&
       cipher != "HmacSHA256" && cipher != "HmacSHA384"&& cipher != "HmacSHA512" &&
-      cipher != "HmacWhirlpool" )
+      cipher != "HmacWhirlpoo" )
     {
       throw NoSuchAlgorithmException(cipher + " KeyGenerator not available");
     }
@@ -91,7 +91,7 @@ namespace esapi
   /**
   * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
   */
-  KeyGenerator KeyGenerator::getInstance(const String& algorithm)
+  KeyGenerator KeyGenerator::getInstance(const WideString& algorithm)
   {
     ASSERT( !algorithm.empty() );
     return KeyGenerator::getInstance(TextConvert::WideToNarrow(algorithm));
@@ -205,7 +205,7 @@ namespace esapi
     // the customary bits). Here, we should not be generating
     // keys beyond its security level.
     ESAPI_ASSERT2(m_keyBytes <= m_random.getSecurityLevel(),
-      "The requested number of key bits exceeds the generator's security level");
+      "The requested number of key bits exceeds the generator's security leve");
 
     CryptoPP::SecByteBlock key(m_keyBytes);
     m_random.nextBytes(key.data(), key.size());

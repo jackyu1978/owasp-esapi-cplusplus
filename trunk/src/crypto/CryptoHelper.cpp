@@ -44,7 +44,7 @@ namespace esapi
    * @param keyBits    The key size, in bits.
    * @return           A random {@code SecretKey} is returned.
    */
-  SecretKey CryptoHelper::generateSecretKey(const String& alg, unsigned int keyBits)
+  SecretKey CryptoHelper::generateSecretKey(const NarrowString& alg, unsigned int keyBits)
   {
     ASSERT( !alg.empty() );
     ASSERT( keyBits >= 56 );
@@ -85,20 +85,20 @@ namespace esapi
    *                      string "encryption" or "authenticity". Use "encryption" for
    *                      creating a derived key to use for confidentiality, and "authenticity"
    *                      for a derived key to use with a MAC to ensure message authenticity.
-   *                      Note that the parameter "purpose" serves the same function as "label" 
+   *                      Note that the parameter "purpose" serves the same function as "labe" 
    *                      in section 5.1 of NIST SP 800-108.
    * @return              The derived {@code SecretKey} to be used according
    *                      to the specified purpose.
    * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
    *                ESAPI release 2.1 so if you are using this, please change your code.
    */
-  SecretKey CryptoHelper::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose)
+  SecretKey CryptoHelper::computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const NarrowString& purpose)
   {
     // Shamelessly ripped from KeyDerivationFunction.cpp
     ASSERT( keyDerivationKey.getEncoded().length()  > 0 );
     ASSERT( keyBits >= 56 );
     ASSERT( (keyBits % 8) == 0 );
-    ASSERT( purpose == L"authenticity" || purpose == L"encryption" );
+    ASSERT( purpose == "authenticity" || purpose == "encryption" );
 
     return KeyDerivationFunction::computeDerivedKey(keyDerivationKey, keyBits, purpose);
   }
@@ -115,7 +115,7 @@ namespace esapi
    *             otherwise false.
    * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
    */
-  bool CryptoHelper::isCombinedCipherMode(const String& cipherMode)
+  bool CryptoHelper::isCombinedCipherMode(const NarrowString& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
@@ -140,7 +140,7 @@ namespace esapi
    * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
    * @see org.owasp.esapi.SecurityConfiguration#getAdditionalAllowedCipherModes()
    */
-  bool CryptoHelper::isAllowedCipherMode(const String& cipherMode)
+  bool CryptoHelper::isAllowedCipherMode(const NarrowString& cipherMode)
   {
     ESAPI_ASSERT2( !cipherMode.empty(), "cipherMode is not valid" );
     if(cipherMode.empty())
@@ -167,7 +167,7 @@ namespace esapi
    * {@code Encryptor.CipherText.useMAC} is set to {@code true}. (Normally,
    * the setting for {@code Encryptor.CipherText.useMAC} should be set to
    * {@code true} unless FIPS 140-2 compliance is required. See
-   * <a href="http://owasp-esapi-java.googlecode.com/svn/trunk/documentation/esapi4java-core-2.0-symmetric-crypto-user-guide.html">
+   * <a href="http://owasp-esapi-java.googlecode.com/svn/trunk/documentation/esapi4java-core-2.0-symmetric-crypto-user-guide.htm">
    * User Guide for Symmetric Encryption in ESAPI 2.0</a> and the section
    * on using ESAPI with FIPS for further details.
    *
@@ -278,10 +278,10 @@ namespace esapi
     ASSERT(destSize >= copySize);
 
     if(!src)
-      throw IllegalArgumentException("Source array cannot be null");
+      throw IllegalArgumentException("Source array cannot be nul");
 
     if(!dest)
-      throw IllegalArgumentException("Destination array cannot be null");
+      throw IllegalArgumentException("Destination array cannot be nul");
 
     try
     {

@@ -30,7 +30,7 @@ namespace esapi
 		  return String(1,c);
 	  }
 
-    return String(L"\\")+c;
+    return String("\\")+c;
   }
 
   Char UnixCodec::decodeCharacter( PushbackString& input) const {

@@ -44,7 +44,7 @@ namespace esapi
 
     virtual void updateImpl(const SecureByteArray& input) = 0;
 
-    virtual void updateImpl(const String& input) = 0;
+    virtual void updateImpl(const NarrowString& input) = 0;
 
     virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len) = 0;
 
@@ -56,7 +56,7 @@ namespace esapi
 
     virtual SecureByteArray digestImpl(const SecureByteArray& input) = 0;
 
-    virtual SecureByteArray digestImpl(const String& input) = 0;
+    virtual SecureByteArray digestImpl(const NarrowString& input) = 0;
 
     virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len) = 0;
 
@@ -92,7 +92,7 @@ namespace esapi
 
     virtual void updateImpl(const SecureByteArray& input);
 
-    virtual void updateImpl(const String& input);
+    virtual void updateImpl(const NarrowString& input);
 
     virtual void updateImpl(const byte input[], size_t size, size_t offset, size_t len);
 
@@ -104,7 +104,7 @@ namespace esapi
 
     virtual SecureByteArray digestImpl(const SecureByteArray& input);
 
-    virtual SecureByteArray digestImpl(const String& input);
+    virtual SecureByteArray digestImpl(const NarrowString& input);
 
     virtual size_t digestImpl(byte buf[], size_t size, size_t offset, size_t len);
 

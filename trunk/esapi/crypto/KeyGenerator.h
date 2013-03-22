@@ -49,7 +49,7 @@ namespace esapi
     /**
      * Returns a KeyGenerator object that generates secret keys for the specified algorithm.
      */
-    static KeyGenerator getInstance(const String& algorithm);
+    static KeyGenerator getInstance(const WideString& algorithm);
 
     /**
      * Returns a KeyGenerator object that generates secret keys for the specified algorithm.

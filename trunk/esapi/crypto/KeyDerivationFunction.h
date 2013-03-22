@@ -73,7 +73,7 @@ namespace esapi
      * "authenticity", where "encryption" is used for creating a derived key to use
      * for confidentiality, and "authenticity" is used for creating a derived key to
      * use with a MAC to ensure message authenticity. However, since parameter serves
-     * the same purpose as the "Label" in section 5.1 of NIST SP 800-108, it really can
+     * the same purpose as the "Labe" in section 5.1 of NIST SP 800-108, it really can
      * be set to anything other than {@code null} or an empty string when called outside
      * of {@code JavaEncryptor}.
      * @returnThe derived {@code SecretKey} to be used according
@@ -87,7 +87,7 @@ namespace esapi
      * be a common encoding supported by all Java implementations. Support
      * for it is usually in rt.jar.)
      */
-    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose);
+    static SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const NarrowString& purpose);
 
     /**
      * Check if specified algorithm name is a valid PRF that can be used.

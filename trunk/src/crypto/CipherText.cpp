@@ -39,7 +39,7 @@ namespace esapi
 
   String CipherText::getCipherMode() const
   {
-    return L"CBC";
+    return "CBC";
   }
 }
 

@@ -93,7 +93,7 @@ namespace esapi
     //throw UnsupportedOperationException("This operation is not yet supported");
   }
 
-  String DefaultEncoder::canonicalize( const String & input) {
+  String DefaultEncoder::canonicalize( const NarrowString & input) {
     /* TODO Use security configuration
     // Issue 231 - These are reverse boolean logic in the Encoder interface, so we need to invert these values - CS
     return canonicalize(input,
@@ -106,11 +106,11 @@ namespace esapi
     return canonicalize(input, false, false);
   }
 
-  String DefaultEncoder::canonicalize( const String & input, bool strict) {
+  String DefaultEncoder::canonicalize( const NarrowString & input, bool strict) {
     return canonicalize(input, strict, strict);
   }
 
-  String DefaultEncoder::canonicalize( const String & /*input*/, bool /*restrictMultiple*/, bool /*restrictMixed*/) {
+  String DefaultEncoder::canonicalize( const NarrowString & /*input*/, bool /*restrictMultiple*/, bool /*restrictMixed*/) {
     /*
     if ( input == null ) {
     return null;
@@ -146,32 +146,32 @@ namespace esapi
     // do strict tests and handle if any mixed, multiple, nested encoding were found
     if ( foundCount >= 2 && mixedCount > 1 ) {
     if ( restrictMultiple || restrictMixed ) {
-    throw IntrusionException( "Input validation failure", "Multiple (L"+ foundCount +"x) and mixed encoding (L"+ mixedCount +"x) detected in " + input );
+    throw IntrusionException( "Input validation failure", "Multiple ("+ foundCount +"x) and mixed encoding ("+ mixedCount +"x) detected in " + input );
     } else {
-    logger.warning( Logger.SECURITY_FAILURE, "Multiple (L"+ foundCount +"x) and mixed encoding (L"+ mixedCount +"x) detected in " + input );
+    logger.warning( Logger.SECURITY_FAILURE, "Multiple ("+ foundCount +"x) and mixed encoding ("+ mixedCount +"x) detected in " + input );
     }
     }
     else if ( foundCount >= 2 ) {
     if ( restrictMultiple ) {
-    throw IntrusionException( "Input validation failure", "Multiple (L"+ foundCount +"x) encoding detected in " + input );
+    throw IntrusionException( "Input validation failure", "Multiple ("+ foundCount +"x) encoding detected in " + input );
     } else {
-    logger.warning( Logger.SECURITY_FAILURE, "Multiple (L"+ foundCount +"x) encoding detected in " + input );
+    logger.warning( Logger.SECURITY_FAILURE, "Multiple ("+ foundCount +"x) encoding detected in " + input );
     }
     }
     else if ( mixedCount > 1 ) {
     if ( restrictMixed ) {
-    throw IntrusionException( "Input validation failure", "Mixed encoding (L"+ mixedCount +"x) detected in " + input );
+    throw IntrusionException( "Input validation failure", "Mixed encoding ("+ mixedCount +"x) detected in " + input );
     } else {
-    logger.warning( Logger.SECURITY_FAILURE, "Mixed encoding (L"+ mixedCount +"x) detected in " + input );
+    logger.warning( Logger.SECURITY_FAILURE, "Mixed encoding ("+ mixedCount +"x) detected in " + input );
     }
     }
     return working;
     */
 
-    return L"";
+    return "";
   }
 
-  String DefaultEncoder::encodeForHTML(const String & /*input*/) {
+  String DefaultEncoder::encodeForHTML(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -182,7 +182,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::decodeForHTML(const String & /*input*/) {
+  String DefaultEncoder::decodeForHTML(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -192,7 +192,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForHTMLAttribute(const String & /*input*/) {
+  String DefaultEncoder::encodeForHTMLAttribute(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -203,7 +203,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForCSS(const String & /*input*/) {
+  String DefaultEncoder::encodeForCSS(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -213,7 +213,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForJavaScript(const String & /*input*/) {
+  String DefaultEncoder::encodeForJavaScript(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -223,7 +223,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForVBScript(const String & /*input*/) {
+  String DefaultEncoder::encodeForVBScript(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -233,7 +233,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForSQL(const Codec& /*codec*/, const String & /*input*/) {
+  String DefaultEncoder::encodeForSQL(const Codec& /*codec*/, const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -243,31 +243,31 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForOS(const Codec *codec, const String & input) {
+  NarrowString DefaultEncoder::encodeForOS(const Codec *codec, const NarrowString & input) {
     ASSERT(codec);
 
     if (codec == nullptr)
       throw NullPointerException("encoderForOS(..) : Null pointer to codec");
 
     if ( input.empty() )
-      return String();
+      return NarrowString();
 
     return codec->encode( IMMUNE_OS, COUNTOF(IMMUNE_OS), input);
 
   }
-  std::string DefaultEncoder::encodeForOS(const Codec *codec, const std::string & input) {
-	  return TextConvert::WideToNarrow( encodeForOS(codec, TextConvert::NarrowToWide( input )) );
+  WideString DefaultEncoder::encodeForOS(const Codec *codec, const WideString & input) {
+	  return encodeForOS(codec, input);
   }
 
 
-  String DefaultEncoder::encodeForLDAP(const String & input) {
+  String DefaultEncoder::encodeForLDAP(const NarrowString & input) {
     if ( input.empty() )
       return String();
 
-    return ldapCodec.encode( L"", 0, input);
+    return ldapCodec.encode( "", 0, input);
   }
 
-  String DefaultEncoder::encodeForDN(const String & /*input*/) {
+  String DefaultEncoder::encodeForDN(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -281,25 +281,25 @@ namespace esapi
     Char c = input.charAt(i);
     switch (c) {
     case '\\':
-    sb.append(L"\\\\");
+    sb.append("\\\\");
     break;
     case ',':
-    sb.append(L"\\,L");
+    sb.append("\\,");
     break;
     case '+':
-    sb.append(L"\\+");
+    sb.append("\\+");
     break;
     case '"':
-    sb.append(L"\\\"");
+    sb.append("\\\"");
     break;
     case '<':
-    sb.append(L"\\<");
+    sb.append("\\<");
     break;
     case '>':
-    sb.append(L"\\>");
+    sb.append("\\>");
     break;
     case ';':
-    sb.append(L"\\;");
+    sb.append("\\;");
     break;
     default:
     sb.append(c);
@@ -314,7 +314,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForXPath(const String & /*input*/) {
+  String DefaultEncoder::encodeForXPath(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -324,7 +324,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForXML(const String & /*input*/) {
+  String DefaultEncoder::encodeForXML(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -334,7 +334,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForXMLAttribute(const String & /*input*/) {
+  String DefaultEncoder::encodeForXMLAttribute(const NarrowString & /*input*/) {
     /*
     if( input == null ) {
     return null;
@@ -344,7 +344,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForURL(const String & /*input*/) throw (EncodingException) {
+  String DefaultEncoder::encodeForURL(const NarrowString & /*input*/) throw (EncodingException) {
     /*
     if ( input == null ) {
     return null;
@@ -360,7 +360,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::decodeFromURL(const String & /*input*/) throw (EncodingException) {
+  String DefaultEncoder::decodeFromURL(const NarrowString & /*input*/) throw (EncodingException) {
     /*
     if ( input == null ) {
     return null;
@@ -377,7 +377,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForBase64(const String & input, bool wrap) {
+  NarrowString DefaultEncoder::encodeForBase64(const NarrowString & input, bool wrap) {
     if ( input.empty() )
       return String();
 
@@ -385,17 +385,18 @@ namespace esapi
     ASSERT( !sa.empty() );
 
     std::string encoded;
-    CryptoPP::StringSource(sa.data(), sa.size(), true,
+    CryptoPP::StringSource ss(sa.data(), sa.size(), true,
       new CryptoPP::Base64Encoder(new CryptoPP::StringSink(encoded), wrap));
+	ss.MessageEnd();
 
-    return TextConvert::NarrowToWide(encoded);
+    return encoded;
   }
 
-  String DefaultEncoder::encodeForBase64(const String & input) {
+  String DefaultEncoder::encodeForBase64(const NarrowString & input) {
     return this->encodeForBase64(input, false);
   }
 
-  String DefaultEncoder::decodeFromBase64(const String & input) {
+  NarrowString DefaultEncoder::decodeFromBase64(const NarrowString & input) {
     if ( input.empty() )
       return String();
 
@@ -406,7 +407,7 @@ namespace esapi
     CryptoPP::StringSource(sa.data(), sa.size(), true,
       new CryptoPP::Base64Decoder(new CryptoPP::StringSink(decoded)));
 
-    return TextConvert::NarrowToWide(decoded);
+    return decoded;
   }
 
 } //espai

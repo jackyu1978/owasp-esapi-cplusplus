@@ -46,7 +46,7 @@ namespace esapi
      *                              requested algorithm with requested size. Typically this is caused by
      *                              specifying an unavailable algorithm or invalid key size.
      */
-    static SecretKey generateSecretKey(const String& alg, unsigned int keySize);
+    static SecretKey generateSecretKey(const NarrowString& alg, unsigned int keySize);
 
     /**
      * The method is ESAPI's Key Derivation Function (KDF) that computes a
@@ -81,7 +81,7 @@ namespace esapi
      *                   for a derived key to use with a MAC to ensure message authenticity.
      * @return    The derived {@code SecretKey} to be used according
      *            to the specified purpose. Note that this serves the same purpose
-     *            as "label" in section 5.1 of NIST SP 800-108.
+     *            as "labe" in section 5.1 of NIST SP 800-108.
      * @throws NoSuchAlgorithmException    The {@code keyDerivationKey} has an unsupported
      *                                     encryption algorithm or no current JCE provider supports
      *                                     "HmacSHA1".
@@ -94,7 +94,7 @@ namespace esapi
      * @deprecated Use{@code KeyDerivationFunction} instead. This method will be removed as of
      *                         ESAPI release 2.1 so if you are using this, please change your code.
      */
-    SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const String& purpose);
+    SecretKey computeDerivedKey(const SecretKey& keyDerivationKey, unsigned int keyBits, const NarrowString& purpose);
 
     /**
      * Return true if specified cipher mode is one of those specified in the
@@ -108,7 +108,7 @@ namespace esapi
      *            otherwise false.
      * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
      */
-    static bool isCombinedCipherMode(const String& cipherMode);
+    static bool isCombinedCipherMode(const NarrowString& cipherMode);
 
     /**
      * Return true if specified cipher mode is one that may be used for
@@ -122,7 +122,7 @@ namespace esapi
      * @see org.owasp.esapi.SecurityConfiguration#getCombinedCipherModes()
      * @see org.owasp.esapi.SecurityConfiguration#getAdditionalAllowedCipherModes()
      */
-    static bool isAllowedCipherMode(const String& cipherMode);
+    static bool isAllowedCipherMode(const NarrowString& cipherMode);
 
     /**
      * Check to see if a Message Authentication Code (MAC) is required
@@ -134,7 +134,7 @@ namespace esapi
      * {@code Encryptor.CipherText.useMAC} is set to {@code true}. (Normally,
      * the setting for {@code Encryptor.CipherText.useMAC} should be set to
      * {@code true} unless FIPS 140-2 compliance is required. See
-     * <a href="http://owasp-esapi-java.googlecode.com/svn/trunk/documentation/esapi4java-core-2.0-symmetric-crypto-user-guide.html">
+     * <a href="http://owasp-esapi-java.googlecode.com/svn/trunk/documentation/esapi4java-core-2.0-symmetric-crypto-user-guide.htm">
      * User Guide for Symmetric Encryption in ESAPI 2.0</a> and the section
      * on using ESAPI with FIPS for further details.
      *

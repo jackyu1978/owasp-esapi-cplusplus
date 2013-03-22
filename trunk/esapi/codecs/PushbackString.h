@@ -47,7 +47,7 @@ namespace esapi {
      *
      * @param input
      */
-    PushbackString(const String&);
+    PushbackString(const NarrowString&);
 
     /**
      *

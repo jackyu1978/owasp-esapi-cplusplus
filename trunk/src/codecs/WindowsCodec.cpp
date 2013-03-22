@@ -29,10 +29,10 @@ namespace esapi
 		  return String(1, c);
 	  }
 
-	  return String(L"^") + c;
+	  return String("^") + c;
   }
 
-  Char WindowsCodec::decodeCharacter( PushbackString& input) const {
+  Char WindowsCodec::decodeCharacter(PushbackString& input) const {
 	  input.mark();
 	  Char first = input.next();
 	  if ( first == L'\0' ) {

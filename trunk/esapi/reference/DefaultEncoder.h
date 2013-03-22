@@ -78,108 +78,108 @@ public:
 	/**
 	 * {@inheritDoc}
 	 */
-	String canonicalize( const String & );
+	String canonicalize( const NarrowString & );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String canonicalize( const String & , bool);
+	String canonicalize( const NarrowString & , bool);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String canonicalize( const String & , bool, bool );
+	String canonicalize( const NarrowString & , bool, bool );
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForHTML(const String &);
+	String encodeForHTML(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String decodeForHTML(const String &);
+	String decodeForHTML(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForHTMLAttribute(const String &);
+	String encodeForHTMLAttribute(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForCSS(const String &);
+	String encodeForCSS(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForJavaScript(const String &);
+	String encodeForJavaScript(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForVBScript(const String &);
+	String encodeForVBScript(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForSQL(const Codec&, const String &);
+	String encodeForSQL(const Codec&, const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForOS(const Codec*, const String &);
-	std::string encodeForOS(const Codec*, const std::string &);
+	NarrowString encodeForOS(const Codec*, const NarrowString &);
+	WideString encodeForOS(const Codec*, const WideString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForLDAP(const String &);
+	String encodeForLDAP(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForDN(const String &);
+	String encodeForDN(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForXPath(const String &);
+	String encodeForXPath(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForXML(const String &);
+	String encodeForXML(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForXMLAttribute(const String &);
+	String encodeForXMLAttribute(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForURL(const String &) throw (EncodingException);
+	String encodeForURL(const NarrowString &) throw (EncodingException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String decodeFromURL(const String &) throw (EncodingException);
+	String decodeFromURL(const NarrowString &) throw (EncodingException);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String encodeForBase64(const String &, bool);
+	String encodeForBase64(const NarrowString &, bool);
 
 	/*
-	 * For simplicity of calling encodeForBase64(const String &, bool);
+	 * For simplicity of calling encodeForBase64(const NarrowString &, bool);
 	 */
-	String encodeForBase64(const String &);
+	String encodeForBase64(const NarrowString &);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	String decodeFromBase64(const String &);
+	String decodeFromBase64(const NarrowString &);
 };
 } // NAMESPACE
 

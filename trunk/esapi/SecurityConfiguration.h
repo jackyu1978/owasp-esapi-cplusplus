@@ -64,7 +64,7 @@ namespace esapi
     virtual String getRandomizerImplementation() =0;
     virtual String getEncryptionImplementation() =0;
     virtual String getValidationImplementation() =0;
-    virtual Pattern getValidationPattern(const String &) =0;
+    virtual Pattern getValidationPattern(const NarrowString &) =0;
     virtual bool getLenientDatesAccepted() =0;
     virtual String getExecutorImplementation() =0;
     virtual String getHTTPUtilitiesImplementation() =0;
@@ -80,7 +80,7 @@ namespace esapi
     virtual String getUsernameParameterName() =0;
     virtual String getEncryptionAlgorithm() =0;
     virtual String getCipherTransformation() =0;
-    virtual String setCipherTransformation(const String &) =0;
+    virtual String setCipherTransformation(const NarrowString &) =0;
     virtual String getPreferredJCEProvider() =0;
     virtual bool useMACforCipherText() =0;
     virtual bool overwritePlainText() =0;
@@ -101,15 +101,15 @@ namespace esapi
     virtual int getAllowedLoginAttempts() =0;
     virtual int getMaxOldPasswordHashes() =0;
     virtual bool getDisableIntrusionDetection() =0;
-    virtual Threshold getQuota(const String &) =0;
-    virtual String getResourceFile(const String &) =0;
+    virtual Threshold getQuota(const NarrowString &) =0;
+    virtual String getResourceFile(const NarrowString &) =0;
     virtual bool getForceHttpOnlySession() =0;
     virtual bool getForceSecureSession() =0;
     virtual bool getForceHttpOnlyCookies() =0;
     virtual bool getForceSecureCookies() =0;
     virtual int getMaxHttpHeaderSize() =0;
-    virtual InputStream getResourceStream(const String &) =0;
-    virtual void setResourceDirectory(const String &) =0;
+    virtual InputStream getResourceStream(const NarrowString &) =0;
+    virtual void setResourceDirectory(const NarrowString &) =0;
     virtual String getResponseContentType() =0;
     virtual String getHttpSessionIdName() =0;
     virtual long getRememberTokenDuration() =0;
@@ -163,7 +163,7 @@ namespace esapi
     * trigger this threshold.
     * @param actions The list of actions to take if the threshold is met.
     */
-    Threshold(const String & name, int count, long interval, StringList actions)
+    Threshold(const NarrowString & name, int count, long interval, StringList actions)
     {
       this->name = name;
       this->count = count;

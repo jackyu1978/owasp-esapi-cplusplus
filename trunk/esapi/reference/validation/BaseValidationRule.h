@@ -56,7 +56,7 @@ namespace esapi
 		 * @return a parsed version of the input or a default value.
 		 */
 		//template <typename T>
-		virtual T sanitize(const String &, const String &) = 0;
+		virtual T sanitize(const NarrowString &, const NarrowString &) = 0;
 
 	private:
 		String typeName;
@@ -67,11 +67,11 @@ namespace esapi
 		 * @throws UnsupportedOperationException - Should not be instanciated like this.
 		 */
 		BaseValidationRule ();
-		BaseValidationRule (const String &);
-		BaseValidationRule (const String &, Encoder*);
+		BaseValidationRule (const NarrowString &);
+		BaseValidationRule (const NarrowString &, Encoder*);
 
 		//template <typename T>
-		virtual T getValid(const String &, const String &) =0;
+		virtual T getValid(const NarrowString &, const NarrowString &) =0;
 
 	    /**
 	     * {@inheritDoc}
@@ -86,7 +86,7 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void setTypeName(const String &);
+		virtual void setTypeName(const NarrowString &);
 
 	    /**
 	     * {@inheritDoc}
@@ -96,28 +96,28 @@ namespace esapi
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual void assertValid(const String &, const String &);
+		virtual void assertValid(const NarrowString &, const NarrowString &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
 		//template <typename T>
-		virtual T getValid(const String &, const String &, ValidationErrorList&);
+		virtual T getValid(const NarrowString &, const NarrowString &, ValidationErrorList&);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual T getSafe(const String &, const String &);
+		virtual T getSafe(const NarrowString &, const NarrowString &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual bool isValid(const String &, const String &);
+		virtual bool isValid(const NarrowString &, const NarrowString &);
 
 	    /**
 	     * {@inheritDoc}
 		 */
-		virtual String whitelist(const String &, const std::set<Char> &);
+		virtual String whitelist(const NarrowString &, const std::set<Char> &);
 
 		virtual bool isAllowNull();
 
@@ -136,7 +136,7 @@ BaseValidationRule<T>::BaseValidationRule() {
 }
 
 template <typename T>
-BaseValidationRule<T>::BaseValidationRule (const String &newTypeName)
+BaseValidationRule<T>::BaseValidationRule (const NarrowString &newTypeName)
   : allowNull(false), encoder(), typeName(newTypeName)
 {
 	// get encoder singleton
@@ -144,7 +144,7 @@ BaseValidationRule<T>::BaseValidationRule (const String &newTypeName)
 }
 
 template <typename T>
-BaseValidationRule<T>::BaseValidationRule (const String &newTypeName, Encoder* newEncoder)
+BaseValidationRule<T>::BaseValidationRule (const NarrowString &newTypeName, Encoder* newEncoder)
   : allowNull(false), encoder(newEncoder), typeName(newTypeName)
 {
 }
@@ -160,7 +160,7 @@ String BaseValidationRule<T>::getTypeName() {
 }
 
 template <typename T>
-void BaseValidationRule<T>::setTypeName( const String &newTypeName ) {
+void BaseValidationRule<T>::setTypeName( const NarrowString &newTypeName ) {
 	this->typeName = newTypeName;
 }
 
@@ -170,12 +170,12 @@ void BaseValidationRule<T>::setEncoder( Encoder* newEncoder ) {
 }
 
 template <typename T>
-void BaseValidationRule<T>::assertValid( const String &context, const String &input ) {
+void BaseValidationRule<T>::assertValid( const NarrowString &context, const NarrowString &input ) {
 		getValid( context, input, *(new ValidationErrorList));
 }
 
 template <typename T>
-T BaseValidationRule<T>::getValid( const String &context, const String &input, ValidationErrorList &errorList ) {
+T BaseValidationRule<T>::getValid( const NarrowString &context, const NarrowString &input, ValidationErrorList &errorList ) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );
@@ -186,7 +186,7 @@ T BaseValidationRule<T>::getValid( const String &context, const String &input, V
 }
 
 template <typename T>
-T BaseValidationRule<T>::getSafe( const String &context, const String &input ) {
+T BaseValidationRule<T>::getSafe( const NarrowString &context, const NarrowString &input ) {
 		T valid = 0;
 		try {
 			valid = this->getValid( context, input );
@@ -197,7 +197,7 @@ T BaseValidationRule<T>::getSafe( const String &context, const String &input ) {
 }
 
 template <typename T>
-bool BaseValidationRule<T>::isValid( const String &context, const String &input ) {
+bool BaseValidationRule<T>::isValid( const NarrowString &context, const NarrowString &input ) {
 		bool valid = false;
 		try {
 			this->getValid( context, input );
@@ -209,7 +209,7 @@ bool BaseValidationRule<T>::isValid( const String &context, const String &input 
 		return valid;
 }
 
-//String BaseValidationRule::whitelist( const String &input, Char whitelist[]) {
+//String BaseValidationRule::whitelist( const NarrowString &input, Char whitelist[]) {
 //	String stripped = "";
 //	int whitelistSize = sizeof(whitelist) / sizeof(Char);
 //
@@ -233,8 +233,8 @@ bool BaseValidationRule<T>::isValid( const String &context, const String &input 
  * @return input stripped of all chars that aren't in the whitelist
  */
 template <typename T>
-String BaseValidationRule<T>::whitelist( const String &input, const std::set<Char> &whitelist) {
-	String stripped = L"";
+String BaseValidationRule<T>::whitelist( const NarrowString &input, const std::set<Char> &whitelist) {
+	String stripped = "";
 
 	for (unsigned int i = 0; i < input.length(); i++) {
 		Char c = input[i];

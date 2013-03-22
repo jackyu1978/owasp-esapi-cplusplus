@@ -110,26 +110,26 @@ namespace esapi
 
     virtual void setLevel(int) =0;
     virtual int getESAPILevel(void) =0;
-    virtual void fatal(EventType, const String &) =0;
-    virtual void fatal(EventType, const String &, Throwable) =0;
+    virtual void fatal(EventType, const NarrowString &) =0;
+    virtual void fatal(EventType, const NarrowString &, Throwable) =0;
     virtual bool isFatalEnabled() =0;
-    virtual void error(EventType, const String &) =0;
-    virtual void error(EventType, const String &, Throwable) =0;
+    virtual void error(EventType, const NarrowString &) =0;
+    virtual void error(EventType, const NarrowString &, Throwable) =0;
     virtual bool isErrorEnabled() =0;
-    virtual void warning(EventType, const String &) =0;
-    virtual void warning(EventType, const String &, Throwable) =0;
+    virtual void warning(EventType, const NarrowString &) =0;
+    virtual void warning(EventType, const NarrowString &, Throwable) =0;
     virtual bool isWarningEnabled() =0;
-    virtual void info(EventType, const String &) =0;
-    virtual void info(EventType, const String &, Throwable) =0;
+    virtual void info(EventType, const NarrowString &) =0;
+    virtual void info(EventType, const NarrowString &, Throwable) =0;
     virtual bool isInfoEnabled() =0;
-    virtual void debug(EventType, const String &) =0;
-    virtual void debug(EventType, const String &, Throwable) =0;
+    virtual void debug(EventType, const NarrowString &) =0;
+    virtual void debug(EventType, const NarrowString &, Throwable) =0;
     virtual bool isDebugEnabled() =0;
-    virtual void trace(EventType, const String &) =0;
-    virtual void trace(EventType, const String &, Throwable) =0;
+    virtual void trace(EventType, const NarrowString &) =0;
+    virtual void trace(EventType, const NarrowString &, Throwable) =0;
     virtual bool isTraceEnabled() =0;
-    virtual void always(EventType, const String &) =0;
-    virtual void always(EventType, const String &, Throwable) =0;
+    virtual void always(EventType, const NarrowString &) =0;
+    virtual void always(EventType, const NarrowString &, Throwable) =0;
 
     virtual ~Logger() {};
   };
@@ -140,7 +140,7 @@ namespace esapi
     Boolean success = null;
 
   public:
-    EventType (const String & name, Boolean newSuccess)
+    EventType (const NarrowString & name, Boolean newSuccess)
     {
       this.type = name;
       this.success = newSuccess;
