@@ -168,6 +168,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\codecs\DB2Codec.cpp" />
+    <ClCompile Include="..\src\codecs\MySQLCodec.cpp" />
     <ClCompile Include="..\src\windows\dllmain.cpp" />
     <ClCompile Include="..\src\DummyConfiguration.cpp" />
     <ClCompile Include="..\src\EncoderConstants.cpp" />
@@ -211,6 +213,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\esapi\AccessReferenceMap.h" />
+    <ClInclude Include="..\esapi\codecs\DB2Codec.h" />
+    <ClInclude Include="..\esapi\codecs\MySQLCodec.h" />
     <ClInclude Include="..\esapi\DummyConfiguration.h" />
     <ClInclude Include="..\esapi\Encoder.h" />
     <ClInclude Include="..\esapi\EncoderConstants.h" />

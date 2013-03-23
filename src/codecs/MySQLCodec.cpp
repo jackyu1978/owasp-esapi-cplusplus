@@ -1,12 +1,12 @@
 /**
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*/
 
 #include "EsapiCommon.h"
 #include "codecs/MySQLCodec.h"
@@ -15,60 +15,69 @@
 
 namespace esapi
 {
-  NarrowString MySQLCodec::encodeCharacter( const Char immune[], size_t length, Char c) const {
-    ASSERT (c != 0);
+  NarrowString MySQLCodec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const
+  {
+    ASSERT(!immune.empty());
+    ASSERT(!ch.empty());
+
+    if(ch.empty())
+      return NarrowString();
 
     // check for immune characters
-    for (unsigned int i=0; i<length; i++) {
-      if (immune[i] == c)
-	return String(1,c);
+    for (size_t i=0; i<immune.size(); ++i) {
+      if (immune[i] == ch)
+        return ch;
     }
 
     // check for alphanumeric characters
-    String hex = Codec::getHexForNonAlphanumeric( c );
+    String hex = Codec::getHexForNonAlphanumeric( ch );
     if ( hex.empty() ) {
-      return String(1,c);
+      return ch;
     }
 
     switch( mode ) {
-    case ANSI_MODE: return encodeCharacterANSI( c );
-    case MYSQL_MODE: return encodeCharacterMySQL( c );
-    default: ;
+    case ANSI_MODE: return encodeCharacterANSI( ch );
+    case MYSQL_MODE: return encodeCharacterMySQL( ch );
+    default: ASSERT(0);
     }
 
-    return String("\0");
+    return NarrowString();
   }
 
   NarrowString MySQLCodec::decodeCharacter( PushbackString& input) const {
     switch( mode ) {
     case ANSI_MODE: return decodeCharacterANSI( input );
     case MYSQL_MODE: return decodeCharacterMySQL( input );
-    default: ;
+    default: ASSERT(0);
     }
     return NarrowString();
   }
 
-  NarrowString MySQLCodec::encodeCharacterANSI( Char c ) const {
-    if ( c == '\'' )
+  NarrowString MySQLCodec::encodeCharacterANSI(const NarrowString& ch) const {
+    if ( ch[0] == '\'' )
       return String("\'\'");
-    if ( c == '\"' )
-      return String("");
-    return NarrowString(1,c);
+    if ( ch[0] == '\"' )
+      return NarrowString();
+    return ch;
   }
 
-  NarrowString MySQLCodec::encodeCharacterMySQL( Char c ) const {
-    if ( c == 0x00 ) return String("\\0");
-    if ( c == 0x08 ) return String("\\b");
-    if ( c == 0x09 ) return String("\\t");
-    if ( c == 0x0a ) return String("\\n");
-    if ( c == 0x0d ) return String("\\r");
-    if ( c == 0x1a ) return String("\\Z");
-    if ( c == 0x22 ) return String("\\\"");
-    if ( c == 0x25 ) return String("\\%");
-    if ( c == 0x27 ) return String("\\'");
-    if ( c == 0x5c ) return String("\\\\");
-    if ( c == 0x5f ) return String("\\_");
-    return String("\\") + c;
+  NarrowString MySQLCodec::encodeCharacterMySQL(const NarrowString& ch) const
+  {
+    ASSERT(ch.length() == 1);
+
+    if ( ch[0] == 0x00 ) return String("\\0");
+    if ( ch[0] == 0x08 ) return String("\\b");
+    if ( ch[0] == 0x09 ) return String("\\t");
+    if ( ch[0] == 0x0a ) return String("\\n");
+    if ( ch[0] == 0x0d ) return String("\\r");
+    if ( ch[0] == 0x1a ) return String("\\Z");
+    if ( ch[0] == 0x22 ) return String("\\\"");
+    if ( ch[0] == 0x25 ) return String("\\%");
+    if ( ch[0] == 0x27 ) return String("\\'");
+    if ( ch[0] == 0x5c ) return String("\\\\");
+    if ( ch[0] == 0x5f ) return String("\\_");
+
+    return String("\\") + ch;
   }
 
   NarrowString MySQLCodec::decodeCharacterANSI( PushbackString& input) const {
@@ -145,5 +154,4 @@ namespace esapi
       return second;
     }
   }
-
 } // esapi

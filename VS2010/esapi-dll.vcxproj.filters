@@ -155,6 +155,12 @@
     <ClCompile Include="..\src\util\Mutex.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\codecs\DB2Codec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\codecs\MySQLCodec.cpp">
+      <Filter>Source Files\codecs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\esapi\AccessReferenceMap.h">
@@ -363,6 +369,12 @@
     </ClInclude>
     <ClInclude Include="..\esapi\util\zAllocator.h">
       <Filter>Header Files\esapi\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\DB2Codec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\codecs\MySQLCodec.h">
+      <Filter>Header Files\esapi\codecs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

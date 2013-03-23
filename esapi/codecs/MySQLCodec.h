@@ -59,7 +59,7 @@ namespace esapi {
      * @return
      * 			String encoded to standards of MySQL running in ANSI mode
      */
-    NarrowString encodeCharacterANSI( Char c ) const;
+    NarrowString encodeCharacterANSI( const NarrowString& ch ) const;
 
     /**
      * Encode a character suitable for MySQL
@@ -69,7 +69,7 @@ namespace esapi {
      * @return
      * 			Encoded Character
      */
-    NarrowString encodeCharacterMySQL( Char c ) const;
+    NarrowString encodeCharacterMySQL( const NarrowString& ch ) const;
 
     /**
      * decodeCharacterANSI decodes the next character from ANSI SQL escaping
@@ -110,7 +110,7 @@ namespace esapi {
      *
      * @param immune
      */
-    NarrowString encodeCharacter( const Char[], size_t , Char ) const;
+    NarrowString encodeCharacter(const StringArray& immune, const NarrowString& ch) const;
 
 
     /**
@@ -127,4 +127,3 @@ namespace esapi {
 
   };
 }; // esapi namespace
-

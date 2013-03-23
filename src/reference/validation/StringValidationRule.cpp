@@ -127,8 +127,9 @@ namespace esapi
   }
 
   void StringValidationRule::addWhitelistPattern(const NarrowString & pattern) {
-	  if (pattern.compare("")==0) {
-		  throw IllegalArgumentException("Pattern cannot be nu");
+    ASSERT(!pattern.empty());
+	  if (pattern.empty()) {
+		  throw IllegalArgumentException("Pattern cannot be empty");
 	  }
 
 	  const boost::regex nre(pattern);
@@ -136,19 +137,20 @@ namespace esapi
   }
 
   void StringValidationRule::addBlacklistPattern(const NarrowString &pattern) {
-	  if (pattern.compare("")==0) {
-		  throw IllegalArgumentException("Pattern cannot be nu");
+    ASSERT(!pattern.empty());
+	  if (pattern.empty()) {
+		  throw IllegalArgumentException("Pattern cannot be empty");
 	  }
 
 	  const boost::regex nre(pattern);
 	  this->blacklistPatterns.insert(pattern);
   }
 
-  void StringValidationRule::setMinimumLength(int length) {
+  void StringValidationRule::setMinimumLength(size_t length) {
 	  this->minLength = length;
   }
 
-  void StringValidationRule::setMaximumLength(int length) {
+  void StringValidationRule::setMaximumLength(size_t length) {
 	  this->maxLength = length;
   }
 
