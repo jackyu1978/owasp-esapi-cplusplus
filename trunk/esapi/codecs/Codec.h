@@ -55,6 +55,7 @@ namespace esapi {
     */
     ESAPI_PRIVATE static Mutex& getClassMutex ();
 
+  public:
 
     /**
     * Encode a String so that it can be safely used in a specific context.
