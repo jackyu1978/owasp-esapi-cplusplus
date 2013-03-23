@@ -27,30 +27,99 @@ namespace esapi
   Encoder* DefaultEncoder::singletonInstance = nullptr;
   //Logger* DefaultEncoder::logger = nullptr;
 
-  // not static, so I don't think these need to be defined here
-  // Codecs
-  //std::list<const Codec*> DefaultEncoder::codecs;
-  //HTMLEntityCodec DefaultEncoder::htmlCodec;
-  //DefaultEncoder::ldapCodec = new LDAPCodec;
-  //XMLEntityCodec DefaultEncoder::xmlCodec;
-  //PercentCodec DefaultEncoder::percentCodec;
-  //JavaScriptCodec DefaultEncoder::javaScriptCodec;
-  //VBScriptCodec DefaultEncoder::vbScriptCodec;
-  //CSSCodec DefaultEncoder::cssCodec;
+  static StringArray Make_HTML_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("-"); sa.push_back("_");
+    sa.push_back(" ");
+    return sa;
+  }
 
-  const Char DefaultEncoder::IMMUNE_HTML [] = { L',', L'.', L'-', L'_', L' ' };
-  const Char DefaultEncoder::IMMUNE_HTMLATTR [] = { L',', L'.', L'-', L'_' };
-  const Char DefaultEncoder::IMMUNE_CSS [] = { L'\0' };
-  const Char DefaultEncoder::IMMUNE_JAVASCRIPT [] = { L',', L'.', L'_' };
-  const Char DefaultEncoder::IMMUNE_VBSCRIPT [] = { L',', L'.', L'_' };
-  const Char DefaultEncoder::IMMUNE_XML [] = { L',', L'.', L'-', L'_', L' ' };
-  const Char DefaultEncoder::IMMUNE_SQL [] = { L' ' };
-  const Char DefaultEncoder::IMMUNE_OS [] = { L'-' };
-  const Char DefaultEncoder::IMMUNE_XMLATTR [] = { L',', L'.', L'-', L'_' };
-  const Char DefaultEncoder::IMMUNE_XPATH [] = { L',', L'.', L'-', L'_', L' ' };
+  static StringArray Make_HTMLATTR_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("-"); sa.push_back("_");
+    return sa;
+  }
+
+  static StringArray Make_CSS_Vector()
+  {
+    StringArray sa;
+    sa.push_back("");
+    return sa;
+  }
+
+  static StringArray Make_JAVASCRIPT_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("_");
+    return sa;
+  }
+
+  static StringArray Make_VBSCRIPT_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("_");
+    return sa;
+  }
+
+  static StringArray Make_XML_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("-"); sa.push_back("_");
+    sa.push_back(" ");
+    return sa;
+  }
+
+  static StringArray Make_SQL_Vector()
+  {
+    StringArray sa;
+    sa.push_back(" ");
+    return sa;
+  }
+
+  static StringArray Make_OS_Vector()
+  {
+    StringArray sa;
+    sa.push_back("-");
+    return sa;
+  }
+
+  static StringArray Make_XMLATTR_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("-"); sa.push_back("_");
+    return sa;
+  }
+
+  static StringArray Make_XPATH_Vector()
+  {
+    StringArray sa;
+    sa.push_back(","); sa.push_back(".");
+    sa.push_back("-"); sa.push_back("_");
+    sa.push_back(" ");
+    return sa;
+  }
+
+  const StringArray DefaultEncoder::IMMUNE_HTML = Make_HTML_Vector();
+  const StringArray DefaultEncoder::IMMUNE_HTMLATTR = Make_HTMLATTR_Vector();
+  const StringArray DefaultEncoder::IMMUNE_CSS = Make_CSS_Vector();
+  const StringArray DefaultEncoder::IMMUNE_JAVASCRIPT = Make_JAVASCRIPT_Vector();
+  const StringArray DefaultEncoder::IMMUNE_VBSCRIPT = Make_VBSCRIPT_Vector();
+  const StringArray DefaultEncoder::IMMUNE_XML = Make_XML_Vector();
+  const StringArray DefaultEncoder::IMMUNE_SQL = Make_SQL_Vector();
+  const StringArray DefaultEncoder::IMMUNE_OS = Make_OS_Vector();
+  const StringArray DefaultEncoder::IMMUNE_XMLATTR = Make_XMLATTR_Vector();
+  const StringArray DefaultEncoder::IMMUNE_XPATH = Make_XPATH_Vector();
 
   DefaultEncoder::DefaultEncoder()
-  : codecs(), ldapCodec()
+    : codecs(), ldapCodec()
   {
     //LDAPCodec ldapCodec = new LDAPCodec;
     /*
@@ -62,7 +131,7 @@ namespace esapi
 
   const Encoder& DefaultEncoder::getInstance() {
     // TODO singleton?
-    /*         if ( singletonInstance == null ) {
+    /* if ( singletonInstance == null ) {
     synchronized ( DefaultEncoder.class ) {
     if ( singletonInstance == null ) {
     singletonInstance = new DefaultEncoder();
@@ -73,12 +142,12 @@ namespace esapi
     */
     static DefaultEncoder encoder;
 
-	MEMORY_BARRIER();
-	return encoder;
+    MEMORY_BARRIER();
+    return encoder;
   }
 
   DefaultEncoder::DefaultEncoder( std::set<String> codecNames)
-  : codecs(), ldapCodec()
+    : codecs(), ldapCodec()
   {
     /*
     for ( String clazz : codecNames ) {
@@ -243,28 +312,29 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  NarrowString DefaultEncoder::encodeForOS(const Codec *codec, const NarrowString & input) {
-    ASSERT(codec);
-
-    if (codec == nullptr)
-      throw NullPointerException("encoderForOS(..) : Null pointer to codec");
+  NarrowString DefaultEncoder::encodeForOS(const Codec& codec, const NarrowString & input) {
 
     if ( input.empty() )
       return NarrowString();
 
-    return codec->encode( IMMUNE_OS, COUNTOF(IMMUNE_OS), input);
+    return codec.encode(IMMUNE_OS, input);
 
   }
-  WideString DefaultEncoder::encodeForOS(const Codec *codec, const WideString & input) {
-	  return encodeForOS(codec, input);
-  }
 
+  /*
+  WideString DefaultEncoder::encodeForOS(const Codec& codec, const WideString & input) {
+  return encodeForOS(codec, input);
+  }
+  */
 
   String DefaultEncoder::encodeForLDAP(const NarrowString & input) {
-    if ( input.empty() )
+    ASSERT(!input.empty());
+
+    if(input.empty() )
       return String();
 
-    return ldapCodec.encode( "", 0, input);
+    StringArray unused;
+    return ldapCodec.encode(unused, input);
   }
 
   String DefaultEncoder::encodeForDN(const NarrowString & /*input*/) {
@@ -344,7 +414,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::encodeForURL(const NarrowString & /*input*/) throw (EncodingException) {
+  String DefaultEncoder::encodeForURL(const NarrowString & /*input*/) {
     /*
     if ( input == null ) {
     return null;
@@ -360,7 +430,7 @@ namespace esapi
     throw UnsupportedOperationException("This operation has not yet been implemented");
   }
 
-  String DefaultEncoder::decodeFromURL(const NarrowString & /*input*/) throw (EncodingException) {
+  String DefaultEncoder::decodeFromURL(const NarrowString & /*input*/) {
     /*
     if ( input == null ) {
     return null;
@@ -387,7 +457,7 @@ namespace esapi
     std::string encoded;
     CryptoPP::StringSource ss(sa.data(), sa.size(), true,
       new CryptoPP::Base64Encoder(new CryptoPP::StringSink(encoded), wrap));
-	ss.MessageEnd();
+    ss.MessageEnd();
 
     return encoded;
   }
@@ -404,8 +474,9 @@ namespace esapi
     ASSERT( !sa.empty() );
 
     std::string decoded;
-    CryptoPP::StringSource(sa.data(), sa.size(), true,
+    CryptoPP::StringSource ss(sa.data(), sa.size(), true,
       new CryptoPP::Base64Decoder(new CryptoPP::StringSink(decoded)));
+    ss.MessageEnd();
 
     return decoded;
   }

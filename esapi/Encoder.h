@@ -292,8 +292,8 @@ public:
      *
      * @return input encoded for use in command shell
      */
-	virtual NarrowString encodeForOS(const Codec *, const NarrowString &) =0;
-	virtual WideString encodeForOS(const Codec *, const WideString &) =0;
+	virtual NarrowString encodeForOS(const Codec&, const NarrowString &) =0;
+	//virtual WideString encodeForOS(const Codec&, const WideString &) =0;
 
 	/**
 	 * Encode data for use in LDAP queries.

@@ -16,12 +16,12 @@
 
 #include "EsapiCommon.h"
 #include "codecs/Codec.h"
+#include "errors/IllegalArgumentException.h"
 
 #include <sstream>
 #include <iomanip>
 
-#define HEX(x) std::hex << std::setw(x) << std::setfill(L'0')
-#define OCT(x) std::octal << std::setw(x) << std::setfill(L'0')
+#include "safeint/SafeInt3.hpp"
 
 /**
  * Precomputed size of the internal hex array.
@@ -89,47 +89,51 @@ namespace esapi
     return s_mutex;
   }
 
-  NarrowString Codec::encode(const Char immune[], size_t length, const NarrowString& input) const
+  NarrowString Codec::encode(const StringArray& immune, const NarrowString& input) const
   {
-    ASSERT(immune);
-    ASSERT(length);
+    ASSERT(!immune.empty());
     ASSERT(!input.empty());
 
-    if(!immune)
-      return String();
+    if(immune.empty() || input.empty())
+      return input;
 
     String sb;
-    sb.reserve(input.size());
+    sb.reserve(input.length());
 
-    for (size_t i = 0; i < input.length(); i++) {
-      Char c = input[i];
-      sb.append(encodeCharacter(immune, length, c));
+/*
+    PushbackString pbs(input);
+    while(pbs.hasNext())
+    {
+       sb.append(encodeCharacter(immune, pbs.nextCharacter()));
     }
+*/
 
     return sb;
   }
 
-  NarrowString Codec::encodeCharacter(const Char immune[], size_t length, Char c) const{
-    ASSERT(immune);
-    ASSERT(length);
-    ASSERT(c != 0);
+  NarrowString Codec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
+    ASSERT(!immune.empty());
+    ASSERT(!ch.empty());
 
-    return String(1, c);
+    return ch;
   }
 
-  NarrowString Codec::decode(const NarrowString& input) const{
+  NarrowString Codec::decode(const NarrowString& input) const {
     ASSERT(!input.empty());
+
+    if(input.empty())
+      return NarrowString();
 
     NarrowString sb;
     sb.reserve(input.size());
 
     PushbackString pbs(input);
     while (pbs.hasNext()) {
-      NarrowString c = decodeCharacter(pbs);
-      ASSERT(!c.empty());
+      NarrowString ch = decodeCharacter(pbs);
+      ASSERT(!ch.empty());
 
-      if (!c.empty()) {
-        sb+=c;
+      if (!ch.empty()) {
+        sb+=ch;
       } else {
         sb+=pbs.next();
       }
@@ -137,7 +141,7 @@ namespace esapi
     return sb;
   }
 
-  NarrowString Codec::decodeCharacter(PushbackString& input) const{
+  NarrowString Codec::decodeCharacter(PushbackString& input) const {
     // This method needs to reset input under certain conditions,
     // which it is not doing. See the comments in the header file.
     ASSERT(0);
@@ -146,55 +150,82 @@ namespace esapi
     return NarrowString(1, input.next());
   }
 
-  NarrowString Codec::getHexForNonAlphanumeric(Char c) {
-    ASSERT(c != 0);
+  NarrowString Codec::getHexForNonAlphanumeric(const NarrowString& ch) {
+    ASSERT(!ch.empty());
 
     const StringArray& hex = getHexArray();
 
-    int i = (int)c;
+/*
+    int i = (int)ch;
     if(i < (int)ARR_SIZE)
       return hex.at(i);
 
     return toHex((Char)i);
+*/
+    return NarrowString();
   }
 
-  NarrowString Codec::toOctal(Char c) {
-    ASSERT(c != 0);
+  NarrowString Codec::toBase(const NarrowString& ch, unsigned int base) {
 
-    StringStream str;
-    // str << OCT(3) << int(0xFF & c);
-    str << std::oct << c;
-    return str.str();
-  }
+    ASSERT(!ch.empty());
+    ASSERT(base == 8 || base == 10 || base == 16);
 
-  NarrowString Codec::toHex(Char c) {
-    ASSERT(c != 0);
+    if(ch.empty())
+      return NarrowString();
 
-    StringStream str;
-    // str << HEX(2) << int(0xFF & c);
-    str << std::hex << c;
-    return str.str();
-  }
+    if(!(base == 8 || base == 10 || base == 16))
+      throw IllegalArgumentException("Codec::toBase: Invalid base");
 
-  bool Codec::containsCharacter(Char c, const NarrowString& s) const{
-    ASSERT(c != 0);
-    ASSERT(!s.empty());
-
-    return s.find(c, 0) != String::npos;
-  }
-
-  bool Codec::containsCharacter(Char c, const Char array[], size_t length) const{
-    ASSERT(c != 0);
-    ASSERT(array);
-    ASSERT(length);
-
-    if(!array)
-      return false;
-
-    for (size_t ch=0; ch < length; ch++) {
-      if (c == array[ch]) return true;
+    SafeInt<unsigned long> n(static_cast<unsigned char>(ch[0]));
+    for(size_t i = 1; i < ch.length(); ++i)
+    {
+        n << 8;
+        n |= static_cast<unsigned char>(ch[i]);
     }
 
-    return false;
+    StringStream str;
+
+    switch(base)
+    {
+      case 8:
+        str << "0" << std::oct << static_cast<unsigned long>(n);
+        break;
+      case 10:
+        str << std::dec << static_cast<unsigned long>(n);
+        break;
+      case 16:
+        str << "0" << std::hex << static_cast<unsigned long>(n);
+        if(1 == (str.str().length() % 2))
+          str.str().erase(0, 1);
+        break;
+      default: ;
+    }
+
+    return str.str();
+  }
+
+  NarrowString Codec::toOctal(const NarrowString& ch) {
+    ASSERT(!ch.empty());
+
+    return Codec::toBase(ch, 8);
+  }
+
+  NarrowString Codec::toDec(const NarrowString& ch) {
+    ASSERT(!ch.empty());
+
+    return Codec::toBase(ch, 10);
+  }
+
+  NarrowString Codec::toHex(const NarrowString& ch) {
+    ASSERT(!ch.empty());
+
+    return Codec::toBase(ch, 16);
+  }
+
+  bool Codec::containsCharacter(const NarrowString& ch, const NarrowString& str) const {
+    ASSERT(!ch.empty());
+    ASSERT(!str.empty());
+
+    return str.find(ch, 0) != String::npos;
   }
 } //espai

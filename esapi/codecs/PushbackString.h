@@ -128,7 +128,7 @@ namespace esapi {
      *
      * @return
      */
-    ESAPI_PRIVATE String remainder();
+    ESAPI_PRIVATE NarrowString remainder();
 
   };
 

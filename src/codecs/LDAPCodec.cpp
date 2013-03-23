@@ -1,12 +1,12 @@
 /**
- * OWASP Enterprise Security API (ESAPI)
- *
- * This file is part of the Open Web Application Security Project (OWASP)
- * Enterprise Security API (ESAPI) project. For details, please see
- * http://www.owasp.org/index.php/ESAPI.
- *
- * Copyright (c) 2011 - The OWASP Foundation
- */
+* OWASP Enterprise Security API (ESAPI)
+*
+* This file is part of the Open Web Application Security Project (OWASP)
+* Enterprise Security API (ESAPI) project. For details, please see
+* http://www.owasp.org/index.php/ESAPI.
+*
+* Copyright (c) 2011 - The OWASP Foundation
+*/
 
 #include "EsapiCommon.h"
 #include "codecs/LDAPCodec.h"
@@ -14,21 +14,20 @@
 
 namespace esapi
 {
-  String LDAPCodec::encodeCharacter( const Char immune[], size_t length, Char c) const {
-    ASSERT(immune);
-    ASSERT(length);
-    ASSERT (c != 0);
+  NarrowString LDAPCodec::encodeCharacter(const StringArray& immune, NarrowString& ch) const {
+    ASSERT(!immune.empty());
+    ASSERT(!ch.empty());
+
+    if(ch.empty())
+      return NarrowString();
 
     // check for immune characters
-    if(immune)
-      {
-	for (unsigned int i=0; i<length; i++) {
-	  if (immune[i] == c)
-	    return String(1, c);
-	}
-      }
+    for (size_t i=0; i<immune.size(); ++i) {
+      if (immune[i] == ch)
+        return ch;
+    }
 
-    switch (c) {
+    switch (ch[0]) {
     case '\\':
       return "\\5c";
       break;
@@ -45,7 +44,7 @@ namespace esapi
       return "\\00";
       break;
     default:
-      return String(1, c);
+      return ch;
     }
   }
 
