@@ -16,13 +16,13 @@
 
 #pragma once
 
-#include <string>
-#include <map>
-
 #include "EsapiCommon.h"
 #include "util/Mutex.h"
-#include "codecs/PushbackString.h"
 #include "codecs/Codec.h"
+#include "codecs/PushbackString.h"
+
+#include <string>
+#include <map>
 
 /**
  * Implementation of the Codec interface for HTML entity encoding.
@@ -126,7 +126,7 @@ namespace esapi {
      * Encodes a Character for safe use in an HTML entity field.
      * @param immune
      */
-    NarrowString encodeCharacter( const Char* immune, size_t length, Char ch ) const;
+    NarrowString encodeCharacter(const StringArray& immune, const NarrowString& ch) const;
 
     /**
      * {@inheritDoc}
@@ -143,4 +143,3 @@ namespace esapi {
 
   };
 }; // esapi namespace
-
