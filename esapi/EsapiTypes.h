@@ -30,13 +30,9 @@ namespace esapi
   typedef NarrowString String;
   typedef NarrowStringStream StringStream;
 
-  //typedef char Char;
-  //typedef std::string String;
-  //typedef std::stringstream StringStream;
-
   typedef std::vector<String> StringArray;
   typedef std::list<String> StringList;
-  // typedef std::map<std::string> StringMap;
+  // typedef std::map<String> StringMap;
 
 } // NAMESPACE
 
