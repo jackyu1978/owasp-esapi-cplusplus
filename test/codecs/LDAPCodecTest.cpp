@@ -34,14 +34,13 @@ using std::endl;
 
 #include "EsapiCommon.h"
 using esapi::Char;
-using esapi::String;
+using esapi::WideString;
+using esapi::NarrowString;
 using esapi::StringStream;
+using esapi::StringArray;
 
 #include <codecs/LDAPCodec.h>
 using esapi::LDAPCodec;
-
-#define HEX(x) std::hex << std::setw(x) << std::setfill('0')
-#define OCT(x) std::octal << std::setw(x) << std::setfill('0')
 
 static const unsigned int THREAD_COUNT = 64;
 
@@ -69,40 +68,45 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_4N)
 {
   // Negative test
   LDAPCodec codec;
+  StringArray immune;
 
-  const Char* nil = NULL;
-  String encoded = codec.encodeCharacter(nil, 0, 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
+  NarrowString encoded = codec.encodeCharacter(immune, "A");
+  BOOST_CHECK_MESSAGE(encoded == NarrowString(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_5N)
 {
   // Negative test
   LDAPCodec codec;
-  const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter(immune, 0, 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
+  StringArray immune;
+  immune.push_back("");
+
+  NarrowString encoded = codec.encodeCharacter(immune, "A");
+  BOOST_CHECK_MESSAGE(encoded == NarrowString(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_6N)
 {
   // Negative test
   LDAPCodec codec;
-  const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
+  StringArray immune;
+  immune.push_back("\xFF");
+
+  NarrowString encoded = codec.encodeCharacter(immune, "A");
+  BOOST_CHECK_MESSAGE(encoded == NarrowString(1, 'A'), "Failed to encode character");
 }
 
 BOOST_AUTO_TEST_CASE(LDAPCodecTest_7P)
 {
   // Positive test
   LDAPCodec codec;
-  const Char immune[] = { (Char)0xFF };
+  StringArray immune;
+  immune.push_back("\xFF");
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
-    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");
+    NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1,(char)c));
+    BOOST_CHECK_MESSAGE((encoded == NarrowString(1,(char)c)), "Failed to encode character");
   }
 }
 
@@ -114,7 +118,7 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
   struct KnownAnswer
   {
     Char c;
-    String str;
+    NarrowString str;
   };
 
   const KnownAnswer tests[] = {
@@ -125,12 +129,13 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_8P)
     { (Char)'\0', "\\00" },
   };
 
-  const Char immune[] = { (Char)0xFF };
+  StringArray immune;
+  immune.push_back("\xFF");
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
-    const String expected = tests[i].str;
+    const NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1,tests[i].c));
+    const NarrowString expected = tests[i].str;
 
     BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }
@@ -140,12 +145,18 @@ BOOST_AUTO_TEST_CASE(LDAPCodecTest_9P)
 {
   // Positive test
   LDAPCodec codec;
-  const Char special[] = { (Char)0x28, (Char)0x29, (Char)0x2a, (Char)0x5c, (Char)0x00 };
+  StringArray special;
 
-  for( unsigned int i = 0; i < COUNTOF(special); i++ )
+  special.push_back("\x28");
+  special.push_back("\x29");
+  special.push_back("\x2a");
+  special.push_back("\x5c");
+  special.push_back("\x00");
+
+  for( unsigned int i = 0; i < special.size(); i++ )
   {
-    const String encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
-    const String expected(1, special[i]);
+    const NarrowString encoded = codec.encodeCharacter(special, special[i]);
+    const NarrowString expected(special[i]);
 
     BOOST_CHECK_MESSAGE((encoded == expected), "Failed to encode character");
   }

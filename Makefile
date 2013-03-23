@@ -174,13 +174,13 @@ endif
 # -fwrapv: http://www.airs.com/blog/archives/120.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
-  ESAPI_CFLAGS += -pipe -fsigned-char -fmessage-length=0 -Wconversion
+  ESAPI_CFLAGS += -pipe -fsigned-char -Wconversion
   ESAPI_CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations
   ESAPI_CFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CFLAGS += -Wuninitialized -Wshadow -Wno-unused
   ESAPI_CFLAGS += -fstrict-aliasing
 
-  ESAPI_CXXFLAGS += -pipe -fsigned-char -fmessage-length=0 -Woverloaded-virtual -Wreorder -Wconversion
+  ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
   ESAPI_CXXFLAGS += -Wmissing-declarations
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
@@ -344,13 +344,14 @@ LIBSRCS =	$(ROOTSRCS) \
 			$(REFSRCS) \
 			$(UTILSRCS)
 
+#			test/codecs/MySQLCodecTest.cpp \
+#			test/codecs/UnixCodecTest.cpp \
+
 TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/CodecTest.cpp \
 			test/codecs/PushbackStringTest.cpp \
 			test/codecs/HTMLEntityCodecTest.cpp \
 			test/codecs/LDAPCodecTest.cpp \
-			test/codecs/MySQLCodecTest.cpp \
-			test/codecs/UnixCodecTest.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherSpecTest.cpp \
 			test/crypto/CipherTextTest.cpp \

@@ -15,16 +15,17 @@
 
 namespace esapi
 {
-  NarrowString DB2Codec::encodeCharacter( const Char immune[], size_t length, Char c) const {
-    ASSERT (c != 0);
+  NarrowString DB2Codec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
+    ASSERT (!immune.empty());
+    ASSERT (!ch.empty());
 
-    if (c == '\'')
+    if (ch[0] == '\'')
       return NarrowString("\'\'");
 
-    if (c == ';')
+    if (ch[0] == ';')
       return NarrowString(".");
 
-    return NarrowString(1,c);
+    return ch;
   }
 
   NarrowString DB2Codec::decodeCharacter( PushbackString& input) const {

@@ -36,7 +36,7 @@ namespace esapi {
      *
      * @param immune
      */
-    NarrowString encodeCharacter( const Char[], size_t , Char ) const;
+    NarrowString encodeCharacter( const StringArray&, const NarrowString& ) const;
 
 
     /**

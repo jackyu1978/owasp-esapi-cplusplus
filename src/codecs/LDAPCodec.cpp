@@ -14,7 +14,7 @@
 
 namespace esapi
 {
-  NarrowString LDAPCodec::encodeCharacter(const StringArray& immune, NarrowString& ch) const {
+  NarrowString LDAPCodec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
     ASSERT(!immune.empty());
     ASSERT(!ch.empty());
 
