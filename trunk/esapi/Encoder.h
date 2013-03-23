@@ -397,7 +397,7 @@ public:
 	 * @throws EncodingException
 	 * 		if encoding fails
 	 */
-	virtual String encodeForURL(const NarrowString &) throw (EncodingException) =0;
+	virtual String encodeForURL(const NarrowString &) =0;
 
 	/**
 	 * Decode from URL. Implementations should first canonicalize and
@@ -413,7 +413,7 @@ public:
 	 * @throws EncodingException
 	 * 		if decoding fails
 	 */
-	virtual String decodeFromURL(const NarrowString &) throw (EncodingException) =0;
+	virtual String decodeFromURL(const NarrowString &) =0;
 
 	/**
 	 * Encode for Base64.

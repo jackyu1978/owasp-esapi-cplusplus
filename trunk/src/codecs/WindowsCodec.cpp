@@ -14,7 +14,7 @@
 
 namespace esapi
 {
-  NarrowString WindowsCodec::encodeCharacter(const StringArray& immune, NarrowString& ch) const {
+  NarrowString WindowsCodec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
     ASSERT(!immune.empty());
     ASSERT(!ch.empty());
 

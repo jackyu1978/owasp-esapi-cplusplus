@@ -29,8 +29,9 @@
 using namespace boost::unit_test;
 
 #include "EsapiCommon.h"
-using esapi::Char;
-using esapi::String;
+using esapi::NarrowString;
+using esapi::WideString;
+using esapi::StringArray;
 using esapi::StringStream;
 
 #include <iostream>
@@ -71,74 +72,72 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_3P)
   HTMLEntityCodec codec2 = codec1;
 }
 
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4N)
-{
-  // Negative test
-  HTMLEntityCodec codec;
-
-  const Char* nil = NULL;
-  String encoded = codec.encodeCharacter(nil, 0, 'A');
-}
-
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5N)
-{
-  // Negative test
-  HTMLEntityCodec codec;
-  const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter(immune, 0, 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
-}
-
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6N)
-{
-  // Negative test
-  HTMLEntityCodec codec;
-  const Char immune[] = { (Char)0xFF };
-  String encoded = codec.encodeCharacter((Char*)NULL, COUNTOF(immune), 'A');
-  BOOST_CHECK_MESSAGE(encoded == String(1, 'A'), "Failed to encode character");
-}
-
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4P)
 {
   // Positive test
   HTMLEntityCodec codec;
-  const Char immune[] = { (Char)0xFF };
+  StringArray immune;
+
+  NarrowString encoded = codec.encodeCharacter(immune, "A");
+  BOOST_CHECK_MESSAGE(encoded == "A", "Failed to encode character");
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5P)
+{
+  // Positive test
+  HTMLEntityCodec codec;
+  StringArray immune;
+  immune.push_back("\xFF");
+
+  NarrowString encoded = codec.encodeCharacter(immune, "A");
+  BOOST_CHECK_MESSAGE(encoded == "A", "Failed to encode character");
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6P)
+{
+  // Positive test
+  HTMLEntityCodec codec;
+  StringArray immune;
+  immune.push_back("\xFF");
 
   for( unsigned int c = 'A'; c <= 'Z'; c++)
   {
-    String encoded = codec.encodeCharacter(immune, COUNTOF(immune), (Char)c);
-    BOOST_CHECK_MESSAGE((encoded == String(1, (Char)c)), "Failed to encode character");
+    NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1, static_cast<char>(c)));
+    BOOST_CHECK_MESSAGE((encoded == NarrowString(1, static_cast<char>(c))), "Failed to encode character");
   }
 }
 
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_7P)
 {
   // Positive test - uses the overload which takes a 'Char' character
   HTMLEntityCodec codec;
 
   struct KnownAnswer
   {
-    Char c;
-    String str;
+    int ch;
+    NarrowString str;
   };
 
-  // First and last 4 from entity table (below Char)
+  // First and last 4 from entity table
   const KnownAnswer tests[] = {
-    { (Char)34, "&quot;" },
-    { (Char)38, "&amp;" },
-    { (Char)60, "&lt;" },
-    { (Char)62, "&gt;" },
+    { 34, "&quot;" },
+    { 38, "&amp;" },
+    { 60, "&lt;" },
+    { 62, "&gt;" },
 
-    { (Char)252, "&uuml;" },
-    { (Char)253, "&yacute;" },
-    { (Char)254, "&thorn;" },
-    { (Char)255, "&yuml;" }
+    { 252, "&uuml;" },
+    { 253, "&yacute;" },
+    { 254, "&thorn;" },
+    { 255, "&yuml;" }
   };
+
+  StringArray immune;
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const String encoded = codec.encodeCharacter(NULL, 0, (Char)tests[i].c);
-    const String expected = tests[i].str;
+    const NarrowString utf8 = TextConvert::WideToNarrow(WideString(1,tests[i].ch));
+    const NarrowString encoded = codec.encodeCharacter( immune, utf8 );
+    const NarrowString expected = tests[i].str;
 
     StringStream oss;
     oss << "Failed to encode character. Expected ";
@@ -149,15 +148,15 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
   }
 }
 
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_8P)
 {
   // Positive test - uses the overload which takes a 'int' character
   HTMLEntityCodec codec;
 
   struct KnownAnswer
   {
-    int c;
-    String str;
+    int ch;
+    NarrowString str;
   };
 
   // First, middle, and last 4 from entity table
@@ -178,12 +177,14 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_9P)
     { 9830, "&diams;" }
   };
 
-  const Char immune[] = { (Char)0xFF };
+  StringArray immune;
+  immune.push_back("\xFF");
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
-    const String expected = tests[i].str;
+    const NarrowString utf8 = TextConvert::WideToNarrow(WideString(1,tests[i].ch));
+    const NarrowString encoded = codec.encodeCharacter( immune, utf8 );
+    const NarrowString expected = tests[i].str;
 
     StringStream oss;
     oss << "Failed to encode character. Expected ";
@@ -201,8 +202,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
 
   struct KnownAnswer
   {
-    int c;
-    String str;
+    int ch;
+    NarrowString str;
   };
 
   // For companies like Apple, which has far too many lawyers
@@ -211,12 +212,14 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_10P)
     { 8482, "&trade;" },
   };
 
-  const Char immune[] = { (Char)0xFF };
+  StringArray immune;
+  immune.push_back("\xFF");
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const String encoded = codec.encodeCharacter(immune, COUNTOF(immune), tests[i].c);
-    const String expected = tests[i].str;
+    const NarrowString utf8 = TextConvert::WideToNarrow(WideString(1,tests[i].ch));
+    const NarrowString encoded = codec.encodeCharacter( immune, utf8 );
+    const NarrowString expected = tests[i].str;
 
     StringStream oss;
     oss << "Failed to encode character. Expected ";
@@ -234,8 +237,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 
   struct KnownAnswer
   {
-    int c;
-    String str;
+    int ch;
+    NarrowString str;
   };
 
   const KnownAnswer tests[] = {    
@@ -245,10 +248,13 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
     { 0xCCCC, "&#xcccc;" },
   };
 
+  StringArray immune;
+  immune.push_back("\xFF");
+
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const String encoded = codec.encodeCharacter(NULL, 0, tests[i].c);
-    const String expected = tests[i].str;
+    const NarrowString encoded = codec.encodeCharacter( immune, NarrowString(1,tests[i].ch) );
+    const NarrowString expected = tests[i].str;
 
     StringStream oss;
     oss << "Failed to encode character. Expected ";
@@ -267,8 +273,8 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_12P)
 
   //for( unsigned int i = 0; i < COUNTOF(special); i++ )
   //{
-  //  const String encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
-  //  const String expected(1, special[i]);
+  //  const NarrowString encoded = codec.encodeCharacter(special, COUNTOF(special), special[i]);
+  //  const NarrowString expected(1, special[i]);
 
   //  StringStream oss;
   //  oss << "Failed to encode character. Expected ";

@@ -15,7 +15,7 @@
 
 namespace esapi
 {
-  NarrowString UnixCodec::encodeCharacter(const StringArray& immune, NarrowString& ch) const {
+  NarrowString UnixCodec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
     ASSERT (!immune.empty());
     ASSERT(!ch.empty());
 

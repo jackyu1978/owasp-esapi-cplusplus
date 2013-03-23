@@ -159,12 +159,12 @@ namespace esapi {
     /**
     * {@inheritDoc}
     */
-    String encodeForURL(const NarrowString &) throw (EncodingException);
+    String encodeForURL(const NarrowString &);
 
     /**
     * {@inheritDoc}
     */
-    String decodeFromURL(const NarrowString &) throw (EncodingException);
+    String decodeFromURL(const NarrowString &);
 
     /**
     * {@inheritDoc}
