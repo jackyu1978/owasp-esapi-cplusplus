@@ -184,7 +184,8 @@ namespace esapi
     }
 
     StringStream str;
-    str.setf(str.flags() | StringStream::uppercase);
+    // Breaks self tests
+    // str.setf(str.flags() | StringStream::uppercase);
 
     switch(base)
     {

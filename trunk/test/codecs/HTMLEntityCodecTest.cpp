@@ -249,15 +249,19 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 
   struct KnownAnswer
   {
-    int ch;
+    NarrowString ch;
     NarrowString str;
   };
 
   const KnownAnswer tests[] = {    
-    { 0xAAA, "&#x0aaa;" },
-    { 0xAAAA, "&#xaaaa;" },
-    { 0xCCC, "&#x0ccc;" },
-    { 0xCCCC, "&#xcccc;" },
+    { "\x0a\xaa", "&#x0aaa;" },
+    { "\xaa\xaa", "&#xaaaa;" },
+    { "\x0c\xcc", "&#x0ccc;" },
+    { "\xcc\xcc", "&#xcccc;" },
+    { "\x0a\xaa\xaa", "&#x0aaaaa;" },
+    { "\xaa\xaa\xaa", "&#xaaaaaa;" },
+    { "\x0c\xcc\xcc", "&#x0ccccc;" },
+    { "\xcc\xcc\xcc", "&#xcccccc;" },
   };
 
   StringArray immune;
@@ -265,7 +269,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
 
   for( unsigned int i = 0; i < COUNTOF(tests); i++ )
   {
-    const NarrowString encoded = codec.encodeCharacter( immune, NarrowString(1,tests[i].ch) );
+    const NarrowString encoded = codec.encodeCharacter( immune, tests[i].ch );
     const NarrowString expected = tests[i].str;
 
     StringStream oss;
