@@ -446,7 +446,7 @@ namespace esapi
 
   NarrowString HTMLEntityCodec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const
   {
-    // ASSERT(!immune.empty());
+    // // // // ASSERT(!immune.empty());
     ASSERT(!ch.empty());
 
     if(ch.empty())
