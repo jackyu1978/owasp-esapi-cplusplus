@@ -94,21 +94,18 @@ namespace esapi
     // ASSERT(!immune.empty());
     ASSERT(!input.empty());
 
-    if(immune.empty() || input.empty())
+    if(input.empty())
       return input;
 
-    String sb;
-    sb.reserve(input.length());
-
-    /*
     PushbackString pbs(input);
+    /*
     while(pbs.hasNext())
     {
     sb.append(encodeCharacter(immune, pbs.nextCharacter()));
     }
     */
 
-    return sb;
+    return pbs;
   }
 
   NarrowString Codec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
