@@ -97,15 +97,15 @@ namespace esapi
     if(input.empty())
       return input;
 
-    PushbackString pbs(input);
     /*
+    PushbackString pbs(input);
     while(pbs.hasNext())
     {
     sb.append(encodeCharacter(immune, pbs.nextCharacter()));
     }
     */
 
-    return pbs;
+    return input;
   }
 
   NarrowString Codec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
