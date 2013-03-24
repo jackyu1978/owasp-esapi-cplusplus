@@ -196,11 +196,7 @@ namespace esapi
       str << std::dec << static_cast<unsigned long>(n);
       break;
     case 16:
-      str << "0" << std::hex << static_cast<unsigned long>(n);
-      if(1 == (str.str().length() % 2)) {
-        str.str(str.str().erase(0,1));
-        str.clear();
-      }
+      str << std::hex << static_cast<unsigned long>(n);
       break;
     default: ;
     }
@@ -230,6 +226,6 @@ namespace esapi
     ASSERT(!ch.empty());
     ASSERT(!str.empty());
 
-    return str.find(ch, 0) != String::npos;
+    return (str.find(ch, 0) != NarrowString::npos);
   }
 } //espai

@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_4P)
   BOOST_CHECK_MESSAGE(encoded == "A", "Failed to encode character");
 }
 
-BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5P)
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5Pa)
 {
   // Positive test
   HTMLEntityCodec codec;
@@ -91,6 +91,21 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5P)
 
   NarrowString encoded = codec.encodeCharacter(immune, "A");
   BOOST_CHECK_MESSAGE(encoded == "A", "Failed to encode character");
+}
+
+BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_5Pb)
+{
+  // Positive test
+  HTMLEntityCodec codec;
+  StringArray immune;
+  NarrowString str = "\xE2\x99\xA6", encoded;
+
+  encoded = codec.encodeCharacter(immune, str);
+  BOOST_CHECK_MESSAGE(encoded == "&diams;", "Failed to encode character");
+
+  immune.push_back(str);
+  encoded = codec.encodeCharacter(immune, str);
+  BOOST_CHECK_MESSAGE(encoded == str, "Failed to bypass encode character");
 }
 
 BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6P)
@@ -254,13 +269,13 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_11P)
   };
 
   const KnownAnswer tests[] = {    
-    { "\x0a\xaa", "&#x0aaa;" },
+    { "\x0a\xaa", "&#xaaa;" },
     { "\xaa\xaa", "&#xaaaa;" },
-    { "\x0c\xcc", "&#x0ccc;" },
+    { "\x0c\xcc", "&#xccc;" },
     { "\xcc\xcc", "&#xcccc;" },
-    { "\x0a\xaa\xaa", "&#x0aaaaa;" },
+    { "\x0a\xaa\xaa", "&#xaaaaa;" },
     { "\xaa\xaa\xaa", "&#xaaaaaa;" },
-    { "\x0c\xcc\xcc", "&#x0ccccc;" },
+    { "\x0c\xcc\xcc", "&#xccccc;" },
     { "\xcc\xcc\xcc", "&#xcccccc;" },
   };
 
