@@ -36,8 +36,8 @@
 namespace esapi {
   class ESAPI_EXPORT HTMLEntityCodec : public Codec {
 
-    typedef std::map<int, String> EntityMap;
-    typedef std::map<int, String>::const_iterator EntityMapIterator;
+    typedef std::map<String, String> EntityMap;
+    typedef std::map<String, String>::const_iterator EntityMapIterator;
 
   private:
     static NarrowString REPLACEMENT_CHAR();
