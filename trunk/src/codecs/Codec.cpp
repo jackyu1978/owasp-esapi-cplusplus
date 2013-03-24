@@ -91,7 +91,7 @@ namespace esapi
 
   NarrowString Codec::encode(const StringArray& immune, const NarrowString& input) const
   {
-    // // ASSERT(!immune.empty());
+    // ASSERT(!immune.empty());
     ASSERT(!input.empty());
 
     if(immune.empty() || input.empty())
@@ -112,7 +112,7 @@ namespace esapi
   }
 
   NarrowString Codec::encodeCharacter(const StringArray& immune, const NarrowString& ch) const {
-    // // ASSERT(!immune.empty());
+    // ASSERT(!immune.empty());
     ASSERT(!ch.empty());
 
     return ch;
