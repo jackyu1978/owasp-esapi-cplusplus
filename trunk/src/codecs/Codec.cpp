@@ -196,8 +196,10 @@ namespace esapi
       break;
     case 16:
       str << "0" << std::hex << static_cast<unsigned long>(n);
-      if(1 == (str.str().length() % 2))
-        str = StringStream(str.str().erase(0,1));
+      if(1 == (str.str().length() % 2)) {
+        str.str(str.str().erase(0,1));
+        str.clear();
+      }
       break;
     default: ;
     }
