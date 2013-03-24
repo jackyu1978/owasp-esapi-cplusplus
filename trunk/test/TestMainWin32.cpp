@@ -18,6 +18,8 @@
 
 #include "EsapiCommon.h"
 using esapi::String;
+using esapi::StringArray;
+using esapi::StringStream;
 using esapi::NarrowString;
 using esapi::WideString;
 
@@ -73,6 +75,9 @@ using esapi::AlgorithmName;
 #include "crypto/Cipher.h"
 using esapi::Cipher;
 
+#include "codecs/HTMLEntityCodec.h"
+using esapi::HTMLEntityCodec;
+
 #include <iostream>
 using std::cerr;
 using std::cout;
@@ -90,19 +95,44 @@ static const NarrowString narrow("\xe9\xaa\xa8");
 
 int main(int, char**)
 {
-	//MD5 ("abc") = 900150983cd24fb0d6963f7d28e17f72
-	bool success = false;
-	MessageDigest md(MessageDigest::getInstance("MD5"));
+  // Positive test - uses the overload which takes a 'Char' character
+  HTMLEntityCodec codec;
 
-	const size_t sz = md.getDigestLength();
-	SecureByteArray buf(sz);
+  struct KnownAnswer
+  {
+    int ch;
+    NarrowString str;
+  };
 
-	const String msg("abc");
-	md.update(msg);
+  // First and last 4 from entity table
+  const KnownAnswer tests[] = {
+    //{ 34, "&quot;" },
+    //{ 38, "&amp;" },
+    //{ 60, "&lt;" },
+    //{ 62, "&gt;" },
 
-	const byte hash[16] = {0x90,0x01,0x50,0x98,0x3c,0xd2,0x4f,0xb0,0xd6,0x96,0x3f,0x7d,0x28,0xe1,0x7f,0x72};
-	md.digest(buf.data(), buf.size(), 0, sz);
-	success = (::memcmp(buf.data(), hash, sizeof(hash)) == 0);
+    { 252, "&uuml;" },
+    { 253, "&yacute;" },
+    { 254, "&thorn;" },
+    { 255, "&yuml;" }
+  };
+
+  StringArray immune;
+
+  for( unsigned int i = 0; i < COUNTOF(tests); i++ )
+  {
+    const NarrowString utf8 = TextConvert::WideToNarrow(WideString(1,tests[i].ch));
+    const NarrowString encoded = codec.encodeCharacter( immune, utf8 );
+    const NarrowString expected = tests[i].str;
+
+    StringStream oss;
+    oss << "Failed to encode character. Expected ";
+    oss << "'" << expected << "', got ";
+    oss << "'" << encoded << "'";
+
+    if(!(encoded == expected))
+      cout << oss.str() << endl;
+  }
 
 	return 0;
 }

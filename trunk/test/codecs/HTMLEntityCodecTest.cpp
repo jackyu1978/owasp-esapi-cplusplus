@@ -100,7 +100,19 @@ BOOST_AUTO_TEST_CASE(HTMLEntityCodecTest_6P)
   StringArray immune;
   immune.push_back("\xFF");
 
-  for( unsigned int c = 'A'; c <= 'Z'; c++)
+  for( unsigned int c = 'a'; c <= 'z'; c++)
+  {
+    NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1, static_cast<char>(c)));
+    BOOST_CHECK_MESSAGE((encoded == NarrowString(1, static_cast<char>(c))), "Failed to encode character");
+  }
+
+    for( unsigned int c = 'A'; c <= 'Z'; c++)
+  {
+    NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1, static_cast<char>(c)));
+    BOOST_CHECK_MESSAGE((encoded == NarrowString(1, static_cast<char>(c))), "Failed to encode character");
+  }
+
+      for( unsigned int c = '0'; c <= '9'; c++)
   {
     NarrowString encoded = codec.encodeCharacter(immune, NarrowString(1, static_cast<char>(c)));
     BOOST_CHECK_MESSAGE((encoded == NarrowString(1, static_cast<char>(c))), "Failed to encode character");
