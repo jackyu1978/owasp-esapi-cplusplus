@@ -382,5 +382,14 @@
     <ClInclude Include="..\esapi\codecs\MySQLCodec.h">
       <Filter>Header Files\esapi\codecs</Filter>
     </ClInclude>
+    <ClInclude Include="..\esapi\EsapiAssert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\Configuration.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\reference\PropertiesConfiguration.h">
+      <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -212,10 +212,13 @@
     <ClInclude Include="..\esapi\EncoderConstants.h" />
     <ClInclude Include="..\esapi\EncryptedProperties.h" />
     <ClInclude Include="..\esapi\Encryptor.h" />
+    <ClInclude Include="..\esapi\EsapiAssert.h" />
     <ClInclude Include="..\esapi\EsapiCommon.h" />
     <ClInclude Include="..\esapi\EsapiTypes.h" />
     <ClInclude Include="..\esapi\Executor.h" />
     <ClInclude Include="..\esapi\Logger.h" />
+    <ClInclude Include="..\esapi\reference\Configuration.h" />
+    <ClInclude Include="..\esapi\reference\PropertiesConfiguration.h" />
     <ClInclude Include="..\esapi\SecurityConfiguration.h" />
     <ClInclude Include="..\esapi\ValidationErrorList.h" />
     <ClInclude Include="..\esapi\ValidationRule.h" />
