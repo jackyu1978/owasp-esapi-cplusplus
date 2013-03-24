@@ -46,8 +46,8 @@ BOOST_AUTO_TEST_CASE(CodecContainsCharacter)
   BOOST_CHECK(codec.containsCharacter("f","asdf"));
   BOOST_CHECK(codec.containsCharacter("b","asdf") == false);
   BOOST_CHECK(codec.containsCharacter(" ","asdf") == false);
-  BOOST_CHECK(codec.containsCharacter("\x00","asdf") == false);
-  BOOST_CHECK(codec.containsCharacter("\x00","") == false);
+  BOOST_CHECK(codec.containsCharacter(String(1,0x00),"asdf") == false);
+  BOOST_CHECK(codec.containsCharacter(String(1,0x00),"") == false);
   BOOST_CHECK(codec.containsCharacter("\x01","asdf") == false);
   BOOST_CHECK(codec.containsCharacter("\x01","") == false);
 }
