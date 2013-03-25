@@ -11,9 +11,10 @@
 
 namespace esapi {
 
-  class ESAPI_EXPORT Configuration
-  {
   typedef unordered_map<String, String> ConfigurationMap;
+
+  class ESAPI_EXPORT Configuration
+  {  
 
   public:
     //	class KeyValuePair {
