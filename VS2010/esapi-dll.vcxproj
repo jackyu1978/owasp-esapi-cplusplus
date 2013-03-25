@@ -170,6 +170,8 @@
   <ItemGroup>
     <ClCompile Include="..\src\codecs\DB2Codec.cpp" />
     <ClCompile Include="..\src\codecs\MySQLCodec.cpp" />
+    <ClCompile Include="..\src\reference\Configuration.cpp" />
+    <ClCompile Include="..\src\reference\PropertiesConfiguration.cpp" />
     <ClCompile Include="..\src\windows\dllmain.cpp" />
     <ClCompile Include="..\src\DummyConfiguration.cpp" />
     <ClCompile Include="..\src\EncoderConstants.cpp" />
@@ -207,6 +209,9 @@
     <ClCompile Include="..\src\reference\validation\BaseValidationRule.cpp" />
     <ClCompile Include="..\src\reference\validation\StringValidationRule.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\util\AlgorithmName.cpp" />
     <ClCompile Include="..\src\util\Mutex.cpp" />
@@ -220,6 +225,12 @@
     <ClInclude Include="..\esapi\EncoderConstants.h" />
     <ClInclude Include="..\esapi\EncryptedProperties.h" />
     <ClInclude Include="..\esapi\Encryptor.h" />
+    <ClInclude Include="..\esapi\errors\ConfigurationException.h" />
+    <ClInclude Include="..\esapi\errors\FileNotFoundException.h" />
+    <ClInclude Include="..\esapi\errors\IllegalStateException.h" />
+    <ClInclude Include="..\esapi\errors\InvalidKeyException.h" />
+    <ClInclude Include="..\esapi\errors\NoSuchPropertyException.h" />
+    <ClInclude Include="..\esapi\errors\ParseException.h" />
     <ClInclude Include="..\esapi\EsapiAssert.h" />
     <ClInclude Include="..\esapi\EsapiCommon.h" />
     <ClInclude Include="..\esapi\EsapiTypes.h" />
