@@ -68,18 +68,18 @@ BOOST_AUTO_TEST_CASE( CodecToHex )
 {
 	Codec codec;
 
-	BOOST_CHECK(codec.toHex("a")[0] == 0x61);
-	BOOST_CHECK(codec.toHex("b")[0] == 0x62);
-	BOOST_CHECK(codec.toHex("a")[0] != 0x62);
+	BOOST_CHECK(codec.toHex("a") == "61");
+	BOOST_CHECK(codec.toHex("b") == "62");
+	BOOST_CHECK(codec.toHex("a") != "62");
 }
 
 BOOST_AUTO_TEST_CASE( CodecToOctal )
 {
 	Codec codec;
 
-	BOOST_CHECK(codec.toOctal("a")[0] == 0141);
-	BOOST_CHECK(codec.toOctal("b")[0] == 0142);
-	BOOST_CHECK(codec.toOctal("a")[0] != 0142);
+	BOOST_CHECK(codec.toOctal("a") == "141");
+	BOOST_CHECK(codec.toOctal("b") == "142");
+	BOOST_CHECK(codec.toOctal("a") != "142");
 }
 
 BOOST_AUTO_TEST_CASE( CodecGetHexForNonAlphanumeric )
