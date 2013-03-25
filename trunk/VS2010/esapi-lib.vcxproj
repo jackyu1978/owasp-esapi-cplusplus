@@ -154,6 +154,8 @@
     <ClCompile Include="..\src\codecs\MySQLCodec.cpp" />
     <ClCompile Include="..\src\DummyConfiguration.cpp" />
     <ClCompile Include="..\src\EncoderConstants.cpp" />
+    <ClCompile Include="..\src\reference\Configuration.cpp" />
+    <ClCompile Include="..\src\reference\PropertiesConfiguration.cpp" />
     <ClCompile Include="..\src\ValidationErrorList.cpp" />
     <ClCompile Include="..\src\codecs\Codec.cpp" />
     <ClCompile Include="..\src\codecs\HTMLEntityCodec.cpp" />
@@ -212,6 +214,12 @@
     <ClInclude Include="..\esapi\EncoderConstants.h" />
     <ClInclude Include="..\esapi\EncryptedProperties.h" />
     <ClInclude Include="..\esapi\Encryptor.h" />
+    <ClInclude Include="..\esapi\errors\ConfigurationException.h" />
+    <ClInclude Include="..\esapi\errors\FileNotFoundException.h" />
+    <ClInclude Include="..\esapi\errors\IllegalStateException.h" />
+    <ClInclude Include="..\esapi\errors\InvalidKeyException.h" />
+    <ClInclude Include="..\esapi\errors\NoSuchPropertyException.h" />
+    <ClInclude Include="..\esapi\errors\ParseException.h" />
     <ClInclude Include="..\esapi\EsapiAssert.h" />
     <ClInclude Include="..\esapi\EsapiCommon.h" />
     <ClInclude Include="..\esapi\EsapiTypes.h" />

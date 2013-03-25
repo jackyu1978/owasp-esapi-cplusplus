@@ -161,6 +161,12 @@
     <ClCompile Include="..\src\codecs\MySQLCodec.cpp">
       <Filter>Source Files\codecs</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\reference\Configuration.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\reference\PropertiesConfiguration.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\esapi\AccessReferenceMap.h">
@@ -384,6 +390,24 @@
     </ClInclude>
     <ClInclude Include="..\esapi\reference\PropertiesConfiguration.h">
       <Filter>Header Files\esapi\reference</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\ConfigurationException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\FileNotFoundException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\IllegalStateException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\InvalidKeyException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\NoSuchPropertyException.h">
+      <Filter>Header Files\esapi\errors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\esapi\errors\ParseException.h">
+      <Filter>Header Files\esapi\errors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
