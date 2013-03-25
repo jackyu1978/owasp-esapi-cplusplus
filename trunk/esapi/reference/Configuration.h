@@ -17,24 +17,6 @@ namespace esapi {
   {  
 
   public:
-    //	class KeyValuePair {
-    //	public:
-    //		KeyValuePair(const String &key, String &value): key_(key), value_(value) {
-    //
-    //		}
-    //
-    //		const String &key() const {
-    //			return key_;
-    //		}
-    //
-    //		const String &value() const {
-    //			return value_;
-    //		}
-    //
-    //	private:
-    //		const String &key_;
-    //		String &value_;
-    //	};
 
     bool hasProperty(const String &key) const;
     //	void setString(const String &key, const String &value);
@@ -50,8 +32,7 @@ namespace esapi {
     bool getBool(const String &key, const bool defaultValue) const;
 
     Configuration();
-    // Configuration(const hash_map<String, String> map);
-    Configuration(const ConfigurationMap map);
+    Configuration(const ConfigurationMap& map);
     virtual ~Configuration();
 
   protected:

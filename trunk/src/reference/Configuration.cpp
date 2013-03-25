@@ -19,7 +19,7 @@ namespace esapi {
   Configuration::Configuration() {
   }
 
-  Configuration::Configuration(const ConfigurationMap map) : m_map(map) {
+  Configuration::Configuration(const ConfigurationMap& map) : m_map(map) {
   }
 
   Configuration::~Configuration() {
@@ -28,7 +28,7 @@ namespace esapi {
   bool Configuration::hasProperty(const String &key) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     return m_map.count(key) > 0;
   }
@@ -36,7 +36,7 @@ namespace esapi {
   bool Configuration::getUnparsedString(const String &key, String &value) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     ConfigurationMap::const_iterator iterator = m_map.find(key);
     if (iterator != m_map.end()) {
@@ -51,7 +51,7 @@ namespace esapi {
   String Configuration::getString(const String &key) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (!getUnparsedString(key, value))
@@ -63,7 +63,7 @@ namespace esapi {
   String Configuration::getString(const String &key, const String &defaultValue) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -75,7 +75,7 @@ namespace esapi {
   int Configuration::getInt(const String &key) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -87,7 +87,7 @@ namespace esapi {
   int Configuration::getInt(const String &key, int defaultValue) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -99,7 +99,7 @@ namespace esapi {
   bool Configuration::getBool(const String &key) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -111,7 +111,7 @@ namespace esapi {
   bool Configuration::getBool(const String &key, const bool defaultValue) const {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -124,7 +124,7 @@ namespace esapi {
   {
     ASSERT(!str.empty());
     if(str.empty())
-      throw ParseException("Boolean value is empty");
+      throw ParseException("Boolean property key is not valid");
 
     String lower(str);
     trimWhitespace(lower);
@@ -138,11 +138,13 @@ namespace esapi {
       throw ParseException("Cannot parse as boolean: " + str);
   }
 
-  int Configuration::parseInt(const String &s) const
+  int Configuration::parseInt(const String &str) const
   {
-    ASSERT(!s.empty());
+    ASSERT(!str.empty());
+    if(str.empty())
+      throw ParseException("Integer value is empty");
 
-    String temp(s);
+    String temp(str);
     trimWhitespace(temp);
 
     StringStream ss(temp);
@@ -155,7 +157,7 @@ namespace esapi {
     ss >> n;
     ASSERT(!(ss.fail()));
     if (ss.fail())
-        throw ParseException("Cannot parse as int: " + s);
+        throw ParseException("Cannot parse as int: " + str);
 
     return n;
   }
@@ -164,7 +166,7 @@ namespace esapi {
   {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     StringList value;
     String unparsed;
@@ -183,7 +185,7 @@ namespace esapi {
   {
     ASSERT(!key.empty());
     if(key.empty())
-      throw IllegalArgumentException("Key is not valid");
+      throw IllegalArgumentException("Property key is not valid");
 
     StringList value;
     String unparsed;
@@ -200,11 +202,11 @@ namespace esapi {
 
   void Configuration::trimWhitespace(String& str) const
   {
-    std::string::size_type pos1 = str.find_first_not_of(" \t\n\v\f\r");
+    const std::string::size_type pos1 = str.find_first_not_of(" \t\n\v\f\r");
     if (pos1 != std::string::npos)
       str.erase(0, pos1);
 
-    std::string::size_type pos2 = str.find_last_not_of(" \t\n\v\f\r");
+    const std::string::size_type pos2 = str.find_last_not_of(" \t\n\v\f\r");
     if (pos2 != std::string::npos)
       str.erase(pos2 + 1);
   }
@@ -228,8 +230,10 @@ namespace esapi {
       }
       else
       {
-        if (pos != offset || !trimEmpty)
+        if (pos != offset || !trimEmpty) {
+          ASSERT(pos >= offset);
           output.push_back(input.substr(offset, pos - offset));
+        }
         offset = pos + 1;
       }
     }
