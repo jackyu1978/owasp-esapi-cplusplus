@@ -32,43 +32,6 @@ namespace esapi {
   PropertiesConfiguration::~PropertiesConfiguration() {
   }
 
-
-  inline void PropertiesConfiguration::ltrim(std::string &s) {
-    std::string::size_type pos = s.find_first_not_of(" \t\n\v\f\r");
-    if (pos != std::string::npos)
-      s.erase(0, pos);
-  }
-
-  inline void PropertiesConfiguration::rtrim(std::string &s) {
-    std::string::size_type pos = s.find_last_not_of(" \t\n\v\f\r");
-    if (pos != std::string::npos)
-      s.erase(pos + 1);
-  }
-
-  inline void PropertiesConfiguration::trim(std::string &s) {
-
-    ltrim(s);
-    rtrim(s);
-  }
-
-  inline void PropertiesConfiguration::ltrim(std::wstring &s) {
-    std::wstring::size_type pos = s.find_first_not_of(L" \t\n\r\v");
-    if (pos != std::wstring::npos)
-      s.erase(0, pos);
-  }
-
-  inline void PropertiesConfiguration::rtrim(std::wstring &s) {
-    std::wstring::size_type pos = s.find_last_not_of(L" \t\n\r\v");
-    if (pos != std::wstring::npos)
-      s.erase(pos + 1);
-  }
-
-  inline void PropertiesConfiguration::trim(std::wstring &s) {
-
-    ltrim(s);
-    rtrim(s);
-  }
-
   /**
   *
   * This function will throw an IllegalArgumentException if the file contents cannot be multibyte decoded.
@@ -89,14 +52,14 @@ namespace esapi {
     if (input.is_open()) {
       std::string line;
       if (getline(input, line)) {
-        trim(line);
+        Configuration::trimWhitespace(line);
         if (line.size() > 0 && line[0] != '#') {
           char delimiter = '=';
           size_t delimiter_pos = line.find(delimiter, 0);
           std::string key = line.substr(0, delimiter_pos);
           std::string value = line.substr(delimiter_pos + 1, line.size());
-          trim(key);
-          trim(value);
+          Configuration::trimWhitespace(key);
+          Configuration::trimWhitespace(value);
           m_map[key] = value;
         }
       }

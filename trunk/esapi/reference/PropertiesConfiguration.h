@@ -14,12 +14,6 @@ namespace esapi {
 class ESAPI_EXPORT PropertiesConfiguration: public Configuration {
 public:
 	void load(const String &file);
-//	template<class C>
-//	static void ltrim(C &s);
-//	template<class C>
-//	static void rtrim(C &s);
-//	template<class C>
-//	static void trim(C &s);
 
 	PropertiesConfiguration(const String &file = DEFAULT_PROPERTIES_FILENAME);
 	// PropertiesConfiguration(const hash_map<String, String> &);
@@ -27,12 +21,6 @@ public:
 	virtual ~PropertiesConfiguration();
 
 protected:
-	void ltrim(std::string &);
-	void rtrim(std::string &);
-	void trim(std::string &);
-	void ltrim(std::wstring &);
-	void rtrim(std::wstring &);
-	void trim(std::wstring &);
 
 	static const String DEFAULT_PROPERTIES_FILENAME;
 

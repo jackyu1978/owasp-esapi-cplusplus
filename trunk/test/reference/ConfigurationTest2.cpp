@@ -229,14 +229,14 @@ BOOST_AUTO_TEST_CASE( Configuration_2_8P )
       Configuration config;
       int result; 
       
-      result = config.parseInt("0xFFFFFFFF");
-      BOOST_CHECK_MESSAGE(result == (int)0xFFFFFFFF, "Failed to parse '0xFFFFFFFF'");
-      result = config.parseInt(" 0xFFFFFFFF ");
-      BOOST_CHECK_MESSAGE(result == (int)0xFFFFFFFF, "Failed to parse ' 0xFFFFFFFF '");
-      result = config.parseInt("0xFFFFFFFF\n");
-      BOOST_CHECK_MESSAGE(result == (int)0xFFFFFFFF, "Failed to parse '0xFFFFFFFF\\n'");
-      result = config.parseInt("\t0xFFFFFFFF");
-      BOOST_CHECK_MESSAGE(result == (int)0xFFFFFFFF, "Failed to parse '\\t0xFFFFFFFF'");
+      result = config.parseInt("0x7FFFFFFF");
+      BOOST_CHECK_MESSAGE(result == (int)0x7FFFFFFF, "Failed to parse '0x7FFFFFFF'");
+      result = config.parseInt(" 0x7FFFFFFF ");
+      BOOST_CHECK_MESSAGE(result == (int)0x7FFFFFFF, "Failed to parse ' 0x7FFFFFFF '");
+      result = config.parseInt("0x7FFFFFFF\n");
+      BOOST_CHECK_MESSAGE(result == (int)0x7FFFFFFF, "Failed to parse '0x7FFFFFFF\\n'");
+      result = config.parseInt("\t0x7FFFFFFF");
+      BOOST_CHECK_MESSAGE(result == (int)0x7FFFFFFF, "Failed to parse '\\t0x7FFFFFFF'");
     }
   catch(const std::exception& ex)
     {
@@ -249,6 +249,33 @@ BOOST_AUTO_TEST_CASE( Configuration_2_8P )
 }
 
 BOOST_AUTO_TEST_CASE( Configuration_2_9N )
+{
+  Configuration config;
+  int result;
+  bool success;
+
+  try
+    {
+      success = false;
+      result = config.parseInt("0x80000000");
+    }
+  catch(const ParseException& ex)
+    {
+      success = true;
+    }
+  catch(const std::exception& ex)
+    {
+      BOOST_ERROR(ex.what());
+    }
+  catch(...)
+    {
+      BOOST_ERROR("Caught unknown exception");
+    }
+
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException for 0x80000000");
+}
+
+BOOST_AUTO_TEST_CASE( Configuration_2_10N )
 {
   Configuration config;
   int result;
@@ -272,10 +299,10 @@ BOOST_AUTO_TEST_CASE( Configuration_2_9N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
 
-BOOST_AUTO_TEST_CASE( Configuration_2_10N )
+BOOST_AUTO_TEST_CASE( Configuration_2_11N )
 {
   Configuration config;
   int result;
@@ -299,10 +326,10 @@ BOOST_AUTO_TEST_CASE( Configuration_2_10N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
 
-BOOST_AUTO_TEST_CASE( Configuration_2_11N )
+BOOST_AUTO_TEST_CASE( Configuration_2_12N )
 {
   Configuration config;
   int result;
@@ -326,10 +353,10 @@ BOOST_AUTO_TEST_CASE( Configuration_2_11N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
 
-BOOST_AUTO_TEST_CASE( Configuration_2_12N )
+BOOST_AUTO_TEST_CASE( Configuration_2_13N )
 {
   Configuration config;
   int result;
@@ -353,10 +380,10 @@ BOOST_AUTO_TEST_CASE( Configuration_2_12N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
 
-BOOST_AUTO_TEST_CASE( Configuration_2_13N )
+BOOST_AUTO_TEST_CASE( Configuration_2_14N )
 {
   Configuration config;
   int result;
@@ -365,7 +392,7 @@ BOOST_AUTO_TEST_CASE( Configuration_2_13N )
   try
     {
       success = false;
-      result = config.parseInt("0xFFFFFFFFFFFFFFFF");
+      result = config.parseInt("0x7FFFFFFFFFFFFFFF");
     }
   catch(const ParseException& ex)
     {
@@ -380,6 +407,6 @@ BOOST_AUTO_TEST_CASE( Configuration_2_13N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
 

@@ -183,8 +183,8 @@ BOOST_AUTO_TEST_CASE( Configuration_1_6P )
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse ' true '");
       result = config.parseBool("true\n");
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse 'true\\n'");
-      result = config.parseBool("\tfalse");
-      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\tfalse'");
+      result = config.parseBool("\ttrue");
+      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\ttrue'");
     }
   catch(const std::exception& ex)
     {
@@ -209,8 +209,8 @@ BOOST_AUTO_TEST_CASE( Configuration_1_7P )
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse ' on '");
       result = config.parseBool("on\n");
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse 'on\\n'");
-      result = config.parseBool("\toff");
-      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\toff'");
+      result = config.parseBool("\ton");
+      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\ton'");
     }
   catch(const std::exception& ex)
     {
@@ -235,8 +235,8 @@ BOOST_AUTO_TEST_CASE( Configuration_1_8P )
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse ' yes '");
       result = config.parseBool("yes\n");
       BOOST_CHECK_MESSAGE(result == true, "Failed to parse 'yes\\n'");
-      result = config.parseBool("\tno");
-      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\tno'");
+      result = config.parseBool("\tyes");
+      BOOST_CHECK_MESSAGE(result == true, "Failed to parse '\\tyes'");
     }
   catch(const std::exception& ex)
     {
@@ -271,7 +271,7 @@ BOOST_AUTO_TEST_CASE( Configuration_1_9N )
       BOOST_ERROR("Caught unknown exception");
     }
 
-    BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
+  BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException for empty string");
 }
 
 BOOST_AUTO_TEST_CASE( Configuration_1_10N )

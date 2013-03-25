@@ -55,6 +55,7 @@ namespace esapi {
     virtual ~Configuration();
 
   protected:
+    void trimWhitespace(String& str) const;
     bool getUnparsedString(const String &, String &) const;
     bool parseBool(const String &) const;
     int parseInt(const String &) const;
