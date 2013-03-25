@@ -27,11 +27,16 @@ namespace esapi {
 
   bool Configuration::hasProperty(const String &key) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
+
     return m_map.count(key) > 0;
   }
 
   bool Configuration::getUnparsedString(const String &key, String &value) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     ConfigurationMap::const_iterator iterator = m_map.find(key);
     if (iterator != m_map.end()) {
@@ -45,6 +50,8 @@ namespace esapi {
 
   String Configuration::getString(const String &key) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     String value;
     if (!getUnparsedString(key, value))
@@ -55,6 +62,8 @@ namespace esapi {
 
   String Configuration::getString(const String &key, const String &defaultValue) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -64,6 +73,10 @@ namespace esapi {
   }
 
   int Configuration::getInt(const String &key) const {
+    ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
+
     String value;
     if (getUnparsedString(key, value))
       return parseInt(value);
@@ -73,6 +86,8 @@ namespace esapi {
 
   int Configuration::getInt(const String &key, int defaultValue) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -83,6 +98,8 @@ namespace esapi {
 
   bool Configuration::getBool(const String &key) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -93,6 +110,8 @@ namespace esapi {
 
   bool Configuration::getBool(const String &key, const bool defaultValue) const {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     String value;
     if (getUnparsedString(key, value))
@@ -104,14 +123,16 @@ namespace esapi {
   bool Configuration::parseBool(const String &str) const
   {
     ASSERT(!str.empty());
+    if(str.empty())
+      throw ParseException("Boolean value is empty");
 
     String lower(str);
     trimWhitespace(lower);
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 
-    if (lower == "\x00" || lower == "0" || lower == "false" || lower == "off" || lower == "no")
+    if (lower == String(1, (char)0x00) || lower == "0" || lower == "false" || lower == "off" || lower == "no")
       return false;
-    else if (lower == "\x01" || lower == "1" || lower == "true" || lower == "on" || lower == "yes")
+    else if (lower == String(1, (char)0x01)  || lower == "1" || lower == "true" || lower == "on" || lower == "yes")
       return true;
     else
       throw ParseException("Cannot parse as boolean: " + str);
@@ -142,6 +163,8 @@ namespace esapi {
   StringList Configuration::getStringList(const String &key) const
   {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     StringList value;
     String unparsed;
@@ -159,6 +182,8 @@ namespace esapi {
   StringList Configuration::getStringList(const String &key, const StringList &defaultValue) const
   {
     ASSERT(!key.empty());
+    if(key.empty())
+      throw IllegalArgumentException("Key is not valid");
 
     StringList value;
     String unparsed;

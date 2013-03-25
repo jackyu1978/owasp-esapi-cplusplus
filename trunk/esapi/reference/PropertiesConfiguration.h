@@ -11,43 +11,22 @@
 
 namespace esapi {
 
-class ESAPI_EXPORT PropertiesConfiguration: public Configuration {
-public:
-	void load(const String &file);
+  class ESAPI_EXPORT PropertiesConfiguration: public Configuration {
+  public:
+    void load(const String &file);
 
-	PropertiesConfiguration(const String &file = DEFAULT_PROPERTIES_FILENAME);
-	// PropertiesConfiguration(const hash_map<String, String> &);
-  PropertiesConfiguration(const ConfigurationMap &);
-	virtual ~PropertiesConfiguration();
+    PropertiesConfiguration(const String &file = DEFAULT_PROPERTIES_FILENAME);
+    PropertiesConfiguration(const ConfigurationMap &);
+    PropertiesConfiguration(std::istream &);
+    virtual ~PropertiesConfiguration();
 
-protected:
+  protected:
 
-	static const String DEFAULT_PROPERTIES_FILENAME;
+    static const String DEFAULT_PROPERTIES_FILENAME;
 
-private:
-	void parseLine(std::ifstream &input);
-};
-
-//template <class C>
-//inline void ltrim(std::basic_string<C> &s) {
-//	typename std::basic_string<C>::size_type pos = s.find_first_not_of(" \t\n\v");
-//	if (pos != std::basic_string<C>::npos)
-//		s.erase(0, pos);
-//}
-//
-//template <class C>
-//inline void rtrim(std::basic_string<C> &s) {
-//	typename std::basic_string<C>::size_type pos = s.find_last_not_of(" \t\n\v");
-//	if (pos != std::basic_string<C>::npos)
-//		s.erase(pos + 1);
-//}
-//
-//template <class C>
-//inline void trim(std::basic_string<C> &s) {
-//
-//	ltrim(s);
-//	rtrim(s);
-//}
+  private:
+    void parseLine(std::istream &input);
+  };
 
 } // NAMESPACE
 
