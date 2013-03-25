@@ -21,11 +21,11 @@ namespace esapi {
 
 class ESAPI_EXPORT FileNotFoundException: public EnterpriseSecurityException {
 public:
-	explicit FileNotFoundException(const String &message) :
+	explicit FileNotFoundException(const WideString &message) :
 		EnterpriseSecurityException(message, message) {
 	}
-	explicit FileNotFoundException(const String &userMessage,
-			const String &logMessage) :
+	explicit FileNotFoundException(const WideString &userMessage,
+			const WideString &logMessage) :
 		EnterpriseSecurityException(userMessage, logMessage) {
 	}
 
