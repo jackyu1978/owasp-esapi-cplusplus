@@ -44,6 +44,9 @@ using esapi::PropertiesConfiguration;
 #include "errors/NoSuchPropertyException.h"
 using esapi::NoSuchPropertyException;
 
+#include "errors/IllegalArgumentException.h"
+using esapi::IllegalArgumentException;
+
 #include "errors/ParseException.h"
 using esapi::ParseException;
 
@@ -103,7 +106,7 @@ namespace esapi
       }
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_4N )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_4Na )
   {
     bool success = false;
     try
@@ -115,26 +118,9 @@ namespace esapi
     
 	PropertiesConfiguration config(ss);
       }
-    catch(const std::exception& ex)
+    catch(const IllegalArgumentException& ex)
       {
 	success = true;
-      }
-    catch(...)
-      {
-	BOOST_ERROR("Caught unknown exception");
-      }
-
-    BOOST_CHECK_MESSAGE(success, "Failed to catch something. What should we do???");
-  }
-
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_5P )
-  {
-    try
-      {
-        stringstream ss;
-        ss << endl << endl << endl;
-    
-	PropertiesConfiguration config(ss);
       }
     catch(const std::exception& ex)
       {
@@ -144,6 +130,92 @@ namespace esapi
       {
 	BOOST_ERROR("Caught unknown exception");
       }
+
+    BOOST_CHECK_MESSAGE(success, "Failed to catch something. What should we do???");
+  }
+
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_4Nb )
+  {
+    bool success = false;
+    try
+      {
+        stringstream ss;
+        ss << "Foo=1" << endl;
+        ss << "Bar=2" << endl;
+        ss << "Bah" << endl;
+    
+	PropertiesConfiguration config(ss);
+      }
+    catch(const IllegalArgumentException& ex)
+      {
+	success = true;
+      }
+    catch(const std::exception& ex)
+      {
+	BOOST_ERROR(ex.what());
+      }
+    catch(...)
+      {
+	BOOST_ERROR("Caught unknown exception");
+      }
+
+    BOOST_CHECK_MESSAGE(success, "Failed to catch something. What should we do???");
+  }
+
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_5Na )
+  {
+    bool success = false;
+    try
+      {
+        stringstream ss;
+        ss << "=Foo" << endl;
+        ss << "=Bar" << endl;
+        ss << "=Bah" << endl;
+    
+	PropertiesConfiguration config(ss);
+      }
+    catch(const IllegalArgumentException& ex)
+      {
+	success = true;
+      }
+    catch(const std::exception& ex)
+      {
+	BOOST_ERROR(ex.what());
+      }
+    catch(...)
+      {
+	BOOST_ERROR("Caught unknown exception");
+      }
+
+    BOOST_CHECK_MESSAGE(success, "Failed to catch something. What should we do???");
+  }
+
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_5Nb )
+  {
+    bool success = false;
+    try
+      {
+        stringstream ss;
+        ss << "XXX=Foo" << endl;
+        ss << "YYY=Bar" << endl;
+        ss << "=Bah" << endl;
+    
+	PropertiesConfiguration config(ss);
+      }
+    catch(const IllegalArgumentException& ex)
+      {
+	success = true;
+      }
+    catch(const std::exception& ex)
+      {
+	BOOST_ERROR(ex.what());
+      }
+    catch(...)
+      {
+	BOOST_ERROR("Caught unknown exception");
+      }
+
+    BOOST_CHECK_MESSAGE(success, "Failed to catch something. What should we do???");
   }
 
   BOOST_AUTO_TEST_CASE( PropertiesConfiguration_6P )
@@ -151,7 +223,7 @@ namespace esapi
     try
       {
         stringstream ss;
-        ss << "\tFoo\v = \fBar\r" << endl;
+        ss << endl << endl << endl;
     
 	PropertiesConfiguration config(ss);
       }
@@ -173,6 +245,25 @@ namespace esapi
         ss << "\tFoo\v = \fBar\r" << endl;
     
 	PropertiesConfiguration config(ss);
+      }
+    catch(const std::exception& ex)
+      {
+	BOOST_ERROR(ex.what());
+      }
+    catch(...)
+      {
+	BOOST_ERROR("Caught unknown exception");
+      }
+  }
+
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_8P )
+  {
+    try
+      {
+        stringstream ss;
+        ss << "\tFoo\v = \fBar\r" << endl;
+    
+	PropertiesConfiguration config(ss);
         String result = config.getString("Foo");
 
         BOOST_CHECK_MESSAGE(result == "Bar", "Failed to retrieve value for key");
@@ -187,7 +278,7 @@ namespace esapi
       }
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_8P )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_9P )
   {
     try
       {
@@ -213,7 +304,7 @@ namespace esapi
       }
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_9N )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_10N )
   {
     bool success = false;
     try
@@ -240,7 +331,7 @@ namespace esapi
     BOOST_CHECK_MESSAGE(success, "Failed to catch IllegalArgumentException");
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_10N )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_11N )
   {
     bool success = false;
     try
@@ -267,7 +358,7 @@ namespace esapi
     BOOST_CHECK_MESSAGE(success, "Failed to catch IllegalArgumentException");
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_11P )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_12P )
   {
     try
       {
@@ -290,7 +381,7 @@ namespace esapi
       }
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_12P )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_13P )
   {
     try
       {
@@ -313,7 +404,7 @@ namespace esapi
       }
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_13N )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_14N )
   {
     bool success = false;
     try
@@ -340,7 +431,7 @@ namespace esapi
     BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
   }
 
-  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_14N )
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_15N )
   {
     bool success = false;
     try
