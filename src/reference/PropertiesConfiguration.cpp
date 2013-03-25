@@ -15,13 +15,17 @@
 
 namespace esapi {
 
-const String PropertiesConfiguration::DEFAULT_PROPERTIES_FILENAME = L"ESAPI.properties";
+const String PropertiesConfiguration::DEFAULT_PROPERTIES_FILENAME = "ESAPI.properties";
 
 PropertiesConfiguration::PropertiesConfiguration(const String &file /* = DEFAULT_PROPERTIES_FILENAME */) {
 	load(file);
 }
 
-PropertiesConfiguration::PropertiesConfiguration(const hash_map<String, String> &map)
+//PropertiesConfiguration::PropertiesConfiguration(const hash_map<String, String> &map)
+//		: Configuration(map) {
+//}
+
+PropertiesConfiguration::PropertiesConfiguration(const unordered_map<String, String> &map)
 		: Configuration(map) {
 }
 
@@ -70,11 +74,10 @@ inline void PropertiesConfiguration::trim(std::wstring &s) {
  * This function will throw an IllegalArgumentException if the file contents cannot be multibyte decoded.
  */
 void PropertiesConfiguration::load(const String &file) {
-	std::string nFile = TextConvert::WideToNarrow(file);
-	std::cout << "Loading properties file: " << nFile << std::endl;
-	std::ifstream input(nFile.c_str(), std::ios::in);
+	std::cout << "Loading properties file: " << file << std::endl;
+  std::ifstream input(file.c_str(), std::ifstream::in);
 	if (input.fail())
-		throw FileNotFoundException("Could not open file for read: " + nFile);
+		throw FileNotFoundException("Could not open file for read: " + file);
 	while (input) {
 		parseLine(input);
 	}
@@ -88,13 +91,10 @@ void PropertiesConfiguration::parseLine(std::ifstream &input) {
 			if (line.size() > 0 && line[0] != '#') {
 				char delimiter = '=';
 				size_t delimiter_pos = line.find(delimiter, 0);
-				std::string nKey = line.substr(0, delimiter_pos);
-				std::string nValue = line.substr(delimiter_pos + 1, line.size());
-				trim(nKey);
-				trim(nValue);
-				// Convert to wstring key and value
-				String key = TextConvert::NarrowToWide(nKey);
-				String value = TextConvert::NarrowToWide(nValue);
+				std::string key = line.substr(0, delimiter_pos);
+				std::string value = line.substr(delimiter_pos + 1, line.size());
+				trim(key);
+				trim(value);
 				map_[key] = value;
 			}
 		}

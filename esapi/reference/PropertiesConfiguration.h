@@ -22,7 +22,8 @@ public:
 //	static void trim(C &s);
 
 	PropertiesConfiguration(const String &file = DEFAULT_PROPERTIES_FILENAME);
-	PropertiesConfiguration(const hash_map<String, String> &);
+	// PropertiesConfiguration(const hash_map<String, String> &);
+  PropertiesConfiguration(const unordered_map<String, String> &);
 	virtual ~PropertiesConfiguration();
 
 protected:

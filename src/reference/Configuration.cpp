@@ -1,8 +1,8 @@
 /*
- * Configuration.cpp
- *
- *  Created on: Mar 21, 2012
- */
+* Configuration.cpp
+*
+*  Created on: Mar 21, 2012
+*/
 
 #include "EsapiCommon.h"
 #include "errors/IllegalArgumentException.h"
@@ -15,193 +15,192 @@
 
 namespace esapi {
 
-Configuration::Configuration() {
-}
+  Configuration::Configuration() {
+  }
 
-Configuration::Configuration(const hash_map<String, String> map): map_(map) {
-}
+  //Configuration::Configuration(const hash_map<String, String> map): map_(map) {
+  //}
 
-Configuration::~Configuration() {
-}
+  Configuration::Configuration(const unordered_map<String, String> map): map_(map) {
+  }
 
-bool Configuration::hasProperty(const String &key) const {
-	return map_.count(key) > 0;
-}
+  Configuration::~Configuration() {
+  }
 
-bool Configuration::getUnparsedString(const String &key, String &value) const {
-	hash_map<String, String>::const_iterator iterator = map_.find(key);
-	if (iterator != map_.end()) {
-		value = iterator->second;
-		return true;
-	}
-	else
-	return false;
-}
+  bool Configuration::hasProperty(const String &key) const {
+    return map_.count(key) > 0;
+  }
 
-String Configuration::getString(const String &key) const {
-	String value;
-	if (getUnparsedString(key, value))
-		;
-	else
-		throw NoSuchPropertyException("Property not found: " + TextConvert::WideToNarrow(key));
+  bool Configuration::getUnparsedString(const String &key, String &value) const {
+    // hash_map<String, String>::const_iterator iterator = map_.find(key);
+    unordered_map<String, String>::const_iterator iterator = map_.find(key);
+    if (iterator != map_.end()) {
+      value = iterator->second;
+      return true;
+    }
+    else
+      return false;
+  }
 
-	return value;
-}
+  String Configuration::getString(const String &key) const {
+    String value;
+    if (!getUnparsedString(key, value))
+      throw NoSuchPropertyException("Property not found: " + key);
 
-String Configuration::getString(const String &key, const String &defaultValue) const {
-	String value;
-	if (getUnparsedString(key, value))
-		;
-	else
-		value = defaultValue;
+    return value;
+  }
 
-	return value;
-}
+  String Configuration::getString(const String &key, const String &defaultValue) const {
+    String value;
+    if (getUnparsedString(key, value))
+      ;
+    else
+      value = defaultValue;
 
-int Configuration::getInt(const String &key) const {
-	String value;
-	int intValue;
-	if (getUnparsedString(key, value))
-		intValue = parseInt(value);
-	else
-		throw NoSuchPropertyException("Property not found: " + TextConvert::WideToNarrow(key));
+    return value;
+  }
 
-	return intValue;
-}
+  int Configuration::getInt(const String &key) const {
+    String value;
+    int intValue;
+    if (getUnparsedString(key, value))
+      intValue = parseInt(value);
+    else
+      throw NoSuchPropertyException("Property not found: " + key);
 
-int Configuration::getInt(const String &key, const int defaultValue) const {
-	String value;
-	int intValue;
-	if (getUnparsedString(key, value))
-		intValue = parseInt(value);
-	else
-		value = defaultValue;
+    return intValue;
+  }
 
-	return intValue;
-}
+  int Configuration::getInt(const String &key, int defaultValue) const {
+    String value;
+    if (getUnparsedString(key, value))
+      return parseInt(value);
+    return defaultValue;
+  }
 
-bool Configuration::getBool(const String &key) const {
-	String value;
-	bool boolValue;
-	if (getUnparsedString(key, value))
-		boolValue = parseBool(value);
-	else
-		throw NoSuchPropertyException("Property not found: " + TextConvert::WideToNarrow(key));
+  bool Configuration::getBool(const String &key) const {
+    String value;
+    bool boolValue;
+    if (getUnparsedString(key, value))
+      boolValue = parseBool(value);
+    else
+      throw NoSuchPropertyException("Property not found: " + key);
 
-	return boolValue;
-}
+    return boolValue;
+  }
 
-bool Configuration::getBool(const String &key, const bool defaultValue) const {
-	String value;
-	bool boolValue;
-	if (getUnparsedString(key, value))
-		boolValue = parseBool(value);
-	else
-		value = defaultValue;
+  bool Configuration::getBool(const String &key, const bool defaultValue) const {
+    String value;
+    bool boolValue;
+    if (getUnparsedString(key, value))
+      boolValue = parseBool(value);
+    else
+      value = defaultValue;
 
-	return boolValue;
-}
+    return boolValue;
+  }
 
 
-bool Configuration::parseBool(const String &s) const {
-	if (s == L"0" || s == L"false" || s == L"off" || s == L"no")
-		return false;
-	else if (s == L"1" || s == L"true" || s == L"on" || s == L"yes")
-		return true;
-	else
-		throw ParseException("Cannot parse as boolean: " + TextConvert::WideToNarrow(s));
-}
+  bool Configuration::parseBool(const String &s) const {
+    String lower(s);
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 
-int Configuration::parseInt(const String &s) const {
+    if (s == "0" || s == "false" || s == "off" || s == "no")
+      return false;
+    else if (s == "1" || s == "true" || s == "on" || s == "yes")
+      return true;
+    else
+      throw ParseException("Cannot parse as boolean: " + s);
+  }
 
-	int n = -1;
-	try
-	{
-		n = stoi(s);
-	}
-	catch (...)
-	{
-		throw ParseException("Cannot parse as int: " + TextConvert::WideToNarrow(s));
-	}
+  int Configuration::parseInt(const String &s) const {
 
-// FIXME: Maybe better than the above because it does not require C++0X:
-//	int n = -1;
-//	try
-//	{
-//		int n = boost::lexical_cast<int>(s);
-//	}
-//	catch (boost::bad_lexical_cast &e)
-//	{
-//		throw ParseException("Cannot parse as int: " + TextConvert::WideToNarrow(s));
-//	}
+    int n = -1;
+    try
+    {
+      n = stoi(s);
+    }
+    catch (...)
+    {
+      throw ParseException("Cannot parse as int: " + s);
+    }
 
-// FIXME: This does not seem to work:
-//	std::wistringstream ss(s);
-//	int n;
-//	wchar_t c;
-//	ss >> n;
-//	if (ss.fail() || ss.get(c)) {
-//		throw ParseException("Cannot parse as int: " + TextConvert::WideToNarrow(s));
-//	}
+    // FIXME: Maybe better than the above because it does not require C++0X:
+    //	int n = -1;
+    //	try
+    //	{
+    //		int n = boost::lexical_cast<int>(s);
+    //	}
+    //	catch (boost::bad_lexical_cast &e)
+    //	{
+    //		throw ParseException("Cannot parse as int: " + s);
+    //	}
 
-	return n;
-}
+    // FIXME: This does not seem to work:
+    //	std::wistringstream ss(s);
+    //	int n;
+    //	wchar_t c;
+    //	ss >> n;
+    //	if (ss.fail() || ss.get(c)) {
+    //		throw ParseException("Cannot parse as int: " + s);
+    //	}
 
-StringList Configuration::getStringList(const String &key) const
-{
-	StringList value;
+    return n;
+  }
 
-	String unparsed;
-	if (getUnparsedString(key, unparsed))
-	{
-		splitString(unparsed, value, L", ", true);
-	}
-	else
-		throw NoSuchPropertyException("Property not found: " + TextConvert::WideToNarrow(key));
+  StringList Configuration::getStringList(const String &key) const
+  {
+    StringList value;
 
-	return value;
-}
+    String unparsed;
+    if (getUnparsedString(key, unparsed))
+    {
+      splitString(unparsed, value, ", ", true);
+    }
+    else
+      throw NoSuchPropertyException("Property not found: " + key);
 
-StringList Configuration::getStringList(const String &key, const StringList &defaultValue) const
-{
-	StringList value;
+    return value;
+  }
 
-	String unparsed;
-	if (getUnparsedString(key, unparsed))
-	{
-		splitString(unparsed, value, L",", true);
-	}
-	else
-		value = defaultValue;
+  StringList Configuration::getStringList(const String &key, const StringList &defaultValue) const
+  {
+    StringList value;
 
-	return value;
-}
+    String unparsed;
+    if (getUnparsedString(key, unparsed))
+    {
+      splitString(unparsed, value, ",", true);
+    }
+    else
+      value = defaultValue;
 
-void Configuration::splitString(String &input, StringList &output, const String &delimiters = L" ", const bool trimEmpty = false) const
-{
-	if (delimiters.empty())
-		throw IllegalArgumentException("Cannot split using empty set of delimiters");
+    return value;
+  }
 
-	String::size_type offset = 0;
-	while (true)
-	{
-		String::size_type pos = input.find_first_of(delimiters, offset);
-		if (pos == String::npos)
-		{
-			pos = input.length();
+  void Configuration::splitString(String &input, StringList &output, const String &delimiters = " ", const bool trimEmpty = false) const
+  {
+    if (delimiters.empty())
+      throw IllegalArgumentException("Cannot split using empty set of delimiters");
 
-			if (pos != offset || !trimEmpty)
-				output.push_back(input.substr(offset));
-			break;
-		}
-		else
-		{
-			if (pos != offset || !trimEmpty)
-				output.push_back(input.substr(offset, pos - offset));
-			offset = pos + 1;
-		}
-	}
-}
+    String::size_type offset = 0;
+    while (true)
+    {
+      String::size_type pos = input.find_first_of(delimiters, offset);
+      if (pos == String::npos)
+      {
+        pos = input.length();
 
-
+        if (pos != offset || !trimEmpty)
+          output.push_back(input.substr(offset));
+        break;
+      }
+      else
+      {
+        if (pos != offset || !trimEmpty)
+          output.push_back(input.substr(offset, pos - offset));
+        offset = pos + 1;
+      }
+    }
+  }
 }
