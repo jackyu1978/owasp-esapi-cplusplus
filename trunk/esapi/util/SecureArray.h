@@ -494,6 +494,10 @@ namespace esapi
   typedef SecureArray<byte> SecureByteArray;
   typedef SecureArray<int> SecureIntArray;
 
+#if defined(ESAPI_MS_DLL_EXPORTS)
+  template SecureArray<byte>;
+#endif
+
 } // NAMESPACE
 
 namespace std
