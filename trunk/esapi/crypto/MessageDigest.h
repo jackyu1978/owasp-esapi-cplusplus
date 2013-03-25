@@ -17,8 +17,6 @@
 #include "errors/IllegalArgumentException.h"
 #include "errors/NoSuchAlgorithmException.h"
 
-
-
 namespace esapi
 {
   // Forward declaration
