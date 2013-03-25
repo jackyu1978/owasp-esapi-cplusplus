@@ -42,7 +42,7 @@ namespace esapi {
    * This function will throw an IllegalArgumentException if the file contents cannot be multibyte decoded.
    */
   void PropertiesConfiguration::load(const String &file) {
-    std::cout << "Loading properties file: " << file << std::endl;
+    // std::clog << "Loading properties file: " << file << std::endl;
     std::ifstream input(file.c_str(), std::ifstream::in);
 
     // fail() catches File Not Found, bad() does not.
@@ -60,19 +60,15 @@ namespace esapi {
 
     size_t lineno = 0;	
     while (input.good() && !input.eof()) {
-      try
-	{
-	  lineno++;
-	  parseLine(input);
-	}
-      catch(std::exception& ex)
-	{
-	  std::clog << ex.what() << " (line " << lineno << ")" << std::endl;
-	}
+      lineno++;
+      parseLine(input, lineno);
     }
   }
 
-  void PropertiesConfiguration::parseLine(std::istream &input) {
+  // http://docs.oracle.com/javase/6/docs/api/java/util/Properties.html
+  // Nothing fancy here. We parse name/value pairs based on the '=' delimiter
+  // The Java parser is much more versatile.
+  void PropertiesConfiguration::parseLine(std::istream &input, size_t lineno) {
     ASSERT(!input.fail());
     if(input.fail())
       throw std::runtime_error("Should I shit or go blind???");
@@ -89,15 +85,28 @@ namespace esapi {
 	const size_t pos = line.find(delim, 0);
 
         ASSERT(pos != String::npos);
-        if(pos == String::npos)
-          std::clog << "delimiter not found" << std::endl;
+        if(pos == String::npos) {
+          std::ostringstream ss;
+          ss << "parseLine: delimiter not found (line: " << lineno << ")";
+          // std::clog << ss.str() << std::endl;
+          throw IllegalArgumentException(ss.str());
+        }
 
 	std::string key = line.substr(0, pos);
 	std::string value = line.substr(pos + 1, line.size());
 
+        // Keys must be present
 	trimWhitespace(key);
-	trimWhitespace(value);
-	ASSERT(!key.empty());
+        ASSERT(!key.empty());
+        if(key.empty()) {                    
+          std::ostringstream ss;
+          ss << "parseLine: property key is not valid (line: " << lineno << ")";
+          // std::clog << ss.str() << std::endl;
+          throw IllegalArgumentException(ss.str());
+        }
+
+        // Value is optional, but will likely result in an exception during retrieval
+	trimWhitespace(value);	
 	ASSERT(!value.empty());
 
 	m_map[key] = value;

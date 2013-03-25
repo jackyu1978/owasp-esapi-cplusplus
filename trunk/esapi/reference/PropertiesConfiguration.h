@@ -25,7 +25,7 @@ namespace esapi {
 
   protected:
     void parseStream(std::istream &input);
-    void parseLine(std::istream &input);
+    void parseLine(std::istream &input, size_t lineno);
   };
 
 } // NAMESPACE
