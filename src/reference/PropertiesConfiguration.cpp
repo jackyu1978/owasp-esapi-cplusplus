@@ -17,8 +17,11 @@ namespace esapi {
 
   const String PropertiesConfiguration::DEFAULT_PROPERTIES_FILENAME = "ESAPI.properties";
 
-  PropertiesConfiguration::PropertiesConfiguration(const String &file /* = DEFAULT_PROPERTIES_FILENAME */) {
-    load(file);
+  PropertiesConfiguration::PropertiesConfiguration(const String &file)
+    : Configuration() {
+
+    if(!file.empty())
+      load(file);
   }
 
   PropertiesConfiguration::PropertiesConfiguration(const ConfigurationMap& map)
@@ -28,10 +31,7 @@ namespace esapi {
   PropertiesConfiguration::PropertiesConfiguration(std::istream& in)
     : Configuration() {
 
-    ASSERT(!in.bad());
-    while (in.good() && !in.eof()) {
-      parseLine(in);
-    }
+    parseStream(in);
   }
 
   PropertiesConfiguration::~PropertiesConfiguration() {
@@ -45,20 +45,36 @@ namespace esapi {
     std::cout << "Loading properties file: " << file << std::endl;
     std::ifstream input(file.c_str(), std::ifstream::in);
 
-    // Need to check whether we should be using bad() or fail(). I believe its bad().
-    // http://www.cplusplus.com/reference/ios/ios/fail/
-    ASSERT(!input.bad());
-    if (input.bad())
-      throw FileNotFoundException("Could not open file for read: " + file);
+    // fail() catches File Not Found, bad() does not.
+    ASSERT(!input.fail());
+    if (input.fail())
+      throw FileNotFoundException("Failed to open file for read: " + file);
 
+    parseStream(input);
+  }
+
+  void PropertiesConfiguration::parseStream(std::istream &input) {
+    ASSERT(!input.fail());
+    if(input.fail())
+      throw std::runtime_error("Should I shit or go blind???");
+
+    size_t lineno = 0;	
     while (input.good() && !input.eof()) {
-      parseLine(input);
+      try
+	{
+	  lineno++;
+	  parseLine(input);
+	}
+      catch(std::exception& ex)
+	{
+	  std::clog << ex.what() << " (line " << lineno << ")" << std::endl;
+	}
     }
   }
 
   void PropertiesConfiguration::parseLine(std::istream &input) {
-    ASSERT(!input.bad());
-    if(input.bad())
+    ASSERT(!input.fail());
+    if(input.fail())
       throw std::runtime_error("Should I shit or go blind???");
 
     std::string line;
@@ -71,6 +87,11 @@ namespace esapi {
 
 	static const char delim = '=';
 	const size_t pos = line.find(delim, 0);
+
+        ASSERT(pos != String::npos);
+        if(pos == String::npos)
+          std::clog << "delimiter not found" << std::endl;
+
 	std::string key = line.substr(0, pos);
 	std::string value = line.substr(pos + 1, line.size());
 
@@ -83,3 +104,4 @@ namespace esapi {
       }
   }
 }
+

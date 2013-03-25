@@ -372,6 +372,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/reference/GenericAccessReferenceMapTest.cpp \
 			test/reference/IntegerAccessReferenceMapTest.cpp \
 			test/reference/RandomAccessReferenceMapTest.cpp \
+			test/reference/PropertiesConfigurationTest.cpp \
 			test/reference/validation/StringValidationRuleTest.cpp \
 			test/util/zAllocatorTest.cpp \
 			test/util/AlgorithmNameTest.cpp \

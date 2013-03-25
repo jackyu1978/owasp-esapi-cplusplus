@@ -21,10 +21,10 @@ namespace esapi {
     virtual ~PropertiesConfiguration();
 
   protected:
-
     static const String DEFAULT_PROPERTIES_FILENAME;
 
-  private:
+  protected:
+    void parseStream(std::istream &input);
     void parseLine(std::istream &input);
   };
 
