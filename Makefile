@@ -347,13 +347,13 @@ LIBSRCS =	$(ROOTSRCS) \
 			$(UTILSRCS)
 
 #			test/codecs/MySQLCodecTest.cpp \
-#			test/codecs/UnixCodecTest.cpp \
 
 TESTSRCS = 	test/TestMain.cpp \
 			test/codecs/CodecTest.cpp \
 			test/codecs/PushbackStringTest.cpp \
 			test/codecs/HTMLEntityCodecTest.cpp \
 			test/codecs/LDAPCodecTest.cpp \
+			test/codecs/UnixCodecTest.cpp \
 			test/crypto/PlainTextTest.cpp \
 			test/crypto/CipherSpecTest.cpp \
 			test/crypto/CipherTextTest.cpp \
