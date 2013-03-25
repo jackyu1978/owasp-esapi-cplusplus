@@ -58,6 +58,7 @@ void VerifyHmacShaKeyGenerator();
 void VerifyHmacWhirlpoolKeyGenerator();
 
 void VerifyKey(KeyGenerator& kgen, size_t bytes);
+void VerifyKeyGeneration(KeyGenerator&, size_t);
 
 BOOST_AUTO_TEST_CASE( VerifyKeyGenerator )
 {

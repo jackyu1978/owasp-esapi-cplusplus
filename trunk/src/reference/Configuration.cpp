@@ -18,23 +18,23 @@ namespace esapi {
   Configuration::Configuration() {
   }
 
-  //Configuration::Configuration(const hash_map<String, String> map): map_(map) {
+  //Configuration::Configuration(const hash_map<String, String> map): m_map(map) {
   //}
 
-  Configuration::Configuration(const unordered_map<String, String> map): map_(map) {
+  Configuration::Configuration(const ConfigurationMap map): m_map(map) {
   }
 
   Configuration::~Configuration() {
   }
 
   bool Configuration::hasProperty(const String &key) const {
-    return map_.count(key) > 0;
+    return m_map.count(key) > 0;
   }
 
   bool Configuration::getUnparsedString(const String &key, String &value) const {
-    // hash_map<String, String>::const_iterator iterator = map_.find(key);
-    unordered_map<String, String>::const_iterator iterator = map_.find(key);
-    if (iterator != map_.end()) {
+    // hash_map<String, String>::const_iterator iterator = m_map.find(key);
+    ConfigurationMap::const_iterator iterator = m_map.find(key);
+    if (iterator != m_map.end()) {
       value = iterator->second;
       return true;
     }
@@ -53,51 +53,41 @@ namespace esapi {
   String Configuration::getString(const String &key, const String &defaultValue) const {
     String value;
     if (getUnparsedString(key, value))
-      ;
-    else
-      value = defaultValue;
+      return value;
 
-    return value;
+    return defaultValue;
   }
 
   int Configuration::getInt(const String &key) const {
     String value;
-    int intValue;
     if (getUnparsedString(key, value))
-      intValue = parseInt(value);
-    else
-      throw NoSuchPropertyException("Property not found: " + key);
+      return parseInt(value);
 
-    return intValue;
+    throw NoSuchPropertyException("Property not found: " + key);
   }
 
   int Configuration::getInt(const String &key, int defaultValue) const {
     String value;
     if (getUnparsedString(key, value))
       return parseInt(value);
+
     return defaultValue;
   }
 
   bool Configuration::getBool(const String &key) const {
     String value;
-    bool boolValue;
     if (getUnparsedString(key, value))
-      boolValue = parseBool(value);
-    else
-      throw NoSuchPropertyException("Property not found: " + key);
+      return parseBool(value);
 
-    return boolValue;
+    throw NoSuchPropertyException("Property not found: " + key);
   }
 
   bool Configuration::getBool(const String &key, const bool defaultValue) const {
     String value;
-    bool boolValue;
     if (getUnparsedString(key, value))
-      boolValue = parseBool(value);
-    else
-      value = defaultValue;
+      return parseBool(value);
 
-    return boolValue;
+    return defaultValue;
   }
 
 
@@ -105,9 +95,9 @@ namespace esapi {
     String lower(s);
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 
-    if (s == "0" || s == "false" || s == "off" || s == "no")
+    if (s == "\x00" || s == "0" || s == "false" || s == "off" || s == "no")
       return false;
-    else if (s == "1" || s == "true" || s == "on" || s == "yes")
+    else if (s == "\x01" || s == "1" || s == "true" || s == "on" || s == "yes")
       return true;
     else
       throw ParseException("Cannot parse as boolean: " + s);
@@ -115,35 +105,13 @@ namespace esapi {
 
   int Configuration::parseInt(const String &s) const {
 
-    int n = -1;
-    try
-    {
-      n = stoi(s);
-    }
-    catch (...)
-    {
-      throw ParseException("Cannot parse as int: " + s);
-    }
+    StringStream ss(s);
+    int n = 0;
 
-    // FIXME: Maybe better than the above because it does not require C++0X:
-    //	int n = -1;
-    //	try
-    //	{
-    //		int n = boost::lexical_cast<int>(s);
-    //	}
-    //	catch (boost::bad_lexical_cast &e)
-    //	{
-    //		throw ParseException("Cannot parse as int: " + s);
-    //	}
-
-    // FIXME: This does not seem to work:
-    //	std::wistringstream ss(s);
-    //	int n;
-    //	wchar_t c;
-    //	ss >> n;
-    //	if (ss.fail() || ss.get(c)) {
-    //		throw ParseException("Cannot parse as int: " + s);
-    //	}
+    ss >> n;
+    ASSERT(!(ss.fail()));
+    if (ss.fail())
+        throw ParseException("Cannot parse as int: " + s);
 
     return n;
   }
