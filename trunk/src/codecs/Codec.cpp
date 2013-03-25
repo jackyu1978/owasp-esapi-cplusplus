@@ -165,6 +165,7 @@ namespace esapi
   NarrowString Codec::toBase(const NarrowString& ch, unsigned int base) {
 
     ASSERT(!ch.empty());
+    ASSERT(ch.size() <= sizeof(unsigned long));
     ASSERT(base == 8 || base == 10 || base == 16);
 
     if(ch.empty())
@@ -187,7 +188,7 @@ namespace esapi
     switch(base)
     {
     case 8:
-      str << "0" << std::oct << static_cast<unsigned long>(n);
+      str << std::oct << static_cast<unsigned long>(n);
       break;
     case 10:
       str << std::dec << static_cast<unsigned long>(n);
