@@ -118,6 +118,7 @@
 #include <cstddef>
 #include <iostream>
 #include <sstream>
+#include <istream>
 #include <memory>
 #include <string>
 #include <vector>
