@@ -23,7 +23,7 @@ public:
 
 	PropertiesConfiguration(const String &file = DEFAULT_PROPERTIES_FILENAME);
 	// PropertiesConfiguration(const hash_map<String, String> &);
-  PropertiesConfiguration(const unordered_map<String, String> &);
+  PropertiesConfiguration(const ConfigurationMap &);
 	virtual ~PropertiesConfiguration();
 
 protected:
