@@ -326,10 +326,12 @@ CRYPTOSRCS = src/crypto/PlainText.cpp \
 ERRSRCS =   src/errors/EnterpriseSecurityException.cpp \
 			src/errors/ValidationException.cpp
 
-REFSRCS =   src/reference/DefaultEncoder.cpp \
+REFSRCS =   src/reference/Configuration.cpp \
+			src/reference/DefaultEncoder.cpp \
 			src/reference/DefaultEncryptor.cpp \
 			src/reference/DefaultExecutor.cpp \
 			src/reference/DefaultValidator.cpp \
+			src/reference/PropertiesConfiguration.cpp \
 			src/reference/validation/BaseValidationRule.cpp \
 			src/reference/validation/StringValidationRule.cpp
 
