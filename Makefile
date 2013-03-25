@@ -365,19 +365,21 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/crypto/MessageDigestTest.cpp \
 			test/crypto/KeyDerivationFunctionTest.cpp \
 			test/errors/ValidationExceptionTest.cpp \
-			test/reference/DefaultEncryptorTest.cpp \
+			test/reference/ConfigurationTest1.cpp \
+			test/reference/ConfigurationTest2.cpp \
 			test/reference/DefaultEncoderTest.cpp \
+			test/reference/DefaultEncryptorTest.cpp \
+			test/reference/GenericAccessReferenceMapTest.cpp \
+			test/reference/IntegerAccessReferenceMapTest.cpp \
+			test/reference/RandomAccessReferenceMapTest.cpp \
+			test/reference/validation/StringValidationRuleTest.cpp \
 			test/util/zAllocatorTest.cpp \
 			test/util/AlgorithmNameTest.cpp \
 			test/util/SecureByteArrayTest.cpp \
 			test/util/SecureIntArrayTest.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp \
-			test/util/TextConvertTest.cpp \
-			test/reference/validation/StringValidationRuleTest.cpp \
-			test/reference/GenericAccessReferenceMapTest.cpp \
-			test/reference/IntegerAccessReferenceMapTest.cpp \
-			test/reference/RandomAccessReferenceMapTest.cpp
+			test/util/TextConvertTest.cpp
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
