@@ -202,13 +202,21 @@ namespace esapi {
 
   void Configuration::trimWhitespace(String& str) const
   {
-    const std::string::size_type pos1 = str.find_first_not_of(" \t\n\v\f\r");
-    if (pos1 != std::string::npos)
-      str.erase(0, pos1);
+    static const std::string whitespace = " \t\n\v\f\r\b";
+    std::string::size_type pos = 0;
 
-    const std::string::size_type pos2 = str.find_last_not_of(" \t\n\v\f\r");
-    if (pos2 != std::string::npos)
-      str.erase(pos2 + 1);
+    pos = str.find_first_not_of(whitespace);
+    if (pos == std::string::npos) {
+      str = "";
+      return;
+    }
+
+    if (pos != std::string::npos)
+      str.erase(0, pos);
+
+    pos = str.find_last_not_of(whitespace);
+    if (pos != std::string::npos)
+      str.erase(pos + 1);
   }
 
   void Configuration::splitString(String &input, StringList &output, const String &delimiters = " ", const bool trimEmpty = false) const
