@@ -30,10 +30,10 @@ namespace esapi
     }
 
     // check for alphanumeric characters
-    String hex = Codec::getHexForNonAlphanumeric( ch );
-    if ( hex.empty() ) {
-      return ch;
-    }
+    //String hex = Codec::getHexForNonAlphanumeric( ch );
+    //if ( hex.empty() ) {
+    //  return ch;
+    //}
 
     switch( mode ) {
     case ANSI_MODE: return encodeCharacterANSI( ch );
