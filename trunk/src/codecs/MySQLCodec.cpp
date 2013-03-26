@@ -38,7 +38,7 @@ namespace esapi
     switch( mode ) {
     case ANSI_MODE: return encodeCharacterANSI( ch );
     case MYSQL_MODE: return encodeCharacterMySQL( ch );
-    default: ASSERT(0);
+    default: ASSERT(0); throw std::runtime_error("MySQLCodec mode is not valid");
     }
 
     return NarrowString();
@@ -48,7 +48,7 @@ namespace esapi
     switch( mode ) {
     case ANSI_MODE: return decodeCharacterANSI( input );
     case MYSQL_MODE: return decodeCharacterMySQL( input );
-    default: ASSERT(0);
+    default: ASSERT(0); throw std::runtime_error("MySQLCodec mode is not valid");
     }
     return NarrowString();
   }
