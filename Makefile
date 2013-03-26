@@ -85,8 +85,8 @@ ifeq ($(WANT_RELEASE),1)
 endif
 
 ifeq ($(WANT_TEST),1)
-  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
-  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
+  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
+  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase

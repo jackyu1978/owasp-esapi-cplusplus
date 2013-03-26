@@ -58,6 +58,10 @@ namespace esapi {
     if(input.fail())
       throw std::runtime_error("Should I shit or go blind???");
 
+    // Clear the existing map if there are any elements
+    if(!empty())
+      clear();
+
     size_t lineno = 0;	
     while (input.good() && !input.eof()) {
       lineno++;
@@ -105,11 +109,13 @@ namespace esapi {
           throw IllegalArgumentException(ss.str());
         }
 
-        // Value is optional, but will likely result in an exception during retrieval
+        // Value is optional, but will likely result in an exception during retrieval.
+        // String *will not* throw on getString(...); but Bool and Int *will*
+        // throw when using getBool(...) or getInt(...).
 	trimWhitespace(value);	
 	ASSERT(!value.empty());
 
-	m_map[key] = value;
+        setString(key, value);
       }
   }
 }
