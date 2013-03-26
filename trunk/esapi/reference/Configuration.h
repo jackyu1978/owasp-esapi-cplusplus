@@ -19,20 +19,25 @@ namespace esapi {
   public:
 
     bool hasProperty(const String &key) const;
-    //	void setString(const String &key, const String &value);
+
     String getString(const String &key) const;
     String getString(const String &key, const String &defaultValue) const;
     StringList getStringList(const String &key) const;
     StringList getStringList(const String &key, const StringList &defaultValue) const;
-    //	void setInt(const String &key, const int &value);
+    
     int getInt(const String &key) const;
     int getInt(const String &key, int defaultValue) const;
-    //	void setBool(const String &key, const bool &value);
+    
     bool getBool(const String &key) const;
     bool getBool(const String &key, const bool defaultValue) const;
 
+    // void setBool(const String &key, const bool &value);
+    // void setInt(const String &key, const int &value);
+    // void setInt(const String &key, const int &value);
+
     Configuration();
     Configuration(const ConfigurationMap& map);
+
     virtual ~Configuration();
 
   protected:
@@ -42,7 +47,7 @@ namespace esapi {
     int parseInt(const String &) const;
     void splitString(String &, StringList &, const String &, const bool trimEmpty) const;
 
-    // hash_map<String, String> m_map;
+  private:
     ConfigurationMap m_map;
 
   private:
