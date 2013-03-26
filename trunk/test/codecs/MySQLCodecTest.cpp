@@ -28,6 +28,7 @@ using namespace boost::unit_test;
 #include "EsapiCommon.h"
 using esapi::Char;
 using esapi::String;
+using esapi::StringArray;
 
 #include "codecs/Codec.h"
 using esapi::Codec;
@@ -46,11 +47,11 @@ BOOST_AUTO_TEST_CASE( MySQLCodecBasicTest )
 	MySQLCodec mySQLCodecANSI( MySQLCodec::ANSI_MODE );
 	MySQLCodec mySQLCodecStandard( MySQLCodec::MYSQL_MODE );
 
-	const Char immune[] = { 0 };
+	StringArray immune;
 	String result = "";
 
-	BOOST_CHECK( mySQLCodecANSI.encode(immune,0, "\'") == String("\'\'") );
-	BOOST_CHECK( mySQLCodecStandard.encode(immune,0, "<").compare("\\<") == 0 );
+	BOOST_CHECK( mySQLCodecANSI.encode(immune, "\'") == String("\'\'") );
+	BOOST_CHECK( mySQLCodecStandard.encode(immune, "<").compare("\\<") == 0 );
 
 	result = mySQLCodecStandard.decode("\\<");
 	BOOST_CHECK( result == "<" );
@@ -62,19 +63,15 @@ BOOST_AUTO_TEST_CASE( MySQLCodecBasicTest )
 BOOST_AUTO_TEST_CASE(testMySQLStandardEncodeChar0x100)
 {
 	MySQLCodec mySQLCodecStandard( MySQLCodec::MYSQL_MODE );
-	const Char immune[] = { 0 };
+	StringArray immune;
 
-	Char in = (Char)0x100;
-	String inStr = String(1,(Char)0x100);
-	String expected = "\\" + String(1,(Char)0x100);
+	Char in = (Char)0x10;
+	String expected = "\\" + String(1,in);
 	String result;
 
-	result = mySQLCodecStandard.encodeCharacter(immune, 0, in);
-
-	//std::wcout << "in:" << in << " inStr: " << inStr << " expected: " << expected << " result: " << result;
+	result = mySQLCodecStandard.encodeCharacter(immune, String(1,in));
 
 	// this should be escaped
-	BOOST_CHECK(! inStr.compare(result) == 0);
 	BOOST_CHECK(expected.compare(result) == 0);
 }
 
