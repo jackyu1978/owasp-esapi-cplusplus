@@ -675,5 +675,26 @@ namespace esapi
     BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
   }
 
+  BOOST_AUTO_TEST_CASE( PropertiesConfiguration_19P )
+  {
+    try
+      {
+        stringstream ss;
+        ss << "Foo=1" << endl;
+    
+	PropertiesConfiguration config(ss);
+        BOOST_CHECK_MESSAGE(true == config.hasProperty("Foo"), "Failed to detect hasProperty(\"Foo\")");
+        BOOST_CHECK_MESSAGE(false == config.hasProperty("Bar"), "Failed to detect does not hasProperty(\"Foo\")");
+      }
+    catch(const std::exception& ex)
+      {
+	BOOST_ERROR(ex.what());
+      }
+    catch(...)
+      {
+	BOOST_ERROR("Caught unknown exception");
+      }
+  }
+
 }   // namespace esapi
 

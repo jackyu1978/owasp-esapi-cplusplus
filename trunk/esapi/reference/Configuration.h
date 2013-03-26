@@ -18,6 +18,10 @@ namespace esapi {
 
   public:
 
+    void setBool(const String &key, const bool &value);
+    void setInt(const String &key, const int &value);
+    void setString(const String &key, const String &value);
+
     bool hasProperty(const String &key) const;
 
     String getString(const String &key) const;
@@ -31,9 +35,8 @@ namespace esapi {
     bool getBool(const String &key) const;
     bool getBool(const String &key, const bool defaultValue) const;
 
-    // void setBool(const String &key, const bool &value);
-    // void setInt(const String &key, const int &value);
-    // void setInt(const String &key, const int &value);
+    bool empty() const { return m_map.empty(); }
+    void clear() { m_map.clear(); }
 
     Configuration();
     Configuration(const ConfigurationMap& map);

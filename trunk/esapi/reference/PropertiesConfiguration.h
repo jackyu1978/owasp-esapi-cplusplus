@@ -11,7 +11,7 @@
 
 namespace esapi {
 
-  class ESAPI_EXPORT PropertiesConfiguration: protected Configuration {
+  class ESAPI_EXPORT PropertiesConfiguration: public Configuration {
   public:
 
     /**

@@ -33,6 +33,37 @@ namespace esapi {
     return m_map.count(key) > 0;
   }
 
+  void Configuration::setBool(const String &key, const bool &value) {
+    ASSERT(!key.empty());
+    if(key.empty())
+      return;
+
+    m_map[key] = (value == true ? "true" : "false");
+  }
+
+  void Configuration::setInt(const String &key, const int &value) {
+    ASSERT(!key.empty());
+    if(key.empty())
+      return;
+
+    std::ostringstream ss;
+    ss << value;
+
+    ASSERT(!ss.fail());
+    if(ss.fail())
+      return;
+
+    m_map[key] = ss.str();
+  }
+
+  void Configuration::setString(const String &key, const String &value) {
+    ASSERT(!key.empty());
+    if(key.empty())
+      return;
+
+    m_map[key] = value;
+  }
+
   bool Configuration::getUnparsedString(const String &key, String &value) const {
     ASSERT(!key.empty());
     if(key.empty())

@@ -40,6 +40,8 @@ using esapi::Configuration;
 #include "errors/ParseException.h"
 using esapi::ParseException;
 
+#if defined(ESAPI_BUILD_TEST)
+
 BOOST_AUTO_TEST_CASE( Configuration_2_1P )
 {
   try
@@ -409,4 +411,6 @@ BOOST_AUTO_TEST_CASE( Configuration_2_14N )
 
   BOOST_CHECK_MESSAGE(success, "Failed to catch ParseException");
 }
+
+#endif // ESAPI_BUILD_TEST
 
