@@ -59,7 +59,6 @@ BOOST_AUTO_TEST_CASE( MySQLCodecBasicTest )
 	BOOST_CHECK( mySQLCodecANSI.decode("\'\'").compare("\'") == 0 );
 }
 
-
 BOOST_AUTO_TEST_CASE(testMySQLStandardEncodeChar0x100)
 {
 	MySQLCodec mySQLCodecStandard( MySQLCodec::MYSQL_MODE );
@@ -75,4 +74,20 @@ BOOST_AUTO_TEST_CASE(testMySQLStandardEncodeChar0x100)
 	BOOST_CHECK(expected.compare(result) == 0);
 }
 
+BOOST_AUTO_TEST_CASE( MySQLCodecInvalidModeTest )
+{
+	BOOST_CHECK(MySQLCodec::ANSI_MODE == 1);
 
+  MySQLCodec mySQLCodecBogus( MySQLCodec::Mode(99) );
+
+	StringArray immune;
+	String result = "";
+
+	BOOST_CHECK( mySQLCodecBogus.encode(immune, "\'") == String("\'\'") );
+	BOOST_CHECK( mySQLCodecBogus.encode(immune, "<").compare("\\<") == 0 );
+
+	result = mySQLCodecBogus.decode("\\<");
+	BOOST_CHECK( result == "<" );
+
+	BOOST_CHECK( mySQLCodecBogus.decode("\'\'").compare("\'") == 0 );
+}
