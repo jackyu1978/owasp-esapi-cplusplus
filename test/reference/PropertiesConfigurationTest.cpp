@@ -684,7 +684,7 @@ namespace esapi
     
 	PropertiesConfiguration config(ss);
         BOOST_CHECK_MESSAGE(true == config.hasProperty("Foo"), "Failed to detect hasProperty(\"Foo\")");
-        BOOST_CHECK_MESSAGE(false == config.hasProperty("Bar"), "Failed to detect does not hasProperty(\"Foo\")");
+        BOOST_CHECK_MESSAGE(false == config.hasProperty("Bar"), "Failed to detect does not hasProperty(\"Bar\")");
       }
     catch(const std::exception& ex)
       {
