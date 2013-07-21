@@ -35,18 +35,6 @@ AR=arm-linux-androideabi-ar RANLIB=arm-linux-androideabi-ranlib
 
 If all goes well, you will see output similar to below.
 
-{{{
-arm-linux-androideabi-g++  -fpic -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2
--Dprivate=public -Dprotected=public -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1 -pipe -fsigned-char
--Woverloaded-virtual -Wreorder -Wconversion -Wmissing-declarations -Wformat=2 -Wformat-security
--Wuninitialized -Wno-unused -fstrict-aliasing -fvisibility=hidden -fstack-protector-all
--Wstrict-overflow -Wall -Wextra -Wno-unused -Wno-type-limits -Wtrampolines
--std=c++0x -I. -I./esapi -I./deps -I/opt/android-ndk-r8e/sources/cxx-stl/stlport/stlport/
---sysroot=/opt/android-ndk-r8e/platforms/android-14/arch-arm  -c src/EncoderConstants.cpp
--o src/EncoderConstants.o
-...
-}}}
-
 [http://owasp-esapi-cplusplus.googlecode.com/svn/trunk/images/esapi-cpp-android.png]
 
 You will likely receive an error due to STLport, and its currently being researched:
@@ -56,4 +44,67 @@ In file included from src/EncoderConstants.cpp:11:0:
 ./esapi/EsapiCommon.h:157:12: error: 'std::shared_ptr' has not been declared
 ./esapi/EsapiCommon.h:158:12: error: 'std::unordered_map' has not been declared
 make: *** [src/EncoderConstants.o] Error 1
+}}}
+
+#summary Discusses compiling for Android and iOS.
+
+= Introduction =
+
+This page discusses compiling for Android and iOS.
+
+
+= iOS =
+
+Compiling iOS requires the Xcode and Command Line Tools. If you want to test on a device, you will also need a developer account for code signing (or a jailbroken device with {{{ldid}}}).
+
+To begin, run {{{setenv-ios.sh}}}. The script will build for {{{armv7}}} by default using the latest SDK it can find. Note well (_N.B._): be sure to use the leading dot so the changes made by the script are applied to the current shell and child shells.
+
+{{{
+$ . ./setenv-ios.sh 
+Configuring for Device (ARMv7)
+XCODE_SDK: iPhoneOS6.1.sdk
+XCODE_DEVELOPER: /Applications/Xcode.app/Contents/Developer
+XCODE_TOOLCHAIN: /Applications/Xcode.app/Contents/Developer/usr/bin
+XCODE_DEVELOPER_TOP: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
+IOS_ARCH: armv7
+IOS_TOOLCHAIN: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/
+IOS_SYSROOT: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk
+SYSROOT TEST: found valid sysroot, we're go for launch
+TOOL TEST: found all tools, this might actually work
+}}}
+
+Once the script sets the environment, you can simply run {{{make}}} from the command line. However, you will need to specify {{{CPP}}}, {{{CXX}}}, and friends because Android uses non-standard names for its tools:
+
+{{{
+$ make test
+}}}
+
+If all goes well, you will see output similar to below.
+
+[http://owasp-esapi-cplusplus.googlecode.com/svn/trunk/images/esapi-cpp-ios.png]
+
+If you want to build for {{{armv7s}}}, you can simply execute {{{setenv-ios.sh}}} with that argument:
+
+{{{
+$ . ./setenv-ios.sh 
+Configuring for Device (ARMv7s)
+XCODE_SDK: iPhoneOS6.1.sdk
+XCODE_DEVELOPER: /Applications/Xcode.app/Contents/Developer
+XCODE_TOOLCHAIN: /Applications/Xcode.app/Contents/Developer/usr/bin
+...
+}}}
+
+If you want to build a Mach-O fat binary, the easiest method is to open {{{GNUmakefile}}} and add the architectures by hand. Around line 305, make the following change:
+
+{{{
+ifeq ($(IS_IOS),1)
+  ESAPI_CFLAGS   += -arch armv7 -arch armv7s --sysroot=$(IOS_SYSROOT)
+  ESAPI_CXXFLAGS += -arch armv7 -arch armv7s --sysroot=$(IOS_SYSROOT)
+endif
+}}}
+
+Finally, if you want to run on a jailbroken device (and avoid the aggravations of {{{ldid}}}), then perform a code sign before pushing to the device:
+
+{{{
+codesign -fs "John Doe" test/run_esapi_tests
 }}}
