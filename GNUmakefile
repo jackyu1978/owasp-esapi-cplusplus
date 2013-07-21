@@ -339,7 +339,7 @@ endif
 
 # Android variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
-  ESAPI_CFLAGS      += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
+  ESAPI_CFLAGS      += --sysroot=$(ANDROID_SYSROOT)
   ESAPI_CXXFLAGS    += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
 endif
 
