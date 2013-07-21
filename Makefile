@@ -332,8 +332,8 @@ REFSRCS =   src/reference/Configuration.cpp \
 			src/reference/DefaultExecutor.cpp \
 			src/reference/DefaultValidator.cpp \
 			src/reference/PropertiesConfiguration.cpp \
-			src/reference/validation/BaseValidationRule.cpp \
-			src/reference/validation/StringValidationRule.cpp
+			src/reference/validation/BaseValidationRule.cpp
+# 			src/reference/validation/StringValidationRule.cpp
 
 UTILSRCS =	src/util/Mutex.cpp \
 			src/util/AlgorithmName.cpp \

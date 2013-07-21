@@ -215,7 +215,7 @@ struct DebugTrapHandler
   DebugTrapHandler()
   {
     // http://pubs.opengroup.org/onlinepubs/007908799/xsh/sigaction.html
-    struct sigaction new_handler, old_handler;
+    struct sigaction old_handler, new_handler={ };
 
     do
       {
