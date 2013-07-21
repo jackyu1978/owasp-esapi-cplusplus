@@ -174,6 +174,10 @@ endif
 # See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
   IS_CROSS_COMPILE = 1
+
+  # For shared_ptr and unordered_map
+  # ESAPI_CFLAGS += -D_STLP_USE_BOOST_SUPPORT=1
+  # ESAPI_CXXFLAGS += -D_STLP_USE_BOOST_SUPPORT=1
   
   # Optimize for size, not speed
   ifneq ($(ESAPI_OPTIMIZE),-O0)
@@ -203,11 +207,11 @@ ifeq ($(IS_CROSS_COMPILE),1)
 endif
 
 # Fix file extension and AR/ARFLAGS for Apple platforms
-#ifeq ($(IS_APPLE),1)
+ifeq ($(IS_APPLE),1)
   AR = libtool
   ARFLAGS = -static -o
   DYNAMIC_LIB = libesapi-c++.dylib
-#endif
+endif
 
 # Try and pick up SunStudio on Solaris. For whatever reason OpenSolaris is using CXX=g++
 # (from the environment?), which is blowing up on OpenSolaris with a 'g++: command not found'.
