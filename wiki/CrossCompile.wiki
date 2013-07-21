@@ -58,7 +58,7 @@ make: *** [src/EncoderConstants.o] Error 1
 
 = iOS =
 
-Compiling iOS requires the Xcode and Command Line Tools. If you want to test on a device, you will also need a developer account for code signing (or a jailbroken device with {{{ldid}}}).
+Compiling for iOS requires Xcode and Command Line Tools. If you want to test on a device, you will also need a developer account for code signing (or a jailbroken device with {{{ldid}}}).
 
 To begin, run {{{setenv-ios.sh}}}. The script will build for {{{armv7}}} by default using the latest SDK it can find. Note well (_N.B._): be sure to use the leading dot so the changes made by the script are applied to the current shell and child shells.
 
