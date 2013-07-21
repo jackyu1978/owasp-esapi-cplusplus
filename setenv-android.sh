@@ -207,14 +207,6 @@ export ANDROID_STL_LIB="$ANDROID_NDK_ROOT/sources/cxx-stl/stlport/libs/armeabi/l
 
 #####################################################################
 
-# The Crypto++ Makefile uses these. The Android NDK does not provide
-# 'uname', so the makefile uses host values rather than target values.
-export UNAME=Android
-export IS_X86=0
-export IS_LINUX=0
-export IS_MINGW=0
-export IS_DARWIN=0
-
 # ARMv7 has a few rules, so please visit
 # https://android.googlesource.com/platform/ndk/+/ics-mr0/docs/STANDALONE-TOOLCHAIN.html
 # armeabi-v7a must use:
