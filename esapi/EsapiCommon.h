@@ -125,7 +125,7 @@
 #include <list>
 #include <map>
 #include <algorithm>
-#include <unordered_map>
+#include <stdexcept>
 
 // Windows defines a min that clashes with std::min. We also need
 // Windows 2000 (_WIN32_WINNT = 0x0500) for the WinCrypt gear
@@ -146,10 +146,12 @@
 // scoped at declaration, but Apple is a problem.
 #if defined(ESAPI_OS_APPLE) || defined(ESAPI_CXX_CLANG)
 # include <tr1/memory>
+# include <tr1/unordered_map>
 using std::tr1::shared_ptr;
 using std::tr1::unordered_map;
 #else
 # include <memory>
+# include <unordered_map>
 using std::shared_ptr;
 using std::unordered_map;
 #endif
