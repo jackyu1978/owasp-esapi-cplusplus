@@ -44,6 +44,9 @@ STATIC_LIB =	libesapi-c++.a
 
 # Try and pick up on targets/goals.
 # See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html for mixing and matching Debug/Release/Test from goals.
+WANT_DEBUG = 0
+WANT_TEST = 0
+WANT_RELEASE = 0
 
 DEBUG_GOALS = $(filter $(MAKECMDGOALS), debug)
 ifneq ($(DEBUG_GOALS),)
