@@ -75,20 +75,23 @@ endif
 
 # libstdc++ debug: http://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode.html
 ifeq ($(WANT_DEBUG),1)
-# Whoops, ABI compatibility issues with pre-built DSOs
-#  ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG=1 -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
-  ESAPI_CFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
-  ESAPI_CXXFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  # Whoops, ABI compatibility issues with pre-built DSOs
+  # ESAPI_CXXFLAGS += -D_GLIBCXX_DEBUG=1 -DDEBUG=1 -g3 -ggdb -O0 -Dprivate=public -Dprotected=public
+  ESAPI_OPTIMIZE = -O0
+  ESAPI_CFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb $(ESAPI_OPTIMIZE) -Dprivate=public -Dprotected=public
+  ESAPI_CXXFLAGS += -DDEBUG=1 -UNDEBUG -g3 -ggdb $(ESAPI_OPTIMIZE) -Dprivate=public -Dprotected=public
 endif
 
 ifeq ($(WANT_RELEASE),1)
-  ESAPI_CFLAGS += -DNDEBUG=1 -UDEBUG -g -O2
-  ESAPI_CXXFLAGS += -DNDEBUG=1 -UDEBUG -g -O2
+  ESAPI_OPTIMIZE = -O2
+  ESAPI_CFLAGS += -DNDEBUG=1 -UDEBUG -g $(ESAPI_OPTIMIZE)
+  ESAPI_CXXFLAGS += -DNDEBUG=1 -UDEBUG -g $(ESAPI_OPTIMIZE)
 endif
 
 ifeq ($(WANT_TEST),1)
-  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
-  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2 -Dprivate=public -Dprotected=public
+  ESAPI_OPTIMIZE = -O2
+  ESAPI_CFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb $(ESAPI_OPTIMIZE) -Dprivate=public -Dprotected=public
+  ESAPI_CXXFLAGS += -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb $(ESAPI_OPTIMIZE) -Dprivate=public -Dprotected=public
 endif
 
 # For SafeInt. Painting with a broad brush, unsigned negation is bad becuase
@@ -156,12 +159,23 @@ endif
 # See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_IOS),1)
   CXX = clang++
+
   IS_CROSS_COMPILE = 1
+  
+  # Optimize for size, not speed
+  ifneq ($(ESAPI_OPTIMIZE),-O0)
+    ESAPI_OPTIMIZE = -Os
+  endif
 endif
 
 # See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
   IS_CROSS_COMPILE = 1
+  
+  # Optimize for size, not speed
+  ifneq ($(ESAPI_OPTIMIZE),-O0)
+    ESAPI_OPTIMIZE = -Os
+  endif
   
   ifeq ($(WANT_DEBUG),1)
       ESAPI_CFLAGS += -DNDK_DEBUG=1
