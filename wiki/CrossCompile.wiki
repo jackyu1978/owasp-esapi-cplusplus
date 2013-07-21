@@ -86,7 +86,7 @@ If all goes well, you will see output similar to below.
 If you want to build for {{{armv7s}}}, you can simply execute {{{setenv-ios.sh}}} with that argument:
 
 {{{
-$ . ./setenv-ios.sh 
+$ . ./setenv-ios.sh armv7s
 Configuring for Device (ARMv7s)
 XCODE_SDK: iPhoneOS6.1.sdk
 XCODE_DEVELOPER: /Applications/Xcode.app/Contents/Developer
