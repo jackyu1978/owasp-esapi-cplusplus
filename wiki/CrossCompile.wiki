@@ -1,9 +1,9 @@
-#summary One-sentence summary of this page.
+#summary Discusses compiling for Android and iOS.
 #labels android,ios
 
 = Introduction =
 
-This page discusses how to compile for Android and iOS.
+This page discusses compiling for Android and iOS.
 
 
 = Details =
