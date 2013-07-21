@@ -243,7 +243,7 @@ endif
 ifeq ($(GCC41_OR_LATER),1)
 
     # GCC 4.7 warns of FORTIFY_SOURCE with -O0 (used with Debug and Test)
-    ifeq ($(WANT_RELEASE),1)
+    ifneq ($(WANT_DEBUG),1)
         ESAPI_CFLAGS += -D_FORTIFY_SOURCE=2
         ESAPI_CXXFLAGS += -D_FORTIFY_SOURCE=2
     endif
