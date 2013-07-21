@@ -8,7 +8,7 @@ This page discusses compiling for Android and iOS.
 
 = Android =
 
-Compiling Android requires the Android NDK, and the environmental variable {{{NDK_ROOT}}} is set to the root of the NDK. If its not set, the script will attempt to locate the NDK in in {{{$HOME}}}, {{{/usr/local}}}, and {{{/opt}}}.
+Compiling Android requires the Android NDK, and the environmental variable {{{ANDROID_NDK_ROOT}}} should be set to the root of the NDK. If {{{ANDROID_NDK_ROOT}}} is not set, the {{{setenv-android.sh}}} script will attempt to locate the NDK in in {{{$HOME}}}, {{{/usr/local}}}, and {{{/opt}}}. For completeness, you should always set {{{ANDROID_NDK_ROOT}}} and {{{ANDROID_SDK_ROOT}}} because they are used by a number of NDK, SDK, and external tools (see [https://groups.google.com/d/msg/android-ndk/qZjhOaynHXc/2ux2ZZdxy2MJ Recommended NDK Directory?] for a discussion).
 
 To begin, run {{{setenv-android.sh}}}. There are three variables that can be tuned to suit your taste: {{{ANDROID_NDK_ROOT}}}, {{{ANDROID_EABI}}}, and {{{ANDROID_API}}}. If there are any errors, then you should fix them before proceeding. Note well (_N.B._): be sure to use the leading dot so the changes made by the script are applied to the current shell and child shells.
 
