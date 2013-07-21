@@ -291,18 +291,3 @@ done
 if [ "$SETENV_VERBOSE" == "1" ] && [ "$FOUND_ALL" == "1" ]; then
   echo "TOOL TEST: found all tools, this might actually work"
 fi
-
-########################################
-#####      Crypto++ Makefile       #####
-########################################
-
-# The Crypto++ Makefile uses these. The iOS SDKs does not provide
-# 'uname', so the makefile uses host values rather than target values.
-export UNAME=iOS
-export IS_X86=0
-export IS_LINUX=0
-export IS_MINGW=0
-export IS_DARWIN=0
-
-# export TARGETED_DEVICE_FAMILY=1
-# export OS_DEPLOYMENT_TARGETIPHONE=5.0
