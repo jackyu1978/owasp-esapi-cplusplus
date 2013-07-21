@@ -47,6 +47,14 @@ $ readelf -h ./lib/libesapi-c++.so | grep -i 'class\|machine'
   Machine:                 ARM
 }}}
 
+If building for NEON, then you should supply {{{CFLAGS}}} and {{{CXXFLAGS}}} recommended by the platform (see [https://android.googlesource.com/platform/ndk/+/ics-mr0/docs/STANDALONE-TOOLCHAIN.html Android ABI Compatibility] for details):
+
+{{{
+$ make test CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+CXXFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+CPP=arm-linux-androideabi-cpp CXX=arm-linux-androideabi-g++ ...
+}}}
+
 You will likely receive an error due to STLport, and its currently being researched:
 
 {{{
