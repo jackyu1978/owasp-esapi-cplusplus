@@ -99,14 +99,25 @@ IS_LINUX = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'linux')
 IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
 IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
 IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
-IS_APPLE = $(shell cpp -dM < /dev/null 2>&1 | $(EGREP) -i -c "__apple__")
+IS_APPLE = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__apple__")
 IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
 IS_GENTOO = $(shell uname -a | $(EGREP) -i -c "gentoo")
+IS_ANDROID = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__android__")
 
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
 
 ifeq ($(IS_APPLE),1)
   CXX = clang++
+endif
+
+ifeq ($(IS_ANDROID),1)
+  IS_CROSS_COMPILE = 1
+  
+  ifeq ($(WANT_DEBUG),1)
+      ESAPI_CFLAGS += -DNDK_DEBUG=1
+      ESAPI_CXXFLAGS += -DNDK_DEBUG=1
+  endif
+  
 endif
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
@@ -270,8 +281,24 @@ ifeq ($(CLANG_COMPILER),1)
 endif
 
 # Add paths
-ESAPI_CFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
-ESAPI_CXXFLAGS +=	-I. -I./esapi -I./deps -I/usr/local/include -I/usr/include
+ESAPI_CFLAGS	+= -I. -I./esapi -I./deps
+ESAPI_CXXFLAGS	+= -I. -I./esapi -I./deps
+
+# Everything except cross-compile gets these
+ifneq ($(IS_CROSS_COMPILE),1)
+  ESAPI_CFLAGS 		+= -I/usr/local/include -I/usr/include
+  ESAPI_CXXFLAGS	+= -I/usr/local/include -I/usr/include
+endif
+
+ifeq ($(IS_ANDROID),1)
+  ESAPI_CFLAGS      += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
+  ESAPI_CXXFLAGS    += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
+endif
+
+ifeq ($(IS_IOS),1)
+  ESAPI_CFLAGS      += --sysroot=$(IOS_SYSROOT)
+  ESAPI_CXXFLAGS    += --sysroot=$(IOS_SYSROOT)
+endif
 
 # Default prefix for make install and uninstall. The names and default values are taken from
 # Stallman's GNU Make, Chapter 14, Section 4, Variables for Installation Directories
@@ -395,7 +422,13 @@ TESTOBJS =		$(TESTSRCS:.cpp=.o)
 # OpenBSD needs the dash in ARFLAGS
 ARFLAGS = 	-rcs
 
-ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
+ifneq ($(IS_CROSS_COMPILE),1)
+  ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
+endif
+
+ifeq ($(IS_ANDROID),1)
+  ESAPI_LDFLAGS +=	"$(ANDROID_STL_LIB)"
+endif
 
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)

@@ -47,6 +47,8 @@
 // see http://predef.sourceforge.net/prearch.html.
 #if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)  || defined(UNDER_CE)
 # define ESAPI_OS_WINDOWS 1
+#elif defined(__ANDROID__)
+# define ESAPI_OS_ANDROID 1
 #elif defined(__APPLE__) || defined(__APPLE)
 # define ESAPI_OS_APPLE 1
 #elif defined(__linux__) || defined(__linux)
