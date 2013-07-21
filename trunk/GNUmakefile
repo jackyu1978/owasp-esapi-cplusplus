@@ -100,24 +100,15 @@ IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
 IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
 IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
 IS_APPLE = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__apple__")
-IS_OPENBSD = $(shell uname -a | $(EGREP) -i -c "openbsd")
-IS_GENTOO = $(shell uname -a | $(EGREP) -i -c "gentoo")
+IS_OPENBSD = $(shell $(UNAME) -a | $(EGREP) -i -c "openbsd")
+IS_GENTOO = $(shell $(UNAME) -a | $(EGREP) -i -c "gentoo")
 IS_ANDROID = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__android__")
-
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
 
-ifeq ($(IS_APPLE),1)
-  CXX = clang++
-endif
-
-ifeq ($(IS_ANDROID),1)
-  IS_CROSS_COMPILE = 1
-  
-  ifeq ($(WANT_DEBUG),1)
-      ESAPI_CFLAGS += -DNDK_DEBUG=1
-      ESAPI_CXXFLAGS += -DNDK_DEBUG=1
-  endif
-  
+# Don't know a good test for this....
+http://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_8.html#SEC82
+ifneq "$(origin IOS_ARCH)" "undefined"
+  IS_IOS = 1
 endif
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
@@ -151,6 +142,24 @@ GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-
 # For --exclude-libs, which appeared around 4/2002, but was ELF'd in 10/2005 
 # http://sourceware.org/ml/binutils/2011-09/msg00064.html
 GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-9]|2\.[2-9])')
+
+ifeq ($(IS_APPLE),1)
+  CXX = clang++
+endif
+
+ifeq ($(IS_ANDROID),1)
+  IS_CROSS_COMPILE = 1
+  
+  ifeq ($(WANT_DEBUG),1)
+      ESAPI_CFLAGS += -DNDK_DEBUG=1
+      ESAPI_CXXFLAGS += -DNDK_DEBUG=1
+  endif
+endif
+
+ifeq ($(IS_IOS),1)
+  CXX = clang++
+  IS_CROSS_COMPILE = 1
+endif
 
 # Fall back to g++ if CXX is not specified
 ifeq (($strip $(CXX)),)
@@ -296,8 +305,8 @@ ifeq ($(IS_ANDROID),1)
 endif
 
 ifeq ($(IS_IOS),1)
-  ESAPI_CFLAGS      += --sysroot=$(IOS_SYSROOT)
-  ESAPI_CXXFLAGS    += --sysroot=$(IOS_SYSROOT)
+  ESAPI_CFLAGS      += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
+  ESAPI_CXXFLAGS    += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
 endif
 
 # Default prefix for make install and uninstall. The names and default values are taken from
@@ -461,7 +470,9 @@ ifeq ($(GNU_LD216_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,--exclude-libs,ALL
 endif
 
-LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
+ifneq ($(IS_CROSS_COMPILE),1)
+  LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
+endif
 
 # iconvert library. For GNU Linux, its included in glib (and Make needs a logical OR)
 ifeq ($(IS_BSD),1)
