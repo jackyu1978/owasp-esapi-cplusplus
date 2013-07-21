@@ -44,3 +44,5 @@ arm-linux-androideabi-g++  -fpic -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -g
 -o src/EncoderConstants.o
 ...
 }}}
+
+http://code.google.com/p/owasp-esapi-cplusplus/source/browse/trunk/images/esapi-cpp-android.png
