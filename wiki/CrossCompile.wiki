@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This page discusses compiling for Android and iOS.
+This page discusses compiling for Android and iOS. Before you begin, you should ensure you have the appropriate cross-compiled Crypto++ and Boost libraries available. If you don't have them, you can probably build them following the recipes below (Crypto++ is conformed, but Boost is a different story).
 
 
 = Android =
