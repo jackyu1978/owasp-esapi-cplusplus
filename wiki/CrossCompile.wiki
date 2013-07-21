@@ -24,6 +24,8 @@ ANDROID_STL_INC: /opt/android-ndk-r8e//sources/cxx-stl/stlport/stlport/
 ANDROID_STL_LIB: /opt/android-ndk-r8e//sources/cxx-stl/stlport/libs/armeabi/libstlport_static.a
 }}}
 
+A stock Android C++ build does not include the Standard Template Library (STL), so be sure {{{ANDROID_STL_INC}} and {{{ANDROID_STL_LIB}}} are valid. They will be added to the appropriate make recipe for the platform.
+
 Once the script sets the environment, you can simply run {{{make}}} from the command line. However, you will need to specify {{{CPP}}}, {{{CXX}}}, and friends because Android uses non-standard names for its tools:
 
 {{{
@@ -45,7 +47,7 @@ arm-linux-androideabi-g++  -fpic -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -g
 ...
 }}}
 
-[http://code.google.com/p/owasp-esapi-cplusplus/source/browse/trunk/images/esapi-cpp-android.png]
+[http://owasp-esapi-cplusplus.googlecode.com/svn/trunk/images/esapi-cpp-android.png]
 
 You will likely receive an error due to STLport, and its currently being researched:
 
