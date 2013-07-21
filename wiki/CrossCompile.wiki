@@ -37,6 +37,16 @@ If all goes well, you will see output similar to below.
 
 [http://owasp-esapi-cplusplus.googlecode.com/svn/trunk/images/esapi-cpp-android.png]
 
+To verify you built for the device, use {{{readelf}}}:
+
+{{{
+$ find . -name libesapi-c++.so
+./lib/libesapi-c++.so
+$ readelf -h ./lib/libesapi-c++.so | grep -i 'class\|machine'
+  Class:                   ELF32
+  Machine:                 ARM
+}}}
+
 You will likely receive an error due to STLport, and its currently being researched:
 
 {{{
