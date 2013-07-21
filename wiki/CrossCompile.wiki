@@ -5,6 +5,7 @@
 
 This page discusses compiling for Android and iOS. Before you begin, you should ensure you have the appropriate cross-compiled Crypto++ and Boost libraries available. If you don't have them, you can probably build them following the recipes below (Crypto++ is confirmed, but Boost is a different story).
 
+In general, the Makefile honors all user switches and options (though they may conflict at times). That means you will be able to supply your own set of flags and they will be merged with ESAPI C++'s configuration. Merging ensures, for example, that any include or library paths you add through the command line are present during the execution of a recipe.
 
 = Android =
 
