@@ -1,14 +1,46 @@
 #summary Discusses compiling for Android and iOS.
-#labels android,ios
+#labels android,ios,cross-compile
 
 = Introduction =
 
 This page discusses compiling for Android and iOS.
 
 
-= Details =
+= Android =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Compiling Android requires the Android NDK, and the environmental variable {{{ANDROID_NDK}}} set to the root of the NDK. If not set, the script will attempt to locate the NDK in in {{{$HOME}}}, {{{/usr/local}}}, and {{{/opt}}}.
+
+To begin, run {{{setenv-android.sh}}}. There are three variables that can be tuned to suit your taste: {{{ANDROID_NDK_ROOT}}}, {{{ANDROID_EABI}}}, and {{{ANDROID_API}}}. If there are any errors, then you should fix them before proceeding. Note well (_N.B._): be sure u=to use the leading dot so the changes made by the script are applied to the current shell (and child shells).
+
+{{{
+$ . ./setenv-android.sh 
+ANDROID_NDK_ROOT: /opt/android-ndk-r8e/
+ANDROID_EABI: arm-linux-androideabi-4.6
+ANDROID_API: android-14
+ANDROID_ARCH: armv7
+ANDROID_SYSROOT: /opt/android-ndk-r8e//platforms/android-14/arch-arm
+ANDROID_TOOLCHAIN: /opt/android-ndk-r8e//toolchains/arm-linux-androideabi-4.6/prebuilt/darwin-x86_64/bin
+ANDROID_STL_INC: /opt/android-ndk-r8e//sources/cxx-stl/stlport/stlport/
+ANDROID_STL_LIB: /opt/android-ndk-r8e//sources/cxx-stl/stlport/libs/armeabi/libstlport_static.a
+}}}
+
+Once the script sets the environment, you can simply run {{{make}}} from the command line. However, you will need to specify {{{CPP}}}, {{{CXX}}}, and friends because Android uses non-standard names for its tools:
+
+{{{
+$ make test CPP=arm-linux-androideabi-cpp CXX=arm-linux-androideabi-g++ LD=arm-linux-androideabi-ld
+AR=arm-linux-androideabi-ar RANLIB=arm-linux-androideabi-ranlib
+}}}
+
+If all goes well, you will see output similar to below.
+
+{{{
+arm-linux-androideabi-g++  -fpic -DESAPI_NO_ASSERT=1 -DESAPI_BUILD_TEST=1 -g2 -ggdb -O2
+-Dprivate=public -Dprotected=public -DSAFEINT_DISALLOW_UNSIGNED_NEGATION=1 -pipe -fsigned-char
+-Woverloaded-virtual -Wreorder -Wconversion -Wmissing-declarations -Wformat=2 -Wformat-security
+-Wuninitialized -Wno-unused -fstrict-aliasing -fvisibility=hidden -fstack-protector-all
+-Wstrict-overflow -Wall -Wextra -Wno-unused -Wno-type-limits -Wtrampolines
+-std=c++0x -I. -I./esapi -I./deps -I/opt/android-ndk-r8e/sources/cxx-stl/stlport/stlport/
+--sysroot=/opt/android-ndk-r8e/platforms/android-14/arch-arm  -c src/EncoderConstants.cpp
+-o src/EncoderConstants.o
+...
+}}}
