@@ -12,11 +12,13 @@
 # See http://www.gnu.org/s/hello/manual/make/Catalogue-of-Rules.html.
 
 # Comeau C++ Compiler
-# CXX = como
+#   CXX = como
+# Clang C++ Compiler
+#   CXX = clang++
 # Intel ICC
-# CXX = icpc
+#   CXX = icpc
 # GNU C++ Compiler
-# CXX =	g++
+#   CXX =	g++
 
 # Default rule for `make`
 default: test
@@ -107,15 +109,19 @@ IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|
 
 # Don't know a good test for this....
 http://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_8.html#SEC82
-ifneq "$(origin IOS_ARCH)" "undefined"
+ifneq "$(origin IOS_SYSROOT)" "undefined"
   IS_IOS = 1
+endif
+
+ifneq "$(origin ANDROID_SYSROOT)" "undefined"
+  IS_ANDROID = 1
 endif
 
 GCC_COMPILER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version')
 INTEL_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c '\(icc\)')
 COMEAU_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c 'comeau')
 SUN_COMPILER = $(shell $(CXX) -V 2>&1 | $(EGREP) -i -c 'cc: sun')
-CLANG_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "clang version")
+CLANG_COMPILER = $(shell $(CXX) --version 2>&1 | $(EGREP) -i -c "clang")
 
 GCC40_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[0-9]|[5-9])')
 GCC41_OR_LATER = $(shell $(CXX) -v 2>&1 | $(EGREP) -i -c '^gcc version (4\.[1-9]|[5-9])')
@@ -147,6 +153,13 @@ ifeq ($(IS_APPLE),1)
   CXX = clang++
 endif
 
+# See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
+ifeq ($(IS_IOS),1)
+  CXX = clang++
+  IS_CROSS_COMPILE = 1
+endif
+
+# See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
   IS_CROSS_COMPILE = 1
   
@@ -156,15 +169,28 @@ ifeq ($(IS_ANDROID),1)
   endif
 endif
 
-ifeq ($(IS_IOS),1)
-  CXX = clang++
-  IS_CROSS_COMPILE = 1
-endif
-
 # Fall back to g++ if CXX is not specified
 ifeq (($strip $(CXX)),)
   CXX = g++
 endif
+
+# Unset the host switches for the cross compiled target
+ifeq ($(IS_CROSS_COMPILE),1)
+  IS_LINUX = 0
+  IS_SOLARIS = 0
+  IS_BSD = 0
+  IS_DARWIN = 0
+  IS_OPENBSD = 0
+  IS_GENTOO = 0
+  IS_X86_OR_X64 = 0
+endif
+
+# Fix file extension and AR/ARFLAGS for Apple platforms
+#ifeq ($(IS_APPLE),1)
+  AR = libtool
+  ARFLAGS = -static -o
+  DYNAMIC_LIB = libesapi-c++.dylib
+#endif
 
 # Try and pick up SunStudio on Solaris. For whatever reason OpenSolaris is using CXX=g++
 # (from the environment?), which is blowing up on OpenSolaris with a 'g++: command not found'.
@@ -182,11 +208,6 @@ endif
 ifeq ($(INTEL_COMPILER),1)
   ESAPI_CFLAGS += -pipe -Wall -wd1011
   ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
-endif
-
-ifeq ($(IS_APPLE),1)
-  ESAPI_CFLAGS += -pipe
-  ESAPI_CXXFLAGS += -pipe -std=c++0x
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM). We'd also like to cut the UTF-16 problem
@@ -272,20 +293,16 @@ endif
 # Can't use -std=c++0x at the moment due to patches required (don't want to make it a prereq).
 # See http://clang.llvm.org/cxx_status.html
 ifeq ($(CLANG_COMPILER),1)
-  #ESAPI_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
-  #ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-tautological-compare
-  ESAPI_CFLAGS += -Weverything -Wno-global-constructors -Wno-exit-time-destructors -Wno-undef -Wno-long-long -Wno-unused-parameter -Wno-tautological-compare
-  ESAPI_CXXFLAGS += -Weverything -Wno-global-constructors -Wno-exit-time-destructors -Wno-undef -Wno-long-long -Wno-unused-parameter -Wno-tautological-compare
-  # http://stackoverflow.com/questions/13445742/apple-and-shared-ptr
-  # ESAPI_CXXFLAGS += -std=c++11 -stdlib=libc++
-  
-  # http://embed.cs.utah.edu/ioc/
+  ESAPI_CFLAGS += -pipe -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-compare
+  ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-compare
+    
+  # Add these for Clang 3.1/3.2 and IOC (http://embed.cs.utah.edu/ioc/)
   ifneq ($(WANT_RELEASE),1)
-    ESAPI_CFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
-    ESAPI_CFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
+    # ESAPI_CFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
+    # ESAPI_CFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
 
-    ESAPI_CXXFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
-    ESAPI_CXXFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
+    # ESAPI_CXXFLAGS += -fcatch-undefined-ansic-behavior -fcatch-undefined-c99-behavior
+    # ESAPI_CXXFLAGS += -fcatch-undefined-cxx98-behavior -fcatch-undefined-cxx0x-behavior
   endif
 endif
 
@@ -299,11 +316,13 @@ ifneq ($(IS_CROSS_COMPILE),1)
   ESAPI_CXXFLAGS	+= -I/usr/local/include -I/usr/include
 endif
 
+# Android variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
   ESAPI_CFLAGS      += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
   ESAPI_CXXFLAGS    += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
 endif
 
+# iOS variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_IOS),1)
   ESAPI_CFLAGS      += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
   ESAPI_CXXFLAGS    += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
@@ -495,18 +514,6 @@ TEST_LDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TEST_TARGET = test/run_esapi_tests
-
-# Might need this. TOOD: test and uncomment or remove
-# ifeq ($(IS_DARWIN),1)
-#   AR = libtool
-#   ARFLAGS = -static -o
-#   CXX = c++
-# endif
-
-# `file -L` and `otool -hv` tells us our SO is a DYLIB. When in Rome...
-#ifeq ($(IS_DARWIN),1)
-#  DYNAMIC_LIB = libesapi-c++.dylib
-#endif
 
 # `make all` builds the DSO and Archive. OPT=O2, SYM=G1, Asserts are off.
 all: $(STATIC_LIB) $(DYNAMIC_LIB)
