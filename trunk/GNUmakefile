@@ -448,7 +448,6 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/reference/IntegerAccessReferenceMapTest.cpp \
 			test/reference/RandomAccessReferenceMapTest.cpp \
 			test/reference/PropertiesConfigurationTest.cpp \
-			test/reference/validation/StringValidationRuleTest.cpp \
 			test/util/zAllocatorTest.cpp \
 			test/util/AlgorithmNameTest.cpp \
 			test/util/SecureByteArrayTest.cpp \
@@ -456,6 +455,7 @@ TESTSRCS = 	test/TestMain.cpp \
 			test/util/SecureStringTest1.cpp \
 			test/util/SecureStringTest2.cpp \
 			test/util/TextConvertTest.cpp
+#			test/reference/validation/StringValidationRuleTest.cpp \
 
 ROOTOBJS =		$(ROOTSRCS:.cpp=.o)
 CODECOBJS =		$(CODECSRCS:.cpp=.o)
