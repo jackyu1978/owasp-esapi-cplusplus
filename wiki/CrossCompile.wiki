@@ -92,6 +92,7 @@ $ make test
 If all goes well, you will see output similar to below.
 
 [http://owasp-esapi-cplusplus.googlecode.com/svn/trunk/images/esapi-cpp-ios.png]
+
 To verify the library was built for the device, use {{{lipo}}} with the {{{iphoneos}}} SDK (alternately, you could check {{{libesapi-c++.a}}} or {{{run_esapi_tests}}}):
 
 {{{
