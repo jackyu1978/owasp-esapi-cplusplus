@@ -37,6 +37,7 @@ UNAME = uname
 MKDIR = mkdir
 RANLIB = ranlib
 INSTALL = install
+ARFLAGS = -rcs
 
 # Extension will be changed for Mac OS X below.
 DYNAMIC_LIB =	libesapi-c++.so
@@ -465,9 +466,6 @@ UTILOBJS =		$(UTILSRCS:.cpp=.o)
 LIBOBJS =		$(LIBSRCS:.cpp=.o)
 
 TESTOBJS =		$(TESTSRCS:.cpp=.o)
-
-# OpenBSD needs the dash in ARFLAGS
-ARFLAGS = 	-rcs
 
 ifneq ($(IS_CROSS_COMPILE),1)
   ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
