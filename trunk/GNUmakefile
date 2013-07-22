@@ -108,7 +108,6 @@ IS_SOLARIS = $(shell $(UNAME) -a 2>&1 | $(EGREP) -i -c 'solaris')
 IS_BSD = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c '(openbsd|freebsd|netbsd)')
 IS_DARWIN = $(shell $(UNAME) 2>&1 | $(EGREP) -i -c 'darwin')
 IS_APPLE = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__apple__")
-IS_OPENBSD = $(shell $(UNAME) -a | $(EGREP) -i -c "openbsd")
 IS_GENTOO = $(shell $(UNAME) -a | $(EGREP) -i -c "gentoo")
 IS_ANDROID = $(shell $(CPP) -dM < /dev/null 2>&1 | $(EGREP) -i -c "__android__")
 IS_X86_OR_X64 = $(shell uname -m | $(EGREP) -i -c "i.86|x86|i86|i386|i686|amd64|x86_64")
@@ -201,7 +200,6 @@ ifeq ($(IS_CROSS_COMPILE),1)
   IS_SOLARIS = 0
   IS_BSD = 0
   IS_DARWIN = 0
-  IS_OPENBSD = 0
   IS_GENTOO = 0
   IS_X86_OR_X64 = 0
 endif
