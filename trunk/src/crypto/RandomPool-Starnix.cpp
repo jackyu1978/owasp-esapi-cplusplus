@@ -65,78 +65,51 @@ namespace esapi
     ASSERT(key && ksize);
     if(!key || !ksize) return false;
 
-    size_t rem /*remaining*/ = ksize;
-    size_t idx = 0;
+    size_t  rem /*remaining*/ = ksize;
+    size_t  idx = 0;
     ssize_t ret  = 0;
 
-    // First try the random pool
+    // First try /dev/random
     {
       do
         {
-          int fd = open("/dev/random", O_RDONLY);
+          int fd = open("/dev/random", O_RDONLY | O_NONBLOCK);
           AutoFileDesc z1(fd);
 
           ESAPI_ASSERT2(fd > 0, "Failed to open /dev/random");
           if( !(fd > 0) ) break; /* Failed */
 
-          do
-            {
-
-#if defined(ESAPI_OS_LINUX)
-              // Try to detect a blocking condition
-              struct rand_pool_info info;
-
-              // No need for SU to read entropy counts. Its not in the man pages - inspect <linux/random.h>
-              ret = ioctl(fd, RNDGETENTCNT, &info);
-              ESAPI_ASSERT2(ret == 0 /*success*/, "Failed to retrieve /dev/random entropy count");
-
-              if(ret != 0) break; /* Failed */
-              if(info.entropy_count < 128 /*16 bytes*/) break; /* Failed (could block) */
-#endif
-
-              static const size_t Chunk = 8;
-              const size_t req = std::min(rem, Chunk);
-
-              // Since we are reading chunks in a loop, we are interested if we block on the nth
-              // iteration. If so, we don't make the call for the next itearion (we might block again).
-              CryptoPP::Timer timer;
-              timer.StartTimer();
-
-              ret = read(fd, key+idx, req);
-              ESAPI_ASSERT2((unsigned int)ret == req, "Failed to read entire chunk from /dev/random");
-
-              // The return value determines number of bytes read
-              rem -= ret;
-              idx += ret;
-
-              // Test for failure now so we consume any available bytes
-              if((unsigned int)ret != req) break; /* Failed */
-
-              // If it appears we have read too little or blocked, break and fall back /dev/urandom
-              if(timer.ElapsedTime() > 1 /*second*/) break;
-
-            } while(rem > 0);
+          ret = read(fd, key+idx, rem);
+          ESAPI_ASSERT2(ret > 0, "Failed to read from /dev/random");
+          ESAPI_ASSERT2(ret == (ssize_t)rem, "Failed to read entire chunk from /dev/random");
+            
+          if(ret > 0) {
+            rem -= (size_t)ret;
+            idx += (size_t)ret;
+          }
+            
         } while(false);
     }
 
     // Early out if possible.
     if(rem == 0) return true;
 
-    // Next try urandom
+    // Next try /dev/urandom
     {
       do
         {
-          int fd = open("/dev/urandom", O_RDONLY);
+          int fd = open("/dev/urandom", O_RDONLY | O_NONBLOCK);
           AutoFileDesc z1(fd);
 
           ESAPI_ASSERT2(fd > 0, "Failed to open /dev/urandom");
           if( !(fd > 0) ) break; /* Failed */
 
-          ssize_t ret = read(fd, key+idx, rem);
-          ESAPI_ASSERT2((unsigned int)ret == rem, "Failed to read entire chunk from /dev/urandom");
-          if( (unsigned int)ret != rem ) break; /* Failed */
+          ret = read(fd, key+idx, rem);
+          ESAPI_ASSERT2(ret > 0, "Failed to read from /dev/urandom");
+          ESAPI_ASSERT2(ret == (ssize_t)rem, "Failed to read entire chunk from /dev/urandom");
 
-          rem -= ret;
+          if(ret > 0)
+            rem -= (size_t)ret;
 
         } while(false);
     }
