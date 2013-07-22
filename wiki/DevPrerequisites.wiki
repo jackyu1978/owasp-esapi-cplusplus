@@ -39,7 +39,7 @@ $ sudo apt-get install libdmalloc5
 }}}
 
 {{{
-#Fedora and friends
+# Fedora and friends
 $ sudo yum install dmalloc
 }}}
 
@@ -66,6 +66,12 @@ $ pkg_add -r boost-libs
 # OpenBSD
 > su -
 $ pkg_add boost
+}}}
+
+{{{
+# Checking out a release from Boost SVN (useful for `bcp`, which
+# allows one to copy out a particular file with dependencies)
+$ svn co http://svn.boost.org/svn/boost/tags/release/Boost_1_54_0/ boost-1.54.0
 }}}
 
 == Grepping Package ==
