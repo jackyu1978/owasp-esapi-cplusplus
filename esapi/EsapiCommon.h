@@ -151,6 +151,11 @@
 # include <tr1/unordered_map>
 using std::tr1::shared_ptr;
 using std::tr1::unordered_map;
+#elif defined(ESAPI_OS_ANDROID)
+# include <boost/shared_ptr.hpp>
+# include <boost/unordered_map.hpp>
+using boost::shared_ptr;
+using boost::unordered_map;
 #else
 # include <memory>
 # include <unordered_map>
