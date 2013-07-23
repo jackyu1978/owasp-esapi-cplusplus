@@ -81,7 +81,7 @@
 #endif
 
 // Collect all the *nix's
-#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_BSD)
+#if defined(ESAPI_OS_LINUX) || defined(ESAPI_OS_UNIX) || defined(ESAPI_OS_APPLE) || defined(ESAPI_OS_ANDROID) || defined(ESAPI_OS_SUN) || defined(ESAPI_OS_BSD)
 # define ESAPI_OS_STARNIX 1
 #endif
 
