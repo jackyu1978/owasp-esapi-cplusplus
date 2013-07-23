@@ -46,6 +46,9 @@ ARFLAGS = -rcs
 DYNAMIC_LIB =	libesapi-c++.so
 STATIC_LIB =	libesapi-c++.a
 
+# This might get messy….
+ESAPI_CPP_STD = -std=c++03
+
 # Try and pick up on targets/goals.
 # See https://lists.owasp.org/pipermail/owasp-esapi-c++/2011-August/000157.html for mixing and matching Debug/Release/Test from goals.
 WANT_DEBUG = 0
@@ -246,7 +249,7 @@ ifeq ($(GCC_COMPILER),1)
   ESAPI_CFLAGS += -Wuninitialized -Wshadow -Wno-unused
   ESAPI_CFLAGS += -fstrict-aliasing
 
-  ESAPI_CXXFLAGS +=  -std=c++0x -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
+  ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
   ESAPI_CXXFLAGS += -fstrict-aliasing
@@ -513,7 +516,7 @@ ifneq ($(IS_CROSS_COMPILE),1)
   LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
 endif
 
-# iconvert library. For GNU Linux, its included in glib (and Make needs a logical OR)
+# iconvert library. For GNU Linux, its included in glibc
 ifeq ($(IS_BSD),1)
   LDLIBS += -liconv
 endif
@@ -525,7 +528,7 @@ endif
 # Merge ESAPI flags with user supplied flags. We perform the extra step to ensure
 # user options follow our options, which should give user option's preference.
 override CFLAGS := $(ESAPI_CFLAGS) $(CFLAGS)
-override CXXFLAGS := $(ESAPI_CXXFLAGS) $(CXXFLAGS)
+override CXXFLAGS := $(ESAPI_CPP_STD) $(ESAPI_CXXFLAGS) $(CXXFLAGS)
 override LDFLAGS := $(ESAPI_LDFLAGS) $(LDFLAGS)
 
 TEST_CXXFLAGS += $(CXXFLAGS)
