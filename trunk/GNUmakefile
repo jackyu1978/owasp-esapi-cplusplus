@@ -32,6 +32,9 @@ default: test
 AR = ar
 CP = cp
 RM = rm
+CC = gcc
+CPP = cpp
+CXX = g++
 EGREP = egrep
 UNAME = uname
 MKDIR = mkdir
@@ -155,10 +158,6 @@ GNU_LD215_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[5-
 # http://sourceware.org/ml/binutils/2011-09/msg00064.html
 GNU_LD216_OR_LATER = $(shell $(LD) -v 2>&1 | $(EGREP) -i -c '^gnu ld .* (2\.1[6-9]|2\.[2-9])')
 
-ifeq ($(IS_APPLE),1)
-  CXX = clang++
-endif
-
 # See http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_IOS),1)
   CXX = clang++
@@ -203,10 +202,15 @@ ifeq ($(IS_CROSS_COMPILE),1)
   IS_DARWIN = 0
   IS_GENTOO = 0
   IS_X86_OR_X64 = 0
+  
+  ifeq ($(IS_ANDROID),1)
+    IS_APPLE = 0
+  endif
 endif
 
 # Fix file extension and AR/ARFLAGS for Apple platforms
 ifeq ($(IS_APPLE),1)
+  CXX = clang++
   AR = libtool
   ARFLAGS = -static -o
   DYNAMIC_LIB = libesapi-c++.dylib
@@ -227,7 +231,7 @@ endif
 # http://software.intel.com/sites/products/documentation/studio/composer/en-us/2011/compiler_c/optaps/common/optaps_cmp_visib.htm
 ifeq ($(INTEL_COMPILER),1)
   ESAPI_CFLAGS += -pipe -Wall -wd1011
-  ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -wd1011
+  ESAPI_CXXFLAGS += -pipe -Wall -wd1011
 endif
 
 # GCC is usually a signed char, but not always (cf, ARM). We'd also like to cut the UTF-16 problem
@@ -242,7 +246,6 @@ ifeq ($(GCC_COMPILER),1)
   ESAPI_CFLAGS += -fstrict-aliasing
 
   ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
-  ESAPI_CXXFLAGS += -Wmissing-declarations
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
   ESAPI_CXXFLAGS += -fstrict-aliasing
@@ -282,17 +285,8 @@ ifeq ($(GCC43_OR_LATER),1)
   ESAPI_CFLAGS += -Wall -Wextra -Wno-unused -Wtrampolines
 
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
-  ESAPI_CXXFLAGS += -Wtrampolines -std=c++0x
+  ESAPI_CXXFLAGS += -Wtrampolines
 endif
-
-# Nope, not yet (failed with GCC 4.7)
-# http://gcc.gnu.org/projects/cxx0x.html
-#
-# http://gcc.gnu.org/wiki/Atomic/GCCMM/ExecutiveSummary
-# http://gcc.gnu.org/wiki/Atomic/GCCMM/DataRaces
-# ifeq ($(GCC47_OR_LATER),1)
-#  ESAPI_CXXFLAGS += -fmemory-model=c++0x
-# endif
 
 # http://gcc.gnu.org/gcc-4.8/changes.htm, https://code.google.com/p/address-sanitizer/
 # and http://code.google.com/p/data-race-test/wiki/ThreadSanitizer
@@ -310,11 +304,10 @@ ifeq ($(IS_LINUX),1)
   LDLIBS += -lpthread
 endif
 
-# Can't use -std=c++0x at the moment due to patches required (don't want to make it a prereq).
-# See http://clang.llvm.org/cxx_status.html
+# Options for Clang compilers
 ifeq ($(CLANG_COMPILER),1)
   ESAPI_CFLAGS += -pipe -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-compare
-  ESAPI_CXXFLAGS += -pipe -std=c++0x -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-compare
+  ESAPI_CXXFLAGS += -pipe -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-tautological-compare
     
   # Add these for Clang 3.1/3.2 and IOC (http://embed.cs.utah.edu/ioc/)
   ifneq ($(WANT_RELEASE),1)
@@ -330,10 +323,19 @@ endif
 ESAPI_CFLAGS	+= -I. -I./esapi -I./deps
 ESAPI_CXXFLAGS	+= -I. -I./esapi -I./deps
 
+# We extract shared_ptr and use it. We don't carry around the entire Boost distribution.
+# ESAPI_CFLAGS      += -I./deps/boost-1.54.0
+# ESAPI_CXXFLAGS    += -I./deps/boost-1.54.0
+
 # Everything except cross-compile gets these
 ifneq ($(IS_CROSS_COMPILE),1)
   ESAPI_CFLAGS 		+= -I/usr/local/include -I/usr/include
   ESAPI_CXXFLAGS	+= -I/usr/local/include -I/usr/include
+endif
+
+ifeq ($(IS_ANDROID),1)
+  ESAPI_CFLAGS      += -I./deps/boost-1.54.0
+  ESAPI_CXXFLAGS    += -I./deps/boost-1.54.0
 endif
 
 # Android variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
@@ -519,7 +521,7 @@ ifeq ($(IS_DARWIN),1)
   LDLIBS += -liconv
 endif
 
-# Merge ESAPI flags with user supplied flags. We perform the extra step to ensure 
+# Merge ESAPI flags with user supplied flags. We perform the extra step to ensure
 # user options follow our options, which should give user option's preference.
 override CFLAGS := $(ESAPI_CFLAGS) $(CFLAGS)
 override CXXFLAGS := $(ESAPI_CXXFLAGS) $(CXXFLAGS)
