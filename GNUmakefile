@@ -203,6 +203,7 @@ ifeq ($(IS_CROSS_COMPILE),1)
   IS_GENTOO = 0
   IS_X86_OR_X64 = 0
   
+  # Cross-compile Android on Mac OS X
   ifeq ($(IS_ANDROID),1)
     IS_APPLE = 0
   endif
@@ -245,7 +246,7 @@ ifeq ($(GCC_COMPILER),1)
   ESAPI_CFLAGS += -Wuninitialized -Wshadow -Wno-unused
   ESAPI_CFLAGS += -fstrict-aliasing
 
-  ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
+  ESAPI_CXXFLAGS +=  -std=c++0x -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
   ESAPI_CXXFLAGS += -fstrict-aliasing
@@ -528,7 +529,7 @@ override CXXFLAGS := $(ESAPI_CXXFLAGS) $(CXXFLAGS)
 override LDFLAGS := $(ESAPI_LDFLAGS) $(LDFLAGS)
 
 TEST_CXXFLAGS += $(CXXFLAGS)
-TEST_LDFLAGS	+= -L/usr/local/lib -L/usr/lib $(ESAPI_LDFLAGS)
+TEST_LDFLAGS	+= $(ESAPI_LDFLAGS)
 TEST_LDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
