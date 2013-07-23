@@ -11,7 +11,7 @@ In general, the Makefile honors all user switches and options (though they may c
 
 Compiling Android requires the Android NDK, and the environmental variable {{{ANDROID_NDK_ROOT}}} should be set to the root of the NDK. If {{{ANDROID_NDK_ROOT}}} is not set, the {{{setenv-android.sh}}} script will attempt to locate the NDK in in {{{$HOME}}}, {{{/usr/local}}}, and {{{/opt}}}. For completeness, you should always set {{{ANDROID_NDK_ROOT}}} and {{{ANDROID_SDK_ROOT}}} because they are used by a number of NDK, SDK, and external tools (see [https://groups.google.com/d/msg/android-ndk/qZjhOaynHXc/2ux2ZZdxy2MJ Recommended NDK Directory?] for a discussion).
 
-To begin, run {{{setenv-android.sh}}}. There are three variables that can be tuned to suit your taste: {{{_ANDROID_NDK}}}, {{{_ANDROID_EABI}}}, and {{{_ANDROID_API}}}. If there are any errors, then you should fix them before proceeding. Note well (_N.B._): be sure to use the leading dot so the changes made by the script are applied to the current shell and child shells.
+To begin, run {{{setenv-android.sh}}}. There are three variables that can be tuned to suit your taste: {{{_ANDROID_NDK}}}, {{{_ANDROID_EABI}}}, and {{{_ANDROID_API}}}. If there are any errors, then you should fix them before proceeding. Note well (_N.B._): be sure to use the leading dot when invoking the command so the changes made by the script are applied to the current shell and child shells.
 
 {{{
 $ . ./setenv-android.sh 
@@ -69,7 +69,7 @@ make: *** [src/EncoderConstants.o] Error 1
 
 Compiling for iOS requires Xcode and Command Line Tools. The script is built around Xcode 4 and above (location /Applications/Xcode.app) and not Xcode 3 and earlier (location /Developer/Xcode.app). If you want to work with Xcode 3 and earlier, then modify the {{{XCODE_DEVELOPER}}} variable. If you want to test on a device, you will also need a developer account for code signing (or a jailbroken device with {{{ldid}}}).
 
-To begin, run {{{setenv-ios.sh}}}. The script will build for {{{armv7}}} by default using the latest SDK it can find. Note well (_N.B._): be sure to use the leading dot so the changes made by the script are applied to the current shell and child shells.
+To begin, run {{{setenv-ios.sh}}}. The script will build for {{{armv7}}} by default using the latest SDK it can find. Note well (_N.B._): be sure to use the leading dot when invoking the command so the changes made by the script are applied to the current shell and child shells.
 
 {{{
 $ . ./setenv-ios.sh 
