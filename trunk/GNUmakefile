@@ -509,18 +509,18 @@ endif
 
 # Add -PIE to x86 executables (missing on HPPA, ARM, and others)
 ifeq ($(GNU_LD216_OR_LATER),1)
-  ifneq ($(IS_X86_OR_X64),0)
-    EXE_ASLR = -fpie
+  ifeq ($(IS_X86_OR_X64),1)
+    EXE_ASLR = -fpie -Wl,-pie
   endif
 endif
 
 # Reduce the size of the export table
 ifeq ($(GNU_LD216_OR_LATER),1)
-  ESAPI_LDFLAGS +=	-Wl,--exclude-libs,ALL
+  ESAPI_LDFLAGS += -Wl,--exclude-libs,ALL
 endif
 
 ifneq ($(IS_CROSS_COMPILE),1)
-  ESAPI_LDLIBS 		+= -lpthread -lcryptopp -lboost_regex -lboost_system
+  ESAPI_LDLIBS += -lpthread -lcryptopp -lboost_regex -lboost_system
 endif
 
 # iconvert library. For GNU Linux, its included in glibc
@@ -542,14 +542,14 @@ endif
 
 # Merge ESAPI flags with user supplied flags. We perform the extra step to ensure
 # user options follow our options, which should give user option's preference.
-override CFLAGS := $(ESAPI_CFLAGS) $(CFLAGS)
+override CFLAGS   := $(ESAPI_CFLAGS) $(CFLAGS)
 override CXXFLAGS := $(ESAPI_CPP_STD) $(ESAPI_CXXFLAGS) $(CXXFLAGS)
-override LDFLAGS := $(ESAPI_LDFLAGS) $(LDFLAGS)
-override LDLIBS := $(ESAPI_LDLIBS) $(LDLDLIBS)
+override LDFLAGS  := $(ESAPI_LDFLAGS) $(LDFLAGS)
+override LDLIBS   := $(ESAPI_LDLIBS) $(LDLDLIBS)
 
 TEST_CXXFLAGS += $(CXXFLAGS)
-TEST_LDFLAGS	+= $(ESAPI_LDFLAGS)
-TEST_LDLIBS 	+= $(LDLIBS) -lboost_unit_test_framework
+TEST_LDFLAGS  += $(ESAPI_LDFLAGS)
+TEST_LDLIBS   += $(LDLIBS) -lboost_unit_test_framework
 
 # No extension, so no implicit rule. Hence we provide an empty rule for the dependency.
 TEST_TARGET = test/run_esapi_tests
@@ -624,3 +624,4 @@ $(TEST_TARGET): ;
 .PHONY: clean
 clean:
 	-rm -f $(LIBOBJS) lib/$(STATIC_LIB) lib/$(DYNAMIC_LIB) $(TESTOBJS) $(TEST_TARGET) $(TEST_TARGET).* *.dSYM core *.core
+
