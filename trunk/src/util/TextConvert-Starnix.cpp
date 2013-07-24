@@ -19,8 +19,32 @@
 #include "util/ArrayZeroizer.h"
 #include "errors/IllegalArgumentException.h"
 
-#include <iconv.h>
 #include <errno.h>
+
+#if !defined(__ANDROID__)
+# include <iconv.h>
+#endif
+
+// Hack ahead....
+#if defined(__ANDROID__)
+typedef int iconv_t;
+
+int iconv_close(iconv_t) {
+    throw std::runtime_error("iconv is not implemented for Android");
+    return -1;
+}
+
+iconv_t iconv_open(const char*, const char*) {
+    throw std::runtime_error("iconv is not implemented for Android");
+    return -1;
+}
+
+size_t iconv(iconv_t cd, char**, size_t*, char**, size_t*) {
+    throw std::runtime_error("iconv is not implemented for Android");
+    return -1;
+}
+
+#endif // __ANDROID__
 
 namespace esapi
 {
@@ -33,7 +57,7 @@ namespace esapi
     explicit AutoConvDesc(iconv_t& cd) : m_cd(cd) { }
 
     ~AutoConvDesc() {
-      if(m_cd != nullptr && m_cd != (iconv_t)-1) {
+      if((m_cd != 0) && (m_cd != (iconv_t)-1)) {
         iconv_close(m_cd);
         m_cd = (iconv_t)-1;
       }
