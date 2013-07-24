@@ -291,8 +291,8 @@ endif
 # -Wno-type-limit: for unsigned t<0 on template code, http://gcc.gnu.org/bugzilla/show_bug.cgi?id=23587
 # "C++0X features first appear", http://gcc.gnu.org/onlinedocs/libstdc++/manual/api.html#api.rel_430
 ifeq ($(GCC43_OR_LATER),1)
+  ESAPI_CPP_STD = -std=c++0x
   ESAPI_CFLAGS += -Wall -Wextra -Wno-unused -Wtrampolines
-
   ESAPI_CXXFLAGS += -Wall -Wextra -Wno-unused -Wno-type-limits
   ESAPI_CXXFLAGS += -Wtrampolines
 endif
@@ -301,8 +301,8 @@ endif
 # and http://code.google.com/p/data-race-test/wiki/ThreadSanitizer
 ifeq ($(GCC48_OR_LATER),1)
   ifeq ($(WANT_DEBUG),1)
-    ESAPI_CFLAGS += -fsanitizer=memory -fsanitize=thread
-    ESAPI_CXXFLAGS += -fsanitizer=memory -fsanitize=thread
+    ESAPI_CFLAGS += -fsanitize=memory -fsanitize=thread
+    ESAPI_CXXFLAGS += -fsanitize=memory -fsanitize=thread
   endif
 endif
 
@@ -520,8 +520,7 @@ ifeq ($(GNU_LD216_OR_LATER),1)
 endif
 
 ifneq ($(IS_CROSS_COMPILE),1)
-#  ESAPI_LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
-  ESAPI_LDLIBS 		+= -lcryptopp
+  ESAPI_LDLIBS 		+= -lpthread -lcryptopp -lboost_regex -lboost_system
 endif
 
 # iconvert library. For GNU Linux, its included in glibc
