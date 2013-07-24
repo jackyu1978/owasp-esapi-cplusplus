@@ -182,7 +182,8 @@ namespace esapi
   bool CipherSpec::requiresIV() const
   {
     String ciphmode = this->getCipherMode();
-    std::transform(ciphmode.begin(), ciphmode.end(), ciphmode.begin(), ::tolower);
+
+    std::transform(ciphmode.begin(), ciphmode.end(), ciphmode.begin(), tolower);
     if(ciphmode == "ecb")
       return false;
     return true;
