@@ -243,16 +243,21 @@ endif
 # -fwrapv: http://www.airs.com/blog/archives/120.
 # http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options
 ifeq ($(GCC_COMPILER),1)
-  ESAPI_CFLAGS += -pipe -fsigned-char -Wconversion
+  ESAPI_CFLAGS += -pipe -fsigned-char
   ESAPI_CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations
   ESAPI_CFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CFLAGS += -Wuninitialized -Wshadow -Wno-unused
   ESAPI_CFLAGS += -fstrict-aliasing
 
-  ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder -Wconversion
+  ESAPI_CXXFLAGS += -pipe -fsigned-char -Woverloaded-virtual -Wreorder
   ESAPI_CXXFLAGS += -Wformat=2 -Wformat-security
   ESAPI_CXXFLAGS += -Wuninitialized -Wno-unused
   ESAPI_CXXFLAGS += -fstrict-aliasing
+
+  ifneq ($(IS_ANDROID),1)
+    ESAPI_CFLAGS += -Wconversion
+    ESAPI_CXXFLAGS += -Wconversion
+  endif
 
 #  Too much Boost noise
 #  ESAPI_CXXFLAGS += -Weffc++ -Wno-non-virtual-dtor
@@ -344,12 +349,18 @@ endif
 
 # Android variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_ANDROID),1)
+  ESAPI_CFLAGS      += -I./deps/cryptopp-541-android
+  ESAPI_CXXFLAGS    += -I./deps/cryptopp-541-android
+
   ESAPI_CFLAGS      += --sysroot=$(ANDROID_SYSROOT)
   ESAPI_CXXFLAGS    += -I$(ANDROID_STL_INC) --sysroot=$(ANDROID_SYSROOT)
 endif
 
 # iOS variables - see http://code.google.com/p/owasp-esapi-cplusplus/wiki/CrossCompile
 ifeq ($(IS_IOS),1)
+  ESAPI_CFLAGS      += -I./deps/cryptopp-541-ios
+  ESAPI_CXXFLAGS    += -I./deps/cryptopp-541-ios
+
   ESAPI_CFLAGS      += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
   ESAPI_CXXFLAGS    += -arch $(IOS_ARCH) --sysroot=$(IOS_SYSROOT)
 endif
@@ -477,10 +488,6 @@ ifneq ($(IS_CROSS_COMPILE),1)
   ESAPI_LDFLAGS +=	-L/usr/local/lib -L/usr/lib
 endif
 
-ifeq ($(IS_ANDROID),1)
-  ESAPI_LDFLAGS +=	"$(ANDROID_STL_LIB)"
-endif
-
 # Linker hardening
 ifeq ($(GNU_LD210_OR_LATER),1)
   ESAPI_LDFLAGS +=	-Wl,-z,nodlopen -Wl,-z,nodump
@@ -513,16 +520,25 @@ ifeq ($(GNU_LD216_OR_LATER),1)
 endif
 
 ifneq ($(IS_CROSS_COMPILE),1)
-  LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
+#  ESAPI_LDLIBS 		+= -lcryptopp -lboost_regex -lboost_system
+  ESAPI_LDLIBS 		+= -lcryptopp
 endif
 
 # iconvert library. For GNU Linux, its included in glibc
 ifeq ($(IS_BSD),1)
-  LDLIBS += -liconv
+  ESAPI_LDLIBS += -liconv
 endif
 
 ifeq ($(IS_DARWIN),1)
-  LDLIBS += -liconv
+  ESAPI_LDLIBS += -liconv
+endif
+
+ifeq ($(IS_IOS),1)
+  ESAPI_LDLIBS      += -liconv ./deps/cryptopp-541-ios/armv7x/libcryptopp.a
+endif
+
+ifeq ($(IS_ANDROID),1)
+  ESAPI_LDLIBS +=	"$(ANDROID_STL_LIB)" "./deps/cryptopp-541-android/armv7/libcryptopp.a"
 endif
 
 # Merge ESAPI flags with user supplied flags. We perform the extra step to ensure
@@ -530,6 +546,7 @@ endif
 override CFLAGS := $(ESAPI_CFLAGS) $(CFLAGS)
 override CXXFLAGS := $(ESAPI_CPP_STD) $(ESAPI_CXXFLAGS) $(CXXFLAGS)
 override LDFLAGS := $(ESAPI_LDFLAGS) $(LDFLAGS)
+override LDLIBS := $(ESAPI_LDLIBS) $(LDLDLIBS)
 
 TEST_CXXFLAGS += $(CXXFLAGS)
 TEST_LDFLAGS	+= $(ESAPI_LDFLAGS)
