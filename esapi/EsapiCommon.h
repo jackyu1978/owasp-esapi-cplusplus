@@ -153,6 +153,7 @@
 using std::tr1::shared_ptr;
 using std::tr1::unordered_map;
 #elif defined(ESAPI_OS_ANDROID)
+# define BOOST_NO_CXX11_NULLPTR 1
 # include <boost/shared_ptr.hpp>
 # include <boost/unordered_map.hpp>
 using boost::shared_ptr;
