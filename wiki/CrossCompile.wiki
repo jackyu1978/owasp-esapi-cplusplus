@@ -30,7 +30,7 @@ A standard Android C++ build does not include the Standard Template Library (STL
 Once the script sets the environment and variables, you can simply run {{{make}}} from the command line. However, you will need to specify {{{CPP}}}, {{{CXX}}}, and friends because Android uses non-standard names for its tools:
 
 {{{
-$ make test CPP=arm-linux-androideabi-cpp CXX=arm-linux-androideabi-g++ LD=arm-linux-androideabi-ld
+$ make test CPP=arm-linux-androideabi-cpp CXX=arm-linux-androideabi-g++ LD=arm-linux-androideabi-ld \
 AR=arm-linux-androideabi-ar RANLIB=arm-linux-androideabi-ranlib
 }}}
 
@@ -51,8 +51,8 @@ $ readelf -h ./lib/libesapi-c++.so | grep -i 'class\|machine'
 If building for NEON, then you should supply {{{CFLAGS}}} and {{{CXXFLAGS}}} recommended by the platform (see [https://android.googlesource.com/platform/ndk/+/ics-mr0/docs/STANDALONE-TOOLCHAIN.html Android ABI Compatibility] for details):
 
 {{{
-$ make test CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon"
-CXXFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon"
+$ make test CFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon" \
+CXXFLAGS="-march=armv7-a -mfloat-abi=softfp -mfpu=neon" \
 CPP=arm-linux-androideabi-cpp CXX=arm-linux-androideabi-g++ ...
 }}}
 
