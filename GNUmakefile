@@ -533,11 +533,11 @@ ifeq ($(IS_DARWIN),1)
 endif
 
 ifeq ($(IS_IOS),1)
-  ESAPI_LDLIBS      += -liconv ./deps/cryptopp-541-ios/armv7x/libcryptopp.a
+  ESAPI_LDLIBS += -liconv ./deps/cryptopp-541-ios/armv7x/libcryptopp.a
 endif
 
 ifeq ($(IS_ANDROID),1)
-  ESAPI_LDLIBS +=	"$(ANDROID_STL_LIB)" "./deps/cryptopp-541-android/armv7/libcryptopp.a"
+  ESAPI_LDLIBS += $(ANDROID_STL_LIB) ./deps/cryptopp-541-android/armv7/libcryptopp.a
 endif
 
 # Merge ESAPI flags with user supplied flags. We perform the extra step to ensure
