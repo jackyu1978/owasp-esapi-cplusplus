@@ -118,6 +118,7 @@
 #include <signal.h>
 
 #include <cstddef>
+#include <cctype>
 #include <iostream>
 #include <sstream>
 #include <istream>
