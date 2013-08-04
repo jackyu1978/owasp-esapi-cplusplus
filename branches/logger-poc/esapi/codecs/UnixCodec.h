@@ -1,0 +1,59 @@
+/**
+ * OWASP Enterprise Security API (ESAPI)
+ *
+ * This file is part of the Open Web Application Security Project (OWASP)
+ * Enterprise Security API (ESAPI) project. For details, please see
+ * <a href="http://www.owasp.org/index.php/ESAPI">http://www.owasp.org/index.php/ESAPI</a>.
+ *
+ * Copyright (c) 2007 - The OWASP Foundation
+ *
+ * The ESAPI is published by OWASP under the BSD license. You should read and accept the
+ * LICENSE before you use, modify, and/or redistribute this software.
+ *
+ * @author Jeff Williams <a href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @created 2007
+ */
+
+#include <string>
+
+#include "codecs/PushbackString.h"
+#include "codecs/Codec.h"
+
+/**
+ * Implementation of the Codec interface for '\' encoding from Unix command shell.
+ *
+ * @author Jeff Williams (jeff.williams .at. aspectsecurity.com) <a
+ *         href="http://www.aspectsecurity.com">Aspect Security</a>
+ * @author Dan Amodio (dan.amodio@aspectsecurity.com)
+ * @since June 1, 2007
+ * @see org.owasp.esapi.Encoder
+ */
+namespace esapi {
+  class ESAPI_EXPORT UnixCodec : public Codec {
+
+  public:
+    /**
+     * {@inheritDoc}
+     *
+     * Returns backslash-encoded character
+     *
+     * @param immune
+     */
+    NarrowString encodeCharacter(const StringArray& immune, const NarrowString& ch) const;
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * Returns the decoded version of the character starting at index, or
+     * null if no decoding is possible.
+     * <p>
+     * Formats all are legal both upper/lower case:
+     *   \x - all special characters
+     *
+     */
+    NarrowString decodeCharacter( PushbackString& ) const;
+
+  };
+}; // esapi namespace
+

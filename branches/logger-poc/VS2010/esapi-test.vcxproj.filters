@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\codec">
+      <UniqueIdentifier>{94067825-d02f-47cc-8527-0861bd04daa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\crypto">
+      <UniqueIdentifier>{7d334623-3c1d-4f3c-8a50-305eb484385a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\errors">
+      <UniqueIdentifier>{18d46a15-555c-453a-b7c3-57b37b3a5599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\reference">
+      <UniqueIdentifier>{8370bd13-4d14-4809-a5bc-61771aa3bcdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\reference\validation">
+      <UniqueIdentifier>{e24d6ff5-b258-4279-926d-1e3fc76d3a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{31379650-862a-4db5-b312-2e10b6b8ee41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\test\TestMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\TestMainWin32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\CodecTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\HTMLEntityCodecTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\LDAPCodecTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\MySQLCodecTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\PushbackStringTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\codecs\UnixCodecTest.cpp">
+      <Filter>Source Files\codec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\CipherSpecTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\CipherTextTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\CryptoHelperTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\IvParameterTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\KeyDerivationFunctionTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\KeyGeneratorTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\MessageDigestTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\PlainTextTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\SecretKeyTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\crypto\SecureRandomTest.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\errors\ValidationExceptionTest.cpp">
+      <Filter>Source Files\errors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\DefaultEncoderTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\DefaultEncryptorTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\GenericAccessReferenceMapTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\IntegerAccessReferenceMapTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\RandomAccessReferenceMapTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\validation\StringValidationRuleTest.cpp">
+      <Filter>Source Files\reference\validation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\AlgorithmNameTest.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\SecureByteArrayTest.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\SecureIntArrayTest.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\SecureStringTest1.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\SecureStringTest2.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\TextConvertTest.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\util\zAllocatorTest.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\ConfigurationTest1.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\ConfigurationTest2.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\reference\PropertiesConfigurationTest.cpp">
+      <Filter>Source Files\reference</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
