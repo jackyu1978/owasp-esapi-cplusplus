@@ -7,25 +7,26 @@
 
 #include <vector>
 #include <queue>
+#include <string>
 #include "util/Mutex.h"
 #include "util/NotCopyable.h"
-#include <stringstream>
-
-namesapce esapi 
+#include <sstream>
+#include "util/LogChannelInterface.h"
+#
+namespace esapi
 {
 
 	class ESAPI_EXPORT LogFactory: private NotCopyable
 	{
 		public:
-			~LogFactory()
+			~LogFactory();
 			static LogFactory *getInstance();
 			static void				 close();
 	
-			LogFactory &addChannel();
+			LogFactory &addChannel(LogChannel *);
 			//LogFactory &removeChannel()
 			void			 flush();
-			Logger		 *getLogger
-			string		 extractLog();
+			std::vector<std::string>	*extractLog();
 			void 			 queueLog(std::string);
 
 		private:
