@@ -2,13 +2,13 @@
 #define FILELOGGER_H
 
 #include <iostream>
-#include <ofstream>
-#include "LogChannelInterface.h"
+#include <fstream>
+#include <vector>
+#include "util/LogChannelInterface.h"
 
 using namespace std;
 
 namespace esapi {
-
 
 class FileChannel : public LogChannel
 {
@@ -16,9 +16,9 @@ public:
 	FileChannel(string filename);
 	~FileChannel();
 
-	bool channelOk() { return !(Outstream.bad() || Outstream.fail()); };
-	void flush()		 { return Outstream.flush(); };	
-	void writeLogs(string &);
+	virtual	bool channelOk() { return !(Outstream.bad() || Outstream.fail()); };
+	virtual void flush()		 { Outstream.flush(); };	
+	virtual void writeLogs(std::vector<std::string> &);
 
 private:
 	string 	 FileName;

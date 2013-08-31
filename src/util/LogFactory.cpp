@@ -1,16 +1,14 @@
-#include "LogFactory.h"
+#include "util/LogFactory.h"
 
 
 namespace esapi {
 
-LogFactory::FactoryInstance = NULL;
-LogFactory::InstanceLock:
-LogFactory::InstanceLock;
-LogFactory::Flushing = false;
+LogFactory *LogFactory::FactoryInstance = NULL;
+Mutex 		 LogFactory::InstanceLock;
+bool 			 LogFactory::Flushing = false;
 
 LogFactory::LogFactory()
 {
-	LogQueue.clear();
 	ChannelList.clear();
 
 	return;
@@ -25,13 +23,14 @@ LogFactory::~LogFactory()
 	//delect lock object
 	
 	ChannelList.clear();
-	LogQueue.clear();
 	return;
 }
 
 void LogFactory::close()
 {
-	flush();
+	MutexLock  lock(InstanceLock);
+
+	FactoryInstance->flush();
 	delete FactoryInstance;
 	FactoryInstance = NULL;
 
@@ -42,7 +41,7 @@ void LogFactory::close()
 	return;
 }
 
-LogFactory &LogFactory::getInstance()
+LogFactory *LogFactory::getInstance()
 {
 	//obtains a lock
 	//return factory instance if set
@@ -50,7 +49,7 @@ LogFactory &LogFactory::getInstance()
 	//set it to factory instance
 	//return factory instance
 	
-	MutexLock lock(InstanceLock.getMutex());
+	MutexLock lock(InstanceLock);
 	
 	if (FactoryInstance == NULL) 
 		FactoryInstance = new LogFactory();	
@@ -58,14 +57,14 @@ LogFactory &LogFactory::getInstance()
 	return FactoryInstance;
 }
 
-LogFactory &LogFactory::addChannel(LogChannel &channel)
+LogFactory &LogFactory::addChannel(LogChannel *channel)
 {
 	//obtain a lock 
 	//add the desired channel
 	//remove lock	
 	//MutexLock lock(InstanceLock.getMutex());
 	ChannelList.push_back(channel);
-	return;
+	return *this;
 }
 
 /*
@@ -83,17 +82,18 @@ void LogFactory::flush()
 
 	LogFactory::Flushing = true;
 
-	vector<std::string> *logslice = extractLog();
-	std::vector<LogChannel *>::const_iterator channel_iter = ChannelList->begin();
+	std::vector<std::string> *logslice = extractLog();
+	std::vector<LogChannel *>::const_iterator channel_iter = ChannelList.begin();
 	
-	while (channel_iter != ChannelList->end()) {
-		if (!channel_iter->channelOK()) {
+	while (channel_iter != ChannelList.end()) {
+		if (!(*channel_iter)->channelOk()) {
 			LogFactory::Flushing = false; 
 			throw std::runtime_error("Corrupt log channel");
 		}
 
-		channel_iter->writeLogs(logslice);
-		channel_iter->flush();
+		(*channel_iter)->writeLogs(*logslice);
+		(*channel_iter)->flush();
+		channel_iter++;
 	}
 
 	delete logslice;
@@ -110,25 +110,19 @@ void LogFactory::flush()
 	return;
 }
 
-Logger &LogFactory::getLogger()
-{
-	
-	//Creates a new log object connector to this factory
-	//return the new log object
-	return *(new Logger(this));
-}
-
-vector<std::string> *LogFactory:extractLog()
+std::vector<std::string> *LogFactory::extractLog()
 {
 	//get the size of the queue
 	//slice of the head to the size
 	//create a queue of the new size
 	// return the new queue
 	
-	vector<std::string> *logslice = new vector<std::string>();
-
-	for (int x = LogQueue.size(); x > 0; x--) {
-		logslice->push_back(LogQueue.pop());
+	std::vector<std::string> *logslice = new std::vector<std::string>();
+	//@Todo
+	//change from the usage of size to the use end() iterator
+	for (int x = (int)LogQueue.size(); x > 0; x--) {
+		logslice->push_back(LogQueue.front());
+		LogQueue.pop();
 	}
 
 	return logslice;
